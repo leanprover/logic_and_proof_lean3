@@ -13,7 +13,7 @@ mkdir deploy
 cd deploy
 rm -rf *
 git init
-cp ../*.html ../logic_and_proof.pdf ../quickref.pdf .
+cp ../*.html ../logic_and_proof.pdf .
 cp -r ../css ../images ../fonts ../js .
 for CSS in css/*.css
 do
@@ -25,7 +25,7 @@ do
     minify ${JS} > ${JS}.min
     mv ${JS}.min ${JS}
 done
-git add -f *.html logic_and_proof.pdf quickref.pdf
+git add -f *.html logic_and_proof.pdf
 git add -f css/*
 git add -f images/*
 git add -f fonts/*

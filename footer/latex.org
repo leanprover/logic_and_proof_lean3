@@ -1,0 +1,12 @@
+#+BEGIN_LATEX
+\bibliographystyle{plain}
+\bibliography{lean}
+
+%\setglossarystyle{altlisthypergroup}
+%\glsaddall
+%\printglossaries
+
+\clearpage
+\addcontentsline{toc}{chapter}{Index}
+\printindex
+#+END_LATEX

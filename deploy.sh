@@ -14,7 +14,7 @@ cd deploy
 rm -rf *
 git init
 cp ../*.html ../logic_and_proof.pdf .
-cp -r ../css ../images ../fonts ../js .
+cp -r ../css ../images ../fonts ../js ../ltxpng .
 for CSS in css/*.css
 do
     cssmin ${CSS} > ${CSS}.min
@@ -27,6 +27,7 @@ do
 done
 git add -f *.html logic_and_proof.pdf
 git add -f css/*
+git add -f ltxpng/*
 git add -f images/*
 git add -f fonts/*
 git add -f js/*

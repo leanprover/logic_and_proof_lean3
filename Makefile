@@ -24,6 +24,7 @@ logic_and_proof.org: $(ORGS)
 	cp *.bib $(TMPDIR)
 	$(EMACS_BIN) --no-site-file --no-site-lisp -q --batch -l elisp/org-html-export.el --visit $(TMPDIR)/$<.temp.org -f org-html-export-to-html
 	mv $(TMPDIR)/$<.temp.html $@
+	-cp -r $(TMPDIR)/ltxpng .
 	rm $(TMPDIR)/$<.temp.org
 
 quickref.tex: A1_Quick_Reference.org .cask elisp/org-pdf-export.el header/latex_quickref.org header/latex_quickref.tex

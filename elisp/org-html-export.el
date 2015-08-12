@@ -14,6 +14,7 @@
 (require 'dash-functional)
 (add-to-list 'load-path (f-join working-dir "elisp"))
 (require 'lean-export-util)
+(require 'lean-latex-packages)
 
 (setq org-html-style-include-default nil)
 (setq org-html-style-include-scripts nil)

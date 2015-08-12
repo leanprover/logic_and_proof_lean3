@@ -5,7 +5,7 @@ make
 make build_nav_data
 
 # 2. Check cssmin, minify
-hash cssmin 2>/dev/null || { echo >&2 "cssmin is not installed. Run 'npm -g i minify'."; exit 1; }
+hash cssmin 2>/dev/null || { echo >&2 "cssmin is not installed. Run 'npm -g i cssmin'."; exit 1; }
 hash minify 2>/dev/null || { echo >&2 "minify is not installed. Run 'npm -g i minify'."; exit 1; }
 
 # 3. Deploy

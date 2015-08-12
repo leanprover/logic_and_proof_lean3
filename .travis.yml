@@ -23,6 +23,7 @@ addons:
     - latexmk
     - latex-xcolor
     - lmodern
+    - dvipng
     - pgf
     - moreutils
     - nodejs

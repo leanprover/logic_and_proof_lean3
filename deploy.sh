@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
+if [ "$#" -ne 2 ]; then
+    echo "Usage example: $0 leanprover logic_and_proof"
+    exit 1
+fi
 
-# 1. Build
-make
-make build_nav_data
-
-# 2. Check cssmin, minify
+# 1. Check cssmin, minify
 hash cssmin 2>/dev/null || { echo >&2 "cssmin is not installed. Run 'npm -g i cssmin'."; exit 1; }
 hash minify 2>/dev/null || { echo >&2 "minify is not installed. Run 'npm -g i minify'."; exit 1; }
+
+# 2. Build
+make
+make build_nav_data
 
 # 3. Deploy
 mkdir deploy
@@ -32,6 +36,6 @@ git add -f images/*
 git add -f fonts/*
 git add -f js/*
 git commit -m "Update `date`"
-git push git@github.com:$1/logic_and_proof +HEAD:gh-pages
+git push git@github.com:$1/$2 +HEAD:gh-pages
 cd ../
 rm -rf deploy

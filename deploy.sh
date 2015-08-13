@@ -4,9 +4,9 @@ if [ "$#" -ne 2 ]; then
     exit 1
 fi
 
-# 1. Check cssmin, minify
-hash cssmin 2>/dev/null || { echo >&2 "cssmin is not installed. Run 'npm -g i cssmin'."; exit 1; }
-hash minify 2>/dev/null || { echo >&2 "minify is not installed. Run 'npm -g i minify'."; exit 1; }
+# 1. Check minify
+MINIFY=`pwd`/node_modules/minify/bin/minify.js
+hash ${MINIFY} 2>/dev/null || { echo >&2 "minify is not found at ${MINIFY}. Run 'npm install minify' to install it."; exit 1; }
 
 # 2. Build
 make
@@ -21,12 +21,12 @@ cp ../*.html ../logic_and_proof.pdf .
 cp -r ../css ../images ../fonts ../js ../ltxpng .
 for CSS in css/*.css
 do
-    cssmin ${CSS} > ${CSS}.min
+    ${MINIFY} ${CSS} > ${CSS}.min
     mv ${CSS}.min ${CSS}
 done
 for JS in js/*.js
 do
-    minify ${JS} > ${JS}.min
+    ${MINIFY} ${JS} > ${JS}.min
     mv ${JS}.min ${JS}
 done
 git add -f *.html logic_and_proof.pdf

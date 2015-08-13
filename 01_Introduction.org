@@ -46,3 +46,14 @@ better suited for serious use.
 \sin A \sin B &= \frac{1}{2}\left[ \sin(A-B)-\cos(A+B) \right] \\
 \cos A \cos B &= \frac{1}{2}\left[ \cos(A-B)+\cos(A+B) \right] \\
 \end{align*}
+
+** Sample Text
+
+If $a^2=b$ and \( b=2 \), then the solution must be either $$
+a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
+
+This says, "if you know $\phi \to \psi$, and you know $\phi$, then you
+can conclude $\psi$."  Once again, all the assumptions you made in the
+proofs of $\phi \to \psi$ and $\phi$ are in force. The introduction
+rule for implication is more subtle, becausein this rule a hypothesis
+can be cancelled.

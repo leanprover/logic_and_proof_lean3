@@ -53,7 +53,7 @@ before_install:
 
 install:
   # Install Lean dependencies
-  - npm -g i cssmin minify
+  - npm -g i minify
   - git clone https://github.com/leanprover/lean
   # Build Lean
   - if [[ $TEST == TRUE ]] ; then
@@ -85,7 +85,7 @@ script:
       git checkout --orphan gh-pages &&
       rm -f .git/index &&
       git add -f *.html logic_and_proof.pdf &&
-      for CSS in css/*.css; do cssmin ${CSS} | sponge ${CSS} ; done &&
+      for CSS in css/*.css; do minify ${CSS} | sponge ${CSS} ; done &&
       git add css &&
       git add -f ltxpng &&
       git add images &&

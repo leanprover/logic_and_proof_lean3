@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
+set -e
 if [ "$#" -ne 2 ]; then
     echo "Usage example: $0 leanprover logic_and_proof"
     exit 1
 fi
 
-# 1. Check minify
-MINIFY=`pwd`/node_modules/minify/bin/minify.js
-hash ${MINIFY} 2>/dev/null || { echo >&2 "minify is not found at ${MINIFY}. Run 'npm install minify' to install it."; exit 1; }
+# 1. Check NPM and minify
+hash npm 2>/dev/null || { echo >&2 "npm is not found. Visit https://nodejs.org/ and install node and npm."; exit 1; }
+
+MINIFY=`npm root`/minify/bin/minify.js
+if [ ! -f ${MINIFY} ] ; then
+    echo ${MINIFY}
+    echo >&2 "minify is not found at ${MINIFY}. Run 'npm install minify' to install it."
+    exit 1
+fi
 
 # 2. Build
 make

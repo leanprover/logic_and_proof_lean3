@@ -22,6 +22,7 @@ logic_and_proof.org: $(ORGS)
 	cat header/html.org $< > $(TMPDIR)/$<.temp.org
 	(grep "\\\\cite{" $< && cat footer/bib.html.org >> $(TMPDIR)/$<.temp.org) || true
 	cp *.bib $(TMPDIR)
+	cp *.sty $(TMPDIR)
 	$(EMACS_BIN) --no-site-file --no-site-lisp -q --batch -l elisp/org-html-export.el --visit $(TMPDIR)/$<.temp.org -f org-html-export-to-html
 	mv $(TMPDIR)/$<.temp.html $@
 	-cp -r $(TMPDIR)/ltxpng .

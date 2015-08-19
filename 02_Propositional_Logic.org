@@ -5,7 +5,7 @@
 
 ** A Puzzle
 
-The following puzzle, titled "Malice and Alice" is from George J. Summers, /Logical Deduction
+The following puzzle, titled "Malice and Alice," is from George J. Summers' /Logical Deduction
 Puzzles/. 
 
 -----
@@ -400,7 +400,70 @@ In Lean, naming theorems and reusing them. (Also, eventually, automation.)
 
 ** Truth Tables and Semantics
 
+In the previous sections, we've seen how to prove logical formulas from hypotheses.
+If the hypotheses are true, the derived formula must be true as well. A formula
+that can be derived from no hypotheses is said to be /valid/: for example, 
+$A \to A$ is true no matter what we suppose about $A$.
 
+Not every sentence is valid, of course. Earlier we saw the example $A \to B$.
+We cannot derive this formula without some extra assumptions about $A$ and $B$.
+Try it:
+
+#+BEGIN_SRC lean
+variables A B : Prop
+
+example : A → B :=
+assume H : A,
+show B, from sorry
+#+END_SRC
+
+Without some more information, there's no argument we could put in place of the
+"sorry" to complete this proof. After all, $B$ could be false!
+
+What do we mean by "false," exactly? Notice that we've been careful not to use
+the words "true" and "false" before now. Deductions and formal proofs are
+/syntactic/ ideas- that is, they have to do with the symbols and symbolic
+structure of the formulas involved. Truth is a /semantic/ notion- it ascribes
+some extra-logical /meaning/ to they symbols involved.
+
+Syntactically, we were able to ask and answer questions like the following:
+- Can I derive a certain formula from certain hypotheses?
+- How do I derive a certain formula from certain hypotheses?
+- What formulas can I derive from certain hypotheses?
+
+The questions we consider semantically are slightly different:
+- Given a truth assignment for propositional variables, is a certain formula
+  true or false?
+- Under what conditions is a certain formula true or false?
+
+Our notions of syntax and semantics have developed carefully, so that they exist
+in harmony. We'll expand on this in the next section. For now, we'll discuss the
+basic methods we use to answer semantic questions.
+
+The first notion we'll need is that of a /truth value/. Conveniently, we know
+our two truth values already: they're just "true" and "false." (We'll use the
+symbols $\top$ and $\bot$, respectively.) (Jeremy, will we? Do you prefer other notation?)
+
+In this class, we'll adopt a "classical" notion of truth. This notion comes with
+many implications. For now, though, it means only the following: any proposition
+is either true or false, but not both. This means a proposition cannot be neither
+true nor false.
+
+This binary conception of truth corresponds to the syntactic tautology $A \vee \not A$.
+Semantically, we read this sentence as saying "either $A$ is true, or $\not A$ is
+true." Since $\not A$ is true exactly when $A$ is false, it equivalently says
+"either $A$ is true, or $A$ is false."
+
+The next notion we'll need is that of a /truth assignment/. A truth assignment
+simply tells us which atomic statements are true, and which are false. In formal logic,
+this amounts to a mapping from our propositional letters $A$, $B$, etc. to the set
+of truth values $\{ \top, \bot \}$. For instance,
+- $A := \top$
+- $B := \top$
+- $C := \bot$
+$\vdots$
+
+is a (partial) truth assignment. 
 
 ** A Complete Proof System
 

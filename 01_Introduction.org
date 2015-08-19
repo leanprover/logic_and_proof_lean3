@@ -48,7 +48,7 @@ In the next example, we focus on the natural numbers,
 \] 
 A natural number $n$ greater than or equal to 2 is said to be
 /composite/ if it can be written as a product $n = m \cdot k$ where
-neither $m$ or $k$ is equal to $1$, and /prime/ otherwise. Notice that
+neither $m$ nor $k$ is equal to $1$, and /prime/ otherwise. Notice that
 if $n = m \cdot k$ witnesses the fact that $n$ is composite, then $m$
 and $k$ are both smaller than $n$. Notice also that, by convention, 0
 and 1 are considered neither prime nor composite.

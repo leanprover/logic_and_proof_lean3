@@ -1,0 +1,409 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], Robert Y. Lewis,  Floris van Doorn
+
+* Propositional Logic
+
+** A Puzzle
+
+The following puzzle, titled "Malice and Alice" is from George J. Summers, /Logical Deduction
+Puzzles/. 
+
+-----
+Alice, Alice's husband, their son, their daughter, and Alice's brother
+were involved in a murder. One of the five killed one of the other
+four. The following facts refer to the five people mentioned:
+
+1. A man and a woman were together in a bar at the time of the murder.
+2. The victim and the killer were together on a beach at the time of
+   the murder.
+3. One of Alice's children was alone at the time of the murder.
+4. Alice and her husband were not together at the time of the murder. 
+5. The victim's twin was not the killer.
+6. The killer was younger than the victim.
+
+Which one of the five was the victim?
+-----
+
+Take the time to try to work out a solution. Summers' book offers the
+following hint: "First find the locations of two pairs of people at
+the time of the murder, and then determine who the killer and the
+victim were so that no condition is contradicted."
+
+** A Solution
+
+If you have worked on the puzzle, you may have noticed a few
+things. First, it is helpful to draw a diagram, and be systematic
+about searching for an answer. The number of characters, locations,
+and attributes (murderer, victim) is finite, so that there are only
+finitely many possible "states of affairs" that need to be
+considered. The numbers are also small enough so that systematic
+search through all the possibilities, though tedious, will eventually
+get you to the right answer.
+
+Another thing that you may have noticed is that the question seems to
+presuppose that there is a unique answer to the question, which is to
+say, of all the states of affairs that meet the list of conditions,
+there is only one person who can possibly be the killer. /A priori/,
+without that assumption, there is a difference between finding /some/
+person who could have been the victim, and show that that person /had/
+to be the victim. Thus, there is a difference between exhibiting some
+state of affairs that meets the criteria, and proving that one of the
+characters /had/ to be the victim, which is to say, demonstrating
+conclusively that no other solution is possible.
+
+The published solution in the book not only produces a state of
+affairs that meets the criterion, but at the same time proves that
+this is the only one that does so. It is quoted below, in full.
+ 
+-----
+From =[1]=, =[2]=, and =[3]=, the roles of the five people were as
+follows: Man and Woman in the bar, Killer and Victim on the beach, and
+Child alone. 
+ 
+Then, from =[4]=, either Alice's husband was in the bar and Alice was
+on the beach, or Alice was in the bar and Alice's husband was on the beach.
+
+If Alice's husband was in the bar, the woman he was with was his
+daughter, the child who was alone was his son, and Alice and her
+brother were on the beach. Then either Alice or her brother was the
+victim; so the other was the killer. But, from =[5]=, the victim had a
+twin, and this twin was innocent. Since Alice and her brother could
+only be twins to each other, this situation is impossible. Therefore
+Alice's husband was not in the bar.
+
+So Alice was in the bar. If Alice was in the bar, she was with her
+brother or her son.
+
+If Alice was with her brother, her husband was on the beach with one
+of the two children. From =[5]=, the victim could not be her husband,
+because none of the others could be his twin; so the killer was her
+husband and the victim was the child he was with. But this situation
+is impossible, because it contradicts =[6]=. Therefore, Alice was not
+with her brother in the bar. 
+
+So Alice was with her son in the bar. Then the child who was alone was
+her daughter. Therefore, Alice's husband was with Alice's brother on
+the beach. From previous reasoning, the victim could not be Alice's
+husband. But the victim could be Alice's brother because Alice could
+be his twin. 
+
+So /Alice's brother was the victim/ and Alice's husband was the
+killer.
+-----
+
+This argument relies on some "extra logical" elements, for example,
+that a father cannot be younger than his child, and that a parent and
+his or her child cannot be twins. But there are also a number of
+common logical terms, and associated patterns of inference. In the
+next section, we will focus on some of the rules governing the terms
+"and," "or," "not," and "if ... then". Following the model described
+in the introduction, each such construction will be analyzed on three
+levels:
+- the way it is used and employed in informal (mathematical) arguments
+- a formal, symbolic representation
+- the implementation in /Lean/
+
+** Fundamental Rules of Inference
+
+*** Implication
+
+The first pattern of reasoning we will discuss, involving "if
+... then," may be the most confusing, because its use is largely
+implicit in the solution above. Consider the fourth paragraph. Spelled
+out in greater detail, the inference runs as follows:
+
+-----
+If Alice was in the bar, Alice was with her brother or son.
+
+Alice was in the bar.
+
+Alice was with her brother or son.
+-----
+
+This rule is sometimes known as /modus ponens/, or "implication
+elimination," since it tells us how to use an implication in an
+argument. In a system of natural deduction, it is expressed as
+follows:
+\begin{center}
+\AXM{A \to B}
+\AXM{A}
+\RL{$\mathord{\to}\mathrm{E}$}
+\BIM{B}
+\DP
+\end{center}
+The way to read this is as follows: if you have a proof of $A \to
+B$, possibly from some hypotheses, and a proof of $A$, possibly
+from hypotheses, then combining these yields a proof of $B$, from the
+hypotheses in both subproofs.
+
+In Lean, the inference is expressed as follow:
+#+BEGIN_SRC lean
+variables (A B : Prop)
+premises (H₁ : A → B) (H₂ : A)
+
+example : B := 
+show B, from H₁ H₂
+#+END_SRC
+The first command declares two variables, =A= and =B=, ranging over
+propositions. The second line introduces two premises, namely, =A → B=
+and =A=. The next line asserts, as an example, that =B= follows from
+the premises. The proof is written simply =H₁ H₂=: think of this as
+the premise =H₁= "applied to" the premise =H₂=. (You can enter =H₁= by
+typing =H\_1=. It is conventional to use the letter =H= for a
+hypothesis, but you can use any reasonable alphanumeric
+identifier. The name =H1= is a different from =H₁=, but also a
+reasonable choice.)
+
+The rule for proving an "if ... then" statement is more
+subtle. Consider the beginning of the third paragraph, which argues
+that if Alice's husband was in the bar, then Alice or her brother
+was the victim. Abstracting away some of the details, the argument has
+the following form:
+
+-----
+Suppose Alice's husband was in the bar.
+
+Then ...
+
+Then ...
+
+Then Alice or her brother was the victim.
+
+Thus, if Alice's husband was in the bar, then Alice or her brother was the victim.
+-----
+This is a form of /hypothetical reasoning/. On the supposition that
+$A$ holds, we argue that $B$ holds as well. If we have successful, we
+have shown that $A$ implies $B$, without supposing $A$. In other
+words, the temporary assumption that $A$ holds is "canceled" by
+making it explicit in the conclusion.
+\begin{center}
+\AXM{}
+\UIM{H : A}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{\psi}
+\RL{$\mathord{\to}\mathrm{I}, H$}
+\UIM{A \to B}
+\DP
+\end{center}
+The hypothesis is given the label $H$; when the introduction rule is
+applied, the label $H$ indicates the relevant hypothesis. The line
+over the hypothesis indicates that the assumption has been "canceled"
+by the introduction rule.
+
+In Lean, this inference takes the following form:
+#+BEGIN_SRC lean
+variables (A B : Prop)
+
+example : A → B :=
+assume H : A,
+show B, from sorry
+#+END_SRC
+To prove =A → B=, we assume =A=, with label =H=, and show =B=. Here,
+the word =sorry= indicates that the proof is omitted. In this case,
+this is necessary; since =A= and =B= are arbitrary propositions, there
+is no way to prove =B= from =A=. In general, though, =A= and =B= will
+be compound expressions, and you are free to use the hypothesis =H :
+A= to prove =B=.
+
+Using =sorry=, we can illustrate the implication elimination rule
+alternatively as follows:
+#+BEGIN_SRC lean
+variables (A B : Prop)
+
+example : B :=
+have H₁ : A → B, from sorry,
+have H₂ : A, from sorry,
+show B, from H₁ H₂
+#+END_SRC
+
+*** Conjunction
+
+As was the case for implication, other logical connectives are
+generally characterized by their /introduction/ and /elimination/
+rules. The former show how to establish a claim involving the
+connective, while the latter show how to use such a claim to derive
+others.
+
+Let us consider, for example, the case of conjunction, that is, the
+word "and." Informally, we establish a conjunction by establishing
+each conjunct. For example, informally we might argue:
+-----
+Alice's brother was the victim.
+
+Alice's husband was the killer.
+
+Therefore Alice's brother was the victim and Alice's husband was the
+killer.
+-----
+The inference seems superfluous, since the word "and" simply combines the
+two assertions into one, and informal proofs often downplay the
+distinction. In natural deduction, the rule reads as follows:
+\begin{center}
+\AXM{A}
+\AXM{B}
+\RL{$\mathord{\wedge}\mathrm{I}$}
+\BIM{A \wedge B}
+\DP
+\end{center}
+In Lean, the rule is denoted =and.intro=:
+#+BEGIN_SRC lean
+variables (A B : Prop)
+
+example : A ∧ B :=
+have H₁ : A, from sorry,
+have H₂ : B, from sorry,
+show A ∧ B, from and.intro H₁ H₂
+#+END_SRC
+
+The two elimination rules allow us to extract the two components:
+-----
+Alice's husband was in the bar and Alice was on the beach.
+
+So Alice's husband was in the bar.
+-----
+Or:
+-----
+Alice's husband was in the bar and Alice was on the beach.
+
+So Alice's was on the beach.
+-----
+In natural deduction, these patterns are rendered as follows:
+\begin{center}
+\AXM{A \wedge B}
+\RL{$\mathord{\land}\mathrm{E_1}$}
+\UIM{A}
+\DP
+\quad
+\AXM{A \wedge B}
+\RL{$\mathord{\land}\mathrm{E_2}$}
+\UIM{B}
+\DP
+\end{center}
+In Lean, the inferences are known as =and.left= and =and.right=:
+#+BEGIN_SRC lean
+variables (A B : Prop)
+
+example : A :=
+have H : A ∧ B, from sorry,
+show A, from and.left H
+
+example : B :=
+have H : A ∧ B, from sorry,
+show B, from and.right H
+#+END_SRC
+
+*** Negation and Falsity
+
+In logical terms, showing "not A" amounts to showing that A leads to a
+contradiction. For example:
+-----
+Suppose Alice's husband was in the bar. 
+
+...
+
+This situation is impossible. 
+
+Therefore Alice's husband was not in the bar.
+-----
+This is another form of hypothetical reasoning, similar to that used
+in establishing an "if ... then" statement: we temporarly assume A,
+show that leads to a contradiction, and conclude that "not A"
+holds.
+
+In natural deduction, the rule reads as follows:
+\begin{center}
+\AXM{}
+\UIM{A}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{\bot}
+\RL{$\lnot \mathrm{I}$}
+\UIM{\lnot A}
+\DP
+\end{center}
+And in Lean:
+#+BEGIN_SRC lean
+variable A : Prop
+
+example : ¬ A :=
+assume H : A,
+show false, from sorry
+#+END_SRC
+
+[Got tired of writing here.]
+
+
+\begin{center}
+\AXM{\lnot A}
+\AXM{A}
+\RL{$\lnot \mathrm{E}$}
+\BIM{\bot}
+\DP
+\end{center}
+
+#+BEGIN_SRC lean
+variable A : Prop
+
+example : false :=
+have H₁ : ¬ A, from sorry,
+have H₂ : A, from sorry,
+show false, from H₁ H₂
+#+END_SRC
+Notice that the negation elimination rule is expressed in a manner
+similar to implication elimination. The label asserting the negation
+always comes first; by "applying" the proof of the negation to the
+proof of the positive fact, we obtain a proof of falsity.
+
+What can we say about falsity? No introduction rule. Elimination rule,
+/ex falso/.
+
+Notice that if we define $\neg A$ to be $A \to \bot$, then the rules
+for negation introduction and elimination are nothing more than
+implication introduction and elimination, respectively.
+
+*** Disjunction
+
+Proof by cases.
+
+
+*** Proof by Contradiction
+
+
+** Writing Proofs in Natural Deduction
+
+Assumption, canceling hypotheses.
+
+Examples.
+
+** Writing Proofs in Lean
+
+Section, hypotheses. Theorem. Every statement justification.
+
+Number lines. "this". Backticks.
+
+
+** Derived rules.
+
+A or B, not A, B. 
+
+not (A and B), not A or not B. 
+
+Informal arguments, coarser steps, omit details, leave out justification.
+
+In symbolic logic, "derived rules".
+
+In Lean, naming theorems and reusing them. (Also, eventually, automation.)
+
+
+** Truth Tables and Semantics
+
+
+
+** A Complete Proof System
+
+
+** Exercises
+

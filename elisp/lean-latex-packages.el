@@ -15,6 +15,7 @@
         ("" "amsmath" t)
         ("" "amsfonts" t)
         ("" "bussproofs" t)
+        ("" "mylogic" t)
         ("" "textcomp" t)
         ("" "marvosym" t)
         ("" "wasysym" t)

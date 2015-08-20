@@ -1,13 +1,12 @@
 #+Title: Logic and Proof
-#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], Robert Y. Lewis,  Floris van Doorn
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://https://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
 
 * Propositional Logic
 
 ** A Puzzle
 
-The following puzzle, titled "Malice and Alice," is from George J. Summers' /Logical Deduction
-Puzzles/. 
-
+The following puzzle, titled "Malice and Alice" is from George
+J. Summers, /Logical Deduction Puzzles/.
 -----
 Alice, Alice's husband, their son, their daughter, and Alice's brother
 were involved in a murder. One of the five killed one of the other
@@ -58,10 +57,11 @@ this is the only one that does so. It is quoted below, in full.
 -----
 From =[1]=, =[2]=, and =[3]=, the roles of the five people were as
 follows: Man and Woman in the bar, Killer and Victim on the beach, and
-Child alone. 
+Child alone.
  
 Then, from =[4]=, either Alice's husband was in the bar and Alice was
-on the beach, or Alice was in the bar and Alice's husband was on the beach.
+on the beach, or Alice was in the bar and Alice's husband was on the
+beach.
 
 If Alice's husband was in the bar, the woman he was with was his
 daughter, the child who was alone was his son, and Alice and her
@@ -103,7 +103,7 @@ levels:
 - a formal, symbolic representation
 - the implementation in /Lean/
 
-** Fundamental Rules of Inference
+** Rules of Inference
 
 *** Implication
 
@@ -148,11 +148,13 @@ The first command declares two variables, =A= and =B=, ranging over
 propositions. The second line introduces two premises, namely, =A → B=
 and =A=. The next line asserts, as an example, that =B= follows from
 the premises. The proof is written simply =H₁ H₂=: think of this as
-the premise =H₁= "applied to" the premise =H₂=. (You can enter =H₁= by
-typing =H\_1=. It is conventional to use the letter =H= for a
-hypothesis, but you can use any reasonable alphanumeric
+the premise =H₁= "applied to" the premise =H₂=. 
+
+You can enter the arrow by writing =\to= or =\imp= or =\r=. You can
+enter =H₁= by typing =H\_1=. It is conventional to use the letter =H=
+for a hypothesis, but you can use any reasonable alphanumeric
 identifier. The name =H1= is a different from =H₁=, but also a
-reasonable choice.)
+reasonable choice.
 
 The rule for proving an "if ... then" statement is more
 subtle. Consider the beginning of the third paragraph, which argues
@@ -256,6 +258,7 @@ have H₁ : A, from sorry,
 have H₂ : B, from sorry,
 show A ∧ B, from and.intro H₁ H₂
 #+END_SRC
+You can enter the wedge symbol by typing =\and=.
 
 The two elimination rules allow us to extract the two components:
 -----
@@ -324,7 +327,7 @@ In natural deduction, the rule reads as follows:
 \UIM{\lnot A}
 \DP
 \end{center}
-And in Lean:
+In Lean, it is illustrated by the following:
 #+BEGIN_SRC lean
 variable A : Prop
 
@@ -332,10 +335,23 @@ example : ¬ A :=
 assume H : A,
 show false, from sorry
 #+END_SRC
+You can enter the negation symbol by typing =\not=.
 
-[Got tired of writing here.]
+The elimination rule is dual to these. It expresses that if we have
+both "A" and "not A," then we have a contradiction. This pattern is
+illustrated in the informal argument below, which is implicit in the
+fourth paragraph of the solution to "Malice and Alice."
+-----
+So the killer was her husband and the victim was the child he was
+with.
 
+So the killer was not younger than his victim.
 
+But according to =[6]=, the killer was younger than his victim.
+
+This situation is impossible.
+-----
+In symbolic logic, the rule of inference is expressed as follows:
 \begin{center}
 \AXM{\lnot A}
 \AXM{A}
@@ -343,7 +359,7 @@ show false, from sorry
 \BIM{\bot}
 \DP
 \end{center}
-
+And in Lean, it is implemented in the following way:
 #+BEGIN_SRC lean
 variable A : Prop
 
@@ -353,50 +369,463 @@ have H₂ : A, from sorry,
 show false, from H₁ H₂
 #+END_SRC
 Notice that the negation elimination rule is expressed in a manner
-similar to implication elimination. The label asserting the negation
-always comes first; by "applying" the proof of the negation to the
+similar to implication elimination: the label asserting the negation
+comes first, and by "applying" the proof of the negation to the
 proof of the positive fact, we obtain a proof of falsity.
 
-What can we say about falsity? No introduction rule. Elimination rule,
-/ex falso/.
+Notice that in the symbolic framework, we have introduced a new
+symbol, $\bot$. It corresponds to the identifier =false= in Lean, and
+natural language phrases like "this is a contradiction" or "this is
+impossible". 
+
+What are the rules governing $\bot$? In natural deduction, there is no
+introduction rule; "false" is false, and there should be no way to
+prove it, other than extract it from contradictory hypotheses. On the
+other hand, natural deduction provides a rule that allows us to
+conclude anything from a contradiction:
+\begin{center}
+\AXM{\bot}
+\RL{$\bot \mathrm{E}$}
+\UIM{A}
+\DP
+\end{center}
+The elimination rule also has the fancy Latin name, /ex falso
+sequitur quodlibet/, which means ``anything you want follows from
+falsity.'' In Lean it is implemented as follows:
+#+BEGIN_SRC lean
+variable A : Prop
+
+example : A :=
+have H : false, from sorry,
+show A, from false.elim H
+#+END_SRC
+The false elimination rule is harder to motivate from a natural
+language perspective, but, nonetheless, it is really needed to capture
+common patterns of inference. One way to understand it is
+this. Consider the following statement:
+-----
+For every natural number $n$, if $n$ is prime and greater than 2, then
+$n$ is odd.
+-----
+We would like to say that this is a true statement. But if it is true,
+then it is true of any number $n$. Taking $n = 2$, we have the
+statement:
+-----
+If 2 is prime and greater than 2, then 2 is odd.
+-----
+In this conditional statement, both the antecedent and succedent are
+false. The fact that we are committed to saying that this statement is
+true shows that we should be able to prove, one way or another, that
+the statement 2 is odd follows from the false statement that 2 is
+prime and greater than 2. The /ex falso/ neatly encapsulates this sort
+of inference.
 
 Notice that if we define $\neg A$ to be $A \to \bot$, then the rules
 for negation introduction and elimination are nothing more than
-implication introduction and elimination, respectively.
+implication introduction and elimination, respectively. We have think
+of $\neg A$ expressed colorfully by saying "if $A$ is true, then pigs
+have wings," where "pigs have wings" is stands for $\bot$.
 
 *** Disjunction
 
-Proof by cases.
+The introduction rules for disjunction, otherwise known as "or," are
+straightforward. For example, the claim that condition =[3]= is met in
+the proposed solution can be justified as follows:
+-----
+Alice's daughter was alone at the time of the murder.
 
+Therefore, either Alice's daughter was alone at the time of the
+murder, or Alice's son was alone at the time of the murder.
+-----
+In terms of natural deduction, the two introduction rules are as
+follows:
+\begin{center}
+\AXM{A}
+\RL{$\mathord{\lor}\mathrm{I_l}$}
+\UIM{A \lor B}
+\DP
+\quad
+\AXM{B}
+\RL{$\mathord{\lor}\mathrm{I_r}$}
+\UIM{A \lor B}
+\DP
+\end{center}
+Here, the $l$ and $r$ stand for "left" and "right". In Lean, they are
+implemented as follows:
+#+BEGIN_SRC lean
+variables (A B : Prop)
+
+example : A ∨ B :=
+have H : A, from sorry,
+show A ∨ B, from or.inl H
+#+END_SRC
+You can enter the vee symbol by typing =\or=. The identifiers =inl=
+and =inr= stand for "insert left" and "insert right," respectively.
+
+The disjunction elimination rule is trickier, but it represents a
+natural form of case-based hypothetical reasoning. The instances that
+occur in the solution to "Malice and Alice" are all special cases of
+this rule, so it will be helpful to make up a new example. Suppose, in
+the argument above, we had established that either Alice's brother or
+her son was in the bar, and we wanted to argue for the conclusion that
+her husband was on the beach. One option is to argue by cases: first,
+consider the case that her brother was in the bar, and argue for the
+conclusion on the basis of that assumption; then consider the case
+that her son was in the bar, and argue for the same conclusion, this
+time on the basis of the second assumption. Since the two cases are
+exhaustive, if we know that the conclusion holds in each case, we know
+that it holds outright. The pattern looks something like this:
+-----
+Either Alice's brother was in the bar, or Alice's son was in the bar.
+
+Suppose, in the first case, that her brother was in the bar. Then
+... Therefore, her husband was on the beach.
+
+On the other hand, suppose her son was in the bar. In that case,
+... Therefore, in this case also, her husband was on the beach.
+
+Either way, we have established that her husband was on the beach.
+-----
+In natural deduction, this pattern is expressed as follows:
+\begin{center}
+\AXM{A \vee B}
+\AXM{}
+\UIM{A}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{C}
+\AXM{}
+\UIM{B}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{C}
+\RL{$\mathord{\lor}\mathrm{E}$}
+\TIM{C}
+\DP
+\end{center}
+And here it is in Lean:
+#+BEGIN_SRC lean
+variables (A B C : Prop)
+
+example : C :=
+have H : A ∨ B, from sorry,
+show C, from or.elim H
+  (assume H₁ : A,
+    show C, from sorry)
+  (assume H₂ : B,
+    show C, from sorry)
+#+END_SRC
+What makes this pattern confusing is that it requires to instances of
+nested hypothetial reasoning: in the first block of parentheses, we
+temporarily assume =A=, and in the second block, we temporarily assume
+=B=. When the dust settles, we have established =C= outright.
+
+*** Bi-implication
+
+"If and only if"
+
+*** True
 
 *** Proof by Contradiction
 
-
 ** Writing Proofs in Natural Deduction
 
-Assumption, canceling hypotheses.
+As noted in Chapter [[file:01_Introduction.org::#Introduction][Introduction]], there are two common styles for
+writing natural deduction derivations. (The word "derivation" is often
+used to connote a formal proof instead of an informal one. When
+talking about natural deduction, we will use the words "derivation"
+and "proof" interchangeably.) In both cases, proofs are presented on
+paper as trees, with the conclusion at the theorem at the root, and
+hypotheses up at the leaves. In the first style of presentation, the
+set of hypotheses is written explicitly at every node of the
+tree. This is helpful because some rules (namely, implication
+introduction, negation introduction, or elimination, and proof by
+contradiction) change the set of hypotheses, by canceling a local or
+temporary assumption. Nonetheless, we will use a style of presentation
+that leaves this information implicit, so that each node of the tree
+is labelled with an explicit formula. Some people like to label each
+inference with the rule that is used, but that is usually clear from
+the context, so we will omit that as well. But when a rule cancels a
+hypothesis, we will make that clear in the following way: we will
+label all instances of the hypothesis at the leaves with a letter,
+like "x," and then we will use that letter to annotate the place where
+the rule is canceled.
 
-Examples.
+In addition to all the rules listed in the last section, there is one
+additional rule that is central to the system, namely the assumption
+rule. It works like this: at any point, you can assume a hypothesis,
+$A$. The way to "read" such a one-line proof is this: assuming $A$,
+you have proved $A$. Without this rule, there would be no way of
+getting a proof of the ground! After all, every rule listed in the
+last section has premises, which is to say, it can only be applied to
+derivations that have been constructed previously.
+
+Let us consider a few examples. In each case, you should think about
+what the formulas say and which rule of inference is invoked at each
+step. Also pay close attention to which hypotheses are canceled at
+each stage. If you look at any node of the tree, what has been
+established at that point is that the claim follows from the
+uncanceled hypotheses. Here is a proof of $(A \wedge (B \vee C)) \to
+((A \wedge B) \vee (A \wedge C))$:
+\begin{prooftree}
+\AXM{}
+\UIM{y : A \wedge (B \vee C)}
+\UIM{B \vee C}
+\AXM{}
+\UIM{y : A \wedge (B \vee C)}
+\UIM{A}
+\AXM{}
+\UIM{x : B}
+\BIM{A \wedge B}
+\UIM{(A \wedge B) \vee (A \wedge C)}
+\AXM{}
+\UIM{y : A \wedge (B \vee C)}
+\UIM{A}
+\AXM{}
+\UIM{x : C}
+\BIM{A \wedge C}
+\UIM{(A \wedge B) \vee (A \wedge C)}
+\RLM{x}
+\TIM{(A \wedge B) \vee (A \wedge C)}
+\RLM{y}
+\UIM{(A \wedge (B \vee C)) \to ((A \wedge B) \vee
+  (A \wedge C))}
+\end{prooftree}
+
+There is a general heuristic that is useful for deriving theorems like
+these, namely:
+1. First, work backwards from the conclusion, using the introduction
+   rules. For example, if you are trying to prove a statement of the
+   form $A \to B$, add $A$ to your list of hypotheses and try to
+   derive $B$. If you are trying to prove a statement of the form $A
+   \wedge B$, use the and-introduction rule to reduce your task to
+   proving $A$, and then proving $B$.
+2. When you have run out things to do in the first step, use
+   elimination rules to work forwards. If you have hypotheses $A \to
+   B$ and $A$, apply modus ponens to derive $B$. If you have a
+   hypothesis $A \vee B$, use or elimination and try to prove any open
+   goals by splitting on cases, considering $A$ in one case and $B$ in
+   the other.
+3. If all else fails, use a proof by contradiction.
+
+When writing expressions in symbolic logic, we will adopt the an order
+of operations, which allow us to drop superfluous parentheses. When
+parsing an expression:
+-- negation binds most tightly
+-- then conjunctions and disjunctions, from right to left
+-- and finally implications and bi-implications.
+So, for example, the expression $\neg A \vee B \to C \wedge D$ is
+understood as $((\neg A) \vee B) \to (C \wedge D)$
+
+The next proof shows that if a conclusion, $C$, follows from $A$ and
+$B$, then it follows from their conjunction.
+\begin{prooftree}
+\AXM{}
+\RLM{y}
+\UIM{A \to (B \to C)}
+\AXM{}
+\RLM{x}
+\UIM{A \wedge B}
+\UIM{A}
+\BIM{B \to C}
+\AXM{}
+\RLM{x}
+\UIM{A \wedge B}
+\UIM{B}
+\BIM{C}
+\RLM{x}
+\UIM{A \wedge B \to C}
+\RLM{y}
+\UIM{(A \to (B \to C)) \to
+(A \wedge B \to C)}
+\end{prooftree}
+The conclusion of the next proof can be interpreted as saying that if
+it is not the case that one of $A$ or $B$ is true, then they are both
+false.
+\begin{prooftree}
+\AXM{}
+\RLM{z}
+\UIM{\lnot(A \vee B)}
+\AXM{}
+\RLM{x}
+\UIM{A}
+\UIM{A \vee B}
+\BIM{\bot}
+\RLM{x}
+\UIM{\lnot A}
+\AXM{}
+\RLM{z}
+\UIM{\lnot(A \vee B)}
+\AXM{}
+\RLM{y}
+\UIM{B}
+\UIM{A \vee B}
+\BIM{\bot}
+\RLM{y}
+\UIM{\lnot B}
+\BIM{\lnot A \wedge \lnot B}
+\RLM{z}
+\UIM{\lnot(A \vee B) \to \lnot A \wedge \lnot B}
+\end{prooftree}
 
 ** Writing Proofs in Lean
 
-Section, hypotheses. Theorem. Every statement justification.
+We will see that Lean has mechanisms for modeling proofs at a higher
+level than natural deduction derivations. At the same time, you can
+also carry out low-level inferences, and carry out proofs that mirror
+natural deduction proofs quite closely. Here is a Lean representation
+of the first example in the previous section:
+#+BEGIN_SRC lean
+variables (A B C : Prop)
 
-Number lines. "this". Backticks.
+example : A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) :=
+assume H₁ : A ∧ (B ∨ C),
+have H₂ : A, from and.left H₁,
+have H₃ : B ∨ C, from and.right H₁,
+show (A ∧ B) ∨ (A ∧ C), from 
+  or.elim H₃
+    (assume H₄ : B,
+      have H₅ : A ∧ B, from and.intro H₂ H₄,
+      show (A ∧ B) ∨ (A ∧ C), from or.inl H₅)
+    (assume H₄ : C,
+      have H₅ : A ∧ C, from and.intro H₂ H₄,
+      show (A ∧ B) ∨ (A ∧ C), from or.inr H₅)
+#+END_SRC
+The first line declares propositional variables =A=, =B=, and =C=. The
+line that begins with the keyword =example= declares the theorem to be
+proved, and the notation =:== indicates that the proof will
+follow. The line breaks and indentation is only for the purposes of
+readability; Lean would do just was well if the entire proof were
+written as one run-on line.
 
+Here are some additional notes:
 
-** Derived rules.
+-- It is often important to name a theorem for future proof. Lean
+   allows us to do that, using one of the keywords =theorem=, =lemma=,
+   =proposition=, =corollary=, followed by the name of the proof.
 
-A or B, not A, B. 
+-- You can omit a label in a =have= statement. You can then refer to
+   that fact using the label =this=, until the next anonymoyus
+   =have=. Alternatively, at any point later in the proof, you can
+   refer to the fact by putting the assertion between backticks.
 
-not (A and B), not A or not B. 
+-- One can also omit the label in an =assumption= by using the keyword
+   =suppose= instead.
 
-Informal arguments, coarser steps, omit details, leave out justification.
+With these features, the previous proof can be written as follows:
+#+BEGIN_SRC lean
+variables (A B C : Prop)
+
+theorem my_theorem : A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) :=
+assume H₁ : A ∧ (B ∨ C),
+have A, from and.left H₁,
+have B ∨ C, from and.right H₁,
+show (A ∧ B) ∨ (A ∧ C), from
+  or.elim `B ∨ C`
+    (suppose B,
+      have A ∧ B, from and.intro `A` `B`,
+      show (A ∧ B) ∨ (A ∧ C), from or.inl this)
+    (suppose C,
+      have A ∧ C, from and.intro `A` `C`,
+      show (A ∧ B) ∨ (A ∧ C), from or.inr this)
+#+END_SRC
+
+In fact, such a presentation provides Lean with more information than
+is really necessary to construct an axiomatic proof. The word =assume=
+can be replaced by the symbol =λ=, assertions can be omitted from an
+=assume= when they can be inferred from context, the justification of
+a have statement can be inserted in places where the label was
+otherwise used, and one can omit the =show= clauses, giving only the
+justification. As a result, the previous proof can be written in an
+extremely abbreviated form:
+#+BEGIN_SRC lean
+variables (A B C : Prop)
+
+example : A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) :=
+λ H₁, or.elim (and.right H₁)
+  (λ H₄, or.inl (and.intro (and.left H₁) H₄))
+  (λ H₄, or.inr (and.intro (and.left H₁) H₄))
+#+END_SRC
+Such proofs tend to be harder to write, read, understand, maintain,
+and debug, however, and so we will tend to favor structure and
+readability over brevity.
+
+The next proof in the previous section can be rendered in Lean as
+follows:
+#+BEGIN_SRC lean
+variables (A B C : Prop)
+
+example : (A → (B → C)) → (A ∧ B → C) :=
+assume H₁ : A → B → C,
+assume H₂ : A ∧ B,
+show C, from H₁ (and.left H₂) (and.right H₂)
+#+END_SRC
+And the last proof can be rendered as follows:
+#+BEGIN_SRC lean
+variables (A B C : Prop)
+
+example : ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
+assume H : ¬ (A ∨ B),
+have ¬ A, from
+  suppose A,
+  have A ∨ B, from or.inl `A`,
+  show false, from H this,
+have ¬ B, from
+  suppose B,
+  have A ∨ B, from or.inr `B`,
+  show false, from H this,
+show ¬ A ∧ ¬ B, from and.intro `¬ A` `¬ B`
+#+END_SRC
+
+** Writing Informal Proofs
+
+** Derived Rules and Coarser Steps
+
+In the examples above, we showed that, given $A \vee B$ and $\neg A$,
+we can derive $B$ in natural deduction. This is a common pattern of
+inference, and, having justified it once, one might reasonably want to
+use it freely as a new one-step inference. Similarly, having proved $A
+\to B$ equivalent to $\neg A \vee B$, or $\neg (A \vee B)$ equivalent
+to $\neg A \wedge \neg B$, one might feel justified in replacing one
+by the other in any expression.
+
+Indeed, this is how informal mathematics works: even if we start with
+some basic rules of inference, we learn to recognize more complex
+patterns and apply them freely. A single step in the informal argument in
+the solution to "Malice and Alice," or any mathematical proof, usually
+requires many more steps in a formal calculus. Moreover, in ordinary
+mathematics, one we prove a proposition or theorem, we can freely
+invoke it in another proof later on.
 
 In symbolic logic, "derived rules".
 
 In Lean, naming theorems and reusing them. (Also, eventually, automation.)
 
+
+To summarize:
+
+-- When we ask you to prove something in natural deduction, our goal
+   is to make you work with the precise, formal rules of the
+   system. So you should not appeal to external rules unless we
+   explicitly say so.
+
+-- When writing informal proofs, it is a judgment call as to what
+   prior patterns of reasoning and background facts you may appeal
+   to. In a classroom setting, the goal may be to demonstrate mastery
+   of the subject to the instructors, in which case, context should
+   dictate what is allowable (and it is always a good idea to err on
+   the side of caution). In real life, your goal is to convince your
+   target audience, and you will have to rely on convention and
+   experience to judge what patterns of inference you can put forth,
+   and how much detail you need to use.
+
+-- In interactive theorem proving, the main goal is to have the
+   computer certify the proof as correct, and in that respect,
+   automation and facts from the library are fair game. In this class,
+   we will try to be explicit about what we would like you to use in 
+   the exercises we assign.
 
 ** Truth Tables and Semantics
 

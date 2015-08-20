@@ -1,5 +1,5 @@
 #+Title: Logic and Proof
-#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://https://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://andrew.cmu.edu/user/rlewis1]Robert Y. Lewis],  Floris van Doorn
 
 * Propositional Logic
 
@@ -883,17 +883,61 @@ Semantically, we read this sentence as saying "either $A$ is true, or $\not A$ i
 true." Since $\not A$ is true exactly when $A$ is false, it equivalently says
 "either $A$ is true, or $A$ is false."
 
-The next notion we'll need is that of a /truth assignment/. A truth assignment
-simply tells us which atomic statements are true, and which are false. In formal logic,
-this amounts to a mapping from our propositional letters $A$, $B$, etc. to the set
-of truth values $\{ \top, \bot \}$. For instance,
+The next notion we'll need is that of a /truth assignment/. 
+A truth assignment simply tells us which atomic statements are true, and which 
+are false. In formal logic, this amounts to a mapping from our propositional letters $A$, 
+$B$, etc. to the set of truth values $\{ \top, \bot \}$. For instance,
 - $A := \top$
 - $B := \top$
 - $C := \bot$
 $\vdots$
 
-is a (partial) truth assignment. 
+is a (partial) truth assignment. Technically, a truth assignment should give a value to
+each one of the (infinitely many) propositional letters. But since we will only ever look
+at finite collections of formulas with finitely many propositional letters, we only need
+to think about truth assignments that give values to finitely many letters.
 
+Intuitively, a truth assignment describes a possible "state of the world." Going back to
+the Malice and Alice puzzle, let's suppose the following letters are shorthand for the
+statements:
+- $P$ := Alice's brother was the victim
+- $Q$ := Alice was the killer
+- $R$ := Alice was in the bar
+
+In the "real world" -- that is, the world described by the solution to the puzzle -- the
+first and third statements are true, and the second is false. So our truth assignment
+gives the value $\top$ to $P$ and $R$, and $\bot$ to $Q$.
+
+Once we have a truth assignment, we can extend it to a /valuation function/. While the
+truth assignment gives a value $\top$ or $\bot$ only to each propositional letter, the
+valuation function gives a value to every logical formula. This function behaves about as
+you'd expect. If $v$ is a truth assignment function, its corresponding valuation function
+$v'$ is defined recursively as follows:
+- $v'(\ell) = v(\ell)$, where $\ell$ is any propositional letter
+- $v'(\varphi \wedge \psi) = \top$ if $v'(\varphi)$ and $v'(\psi)$ are both $\top$; 
+  otherwise $\bot$
+- $v'(\varphi \vee \psi) = \top$ if at least one of $v'(\varphi)$ and $v'(\psi)$ is
+  $\top$; otherwise $\bot$
+- $v'(\varphi \to \psi) = \top$ if either $v'(\psi) = \top$ or $v'(\varphi) = \bot$; 
+  otherwise $\bot$
+  
+The rules for conjunction and disjunction are easy to understand. "A and B" is true
+exactly when both parts are true; "A or B" is true when at least one part is true. These
+rules should sound very similar to the introduction rules we saw earlier.
+
+Implication is a little trickier. People are often surprised to hear that any if-then
+statement with a false hypothesis is supposed to be true! The statement "if I have two
+heads, then circles are squares" /sounds/ false to most people, but by our
+definition above, a "real world" truth assignment would make it true. To clear up this
+confusion, think about the difference between the two sentences:
+- "If I have two heads, then circles are squares."
+- "If I had two heads, then circles would be squares."
+
+The latter sentence is known as a /counterfactual/. It asserts something about how the
+world might change, if things were other than they actually are. Philosophers have studied
+counterfactual conditionals for centuries, but in mathematical logic, we're more concerned
+with the former kind of sentence; the conditional here, the same one we got familiar with
+earlier, is known as the /material/ conditional. 
 ** A Complete Proof System
 
 

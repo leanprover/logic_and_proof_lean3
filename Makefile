@@ -50,7 +50,7 @@ logic_and_proof.tex: logic_and_proof.org .cask elisp/org-pdf-export.el header/la
 	#     xelatex -shell-escape $<; bibtex $(<:.tex=); xelatex -shell-escape $<; xelatex -shell-escape $<; \
 	# fi
 	# Ubuntu-12.04 uses an old version of latexmk which does not support XeLaTeX related options
-	xelatex -shell-escape $<; bibtex $(<:.tex=); xelatex -shell-escape $<; xelatex -shell-escape $<
+	xelatex -shell-escape $< && bibtex $(<:.tex=) ; xelatex -shell-escape $< && xelatex -shell-escape $<
 
 .cask: Cask
 	@EMACS=$(EMACS_BIN) $(CASK_BIN) install

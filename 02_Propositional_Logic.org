@@ -829,8 +829,8 @@ To summarize:
 
 ** Truth Tables and Semantics
 
-In the previous sections, we've seen how to prove logical formulas from hypotheses.
-If the hypotheses are true, the derived formula must be true as well. A formula
+In the previous sections, we've seen how to prove logical formulas 
+from hypotheses. A formula
 that can be derived from no hypotheses is said to be /valid/: for example, 
 $A \to A$ is true no matter what we suppose about $A$.
 
@@ -853,7 +853,7 @@ What do we mean by "false," exactly? Notice that we've been careful not to use
 the words "true" and "false" before now. Deductions and formal proofs are
 /syntactic/ ideas- that is, they have to do with the symbols and symbolic
 structure of the formulas involved. Truth is a /semantic/ notion- it ascribes
-some extra-logical /meaning/ to they symbols involved.
+some extra-logical /meaning/ to the symbols involved.
 
 Syntactically, we were able to ask and answer questions like the following:
 - Can I derive a certain formula from certain hypotheses?

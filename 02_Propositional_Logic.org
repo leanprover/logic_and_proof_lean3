@@ -23,7 +23,7 @@ four. The following facts refer to the five people mentioned:
 Which one of the five was the victim?
 -----
 
-Take the time to try to work out a solution. Summers' book offers the
+Take some time to try to work out a solution. Summers' book offers the
 following hint: "First find the locations of two pairs of people at
 the time of the murder, and then determine who the killer and the
 victim were so that no condition is contradicted."
@@ -45,10 +45,9 @@ say, of all the states of affairs that meet the list of conditions,
 there is only one person who can possibly be the killer. /A priori/,
 without that assumption, there is a difference between finding /some/
 person who could have been the victim, and show that that person /had/
-to be the victim. Thus, there is a difference between exhibiting some
-state of affairs that meets the criteria, and proving that one of the
-characters /had/ to be the victim, which is to say, demonstrating
-conclusively that no other solution is possible.
+to be the victim. In ohter words, there is a difference between
+exhibiting some state of affairs that meets the criteria, and
+demonstrating conclusively that no other solution is possible.
 
 The published solution in the book not only produces a state of
 affairs that meets the criterion, but at the same time proves that
@@ -93,24 +92,25 @@ killer.
 
 This argument relies on some "extra logical" elements, for example,
 that a father cannot be younger than his child, and that a parent and
-his or her child cannot be twins. But there are also a number of
-common logical terms, and associated patterns of inference. In the
-next section, we will focus on some of the rules governing the terms
-"and," "or," "not," and "if ... then". Following the model described
-in the introduction, each such construction will be analyzed on three
-levels:
-- the way it is used and employed in informal (mathematical) arguments
-- a formal, symbolic representation
-- the implementation in /Lean/
+his or her child cannot be twins. But the argument also involves a
+number of common logical terms and associated patterns of
+inference. In the next section, we will focus on some of the rules
+governing the terms "and," "or," "not," and "if ... then." Following
+the model described in the introduction, each such construction will
+be analyzed in three ways:
+- with examples of the way it is used and employed in informal
+  (mathematical) arguments
+- with a formal, symbolic representation
+- with an implementation in /Lean/
 
 ** Rules of Inference
 
 *** Implication
 
-The first pattern of reasoning we will discuss, involving "if
-... then," may be the most confusing, because its use is largely
-implicit in the solution above. Consider the fourth paragraph. Spelled
-out in greater detail, the inference runs as follows:
+The first pattern of reasoning we will discuss, involving the "if
+... then ..." construct, can be hard to discern. Its use is largely
+implicit in the solution above. The inference in the fourth paragraph,
+spelled out in greater detail, runs as follows:
 
 -----
 If Alice was in the bar, Alice was with her brother or son.
@@ -131,12 +131,12 @@ follows:
 \BIM{B}
 \DP
 \end{center}
-The way to read this is as follows: if you have a proof of $A \to
-B$, possibly from some hypotheses, and a proof of $A$, possibly
-from hypotheses, then combining these yields a proof of $B$, from the
-hypotheses in both subproofs.
+Read this as saying that if you have a proof of $A \to B$, possibly
+from some hypotheses, and a proof of $A$, possibly from hypotheses,
+then combining these yields a proof of $B$, from the hypotheses in
+both subproofs.
 
-In Lean, the inference is expressed as follow:
+In Lean, the inference is expressed as follows:
 #+BEGIN_SRC lean
 variables (A B : Prop)
 premises (H₁ : A → B) (H₂ : A)
@@ -151,10 +151,10 @@ the premises. The proof is written simply =H₁ H₂=: think of this as
 the premise =H₁= "applied to" the premise =H₂=. 
 
 You can enter the arrow by writing =\to= or =\imp= or =\r=. You can
-enter =H₁= by typing =H\_1=. It is conventional to use the letter =H=
-for a hypothesis, but you can use any reasonable alphanumeric
-identifier. The name =H1= is a different from =H₁=, but also a
-reasonable choice.
+enter =H₁= by typing =H\_1=. You can use any reasonable alphanumeric
+identifier for a hypothesis; the letter "H" is a conventional choice.
+The identifier =H1= is a different from =H₁=, but you can also use
+that, if you prefer.
 
 The rule for proving an "if ... then" statement is more
 subtle. Consider the beginning of the third paragraph, which argues
@@ -171,13 +171,14 @@ Then ...
 
 Then Alice or her brother was the victim.
 
-Thus, if Alice's husband was in the bar, then Alice or her brother was the victim.
+Thus, if Alice's husband was in the bar, then Alice or her brother was the 
+victim.
 -----
 This is a form of /hypothetical reasoning/. On the supposition that
-$A$ holds, we argue that $B$ holds as well. If we have successful, we
+$A$ holds, we argue that $B$ holds as well. If we are successful, we
 have shown that $A$ implies $B$, without supposing $A$. In other
-words, the temporary assumption that $A$ holds is "canceled" by
-making it explicit in the conclusion.
+words, the temporary assumption that $A$ holds is "canceled" by making
+it explicit in the conclusion.
 \begin{center}
 \AXM{}
 \UIM{H : A}
@@ -219,14 +220,17 @@ have H₁ : A → B, from sorry,
 have H₂ : A, from sorry,
 show B, from H₁ H₂
 #+END_SRC
+We will adopt this convention, using =sorry= to stand for parts of a
+proof that could be spelled out, when the variables involved are
+replaced by more complex assertions.
 
 *** Conjunction
 
 As was the case for implication, other logical connectives are
 generally characterized by their /introduction/ and /elimination/
-rules. The former show how to establish a claim involving the
-connective, while the latter show how to use such a claim to derive
-others.
+rules. An introduction rule shows how to establish a claim involving
+the connective, while an elimination rule shows how to use such a
+statement that contains the connective to derive others.
 
 Let us consider, for example, the case of conjunction, that is, the
 word "and." Informally, we establish a conjunction by establishing
@@ -342,7 +346,7 @@ both "A" and "not A," then we have a contradiction. This pattern is
 illustrated in the informal argument below, which is implicit in the
 fourth paragraph of the solution to "Malice and Alice."
 -----
-So the killer was her husband and the victim was the child he was
+The killer was Alice's husband and the victim was the child he was
 with.
 
 So the killer was not younger than his victim.
@@ -373,10 +377,10 @@ similar to implication elimination: the label asserting the negation
 comes first, and by "applying" the proof of the negation to the
 proof of the positive fact, we obtain a proof of falsity.
 
-Notice that in the symbolic framework, we have introduced a new
+Notice also that in the symbolic framework, we have introduced a new
 symbol, $\bot$. It corresponds to the identifier =false= in Lean, and
 natural language phrases like "this is a contradiction" or "this is
-impossible". 
+impossible".
 
 What are the rules governing $\bot$? In natural deduction, there is no
 introduction rule; "false" is false, and there should be no way to
@@ -400,7 +404,7 @@ have H : false, from sorry,
 show A, from false.elim H
 #+END_SRC
 The false elimination rule is harder to motivate from a natural
-language perspective, but, nonetheless, it is really needed to capture
+language perspective, but, nonetheless, it is needed to capture
 common patterns of inference. One way to understand it is
 this. Consider the following statement:
 -----
@@ -408,8 +412,8 @@ For every natural number $n$, if $n$ is prime and greater than 2, then
 $n$ is odd.
 -----
 We would like to say that this is a true statement. But if it is true,
-then it is true of any number $n$. Taking $n = 2$, we have the
-statement:
+then it is true of any particular number $n$. Taking $n = 2$, we have
+the statement:
 -----
 If 2 is prime and greater than 2, then 2 is odd.
 -----
@@ -425,6 +429,20 @@ for negation introduction and elimination are nothing more than
 implication introduction and elimination, respectively. We have think
 of $\neg A$ expressed colorfully by saying "if $A$ is true, then pigs
 have wings," where "pigs have wings" is stands for $\bot$.
+
+Since we have a symbol for "false," it is only fair to introduce a
+symbol for "true". In contrast to the "false", "true" has no
+elimination rule, only an introduction rule:
+\begin{prooftree}
+\AXM{}
+\UIM{\top}
+\end{prooftree}
+Put simply, "true" is true. In Lean, we can use =true.intro= for this
+rule, or the abbreviation =trivial=.
+#+BEGIN_SRC lean
+example : true :=
+show true, by trivial
+#+END_SRC
 
 *** Disjunction
 
@@ -465,16 +483,17 @@ and =inr= stand for "insert left" and "insert right," respectively.
 The disjunction elimination rule is trickier, but it represents a
 natural form of case-based hypothetical reasoning. The instances that
 occur in the solution to "Malice and Alice" are all special cases of
-this rule, so it will be helpful to make up a new example. Suppose, in
-the argument above, we had established that either Alice's brother or
-her son was in the bar, and we wanted to argue for the conclusion that
-her husband was on the beach. One option is to argue by cases: first,
-consider the case that her brother was in the bar, and argue for the
-conclusion on the basis of that assumption; then consider the case
-that her son was in the bar, and argue for the same conclusion, this
-time on the basis of the second assumption. Since the two cases are
-exhaustive, if we know that the conclusion holds in each case, we know
-that it holds outright. The pattern looks something like this:
+this rule, so it will be helpful to make up a new example to
+illustrate the general phenomenon. Suppose, in the argument above, we
+had established that either Alice's brother or her son was in the bar,
+and we wanted to argue for the conclusion that her husband was on the
+beach. One option is to argue by cases: first, consider the case that
+her brother was in the bar, and argue for the conclusion on the basis
+of that assumption; then consider the case that her son was in the
+bar, and argue for the same conclusion, this time on the basis of the
+second assumption. Since the two cases are exhaustive, if we know that
+the conclusion holds in each case, we know that it holds outright. The
+pattern looks something like this:
 -----
 Either Alice's brother was in the bar, or Alice's son was in the bar.
 
@@ -517,18 +536,173 @@ show C, from or.elim H
   (assume H₂ : B,
     show C, from sorry)
 #+END_SRC
-What makes this pattern confusing is that it requires to instances of
+What makes this pattern confusing is that it requires two instances of
 nested hypothetial reasoning: in the first block of parentheses, we
 temporarily assume =A=, and in the second block, we temporarily assume
 =B=. When the dust settles, we have established =C= outright.
 
-*** Bi-implication
+*** If and only if
 
-"If and only if"
+In mathematical arguments, it is common to say of two statements, $A$
+and $B$, that "$A$ holds if and only if $B$ holds," sometimes
+abbreviated by writing "$A$ iff $B$". The assertion means simply that
+$A$ implies $B$ and $B$ implies $A$. It is not essential that
+we introduce a new symbol into our logical language to model this
+connective, since the statement can be expressed, as we just did, in
+terms of "implies" and "and." But notice that the length of the
+expression doubles, because $A$ and $B$ are each repeated. The logical
+abbreviation is therefore convenient, as well as natural.
 
-*** True
+The conditions of "Malice and Alice" imply that Alice is in the bar
+if and only if Alice's husband is on the beach. Such a statement is
+established by arguing for each implication in turn:
+-----
+I claim that Alice is in the bar if and only if Alice's husband is on
+the beach.
+
+To see this, first suppose that Alice is in the bar.
+
+Then ...
+
+Hence Alice's husband is on the beach.
+
+Conversely, suppose Alice's husband is on the beach.
+
+Then ...
+
+Hence Alice is in the bar.
+-----
+Notice that with this example, we have varied the form of
+presentation, stating the main claim first, rather than at the
+end. This kind of "signposting" is common in informal arguments, in
+that is helps guide the reader's expectations and foreshadow where the
+argument is going. The fact that formal systems of deduction do not
+generally model such nuances marks a difference between formal and
+informal arguments, a topic we will return to below.
+
+The introduction is modeled in natural deduction as follows:
+\begin{center}
+\AXM{}
+\UIM{A}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{B}
+\AXM{}
+\UIM{B}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{A}
+\RL{$\liff \mathrm{I}$}
+\BIM{A \liff B}
+\DP
+\end{center}
+And here is in Lean:
+#+BEGIN_SRC lean
+variables (A B : Prop)
+
+example : A ↔ B :=
+iff.intro
+  (assume H : A,
+    show B, from sorry)
+  (assume H : B,
+    show A, from sorry)
+#+END_SRC
+You enter the symbol =↔= by typing =\iff= or =\lr= (for the left-right
+arrow). Notice that you can re-use the letter =H= for the hypothesis,
+since the two branches of the proof are independent.
+
+The elimination rules for iff are unexciting. In informal language,
+here is the "left" rule:
+-----
+Alice is in the bar if and only if Alice's husband is on the beach.
+
+Alice is in the bar.
+
+Hence, Alice's husband is on the beach.
+-----
+The "right" rule simply runs in the opposite direction. Rendered in
+natural deduction, the rules are as follows:
+\begin{center}
+\AXM{A \liff B}
+\AXM{A}
+\RL{$\liff \mathrm{E}_l$}
+\BIM{B}
+\DP
+\quad
+\AXM{A \liff B}
+\AXM{B}
+\RL{$\liff \mathrm{E}_r$}
+\BIM{A}
+\DP
+\end{center}
+Lean defines the rules =iff.and_elim_left= and =iff.and_elim_right=,
+but also provides the abbreviations =iff.mp= (for "modus ponens") and
+=iff.mpr= (for modus ponens reverse).
+#+BEGIN_SRC lean
+variables (A B : Prop)
+
+example : B :=
+have H₁ : A ↔ B, from sorry,
+have H₂ : A, from sorry,
+show B, from iff.mp H₁ H₂
+
+example : A :=
+have H₁ : A ↔ B, from sorry,
+have H₂ : B, from sorry,
+show A, from iff.mpr H₁ H₂
+#+END_SRC
 
 *** Proof by Contradiction
+
+We saw an example of an informal argument that implictly uses the
+introduction rule for negation:
+-----
+Suppose Alice's husband was in the bar. 
+
+...
+
+This situation is impossible. 
+
+Therefore Alice's husband was not in the bar.
+-----
+Consider the following argument:
+----
+Suppose Alice's husband was not on the beach.
+
+...
+
+This situation is impossible.
+
+Therefore Alice's husband was on the beach.
+-----
+At first glance, you might think this argument follows the same
+pattern. But a closer look should reveal a difference: in the first
+argument, a negation is /introduced/ into the conclusion, whereas in
+the second, it is /eliminated/ from the hypothesis. Using negation
+introduction to close the second argument would yield the conclusion
+"It is not the case that Alice's husband was not on the beach." The
+rule of inference that replaces the conclusion with the positive
+statement is called a /proof by contradiction/. (It also has a fancy
+name, /reductio ad absurdum/, "reduction to an absurdity.")
+
+It may be hard to see the difference between the two rules, because we
+commonly take the statement "Alice's husband was not not on the beach"
+to be a roundabout and borderline ungrammatical way of saying that
+Alice's husband was on the beach. Indeed, the rule is equivalent to
+adding an axiom that says that for every $A$, not not A is
+equivalent to A.
+
+There is a style of doing mathematics "constructively" that denies the
+equivalence of not not A and A. Constructive arguments tend to have
+much better computational interpretations; a proof that something is
+true should provide explicit evidence that the statement is true,
+rather than evidence that it can't possibly be false. We will discuss
+constructive reasoning in a later chapter. Nonetheless, proof by
+contradiction is used extensively in contemporary mathematics, and so,
+in the meanwhile, we will use proof by contradiction freely as one of
+our basic rules.
 
 ** Writing Proofs in Natural Deduction
 

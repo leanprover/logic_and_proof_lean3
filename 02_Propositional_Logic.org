@@ -1156,6 +1156,7 @@ hypothesis Hb : B
 example : A → B :=
 assume A, 
   show B, from Hb
+end
 #+END_SRC
 
 Similarly, if $A$ is false, we can prove $A \to B$ without any assumptions about $B$:
@@ -1168,6 +1169,7 @@ hypothesis Hna : ¬ A
 example : A → B :=
 assume Ha : A, 
   show B, from false.elim (Hna Ha)
+end
 #+END_SRC
 
 And finally, if $A$ is true and $B$ is false, we can prove $\neg (A \to B)$:
@@ -1181,6 +1183,7 @@ hypothesis Hnb : ¬B
 example : ¬ (A → B) :=
 assume H : A → B,
   show false, from Hnb (H Ha)
+end
 #+END_SRC
 
 *** Finding truth assignments
@@ -1249,7 +1252,7 @@ $\false$ & $\false$ & $\false$     \\ \hline
 
 \begin{tabular} {|c|c||c|}
 \hline \hline
-$A$      & $B$      & $A \or B$ \\ \hline
+$A$      & $B$      & $A \vee B$ \\ \hline
 $\true$  & $\true$  & $\true$      \\ \hline
 $\true$  & $\false$ & $\true$      \\ \hline
 $\false$ & $\true$  & $\true$      \\ \hline
@@ -1272,7 +1275,7 @@ intermediate columns with the truth values of subformulas:
 
  \begin{tabular} {|c|c|c||c|c|||c|}
 \hline \hline
-$A$      & $B$      & $C$      & $A \to B$ & $B \to C$ & (A \to B) \vee (B \to C) \\ \hline
+$A$      & $B$      & $C$      & $A \to B$ & $B \to C$ & $(A \to B) \vee (B \to C)$ \\ \hline
 $\true$  & $\true$  & $\true$  & $\true$   & $\true$   & $\true$   \\ \hline
 $\true$  & $\true$  & $\false$ & $\true$   & $\false$  & $\true$   \\ \hline
 $\true$  & $\false$ & $\true$  & $\false$  & $\true$   & $\true$   \\ \hline

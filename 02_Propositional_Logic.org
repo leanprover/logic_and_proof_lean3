@@ -704,6 +704,8 @@ contradiction is used extensively in contemporary mathematics, and so,
 in the meanwhile, we will use proof by contradiction freely as one of
 our basic rules.
 
+[Fill in examples.]
+
 ** Writing Proofs in Natural Deduction
 
 As noted in Chapter [[file:01_Introduction.org::#Introduction][Introduction]], there are two common styles for
@@ -938,7 +940,7 @@ show C, from H₁ (and.left H₂) (and.right H₂)
 #+END_SRC
 And the last proof can be rendered as follows:
 #+BEGIN_SRC lean
-variables (A B C : Prop)
+variables (A B : Prop)
 
 example : ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
 assume H : ¬ (A ∨ B),
@@ -955,35 +957,196 @@ show ¬ A ∧ ¬ B, from and.intro `¬ A` `¬ B`
 
 ** Writing Informal Proofs
 
+Remember that one goal of this course is to teach you to write
+ordinary (mathematical) proofs as well formal proofs in natural
+deduction and formally verified proofs in Lean. The fact that natural
+deduction and Lean's proof language are designed to model some aspects
+of informal proof does /not/ mean that your informal proofs should
+look like natural deduction derivations or proofs in Lean! There are
+important differences between formal languages and informal language
+that you should keep in mind.
+
+For one thing, ordinary proofs tend to favor words over symbols. Of
+course, mathematics uses symbols all the time, but not in place of
+words like "and" and "not"; you will rarely, if ever, see the symbols
+$\wedge$ and $\neg$ in a mathematical text, unless it is a text
+specifically about logic.
+
+Similarly, the structure of an informal proof is conveyed with
+ordinary paragraphs and punctuation. Don't rely on pictorial diagrams,
+line breaks, and indentation to convey the structure of a
+proof. Rather, you should rely on literary devices like signposting
+and foreshadowing: it is often helpful to present an outline of a
+proof or the key ideas before delving into the details, and the
+introductory sentence of a paragraph can help guide a reader's
+expectations, just as it does in an expository essay.
+
+Perhaps the biggest difference between informal proofs and formal
+proofs is the level of detail. Informal proofs will often skip over
+details that are taken to be "straightforward" or "obvious," devoting
+more effort to spelling out inferences that are novel of unexpected.
+
+Writing a good proof is like writing a good essay. To convince your
+readers that the conclusion is correct, you have to get them to
+understand the argument, without overwhelming them with unnecessary
+details. It helps to have a specific audience in mind. Try speaking
+the argument aloud to friends, roommates, and family members; if their
+eyes glaze over, it is unreasonable to expect anonymous readers to do
+better.
+
+Perhaps the best way to learn to write good proofs is to /read/ good
+proofs, and pay attention to the style of writing. Pick an example of
+a textbook that you find especially clear and engaging, and think
+about what makes it so. 
+
+Natural deduction and formal verification can help you understand the
+components that make a proof /correct/, but you will have to develop
+an intuitive feel for what makes a proof easy and enjoyable to read.
+
 ** Derived Rules and Coarser Steps
 
 In the examples above, we showed that, given $A \vee B$ and $\neg A$,
 we can derive $B$ in natural deduction. This is a common pattern of
-inference, and, having justified it once, one might reasonably want to
+inference, and, having justified it once, you might reasonably want to
 use it freely as a new one-step inference. Similarly, having proved $A
 \to B$ equivalent to $\neg A \vee B$, or $\neg (A \vee B)$ equivalent
 to $\neg A \wedge \neg B$, one might feel justified in replacing one
 by the other in any expression.
 
 Indeed, this is how informal mathematics works: even if we start with
-some basic rules of inference, we learn to recognize more complex
-patterns and apply them freely. A single step in the informal argument in
-the solution to "Malice and Alice," or any mathematical proof, usually
-requires many more steps in a formal calculus. Moreover, in ordinary
-mathematics, one we prove a proposition or theorem, we can freely
-invoke it in another proof later on.
+very basic patterns of inference, we learn to recognize more complex
+patterns over time, and apply them freely in our proofs. A single step
+in the informal argument in the solution to "Malice and Alice," or any
+mathematical proof, usually requires many more steps in a formal
+calculus. Moreover, in ordinary mathematics, one we prove a
+proposition or theorem, we can freely invoke it in another proof later
+on.
 
-In symbolic logic, "derived rules".
+One can extend natural deduction with various mechanisms to abbreviate
+such "derived rules." For the most part, however, we will not bother
+to do so. Natural deduction is designed to model the low-level
+mechanics of a proof, and we will not use it to write long proofs.
 
-In Lean, naming theorems and reusing them. (Also, eventually, automation.)
+In formal verification, however, the goal is to build complex proofs,
+developing libraries for formalized mathematics along the way. To that
+end, Lean allows you to name the theorems you prove:
+#+BEGIN_SRC lean
+variables (A B : Prop)
 
+theorem not_and_not_of_not_or : ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
+assume H : ¬ (A ∨ B),
+have ¬ A, from
+  suppose A,
+  have A ∨ B, from or.inl `A`,
+  show false, from H this,
+have ¬ B, from
+  suppose B,
+  have A ∨ B, from or.inr `B`,
+  show false, from H this,
+show ¬ A ∧ ¬ B, from and.intro `¬ A` `¬ B`
+#+END_SRC
+Here we follow the convention of describing the conclusion of the
+theorem first (=not_and_not=), followed by the hypotheses (in this
+case, =not_or=), separated by =of=. Thereafter, we can use the theorem
+as a new rule of inference:
+#+BEGIN_SRC lean
+variables (A B : Prop)
 
-To summarize:
+theorem not_and_not_of_not_or : ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
+assume H : ¬ (A ∨ B),
+have ¬ A, from
+  suppose A,
+  have A ∨ B, from or.inl `A`,
+  show false, from H this,
+have ¬ B, from
+  suppose B,
+  have A ∨ B, from or.inr `B`,
+  show false, from H this,
+show ¬ A ∧ ¬ B, from and.intro `¬ A` `¬ B`
+
+-- BEGIN
+variables (C D : Prop)
+
+example : ¬ (C ∨ D) → ¬ C ∧ ¬ D :=
+assume H : ¬ (C ∨ D),
+show ¬ C ∧ ¬ D, from not_and_not_of_not_or C D H
+-- END
+#+END_SRC
+Notice that =not_and_not_of_not_or= takes, as arguments, the two
+propositions =C= and =D= to which we want to instantiate the theorem,
+followed by the hypothesis =H=. 
+
+We can tell Lean to make the first twoo arguments implicit, by changing
+=variables (A B : Prop)= to =variables {A B : Prop}=. The curly braces
+ask Lean to infer the values of these arguments from the context. With
+that change, we can write the preceding proof as follows:
+#+BEGIN_SRC lean
+variables {A B : Prop}
+
+theorem not_and_not_of_not_or : ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
+assume H : ¬ (A ∨ B),
+have ¬ A, from
+  suppose A,
+  have A ∨ B, from or.inl `A`,
+  show false, from H this,
+have ¬ B, from
+  suppose B,
+  have A ∨ B, from or.inr `B`,
+  show false, from H this,
+show ¬ A ∧ ¬ B, from and.intro `¬ A` `¬ B`
+
+-- BEGIN
+variables (C D : Prop)
+
+example : ¬ (C ∨ D) → ¬ C ∧ ¬ D :=
+assume H : ¬ (C ∨ D),
+show ¬ C ∧ ¬ D, from not_and_not_of_not_or H
+-- END
+#+END_SRC
+Here is a more interesting example: first we show, independently, that
+each of =¬ A= and =¬ B= follows from =¬ (A ∨ B)=, and then we use
+these facts to prove =not_and_not_of_not_or=.
+#+BEGIN_SRC lean
+variables {A B : Prop}
+
+theorem not_of_not_or_left : ¬ (A ∨ B) → ¬ A :=
+assume H : ¬ (A ∨ B),
+show ¬ A, from
+  suppose A,
+  have A ∨ B, from or.inl `A`,
+  show false, from H this
+
+theorem not_of_not_or_right : ¬ (A ∨ B) → ¬ B :=
+assume H : ¬ (A ∨ B),
+show ¬ B, from
+  suppose B,
+  have A ∨ B, from or.inr `B`,
+  show false, from H this
+
+theorem not_and_not_of_not_or : ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
+assume H : ¬ (A ∨ B),
+have ¬ A, from not_of_not_or_left H,
+have ¬ B, from not_of_not_or_right H,
+show ¬ A ∧ ¬ B, from and.intro `¬ A` `¬ B`
+#+END_SRC
+Later, we will see that Lean has an expansive library of such prior
+theorems, that can be used at will. Ultimately, Lean will also have
+automation that will fill in small steps automatically. In elementary
+exercises, however, we will expect you to carry out such proofs by hand.
+
+To summarize our expectations in this course:
 
 -- When we ask you to prove something in natural deduction, our goal
    is to make you work with the precise, formal rules of the
-   system. So you should not appeal to external rules unless we
-   explicitly say so.
+   system, so you should not appeal to external rules unless we
+   explicitly say you can.
+
+-- In interactive theorem proving, the main goal is to have the
+   computer certify the proof as correct, and in that respect,
+   automation and facts from the library are fair game. To learn to
+   use the system, however, it is helpful to prove elementary theorems
+   by hand. In this class, we will try to be explicit about what we
+   would like you to use in the exercises we assign.
 
 -- When writing informal proofs, it is a judgment call as to what
    prior patterns of reasoning and background facts you may appeal
@@ -995,9 +1158,8 @@ To summarize:
    experience to judge what patterns of inference you can put forth,
    and how much detail you need to use.
 
--- In interactive theorem proving, the main goal is to have the
-   computer certify the proof as correct, and in that respect,
-   automation and facts from the library are fair game. In this class,
-   we will try to be explicit about what we would like you to use in 
-   the exercises we assign.
+** Some Logical Identities
+
+[Fill in.]
+
 

@@ -1,0 +1,371 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://https://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Truth Tables and Semantics
+
+In the previous sections, we've seen how to prove logical formulas
+from hypotheses. A formula that can be derived from no hypotheses is
+said to be /valid/: for example, $A \to A$ is true no matter what we
+suppose about $A$.
+
+Not every sentence is valid, of course. Earlier we saw the example $A
+\to B$.  We cannot derive this formula without some extra assumptions
+about $A$ and $B$.  Try it:
+
+#+BEGIN_SRC lean
+variables A B : Prop
+
+example : A → B :=
+assume H : A,
+show B, from sorry
+#+END_SRC
+
+Without some more information, there's no argument we could put in
+place of the "sorry" to complete this proof. After all, $B$ could be
+false!
+
+What do we mean by "false," exactly? Notice that we've been careful
+not to use the words "true" and "false" before now. Deductions and
+formal proofs are /syntactic/ ideas- that is, they have to do with the
+symbols and symbolic structure of the formulas involved. Truth is a
+/semantic/ notion- it ascribes some extra-logical /meaning/ to the
+symbols involved.
+
+Syntactically, we were able to ask and answer questions like the
+following:
+- Can I derive a certain formula from certain hypotheses?
+- How do I derive a certain formula from certain hypotheses?
+- What formulas can I derive from certain hypotheses?
+
+The questions we consider semantically are slightly different:
+- Given a truth assignment for propositional variables, is a certain
+  formula true or false?
+- Is there any truth assignment that makes a certain formula true?
+- Under what conditions is a certain formula true or false?
+
+Our notions of syntax and semantics have developed carefully, so that
+they exist in harmony. We'll expand on this in the next section. For
+now, we'll discuss the basic methods we use to answer semantic
+questions.
+
+** Truth values and assignments
+
+The first notion we'll need is that of a /truth value/. Conveniently,
+we know our two truth values already: they're just "true" and "false."
+(We'll use the symbols $\true$ and $\false$ in informal math, and
+=true= and =false= in Lean.)
+
+In this class, we'll adopt a "classical" notion of truth. This notion
+comes with many implications. For now, though, it means only the
+following: any proposition is either true or false, but not both. This
+means a proposition cannot be neither true nor false.
+
+This binary conception of truth corresponds to the syntactic tautology
+$A \vee \neg A$.  Semantically, we read this sentence as saying
+"either $A$ is true, or $\neg A$ is true." Since $\neg A$ is true
+exactly when $A$ is false, it equivalently says "either $A$ is true,
+or $A$ is false."
+
+The next notion we'll need is that of a /truth assignment/.  A truth
+assignment simply tells us which atomic statements are true, and which
+are false. In formal logic, this amounts to a mapping from our
+propositional letters $A$, $B$, etc. to the set of truth values $\{
+\true, \false \}$. For instance,
+ 
+- $A := \true$
+- $B := \false$
+- $C := \false$
+- $D := \true$
+
+is a (partial) truth assignment. Technically, a truth assignment
+should give a value to each one of the (infinitely many) propositional
+letters. But since we will only ever look at finite collections of
+formulas with finitely many propositional letters, we only need to
+think about truth assignments that give values to finitely many
+letters.
+
+Intuitively, a truth assignment describes a possible "state of the
+world." Going back to the Malice and Alice puzzle, let's suppose the
+following letters are shorthand for the statements:
+- $P$ := Alice's brother was the victim
+- $Q$ := Alice was the killer
+- $R$ := Alice was in the bar
+
+In the "real world" -- that is, the world described by the solution to
+the puzzle -- the first and third statements are true, and the second
+is false. So our truth assignment gives the value $\true$ to $P$ and
+$R$, and the value $\false$ to $Q$.
+
+** Semantics of negation, conjunction, and disjunction
+
+Once we have a truth assignment, we can extend it to a /valuation
+function/. While the truth assignment gives a value $\true$ or
+$\false$ only to each propositional letter, the valuation function
+gives a value to every logical formula. This function behaves about as
+you'd expect. If $v$ is a truth assignment function, its corresponding
+valuation function $v'$ is defined recursively as follows:
+- $v'(\ell) = v(\ell)$, where $\ell$ is any propositional letter.
+- $v'(\neg \varphi) = \true$ if $v'(\varphi)$ is $\false$, and vice
+  versa.
+- $v'(\varphi \wedge \psi) = \true$ if $v'(\varphi)$ and $v'(\psi)$
+  are both $\true$; otherwise $\false$.
+- $v'(\varphi \vee \psi) = \true$ if at least one of $v'(\varphi)$ and
+  $v'(\psi)$ is $\true$; otherwise $\false$.
+- $v'(\varphi \to \psi) = \true$ if either $v'(\psi)$ is $\true$ or
+  $v'(\varphi)$ is $\false$; otherwise $\false$. (Equivalently,
+  $v'(\varphi \to \psi) = \false$ when $v'(\varphi)$ is $\true$ and
+  $v'(psi)$ is $\false$; otherwise true.)
+  
+The rules for conjunction and disjunction are easy to understand. "A
+and B" is true exactly when both parts are true; "A or B" is true when
+at least one part is true. These rules should sound very similar to
+the introduction rules we saw earlier.
+
+** Semantics of implication
+
+Implication is a little trickier. People are often surprised to hear
+that any if-then statement with a false hypothesis is supposed to be
+true! The statement "if I have two heads, then circles are squares"
+/sounds/ false to most people, but by our definition above, a "real
+world" truth assignment would make it true. To clear up this
+confusion, think about the difference between the two sentences:
+- "If I have two heads, then circles are squares."
+- "If I had two heads, then circles would be squares."
+
+The latter sentence is known as a /counterfactual/ conditional. It
+asserts something about how the world might change, if things were
+other than they actually are. Philosophers have studied
+counterfactuals for centuries, but in mathematical logic, we're more
+concerned with the former kind of sentence. The conditional here, the
+same one we got familiar with earlier, is known as the /material/
+conditional. The material conditional only asserts something about the
+way the world is right now. So, since it's false that I have two
+heads, the statement "if I have two heads, then circles are squares"
+is true.
+
+Why do we use this definition for the material conditional? Consider
+the true sentence "every natural number that is prime and greater than
+two is odd." We can interpret this sentence as saying that all of the
+(infinitely many) sentences in this list are true:
+- if 0 is prime and greater than 2, then 0 is odd
+- if 1 is prime and greater than 2, then 1 is odd
+- if 2 is prime and greater than 2, then 2 is odd
+- if 3 is prime and greater than 2, then 3 is odd
+- $\vdots$
+
+The first sentence on this list sounds a lot like our two heads
+example: both the hypothesis and the conclusion are false. But we need
+the whole sentence to be true! The second sentence is a little
+different: the hypothesis is still false, but the conclusion is
+true. Together, these tell us that whenever the hypothesis is false,
+the conditional should be true. The fourth sentence has a true
+hypothesis and a true conclusion. So from the second and fourth
+sentences, we see that whenever the conclusion is true, the
+conditional should be true as well.  Finally, it seems clear that the
+sentence "if 3 is prime and greater than 2, then 3 is even" shoud
+/not/ be true. The true hypothesis, false conclusion pattern is the
+only one for which the conditional will be false.
+
+Let's motivate the semantics for the material conditional one more
+way. Hopefully, we shouldn't be able to prove anything that's false!
+Notice that, if $B$ is true, we can prove $A \to B$ without any
+assumptions about $A$:
+
+#+BEGIN_SRC lean
+section
+parameters A B : Prop
+hypothesis Hb : B
+
+example : A → B :=
+assume A, 
+  show B, from Hb
+end
+#+END_SRC
+
+Similarly, if $A$ is false, we can prove $A \to B$ without any
+assumptions about $B$:
+
+#+BEGIN_SRC lean
+section
+parameters A B : Prop
+hypothesis Hna : ¬ A
+
+example : A → B :=
+assume Ha : A, 
+  show B, from false.elim (Hna Ha)
+end
+#+END_SRC
+
+And finally, if $A$ is true and $B$ is false, we can prove $\neg (A
+\to B)$:
+
+#+BEGIN_SRC lean
+section
+parameters A B : Prop
+hypothesis Ha : A
+hypothesis Hnb : ¬B
+
+example : ¬ (A → B) :=
+assume H : A → B,
+  show false, from Hnb (H Ha)
+end
+#+END_SRC
+
+** Finding truth assignments
+
+Now that we've defined the truth of any formula relative to a truth
+assignment, we can answer our first semantic question. Given a truth
+assignment, how do we find the truth of a formula? Well, use the truth
+values of the propositional letters to find the truth values of the
+subterms in which they occur. Then use the truth values of those
+subterms to evaluate the subterms in which /they/ occur, and so
+on. For an example, suppose our truth assignment makes $A$ and $B$
+true, and $C$ false. To evaluate $((B \to C) \vee (A \wedge B))$, note
+that the subterm $B \to C$ is false and the subterm $A \wedge B$ is
+true. Since a disjunction "false or true" is true, the entire formula
+is true.
+
+We can also go in the other direction: given a formula, we can attempt
+to find a truth assignment that will make it true (or
+false). Conveniently, Lean is able to evaluate formulas for us.
+
+Try creating some truth assignments yourself! You can add your own
+formulas at the bottom too.
+#+BEGIN_SRC lean
+-- Define your truth assignment here, by changing the true/false values as you wish.
+definition A : Prop := true
+definition B : Prop := false
+definition C : Prop := true
+definition D : Prop := true
+definition E : Prop := false
+
+-- Ignore this line.
+attribute A B C D E [reducible] 
+
+-- Try to find truth assignments that make each of the following sentences 
+-- evaluate to true.
+-- For an extra challenge, try finding one truth assignment that makes them all true!
+
+eval is_true ((A ∧ B) ∨ C)
+eval is_true (A → D)
+eval is_true (C → (D ∨ ¬E))
+eval is_true (¬(A ∧ B ∧ C ∧ D))
+#+END_SRC
+
+*** Truth tables
+
+The second and third semantic questions we asked are a little trickier
+than the first.  Instead of considering one particular truth
+assignment, they ask us to quantify over /all/ possible truth
+assignments.
+
+Of course, the number of possible truth assignments depends on the
+number of propositional letters we're considering. Since each letter
+has two possible values, $n$ letters will produce $2^n$ possible truth
+assignments. This number grows very quickly, so we'll mostly look at
+smaller formulas here.
+
+We'll use something called a /truth table/ to figure out when, if
+ever, a formula is true.  On the left hand side of the truth table,
+we'll put all of the possible truth assignments for the present
+propositional letters. On the right hand side, we'll put the truth
+value of the entire formula under the corresponding assignment.
+
+To begin with, truth tables can be used to concisely summarize the
+semantics of our logical connectives:
+
+\begin{tabular} {|c|c||c|}
+\hline \hline
+$A$      & $B$      & $A \wedge B$ \\ \hline
+$\true$  & $\true$  & $\true$      \\ \hline
+$\true$  & $\false$ & $\false$     \\ \hline
+$\false$ & $\true$  & $\false$     \\ \hline
+$\false$ & $\false$ & $\false$     \\ \hline
+\end{tabular}
+
+\begin{tabular} {|c|c||c|}
+\hline \hline
+$A$      & $B$      & $A \vee B$ \\ \hline
+$\true$  & $\true$  & $\true$      \\ \hline
+$\true$  & $\false$ & $\true$      \\ \hline
+$\false$ & $\true$  & $\true$      \\ \hline
+$\false$ & $\false$ & $\false$     \\ \hline
+\end{tabular}
+
+\begin{tabular} {|c|c||c|}
+\hline \hline
+$A$      & $B$      & $A \to B$ \\ \hline
+$\true$  & $\true$  & $\true$      \\ \hline
+$\true$  & $\false$ & $\false$     \\ \hline
+$\false$ & $\true$  & $\true$      \\ \hline
+$\false$ & $\false$ & $\true$      \\ \hline
+\end{tabular}
+
+(For an easy exercise, try to write the table for $\neg A$ on your
+own.)
+
+For compound formulas, the style is much the same. Sometimes it can be
+helpful to include intermediate columns with the truth values of
+subformulas:
+
+ \begin{tabular} {|c|c|c||c|c|||c|}
+\hline \hline
+$A$      & $B$      & $C$      & $A \to B$ & $B \to C$ & $(A \to B) \vee (B \to C)$ \\ \hline
+$\true$  & $\true$  & $\true$  & $\true$   & $\true$   & $\true$   \\ \hline
+$\true$  & $\true$  & $\false$ & $\true$   & $\false$  & $\true$   \\ \hline
+$\true$  & $\false$ & $\true$  & $\false$  & $\true$   & $\true$   \\ \hline
+$\true$  & $\false$ & $\false$ & $\false$  & $\true$   & $\true$   \\ \hline
+$\false$ & $\true$  & $\true$  & $\true$   & $\true$   & $\true$   \\ \hline
+$\false$ & $\true$  & $\false$ & $\true$   & $\false$  & $\true$   \\ \hline
+$\false$ & $\false$ & $\true$  & $\true$   & $\true$   & $\true$   \\ \hline
+$\false$ & $\false$ & $\false$ & $\true$   & $\true$   & $\true$   \\ \hline
+\end{tabular}
+
+By writing out the truth table for a formula, we can easily glance at
+the rows and see which truth assignments make the formula true. If all
+the entries in the final column are $\true$ -- as in the above example
+-- we see that the formula is /valid/.
+
+We can use Lean to check if we've created truth tables correctly:
+
+#+BEGIN_SRC lean
+-- Ignore this line.
+definition prop_dec_eq [instance] (A B : Prop) [Ha : decidable A] [Hb : decidable B] : 
+           decidable (A = B) := 
+  if H : A ↔ B then decidable.inl (propext H) else decidable.inr (λ I, H (by rewrite I))
+
+-- If you've filled in the truth table correctly, the eval statement
+-- will return true.
+
+eval
+     /- don't modify these columns.      Put your formula here: -/ 
+                         /-                      \/             -/  
+let l := λ       A          B,              A ∧ (B → A)                in is_true (
+l             true  /--/  true  /--/ =        true                     ∧
+l             true  /--/  false /--/ =        true                     ∧
+l             false /--/  true  /--/ =        false                    ∧
+l             false /--/  false /--/ =        false                    )
+
+
+
+eval
+            /- don't modify these columns -/       /- Put your formula here: -/ 
+                                                   /-         \/             -/  
+let l := λ       A          B           C,               A ∧ (B → C)      /--/        in is_true (
+l               true  /--/  true  /--/  true  /--/  =        true                     ∧
+l               true  /--/  true  /--/  false /--/  =        false                    ∧
+l               true  /--/  false /--/  true  /--/  =        true                     ∧
+l               true  /--/  false /--/  false /--/  =        true                     ∧
+l               false /--/  true  /--/  true  /--/  =        false                    ∧
+l               false /--/  true  /--/  false /--/  =        false                    ∧
+l               false /--/  false /--/  true  /--/  =        false                    ∧
+l               false /--/  false /--/  false /--/  =        false                    )
+#+END_SRC
+
+Finish this section!
+
+** A Complete Proof System
+
+
+** Exercises
+

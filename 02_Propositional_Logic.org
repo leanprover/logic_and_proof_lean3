@@ -716,7 +716,7 @@ following pattern:
 \UIM{\bot}
 \UIM{A}
 \end{prooftree}
-The assumption $\not A$ is canceled at the final inference. 
+The assumption $\neg A$ is canceled at the final inference. 
 
 In Lean, the inference is named =by_contradiction=, and since it is a
 classical rule, we have to use the command =open classical= before it

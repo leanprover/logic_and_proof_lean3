@@ -5,8 +5,8 @@
 
 ** A Puzzle
 
-The following puzzle, titled "Malice and Alice" is from George
-J. Summers, /Logical Deduction Puzzles/.
+The following puzzle, titled "Malice and Alice," is from George
+J. Summers' /Logical Deduction Puzzles/.
 -----
 Alice, Alice's husband, their son, their daughter, and Alice's brother
 were involved in a murder. One of the five killed one of the other
@@ -19,6 +19,7 @@ four. The following facts refer to the five people mentioned:
 4. Alice and her husband were not together at the time of the murder. 
 5. The victim's twin was not the killer.
 6. The killer was younger than the victim.
+7. These five people have no other family members.
 
 Which one of the five was the victim?
 -----
@@ -66,7 +67,7 @@ If Alice's husband was in the bar, the woman he was with was his
 daughter, the child who was alone was his son, and Alice and her
 brother were on the beach. Then either Alice or her brother was the
 victim; so the other was the killer. But, from =[5]=, the victim had a
-twin, and this twin was innocent. Since Alice and her brother could
+twin, and this twin was innocent. Since by =[7]=, Alice and her brother could
 only be twins to each other, this situation is impossible. Therefore
 Alice's husband was not in the bar.
 
@@ -74,7 +75,7 @@ So Alice was in the bar. If Alice was in the bar, she was with her
 brother or her son.
 
 If Alice was with her brother, her husband was on the beach with one
-of the two children. From =[5]=, the victim could not be her husband,
+of the two children. From =[5]= and =[7]=, the victim could not be her husband,
 because none of the others could be his twin; so the killer was her
 husband and the victim was the child he was with. But this situation
 is impossible, because it contradicts =[6]=. Therefore, Alice was not
@@ -1363,4 +1364,3 @@ equivalences.
 \end{enumerate}
 All of them can be derived in natural deduction, and in Lean, using
 the rules and patterns of inference discussed in this Chapter.
-

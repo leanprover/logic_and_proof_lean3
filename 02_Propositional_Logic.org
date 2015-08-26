@@ -704,7 +704,33 @@ contradiction is used extensively in contemporary mathematics, and so,
 in the meanwhile, we will use proof by contradiction freely as one of
 our basic rules.
 
-[Fill in examples.]
+In natural deduction, proof by contradiction is expressed by the
+following pattern:
+\begin{prooftree}
+\AXM{}
+\UIM{\lnot A}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{\bot}
+\UIM{A}
+\end{prooftree}
+The assumption $\not A$ is canceled at the final inference. 
+
+In Lean, the inference is named =by_contradiction=, and since it is a
+classical rule, we have to use the command =open classical= before it
+is available. Once we do so, the pattern of inference is expressed as
+follows:
+#+BEGIN_SRC lean
+open classical
+
+variable (A : Prop)
+
+example : A :=
+by_contradiction
+  (assume H : ¬ A,
+    show false, from sorry)
+#+END_SRC
 
 ** Writing Proofs in Natural Deduction
 
@@ -955,6 +981,38 @@ have ¬ B, from
 show ¬ A ∧ ¬ B, from and.intro `¬ A` `¬ B`
 #+END_SRC
 
+You can add comments to your proofs in two ways. First, any text after
+a double-dash =--= until the end of a line is ignored by the Lean
+processor. Second, any text between =/-= and =-/= denotes a block
+comment, and is also ignored. You can nest block comments.
+#+BEGIN_SRC lean
+/- This is a block comment.
+   It can fill multiple lines. -/
+
+example (A : Prop) : A → A :=
+suppose A,         -- assume the antecedent
+show A, from this  -- use the assuption to establish the conclusion 
+#+END_SRC
+
+You can use =sorry= as a temporary placeholder while writing
+proofs.  
+#+BEGIN_SRC lean
+example (A B : Prop) : A ∧ B → B ∧ A :=
+assume H : A ∧ B,
+have H1 : A, from and.left H,
+have H2 : B, from and.right H,
+show B ∧ A, from sorry
+#+END_SRC
+You can check the proof, to make sure it is correct modulo the
+=sorry=, and then go on to replace the =sorry= with an actual proof.
+
+Here is another useful trick: try replacing the =sorry= by an
+underscore character, =_=. This asks the Lean parser to guess what
+should go there, based on the context. In this case, Lean does not
+succeed, and flags an error message. But the error message is
+informative: it tells you what you need to prove, and what is
+available in the context for you to use.
+
 ** Writing Informal Proofs
 
 Remember that one goal of this course is to teach you to write
@@ -1003,7 +1061,7 @@ Natural deduction and formal verification can help you understand the
 components that make a proof /correct/, but you will have to develop
 an intuitive feel for what makes a proof easy and enjoyable to read.
 
-** Derived Rules and Coarser Steps
+** Theorems and Derived Rules
 
 In the examples above, we showed that, given $A \vee B$ and $\neg A$,
 we can derive $B$ in natural deduction. This is a common pattern of
@@ -1158,8 +1216,151 @@ To summarize our expectations in this course:
    experience to judge what patterns of inference you can put forth,
    and how much detail you need to use.
 
+** Classical Reasoning
+
+In informal mathematics, it is usually clearer to give a "direct"
+proof of a theorem, rather than using proof by contradiction. But
+proof by contradiction is sometimes necessary. At a foundational
+level, it is used to derive other classical patterns of reasoning.
+
+For example, we have seen that if you know $A \vee B$, you can use
+that knowledge to reason on cases, assuming first $A$, and then
+$B$. In mathematical arguments, however, one often splits a proof into
+two cases, assuming first $A$ and then $\neg A$, for some statement
+$A$. Using the elimination rule for disjunction, this is equivalent to
+using $A \vee \neg A$, a classical principle known as the law of the
+excluded middle. Here is a proof of this, in natural deduction, using
+a proof by contradiction:
+\begin{prooftree}
+\AXM{}
+\RLM{y}
+\UIM{\neg (A \vee \neg A)}
+\AXM{}
+\RLM{x}
+\UIM{A}
+\UIM{A \vee \neg A}
+\BIM{\bot}
+\RLM{x}
+\UIM{\neg A}
+\UIM{A \vee \neg A}
+\AXM{}
+\RLM{x}
+\UIM{\neg (A \vee \neg A)}
+\BIM{\bot}
+\RLM{y}
+\UIM{A \vee \neg A}
+\end{prooftree}
+Here is the same proof rendered in Lean:
+#+BEGIN_SRC lean
+open classical
+
+variable (A : Prop)
+
+example : A ∨ ¬ A :=
+by_contradiction
+  (assume H : ¬ (A ∨ ¬ A),
+    have ¬ A, from
+      suppose A,
+      have A ∨ ¬ A, from or.inl this,
+      show false, from H this,
+    have A ∨ ¬ A, from or.inr `¬ A`,
+    show false, from H this)
+#+END_SRC
+The principle is known as the "law of the excluded middle," because it
+says that a proposition =A= is either true or false; there is no
+middle ground. As a result, the theorem is named =em= in the Lean
+library. For any proposition =A=, =em A= denotes a proof of =A ∨ ¬ A=,
+and you are free to use it any time =classical= is open:
+#+BEGIN_SRC lean
+open classical
+
+variable (A : Prop)
+
+example : A ∨ ¬ A :=
+or.elim (em A)
+  (suppose A, or.inl this)
+  (suppose ¬ A, or.inr this)
+#+END_SRC 
+Or even more simply:
+#+BEGIN_SRC lean
+open classical
+
+variable (A : Prop)
+
+example : A ∨ ¬ A :=
+em A
+#+END_SRC
+
+Here is another example. Intuitively, asserting "if A then B" is
+equivalent to saying that it cannot be the case that A is true and B
+is false. Classical reasoning is needed to get us from the latter to
+the former:
+\begin{prooftree}
+  \AXM{}
+  \RLM{z}
+  \UIM{\lnot (A \wedge \neg B)}
+  \AXM{}
+  \RLM{y}
+  \UIM{A}
+  \AXM{}
+  \RLM{x}
+  \UIM{\neg B}
+  \BIM{A \wedge \neg B}
+  \BIM{\bot}
+  \RLM{x}
+  \UIM{B}
+  \RLM{y}
+  \UIM{A \to B}
+  \RLM{z}
+  \UIM{\neg (A \wedge \neg B) \to (A \to B)}
+\end{prooftree}
+Here is the same proof, rendered in Lean:
+#+BEGIN_SRC lean
+open classical
+
+variables (A B : Prop)
+
+example (H : ¬ (A ∧ ¬ B)) : A → B :=
+suppose A,
+show B, from
+  by_contradiction
+    (suppose ¬ B,
+      have A ∧ ¬ B, from and.intro `A` this,
+      show false, from H this)
+#+END_SRC
+
 ** Some Logical Identities
 
-[Fill in.]
-
+For reference, the following is a list of commonly used propositional
+equivalences.
+\begin{enumerate}
+\item Commutativity of $\wedge$: $A \wedge B \liff B \wedge A$
+\item Commutativity of $\vee$: $A \vee B \liff B \vee A$
+\item Associativity of $\wedge$: $(A \wedge B) \wedge C \liff
+      A \wedge (B \wedge C)$
+\item Associativity of $\vee$: $(A \vee B) \vee C \liff
+      A \vee (B \vee C)$
+\item Distributivity of $\wedge$ over $\vee$: $A \wedge (B \vee C) \liff 
+      (A \wedge B) \vee (A \wedge C)$
+\item Distributivity of $\vee$ over $\wedge$: $A \vee (B \wedge C) \liff 
+      (A \vee B) \wedge (A \vee C)$
+\item $(A \to (B \to C)) \liff (A \wedge B \to C)$.
+\item $(A \to B) \to ((B \to C) \to (A \to C))$
+\item $((A \vee B) \to C) \liff (A \to C) \wedge (B \to C)$
+\item $\lnot (A \vee B) \liff \lnot A \wedge \lnot B$
+\item $\lnot (A \wedge B) \liff \lnot A \vee \lnot B$
+\item $\lnot (A \wedge \lnot A)$
+\item $\lnot (A \to B) \liff A \wedge \lnot B$
+\item $\lnot A \to (A \to B)$
+\item $(\lnot A \vee B) \liff (A \to B)$
+\item $A \vee \bot \liff A$
+\item $A \wedge \bot \liff \bot$
+\item $A \vee \lnot A$
+\item $\lnot (A \liff \lnot A)$
+\item $(A \to B) \liff (\lnot B \to \lnot A)$
+\item $(A \to C \vee D) \to ((A \to C) \vee (A \to D))$
+\item $(((A \to B) \to A) \to A)$
+\end{enumerate}
+All of them can be derived in natural deduction, and in Lean, using
+the rules and patterns of inference discussed in this Chapter.
 

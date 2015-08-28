@@ -15,30 +15,30 @@ four. The following facts refer to the five people mentioned:
 1. A man and a woman were together in a bar at the time of the murder.
 2. The victim and the killer were together on a beach at the time of
    the murder.
-3. One of Alice's children was alone at the time of the murder.
+3. One of Alice's two children was alone at the time of the murder.
 4. Alice and her husband were not together at the time of the murder. 
 5. The victim's twin was not the killer.
 6. The killer was younger than the victim.
-7. These five people have no other family members.
 
 Which one of the five was the victim?
 -----
 
-Take some time to try to work out a solution. Summers' book offers the
-following hint: "First find the locations of two pairs of people at
-the time of the murder, and then determine who the killer and the
-victim were so that no condition is contradicted."
+Take some time to try to work out a solution. (You should assume that
+the victim's twin is one of the five people mentioned.) Summers' book
+offers the following hint: "First find the locations of two pairs of
+people at the time of the murder, and then determine who the killer
+and the victim were so that no condition is contradicted."
 
 ** A Solution
 
 If you have worked on the puzzle, you may have noticed a few
-things. First, it is helpful to draw a diagram, and be systematic
+things. First, it is helpful to draw a diagram, and to be systematic
 about searching for an answer. The number of characters, locations,
-and attributes (murderer, victim) is finite, so that there are only
-finitely many possible "states of affairs" that need to be
-considered. The numbers are also small enough so that systematic
-search through all the possibilities, though tedious, will eventually
-get you to the right answer.
+and attributes is finite, so that there are only finitely many
+possible "states of affairs" that need to be considered. The numbers
+are also small enough so that systematic search through all the
+possibilities, though tedious, will eventually get you to the right
+answer.
 
 Another thing that you may have noticed is that the question seems to
 presuppose that there is a unique answer to the question, which is to
@@ -46,7 +46,7 @@ say, of all the states of affairs that meet the list of conditions,
 there is only one person who can possibly be the killer. /A priori/,
 without that assumption, there is a difference between finding /some/
 person who could have been the victim, and show that that person /had/
-to be the victim. In ohter words, there is a difference between
+to be the victim. In other words, there is a difference between
 exhibiting some state of affairs that meets the criteria, and
 demonstrating conclusively that no other solution is possible.
 
@@ -67,7 +67,7 @@ If Alice's husband was in the bar, the woman he was with was his
 daughter, the child who was alone was his son, and Alice and her
 brother were on the beach. Then either Alice or her brother was the
 victim; so the other was the killer. But, from =[5]=, the victim had a
-twin, and this twin was innocent. Since by =[7]=, Alice and her brother could
+twin, and this twin was innocent. Since by Alice and her brother could
 only be twins to each other, this situation is impossible. Therefore
 Alice's husband was not in the bar.
 
@@ -75,11 +75,11 @@ So Alice was in the bar. If Alice was in the bar, she was with her
 brother or her son.
 
 If Alice was with her brother, her husband was on the beach with one
-of the two children. From =[5]= and =[7]=, the victim could not be her husband,
+of the two children. From =[5]=, the victim could not be her husband,
 because none of the others could be his twin; so the killer was her
 husband and the victim was the child he was with. But this situation
 is impossible, because it contradicts =[6]=. Therefore, Alice was not
-with her brother in the bar. 
+with her brother in the bar.
 
 So Alice was with her son in the bar. Then the child who was alone was
 her daughter. Therefore, Alice's husband was with Alice's brother on
@@ -221,8 +221,8 @@ have H₁ : A → B, from sorry,
 have H₂ : A, from sorry,
 show B, from H₁ H₂
 #+END_SRC
-We will adopt this convention, using =sorry= to stand for parts of a
-proof that could be spelled out, when the variables involved are
+We will adopt this convention below, using =sorry= to stand for parts
+of a proof that could be spelled out, when the variables involved are
 replaced by more complex assertions.
 
 *** Conjunction
@@ -244,9 +244,10 @@ Alice's husband was the killer.
 Therefore Alice's brother was the victim and Alice's husband was the
 killer.
 -----
-The inference seems superfluous, since the word "and" simply combines the
-two assertions into one, and informal proofs often downplay the
-distinction. In natural deduction, the rule reads as follows:
+The inference seems almost too obvious to state explicitly, since the
+word "and" simply combines the two assertions into one. Informal
+proofs often downplay the distinction. In natural deduction, the rule
+reads as follows:
 \begin{center}
 \AXM{A}
 \AXM{B}
@@ -381,7 +382,7 @@ proof of the positive fact, we obtain a proof of falsity.
 Notice also that in the symbolic framework, we have introduced a new
 symbol, $\bot$. It corresponds to the identifier =false= in Lean, and
 natural language phrases like "this is a contradiction" or "this is
-impossible".
+impossible."
 
 What are the rules governing $\bot$? In natural deduction, there is no
 introduction rule; "false" is false, and there should be no way to
@@ -404,10 +405,10 @@ example : A :=
 have H : false, from sorry,
 show A, from false.elim H
 #+END_SRC
-The false elimination rule is harder to motivate from a natural
-language perspective, but, nonetheless, it is needed to capture
-common patterns of inference. One way to understand it is
-this. Consider the following statement:
+This elimination rule is harder to motivate from a natural language
+perspective, but, nonetheless, it is needed to capture common patterns
+of inference. One way to understand it is this. Consider the following
+statement:
 -----
 For every natural number $n$, if $n$ is prime and greater than 2, then
 $n$ is odd.
@@ -427,13 +428,13 @@ of inference.
 
 Notice that if we define $\neg A$ to be $A \to \bot$, then the rules
 for negation introduction and elimination are nothing more than
-implication introduction and elimination, respectively. We have think
+implication introduction and elimination, respectively. We can think
 of $\neg A$ expressed colorfully by saying "if $A$ is true, then pigs
 have wings," where "pigs have wings" is stands for $\bot$.
 
-Since we have a symbol for "false," it is only fair to introduce a
-symbol for "true". In contrast to the "false", "true" has no
-elimination rule, only an introduction rule:
+Having introduced a symbol for "false," it is only fair to introduce a
+symbol for "true." In contrast to "false," "true" has no elimination
+rule, only an introduction rule:
 \begin{prooftree}
 \AXM{}
 \UIM{\top}
@@ -477,6 +478,10 @@ variables (A B : Prop)
 example : A ∨ B :=
 have H : A, from sorry,
 show A ∨ B, from or.inl H
+
+example : A ∨ B :=
+have H : B, from sorry,
+show A ∨ B, from or.inr H
 #+END_SRC
 You can enter the vee symbol by typing =\or=. The identifiers =inl=
 and =inr= stand for "insert left" and "insert right," respectively.
@@ -545,14 +550,14 @@ temporarily assume =A=, and in the second block, we temporarily assume
 *** If and only if
 
 In mathematical arguments, it is common to say of two statements, $A$
-and $B$, that "$A$ holds if and only if $B$ holds," sometimes
-abbreviated by writing "$A$ iff $B$". The assertion means simply that
-$A$ implies $B$ and $B$ implies $A$. It is not essential that
-we introduce a new symbol into our logical language to model this
-connective, since the statement can be expressed, as we just did, in
-terms of "implies" and "and." But notice that the length of the
-expression doubles, because $A$ and $B$ are each repeated. The logical
-abbreviation is therefore convenient, as well as natural.
+and $B$, that "$A$ holds if and only if $B$ holds." This assertion is
+sometimes abbreviated "$A$ iff $B$," and means simply that $A$ implies
+$B$ and $B$ implies $A$. It is not essential that we introduce a new
+symbol into our logical language to model this connective, since the
+statement can be expressed, as we just did, in terms of "implies" and
+"and." But notice that the length of the expression doubles because
+$A$ and $B$ are each repeated. The logical abbreviation is therefore
+convenient, as well as natural.
 
 The conditions of "Malice and Alice" imply that Alice is in the bar
 if and only if Alice's husband is on the beach. Such a statement is
@@ -574,12 +579,13 @@ Then ...
 Hence Alice is in the bar.
 -----
 Notice that with this example, we have varied the form of
-presentation, stating the main claim first, rather than at the
-end. This kind of "signposting" is common in informal arguments, in
-that is helps guide the reader's expectations and foreshadow where the
-argument is going. The fact that formal systems of deduction do not
-generally model such nuances marks a difference between formal and
-informal arguments, a topic we will return to below.
+presentation, stating the conclusion first, rather than at the end of
+the argument. This kind of "signposting" is common in informal
+arguments, in that is helps guide the reader's expectations and
+foreshadow where the argument is going. The fact that formal systems
+of deduction do not generally model such nuances marks a difference
+between formal and informal arguments, a topic we will return to
+below.
 
 The introduction is modeled in natural deduction as follows:
 \begin{center}
@@ -623,8 +629,15 @@ Alice is in the bar.
 
 Hence, Alice's husband is on the beach.
 -----
-The "right" rule simply runs in the opposite direction. Rendered in
-natural deduction, the rules are as follows:
+The "right" rule simply runs in the opposite direction. 
+-----
+Alice is in the bar if and only if Alice's husband is on the beach.
+
+Alice's husband is on the beach.
+
+Hence, Alice is in the bar.
+-----
+Rendered in natural deduction, the rules are as follows:
 \begin{center}
 \AXM{A \liff B}
 \AXM{A}
@@ -669,7 +682,7 @@ This situation is impossible.
 Therefore Alice's husband was not in the bar.
 -----
 Consider the following argument:
-----
+-----
 Suppose Alice's husband was not on the beach.
 
 ...
@@ -679,37 +692,39 @@ This situation is impossible.
 Therefore Alice's husband was on the beach.
 -----
 At first glance, you might think this argument follows the same
-pattern. But a closer look should reveal a difference: in the first
-argument, a negation is /introduced/ into the conclusion, whereas in
-the second, it is /eliminated/ from the hypothesis. Using negation
-introduction to close the second argument would yield the conclusion
-"It is not the case that Alice's husband was not on the beach." The
-rule of inference that replaces the conclusion with the positive
-statement is called a /proof by contradiction/. (It also has a fancy
+pattern as the one before. But a closer look should reveal a
+difference: in the first argument, a negation is /introduced/ into the
+conclusion, whereas in the second, it is /eliminated/ from the
+hypothesis. Using negation introduction to close the second argument
+would yield the conclusion "It is not the case that Alice's husband
+was not on the beach." The rule of inference that replaces the
+conclusion with the positive statement that Alice's husband /was/ on
+the beach is called a /proof by contradiction/. (It also has a fancy
 name, /reductio ad absurdum/, "reduction to an absurdity.")
 
 It may be hard to see the difference between the two rules, because we
 commonly take the statement "Alice's husband was not not on the beach"
 to be a roundabout and borderline ungrammatical way of saying that
 Alice's husband was on the beach. Indeed, the rule is equivalent to
-adding an axiom that says that for every $A$, not not A is
+adding an axiom that says that for every statement A, "not not A" is
 equivalent to A.
 
-There is a style of doing mathematics "constructively" that denies the
-equivalence of not not A and A. Constructive arguments tend to have
-much better computational interpretations; a proof that something is
-true should provide explicit evidence that the statement is true,
-rather than evidence that it can't possibly be false. We will discuss
-constructive reasoning in a later chapter. Nonetheless, proof by
-contradiction is used extensively in contemporary mathematics, and so,
-in the meanwhile, we will use proof by contradiction freely as one of
-our basic rules.
+There is a style of doing mathematics known as "constructive
+mathematics" that denies the equivalence of "not not A" and
+A. Constructive arguments tend to have much better computational
+interpretations; a proof that something is true should provide
+explicit evidence that the statement is true, rather than evidence
+that it can't possibly be false. We will discuss constructive
+reasoning in a later chapter. Nonetheless, proof by contradiction is
+used extensively in contemporary mathematics, and so, in the
+meanwhile, we will use proof by contradiction freely as one of our
+basic rules.
 
 In natural deduction, proof by contradiction is expressed by the
 following pattern:
 \begin{prooftree}
 \AXM{}
-\UIM{\lnot A}
+\UIM{\neg A}
 \noLine
 \UIM{\vdots}
 \noLine
@@ -756,22 +771,31 @@ label all instances of the hypothesis at the leaves with a letter,
 like "x," and then we will use that letter to annotate the place where
 the rule is canceled.
 
-In addition to all the rules listed in the last section, there is one
+When writing expressions in symbolic logic, we will adopt the an order
+of operations, which allow us to drop superfluous parentheses. When
+parsing an expression:
+- negation binds most tightly
+- then conjunctions and disjunctions, from right to left
+- and finally implications and bi-implications.
+So, for example, the expression $\neg A \vee B \to C \wedge D$ is
+understood as $((\neg A) \vee B) \to (C \wedge D)$
+
+In addition to the rules listed in the last section, there is one
 additional rule that is central to the system, namely the assumption
 rule. It works like this: at any point, you can assume a hypothesis,
-$A$. The way to "read" such a one-line proof is this: assuming $A$,
-you have proved $A$. Without this rule, there would be no way of
-getting a proof of the ground! After all, every rule listed in the
-last section has premises, which is to say, it can only be applied to
-derivations that have been constructed previously.
+$A$. The way to read such a one-line proof is this: assuming $A$, we
+have proved $A$. Without this rule, there would be no way of getting a
+proof off the ground! After all, every rule listed in the last section
+has premises, which is to say, it can only be applied to derivations
+that have been constructed previously.
 
 Let us consider a few examples. In each case, you should think about
 what the formulas say and which rule of inference is invoked at each
 step. Also pay close attention to which hypotheses are canceled at
 each stage. If you look at any node of the tree, what has been
 established at that point is that the claim follows from the
-uncanceled hypotheses. Here is a proof of $(A \wedge (B \vee C)) \to
-((A \wedge B) \vee (A \wedge C))$:
+uncanceled hypotheses. Here is a proof of $A \wedge (B \vee C) \to
+(A \wedge B) \vee (A \wedge C)$:
 \begin{prooftree}
 \AXM{}
 \UIM{y : A \wedge (B \vee C)}
@@ -797,8 +821,7 @@ uncanceled hypotheses. Here is a proof of $(A \wedge (B \vee C)) \to
   (A \wedge C))}
 \end{prooftree}
 
-There is a general heuristic that is useful for deriving theorems like
-these, namely:
+There is a general heuristic for proving theorems in natural deduction:
 1. First, work backwards from the conclusion, using the introduction
    rules. For example, if you are trying to prove a statement of the
    form $A \to B$, add $A$ to your list of hypotheses and try to
@@ -812,15 +835,6 @@ these, namely:
    goals by splitting on cases, considering $A$ in one case and $B$ in
    the other.
 3. If all else fails, use a proof by contradiction.
-
-When writing expressions in symbolic logic, we will adopt the an order
-of operations, which allow us to drop superfluous parentheses. When
-parsing an expression:
--- negation binds most tightly
--- then conjunctions and disjunctions, from right to left
--- and finally implications and bi-implications.
-So, for example, the expression $\neg A \vee B \to C \wedge D$ is
-understood as $((\neg A) \vee B) \to (C \wedge D)$
 
 The next proof shows that if a conclusion, $C$, follows from $A$ and
 $B$, then it follows from their conjunction.
@@ -899,32 +913,33 @@ show (A ∧ B) ∨ (A ∧ C), from
 The first line declares propositional variables =A=, =B=, and =C=. The
 line that begins with the keyword =example= declares the theorem to be
 proved, and the notation =:== indicates that the proof will
-follow. The line breaks and indentation is only for the purposes of
+follow. The line breaks and indentation are only for the purposes of
 readability; Lean would do just was well if the entire proof were
 written as one run-on line.
 
 Here are some additional notes:
 
--- It is often important to name a theorem for future proof. Lean
+- It is often important to name a theorem for future proof. Lean
    allows us to do that, using one of the keywords =theorem=, =lemma=,
    =proposition=, =corollary=, followed by the name of the proof.
 
--- You can omit a label in a =have= statement. You can then refer to
+- You can omit a label in a =have= statement. You can then refer to
    that fact using the label =this=, until the next anonymoyus
    =have=. Alternatively, at any point later in the proof, you can
    refer to the fact by putting the assertion between backticks.
 
--- One can also omit the label in an =assumption= by using the keyword
+- One can also omit the label in an =assumption= by using the keyword
    =suppose= instead.
+
+- Rather than declare variables beforehand, you can declare them in
+  parentheses before the colon the marks the statemet of the theorem.
 
 With these features, the previous proof can be written as follows:
 #+BEGIN_SRC lean
-variables (A B C : Prop)
-
-theorem my_theorem : A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) :=
-assume H₁ : A ∧ (B ∨ C),
-have A, from and.left H₁,
-have B ∨ C, from and.right H₁,
+theorem my_theorem (A B C : Prop) : A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) :=
+assume H : A ∧ (B ∨ C),
+have A, from and.left H,
+have B ∨ C, from and.right H,
 show (A ∧ B) ∨ (A ∧ C), from
   or.elim `B ∨ C`
     (suppose B,
@@ -944,16 +959,14 @@ otherwise used, and one can omit the =show= clauses, giving only the
 justification. As a result, the previous proof can be written in an
 extremely abbreviated form:
 #+BEGIN_SRC lean
-variables (A B C : Prop)
-
-example : A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) :=
+example (A B C : Prop) : A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) :=
 λ H₁, or.elim (and.right H₁)
   (λ H₄, or.inl (and.intro (and.left H₁) H₄))
   (λ H₄, or.inr (and.intro (and.left H₁) H₄))
 #+END_SRC
-Such proofs tend to be harder to write, read, understand, maintain,
-and debug, however, and so we will tend to favor structure and
-readability over brevity.
+Such proofs tend to be hard to write, read, understand, maintain, and
+debug. In this text, we will favor structure and readability over
+brevity.
 
 The next proof in the previous section can be rendered in Lean as
 follows:
@@ -995,8 +1008,8 @@ suppose A,         -- assume the antecedent
 show A, from this  -- use the assuption to establish the conclusion 
 #+END_SRC
 
-You can use =sorry= as a temporary placeholder while writing
-proofs.  
+Notice that you can use =sorry= as a temporary placeholder while
+writing proofs.
 #+BEGIN_SRC lean
 example (A B : Prop) : A ∧ B → B ∧ A :=
 assume H : A ∧ B,
@@ -1004,15 +1017,16 @@ have H1 : A, from and.left H,
 have H2 : B, from and.right H,
 show B ∧ A, from sorry
 #+END_SRC
-You can check the proof, to make sure it is correct modulo the
-=sorry=, and then go on to replace the =sorry= with an actual proof.
+This enables you to check the proof to make sure it is correct modulo
+the =sorry=, before you go on to replace the =sorry= with an actual
+proof.
 
 Here is another useful trick: try replacing the =sorry= by an
 underscore character, =_=. This asks the Lean parser to guess what
 should go there, based on the context. In this case, Lean does not
-succeed, and flags an error message. But the error message is
-informative: it tells you what you need to prove, and what is
-available in the context for you to use.
+succeed, and gives you error message when you try to check the
+proof. But the error message is informative: it tells you what you
+need to prove, and what is available in the context for you to use.
 
 ** Writing Informal Proofs
 
@@ -1028,14 +1042,14 @@ that you should keep in mind.
 For one thing, ordinary proofs tend to favor words over symbols. Of
 course, mathematics uses symbols all the time, but not in place of
 words like "and" and "not"; you will rarely, if ever, see the symbols
-$\wedge$ and $\neg$ in a mathematical text, unless it is a text
+$\wedge$ and $\neg$ in a mathematics textbook, unless it is a textbook
 specifically about logic.
 
 Similarly, the structure of an informal proof is conveyed with
 ordinary paragraphs and punctuation. Don't rely on pictorial diagrams,
 line breaks, and indentation to convey the structure of a
 proof. Rather, you should rely on literary devices like signposting
-and foreshadowing: it is often helpful to present an outline of a
+and foreshadowing. It is often helpful to present an outline of a
 proof or the key ideas before delving into the details, and the
 introductory sentence of a paragraph can help guide a reader's
 expectations, just as it does in an expository essay.
@@ -1072,27 +1086,27 @@ use it freely as a new one-step inference. Similarly, having proved $A
 to $\neg A \wedge \neg B$, one might feel justified in replacing one
 by the other in any expression.
 
-Indeed, this is how informal mathematics works: even if we start with
-very basic patterns of inference, we learn to recognize more complex
-patterns over time, and apply them freely in our proofs. A single step
-in the informal argument in the solution to "Malice and Alice," or any
-mathematical proof, usually requires many more steps in a formal
-calculus. Moreover, in ordinary mathematics, one we prove a
-proposition or theorem, we can freely invoke it in another proof later
-on.
+Indeed, this is how informal mathematics works: we start with basic
+patterns of inference, but over time we learn to recognize more
+complex patterns, and begin to apply them freely in our proofs. A
+single step in the informal argument in the solution to "Malice and
+Alice," or any mathematical proof, usually requires many more steps to
+spell out in a formal calculus. Moreover, in ordinary mathematics, one
+we prove a proposition or theorem, we can freely invoke it in another
+proof later on.
 
 One can extend natural deduction with various mechanisms to abbreviate
-such "derived rules." For the most part, however, we will not bother
-to do so. Natural deduction is designed to model the low-level
-mechanics of a proof, and we will not use it to write long proofs.
+such "derived rules." We will not do so here, however. Natural
+deduction is designed to model the low-level mechanics of a proof and
+let us reason about deduction "from the outside"; we will not use it
+to write long proofs.
 
 In formal verification, however, the goal is to build complex proofs,
 developing libraries for formalized mathematics along the way. To that
 end, Lean allows you to name the theorems you prove:
 #+BEGIN_SRC lean
-variables (A B : Prop)
-
-theorem not_and_not_of_not_or : ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
+theorem not_and_not_of_not_or (A B : Prop) : 
+  ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
 assume H : ¬ (A ∨ B),
 have ¬ A, from
   suppose A,
@@ -1109,9 +1123,8 @@ theorem first (=not_and_not=), followed by the hypotheses (in this
 case, =not_or=), separated by =of=. Thereafter, we can use the theorem
 as a new rule of inference:
 #+BEGIN_SRC lean
-variables (A B : Prop)
-
-theorem not_and_not_of_not_or : ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
+theorem not_and_not_of_not_or (A B : Prop) : 
+  ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
 assume H : ¬ (A ∨ B),
 have ¬ A, from
   suppose A,
@@ -1135,14 +1148,13 @@ Notice that =not_and_not_of_not_or= takes, as arguments, the two
 propositions =C= and =D= to which we want to instantiate the theorem,
 followed by the hypothesis =H=. 
 
-We can tell Lean to make the first twoo arguments implicit, by changing
-=variables (A B : Prop)= to =variables {A B : Prop}=. The curly braces
-ask Lean to infer the values of these arguments from the context. With
-that change, we can write the preceding proof as follows:
+We can tell Lean to make the first two arguments implicit, by changing
+=(A B : Prop)= to ={A B : Prop}=. The curly braces ask Lean to infer
+the values of these arguments from the context. With that change, we
+can write the preceding proof as follows:
 #+BEGIN_SRC lean
-variables {A B : Prop}
-
-theorem not_and_not_of_not_or : ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
+theorem not_and_not_of_not_or {A B : Prop} : 
+  ¬ (A ∨ B) → ¬ A ∧ ¬ B :=
 assume H : ¬ (A ∨ B),
 have ¬ A, from
   suppose A,
@@ -1188,26 +1200,26 @@ have ¬ A, from not_of_not_or_left H,
 have ¬ B, from not_of_not_or_right H,
 show ¬ A ∧ ¬ B, from and.intro `¬ A` `¬ B`
 #+END_SRC
-Later, we will see that Lean has an expansive library of such prior
-theorems, that can be used at will. Ultimately, Lean will also have
-automation that will fill in small steps automatically. In elementary
-exercises, however, we will expect you to carry out such proofs by hand.
+Later, we will see that Lean has an expansive library of theorems.
+Eventually, Lean will also have automation that will fill in small
+steps automatically. In elementary exercises, however, we will expect
+you to carry out such proofs by hand.
 
 To summarize our expectations in this course:
 
--- When we ask you to prove something in natural deduction, our goal
+- When we ask you to prove something in natural deduction, our goal
    is to make you work with the precise, formal rules of the
    system, so you should not appeal to external rules unless we
    explicitly say you can.
 
--- In interactive theorem proving, the main goal is to have the
+- In interactive theorem proving, the main goal is to have the
    computer certify the proof as correct, and in that respect,
    automation and facts from the library are fair game. To learn to
    use the system, however, it is helpful to prove elementary theorems
    by hand. In this class, we will try to be explicit about what we
    would like you to use in the exercises we assign.
 
--- When writing informal proofs, it is a judgment call as to what
+- When writing informal proofs, it is a judgment call as to what
    prior patterns of reasoning and background facts you may appeal
    to. In a classroom setting, the goal may be to demonstrate mastery
    of the subject to the instructors, in which case, context should

@@ -13,12 +13,11 @@ as early as 3000 BC, many scholars locate the birth of mathematics
 proper in ancient Greece around the sixth century BC, when deductive
 proof was first introduced. Aristotle credited Thales of Miletus with
 recognizing the importance of not just what we know but how we know
-it, and finding the appropriate grounds for knowledge via the
-deductive method. Around 300 BC, Euclid codified a deductive approach
-to geometry in his treatise, the /Elements/. Through the centuries,
-Euclid's axiomatic style was held as a paradigm of rigorous
-argumentation, not just in mathematics, but in philosophy and the
-sciences as well.
+it, and finding grounds for knowledge in the deductive method. Around
+300 BC, Euclid codified a deductive approach to geometry in his
+treatise, the /Elements/. Through the centuries, Euclid's axiomatic
+style was held as a paradigm of rigorous argumentation, not just in
+mathematics, but in philosophy and the sciences as well.
 
 Here is an example of an ordinary proof, in contemporary mathematical
 language. It establishes a fact that was known to the Pythagoreans.
@@ -82,6 +81,9 @@ q_2 \cdot \ldots \cdot q_v,
 a product of primes, as required.
 
 -----
+Later, we will see that more is true: every natural number greater
+than 2 can be written as a product of primes in a unique way, a fact
+known as the /fundamental theorem of arithmetic/.
 
 The first goal of this course is to teach you to write clear, readable
 mathematical proofs. We will do this by considering a number of
@@ -92,12 +94,12 @@ understanding of how they work.
 
 ** Symbolic Logic
 
-Towards gaining a better understanding of how proofs work, it will be
-helpful to study a subject known as "symbolic logic," which provides
-an idealized model of mathematical language and proof. In the /Prior
-Analytics/, the ancient Greek philosopher set out to analyze patterns
-of reasoning, and developed the theory of the /syllogism/. Here is
-one instance of a syllogism:
+Towards understanding how proofs work, it will be helpful to study a
+subject known as "symbolic logic," which provides an idealized model
+of mathematical language and proof. In the /Prior Analytics/, the
+ancient Greek philosopher set out to analyze patterns of reasoning,
+and developed the theory of the /syllogism/. Here is one instance of a
+syllogism:
 
 -----
 Every man is an animal.
@@ -109,7 +111,7 @@ Therefore every man is mortal.
 
 Aristotle observed that the correctness of this inference has nothing
 to do with the truth or falsity of the individual statements, but,
-rather, then general pattern:
+rather, the general pattern:
 
 -----
 Every A is B.
@@ -119,13 +121,13 @@ Every B is C.
 Therefore every A is C.
 -----
 
-We can substitute various properties for A, B, and C: try substituting
+We can substitute various properties for A, B, and C; try substituting
 the properties of being a fish, being a unicorn, being a swimming
-creature, being a mythical creature, etc. The various statements may
-come out true or false, but all the instantiations will have the
-following crucial feature: if the two hypotheses come out true, then
-the conclusion comes out true as well. We express this by saying that
-the inference is /valid/.
+creature, being a mythical creature, etc. The various statements that
+result may come out true or false, but all the instantiations will
+have the following crucial feature: if the two hypotheses come out
+true, then the conclusion comes out true as well. We express this by
+saying that the inference is /valid/.
 
 Although the patterns of language addressed by Aristotle's theory of
 reasoning are limited, we have him to thank for a crucial insight: we
@@ -145,13 +147,13 @@ blossomed into the field of mathematical logic.
 
 If you consider the examples of proofs in the last section, you will
 notice that some terms and rules of inference are specific to the
-subject matter at hand, having to do with numbers, the properties of
-being prime, composite, even, odd, and so on. But there are other
+subject matter at hand, having to do with numbers, and the properties
+of being prime, composite, even, odd, and so on. But there are other
 terms and rules of inference that are not domain specific, such as
 those related to the words "every," "some," "and," and "if ... then."
 The goal of symbolic logic is to identify these core elements of
-reasoning and argumentation and explain how they work, as well as
-to explain how more domain-specific notions are introduced and used.
+reasoning and argumentation and explain how they work, as well as to
+explain how more domain-specific notions are introduced and used.
 
 To that end, we will introduce symbols for key logical notions,
 including the following:
@@ -169,7 +171,7 @@ The proof system we will use is a version of /natural deduction/, a
 type of proof system introduced by Gerhard Gentzen in the 1930's to
 model informal styles of argument. In this system, the fundamental
 unit of judgement is the assertion that an assertion, $A$,
-follows from a finite set of assertions, $\Gamma$. This is written as
+follows from a finite set of hypotheses, $\Gamma$. This is written as
 $\Gamma \vdash A$. If $\Gamma$ and $\Delta$ are two finite sets of
 hypotheses, we will write $\Gamma, \Delta$ for the /union/ of these
 two sets, that is, the set consisting of all the hypotheses in
@@ -207,7 +209,7 @@ Even}(b^2))$}
 \UnaryInfC{${\mathsf Even}(b)$}
 \end{prooftree}
 
-The complexity of such proofs can quickly grown out of hand, and
+The complexity of such proofs can quickly grow out of hand, and
 complete proofs of even elementary mathematical facts can become quite
 long. Such systems are not designed for writing serious
 mathematics. Rather, they provide idealized models of mathematical
@@ -236,11 +238,12 @@ that can be stored and checked by computer. Automated methods can be
 used to fill in small gaps by hand, verify long calculations
 axiomatically, or fill in long chains of inferences
 deterministically. The reach of automation is currently fairly
-limited, however, and the general goal is for users to present just
-enough information to the system to enable it to construct and check a
-formal derivation. This typically involves writing proofs in a sort of
-"programming language" that is designed with that purpose in mind. For
-example, here is a short proof in the /Lean/ theorem prover:
+limited, however. The strategy used in interactive theorem proving is
+to ask users to provide just enough information for the system to be
+able to construct and check a formal derivation. This typically
+involves writing proofs in a sort of "programming language" that is
+designed with that purpose in mind. For example, here is a short proof
+in the /Lean/ theorem prover:
 #+BEGIN_SRC lean
 section
 variables (p q : Prop)
@@ -255,8 +258,8 @@ end
 #+END_SRC
 If you are reading the present text in online form, you will find a
 button underneath the formal "proof script" that says "Try it
-yourself." Pressing the button copies the proof to an editor window at
-right, and runs a version of /Lean/ inside your browser to process the
+Yourself." Pressing the button copies the proof to an editor window at
+right, and runs a version of Lean inside your browser to process the
 proof, turn it into an axiomatic derivation, and verify its
 correctness. You can experiment by varying the text in the editor and
 pressing the "play" button to see the result.
@@ -286,10 +289,10 @@ absurd `2 ∣ 1` dec_trivial
 #+END_SRC
 
 The third goal of this course is to teach you to write elementary
-proofs in /Lean/. The facts that we will ask you to prove in Lean will
+proofs in Lean. The facts that we will ask you to prove in Lean will
 be more elementary than the informal proofs we will ask you to write,
 but our intent is that formal proofs will model and clarify the
-informal proof strategies we will teach.
+informal proof strategies we will teach you.
 
 ** The Semantic Point of View
 
@@ -305,12 +308,14 @@ symbols have a fixed meaning, such as the symbols for "and," "or," and
 "not," and others have a meaning that is taken to vary. For example,
 the expression $P \wedge (Q \vee R)$, read "$P$ and either $Q$ or
 $R$," may be true or false /depending on the basic assertions that
-$P$, $Q$, and $R$/; more specifically, on their truth values. For
-example, if $P$, $Q$, and $R$ stand for "seven is prime," "seven is
-even," and "seven is odd," respectively, then the expression is
-true. If we replace "seven" by "six," the statement is false. More
-generally, the expression comes out true whenever $P$ is true and at
-least one of $Q$ and $R$ is true, and false otherwise.
+$P$, $Q$, and $R$ and for/. More precisely, the truth of the compound
+expression depends only on whether the component symbols denote
+expressions that are true or false. For example, if $P$, $Q$, and $R$
+stand for "seven is prime," "seven is even," and "seven is odd,"
+respectively, then the expression is true. If we replace "seven" by
+"six," the statement is false. More generally, the expression comes
+out true whenever $P$ is true and at least one of $Q$ and $R$ is true,
+and false otherwise.
 
 From this perspective, logic is not so much a language for asserting
 truth, but a language for describing possible states of affairs. In
@@ -319,25 +324,24 @@ that can be true or false depending on how we interpret the symbols
 that are allowed to vary. For example, if we fix the meaning of the
 basic predicates, the statement "there is a red block between two blue
 blocks" may be true or false of a given "world" of blocks, and we can
-take the expression to pick out the set of worlds in which it is true.
-
-Such a view of logic is important in computer science, where we use
-logical expressions to select entries from a database matching certain
-criteria, to specify properties of hardware and software systems, or
-to specify constraints that we would like a constraint solver to
-satisfy.
+take the expression to describe the set of worlds in which it is
+true. Such a view of logic is important in computer science, where we
+use logical expressions to select entries from a database matching
+certain criteria, to specify properties of hardware and software
+systems, or to specify constraints that we would like a constraint
+solver to satisfy.
 
 There are important connections between the syntactic / deductive
-point of view, on the one hand, and the semantic / model-theoretic
-point of view, on the other. We will explore some of these along the
-way. For example, we can view the "valid" assertions as those that are
-true under all possible interpretations of the non-fixed symbols, and
-the "valid" inferences as those that maintain truth in all possible
-states and affairs. From this point of view, a deductive system should
-only allow us to derive valid assertions and entailments, a property
-known as /soundness/. If a deductive system is strong enough to allow
-us to verify /all/ valid assertions and entailments, it is said to be
-/complete/.
+point of view on the one hand, and the semantic / model-theoretic
+point of view on the other. We will explore some of these along the
+way. For example, we will see that it is possible to view the "valid"
+assertions as those that are true under all possible interpretations
+of the non-fixed symbols, and the "valid" inferences as those that
+maintain truth in all possible states and affairs. From this point of
+view, a deductive system should only allow us to derive valid
+assertions and entailments, a property known as /soundness/. If a
+deductive system is strong enough to allow us to verify /all/ valid
+assertions and entailments, it is said to be /complete/.
 
 The fourth goal of course is to convey the semantic view of logic, and
 understand how logical expressions can be used to characterize states
@@ -352,16 +356,16 @@ To summarize, these are the goals of this course:
 - to teach you to understand how to use logic as a precise
   specification language.
 
-Let us take a moment to comment on the relationship between some of
+Let us take a moment to consider the relationship between some of
 these goals. It is important not to confuse the first three. We are
-dealing with three different kinds of mathematical language: ordinary
+dealing with three kinds of mathematical language: ordinary
 mathematical language, the symbolic representations of mathematical
 logic, and computational implementations in interactive proof
-assistants. These are very different things! 
+assistants. These are very different things!
 
 Symbolic logic is not meant to replace ordinary mathematical language,
 and you should not use symbols like $\wedge$ and $\vee$ in ordinary
-mathematical proofs, any more than you would use them in place of the
+mathematical proofs any more than you would use them in place of the
 words "and" and "or" in letters home to your parents. Natural
 languages provide nuances of expression that can convey levels of
 meaning and understanding that go beyond pattern matching to verify
@@ -382,45 +386,11 @@ mind, they aim to bridge the gap between the two.
 
 ** About These Notes
 
-/Lean/ is a new theorem prover, and is still under development.
+Lean/ is a new theorem prover, and is still under development.
 Similarly, these notes are being written on the fly as the class
-proceeds. The first time through, parts will necessarily be sketchy,
-buggy, and incomplete. They will therefore at best serve as a
-supplement to class notes and the textbook, Daniel Velleman's /How to
-Prove it: A Structured Approach/. Please bear with us! Your feedback
-will be quite helpful to improving the notes.
+proceeds, and parts will be sketchy, buggy, and incomplete. They will
+therefore at best serve as a supplement to class notes and the
+textbook, Daniel Velleman's /How to Prove it: A Structured
+Approach/. Please bear with us! Your feedback will be quite helpful to
+us.
 
-
-# ** LaTeX Examples
-
-# *** Proof Trees
-
-# \begin{prooftree}
-# \AxiomC{$A \lor B$}
-# \AxiomC{[$A$]}
-# \noLine
-# \UnaryInfC{$C$}
-# \AxiomC{[$B$]}
-# \noLine
-# \UnaryInfC{$C$}
-# \TrinaryInfC{$C$}
-# \end{prooftree}
-
-# *** align environment
-
-# \begin{align*}
-# \sin A \cos B &= \frac{1}{2}\left[ \sin(A-B)+\sin(A+B) \right] \\
-# \sin A \sin B &= \frac{1}{2}\left[ \sin(A-B)-\cos(A+B) \right] \\
-# \cos A \cos B &= \frac{1}{2}\left[ \cos(A-B)+\cos(A+B) \right] \\
-# \end{align*}
-
-# ** Sample Text
-
-# If $a^2=b$ and \( b=2 \), then the solution must be either $$
-# a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
-
-# This says, "if you know $\phi \to \psi$, and you know $\phi$, then you
-# can conclude $\psi$."  Once again, all the assumptions you made in the
-# proofs of $\phi \to \psi$ and $\phi$ are in force. The introduction
-# rule for implication is more subtle, becausein this rule a hypothesis
-# can be cancelled.

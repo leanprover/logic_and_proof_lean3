@@ -1233,17 +1233,16 @@ To summarize our expectations in this course:
 
 In informal mathematics, it is usually clearer to give a "direct"
 proof of a theorem, rather than using proof by contradiction. But
-proof by contradiction is sometimes necessary. At a foundational
-level, it is used to derive other classical patterns of reasoning.
+proof by contradiction is sometimes necessary, and, at a foundational
+level, it can be used to derive other classical patterns of reasoning.
 
 For example, we have seen that if you know $A \vee B$, you can use
 that knowledge to reason on cases, assuming first $A$, and then
 $B$. In mathematical arguments, however, one often splits a proof into
-two cases, assuming first $A$ and then $\neg A$, for some statement
-$A$. Using the elimination rule for disjunction, this is equivalent to
-using $A \vee \neg A$, a classical principle known as the law of the
-excluded middle. Here is a proof of this, in natural deduction, using
-a proof by contradiction:
+two cases, assuming first $A$ and then $\neg A$. Using the elimination
+rule for disjunction, this is equivalent to using $A \vee \neg A$, a
+classical principle known as the law of the excluded middle. Here is a
+proof of this, in natural deduction, using a proof by contradiction:
 \begin{prooftree}
 \AXM{}
 \RLM{y}
@@ -1279,7 +1278,7 @@ by_contradiction
     have A ∨ ¬ A, from or.inr `¬ A`,
     show false, from H this)
 #+END_SRC
-The principle is known as the "law of the excluded middle," because it
+The principle is known as the law of the excluded middle because it
 says that a proposition =A= is either true or false; there is no
 middle ground. As a result, the theorem is named =em= in the Lean
 library. For any proposition =A=, =em A= denotes a proof of =A ∨ ¬ A=,
@@ -1287,9 +1286,7 @@ and you are free to use it any time =classical= is open:
 #+BEGIN_SRC lean
 open classical
 
-variable (A : Prop)
-
-example : A ∨ ¬ A :=
+example (A : Prop) : A ∨ ¬ A :=
 or.elim (em A)
   (suppose A, or.inl this)
   (suppose ¬ A, or.inr this)
@@ -1298,16 +1295,14 @@ Or even more simply:
 #+BEGIN_SRC lean
 open classical
 
-variable (A : Prop)
-
-example : A ∨ ¬ A :=
+example (A : Prop) : A ∨ ¬ A :=
 em A
 #+END_SRC
 
 Here is another example. Intuitively, asserting "if A then B" is
 equivalent to saying that it cannot be the case that A is true and B
-is false. Classical reasoning is needed to get us from the latter to
-the former:
+is false. Classical reasoning is needed to get us from the second
+statement to the first.
 \begin{prooftree}
   \AXM{}
   \RLM{z}

@@ -3,15 +3,12 @@
 
 * Truth Tables and Semantics
 
-In the previous sections, we've seen how to prove logical formulas
-from hypotheses. A formula that can be derived from no hypotheses is
-said to be a  /tautology/: for example, $A \to A$ is true no matter what we
-suppose about $A$.
+In the last chapter, we saw how to prove a formula of propositional
+logic from hypotheses. Some formulas are provable outright, from no
+hypotheses at all, such as the formula $A \to A$.
 
-Not every sentence is a tautology, of course. Earlier we saw the example $A
-\to B$.  We cannot derive this formula without some extra assumptions
-about $A$ and $B$.  Try it:
-
+It seems intuitively clear that, in contrast, we cannot prove the
+formula $A \to B$ without additional assumptions. Try it in Lean:
 #+BEGIN_SRC lean
 variables A B : Prop
 
@@ -19,43 +16,45 @@ example : A → B :=
 assume H : A,
 show B, from sorry
 #+END_SRC
-
-Without some more information, there's no argument we could put in
-place of the "sorry" to complete this proof. After all, $B$ could be
+It should seem unlikely that there is an argument we could put in
+place of the "sorry" to complete this proof. After all, =B= could be
 false!
 
-What do we mean by "false," exactly? Notice that we've been careful
-not to use the words "true" and "false" before now. Deductions and
-formal proofs are /syntactic/ ideas- that is, they have to do with the
-symbols and symbolic structure of the formulas involved. Truth is a
-/semantic/ notion- it ascribes some extra-logical /meaning/ to the
-symbols involved.
+What do we mean by "false," exactly? We used the identifiers =true=
+and =false= to denote certain propositions in Lean, but here we are
+using the words in a difference sense, as values, or judgments, we
+can assign to propositional formulas. Such evaluations belong to the
+realm of /semantics/. Formulas and formal proofs of /syntactic/
+notions, which is to say, they are represented by symbols and symbolic
+structures. Truth is a /semantic/ notion, in that it ascribes a type
+of /meaning/ to certain formulas.
 
 Syntactically, we were able to ask and answer questions like the
 following:
-- Can I derive a certain formula from certain hypotheses?
-- How do I derive a certain formula from certain hypotheses?
-- What formulas can I derive from certain hypotheses?
+- Given a set of hypotheses, $\Gamma$, and a formula, $A$, can we
+  drive $A$ from $\Gamma$?
+- What formulas can be derived from $\Gamma$?
+- What hypotheses are need to derive $A$?
 
-The questions we consider semantically are slightly different:
-- Given a truth assignment for propositional variables, is a certain
-  formula true or false?
-- Is there any truth assignment that makes a certain formula true?
-- Under what conditions is a certain formula true or false?
+The questions we consider semantically are different:
+- Given an assignment of truth values, $v$, to the propositional
+  variables occuring in a formula $A$, is $A$ true or false?
+- Is there any truth assignment that makes $A$ true?
+- Which are the truth assignments that make $A$ true?
 
-Our notions of syntax and semantics have developed carefully, so that
-they exist in harmony. We'll expand on this in the next section. For
-now, we'll discuss the basic methods we use to answer semantic
-questions.
+These syntactic and semantic notions complement each other, in ways we
+will describe below. But first, we will discuss methods we can use to
+answer semantic questions like the ones above.
 
 ** Truth values and assignments
 
-The first notion we'll need is that of a /truth value/. Conveniently,
-we know our two truth values already: they're just "true" and "false."
-(We'll use the symbols $\true$ and $\false$ in informal math, and
-=true= and =false= in Lean.)
+The first notion we will need is that of a /truth value/. We have
+already seen two, namely, "true" and false". We will use the symbols
+$\true$ and $\false$ in informal mathematics. These are the values
+that $\top$ and $\bot$ are intended to denote in natural deduction,
+and =true= and =false= are intended to denote in Lean.
 
-In this class, we'll adopt a "classical" notion of truth, following our
+In this text, we will adopt a "classical" notion of truth, following our
 discussion in section 2.8. This notion
 comes with many implications. For now, though, it means only the
 following: any proposition is either true or false, but not both. This
@@ -67,173 +66,192 @@ $A \vee \neg A$.  Semantically, we read this sentence as saying
 exactly when $A$ is false, it equivalently says "either $A$ is true,
 or $A$ is false."
 
-The next notion we'll need is that of a /truth assignment/.  A truth
-assignment simply tells us which atomic statements are true, and which
-are false. In formal logic, this amounts to a mapping from our
-propositional letters $A$, $B$, etc. to the set of truth values $\{
-\true, \false \}$. For instance,
+The next notion we will need is that of a /truth assignment/, which is
+simply a function that assigns a truth value to each element of a
+propositional variables. For example, the function $v$ defined by
  
-- $A := \true$
-- $B := \false$
-- $C := \false$
-- $D := \true$
+- $v(A) := \true$
+- $v(B) := \false$
+- $v(C) := \false$
+- $v(D) := \true$
 
-is a (partial) truth assignment. Technically, a truth assignment
-should give a value to each one of the (infinitely many) propositional
-letters. But since we will only ever look at finite collections of
-formulas with finitely many propositional letters, we only need to
-think about truth assignments that give values to finitely many
-letters.
+is a truth assignment for the set of variables $\{ A, B, C, D \}$. 
 
 Intuitively, a truth assignment describes a possible "state of the
 world." Going back to the Malice and Alice puzzle, let's suppose the
 following letters are shorthand for the statements:
+
 - $P$ := Alice's brother was the victim
 - $Q$ := Alice was the killer
 - $R$ := Alice was in the bar
 
-In the "real world" -- that is, the world described by the solution to
-the puzzle -- the first and third statements are true, and the second
-is false. So our truth assignment gives the value $\true$ to $P$ and
-$R$, and the value $\false$ to $Q$.
+In the world described by the solution to the puzzle, the first and
+third statements are true, and the second is false. So our truth
+assignment gives the value $\true$ to $P$ and $R$, and the value
+$\false$ to $Q$.
 
-** Semantics of negation, conjunction, and disjunction
+** Evaluating Formulas
 
-Once we have a truth assignment, we can extend it to a /valuation
-function/. While the truth assignment gives a value $\true$ or
-$\false$ only to each propositional letter, the valuation function
-gives a value to every logical formula. This function behaves about as
-you'd expect. If $v$ is a truth assignment function, its corresponding
-valuation function $v'$ is defined recursively as follows:
-- $v'(\top) = \true$
-- $v'(\bot) = \false$
-- $v'(\ell) = v(\ell)$, where $\ell$ is any propositional letter.
-- $v'(\neg \varphi) = \true$ if $v'(\varphi)$ is $\false$, and vice
+Once we have a truth assignment $v$ to a set of propositional
+variables, we can extend it to a /valuation function/ $\bar v$, which
+assigns a value of true or false to every propositional formula that
+depends only on these variables. The function $\bar v$ is defined
+recursively, which is to say, formulas are evaluated from the bottom
+up, so that value assigned to a compound formula is determined by the
+values assigned to its components. Formally, the function is defined
+as follows:
+- $\bar v(\top) = \true$
+- $\bar v(\bot) = \false$
+- $\bar v(\ell) = v(\ell)$, where $\ell$ is any propositional variable.
+- $\bar v(\neg \varphi) = \true$ if $\bar v(\varphi)$ is $\false$, and vice
   versa.
-- $v'(\varphi \wedge \psi) = \true$ if $v'(\varphi)$ and $v'(\psi)$
-  are both $\true$; otherwise $\false$.
-- $v'(\varphi \vee \psi) = \true$ if at least one of $v'(\varphi)$ and
-  $v'(\psi)$ is $\true$; otherwise $\false$.
-- $v'(\varphi \to \psi) = \true$ if either $v'(\psi)$ is $\true$ or
-  $v'(\varphi)$ is $\false$; otherwise $\false$. (Equivalently,
-  $v'(\varphi \to \psi) = \false$ when $v'(\varphi)$ is $\true$ and
-  $v'(psi)$ is $\false$; otherwise true.)
+- $\bar v(\varphi \wedge \psi) = \true$ if $\bar v(\varphi)$ and $\bar
+  v(\psi)$ are both $\true$, and $\false$ otherwise.
+- $\bar v(\varphi \vee \psi) = \true$ if at least one of $\var v(\varphi)$ and
+  $\bar v(\psi)$ is $\true$; otherwise $\false$.
+- $\bar v(\varphi \to \psi) = \true$ if either $\bar v(\psi)$ is $\true$ or
+  $\bar v(\varphi)$ is $\false$, and $\false$ otherwise. (Equivalently,
+  $\bar v(\varphi \to \psi) = \false$ if $\bar v(\varphi)$ is $\true$ and
+  $\bar v(\psi)$ is $\false$, and $\true$ otherwise.)
   
 The rules for conjunction and disjunction are easy to understand. "A
-and B" is true exactly when both parts are true; "A or B" is true when
-at least one part is true. These rules should sound very similar to
-the introduction rules we saw earlier.
+and B" is true exactly when A and B are both true; "A or B" is true when
+at least one of A or B is true.
 
-** Semantics of implication
-
-Implication is a little trickier. People are often surprised to hear
-that any if-then statement with a false hypothesis is supposed to be
-true! The statement "if I have two heads, then circles are squares"
-/sounds/ false to most people, but by our definition above, a "real
-world" truth assignment would make it true. To clear up this
-confusion, think about the difference between the two sentences:
+Understanding the rule for implication is trickier. People are often
+surprised to hear that any if-then statement with a false hypothesis
+is supposed to be true. The statement "if I have two heads, then
+circles are squares" may sound like it ought to be false, but by our
+reckoning, it comes out true. To make sense of this, think about the
+difference between the two sentences:
 - "If I have two heads, then circles are squares."
 - "If I had two heads, then circles would be squares."
+The second sentence is an example of a /counterfactual/
+implication. It asserts something about how the world might change, if
+things were other than they actually are. Philosophers have studied
+counterfactuals for centuries, but in mathematical logic is concerned
+with the first sentence, a /material/ implication. The material
+implication asserts something about the way the world is right now,
+rather than the way it might have been. Since it is false that I
+have two heads, the statement "if I have two heads, then circles are
+squares" is true.
 
-The latter sentence is known as a /counterfactual/ implication. It
-asserts something about how the world might change, if things were
-other than they actually are. Philosophers have studied
-counterfactuals for centuries, but in mathematical logic, we're more
-concerned with the former kind of sentence. The conditional here, the
-same one we got familiar with earlier, is known as the /material/
-implication. The material implication only asserts something about the
-way the world is right now. So, since it's false that I have two
-heads, the statement "if I have two heads, then circles are squares"
-is true.
-
-Why do we use this definition for the material implication? Consider
-the true sentence "every natural number that is prime and greater than
-two is odd." We can interpret this sentence as saying that all of the
-(infinitely many) sentences in this list are true:
+Why do we evaluate material implication in this way? Once again, let
+us consider the true sentence "every natural number that is prime and
+greater than two is odd." We can interpret this sentence as saying
+that all of the (infinitely many) sentences in this list are true:
 - if 0 is prime and greater than 2, then 0 is odd
 - if 1 is prime and greater than 2, then 1 is odd
 - if 2 is prime and greater than 2, then 2 is odd
 - if 3 is prime and greater than 2, then 3 is odd
 - $\vdots$
 
-The first sentence on this list sounds a lot like our two heads
-example: both the hypothesis and the conclusion are false. But we need
-the whole sentence to be true! The second sentence is a little
-different: the hypothesis is still false, but the conclusion is
+The first sentence on this list is a lot like our "two heads" example,
+since both the hypothesis and the conclusion are false. But since it
+is an instance of a statement that is true in general, we are
+committed to assigning it the value $\true$.  The second sentence is a
+different: the hypothesis is still false, but here the conclusion is
 true. Together, these tell us that whenever the hypothesis is false,
-the conditional should be true. The fourth sentence has a true
-hypothesis and a true conclusion. So from the second and fourth
+the conditional statement should be true. The fourth sentence has a
+true hypothesis and a true conclusion. So from the second and fourth
 sentences, we see that whenever the conclusion is true, the
 conditional should be true as well.  Finally, it seems clear that the
-sentence "if 3 is prime and greater than 2, then 3 is even" shoud
-/not/ be true. The true hypothesis, false conclusion pattern is the
-only one for which the conditional will be false.
+sentence "if 3 is prime and greater than 2, then 3 is even" should
+/not/ be true. This pattern, where the hypothesis is true and the
+conclusion is false, is the only one for which the conditional will be
+false.
 
-Let's motivate the semantics for material implication one more
-way. Hopefully, we shouldn't be able to prove anything that's false!
-Notice that, if $B$ is true, we can prove $A \to B$ without any
-assumptions about $A$:
-
+Let us motivate the semantics for material implication another way,
+using the deductive rules described in the last chapter. Notice that,
+if $B$ is true, we can prove $A \to B$ without any assumptions about
+$A$.
+\begin{prooftree}
+\AXM{B}
+\UIM{A \to B}
+\end{prooftree}
+This follows from the proper reading of the implication introduction
+rule: given $B$, one can always infer $A \to B$, and then cancel an
+assumption $A$, \emph{if there is one}. If $A$ was never used in the
+proof, the conclusion is simply weaker than it needs to be. This
+inference is validated in Lean:
 #+BEGIN_SRC lean
-section
-parameters A B : Prop
-hypothesis Hb : B
+variables A B : Prop
+premise HB : B
 
 example : A → B :=
-assume A, 
-  show B, from Hb
+assume HA : A, 
+  show B, from HB
 end
 #+END_SRC
-
 Similarly, if $A$ is false, we can prove $A \to B$ without any
 assumptions about $B$:
-
+\begin{prooftree}
+\AXM{\neg A}
+\AXM{}
+\UIM{H : A}
+\BIM{\bot}
+\RLM{H}
+\UIM{A \to B}
+\end{prooftree}
+In Lean:
 #+BEGIN_SRC lean
 section
 parameters A B : Prop
-hypothesis Hna : ¬ A
+hypothesis HnA : ¬ A
 
 example : A → B :=
-assume Ha : A, 
-  show B, from false.elim (Hna Ha)
+assume HA : A, 
+  show B, from false.elim (HnA HA)
 end
 #+END_SRC
 
-And finally, if $A$ is true and $B$ is false, we can prove $\neg (A
+Finally, if $A$ is true and $B$ is false, we can prove $\neg (A
 \to B)$:
-
+\begin{prooftree}
+\AXM{\neg B}
+\AXM{}
+\UIM{H : A \to B}
+\AXM{A}
+\BIM{B}
+\BIM{\bot}
+\RLM{H}
+\UIM{\neg (A \to B)}
+\end{prooftree}
+Once again, in Lean:
 #+BEGIN_SRC lean
-section
-parameters A B : Prop
-hypothesis Ha : A
-hypothesis Hnb : ¬B
+variables A B : Prop
+premise HA : A
+premise HnB : ¬B
 
 example : ¬ (A → B) :=
 assume H : A → B,
-  show false, from Hnb (H Ha)
-end
+have HB : B, from H HA,
+show false, from HnB HB
 #+END_SRC
 
 ** Finding truth assignments
 
-Now that we've defined the truth of any formula relative to a truth
-assignment, we can answer our first semantic question. Given a truth
-assignment, how do we find the truth of a formula? Well, use the truth
-values of the propositional letters to find the truth values of the
-subterms in which they occur. Then use the truth values of those
-subterms to evaluate the subterms in which /they/ occur, and so
-on. For an example, suppose our truth assignment makes $A$ and $B$
-true, and $C$ false. To evaluate $((B \to C) \vee (A \wedge B))$, note
-that the subterm $B \to C$ is false and the subterm $A \wedge B$ is
+Now that we have defined the truth of any formula relative to a truth
+assignment, we can answer our first semantic question: given an
+assignment $v$ of truth values to the propositional variables occuring
+in some formula $\ph$, how do we determine whether or not $\ph$ is
+true?  This amounts to evaluating $\bar v(\ph)$, and the recursive
+definition of $\ph$ gives a recipe: we evaluate the expressions
+occurring in $\ph$ from the bottom up, starting with the propositional
+variables, and using the evaluation of an expression's components to
+evaluate the expression itself. For example, suppose our truth
+assignment $v$ makes $A$ and $B$ true and $C$ false. To evaluate $(B
+\to C) \vee (A \wedge B)$ under $v$, note that the expression $B \to
+C$ comes out false and the expression $A \wedge B$ comes out
 true. Since a disjunction "false or true" is true, the entire formula
 is true.
 
 We can also go in the other direction: given a formula, we can attempt
-to find a truth assignment that will make it true (or
-false). Conveniently, Lean is able to evaluate formulas for us.
-
-Try creating some truth assignments yourself! You can add your own
-formulas at the bottom too.
+to find a truth assignment that will make it true (or false). In fact,
+we can use Lean to evaluate formulas for us. In the example that
+follows, you can assign any set of values to the proposition symbols
+=A=, =B=, =C=, =D=, and =E=. When you run Lean on this input, the
+output of the =eval= statement is the value of the expression.
 #+BEGIN_SRC lean
 -- Define your truth assignment here, by changing the true/false values as you wish.
 definition A : Prop := true
@@ -245,15 +263,16 @@ definition E : Prop := false
 -- Ignore this line.
 attribute A B C D E [reducible] 
 
--- Try to find truth assignments that make each of the following sentences 
--- evaluate to true.
--- For an extra challenge, try finding one truth assignment that makes them all true!
-
 eval is_true ((A ∧ B) ∨ C)
 eval is_true (A → D)
 eval is_true (C → (D ∨ ¬E))
 eval is_true (¬(A ∧ B ∧ C ∧ D))
 #+END_SRC
+Try varying the truth assignments, to see what happens. You can add
+your own formulas to the end of the input, and evaluate them as
+well. Try to find truth assignments that make each of the formulas
+tested above evaluate to true. For an extra challenge, try finding a single
+truth assignment that makes them all true at the same time.
 
 *** Truth tables
 
@@ -276,7 +295,7 @@ value of the entire formula under the corresponding assignment.
 
 To begin with, truth tables can be used to concisely summarize the
 semantics of our logical connectives:
-
+\begin{center}
 \begin{tabular} {|c|c||c|}
 \hline
 $A$      & $B$      & $A \wedge B$ \\ \hline
@@ -285,7 +304,7 @@ $\true$  & $\false$ & $\false$     \\ \hline
 $\false$ & $\true$  & $\false$     \\ \hline
 $\false$ & $\false$ & $\false$     \\ \hline
 \end{tabular}
-
+\quad
 \begin{tabular} {|c|c||c|}
 \hline
 $A$      & $B$      & $A \vee B$ \\ \hline
@@ -294,7 +313,7 @@ $\true$  & $\false$ & $\true$      \\ \hline
 $\false$ & $\true$  & $\true$      \\ \hline
 $\false$ & $\false$ & $\false$     \\ \hline
 \end{tabular}
-
+\quad
 \begin{tabular} {|c|c||c|}
 \hline
 $A$      & $B$      & $A \to B$ \\ \hline
@@ -303,9 +322,9 @@ $\true$  & $\false$ & $\false$     \\ \hline
 $\false$ & $\true$  & $\true$      \\ \hline
 $\false$ & $\false$ & $\true$      \\ \hline
 \end{tabular}
-
-(For an easy exercise, try to write the table for $\neg A$ on your
-own.)
+\end{center}
+We wil leave it to you to write the tabel for $\neg A$, as an easy
+exercise.
 
 For compound formulas, the style is much the same. Sometimes it can be
 helpful to include intermediate columns with the truth values of

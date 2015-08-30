@@ -129,7 +129,7 @@ difference between the two sentences:
 The second sentence is an example of a /counterfactual/
 implication. It asserts something about how the world might change, if
 things were other than they actually are. Philosophers have studied
-counterfactuals for centuries, but in mathematical logic is concerned
+counterfactuals for centuries, but mathematical logic is concerned
 with the first sentence, a /material/ implication. The material
 implication asserts something about the way the world is right now,
 rather than the way it might have been. Since it is false that I
@@ -320,7 +320,7 @@ $\false$ & $\true$  & $\true$      \\ \hline
 $\false$ & $\false$ & $\true$      \\ \hline
 \end{tabular}
 \end{center}
-We wil leave it to you to write the tabel for $\neg A$, as an easy
+We will leave it to you to write the tabel for $\neg A$, as an easy
 exercise.
 
 For compound formulas, the style is much the same. Sometimes it can be

@@ -1,0 +1,325 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://https://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* First Order Logic
+
+Propositional logic provides a good start at describing the general
+principles of logical reasoning, but it does not go far enough. Some
+of the limitations are apparent even in the "Malice and Alice" example
+from Chapter [[file:02_Propositional_Logic::#Propositional_Logic.org][Propositional Logic]]. Propositional logic does not give us
+the means to express a general principle that tells us that if Alice
+is with her son on the beach, then her son is with Alice; the general
+fact that no child is younger than his or her parent; or the general
+fact that if someone is alone, they are not with someone else. To
+express principles like these, we need a way to talk about objects and
+individuals, as well as their properties and the relationships between
+them. These are exactly what is provided by a more expressive logical
+framework known as /first-order logic/, which will be the topic of
+the next few chapters.
+
+** Functions, Relations, and Predicates
+
+Consider some ordinary statements about the natural numbers:
+- Every natural number is even or odd, but not both.
+- A natural number is even if and only if it is divisible by two.
+- If some natural number, $x$, is even, then so is $x^2$.
+- A natural number $x$ is even if and only if $x + 1$ is odd.
+- For any three natural numbers $x$, $y$, and $z$, is $x$ divides $y$
+  and $y$ divides $z$, then $x$ divides $z$.
+These statements are true, but we generally do not think of them as
+/logically/ valid: they depend on assumptions about the natural
+numbers, the meaning of the terms "even" and "odd," and so on. But
+once we accept the first statement, for example, it seems to be a
+logical consequence that the number of stairs in the White House is
+either even or odd, and, in particular, if it is not even, it is
+odd. To make sense of inferences like these, we need a logical system
+that can deal with objects, their properties, and relations between
+them.
+
+Rather than fix a single language once and for all, first-order logic
+allows us to specify the symbols we wish to use for any given domain
+of interest. In this section, we will use the following running
+example:
+- the domain of interest is the natural numbers, $\mathbb{N}$.
+- there are objects, $1$, $2$, $3$, ...
+- there are functions, addition and multiplication, as well as the
+  square function, on this domain.
+- there are predicates on this domain, "even," "odd," "prime"
+- there are relations between elements of this domain, "equal," "less
+  than", and "divides".
+For our logical language, we will choose symbols 1, 2, 3,
+$\fn{add}$, $\fn{mul}$, $\fn{square}$, $\fn{even}$, $\fn{odd}$, $\fn{prime}$,
+$\fn{lt}$, and so on, to denote these things. We will also have
+variables $x$, $y$, and $z$ ranging over the natural numbers. Note all
+of the following.
+- Functions can take any number of arguments: if $x$ and $y$ are
+  natural numbers, it makes sense to write $\fn{mul}(x, y)$ and
+  $\fn{square}(x)$. so $\fn{mul}$ takes two arguments, and
+  $\fn{square}$ takes only one.
+- Predicates and relations can also be understood in these terms. The
+  predicates $\fn{even}(x)$ and $\fn{prime}(x)$ take one argument,
+  while the binary relations $\fn{divides}(x, y)$ and $\fn{lt}(x,y)$
+  take two arguments.
+- Functions are different from predicates! A function takes one or
+  more arguments, and returns a /value/. A predicate takes one or more
+  arguments, and is either true or false. We can think of predicates
+  as returning propositions, rather than values.
+- In fact, we can think of the constant symbols $1, 2, 3, \ldots$ as
+  special sorts of function symbols that take zero
+  arguments. Analogously, we can consider the predicates that take
+  zero arguments to be the constant logical values, $\top$ and $\bot$.
+- In ordinary mathematics, we often use "infix" notation for binary
+  functions and relations. For example, we usually write $x \times y$
+  or $x \cdot y$ intead of $\fn{mul}(x, y)$, and we write $x < y$
+  instead of $\fn{lt}(x, y)$. We will use these conventions when
+  writing proofs in natural deduction, and they are supported in Lean
+  as well.
+- We will treat the equality relation, $x = y$, as a special binary
+  relation that is included in every first-order language.
+
+What makes the language of first-order logic powerful is that one can
+build complex expressions out of the basic ones. Starting with the
+variables and constants, we can use the function symbols to build up
+compound expressions like these:
+\begin{equation*}
+x + y + z, \quad (x + 1) \times y \times y, \quad \fn{square} (x + y \times z)
+\end{equation*}
+Such expressions are called "terms." Intuitively, they name objects
+in the intended domain of discourse.
+
+Now, using the predicates and relation symbols, we can make assertions
+about these expressions:
+\begin{equation*}
+\fn{even}(x + y + z), \quad \fn{prime}((x + 1) \times y \times y), \quad
+\square (x + y \times z) = w, \quad x + y < z
+\end{equation*}
+Even more interestingly, we can use propositional connectives to build
+compound expressions like these:
+- $\fn{even}(x + y + z) \wedge \fn{prime}((x + 1) \times y \times y)$
+- $\neg (\fn{square} (x + y \times z) = w) \vee x + y < z$
+- $x < y \wedge \fn{even}(x) \wedge \fn{even}(y) \to x + 1 < y$
+The second one, for example, asserts that either $(x + yz)^2$ is not
+equal to $w$, or $x + y$ is less than $z$. Remember, these are
+expressions in symbolic logic; in ordinary mathematics, we would
+express the notions using words like "is even" and "if and only if,"
+as we did above. We will use notation like this whenever we are in the
+realm of symbolic logic, for example, when we write proofs in natural
+deduction. Expressions like these are called /formulas/. In contrast
+to terms, which name things, formulas {\em say things}; in other words, they
+make assertions about objects in the domain of discourse.
+
+One can also declare function and relation symbols in Lean. For
+example, the symbols we have just discussed could be introduced as
+follows:
+#+BEGIN_SRC lean
+constant mul : ℕ → ℕ → ℕ
+constant add : ℕ → ℕ → ℕ
+constant square : ℕ → ℕ
+constant even : ℕ → Prop
+constant odd : ℕ → Prop
+constant prime : ℕ → Prop
+constant divides : ℕ → ℕ → Prop
+constant lt : ℕ → ℕ → Prop
+constant zero : ℕ
+constant one : ℕ
+#+END_SRC
+You can enter =ℕ= with =\nat=. In Lean, the =check= command can be
+used to make sure an expression is well-formed, and determine what
+kind of expression it is:
+#+BEGIN_SRC lean
+constant mul : ℕ → ℕ → ℕ
+constant add : ℕ → ℕ → ℕ
+constant square : ℕ → ℕ
+constant even : ℕ → Prop
+constant odd : ℕ → Prop
+constant prime : ℕ → Prop
+constant divides : ℕ → ℕ → Prop
+constant lt : ℕ → ℕ → Prop
+constant zero : ℕ
+constant one : ℕ
+
+-- BEGIN
+variables w x y z : ℕ
+
+check mul x y
+check add x y
+check square x
+check even x
+-- END
+#+END_SRC
+We can even declare infix notation of binary operations and relations:
+#+BEGIN_SRC lean
+constant mul : ℕ → ℕ → ℕ
+constant add : ℕ → ℕ → ℕ
+constant square : ℕ → ℕ
+constant even : ℕ → Prop
+constant odd : ℕ → Prop
+constant prime : ℕ → Prop
+constant divides : ℕ → ℕ → Prop
+constant lt : ℕ → ℕ → Prop
+constant zero : ℕ
+constant one : ℕ
+
+variables w x y z : ℕ
+
+check mul x y
+check add x y
+check square x
+check even x 
+
+-- BEGIN
+infix + := add
+infix * := mul
+infix < := lt
+-- END
+#+END_SRC
+(Getting notation for numerals =1=, =2=, =3=, ... is trickier.) With
+all this in place, the examples above can be rendered as follows:
+#+BEGIN_SRC lean
+constant mul : ℕ → ℕ → ℕ
+constant add : ℕ → ℕ → ℕ
+constant square : ℕ → ℕ
+constant even : ℕ → Prop
+constant odd : ℕ → Prop
+constant prime : ℕ → Prop
+constant divides : ℕ → ℕ → Prop
+constant lt : ℕ → ℕ → Prop
+constant zero : ℕ
+constant one : ℕ
+
+variables w x y z : ℕ
+
+check mul x y
+check add x y
+check square x
+check even x 
+
+infix + := add
+infix * := mul
+infix < := lt
+
+-- BEGIN
+check even (x + y + z) ∧ prime ((x + one) * y * y)
+check ¬ (square (x + y * z) = w) ∨ x + y < z
+check x < y ∧ even x ∧ even y → x + one < y
+-- END
+#+END_SRC
+In fact, all of the functions, predicates, and relations discussed
+here, except for the "square" function and "prime," are defined in the
+core Lean library. They become available to us when we put the commands
+=import data.nat= and =open nat= at the top of a file in Lean.
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+constant square : ℕ → ℕ
+constant prime : ℕ → Prop
+
+variables w x y z : ℕ
+
+check even (x + y + z) ∧ prime ((x + 1) * y * y)
+check ¬ (square (x + y * z) = w) ∨ x + y < z
+check x < y ∧ even x ∧ even y → x + 1 < y
+#+END_SRC
+Here, we declare the constants =square= and =prime= axiomatically, but
+refer to the other operations and predicates in the Lean library. In
+this course, we will often proceed in this way, telling you explicitly
+what facts from the library you should use for exercises.
+
+Here are some things to note about the syntax of expression in Lean:
+- In contrast to ordinary mathematical notation, in Lean, functions
+  are applied without parentheses or commas. For example, we write
+  =square x= and =add x y= instead of $\fn{square}(x)$ and
+  $\fn{add}(x, y)$.
+- The same holds for predicates and relations: we write =even x= and
+  =lt x y= instead of $\fn{even}(x)$ and $\fn{lt}(x, y)$, as one might
+  do in symbolic logic.
+- The notation =add : ℕ → ℕ → ℕ= indicates that addition takes two
+  arguments, both natural numbers, and returns a natural number.
+- Similarly, the notation =divides : ℕ → ℕ → Prop= indicates that
+  =divides= is a binary relation, which takes two natural numbers as
+  arguments and forms a proposition. In other words, =divides x y=
+  expresses the assertion that =x= divides =y=.
+
+Lean can help us distinguish between terms and formulas. If we =check=
+the expression =x + y + 1= in Lean, we are told it has type =ℕ=, which
+is to say, it denotes a natural number. If we =check= the expression
+=even (x + y + 1)=, we are told that it has type =Prop=, which is to
+say, it expresses a proposition.
+
+** Quantifiers 
+
+There are two more ingredients to the language of first-order logic,
+namely, the universal and existential quantifiers. The universal
+quantifier, $\forall$, followed by a variable $x$ is meant to
+represent the phrase "for every $x$." In other words, it asserts that
+every value of $x$ has the property in question. Using the universal
+quantifier, the examples with which we began this previous section can
+be expressed as follows:
+\begin{itemize}
+\item $\fa x ((\fn{even}(x) \vee \fn{odd}(x)) \wedge \neg
+(\fn{even}(x) \wedge \neg \fn{odd}(x)))$.
+\item $\fa x (\fn{even}(x) \to \fn{even}(x^2))$
+\item $\fa x (\fn{even}(x) \liff 2 | x)$
+\item $\fa x \fa y \fa z (x | y \wedge y | z \to x | z)$.
+\end{itemize}
+It is common to combine multiple quantifiers of the same kind, and
+write, for example, $\fa {x, y, z} (x | y \wedge y | z \to x | z)$ in
+the last expression.
+
+In Lean, you can enter the universal quantifier by writing =\all=. The
+same examples are rendered as follows:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+variables x y z : ℕ
+
+check ∀ x, (even x ∨ odd x) ∧ ¬ (even x ∧ odd x)
+check ∀ x, even x ↔ 2 ∣ x
+check ∀ x, even x → even (x^2)
+check ∀ x, even x ↔ odd (x + 1)
+check ∀ x y z, x ∣ y → y ∣ z → x ∣ z
+#+END_SRC
+Here are some notes on syntax:
+- In symbolic logic, the universal quantifier is usually taken to bind
+  tightly. For example, $\fa x P \vee Q$ is interpreted as $(\fa x P)
+  \vee Q$, and we would write $\fa x (P \vee Q)$ to extend the scope.
+- In contrast, Lean expects a comma after that universal quantifer,
+  and gives the it the /widest/ scope possible. For example, =∀ x, P ∨
+  Q= is interpreted as =∀ x, (P ∨ Q)=, and we would write =(∀ x, P) ∨
+  Q= to limit the scope.
+- After the quantifier $\forall x$, the variable $x$ is /bound/. For
+  example, the expression $\fa x (\fn{even}(x) \vee \fn{odd}(x))$ is
+  expresses that every number is even or odd. Notice that the variable
+  $x$ does not appear anywhere in the informal statement. The
+  statement is not about $x$ at all; rather $x$ is a dummy variable, a
+  placeholder that stands for the "thing" referred to within a phrase
+  that beings with the words "every thing." We think of the expression 
+  $\fa x (\fn{even}(x) \vee \fn{odd}(x))$ as being the same as the
+  expression $\fa x (\fn{even}(y) \vee \fn{odd}(y))$. Lean treats
+  these expressions as the same as well. 
+
+Dual to the universal quantifier is the existential quantifier,
+$\exists$, which is used to express assertions such as "some number is
+even," or, "between any two even numbers there is an odd number." We
+will discuss the existential quantifier and its use in a later
+chapter. 
+
+Indeed, to complete the presentation of first-order logic, we need to
+present the rules of the universal quantifier, the existential
+quantifier, and equality in natural deduction, and in Lean. In this
+chapter, we will start with the rules for the universal quantifier,
+and provide examples of the kinds of mathematical arguments they are
+intended to model.
+
+# ** Rules for the Universal Quantifier
+
+
+# ** Examples from Number Theory
+
+# ** Multiple Sorts and Relativization
+
+# examples from geometry -- points and lines.
+
+# ** Naive Set Theory

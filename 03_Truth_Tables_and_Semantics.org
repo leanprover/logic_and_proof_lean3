@@ -54,17 +54,15 @@ $\true$ and $\false$ in informal mathematics. These are the values
 that $\top$ and $\bot$ are intended to denote in natural deduction,
 and =true= and =false= are intended to denote in Lean.
 
-In this text, we will adopt a "classical" notion of truth, following our
-discussion in section 2.8. This notion
-comes with many implications. For now, though, it means only the
-following: any proposition is either true or false, but not both. This
-means a proposition cannot be neither true nor false.
-
-This binary conception of truth corresponds to the syntactic tautology
-$A \vee \neg A$.  Semantically, we read this sentence as saying
-"either $A$ is true, or $\neg A$ is true." Since $\neg A$ is true
-exactly when $A$ is false, it equivalently says "either $A$ is true,
-or $A$ is false."
+In this text, we will adopt a "classical" notion of truth, following
+our discussion in Section [[file:02_Propositional_Logic.org::#Classical_Reasoning][Classical Reasoning]]. This can be understood
+in various ways, but, concretely, it comes down to this: we will
+assume that any proposition is either true or false, but not
+both. This conception of truth is what underlies the law of the
+excluded middle, $A \vee \neg A$. Semantically, we read this sentence
+as saying "either $A$ is true, or $\neg A$ is true." Since, in our
+semantic interpretation, $\neg A$ is true exactly when $A$ is false,
+the law of the excluded middle says that $A$ is either true or false.
 
 The next notion we will need is that of a /truth assignment/, which is
 simply a function that assigns a truth value to each element of a

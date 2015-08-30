@@ -2,6 +2,9 @@
 #+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://https://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
 
 * Propositional Logic
+:PROPERTIES:
+  :CUSTOM_ID: Propositional_Logic
+:END:
 
 ** A Puzzle
 
@@ -1230,6 +1233,9 @@ To summarize our expectations in this course:
    and how much detail you need to use.
 
 ** Classical Reasoning
+:PROPERTIES:
+  :CUSTOM_ID: Classical_Reasoning
+:END:
 
 In informal mathematics, it is usually clearer to give a "direct"
 proof of a theorem, rather than using proof by contradiction. But

@@ -2,11 +2,18 @@
 
 # Logic and Proof
 
-CMU Undergrad Course
+An undergraduate introductory course on logic and proof.
 
  - Web : https://leanprover.github.io/logic_and_proof
  - PDF : https://leanprover.github.io/logic_and_proof/logic_and_proof.pdf
 
+Note: the course is being developed in a downstream fork:
+ 
+ - Web : https://avigad.github.io/logic_and_proof
+ - PDF : https://avigad.github.io/logic_and_proof/logic_and_proof.pdf
+
+This version may be slightly more up to date. To deploy this version,
+replace "leanprover" by "avigad" in the instructions below.
 
 How to Build
 ------------

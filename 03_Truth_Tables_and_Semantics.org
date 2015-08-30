@@ -181,7 +181,6 @@ premise HB : B
 example : A → B :=
 assume HA : A, 
   show B, from HB
-end
 #+END_SRC
 Similarly, if $A$ is false, we can prove $A \to B$ without any
 assumptions about $B$:
@@ -195,14 +194,12 @@ assumptions about $B$:
 \end{prooftree}
 In Lean:
 #+BEGIN_SRC lean
-section
-parameters A B : Prop
-hypothesis HnA : ¬ A
+variables A B : Prop
+premise HnA : ¬ A
 
 example : A → B :=
 assume HA : A, 
   show B, from false.elim (HnA HA)
-end
 #+END_SRC
 
 Finally, if $A$ is true and $B$ is false, we can prove $\neg (A

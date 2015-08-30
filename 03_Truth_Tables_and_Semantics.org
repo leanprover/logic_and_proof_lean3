@@ -24,7 +24,7 @@ What do we mean by "false," exactly? We used the identifiers =true=
 and =false= to denote certain propositions in Lean, but here we are
 using the words in a difference sense, as values, or judgments, we
 can assign to propositional formulas. Such evaluations belong to the
-realm of /semantics/. Formulas and formal proofs of /syntactic/
+realm of /semantics/. Formulas and formal proofs are /syntactic/
 notions, which is to say, they are represented by symbols and symbolic
 structures. Truth is a /semantic/ notion, in that it ascribes a type
 of /meaning/ to certain formulas.
@@ -37,7 +37,7 @@ following:
 - What hypotheses are need to derive $A$?
 
 The questions we consider semantically are different:
-- Given an assignment of truth values, $v$, to the propositional
+- Given an assignment of truth values to the propositional
   variables occuring in a formula $A$, is $A$ true or false?
 - Is there any truth assignment that makes $A$ true?
 - Which are the truth assignments that make $A$ true?

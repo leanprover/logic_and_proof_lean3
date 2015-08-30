@@ -186,7 +186,7 @@ it explicit in the conclusion.
 \noLine
 \UIM{\vdots}
 \noLine
-\UIM{\psi}
+\UIM{B}
 \RL{$\mathord{\to}\mathrm{I}, H$}
 \UIM{A \to B}
 \DP

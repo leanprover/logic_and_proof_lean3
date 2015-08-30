@@ -308,7 +308,7 @@ symbols have a fixed meaning, such as the symbols for "and," "or," and
 "not," and others have a meaning that is taken to vary. For example,
 the expression $P \wedge (Q \vee R)$, read "$P$ and either $Q$ or
 $R$," may be true or false /depending on the basic assertions that
-$P$, $Q$, and $R$ and for/. More precisely, the truth of the compound
+$P$, $Q$, and $R$ stand for/. More precisely, the truth of the compound
 expression depends only on whether the component symbols denote
 expressions that are true or false. For example, if $P$, $Q$, and $R$
 stand for "seven is prime," "seven is even," and "seven is odd,"
@@ -386,7 +386,7 @@ mind, they aim to bridge the gap between the two.
 
 ** About These Notes
 
-Lean/ is a new theorem prover, and is still under development.
+/Lean/ is a new theorem prover, and is still under development.
 Similarly, these notes are being written on the fly as the class
 proceeds, and parts will be sketchy, buggy, and incomplete. They will
 therefore at best serve as a supplement to class notes and the

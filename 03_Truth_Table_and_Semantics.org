@@ -49,7 +49,7 @@ answer semantic questions like the ones above.
 ** Truth values and assignments
 
 The first notion we will need is that of a /truth value/. We have
-already seen two, namely, "true" and false". We will use the symbols
+already seen two, namely, "true" and "false." We will use the symbols
 $\true$ and $\false$ in informal mathematics. These are the values
 that $\top$ and $\bot$ are intended to denote in natural deduction,
 and =true= and =false= are intended to denote in Lean.
@@ -107,7 +107,7 @@ as follows:
   versa.
 - $\bar v(\varphi \wedge \psi) = \true$ if $\bar v(\varphi)$ and $\bar
   v(\psi)$ are both $\true$, and $\false$ otherwise.
-- $\bar v(\varphi \vee \psi) = \true$ if at least one of $\var v(\varphi)$ and
+- $\bar v(\varphi \vee \psi) = \true$ if at least one of $\bar v(\varphi)$ and
   $\bar v(\psi)$ is $\true$; otherwise $\false$.
 - $\bar v(\varphi \to \psi) = \true$ if either $\bar v(\psi)$ is $\true$ or
   $\bar v(\varphi)$ is $\false$, and $\false$ otherwise. (Equivalently,
@@ -144,7 +144,7 @@ that all of the (infinitely many) sentences in this list are true:
 - if 1 is prime and greater than 2, then 1 is odd
 - if 2 is prime and greater than 2, then 2 is odd
 - if 3 is prime and greater than 2, then 3 is odd
-- $\vdots$
+- ...
 
 The first sentence on this list is a lot like our "two heads" example,
 since both the hypothesis and the conclusion are false. But since it
@@ -329,7 +329,7 @@ exercise.
 For compound formulas, the style is much the same. Sometimes it can be
 helpful to include intermediate columns with the truth values of
 subformulas:
-
+\begin{center}
  \begin{tabular} {|c|c|c||c|c||c|}
 \hline 
 $A$      & $B$      & $C$      & $A \to B$ & $B \to C$ & $(A \to B) \vee (B \to C)$ \\ \hline
@@ -342,127 +342,211 @@ $\false$ & $\true$  & $\false$ & $\true$   & $\false$  & $\true$   \\ \hline
 $\false$ & $\false$ & $\true$  & $\true$   & $\true$   & $\true$   \\ \hline
 $\false$ & $\false$ & $\false$ & $\true$   & $\true$   & $\true$   \\ \hline
 \end{tabular}
+\end{center}
+By writing out the truth table for a formula, we can glance at the
+rows and see which truth assignments make the formula true. If all the
+entries in the final column are $\true$, as in the above example, the
+formula is said to be /valid/.
 
-By writing out the truth table for a formula, we can easily glance at
-the rows and see which truth assignments make the formula true. If all
-the entries in the final column are $\true$ -- as in the above example
--- the formula is said to be /valid/.
-
-We can use Lean to check if we've created truth tables correctly:
-
+We can use Lean to check if whether we have evaluated a formula
+correctly:
 #+BEGIN_SRC lean
--- Ignore this line.
-definition prop_dec_eq [instance] (A B : Prop) [Ha : decidable A] [Hb : decidable B] : 
-           decidable (A = B) := 
-  if H : A ↔ B then decidable.inl (propext H) else decidable.inr (λ I, H (by rewrite I))
+/-                   Put your formula here  -/
+/-                   \/                     -/
+eval let e :=
+  λ A      B,        A ∧ (B → A)   in is_true (
+( e true   true   ↔  true          ) ∧
+( e true   false  ↔  true          ) ∧
+( e false  true   ↔  false         ) ∧
+( e false  false  ↔  false         ) )
+#+END_SRC
+You can replace the formula =A ∧ (B → A)= with any other formula
+involving the variables =A= and =B=. Then, leaving the first two
+columns alone, modify the third column by entering the value =true= or
+=false= corresponding to the assignment in the first two columns. The
+resulting expression will evaluate to true if and only if you have
+entered the correct truth values.
 
--- If you've filled in the truth table correctly, the eval statement
--- will return true.
+(The precise mechanism by which this works is not important right now,
+but in case you are curious, the idea is as follows. In the
+expression, the =e= is "locally" defined to be the function which
+takes two truth values =A= and =B= as input, and evaluates =A ∧ (B →
+A)= relative to these inputs. For each line in the truth table, the
+expression checks whether the formula evaluates to the value you
+entered, and takes the conjunction of the results.)
 
-eval
-     /- don't modify these columns.      Put your formula here: -/ 
-                         /-                      \/             -/  
-let l := λ       A          B,              A ∧ (B → A)                in is_true (
-l             true  /--/  true  /--/ =        true                     ∧
-l             true  /--/  false /--/ =        true                     ∧
-l             false /--/  true  /--/ =        false                    ∧
-l             false /--/  false /--/ =        false                    )
-
-
-
-eval
-            /- don't modify these columns -/       /- Put your formula here: -/ 
-                                                   /-         \/             -/  
-let l := λ       A          B           C,               A ∧ (B → C)      /--/        in is_true (
-l               true  /--/  true  /--/  true  /--/  =        true                     ∧
-l               true  /--/  true  /--/  false /--/  =        false                    ∧
-l               true  /--/  false /--/  true  /--/  =        true                     ∧
-l               true  /--/  false /--/  false /--/  =        true                     ∧
-l               false /--/  true  /--/  true  /--/  =        false                    ∧
-l               false /--/  true  /--/  false /--/  =        false                    ∧
-l               false /--/  false /--/  true  /--/  =        false                    ∧
-l               false /--/  false /--/  false /--/  =        false                    )
+Here is the analogous setup for three variables:
+#+BEGIN_SRC lean
+eval let e :=
+  λ A      B      C,        A ∧ (B → C)   in is_true (
+( e true   true   true   ↔  true          ) ∧ 
+( e true   true   false  ↔  false         ) ∧
+( e true   false  true   ↔  true          ) ∧
+( e true   false  false  ↔  true          ) ∧
+( e false  true   true   ↔  false         ) ∧
+( e false  true   false  ↔  false         ) ∧
+( e false  false  true   ↔  false         ) ∧
+( e false  false  false  ↔  false         ) )
 #+END_SRC
 
-** A Complete Proof System
+** Soundness and Completeness
 
-We've seen two closely related notions, one syntactic and one 
-semantic. A formula is
-a /tautology/ if it can be derived from no hypotheses, and /valid/ if
-it evaluates to true under every truth assignment. Intuitively, these
-notions should be the same. Any statement that we can /prove/ should 
-be /true/, and any statement that's /true/ should be /provable/.
+Fix a deductive system, such as natural deduction. A
+propositional formula is said to be /provable/ if there is a formal
+proof of it in the system. A propositional formula is said to be a
+/tautology/, or /valid/, if it is true under any truth
+assignment. Provability is a syntactic notion, insofar as it asserts
+the existence of a syntactic object, namely, a proof. Validity is a
+semantic notion, insofar as it has to do with truth assignments and
+valuations. But, intuitively, these notions should coincide: both
+express the idea that a formula $A$ /has/ to be true, or is
+/necessarily/ true, and one would expect a good proof system to enable
+us to derive the valid formulas.
 
-Because of the way we've chosen our inference rules and valuation
-function, this intuition holds true. The first direction -- that
-we can only prove true statements -- is known as /soundness/. The
-second direction -- that we can prove every true statement -- is known
-as /completeness/.
+Because of the way we have chosen our inference rules and defined the
+notion of a valuation, this intuition holds true. The statement that
+every provable formula is valid is known as /soundness/, and the
+statement that we can prove every valid formula is known as
+/completeness/.
 
-To show that our proof system is sound, suppose that we have a proof
-of some formula $\varphi$ with no hypotheses. We proceed by induction
-on the length of this proof.
+These notions extend to provability from hypotheses. If $\Gamma$ is a
+set of propositional formulas and $A$ is a propositional formula, then
+$A$ is said to be a /logical consequence/ of $\Gamma$ if, given any
+truth assignment that makes every formula in $\Gamma$ true, $A$ is
+true as well. In this extended setting, soundness says that if $A$ is
+provable from $\Gamma$, then $A$ is a logical consequence of
+$\Gamma$. Completeness runs the other way: if $A$ is a logical
+consequence of $\Gamma$, it is provable.
 
-If the proof has only one inference step, this step must be truth
-introduction, and $\varphi$ must be $\top$. This is because truth
-introduction is our only inference rule that has no hypotheses. Since
-$\top$ always evaluates to true, we are done.
+Notice that with the rules of natural deduction, a formula $A$ is
+provable from a set of hypotheses $\{ B_1, B_2, \ldots, B_n \}$ if and only
+if the formula $B_1 \wedge B_2 \wedge \cdots \wedge B_n \to A$ is
+provable outright, that is, from no hypotheses. So, at least for
+finite sets of formulas $\Gamma$, the two statements of soundness and
+completeness are equivalent.
 
-Now, suppose that any statement we can prove with fewer than $n$
-inference steps must be true, and suppose our proof of $\varphi$ has
-exactly $n$ steps. We examine the final step of the proof.
+Proving soundness and completeness belongs to the realm of
+/metatheory/, since it requires us to reason about our methods of
+reasoning. This is not a central focus of this course: we are more
+concerned with /using/ logic and the notion of truth than with
+establishing their properties. But the notions of soundness and
+completeness play an important role in helping us understand the
+nature of the logical notions, and so we will try to provide some
+hints here as to why these properties hold for propositional logic.
 
-- If this final step is $\top$ I, then again, $\varphi$
-  must be $\top$ which evaluates to true.
-- If this final step is $\bot$ E, then we must have a proof of
-  $\bot$ using $n-1$ steps. But by our induction hypothesis, this means
-  that $\bot$ must be true, which cannot be. So the final step cannot
-  be false elimination.
-- If the final step is $\to$ I, then $\varphi$ has the form 
-  $\varphi_1 \to \varphi_2$ and we have a proof in $n-1$ steps
-  that $\varphi_2$ follows from the hypothesis $\varphi_1$. This means
-  that any truth assignment making the hypothesis $\varphi_1$ true must
-  make $\varphi_2$ true as well. And this is exactly the condition
-  under which $\varphi_1 \to \varphi_2$ evaluates to true.
-- Since $\neg$ I is an instance of $\to$ I when $\neg \psi$ is defined to be
-  $\psi \to \bot$, this case is subsumed by the previous.
-- If the final step if $\to$ E, then we have some $psi$ and proofs 
-  of $\psi \to \varphi$ and $\psi$ totaling $n-1$ steps. Thus by our
-  induction hypothesis, $\psi$ and $\psi \to \varphi$ must be valid;
-  if $\psi$ is always true, and $\psi \to \varphi$ is always true,
-  then $\varphi$ must always be true as well.
-- If the final step is $\neg$ E, then we have a proof in $n-1$ steps that
-  $\bot$ follows from the hypothesis $\neg \varphi$. So, any truth
-  assignment that makes $\neg \varphi$ true will make $\bot$ true.
-  But since $\bot$ will never be true, $\neg \varphi$ will never be true,
-  so equivalently $\varphi$ can never be false.
-- If the final step is $\vee$ I, then $\varphi$ has the form
-  $\varphi_1 \vee \varphi_2$, and we have a proof of one of these in $n-1$
-  steps. Suppose for simplicity it's $\varphi_1$. Then $\varphi_1$ must
-  be true, by the induction hypothesis, and $\varphi_1 \vee \varphi_2$
-  must be true by the semantics of $\vee$.
-- If the final step is $\vee$ E, then we have proofs of three formulas
-  totaling $n-1$ steps: $\psi_1 \vee \psi_2$, $\psi_1 \to \varphi$,
-  and $\psi_2 \to \varphi$. Since the disjunction is true, at least one
-  of the disjuncts must be true, and combining this disjunct with 
-  the appropriate one of the two implications shows us that $\varphi$
-  is true as well.
-- Finally, $\wedge$ I and $\wedge$ E are the simplest of the cases.
-  We leave these as an exercise for you!
+Proving soundness is easier. We wish to show that whenever $A$ is
+provable from a set of hypotheses, $\Gamma$, then $A$ is a logical
+consequence of $\Gamma$. In a later chapter, we will consider proofs
+by induction, which allows us to establish a property holds of a
+general collection of objects by showing that it holds of some
+"simple" ones and is preserved under the passage to objects that are
+more complex. In the case of natural deduction, it is enough to show
+that soundness holds of the most basic proofs --- using the assumption
+rule --- and that it is preserved under each rule of inference. The
+base case is easy: the assumption rule says that $A$ is provable from
+hypothesis $A$, and clearly every truth assignment that makes $A$ true
+makes $A$ true. The inductive steps are not much harder; it involves
+checking that the rules we have chosen mesh with the semantic
+notions. For example, suppose the last rule is the and introduction
+rule. In that case, we have a proof of $A$ from some hypotheses
+$\Gamma$, and a proof of $B$ from some hypotheses $\Delta$, and we
+combine these to form a proof of $A \wedge B$ from the hypotheses in
+$\Gamma \cup \Delta$, that is, the hypotheses in both. Inductively, we
+can assume that $A$ is a logical consequence of $\Gamma$ and that $B$
+is a logical consequence of $\Delta$. Let $v$ be any truth assignment
+that makes every formula in $\Gamma \cup \Delta$ true. Then by the
+inductive hypothesis, we have that it makes $A$ true, and $B$ true as
+well. By the definition of the valuation function, $\bar v (A \wedge
+B) = \true$, as required.
 
-What have we shown? We've shown that when we have a proof of $\varphi$
-from no assumptions, no matter what that proof looks like, $\varphi$
-must be true under all truth assignments. So we cannot prove anything
-that is not valid: this is /soundness/.
+Proving completeness is harder. It suffices to show that if $A$ is any
+tautology, then $A$ is provable. One strategy is to show that natural
+deduction can simulate the method of truth tables. For example,
+suppose $A$ is build up from propositional variables $B$ and $C$. Then
+in natural deduction, we should be able to prove 
 
-If you were asked to show that a formula is provable, you'd know
-how to do it: you'd find a proof of that formula. Arguing that a formula
-is /not/ provable seems trickier, but our soundness theorem helps us our
-here! If we can find a truth assignment that makes a formula false,
-then that formula is not valid, and hence we cannot prove it. By this
-reasoning, it's impossible to prove $A \to B$ without any extra assumptions.
+\begin{equation*}
+(B \wedge C) \vee (B \wedge \neg C) \vee (\neg B \wedge C) \vee
+(\neg B \wedge \neg C),
+\end{equation*}
 
-CONTINUE: completeness
+with one disjunct for each line of the truth table. Then, we should
+be able to use each disjunct to "evaluate" each expression occurring
+in $A$, proving it true or false in accordance with its valuation,
+until we have a proof of $A$ itself.
 
-** Exercises
+A nicer way to proceed is to express the rules of natural deduction
+in a way that allows us to work backwards from $A$ in search of a
+proof. In other words, first, we give a procedure for constructing a
+derivation of $A$ by working backwards from $A$. Then we argue that if
+the procedure fails, then, at the point where it fails, we can find a
+truth assignment that makes $A$ false. As a result, if every truth
+assignment makes $A$ true, the procedure returns a proof of $A$.
 
+# JA : I think the proof below is more detail than we can / want
+# students to see at this stage.
+
+# To show that our proof system is sound, suppose that we have a proof
+# of some formula $\varphi$ with no hypotheses. We proceed by induction
+# on the length of this proof.
+
+# If the proof has only one inference step, this step must be truth
+# introduction, and $\varphi$ must be $\top$. This is because truth
+# introduction is our only inference rule that has no hypotheses. Since
+# $\top$ always evaluates to true, we are done.
+
+# Now, suppose that any statement we can prove with fewer than $n$
+# inference steps must be true, and suppose our proof of $\varphi$ has
+# exactly $n$ steps. We examine the final step of the proof.
+
+# - If this final step is $\top$ I, then again, $\varphi$
+#   must be $\top$ which evaluates to true.
+# - If this final step is $\bot$ E, then we must have a proof of
+#   $\bot$ using $n-1$ steps. But by our induction hypothesis, this means
+#   that $\bot$ must be true, which cannot be. So the final step cannot
+#   be false elimination.
+# - If the final step is $\to$ I, then $\varphi$ has the form 
+#   $\varphi_1 \to \varphi_2$ and we have a proof in $n-1$ steps
+#   that $\varphi_2$ follows from the hypothesis $\varphi_1$. This means
+#   that any truth assignment making the hypothesis $\varphi_1$ true must
+#   make $\varphi_2$ true as well. And this is exactly the condition
+#   under which $\varphi_1 \to \varphi_2$ evaluates to true.
+# - Since $\neg$ I is an instance of $\to$ I when $\neg \psi$ is defined to be
+#   $\psi \to \bot$, this case is subsumed by the previous.
+# - If the final step if $\to$ E, then we have some $psi$ and proofs 
+#   of $\psi \to \varphi$ and $\psi$ totaling $n-1$ steps. Thus by our
+#   induction hypothesis, $\psi$ and $\psi \to \varphi$ must be valid;
+#   if $\psi$ is always true, and $\psi \to \varphi$ is always true,
+#   then $\varphi$ must always be true as well.
+# - If the final step is $\neg$ E, then we have a proof in $n-1$ steps that
+#   $\bot$ follows from the hypothesis $\neg \varphi$. So, any truth
+#   assignment that makes $\neg \varphi$ true will make $\bot$ true.
+#   But since $\bot$ will never be true, $\neg \varphi$ will never be true,
+#   so equivalently $\varphi$ can never be false.
+# - If the final step is $\vee$ I, then $\varphi$ has the form
+#   $\varphi_1 \vee \varphi_2$, and we have a proof of one of these in $n-1$
+#   steps. Suppose for simplicity it's $\varphi_1$. Then $\varphi_1$ must
+#   be true, by the induction hypothesis, and $\varphi_1 \vee \varphi_2$
+#   must be true by the semantics of $\vee$.
+# - If the final step is $\vee$ E, then we have proofs of three formulas
+#   totaling $n-1$ steps: $\psi_1 \vee \psi_2$, $\psi_1 \to \varphi$,
+#   and $\psi_2 \to \varphi$. Since the disjunction is true, at least one
+#   of the disjuncts must be true, and combining this disjunct with 
+#   the appropriate one of the two implications shows us that $\varphi$
+#   is true as well.
+# - Finally, $\wedge$ I and $\wedge$ E are the simplest of the cases.
+#   We leave these as an exercise for you!
+
+# What have we shown? We've shown that when we have a proof of $\varphi$
+# from no assumptions, no matter what that proof looks like, $\varphi$
+# must be true under all truth assignments. So we cannot prove anything
+# that is not valid: this is /soundness/.
+
+# If you were asked to show that a formula is provable, you'd know
+# how to do it: you'd find a proof of that formula. Arguing that a formula
+# is /not/ provable seems trickier, but our soundness theorem helps us our
+# here! If we can find a truth assignment that makes a formula false,
+# then that formula is not valid, and hence we cannot prove it. By this
+# reasoning, it's impossible to prove $A \to B$ without any extra assumptions.
+
+# CONTINUE: completeness

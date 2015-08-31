@@ -6,7 +6,7 @@
 Propositional logic provides a good start at describing the general
 principles of logical reasoning, but it does not go far enough. Some
 of the limitations are apparent even in the "Malice and Alice" example
-from Chapter [[file:02_Propositional_Logic::#Propositional_Logic.org][Propositional Logic]]. Propositional logic does not give us
+from Chapter [[file:02_Propositional_Logic.org::#Propositional_Logic][Propositional Logic]]. Propositional logic does not give us
 the means to express a general principle that tells us that if Alice
 is with her son on the beach, then her son is with Alice; the general
 fact that no child is younger than his or her parent; or the general
@@ -298,7 +298,15 @@ Here are some notes on syntax:
   that beings with the words "every thing." We think of the expression 
   $\fa x (\fn{even}(x) \vee \fn{odd}(x))$ as being the same as the
   expression $\fa x (\fn{even}(y) \vee \fn{odd}(y))$. Lean treats
-  these expressions as the same as well. 
+  these expressions as the same as well.
+- The expression =∀ x y z, x ∣ y → y ∣ z → x ∣ z= is interpreted as =∀
+  x y z, x ∣ y → (y ∣ z → x ∣ z)=, with parentheses associated to the
+  /right/. The part of the expression after the universal quantifier
+  can therefore be interpreted as saying "given that =x= divides =y=
+  and that =y= divides =z=, =x= divides =z=." The expression is
+  logically equivalent to =∀ x y z, x ∣ y ∧ y ∣ z → x ∣ z=, but we
+  will see that, in Lean, it is often convenient to express facts like
+  this as an iterated implication.
 
 Dual to the universal quantifier is the existential quantifier,
 $\exists$, which is used to express assertions such as "some number is
@@ -313,8 +321,186 @@ chapter, we will start with the rules for the universal quantifier,
 and provide examples of the kinds of mathematical arguments they are
 intended to model.
 
-# ** Rules for the Universal Quantifier
+** Rules for the Universal Quantifier
 
+In the [[file:Introduction.org::#Introduction][Introduction]] we proved that the square root of two is
+irrational. One way to construe the statement is as follows:
+#+BEGIN_QUOTE
+For every pair of natural numbers, $a$ and $b$, it is not the case
+that $a^2 = 2 b^2$.
+#+END_QUOTE
+The advantage of this formulation is that we can restrict our
+attention to the natural numbers, without having to consider the
+larger domain of rationals. In symbolic logic, assuming our intended
+domain of discourse is the natural numbers, we woud express this
+theorem using the universal quantifier:
+\begin{equation*}
+\fa {a, b} \neg (a^2 = 2 b^2). 
+\end{equation*}
+How do we prove such a theorem? Informally, we would use such a
+pattern:
+#+BEGIN_QUOTE
+Let $a$ and $b$ be arbitrary integers, and suppose $a^2 = 2 b^2$.
+
+...
+
+Contradiction.
+#+END_QUOTE
+What we are really doing is proving that the universal statement
+holds, but showing that it holds of "arbitrary" values $a$ and $b$. In
+natural deduction, the proof would look something like this:
+\begin{prooftree}
+\AXM{}
+\UIM{H : a^2 = 2 \times b^2}
+\UIM{\vdots}
+\UIM{\bot}
+\RLM{H}
+\UIM{\neg (a^2 = 2 \times b^2)}
+\UIM{\fa b \neg (a^2 = 2 \times b^2)}
+\UIM{\fa a \fa b \neg (a^2 = 2 \times b^2)}
+\end{prooftree}
+Notice that after the hypothesis $H$ is canceled, we have proved $\neg
+(a^2 = 2 \times b^2)$ without making any assumptions about $a$ and
+$b$; at this stage in the proof, they are "arbitrary," justifying the
+application of the universal quantifiers in the next two rules.
+
+This example motivates the following rule in natural deduction:
+\begin{prooftree}
+\AXM{A(x)}
+\UIM{\fa x A(x)}
+\end{prooftree}
+provided $x$ is not free in any uncanceled hypothesis. Here $A(x)$
+stands for any formula that (potentially) mentions $x$. Also remember
+that if $y$ is any "fresh" variable that does not occur in $A$, we are
+thinking of $\fa x A(x)$ as being the same as $\fa y A(y)$.
+
+Notice that when we work in first-order logic, we assume that the
+universal quantifier ranges over some domain. In Lean, we can declare
+a "type" of objects by writing =variable U : Type=. We can then
+declare a predicate on =U= by writing =variable P : U → Prop=. In
+Lean, then, the pattern for proving a universal statement is rendered
+as follows:
+#+BEGIN_SRC lean
+variable U : Type
+variable P : U → Prop
+
+example : ∀ x, P x :=
+take x,
+show P x, from sorry
+#+END_SRC
+Read =take x= as "fix and arbitrary value =x= of =U=." Since we are
+allowed to rename bound variables at will, we can equivalently write
+either of the following:
+#+BEGIN_SRC lean
+variable U : Type
+variable P : U → Prop
+
+example : ∀ y, P y :=
+take x,
+show P x, from sorry
+
+example : ∀ x, P x :=
+take y,
+show P y, from sorry
+#+END_SRC
+This constitutes the introduction rule for the universal quantifier. 
+
+What about the elimination rule? Suppose we know that every number is
+even or odd. Then, in an ordinary proof, we are free to assert "$a$ is
+even or $a$ is odd," or "$a^2$ is even or $a^2$ is odd." In terms of
+symbolic logic, this amounts to the following inference: from $\fa x
+(\fn{even}(x) \vee \fn{odd}(x))$, we can conclude $\fn{even}(t) \vee
+\fn{odd}(t)$ for any term $t$. This motivates the elimination rule for
+the universal quantifier:
+\begin{prooftree}
+\AXM{\fa x A(x)}
+\UIM{A(t)}
+\end{prooftree}
+where $t$ is an arbitrary term. In a Lean proof, this is implemented
+as follows:
+#+BEGIN_SRC lean
+variable U : Type
+variable P : U → Prop
+premise H : ∀ x, P x
+variable a : U
+
+example : P a :=
+show P a, from H a
+#+END_SRC
+Observe the notation: =P a= is obtained by "applying" the hypothesis
+=H= to =a=.
+
+The following example of a proof in natural deduction shows that if,
+for every $x$, $A(x)$ holds, and for every $x$, $B(x)$ holds, then for
+every $x$, they both hold:
+\begin{prooftree}
+\AXM{HA : \fa x A(x)}
+\UIM{A(y)}
+\AXM{HB : \fa x B(x)}
+\UIM{B(y)}
+\BIM{A(y) \wedge B(y)}
+\UIM{\fa y (A(y) \wedge B(y))}
+\RLM{HB}
+\UIM{\fa x B(x) \to \fa y (A(y) \wedge B(y))}
+\RLM{HA}
+\UIM{\fa x A(x) \to (\fa x B(x) \to \fa y (A(y) \wedge B(y)))}
+\end{prooftree}
+Notice that neither of the hypotheses $HA$ or $HB$ mention $y$, so
+that $y$ is really "arbitrary" at the point where the universal
+quantifiers are introduced.
+
+Here is the same proof rendered in Lean:
+#+BEGIN_SRC lean
+variable U : Type
+variables A B : U → Prop
+
+example : (∀ x, A x) → (∀ x, B x) → (∀ x, A x ∧ B x) :=
+assume HA : ∀ x, A x,
+assume HB : ∀ x, B x,
+take y,
+have A y, from HA y,
+have B y, from HB y,
+show A y ∧ B y, from and.intro `A y` `B y`
+#+END_SRC
+As an exercise, trying proving $(\fa x (A(x) \wedge B(x))) \to \fa x
+A(x)$ in natural deduction or Lean, or
+\begin{equation*}
+(\fa x (A(x) \to B(x))) \to (\fa x A(x) \to \fa x B(x)).
+\end{equation*}
+Here is a more challenging exercise. Suppose I tell you that, in a town,
+there is a (male) barber that shaves all and only the men who do not
+shave themselves. You can show that this is a contradiction, arguing
+informally, as follows:
+#+BEGIN_QUOTE
+By the assumption, the barber shaves himself if and only if he does
+not shave himself. Call this statement (*).
+
+Suppose the barber shaves himself. By (*), this implies that he does
+not shave himself, a contradiction. So, the barber does not shave
+himself.
+
+But using (*) again, this implies that the barber shaves himself,
+which contradicts the fact we just showed, namely, that the barber
+does not shave himself. 
+#+END_QUOTE
+Try to turn this into a formal argument in natural deduction, or in
+Lean. For the latter, you need only replace each =sorry= below with a
+proof:
+#+BEGIN_SRC lean
+variable Person : Type
+variable shaves : Person → Person → Prop
+variable barber : Person
+premise H : ∀ x, shaves barber x ↔ ¬ shaves x x
+
+example : false :=
+have H1 : shaves barber barber ↔ ¬ shaves barber barber, from sorry,
+have H2 : ¬ shaves barber barber, from
+  assume H2a : shaves barber barber,
+  have H2b : ¬ shaves barber barber, from sorry,
+  show false, from sorry,
+have H3 : shaves barber barber, from sorry,
+show false, from sorry
+#+END_SRC
 
 # ** Examples from Number Theory
 

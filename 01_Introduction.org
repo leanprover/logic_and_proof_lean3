@@ -198,15 +198,13 @@ In this format, a snippet of the first proof in the previous section
 might be rendered as follows:
 \begin{prooftree}
 \AxiomC{}
-\UnaryInfC{$\neg {\mathsf Even}(b)$}
-\AxiomC{$\forall x \; (\neg {\mathsf Even}(x) \to \neg {\mathsf
-Even}(x^2))$}
-\UnaryInfC{$\neg {\mathsf Even}(b) \to \neg {\mathsf
-Even}(b^2))$}
-\BinaryInfC{$\neg {\mathsf Even}(b^2)$}
-\AxiomC{${\mathsf Even}(b^2)$}
+\UnaryInfC{$\neg \fn{even}(b)$}
+\AxiomC{$\forall x \; (\neg \fn{even}(x) \to \neg \fn{even}(x^2))$}
+\UnaryInfC{$\neg \fn{even}(b) \to \neg \fn{even}(b^2))$}
+\BinaryInfC{$\neg \fn{even}(b^2)$}
+\AxiomC{$\fn{even}(b^2)$}
 \BinaryInfC{$\bot$}
-\UnaryInfC{${\mathsf Even}(b)$}
+\UnaryInfC{$\fn{even}(b)$}
 \end{prooftree}
 
 The complexity of such proofs can quickly grow out of hand, and

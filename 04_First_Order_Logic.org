@@ -41,12 +41,12 @@ allows us to specify the symbols we wish to use for any given domain
 of interest. In this section, we will use the following running
 example:
 - the domain of interest is the natural numbers, $\mathbb{N}$.
-- there are objects, $1$, $2$, $3$, ...
+- there are objects, $1$, $2$, $3$, ....
 - there are functions, addition and multiplication, as well as the
   square function, on this domain.
-- there are predicates on this domain, "even," "odd," "prime"
+- there are predicates on this domain, "even," "odd," and "prime."
 - there are relations between elements of this domain, "equal," "less
-  than", and "divides".
+  than", and "divides."
 For our logical language, we will choose symbols 1, 2, 3,
 $\fn{add}$, $\fn{mul}$, $\fn{square}$, $\fn{even}$, $\fn{odd}$, $\fn{prime}$,
 $\fn{lt}$, and so on, to denote these things. We will also have
@@ -105,7 +105,7 @@ express the notions using words like "is even" and "if and only if,"
 as we did above. We will use notation like this whenever we are in the
 realm of symbolic logic, for example, when we write proofs in natural
 deduction. Expressions like these are called /formulas/. In contrast
-to terms, which name things, formulas {\em say things}; in other words, they
+to terms, which name things, formulas /say things/; in other words, they
 make assertions about objects in the domain of discourse.
 
 One can also declare function and relation symbols in Lean. For

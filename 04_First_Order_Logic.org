@@ -123,9 +123,9 @@ constant lt : ℕ → ℕ → Prop
 constant zero : ℕ
 constant one : ℕ
 #+END_SRC
-You can enter =ℕ= with =\nat=. In Lean, the =check= command can be
-used to make sure an expression is well-formed, and determine what
-kind of expression it is:
+You can enter =ℕ= with =\nat= or =\N=. In Lean, the =check= command
+can be used to make sure an expression is well-formed, and determine
+what kind of expression it is:
 #+BEGIN_SRC lean
 constant mul : ℕ → ℕ → ℕ
 constant add : ℕ → ℕ → ℕ
@@ -260,12 +260,12 @@ be expressed as follows:
 \item $\fa x ((\fn{even}(x) \vee \fn{odd}(x)) \wedge \neg
 (\fn{even}(x) \wedge \neg \fn{odd}(x)))$.
 \item $\fa x (\fn{even}(x) \to \fn{even}(x^2))$
-\item $\fa x (\fn{even}(x) \liff 2 | x)$
-\item $\fa x \fa y \fa z (x | y \wedge y | z \to x | z)$.
+\item $\fa x (\fn{even}(x) \liff 2 \divides x)$
+\item $\fa x \fa y \fa z (x \divides y \wedge y \divides z \to x \divides z)$.
 \end{itemize}
 It is common to combine multiple quantifiers of the same kind, and
-write, for example, $\fa {x, y, z} (x | y \wedge y | z \to x | z)$ in
-the last expression.
+write, for example, $\fa {x, y, z} (x \divides y \wedge y \divides z
+\to x \divides z)$ in the last expression.
 
 In Lean, you can enter the universal quantifier by writing =\all=. The
 same examples are rendered as follows:

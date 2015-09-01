@@ -41,7 +41,10 @@ and attributes is finite, so that there are only finitely many
 possible "states of affairs" that need to be considered. The numbers
 are also small enough so that systematic search through all the
 possibilities, though tedious, will eventually get you to the right
-answer.
+answer. This is a special feature of logic puzzles like this; you
+would not expect to show, for example, that every even number greater
+than two can be written as a sum of primes by running through all the
+possibilities.
 
 Another thing that you may have noticed is that the question seems to
 presuppose that there is a unique answer to the question, which is to

@@ -323,7 +323,7 @@ intended to model.
 
 ** Rules for the Universal Quantifier
 
-In the [[file:Introduction.org::#Introduction][Introduction]] we proved that the square root of two is
+In the [[file:01_Introduction.org::#Introduction][Introduction]] we proved that the square root of two is
 irrational. One way to construe the statement is as follows:
 #+BEGIN_QUOTE
 For every pair of natural numbers, $a$ and $b$, it is not the case

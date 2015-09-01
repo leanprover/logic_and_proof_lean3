@@ -260,12 +260,12 @@ be expressed as follows:
 \item $\fa x ((\fn{even}(x) \vee \fn{odd}(x)) \wedge \neg
 (\fn{even}(x) \wedge \neg \fn{odd}(x)))$.
 \item $\fa x (\fn{even}(x) \to \fn{even}(x^2))$
-\item $\fa x (\fn{even}(x) \liff 2 \divides x)$
-\item $\fa x \fa y \fa z (x \divides y \wedge y \divides z \to x \divides z)$.
+\item $\fa x (\fn{even}(x) \liff 2 \mid x)$
+\item $\fa x \fa y \fa z (x \mid y \wedge y \mid z \to x \mid z)$.
 \end{itemize}
 It is common to combine multiple quantifiers of the same kind, and
-write, for example, $\fa {x, y, z} (x \divides y \wedge y \divides z
-\to x \divides z)$ in the last expression.
+write, for example, $\fa {x, y, z} (x \mid y \wedge y \mid z
+\to x \mid z)$ in the last expression.
 
 In Lean, you can enter the universal quantifier by writing =\all=. The
 same examples are rendered as follows:
@@ -502,7 +502,331 @@ have H3 : shaves barber barber, from sorry,
 show false, from sorry
 #+END_SRC
 
-# ** Examples from Number Theory
+** Some Number Theory
+
+Let us return to the example of the natural numbers, to see how
+deductive notions play out there. Suppose we have defined $\fn{even}$
+and $\fn{odd}$ in such a way that we can prove:
+- $\fa n, \neg \even(n) \to \odd(n)$
+- $\fa n \odd(n) \to \neg \even(n)$
+Then we can go on to derive $\fa n (\even(n) \vee \odd(n))$ as
+follows:
+\begin{prooftree}
+\AXM{}
+\UIM{\even(n) \vee \neg \even(n)}
+\AXM{}
+\UIM{H_1 : \even(n)}
+\UIM{\even(n) \vee \odd(n)}
+\AXM{}
+\UIM{\fa n \neg \even(n) \to \odd(n)}
+\UIM{\neg \even (n) \to \odd(n)}
+\AXM{}
+\UIM{H_2 : \neg \even(n)}
+\BIM{\odd(n)}
+\UIM{\even(n) \vee \odd(n)}
+\RLM{H_1, H_2}
+\TIM{\even(n) \vee \odd(n)}
+\UIM{\fa n (\even (n) \vee \odd(n)}
+\end{prooftree}
+We can also prove and $\fa n \neg (\even(n) \wedge \odd(n))$:
+\begin{prooftree}
+\AXM{}
+\UIM{\odd(n) \to \neg \even(n)}
+\AXM{}
+\UIM{H : \even(n) \wedge \odd(n)}
+\UIM{\odd(n)}
+\BIM{\neg \even(n)}
+\AXM{}
+\UIM{H : \even(n) \wedge \odd(n)}
+\UIM{\even(n)}
+\BIM{\bot}
+\RLM{H}
+\UIM{\neg (\even(n) \wedge \odd(n))}
+\UIM{\fa n \neg (\even(n) \wedge \odd(n))}
+\end{prooftree}
+As we move from modeling basic rules of inference, however modeling
+actual mathematical proofs, we will tend to shift focus from natural
+deduction to formal proofs in Lean. Natural deduction has its uses: as
+a basic model of logical reasoning, it provides us with a convenient
+means to study metatheoretic properties such as soundness and
+completeness. For working /within/ the system, however, proof
+languages like Lean's tend to scale better, and produce more readable
+proofs.
+
+In Lean's library, there are theorems =odd_of_not_even= and
+=even_of_not_odd=, whose uses are illustrated in the following:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+example : ∀ n, ¬ even n → odd n :=
+take n,
+assume H : ¬ even n, 
+show odd n, from odd_of_not_even H
+
+example : ∀ n, odd n → ¬ even n :=
+take n,
+assume H : odd n,
+show ¬ even n, from not_even_of_odd H
+#+END_SRC
+Once again, notice the naming scheme: the conlusion is followed by the
+hypothesis, separated by the word =of=. Notice also that when applying
+the theorems, you do not need to specify the argument =n=: it is
+implicit in the hypothesis =H=. We can illustrate these theorems more
+concisely, by labeling =n= and =H= in the statement of the example:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+-- BEGIN
+example (n : ℕ) (H : ¬ even n) : odd n :=
+odd_of_not_even H
+
+example (n : ℕ) (H : odd n) : ¬ even n :=
+not_even_of_odd H
+-- END
+#+END_SRC
+In this text, we will often present theorems in the library in this
+way. Using these two theorems, the two facts we just proved in natural
+deduction can be proved in Lean as follows:
+#+BEGIN_SRC lean
+import data.nat
+open nat classical
+
+example : ∀ n, even n ∨ odd n :=
+take n,
+or.elim (em (even n))
+  (suppose even n, 
+    show even n ∨ odd n, from or.inl this)
+  (suppose ¬ even n,
+    have odd n, from odd_of_not_even this,
+    show even n ∨ odd n, from or.inr this)
+
+example : ∀ n, ¬ (even n ∧ odd n) :=
+take n,
+assume H : even n ∧ odd n,
+have even n, from and.left H,
+have odd n, from and.right H,
+have ¬ even n, from not_even_of_odd this,
+show false, from `¬ even n` `even n`
+#+END_SRC
+Notice that we used the command =open classical= in order to use the
+law of the excluded middle, =em (even n)=, to split on cases.
+
+Here are some more facts about parity that are found in the Lean
+library:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+-- BEGIN
+example (n : ℕ) (H : even n) : 2 ∣ n :=
+dvd_of_even H
+
+example (n : ℕ) (H : 2 ∣ n) : even n :=
+even_of_dvd H
+
+example (n : ℕ) : n ∣ n := dvd.refl n
+
+example (k m n : ℕ) (H₁ : k ∣ m) (H₂ : m ∣ n) : k ∣ n :=
+dvd.trans H₁ H₂
+
+example (k m n : ℕ) (H₁ : k ∣ m) (H₂ : k ∣ n) : k ∣ m + n :=
+dvd_add H₁ H₂
+
+example (k m n : ℕ) (H₁ : k ∣ m + n) (H₂ : k ∣ m) : k ∣ n :=
+dvd_of_dvd_add_left H₁ H₂
+
+example (k m n : ℕ) (H₁ : k ∣ m + n) (H₂ : k ∣ n) : k ∣ m :=
+dvd_of_dvd_add_right H₁ H₂
+
+example : odd 1 :=
+odd_one
+-- END
+#+END_SRC
+To enter the "divides" symbol in Lean, you have to type =\|=. (The
+symbol is different from the plain =|= character.) Here are some
+examples of theorems that can be proved using these facts:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+example : ∀ m n, even m → m ∣ n → even n :=
+take m, take n,
+suppose even m,
+suppose m ∣ n,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ n, from dvd.trans this `m ∣ n`,
+show even n, from even_of_dvd this
+
+example : ∀ m n, even m → even n → even (m + n) :=
+take m, take n,
+suppose even m,
+suppose even n,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ n, from dvd_of_even `even n`,
+have 2 ∣ m + n, from dvd_add `2 ∣ m` `2 ∣ n`,
+show even (m + n), from even_of_dvd this
+
+example : ∀ m n, even (m + n) → even m → even n :=
+take m, take n,
+suppose even (m + n),
+suppose even m,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ (m + n), from dvd_of_even `even (m + n)`,
+have 2 ∣ n, from dvd_of_dvd_add_left `2 ∣ m + n` `2 ∣ m`,
+show even n, from even_of_dvd this
+
+example : ∀ m n, even (m + n) → even n → even m :=
+sorry
+
+example : even 2 :=
+have 2 ∣ 2, from dvd.refl 2,
+show even 2, from even_of_dvd this
+#+END_SRC
+The second-to-last one is left to you as an exercise. Remember, when
+you are trying to prove such theorems on your own, it is a good idea
+to prove them incrementally, using =sorry=. For example, for the first
+theorem, you might start as follows:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+ 
+-- BEGIN
+example : ∀ m n, even m → m ∣ n → even n :=
+take m, take n,
+suppose even m,
+suppose m ∣ n,
+show even n, from sorry
+-- END
+#+END_SRC
+After checking to make sure that Lean accepts this, you can then add
+intermediate =have= statements, and so on.
+
+If you wanted to use these theorems later on, you could name them:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+theorem even_add_of_even_of_even : ∀ {m n}, even m → even n → even (m + n) :=
+take m, take n,
+suppose even m,
+suppose even n,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ n, from dvd_of_even `even n`,
+have 2 ∣ m + n, from dvd_add `2 ∣ m` `2 ∣ n`,
+show even (m + n), from even_of_dvd this
+
+theorem even_of_even_add_left : ∀ {m n}, even (m + n) → even m → even n :=
+take m, take n,
+suppose even (m + n),
+suppose even m,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ (m + n), from dvd_of_even `even (m + n)`,
+have 2 ∣ n, from dvd_of_dvd_add_left `2 ∣ m + n` `2 ∣ m`,
+show even n, from even_of_dvd this
+#+END_SRC
+The curly braces around =m= and =n= in the first two theorems makes
+=m= and =n= /implicit arguments/, which means that you can write, for
+example, =even_add H₁ H₂= for hypotheses =H₁ : even m= and =H₂ : even
+n=, rather than =even_add m n H₁ H₂=. In fact, the first of these is 
+already in Lean's library:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+check even_add_of_even_of_even
+#+END_SRC
+Using these, we can go on to prove the following:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+theorem even_of_even_add_left : ∀ {m n}, even (m + n) → even m → even n :=
+take m, take n,
+suppose even (m + n),
+suppose even m,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ (m + n), from dvd_of_even `even (m + n)`,
+have 2 ∣ n, from dvd_of_dvd_add_left `2 ∣ m + n` `2 ∣ m`,
+show even n, from even_of_dvd this
+
+-- BEGIN
+example : ∀ n, even n → odd (n + 1) :=
+take n,
+suppose even n,
+have ¬ even (n + 1), from
+  suppose even (n + 1),
+  have even 1, from even_of_even_add_left this `even n`,
+  have ¬ even 1, from not_even_of_odd odd_one,
+  show false, from `¬ even 1` `even 1`,
+show odd (n + 1), from odd_of_not_even this
+
+example : ∀ m n, even (m + n) → even n → even m :=
+sorry
+
+example : ∀ n, even (n + 1) → odd n :=
+sorry
+-- END
+#+END_SRC
+The last two are left for you to do as exercises.
+
+Unfortunately, the facts we have presented to you so far do not let
+you prove that if =n= is odd, then =n+1= is even. Fortunately, that
+fact is also in the library (=succ= abbreviates "successor"), and you
+can use it to prove the second example below.
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+-- BEGIN
+example (n : ℕ) (H : odd n) : even (n + 1) := 
+even_succ_of_odd H
+
+example (n : ℕ) (H : odd (n + 1)) : even n :=
+sorry
+-- END
+#+END_SRC
+
+Let us close with some examples of elementary theorems of number
+theory. (These are all exercises in Chapter 1 of /An Introduction to
+the Theory of Numbers/ by Niven and Zuckerman.) For the moment, we
+will loosen up a bit and not insist that every fact we use can be
+proved axiomatically; let us take, as "common knowledge," facts such
+as these:
+- A number is even if and only if it can be expressed in as $2 n$, and
+  odd if it can be expressed in the form $2 n + 1$.
+- A number is divisible by $k$ if and only if it leaves a remainder of
+  0 when you divide it by $k$. In particular, of any $k$ consecutive
+  numbers $n, n + 1, n + 2, \ldots, n + (k - 1)$, at least one of them
+  will be divisible by $k$.
+- Expressed differently, if $k > 0$, then any natural number $n$ can
+  be expressed as $n = k q + r$, where $0 \le r < k$.
+The last fact is often known as the "quotient-remainder" theorem.
+
+-----
+*Theorem.* The product of any three consecutive integers is divisible
+by 6.
+
+*Proof.* Denote the three integers by $n$, $n + 1$, and $n + 2$. Then
+either $n$ or $n + 1$ is divisible by 2, and either $n$, $n + 1$, or
+$n + 2$ is divisible by 3. So, their product is divisible by 6.
+
+*Theorem*. For every $n$, $n^3 - n$ is divisible by 6.
+
+*Proof.* We have $n^3 - n = (n - 1) n (n + 1)$, which is a product of
+ three consecutive integers.
+-----
+
+As exercises, try writing proving the following, informally:
+- For any integer $n$, $n^2$ leaves a remainder of 0 or 1
+  when you divide it by 4. Hence $n^2 + 2$ is never divisible by 4.
+- If $n$ is odd, $n^2 - 1$ is divisible by 8.
+- If $m$ and $n$ are odd, then $m^2 + n^2$ is even but not divisible
+  by 4.
+- Say that two integers "have the same parity" if they are both even
+  or both odd. Prove that if $m$ and $n$ are any two integers, then
+  $m + n$ and $m - n$ have the same parity.
 
 # ** Multiple Sorts and Relativization
 

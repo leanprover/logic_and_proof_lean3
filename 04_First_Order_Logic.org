@@ -297,7 +297,7 @@ Here are some notes on syntax:
   placeholder that stands for the "thing" referred to within a phrase
   that beings with the words "every thing." We think of the expression 
   $\fa x (\fn{even}(x) \vee \fn{odd}(x))$ as being the same as the
-  expression $\fa x (\fn{even}(y) \vee \fn{odd}(y))$. Lean treats
+  expression $\fa y (\fn{even}(y) \vee \fn{odd}(y))$. Lean treats
   these expressions as the same as well.
 - The expression =∀ x y z, x ∣ y → y ∣ z → x ∣ z= is interpreted as =∀
   x y z, x ∣ y → (y ∣ z → x ∣ z)=, with parentheses associated to the

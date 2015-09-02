@@ -1,0 +1,73 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://https://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Semantics of First Order Logic
+
+In Chapter [[file:03_Truth_Tables_and_Semantics.org::#Truth_Tables_and_Semantics][Truth Tables and Semantics]], we emphasized a distinction between
+the /syntax/ and the /semantics/ of propositional logic. Syntactic questions
+had to do with the formal structure of formulas, and the conditions under
+which different types of formulas could be derived. Semantic questions,
+on the other hand, concerned the /truth/ of a formula relative to some
+truth assignment.
+
+As you might expect, we make a similar distinction in the setting of first
+order logic. The previous two chapters have focused mainly on syntax, but
+some semantic ideas have slipped in. Recall the running example with domain
+of interest $\NN$, constants 0, 1, 2, 3, functions $\fn{add}$ and $\fn{mul}$, and predicates
+$\fn{even}, \fn{prime}, \fn{equals}, \fn{lt}$, etc. We know that the formula 
+$\forall y, \fn{lt}(0, y)$
+is true in this example. But if we consider the domain $\ZZ$ instead of $\NN$,
+that same formula becomes false.
+
+This indicates that the truth or falsity or a first order formula can depend on
+what domain we have chosen to consider. But some formulas can be true (or false)
+regardless of the domain: for instance, $\fa y, \fn{lt}(0, y) \to \fn{lt}(0, y)$
+will be true over $\NN$, and $\ZZ$, and any other set we choose. A formula like
+this is called a /tautology/, and is analogous to a tautology in propositional
+logic that is true under every possible truth assignment.
+
+We can broaden this analogy: a "domain of interest" in first order logic is
+similar to a truth assignment in propositional logic. In the propositional case,
+choosing a truth assignment allowed us to assign truth values to all formulas
+of the language; now, choosing a domain will allow us to assign truth values
+to all sentences of a first order language. There is one small wrinkle here,
+which we will describe in the next section.
+
+** Models and Interpretations
+
+The symbols of the language in our running example -- 0, 1, $\fn{add}$, 
+$\fn{prime}$, and so on -- have very indicative names. When we interpret
+sentences of this language over the domain $\NN$, for example, it is clear
+for which elements of the domain $\fn{prime}$ "should" be true, and for which
+it "should" be false. Let's consider a new first order language, which has 
+only two unary predicate symbols $\fn{fancy}$ and $\fn{tall}$. If we take
+our domain to be $\NN$, is the sentence $\fa x, \fn{fancy}(x) \to \fn{tall}(x)$
+true or false?
+
+The answer, of course, is that we don't have enough information to say. There's
+no "obvious" meaning to the predicates $\fn{fancy}$ or $\fn{tall}$, at least
+not when we apply them to natural numbers. To make sense of the sentence,
+we need to know which numbers are fancy and which ones are tall. Perhaps
+multiples of 10 are fancy, and even numbers are tall; in this case, the formula
+is true (since every multiple of 10 is even). Perhaps prime numbers are fancy
+and odd numbers are tall; then the formula is false, since 2 is fancy but not tall.
+
+We call each of these descriptions an /interpretation/ of the predicate symbols
+$\fn{fancy}$ and $\fn{tall}$ in the domain $\NN$. Formally, an interpretation
+of a predicate $\fn{P}$ in a domain $D$ is the set of all elements of $D$ for
+which $\fn{P}$ is true. For an example, the "standard" interpretation of 
+$\fn{prime}$ in $\NN$ that we used above was just the set of prime natural numbers.
+
+We can interpret constant, function, and relation symbols in a similar way.
+An interpretation of constant symbol $c$ in domain $D$ is an element of $D$.
+An interpretation of a function symbol $\fn{f}$ with arity $n$ is a function
+that maps $n$ elements of $D$ to another element of $D$. An interpretation
+of a relation symbol $\fn{R}$ with arity $n$ is the set of $n$-tuples of elements
+of $D$ for which $\fn{R}$ is true.
+
+Pick any first-order language. If we have a domain $D$ and interpretations
+in $D$ for each of the symbols of that language, then we can determine the
+truth of any sentence in the language by examining the elements of $D$. We call
+this structure -- the domain $D$, paired with all of the interpretations --
+a /model/ for the language. A model for a first-order language is directly
+analogous to a truth assignment for propositional logic.

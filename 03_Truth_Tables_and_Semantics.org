@@ -2,6 +2,9 @@
 #+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://https://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
 
 * Truth Tables and Semantics
+:PROPERTIES:
+  :CUSTOM_ID: Truth_Tables_and_Semantics
+:END:
 
 In the last chapter, we saw how to prove a formula of propositional
 logic from hypotheses. Some formulas are provable outright, from no

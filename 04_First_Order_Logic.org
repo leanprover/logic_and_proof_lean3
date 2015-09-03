@@ -308,6 +308,28 @@ Here are some notes on syntax:
   will see that, in Lean, it is often convenient to express facts like
   this as an iterated implication.
 
+A variable that is not bound is called /free/. Notice that formulas in
+first-order logic say things about their free variables. For example,
+in the interpretation we have in mind, the formula $\fa y (x \le y)$
+says that $x$ is less than or equal to every natural number. The
+formula $\fa z (x \le z)$ says exactly the same thing; we can always
+rename a bound variable, as long as we pick a name that does not clash
+with another name that is already in use. On the other hand, the
+formula $\fa y (w \le y)$ says that $w$ is less than or equal to every
+natural number. This is an entirely different statement: it says
+something about $w$, rather than $x$. In other words, renaming a
+/free/ variable changes the meaning of a formula.
+
+Notice also that some formulas, like $\fa {x, y} (x \le y \vee y \le
+x)$, have no free variables at all. Such a formula is called a
+/sentence/, because it makes an outright assertion, a statement that
+is either true or false about the intended interpretation. A couple of
+chapters from now, we will make the notion of an "intended
+interpetation" precise, and talk about what it means to be "true in an
+interpretation." For now, the idea that formulas say things about
+about object in an intended interpretation should motivate the rules
+for reasoning with such expressions. 
+
 Dual to the universal quantifier is the existential quantifier,
 $\exists$, which is used to express assertions such as "some number is
 even," or, "between any two even numbers there is an odd number." We
@@ -828,8 +850,450 @@ As exercises, try writing proving the following, informally:
   or both odd. Prove that if $m$ and $n$ are any two integers, then
   $m + n$ and $m - n$ have the same parity.
 
-# ** Multiple Sorts and Relativization
+** Relativization and Sorts
 
-# examples from geometry -- points and lines.
+In first-order logic as we have presented it, there is one intended
+"universe" of objects of discourse, and the universal and existential
+quantifiers range over that universe. For example, we could design a
+language to talk about people living in a certain town, with a
+relation $\fn{loves}(x, y)$ to express that $x$ loves $y$. In such a
+language, we might express the statement that "everyone loves someone"
+by writing $\fa x \ex y \fn{loves}(x, y)$.
 
-# ** Naive Set Theory
+You should keep in mind that, at this stage, $\fn{loves}$ is just a
+symbol. We have designed the language with a certain interpretation in
+mind, but one could also interpret the language as making statements
+about the natural numbers, where $\fn{loves}(x, y)$ means that $x$ is
+less than or equal to $y$. In that interpretation, the sentence
+\begin{equation*}
+\fa {x, y, z} (\fn{loves}(x, y) \wedge \fn{loves}(y, z) \to
+\fn{loves}(x, z))
+\end{equation*}
+is true, though in the original interpretation it makes an implausible
+claim about the nature of love triangles. In a later chapter, we will
+spell out the notion that the deductive rules of first-order logic
+enable us to determine the statements that are true in \emph{all}
+interpretations, just as the rules of propositional logic enable us to
+determine the statements that are true under all truth assignments.
+
+Returning to the original example, suppose we want to represent the
+statement that, in our town, all the women are strong and all the men
+are good looking. We could do that with the following two sentences:
+- $\fa x (\fn{woman}(x) \to \fn{strong}(x))$
+- $\fa x (\fn{man}(x) \to \fn{good\mathord{-}looking}(x))$
+These are instances of /relativization/. The universal quantifier
+ranges over all the people in the town, but this device gives us a way
+of using implication to restrict the scope of our statements to men
+and women, respectively. The trick also comes into play when we render
+"every prime number greater than two is odd":
+\begin{equation*}
+\fa x (\fn{prime}(x) \wedge x \ge 2 \to \fn{odd}(x)).
+\end{equation*}
+We could also read this more literally as saying "for every number
+$x$, if $x$ is prime and $x$ is greater than or equal to 2, then $x$
+is odd," but it is natural to read it as a restricted quantifier. It
+is also possible to relativize the existential quantifier to say
+things like "some woman is strong" and "some man is good-looking." We
+will see how to do this in a later chapter.
+
+Now, suppose we are studying geometry, and we want to express the fact
+that given any two distinct points $p$ and $q$ and any two lines $L$
+and $M$, if $L$ and $M$ both pass through $p$ and $q$, then they have
+to be the same. (In other words, there is at most one line between two
+distinct points.) One option is to design a first-order logic where the
+intended universe is big enough to include both points and lines, and
+use relativization:
+\begin{multline*}
+\fa {p, q, L, M} (\fn{point}(p) \wedge \fn{point}(q) \wedge
+\fn{line}(L) \wedge \fn{line}(M) \\
+\wedge \fn{on}(p,L) \wedge \fn{on}(q,L) \wedge \fn{on}(p,M) \wedge
+\fn{on}(q,M) \to L = M)
+\end{multline*}
+But dealing with such predicates is tedious, and there is a mild
+extension of first-order logic, called /many-sorted first-order
+logic/, which builds in some of the bookkeeping. In many-sorted logic,
+one can have different sorts of objects --- such as points and lines
+--- and a separate stock of variables and quantifiers ranging over
+each. Moreover, the specification of function symbols and predicate
+symbols indicates what sorts of arguments they expect, and, in the
+case of function symbols, what sort of argument they return. For
+example, we might choose to have a sort with variables $p, q, r,
+\ldots$ ranging over points, a sort with variables $L, M, N, \ldots$
+ranging over lines, and a relation $\fn{on}(p, L)$ relating the
+two. Then the assertion above is rendered more simply as follows:
+\begin{equation*}
+\fa {p, q, L, M} (\fn{on}(p,L) \wedge \fn{on}(q,L) \wedge \fn{on}(p,M) \wedge
+\fn{on}(q,M) \to L = M)
+\end{equation*}
+
+In Lean, we can model many-sorted logic by introducing a new type
+for each sort:
+#+BEGIN_SRC lean
+variables Point Line : Type
+variable  on : Point → Line → Prop
+
+check ∀ (p q : Point) (L M : Line),
+        on p L → on q L → on p M → on q M → L = M
+#+END_SRC
+Notice that we have followed the convention of using iterated
+implication rather than conjunction in the antecedent. In fact, Lean
+is smart enough to infer what sorts of objects =p=, =q=, =L=, and =M= 
+are from the fact that they are used with the relation =on=, so we
+could have written more simply this:
+#+BEGIN_SRC lean
+variables Point Line : Type
+variable  on : Point → Line → Prop
+
+-- BEGIN
+check ∀ p q L M,
+        on p L → on q L → on p M → on q M → L = M
+-- END
+#+END_SRC
+
+** Elementary Set Theory
+
+In a publication in the journal /Mathematische Annalen/ in 1895, the
+German mathematician Georg Cantor presented the following
+characterization of the notion of a "set" (or /Menge/, in his
+terminology):
+#+BEGIN_QUOTE
+By a /set/ we mean any collection M of determinate, distinct objects
+(called the /elements/ of M) of our intuition or thought into a whole.
+#+END_QUOTE
+Since then, the notion of a set has been used to unify a wide range of
+abstractions and constructions. Axiomatic set theory, which we will
+discuss in a later chapter, provides a foundation for mathematics in
+which everything can be viewed as a set.
+
+On a broad construal, /any/ collection can be a set; for example, we
+can consider the set whose elements are Ringo Star, the number 7, and
+the set whose only member is the Empire State Building. With such a
+broad notion of set we have to be careful: Russell's paradox has us
+consider the set $S$ of all sets that are not elements of themselves,
+which leads to a contradiction when we ask whether $S$ is an element
+of itself. (Try it!) The axioms of set theory tell us what sets exist,
+and have been carefully designed to avoid paradoxical sets like that
+of the Russell paradox.
+
+In practice, mathematicians are not so freewheeling in their use of
+sets. Typically, one fixes a domain such as the natural numbers, and
+consider subsets of that domain. In other words, we consider sets of
+numbers, sets of points, sets of lines, and so on, rather than
+arbitrary "sets." In this text, we will adopt this convention: when we
+talk about sets, we are always implicitly talking about sets of
+elements of some domain.
+
+Cantor's characterization suggests that whenever we have some
+property, $P$, of a domain, we can form the set of elements that have
+that property. This is denoted using "set-builder notation" as $\{ x
+\; | \; P(x) \}$. For example, we can consider all the following sets
+of natural numbers:
+- \( \{n \st \mbox{$n$ is even} \} \)
+- \( \{n \st \mbox{$n$ is prime} \} \)
+- \( \{n \st \mbox{$n$ is prime and greater than 2} \} \)
+- \( \{n \st \mbox{$n$ can be written as a sum of squares} \} \)
+- \( \{n \st \mbox{$n$ is equal to 1, 2, or 3}\} \)
+This last set is written more simply $\{1, 2, 3\}$.
+
+Given a set $A$ of objects in some domain and an object $x$, we write
+$x \in A$ to say that $x$ is an element of $A$. Using set-builder
+notation, we can define a number of common sets and operations. The
+/empty set/, $\emptyset$, is the set with no elements:
+\begin{equation*}
+\emptyset = \{ x \st \mbox{false} \}
+\end{equation*}
+Dually, we can define the /universal set/, $\mathcal U$, to be the set
+consisting of every element of the domain:
+\begin{equation*}
+\mathcal U = \{ x \st \mbox{true} \}
+\end{equation*}
+Given to sets $A$ and $B$, we define their /union/ to be the set of
+elements in either one:
+\begin{equation*}
+A \cup B = \{ x \st \mbox{$x \in A$ or $x \in B$} \}
+\end{equation*}
+And we define their /intersection/ to be the set of elements of both:
+\begin{equation*}
+A \cap B = \{ x \st \mbox{$x \in A$ and $x \in B$} \}
+\end{equation*}
+We define the /complement/ of a set of $A$ to be the set of elements
+that are not in $A$:
+\begin{equation*}
+\overline A = \{ x \st \mbox{$x \notin A$} \}
+\end{equation*}
+We define the /set difference/ of two sets $A$ and $B$ to be the set
+of elements in $A$ but not $B$:
+\begin{equation*}
+A \setminus B = \{ x \st \mbox{$x \in A$ and $x \notin B$} \}
+\end{equation*}
+
+Two sets are said to be equal if they have exactly the same
+elements. If $A$ and $B$ are sets, $A$ is said to be a /subset/ of
+$B$, written $A \subseteq B$, if every element of $A$ is an element of
+$B$. Notice that $A$ is equal to $B$ if and only if $A$ is a subset of
+$B$ and $B$ is a subset of $A$.
+
+Notice also that just everything we have said about sets so far is
+readily representable in symbolic logic. We can render the defining
+properties of the basic sets and constructors as follows:
+\begin{align*}
+& \fa x (x \notin \emptyset) \\
+& \fa x (x \in \mathcal U) \\
+& \fa x (x \in A \cup B \liff x \in A \vee x \in B) \\
+& \fa x (x \in A \cap B \liff x \in A \wedge x \in B) \\
+& \fa x (x \in \overline A \liff x \notin A) \\
+& \fa x (x \in A \setminus B \liff x \in A \wedge x \notin B)
+\end{align*}
+The assertion that $A$ is a subset of $B$ can be written $\fa x (x \in
+A \to x \in B)$, and the assertion that $A$ is equal to be can be
+written $\fa x (x \in A \liff x \in B)$. These are all
+\emph{universal} statements, that is, statements with universal
+quantifiers in front, followed by basic assertions and propositional
+connectives. What this means is that reasoning about sets formally
+often amounts to using nothing more than the rules for the universal
+quantifier together with the rules for propositional logic. You should
+by now be able to discern this formal structure underlying /informal/
+proofs as well. Here are two examples.
+
+-----
+
+Let $A, B, C, \ldots$ denotes sets of elements of some domain, $X$.
+
+*Theorem*. $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$.
+
+*Proof*. Suppose $x$ is in $A \cap (B \cup C)$. Then $x$ is in $A$,
+and either $x$ is in $B$ or $x$ is in $C$. In the first case, $x$ is
+in $A$ and $B$, and hence in $A \cap B$. In the second case, $x$ is in
+$A$ and $C$, and hence $A \cap C$. Either way, we have that $x$ is in
+$(A \cap B) \cup (A \cap C)$.
+
+Conversely, suppose $x$ is in $(A \cap B) \cup (A \cap C)$. There are
+now two cases. 
+
+First, suppose $x$ is in $A \cap B$. Then $x$ is in both $A$ and
+$B$. Since $x$ is in $B$, it is also in $B \cup C$, and so $x$ is in
+$A \cap (B \cup C)$.
+
+The second case is similar: suppose $x$ is in $A \cap C$. Then $x$ is
+in both $A$ and $C$, and so also in $B \cup C$. Hence, in this case
+also, $x$ is in $A \cap (B \cup C)$, as required.
+
+-----
+
+-----
+*Theorem*. $(A \setminus B) \setminus C = A \setminus (B \cup C)$.
+
+*Proof*. Suppose $x$ is in $(A \setminus B) \setminus C$. Then $x$ is
+in $A \setminus B$ but not $C$, and hence it is in $A$ but not $B$ or
+$C$. This means that $x$ is in $A$ but not $B \cup C$, and so in $A
+\setminus (B \cup C)$.
+
+Conversely, suppose $x$ is in $A \setminus (B \cup C)$. Then $x$ is in
+$A$, but not in $B \cup C$. In particular, $x$ is in neither $B$ nor
+$C$, because otherwise it would be in $B \cup C$. So $x$ is in $A
+\setminus B$, and hence $(A \setminus B) \setminus C$.
+
+-----
+
+You can carry out such reasoning in Lean, using methods you have
+already seen. For any type =X=, Lean gives us a type, =set X=, of sets
+of elements of =X=, with the element-of relation =x ∈ A=. We need only
+import the library file =data.set= and open the "namespace" set to
+have the notions and notations made available to us.
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+#+END_SRC
+We have made the type variable =X= implicit, because it can usually be
+inferred from context. The following pattern can be used to show that
+=A= is a subset of =B=:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+example : A ⊆ B :=
+take x,
+assume H : x ∈ A,
+show x ∈ B, from sorry
+-- END
+#+END_SRC
+And the following pattern be used to show that =A= and =B= are equal:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+example : A = B :=
+eq_of_subset_of_subset
+  (take x,
+    assume H : x ∈ A,
+    show x ∈ B, from sorry)
+  (take x,
+    assume H : x ∈ B,
+    show x ∈ A, from sorry)
+-- END
+#+END_SRC
+Moreover, Lean supports the following nifty feature: all of the
+equivalences above are considered to hold "definitionally," which is
+to say, in most situations you can treat and the left- and
+right-hand-sides as being the same. In other words, you can act as
+though the expression =x ∈ A ∩ B= is no different from =x ∈ A ∧ x ∈
+B=, and similarly for the other constructors.
+
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+example : ∀ x, x ∈ A → x ∈ B → x ∈ A ∩ B :=
+take x, 
+suppose x ∈ A,
+suppose x ∈ B,
+show x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`
+
+example : ∀ x : X, x ∉ ∅ :=
+take x, 
+suppose x ∈ ∅, 
+show false, from this
+-- END
+#+END_SRC
+In the second example, we annotated =x= with its type, =X=, because
+otherwise there is not enough information for Lean to infer which
+"empty set" we have in mind. You can type the symbols =⊆=, =∅=, =∪=,
+=∩=, =\= as =\subeq= =\empty=, =\un=, =\i=, and =\\=,
+respectively. The universal set is denoted =univ=, and set
+complementation is denoted with a negation symbol.
+
+The identifications above make it easy to prove some containment
+relations:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+example : A \ B ⊆ A :=
+take x,
+suppose x ∈ A \ B,
+show x ∈ A, from and.left this
+
+example : A \ B ⊆ -B :=
+take x,
+suppose x ∈ A \ B,
+have x ∉ B, from and.right this,
+show x ∈ -B, from this
+-- END
+#+END_SRC
+Here is the proof of the first identity that we proved informally
+above:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+example : A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C) :=
+eq_of_subset_of_subset
+  (take x,
+    assume H : x ∈ A ∩ (B ∪ C),
+    have x ∈ A, from and.left H,
+    have x ∈ B ∪ C, from and.right H,
+    or.elim (`x ∈ B ∪ C`)
+      (suppose x ∈ B,
+        have x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`,
+        show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inl this)
+      (suppose x ∈ C,
+        have x ∈ A ∩ C, from and.intro `x ∈ A` `x ∈ C`,
+        show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inr this))
+  (take x,
+    suppose x ∈ (A ∩ B) ∪ (A ∩ C),
+    or.elim this
+      (assume H : x ∈ A ∩ B,
+        have x ∈ A, from and.left H,
+        have x ∈ B, from and.right H,
+        have x ∈ B ∪ C, from or.inl this,
+        show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this)
+      (assume H : x ∈ A ∩ C,
+        have x ∈ A, from and.left H,
+        have x ∈ C, from and.right H,
+        have x ∈ B ∪ C, from or.inr this,
+        show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this))
+-- END
+#+END_SRC
+Notice that it is considerably longer than the informal proof above,
+because we have spelled out every last detail, though it may not be
+more readable. Keep in mind that you can always write long proofs
+incrementally, using =sorry=. You can also break up long proofs into
+smaller pieces:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+proposition inter_union_subset : A ∩ (B ∪ C) ⊆ (A ∩ B) ∪ (A ∩ C) :=
+take x,
+assume H : x ∈ A ∩ (B ∪ C),
+have x ∈ A, from and.left H,
+have x ∈ B ∪ C, from and.right H,
+or.elim (`x ∈ B ∪ C`)
+  (suppose x ∈ B,
+    have x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`,
+    show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inl this)
+  (suppose x ∈ C,
+    have x ∈ A ∩ C, from and.intro `x ∈ A` `x ∈ C`,
+    show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inr this)
+
+proposition inter_union_inter_subset : (A ∩ B) ∪ (A ∩ C) ⊆ A ∩ (B ∪ C) :=
+take x,
+suppose x ∈ (A ∩ B) ∪ (A ∩ C),
+or.elim this
+  (assume H : x ∈ A ∩ B,
+    have x ∈ A, from and.left H,
+    have x ∈ B, from and.right H,
+    have x ∈ B ∪ C, from or.inl this,
+    show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this)
+  (assume H : x ∈ A ∩ C,
+    have x ∈ A, from and.left H,
+    have x ∈ C, from and.right H,
+    have x ∈ B ∪ C, from or.inr this,
+    show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this)
+
+example : A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C) :=
+eq_of_subset_of_subset
+  (inter_union_subset A B C)
+  (inter_union_inter_subset A B C)
+-- END
+#+END_SRC
+Notice that the two propositions depend on the variables =A=, =B=, and
+=C=, which have to be supplied as arguments when they are
+applied. They also depend on the underlying type, =X=, but because the
+variable =X= was marked implicit, Lean figures it out from the
+context.
+
+
+
+
+
+
+
+

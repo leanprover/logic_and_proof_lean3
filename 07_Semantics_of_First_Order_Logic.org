@@ -71,3 +71,39 @@ truth of any sentence in the language by examining the elements of $D$. We call
 this structure -- the domain $D$, paired with all of the interpretations --
 a /model/ for the language. A model for a first-order language is directly
 analogous to a truth assignment for propositional logic.
+
+Evaluating the truth of a sentence based on a model works intuitively,
+but the formal description of how to do it is slightly subtle. We will start
+with an example. Take the language with constant symbols $a, b$,
+predicate symbol $\fn{P}$, binary relation $\fn{A}$, and function $\fn{f}$.
+Our domain will be a list of numbers, $[1, 2, 3, 4, 5, 6]$. We interpret
+the symbols in the following way:
+- $a$ denotes 2, and $b$ denotes 5
+- $\fn{P}$ is true of 1, 2, and 3, and false of 4, 5, and 6
+- $\fn{A}(n, m)$ is true whenever $m = n + 1$
+- $\fn{f}(n)$ is $n+1$ when $n \neq 6$, and $f(6) = 1$. 
+
+Our list of numbers, along with these interpretations, provides a model
+$\MM$ for our language. For a sentence $\varphi$, we denote the
+statement "$\varphi$ is true in the model $\MM$ by $\MM \models \varphi$.
+
+Note that we have slightly abused notation here. We /cannot/ write that
+$\fn{A}(2, 3)$ is true, because $A$ is a syntactic symbol, and 2 and 3
+are semantic objects. More precisely, we should say that $\fn{A}(s, t)$
+is true whenever $s$ and $t$ are semantic terms that are interpreted as 
+numbers $n$ and $m$, respectively, such that $n = m + 1$. 
+
+With that aside noted, here is a list of true statements:
+- $\MM \models P(a)$. Since $a$ is interpreted as 2, and $P$ is true of 2,
+  this sentence is true.
+- $\MM \models P(a) \and \neg P(b)$. Here we draw on propositional logic:
+  a conjunction is true in a model exactly when each of the conjuncts is true
+  in that model, and a negation is true exactly when the non-negated formula
+  is false.
+- $\MM \models P(b) \vee P(f(a))$. Again, disjunction behaves exactly as
+  in the propositional setting. $\MM \models P(f(a))$, since the expression
+  $f(a)$ picks out the number 3 and $P$ is true of 3.
+- $\MM \models \ex x (P(x) \and P(f(f(x)))$. An existential statement is true
+  in a model if there is some element of the domain for which the rest of the
+  formula is true. In this case, $P$ is true of 1, and also of $f(f(1))$
+  (which is equal to 3). 

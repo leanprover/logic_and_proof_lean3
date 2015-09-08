@@ -3,7 +3,7 @@
 
 * Semantics of First Order Logic
 
-In Chapter [[file:03_Truth_Tables_and_Semantics.org][Truth Tables and Semantics]] we emphasized a distinction between
+In Chapter [[file:03_Truth_Tables_and_Semantics.org::#Truth_Tables_and_Semantics][Truth Tables and Semantics]] we emphasized a distinction between
 the /syntax/ and the /semantics/ of propositional logic. Syntactic questions
 had to do with the formal structure of formulas, and the conditions under
 which different types of formulas could be derived. Semantic questions,
@@ -149,7 +149,7 @@ Finally, remember that $\fa x \varphi$ meant that $\varphi$ was true for all pos
 values of $x$. We make this precise by saying that $\MM \models \fa x \varphi$ 
 exactly when for every element $a$ in the domain of $\MM$, interpreting $x$ as $a$
 gives that $\MM \models \varphi$. Alternatively, we can say that 
-$\MM \models \fa x \varphi$ when for every $a$ in the domain of $\MM$,
+$\MM \models \fa x \varphi$ when for every $a$ in the domain of $\MM$, we have
 $\MM \models \varphi[\bar a / x]$. In our example above, 
 $\MM \not\models \fa x (\fn{R}(x, b))$, since when we interpret $x$ as 2 we do not
 have $\MM \models \fn{R}(x, b)$.

@@ -33,7 +33,7 @@ of the language; now, choosing a domain will allow us to assign truth values
 to all sentences of a first order language. There is one small wrinkle here,
 which we will describe in the next section.
 
-** Models and Interpretations
+** Interpretations
 
 The symbols of the language in our running example -- 0, 1, $\fn{add}$, 
 $\fn{prime}$, and so on -- have very indicative names. When we interpret
@@ -62,8 +62,30 @@ We can interpret constant, function, and relation symbols in a similar way.
 An interpretation of constant symbol $c$ in domain $D$ is an element of $D$.
 An interpretation of a function symbol $\fn{f}$ with arity $n$ is a function
 that maps $n$ elements of $D$ to another element of $D$. An interpretation
-of a relation symbol $\fn{R}$ with arity $n$ is the set of $n$-tuples of elements
+of a relation symbol $\fn{R}$ with arity $n$ is the set of $n$ tuples of elements
 of $D$ for which $\fn{R}$ is true.
+
+It is important to emphasize the difference between a syntactic predicate symbol
+(or function symbol, or constant symbol) and the semantic predicate (or function,
+or object) to which it is interpreted. The former is a symbol, relates to other
+symbols, and has no meaning on its own until we specify an interpretation. It
+makes no sense to write $\fn{prime}(3)$, where $\fn{prime}$ is a predicate symbol
+and 3 is a natural number, since the argument to $\fn{prime}$ is supposed to be
+a syntactic term. Sometimes we may obscure this distinction, as above when we
+specified a language with constant symbols 0, 1, and 2. But there is still a
+fundamental distinction between the objects of the domain, and the symbols we
+use to represent them.
+
+Sometimes, when we interpret a language in a particular domain, it is useful to
+implicitly introduce new constant symbols into the language. Specifically, for
+each element $a$ of the domain, we introduce a constant symbol $\bar a$, which
+is interpreted to $a$. Then, the expression $\prime(\bar 3)$ /does/ make sense.
+Interpreting the predicate symbol $\fn{prime}$ in the natural way, this expression
+will evaluate to true. We think of $\bar 3$ as a linguistic "name" that represents the 
+natural number 3, in the same way that "Madonna" is a name that represents the
+flesh-and-blood pop singer.
+
+** Truth in Models
 
 Pick any first-order language. If we have a domain $D$ and interpretations
 in $D$ for each of the symbols of that language, then we can determine the
@@ -73,37 +95,110 @@ a /model/ for the language. A model for a first-order language is directly
 analogous to a truth assignment for propositional logic.
 
 Evaluating the truth of a sentence based on a model works intuitively,
-but the formal description of how to do it is slightly subtle. We will start
-with an example. Take the language with constant symbols $a, b$,
-predicate symbol $\fn{P}$, binary relation $\fn{A}$, and function $\fn{f}$.
-Our domain will be a list of numbers, $[1, 2, 3, 4, 5, 6]$. We interpret
-the symbols in the following way:
-- $a$ denotes 2, and $b$ denotes 5
-- $\fn{P}$ is true of 1, 2, and 3, and false of 4, 5, and 6
-- $\fn{A}(n, m)$ is true whenever $m = n + 1$
-- $\fn{f}(n)$ is $n+1$ when $n \neq 6$, and $f(6) = 1$. 
+but the formal description of how to do it is slightly subtle. First, recall the
+difference between /terms/ and /assertions/ that we made earlier in Chapter 4.
+Terms, like $a$, $x + y$, or $\fn{f}(c)$, are meant to represent objects. (A
+term does not have a truth value, since (for example) it makes no sense to 
+ask whether 3 is true or false.) Assertions, like $\fn{P}(a)$,
+$\fn{R}(x, \fn{f}(y))$,
+ or $a + b > a \wedge \fn{prime}(c)$, apply predicate
+or relation symbols to terms to produce statements that could be true or false.
 
-Our list of numbers, along with these interpretations, provides a model
-$\MM$ for our language. For a sentence $\varphi$, we denote the
-statement "$\varphi$ is true in the model $\MM$ by $\MM \models \varphi$.
+The interpretation of a term in a model is an element of the domain of that model.
+The model directly specifies how to interpret constant symbols. To interpret a term
+$\fn{f}(t)$ created by applying a function symbol to another term, we interpret the
+term $t$, and then apply the interpretation of $\fn{f}$ to this term. (This process
+makes sense, since the interpretation of $\fn{f}$ is a function on the domain.) 
+This generalizes to functions of higher arity in the obvious way. We will not yet
+interpret terms that include free variables like $x$ and $y$, since these terms
+do not pick out unique elements of the domain. (The variable $x$ could potentially
+refer to any object.)
 
-Note that we have slightly abused notation here. We /cannot/ write that
-$\fn{A}(2, 3)$ is true, because $A$ is a syntactic symbol, and 2 and 3
-are semantic objects. More precisely, we should say that $\fn{A}(s, t)$
-is true whenever $s$ and $t$ are semantic terms that are interpreted as 
-numbers $n$ and $m$, respectively, such that $n = m + 1$. 
+Similarly, the interpretation of an assertion is a value $\true$ or $\false$. For
+the sake of brevity, we will introduce some new notation here: if $\varphi$ is an
+assertion and $\MM$ is a model of the language of $\varphi$, we write 
+$\MM \models \varphi$ to mean that $\varphi$ interprets to $\true$ in $\MM$, and
+$\MM \not\models \varphi$ to mean that $\varphi$ interprets to $\false$.
 
-With that aside noted, here is a list of true statements:
-- $\MM \models P(a)$. Since $a$ is interpreted as 2, and $P$ is true of 2,
-  this sentence is true.
-- $\MM \models P(a) \and \neg P(b)$. Here we draw on propositional logic:
-  a conjunction is true in a model exactly when each of the conjuncts is true
-  in that model, and a negation is true exactly when the non-negated formula
-  is false.
-- $\MM \models P(b) \vee P(f(a))$. Again, disjunction behaves exactly as
-  in the propositional setting. $\MM \models P(f(a))$, since the expression
-  $f(a)$ picks out the number 3 and $P$ is true of 3.
-- $\MM \models \ex x (P(x) \and P(f(f(x)))$. An existential statement is true
-  in a model if there is some element of the domain for which the rest of the
-  formula is true. In this case, $P$ is true of 1, and also of $f(f(1))$
-  (which is equal to 3). 
+To interpret a predicate or relation applied to some terms, we first interpret those
+terms, and then see if the interpretation of the relation symbol is true of those 
+objects. For example, suppose the constant symbols $a$ and $b$ are interpreted in
+$\NN$ as 2 and 4, respectively, and the relation symbol $\fn{R}(x, y)$ is interpreted as
+the greater-than-or-equal-to relation. Then $\MM \not \models \fn{R}(a, b)$, since 2 is not
+greater than 4.
+
+Interpreting expressions using the logical connectives $\wedge$, $\vee$, $\to$, and $\neg$
+works exactly as it did in the propositional setting. $\MM \models \varphi \wedge \psi$
+exactly when $\MM \models \varphi$ and $\MM \models \psi$, and so on.
+
+We still need to explain how to interpret existential and universal expressions.
+We saw that $\ex x \varphi$ intuitively meant that there was /some/ element of
+the domain that would make $\varphi$ true, when we "replaced" the variable $x$ with
+that element. To make this a bit more precise, we say that $\MM \models \ex x \varphi$
+exactly when there is an element $a$ in the domain of $\MM$ such that, when we
+interpret $x$ as $a$, then $\MM \models \varphi$. To continue the example above,
+we have $\MM \models \ex x (\fn{R}(x, b))$, since when we interpret $x$ as 5 we have
+$\MM \models \fn{R}(x, b)$.
+
+More concisely, we can say that $\MM \models \ex x \varphi$ when there is an $a$ in
+the domain of $\MM$ such that $\MM \models \varphi[\bar a / x]$. The notation
+$\varphi[\bar a / x]$ indicates that every occurrence of $x$ in $\varphi$ has been
+replaced by the symbol $\bar a$.
+
+Finally, remember that $\fa x \varphi$ meant that $\varphi$ was true for all possible
+values of $x$. We make this precise by saying that $\MM \models \fa x \varphi$ 
+exactly when for every element $a$ in the domain of $\MM$, interpreting $x$ as $a$
+gives that $\MM \models \varphi$. Alternatively, we can say that 
+$\MM \models \fa x \varphi$ when for every $a$ in the domain of $\MM$,
+$\MM \models \varphi[\bar a / x]$. In our example above, 
+$\MM \not\models \fa x (\fn{R}(x, b))$, since when we interpret $x$ as 2 we do not
+have $\MM \models \fn{R}(x, b)$.
+
+These rules allow us to determine the truth value of any /sentence/ in a model.
+(Remember, a sentence is a formula with no free variables.) There are some subtleties:
+for instance, we've implicitly assumed that our formula doesn't quantify over the
+same variable twice, as in $\fa x \ex x \varphi$. But for the most part, the
+interpretation process tells us to "read" a formula as talking directly about objects in
+the domain.
+
+** Examples
+
+Take a simple language with no constant symbols, one relation symbol $\leq$, and
+one binary function symbol $+$. Our model $\MM$ will have domain $NN$, and the symbols
+will be interpreted as the standard less-than-or-equal-to relation and addition function.
+
+Think about the following questions before you read the answers below! Remember,
+our domain is $\NN$, not $\ZZ$ or any other number system.
+
+- Is it true that $\MM \models \ex x (x \leq x)$? What about $\MM \models \fa x (x \leq x)$?
+- Similarly, what about $\MM \models \ex x (x + x \leq x)$? $\MM \models \fa x (x + x \leq x)$?
+- Do the sentences $\ex x \fa y (x \leq y)$ and $\fa x \ex y (x \leq y)$ mean the
+  same thing? Are they true or false?
+- Can you think of a formula $\varphi$ in this language, with one free variable $x$,
+  such that $\MM \models \fa x \varphi$ but $\MM \not \models \ex x \varphi$?
+
+These questions indicate a subtle, and often tricky, interplay between the universal
+and existential quantifiers. Once you've thought about them a bit, read on:
+
+- Both of these statements are true. For the former, we can (for example) interpret
+  $x$ as the natural number 0. Then, $\MM \models x \leq x$, so the existential is true.
+  For the latter, pick an arbitrary natural number $n$; it is still the case that when
+  we interpret $x$ as $n$, we have $\MM \models x \leq x$.
+- The first statement is true, since we can interpret $x$ as 0. The second statement,
+  though, is false. When we interpret $x$ as 1 (or, in fact, as any natural number
+  besides 0), we see that $\MM \not \models x + x \leq x$. 
+- These sentences do /not/ mean the same thing, although in the specified model,
+  both are true. The first expresses that some natural number is less than or equal
+  to every natural number. This is true: 0 is less than or equal to every natural
+  number. The second sentence says that for every natural number, there is another
+  natural number at least as big. Again, this is true: every natural number $a$ is
+  less than or equal to $a$.
+- The situation described here is impossible in our model. If $\MM \models \fa x \varphi$,
+  then $\MM \models \varphi [\bar 0 / x]$, which implies that $\MM \models \ex x \varphi$.
+  The only time this situation can happen is when the domain of our model is empty.
+
+CONTINUE: BLOCKS WORLD
+
+** Validity
+
+** Soundness and Completeness

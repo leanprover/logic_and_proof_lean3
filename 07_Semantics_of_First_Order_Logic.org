@@ -13,15 +13,16 @@ truth assignment.
 As you might expect, we make a similar distinction in the setting of first
 order logic. The previous two chapters have focused mainly on syntax, but
 some semantic ideas have slipped in. Recall the running example with domain
-of interest $\NN$, constants 0, 1, 2, 3, functions $\fn{add}$ and $\fn{mul}$, and predicates
+of interest $\NN$, constant symbols 0, 1, 2, 3, function symbols $\fn{add}$ 
+and $\fn{mul}$, and predicate symbols
 $\fn{even}, \fn{prime}, \fn{equals}, \fn{lt}$, etc. We know that the formula 
-$\forall y, \fn{lt}(0, y)$
+$\forall y (\fn{lt}(0, y))$
 is true in this example. But if we consider the domain $\ZZ$ instead of $\NN$,
 that same formula becomes false.
 
 This indicates that the truth or falsity or a first order formula can depend on
 what domain we have chosen to consider. But some formulas can be true (or false)
-regardless of the domain: for instance, $\fa y, \fn{lt}(0, y) \to \fn{lt}(0, y)$
+regardless of the domain: for instance, $\fa y (\fn{lt}(0, y) \to \fn{lt}(0, y))$
 will be true over $\NN$, and $\ZZ$, and any other set we choose. A formula like
 this is called a /tautology/, and is analogous to a tautology in propositional
 logic that is true under every possible truth assignment.
@@ -41,7 +42,7 @@ sentences of this language over the domain $\NN$, for example, it is clear
 for which elements of the domain $\fn{prime}$ "should" be true, and for which
 it "should" be false. Let's consider a new first order language, which has 
 only two unary predicate symbols $\fn{fancy}$ and $\fn{tall}$. If we take
-our domain to be $\NN$, is the sentence $\fa x, \fn{fancy}(x) \to \fn{tall}(x)$
+our domain to be $\NN$, is the sentence $\fa x (\fn{fancy}(x) \to \fn{tall}(x))$
 true or false?
 
 The answer, of course, is that we don't have enough information to say. There's
@@ -79,7 +80,7 @@ use to represent them.
 Sometimes, when we interpret a language in a particular domain, it is useful to
 implicitly introduce new constant symbols into the language. Specifically, for
 each element $a$ of the domain, we introduce a constant symbol $\bar a$, which
-is interpreted to $a$. Then, the expression $\prime(\bar 3)$ /does/ make sense.
+is interpreted to $a$. Then, the expression $fn{prime}(\bar 3)$ /does/ make sense.
 Interpreting the predicate symbol $\fn{prime}$ in the natural way, this expression
 will evaluate to true. We think of $\bar 3$ as a linguistic "name" that represents the 
 natural number 3, in the same way that "Madonna" is a name that represents the
@@ -97,9 +98,9 @@ analogous to a truth assignment for propositional logic.
 Evaluating the truth of a sentence based on a model works intuitively,
 but the formal description of how to do it is slightly subtle. First, recall the
 difference between /terms/ and /assertions/ that we made earlier in Chapter 4.
-Terms, like $a$, $x + y$, or $\fn{f}(c)$, are meant to represent objects. (A
+Terms, like $a$, $x + y$, or $\fn{f}(c)$, are meant to represent objects. A
 term does not have a truth value, since (for example) it makes no sense to 
-ask whether 3 is true or false.) Assertions, like $\fn{P}(a)$,
+ask whether 3 is true or false. Assertions, like $\fn{P}(a)$,
 $\fn{R}(x, \fn{f}(y))$,
  or $a + b > a \wedge \fn{prime}(c)$, apply predicate
 or relation symbols to terms to produce statements that could be true or false.
@@ -118,7 +119,8 @@ Similarly, the interpretation of an assertion is a value $\true$ or $\false$. Fo
 the sake of brevity, we will introduce some new notation here: if $\varphi$ is an
 assertion and $\MM$ is a model of the language of $\varphi$, we write 
 $\MM \models \varphi$ to mean that $\varphi$ interprets to $\true$ in $\MM$, and
-$\MM \not\models \varphi$ to mean that $\varphi$ interprets to $\false$.
+$\MM \not\models \varphi$ to mean that $\varphi$ interprets to $\false$. (You can
+read the symbol $\models$ as "satisfies" or "validates.")
 
 To interpret a predicate or relation applied to some terms, we first interpret those
 terms, and then see if the interpretation of the relation symbol is true of those 
@@ -218,8 +220,9 @@ to represent a small red block, and similarly for =G, g, B, b=.
 
 The logical language we use to describe our block world has predicates =red, green, 
 blue, small= and =large= that are interpreted in the obvious ways. The relation 
-adjacent(x, y)= is true if the blocks referred to by =x= and =y= are touching, not on
-a diagonal. The relations =same_row(x, y)= and =same_col(x, y)= are also self-explanatory.
+=adjacent(x, y)= is true if the blocks referred to by =x= and =y= are touching, not on
+a diagonal. The relations =same_color(x, y)=, =same_size(x, y)=, =same_row(x, y)=,
+and =same_column(x, y)= are also self-explanatory.
 
 At the bottom of the following Lean file is a grid of blocks, and a number of sentences
 in our logical language. The meaning of the commands =eval is_true= is not important, but
@@ -301,29 +304,6 @@ definition I [reducible] := (fin rows) × (fin cols)
 definition I_pred_of_nat_pred [reducible] (P : ℕ → ℕ → Prop) : I → Prop
   | (n, m) := P n m
 
--- uncommenting this breaks the proof of dec_adj below
-
-/-definition I_pred_dec_of_nat_pred_dec [instance] (P : ℕ → ℕ → Prop) [H : ∀ i : I, decidable (P (val (pr1 i)) (val (pr2 i)))] :
-           decidable_pred ((I_pred_of_nat_pred P)) :=
-  begin
-    intro i,
-    induction i,
-    apply _
-  end-/
-
-/-example (i : I) : decidable (I_pred_of_nat_pred (λ n m, n = m) i) := begin apply @I_pred_dec_of_nat_pred_dec _ (λ n m, n = m) i !nat.has_decidable_eq end -- why doesn't this infer has_decidable_eq
---I_pred_dec_of_nat_pred_dec (λ n m, n = m)
-
-definition I_pred_of_nat_pred_2 [reducible] (P : ℕ → ℕ → ℕ → ℕ → Prop) : I → I → Prop
-  | (n, m) (o, p) := P n m o p
-
-/-definition I_pred_dec_of_nat_pred_dec_2 [instance] (P : ℕ → ℕ → ℕ → ℕ → Prop) (i j : I) [H : decidable (P (val (pr1 i)) (val (pr2 i)) (val (pr1 j)) (val (pr2 j)))] : decidable ((I_pred_of_nat_pred_2 P) i j) :=
-  begin
-    induction i,
-    induction j,
-    apply H
-  end-/-/
-
 definition color_at : I → col
   | (n, m) := pr1 (ith (ith world n) m)
 
@@ -349,11 +329,6 @@ open int
 definition nadj [reducible] (v1 v2 v3 v4 : ℕ) :=
   (v1 = v3 ∧ (of_nat v2 = of_nat v4 - 1 ∨ of_nat v2 = of_nat v4 + 1))
     ∨ (v2 = v4 ∧ (of_nat v1 = of_nat v3 - 1 ∨ of_nat v1 = of_nat v3 + 1))
-
-/-definition adj [reducible] : I → I → Prop :=
-  I_pred_of_nat_pred_2 nadj
-
-example (i j : I) : decidable (adj i j) := I_pred_dec_of_nat_pred_dec_2 nadj i j-/
 
 definition adj [reducible] : I → I → Prop
   | adj (i1, i2) (i3, i4) :=
@@ -435,4 +410,32 @@ eval is_true (∃ y, ∀ x, adj x y → same_color x y)
 
 ** Validity
 
+As we have now seen many times, whether a formula is true or false often depends
+on the model we choose. Some formulas, though, are true in every possible model. An
+example we saw earlier was $\fa y (\fn{lt}(0, y) \to \fn{lt}(0, y))$. Why is this
+formula a tautology? Suppose $\MM$ is an arbitrary model of the language, and 
+suppose $a$ is an arbitrary element of the domain of $\MM$. Either
+$\MM \models \fn{lt}(0, \bar a)$ or $\MM \models \neg \fn{lt}(0, \bar a)$.
+In either case, the propositional semantics of implication guarantee that
+$\MM \models \fn{lt}(0, \bar a) \to \fn{lt}(0, \bar a)$. 
+
+In the propositional setting, there is an easy method to figure out if a formula
+is a tautology or not. Writing the truth table and checking for any rows ending with
+$\false$ is algorithmic, and we know from the beginning exactly how large the truth
+table will be. Unfortunately, we cannot do the same for first-order formulas. Any
+language has infinitely many models, so a "first-order" truth table would be infinitely
+long. To make matters worse, even checking whether a formula is true in a single
+model can be a non-algorithmic task. To decide whether a universal statement like
+$\fa x (\fn{P} x)$ is true in a model with an infinite domain, we might have to check
+whether $\fn{P}$ is true of infinitely many elements.
+
+This is not to say that we can /never/ figure out if a first-order sentence is a 
+tautology. (Two paragraphs above, we argued that $\fa y (\fn{lt}(0, y) \to \fn{lt}(0, y))$
+was one.) It is just a more difficult question than for propositional logic.
+
 ** Soundness and Completeness
+
+In propositional logic, we saw a close connection between the provable formulas
+and the tautologies -- specifically, a formula is provable if and only if it is
+a tautology. 
+...

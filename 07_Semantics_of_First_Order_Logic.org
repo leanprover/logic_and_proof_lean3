@@ -197,7 +197,241 @@ and existential quantifiers. Once you've thought about them a bit, read on:
   then $\MM \models \varphi [\bar 0 / x]$, which implies that $\MM \models \ex x \varphi$.
   The only time this situation can happen is when the domain of our model is empty.
 
-CONTINUE: BLOCKS WORLD
+Now consider a different language with constant symbol 2, predicate symbols $\fn{prime}$
+and $\fn{odd}$, and binary relation $<$, interpreted in the natural way over domain 
+$\NN$. The sentence $\fa x ((2 < x \wedge \fn{prime}(x)) \to \fn{odd}(x))$ expresses
+the fact that every prime number bigger than 2 is odd. It is an example of /relativization/,
+discussed in Chapter 4. We can now see semantically how relativization works. This sentence
+is true in our model if, for every natural number $n$, interpreting $x$ as $n$ makes the
+sentence true. If we interpret $x$ as 0, 1, or 2, or as any non-prime number, the hypothesis
+of the implication is false, and thus $(2 < x \wedge \fn{prime}(x))$ is true. Otherwise,
+if we interpret $x$ as a prime number bigger than 2, both the hypothesis and conclusion
+of the implication are true, and $(2 < x \wedge \fn{prime}(x))$ is again true. Thus the
+universal statement holds. It was an example like this that partially motivated our
+semantics for implication back in Chapter 3; any other choice would make relativization
+impossible.
+
+Our next example is interactive, and draws from the book Tarski's World. [CITE] Here,
+our domain of interest will be a grid of blocks. Blocks have a color (red, blue, or green)
+and a size (small or large). We use the letter =R= to represent a large red block and =r=
+to represent a small red block, and similarly for =G, g, B, b=. 
+
+The logical language we use to describe our block world has predicates =red, green, 
+blue, small= and =large= that are interpreted in the obvious ways. The relation 
+adjacent(x, y)= is true if the blocks referred to by =x= and =y= are touching, not on
+a diagonal. The relations =same_row(x, y)= and =same_col(x, y)= are also self-explanatory.
+
+At the bottom of the following Lean file is a grid of blocks, and a number of sentences
+in our logical language. The meaning of the commands =eval is_true= is not important, but
+the info window for each of these lines will tell you whether that sentence is true or
+false in the current model.
+
+For each sentence, see if you can find arrangements for the world that make the sentence
+true and false. For an extra challenge, try to make all of the sentences true simultaneously.
+Feel free to add more rows or columns to the grid of blocks -- as long as each row has
+the same number of blocks in it, Lean will figure out the right way to interpret the
+predicates.
+
+(TODO: MORE SENTENCES)
+
+#+BEGIN_SRC lean
+import data.list data.fin data.fintype data.tuple
+open tuple fin prod nat fintype
+
+inductive col : Type :=
+  | red : col
+  | green : col
+  | blue : col
+
+inductive size : Type :=
+  | small : size
+  | large : size
+
+definition block [reducible] := col × size
+
+definition R := pair col.red size.large
+definition r := pair col.red size.small
+definition G := pair col.green size.large
+definition g := pair col.green size.small
+definition B := pair col.blue size.large
+definition b := pair col.blue size.small
+
+definition dec_eq_col [instance] : decidable_eq col :=
+  begin
+    intros c1 c2,
+    induction c1,
+    repeat (induction c2;
+      repeat (exact decidable.inl rfl | exact decidable.inr col.no_confusion))
+  end
+
+definition dec_eq_size [instance] : decidable_eq size :=
+  begin
+    intros c1 c2,
+    induction c1,
+    repeat (induction c2;
+      repeat (exact decidable.inl rfl | exact decidable.inr size.no_confusion))
+  end
+
+section
+open list
+
+definition fin_color [instance] : fintype col :=
+  fintype.mk [col.red, col.green, col.blue] dec_trivial
+    (by intro a; induction a; repeat apply dec_trivial)
+
+definition fin_size [instance] : fintype size :=
+  fintype.mk [size.small, size.large] dec_trivial
+    (by intro a; induction a; repeat apply dec_trivial)
+
+end
+
+structure world_type [class] :=
+   {rows cols : ℕ}
+   (world : tuple (tuple block cols) rows)
+
+---------------------------------
+section defs
+variable [w : world_type]
+include w
+definition world := world_type.world
+definition rows := world_type.rows
+definition cols := world_type.cols
+definition I [reducible] := (fin rows) × (fin cols)
+
+definition I_pred_of_nat_pred [reducible] (P : ℕ → ℕ → Prop) : I → Prop
+  | (n, m) := P n m
+
+-- uncommenting this breaks the proof of dec_adj below
+
+/-definition I_pred_dec_of_nat_pred_dec [instance] (P : ℕ → ℕ → Prop) [H : ∀ i : I, decidable (P (val (pr1 i)) (val (pr2 i)))] :
+           decidable_pred ((I_pred_of_nat_pred P)) :=
+  begin
+    intro i,
+    induction i,
+    apply _
+  end-/
+
+/-example (i : I) : decidable (I_pred_of_nat_pred (λ n m, n = m) i) := begin apply @I_pred_dec_of_nat_pred_dec _ (λ n m, n = m) i !nat.has_decidable_eq end -- why doesn't this infer has_decidable_eq
+--I_pred_dec_of_nat_pred_dec (λ n m, n = m)
+
+definition I_pred_of_nat_pred_2 [reducible] (P : ℕ → ℕ → ℕ → ℕ → Prop) : I → I → Prop
+  | (n, m) (o, p) := P n m o p
+
+/-definition I_pred_dec_of_nat_pred_dec_2 [instance] (P : ℕ → ℕ → ℕ → ℕ → Prop) (i j : I) [H : decidable (P (val (pr1 i)) (val (pr2 i)) (val (pr1 j)) (val (pr2 j)))] : decidable ((I_pred_of_nat_pred_2 P) i j) :=
+  begin
+    induction i,
+    induction j,
+    apply H
+  end-/-/
+
+definition color_at : I → col
+  | (n, m) := pr1 (ith (ith world n) m)
+
+definition size_at : I → size
+  | (n, m) := pr2 (ith (ith world n) m)
+
+definition blue [reducible] (i : I) := color_at i = col.blue
+
+definition red [reducible] (i : I) := color_at i = col.red
+
+definition green [reducible] (i : I) := color_at i = col.green
+
+definition large [reducible] (i : I) := size_at i = size.large
+
+definition small [reducible] (i : I) := size_at i = size.small
+
+definition same_color [reducible] (i j : I) := color_at i = color_at j
+
+definition same_size [reducible] (i j : I) := size_at i = size_at j
+
+open int
+
+definition nadj [reducible] (v1 v2 v3 v4 : ℕ) :=
+  (v1 = v3 ∧ (of_nat v2 = of_nat v4 - 1 ∨ of_nat v2 = of_nat v4 + 1))
+    ∨ (v2 = v4 ∧ (of_nat v1 = of_nat v3 - 1 ∨ of_nat v1 = of_nat v3 + 1))
+
+/-definition adj [reducible] : I → I → Prop :=
+  I_pred_of_nat_pred_2 nadj
+
+example (i j : I) : decidable (adj i j) := I_pred_dec_of_nat_pred_dec_2 nadj i j-/
+
+definition adj [reducible] : I → I → Prop
+  | adj (i1, i2) (i3, i4) :=
+    fin.rec_on i1 (fin.rec_on i2 (fin.rec_on i3 (fin.rec_on i4
+    (λ v1 Hv1 v2 Hv2 v3 Hv3 v4 Hv4, nadj v1 v2 v3 v4))))
+
+definition dec_adj [instance] (i j : I) : decidable (adj i j) :=  begin
+    induction i with [i1, i2],
+    induction j with [i3, i4],
+    induction i1,
+    induction i2,
+    induction i3,
+    induction i4,
+    apply _
+  end
+
+definition same_row [reducible] : I → I → Prop
+  | same_row (i1, i2) (i3, i4) := fin.rec_on i1 (fin.rec_on i3 (λ va Ha vc Hc, va = vc))
+
+definition same_row_dec [instance] (i j : I) : decidable (same_row i j) :=
+  begin
+    induction i with [i1, i2],
+    induction j with [i3, i4],
+    induction i1,
+    induction i3,
+    apply _
+  end
+
+definition same_column [reducible] : I → I → Prop
+  | same_column (i1, i2) (i3, i4) := fin.rec_on i2 (fin.rec_on i4 (λ va Ha vc Hc, va = vc))
+
+definition same_col_dec [instance] (i j : I) : decidable (same_column i j) :=
+  begin
+    induction i with [i1, i2],
+    induction j with [i3, i4],
+    induction i2,
+    induction i4,
+    apply _
+  end
+end defs
+
+open list
+
+definition to_tuple1 (L : list block) : tuple block (length L) :=
+  subtype.tag L rfl
+prefix `'` : 50 := to_tuple1
+
+definition to_tuple2 {n : ℕ} (L : list (tuple block n)) : tuple (tuple block n) (length L) :=
+  subtype.tag L rfl
+prefix `''` : 50 := to_tuple2
+
+
+---------------------------------
+-- arrange this world to your liking.
+-- all rows must have the same length.
+
+definition world_setup :=
+ ''['[R, r, g, b],
+    '[R, b, G, b],
+    '[B, B, B, b]]
+
+definition ws_inst [instance] := world_type.mk world_setup
+
+eval is_true (∀ x : I, green x ∨ blue x)
+
+eval is_true (∃ x y, adj x y ∧ green x ∧ green y)
+
+eval is_true (∀ x, large x → ∃ y, small y ∧ adj x y)
+
+eval is_true (∀ x, green x → ∃ y, same_row x y ∧ blue y)
+
+eval is_true (∀ x y, same_row x y ∧ same_column x y → x = y)
+
+eval is_true (∀ x, ∃ y, adj x y ∧ same_color x y)
+
+eval is_true (∃ y, ∀ x, adj x y → same_color x y)
+
+#+END_SRC
 
 ** Validity
 

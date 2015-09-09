@@ -1,5 +1,5 @@
 #+Title: Logic and Proof
-#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[https://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
 
 * Semantics of First Order Logic
 
@@ -380,7 +380,7 @@ definition to_tuple2 {n : ℕ} (L : list (tuple block n)) : tuple (tuple block n
   subtype.tag L rfl
 prefix `''` : 50 := to_tuple2
 
-
+-- BEGIN
 ---------------------------------
 -- arrange this world to your liking.
 -- all rows must have the same length.
@@ -392,7 +392,7 @@ definition world_setup :=
 
 definition ws_inst [instance] := world_type.mk world_setup
 
-eval is_true (∀ x : I, green x ∨ blue x)
+eval is_true (∀ x, green x ∨ blue x)
 
 eval is_true (∃ x y, adj x y ∧ green x ∧ green y)
 
@@ -405,7 +405,7 @@ eval is_true (∀ x y, same_row x y ∧ same_column x y → x = y)
 eval is_true (∀ x, ∃ y, adj x y ∧ same_color x y)
 
 eval is_true (∃ y, ∀ x, adj x y → same_color x y)
-
+-- END
 #+END_SRC
 
 ** Validity

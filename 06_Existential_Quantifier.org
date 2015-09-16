@@ -1,0 +1,228 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[https://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* The Existential Quantifier
+
+As discussed in Chapter [[file:04_First_Order_Logic.org][First Order Logic]] we have two quantifiers in first-order logic. We already
+discussed the universal quantifier, but now it is time to study the existential quantifier.
+
+** Rules for the Existential Quantifier
+
+The following statements about the natural numbers reference the existence of some natural number:
+
+- There exists an odd composite number (A number is /composite/ if it is not prime and greater than
+  one).
+- Every number greater than one has a prime divisor.
+- For every $n$, if $n$ has a prime divisor smaller than $n$, then $n$ is composite.
+
+These statements can be expressed in first order logic using the existential quantifier in the
+following way
+
+- $\ex n (\fn{odd}(n) \wedge \fn{composite}(n))$.
+- $\fa n (n > 1 \to \ex p ( \fn{prime}(p) \wedge p\mid n))$.
+- $\fa n ((\ex p (p \mid n \wedge \fn{prime}(p) \wedge p < n)) \to \fn{composite}(n))$.
+
+After we write $\ex n$ the variable $n$ is /bound/ in the formula, just as for the universal
+quantifier. So the formulas $\ex n \fn{composite}(n)$ and $\ex m \fn{composite}(m)$ are the same. 
+
+How do we prove such existential statements? Suppose we want to prove that there exists an odd
+composite number. To do this, we just give a candidate, and show that the candidate satisfies the
+required properties. For example, we could choose 15, and then show that 15 is odd and that 15 is
+prime. Of course, there's nothing special about 15, and we could have proven it also using a
+different number, like 9 or 35. The number which we use to prove it doesn't matter.
+
+In a natural deduction proof this would look like this:
+\begin{prooftree}
+\AXM{\vdots}
+\UIM{\fn{odd}(15)\wedge\fn{composite}(15)}
+\UIM{\ex n(\fn{odd}(n)\wedge\fn{composite}(n))}
+\end{prooftree}
+
+This illustrates the introduction rule for the existential quantifier 
+\begin{prooftree}
+\AXM{A(t)}
+\UIM{\ex x A(x)}
+\end{prooftree}
+where $t$ is any term. So to prove an existential formula, we just have to give one particular
+term for which we can prove that formula. Such term is called a /witness/ for the formula.
+
+What about the elimination rule? Suppose that we know that $n$ is some natural number and we know
+that there exists a prime $p$ such that $p < n$ and $p \mid n$. How can we use this to prove that
+$n$ is composite? We can reason as follows:
+#+BEGIN_QUOTE
+Let $p$ be any prime such that $p < n$ and $p \mid n$. 
+
+...
+
+Therefore, $n$ is composite.
+#+END_QUOTE
+
+So we assume that there is some $p$ which satisfies the properties $p$ is prime, $p < n$ and $p \mid
+n$. Here $p$ has to be a new variable. Suppose we were in the middle of a proof where we already
+introduced a variable $q$ and had some information about $q$, then we cannot also assume that $q$
+satisfies the properties $q$ is prime, $q < n$ and $q \mid n$ from the existential quantifier. 
+
+The elimination rule for the existential quantifier is a little tricky, since we have to describe
+what it means for a variable $p$ to be `new' or `fresh'. What is means in natural deduction is that
+the variable cannot occur in the conclusion and not in any assumption other than the ones we can cancel.
+
+So the elimination rule is:
+\begin{prooftree}
+\AXM{\ex x A(x)}
+\AXM{}
+\UIM{H : A(y)}\
+\UIM{\vdots}
+\UIM{B}
+\RLM{H}
+\BIM{B}
+\end{prooftree}
+
+as long as $y$ is not free in $B$ /and/ the only uncanceled hypotheses where $y$ occurs freely are
+of the form $A(y)$ (and will hence be canceled by applying this rule). You are allowed to cancel
+multiple hypotheses $A(y)$.
+
+What this rule says is that you start the proof by assuming $A(y)$ for a fresh variable $y$ ($y$ is
+fresh because $y$ is not allowed). From this assumption you conclude (in multiple steps) that $B$ holds.
+
+Here is an example, which shows that if $A(x)$ always implies $\neg B(x)$, then there cannot be an
+$x$ for which both $A(x)$ and $B(x)$ holds.
+
+\begin{prooftree}
+\AXM{}
+\UIM{H_2 : \ex x(A(x) \wedge B(x))}
+\AXM{}
+\UIM{H_1 : \fa x (A(x) \to \neg B(x))}
+\UIM{A(x) \to \neg B(x)}
+\AXM{}
+\UIM{H_3 : A(x) \wedge B(x)}
+\UIM{A(x)}
+\BIM{\neg B(x)}
+\AXM{}
+\UIM{H_3 : A(x) \wedge B(x)}
+\UIM{B(x)}
+\BIM{\bot}
+\RLM{H_3}
+\BIM{\bot}
+\RLM{H_2}
+\UIM{\neg\ex x(A(x) \wedge B(x))}
+\RLM{H_1}
+\UIM{\fa x (A(x) \to \neg B(x)) \to \neg\ex x(A(x) \wedge B(x))}
+\end{prooftree}
+In this proof tree, the existential elimination rule (the line labeled $H_3$) is used to cancel two
+hypotheses at the same time. Also note that when this rule was applied the hypothesis $\fa x (A(x)
+\to \neg B(x))$ was not yet canceled. So we have to make sure that this formula doesn't contain the
+variable $x$ freely. But this is okay, since this hypothesis contains $x$ only as a bound variable.
+
+Another example is that if $x$ does not occur in $P$, then $\ex x P$ is equivalent to $P$:
+
+\begin{prooftree}
+\AXM{}
+\UIM{H : \ex x P}
+\AXM{}
+\UIM{H_2 : P}
+\RLM{H_2}
+\BIM{P}
+\AXM{}
+\UIM{H : P}
+\UIM{\ex x P}
+\RLM{H}
+\BIM{\ex x P \liff P}
+\end{prooftree}
+
+This proof tree is deceptively short, but quite complicated to read, so let's see how it works. On
+the left, we assume $\ex x P$ to conclude $P$. We assume $P$, and now we can immediately cancel this
+assumption by existential elimination, since $x$ does not occur in $P$, so it doesn't occur freely
+in any assumption or in the conclusion. On the right we use existential introduction to conclude
+$\ex x P$ from $P$.
+
+We can also reason with existential quantification in Lean. We can enter the existential quantifier
+with =\ex=. The introduction rule is =exists.intro=. This requires two arguments: a term, and a
+proof that that term satisfies the required property.
+
+#+BEGIN_SRC lean
+variable U : Type
+variable P : U → Prop
+
+example (y : U) (H : P y) : ∃x, P x :=
+exists.intro y H
+#+END_SRC
+
+The elimination rule for the existential quantifier is the =obtain= command. 
+Given a term of type =∃x, P x= we can use it to get a new variable =y= and a proof that =P y= holds.
+#+BEGIN_SRC lean
+variable U : Type
+variable P : U → Prop
+variable Q : Prop
+
+example (H1 : ∃x, P x) (H2 : ∀x, P x → Q) : Q :=
+obtain (y : U) (H : P y), from H1,
+have P y → Q, from H2 y,
+show Q, from this H
+#+END_SRC
+Some additional notes
+- We can use =obtain= without specifying the type of the variables and proofs we get. So if we
+  replace the first line of the proof in the above example by =obtain y H, from H1,= that would also
+  be accepted.
+- We can also introduce anonymous variables, giving the type between backticks instead of the
+  variable. Then we can later refer to this assertion by writing the type between backticks
+  again. It works the same as a anonymous =have= expression. However, we cannot use the keyword
+  =this= for variables introduced by =obtain=.
+- We can also use =obtain= to destruct a hypothesis of the form =P ∧ Q= to get a proof of =P= and a proof of =Q=.
+
+These features are all illustrated in the following example:
+#+BEGIN_SRC lean
+variable U : Type
+variables P R : U → Prop
+variable Q : Prop
+
+example (H1 : ∃x, P x ∧ R x) (H2 : ∀x, P x → R x → Q) : Q :=
+obtain y `P y` `R y`, from H1,
+show Q, from H2 y `P y` `R y`
+#+END_SRC
+
+The proof trees we gave above can be formulated in Lean as follows. In this example we also use the
+anonymous =assume=, which works the same as the anonymous =obtain=.
+
+#+BEGIN_SRC lean
+variable U : Type
+variable u : U
+variables A B : U → Prop
+variable P : Prop
+
+example : (∀x, A x → ¬ B x) → ¬ ∃x, A x ∧ B x :=
+assume `∀x, A x → ¬ B x` `∃x, A x ∧ B x`,
+obtain x `A x` `B x`, from `∃x, A x ∧ B x`,
+have ¬ B x, from `∀x, A x → ¬ B x` x `A x`,
+`¬ B x` `B x`
+
+example : (∃x : U, P) ↔ P :=
+iff.intro
+  (assume H : ∃x, P, 
+   obtain x `P`, from H,
+   `P`)
+  (assume `P`, exists.intro u `P`)
+#+END_SRC
+
+In the second example we used that =U= is inhabited by the element =u=, because the statement is
+false for non-empty =U=. In the natural deduction proof we didn't have to require this
+specifically. This is because we implicitly assume that the underlying universe we work in is
+non-empty. We will elaborate on this in Chapter [[file:07_Semantics_of_First_Order_Logic.org][Semantics of First Order Logic]]. 
+
+** Counterexamples
+
+- examples of counterexamples
+- proof that not forall is exist not
+
+** Relativized Quantifiers
+
+- difference between relativized existential and relativized universal quantifier
+- simulating other quantifiers: "exists at least 2", "exist at most 2", "exist exactly 2"
+
+** Number Theory
+
+- divisibility
+- modulo arithmetic
+
+** Geometry
+
+- examples/exercises

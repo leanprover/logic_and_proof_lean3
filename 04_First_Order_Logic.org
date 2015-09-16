@@ -333,8 +333,7 @@ for reasoning with such expressions.
 Dual to the universal quantifier is the existential quantifier,
 $\exists$, which is used to express assertions such as "some number is
 even," or, "between any two even numbers there is an odd number." We
-will discuss the existential quantifier and its use in a later
-chapter. 
+will discuss the existential quantifier and its use in Chapter [[file:06_Existential_Quantifier.org][Existential Quantifier]]. 
 
 Indeed, to complete the presentation of first-order logic, we need to
 present the rules of the universal quantifier, the existential
@@ -354,7 +353,7 @@ that $a^2 = 2 b^2$.
 The advantage of this formulation is that we can restrict our
 attention to the natural numbers, without having to consider the
 larger domain of rationals. In symbolic logic, assuming our intended
-domain of discourse is the natural numbers, we woud express this
+domain of discourse is the natural numbers, we would express this
 theorem using the universal quantifier:
 \begin{equation*}
 \fa {a, b} \neg (a^2 = 2 b^2). 
@@ -456,9 +455,11 @@ The following example of a proof in natural deduction shows that if,
 for every $x$, $A(x)$ holds, and for every $x$, $B(x)$ holds, then for
 every $x$, they both hold:
 \begin{prooftree}
-\AXM{HA : \fa x A(x)}
+\AXM{}
+\UIM{HA : \fa x A(x)}
 \UIM{A(y)}
-\AXM{HB : \fa x B(x)}
+\AXM{}
+\UIM{HB : \fa x B(x)}
 \UIM{B(y)}
 \BIM{A(y) \wedge B(y)}
 \UIM{\fa y (A(y) \wedge B(y))}
@@ -894,7 +895,7 @@ $x$, if $x$ is prime and $x$ is greater than or equal to 2, then $x$
 is odd," but it is natural to read it as a restricted quantifier. It
 is also possible to relativize the existential quantifier to say
 things like "some woman is strong" and "some man is good-looking." We
-will see how to do this in a later chapter.
+will see how to do this in Chapter [[file:06_Existential_Quantifier.org][Existential Quantifier]].
 
 Now, suppose we are studying geometry, and we want to express the fact
 that given any two distinct points $p$ and $q$ and any two lines $L$

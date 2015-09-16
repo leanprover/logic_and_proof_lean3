@@ -930,7 +930,7 @@ Here are some additional notes:
    =proposition=, =corollary=, followed by the name of the proof.
 
 - You can omit a label in a =have= statement. You can then refer to
-   that fact using the label =this=, until the next anonymoyus
+   that fact using the label =this=, until the next anonymous
    =have=. Alternatively, at any point later in the proof, you can
    refer to the fact by putting the assertion between backticks.
 

@@ -1,0 +1,683 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://https://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Equality
+:PROPERTIES:
+  :CUSTOM_ID: Equality
+:END:
+
+In this chapter, we will study informal and formal treatments of
+equality. In symbolic logic, the equality symbol is meant to model
+what we mean when we say, for example, "Alice's brother is the
+victim," or "2 + 2 = 4." We are asserting that two different
+descriptions refer to the same object. Because the notion can be
+applied to virtually any domain of objects, it is viewed as falling
+under the province of logic, and the goal of this chapter is to study
+its rules of use.
+
+** Equivalence Relations and Equality
+
+In ordinary mathematical language, an /equivalence relation/ is
+defined as follows.
+
+-----
+*Definition*. A binary relation $\equiv$ on some domain $A$ is said to
+ be an /equivalence relation/ if it is reflexive, symmetric, and
+ transitive. In other words, $\equiv$ is an equivalent relation if it
+ satisfies these three properties:
+- /reflexivity/: $a \equiv a$, for every $a$ in $A$.
+- /symmetry/: if $a \equiv b$, then $b \equiv a$, for every $a$ and
+  $b$ in $A$.
+- /transitive/ if $a \equiv b$ and $b \equiv c$, then $a \equiv c$, for every $a$,
+  $b$, and $c$ in $A$.
+-----
+
+Notice the compact way of introducing the symbol $\equiv$ in the
+statement of the definition, and that $\equiv$ is written as an infix
+symbol. Notice also that even though the relation is written with the
+symbol $\equiv$, it is the only symbol occurring in the definition;
+mathematical practice favors natural language to describe its
+properties.
+
+You now know enough, however, to recognize the universal quantifiers
+that are present in the three clauses. In symbolic logic, we would
+write them as follows:
+- $\fa a (a \equiv a)$
+- $\fa {a, b} (a \equiv b \to b \equiv a)$
+- $\fa {a, b, c} (a \equiv b \wedge b \equiv c \to a \equiv c)$
+Here the variables $a$, $b$, and $c$ implicitly range over the domain
+$A$. We leave it to you to think about how you could write these
+statement in Lean. We will also leave you with an exercise: by a
+careful choice of how to instantiate the quantifiers, you can actually
+prove the three properties above from the following two:
+- $\fa a (a \equiv a)$
+- $\fa {a, b, c} (a \equiv b \wedge c \equiv b \to a \equiv c)$
+Try to verify this using natural deduction or Lean.
+
+These three properties alone are not strong enough to characterize
+equality. You should check that the following mathematical informal
+examples are all instances of equivalence relations:
+- the relation on days on the calendar, given by "$x$ and $y$ fall on
+  the same day of the week"
+- the relation on people currently alive on the planet, given by "$x$
+  and $y$ have the same age"
+- the relation on people currently alive on the planet, given by "$x$
+  and $y$ have the same birthday"
+- the relation on cities in the United States, given by "$x$ and $y$
+  are in the same state."
+Here are two common mathematical examples:
+- the relation on lines in the same plane, given by "$x$ and $y$ are
+  parallel"
+- for any fixed natural number $m \geq 0$, the relation on natural
+  numbers, given by "$x$ is congruent to $y$ modulo $m$."
+Here, we say that $x$ is congruent to $y$ modulo $m$ if they leave the
+same remainder when divided by $m$. Soon, you will be able to prove
+rigorously that this is equivalent to saying that $x - y$ is divisible
+by $m$.
+
+Consider the equivalence relation on citizens of the United States,
+given by "$x$ and $y$ have the same age." There are some properties
+that respect that equivalence. For example, suppose I tell you that
+John and Susan have the same age, and I also tell you that John is old
+enough to vote. Then you can rightly infer that Susan is old enough to
+vote. On the other hand, if I tell you nothing more than the facts
+that John and Susan have the same age and John lives in South Dakota,
+you cannot infer that Susan lives in South Dakota. This little example
+illustrates what is special about the /equality/ relation: if two
+things are equal, then they have exactly the same properties.
+
+With this idea in mind, we can present the natural deduction rules for
+equality:
+\begin{center}
+\AXM{}
+\UIM{t = t}
+\DP
+\quad
+\AXM{s = t}
+\UIM{t = s}
+\DP
+\quad
+\AXM{r = s}
+\AXM{s = t}
+\BIM{r = t}
+\DP
+\\
+\ \\
+\AXM{s = t}
+\UIM{r(s) = r(t)}
+\DP
+\quad
+\AXM{s = t}
+\AXM{P(s)}
+\BIM{P(t)}
+\DP
+\end{center}
+For the moment, let us focus on first-order logic. In that case, we
+have implicitly fixed some first-order language, and $r$, $s$, and $t$
+are any terms in that language. We have adopted the practice of using
+functional notation with terms. For example, if we think of $r(x)$
+as the term $(x + y) \times (z + 0)$ in the language of
+arithmetic, then $r(0)$ is the term $(0 + y) \times (z + 0)$ and
+$r(u + v)$ is $((u + v) + y) \times (z + 0)$. So one example of the
+first inference on the second line is this:
+\begin{center}
+\AXM{u + v = 0}
+\UIM{((u + v) + y) \times (z + 0) = (0 + y) \times (z + 0)}
+\DP
+\end{center}
+The second axiom on that line is similar, except now $P(x)$ stands for
+any /formula/, as in the following inference:
+\begin{center}
+\AXM{u + v = 0}
+\AXM{x + (u + v) < y}
+\BIM{x + 0 < y}
+\DP
+\end{center}
+Notice that we have written the reflexivity axiom, $t = t$, as a rule
+with no premises. If you use it in a proof, it does not count as a
+hypothesis; it is built into the logic.
+
+In fact, we can think of the first inference on the second line as a
+special case of the first. Consider, for example, the formula $((u +
+v) + y) \times (z + 0) = (x + y) \times (z + 0)$. If we plug $u + v$
+in for $x$, we get an instance of reflexivity. If we plug in $0$, we
+get the conclusion of the first example above. The following is
+therefore a derivation of the first inference, using only reflexivity
+and the second substitution rule above:
+\begin{center}
+\AXM{u + v = 0}
+\AXM{}
+\UIM{((u + v) + y) \times (z + 0) = ((u + v) + y) \times (z + 0)}
+\BIM{((u + v) + y) \times (z + 0) = (0 + y) \times (z + 0)}
+\DP
+\end{center}
+Roughly speaking, we are replacing the second instance of $u + v$ in 
+an instance of reflexivity with $0$ to get the conclusion we want.
+
+# Add some examples of natural deduction proofs. Make students do one
+# or two on the homework assignments, but then rely on informal proofs
+# and Lean.
+
+In Lean, reflexivity, symmetry, and transitivity are called =eq.refl=,
+=eq.symm=, and =eq.trans=, and the second substitution rule is called
+=eq.subst=. Their uses are illustrated below.
+#+BEGIN_SRC lean
+variable A : Type
+
+variables x y z : A
+variable P : A → Prop
+
+example : x = x :=
+show x = x, from eq.refl x
+
+example : y = x :=
+have H : x = y, from sorry,
+show y = x, from eq.symm H
+
+example : x = z :=
+have H₁ : x = y, from sorry,
+have H₂ : y = z, from sorry,
+show x = z, from eq.trans H₁ H₂
+
+example : P y :=
+have H₁ : x = y, from sorry,
+have H₂ : P x, from sorry,
+show P y, from eq.subst H₁ H₂
+#+END_SRC 
+The rule =eq.refl= above takes =x= as an argument, because there is no
+hypothesis to infer it from. All the other rules take their premises
+as arguments. 
+
+It is often the case, however, that Lean can figure out which instance
+of reflexivity you have in mind from the context, and there is an
+abbreviation, =rfl=, which does not take any arguments. Moreover, if
+you type =open eq.ops=, there is additional convenient notation you
+can use for symmetry, transitivity, and substitution:
+#+BEGIN_SRC lean
+variable A : Type
+
+variables x y z : A
+variable P : A → Prop
+
+-- BEGIN
+open eq.ops
+
+example : x = x :=
+show x = x, from rfl
+
+example : y = x :=
+have H : x = y, from sorry,
+show y = x, from H⁻¹
+
+example : x = z :=
+have H₁ : x = y, from sorry,
+have H₂ : y = z, from sorry,
+show x = z, from H₁ ⬝ H₂
+
+example : P y :=
+have H₁ : x = y, from sorry,
+have H₂ : P x, from sorry,
+show P y, from H₁ ▸ H₂
+-- END
+#+END_SRC
+You can type =⁻¹= using either =\sy= or =\inv=, for "symmetry" or
+"inverse." You can type =⬝= using =\tr=, for transitivity, and you can
+type =▸= using =\t=.
+
+# add some examples here.
+
+** Order Relations
+
+In order to illustrate reasoning with the equality axioms, we will
+study a class of important binary relations in mathematics, namely,
+/partial orders/.
+
+-----
+*Definition.* A binary relation $\leq$ on a domain $A$ is a /partial
+ order/ if it has the following three properties:
+- /reflexivity/: $a \leq a$, for every $a$ in $A$
+- /transitivity/: if $a \leq b$ and $b \leq c$, then $a \leq c$, for
+  every $a$, $b$, and $c$ in $A$
+- /asymmetry/: if $a \leq b$ and $b \leq a$ then $a = b$.
+-----
+
+The use of the symbol $\leq$ is meant to be suggestive, and, indeed,
+the following are all examples of partial orders:
+- $\leq$ on the natural numbers
+- $\leq$ on the integers
+- $\leq$ on the rational numbers
+- $\leq$ on the real numbers.
+But keep in mind that $\leq$ is only a symbol; it can have unexpected
+interpretations as well. For example, all of the following are also
+partial orders:
+- $\geq$ on the natural numbers
+- $\geq$ on the integers
+- $\geq$ on the rational numbers
+- $\geq$ on the real numbers.
+These are not fully representative of the class of partial orders, in
+that they all have an additional property:
+
+-----
+*Definition.* A partial order $\leq$ on a domain $A$ is a /total
+order/ (also called a /linear order/) if it has the following
+additional property:
+- for every $a$ and $b$ in $A$, either $a \leq b$ or $b \leq a$.
+-----
+
+You can check these these are two examples of partial orders that are
+not total orders:
+- the divides relation, $x \mid y$, on the integers
+- the subset relation, $x \subseteq y$, on sets of elements of some
+  domain $A$
+
+On the integers, we also have the strict order relation, $<$, which is
+not a partial order, since it is not reflexive. It is, rather, and
+instance of a /strict partial order/:
+
+-----
+*Definition.* A binary relation $<$ on a domain $A$ is a /strict
+partial order/ if it satisfies the following:
+- /irreflexivity/: $a \nless a$ for every $a$ in $A$.
+- /transitivity/: $a < b$ and $b < c$ implies $a < c$, for every $a$,
+  $b$, and $c$ in $A$.
+A strict partial order is a /strict total order/ (or /strict linear
+order/) if, in addition, we have the following property:
+- /trichotomy/: $a < b$, $a = b$, or $a > b$ for
+every $a$ and $b$ in $A$. 
+-----
+Here, $b \nless a$ means, of course, that it is not the case that $a <
+b$, and $a > b$ is alternative notation for $b < a$. To distinguish an
+ordinary partial order from a strict one, an ordinary partial order is
+sometimes called a /weak/ partial order.
+
+-----
+*Proposition*. A strict partial order $<$ on $A$ is
+/antisymmetric/: for every $a$ and $b$, $a < b$ implies $b \nless a$.
+
+*Proof*. Suppose $a < b$ and $b < a$. Then, by transitivity, $a < a$,
+contradicting irreflexivity.
+-----
+
+On the integers, there is are precise relationships between $<$ and
+$\leq$: $x \leq y$ if and only if $x < y$ or $x = y$, and $x < y$ if
+and only if $x \leq y$ and $x \neq y$. This illustrates a more general
+phenomenon.
+
+-----
+*Theorem.* Suppose $\leq$ is a partial order on a domain $A$. Define
+$a < b$ to mean that $a \leq b$ and $a \neq b$. Then $<$ is a strict
+partial order. Moreover, if $\leq$ is total, so is $<$.
+
+*Theorem.* Suppose $<$ is a strict partial order on a domain
+$A$. Define $a \leq b$ to mean $a < b$ or $a = b$. Then $\leq$ is a
+partial order. Moreover, if $<$ is total, so is $\leq$.
+-----
+
+We will prove the first here, and leave the second as an
+exercise. This proof is a nice illustration of how universal
+quantification, equality, and propositional reasoning is combined in a
+mathematical argument.
+-----
+*Proof*. Suppose $\leq$ is a partial order on $A$, and $<$ be defined
+as in the statement of the theorem. Irreflexivity is immediate, since
+$a < a$ implies $a \neq a$, which is a contradiction.
+
+To show transitivity, suppose $a < b$ and $b < c$. Then we have $a
+\leq b$, $b \leq c$, $a \neq b$, and $b \neq c$. By the transitivity
+of $\leq$, we have $a \leq c$. To show $a < c$, we only have to show
+$a \neq c$. So suppose $a = c$. then, from the hypotheses, we have $c
+< b$ and $b < c$, violating antisymmetry. So $a \neq c$, as required.
+
+To establish the last claim in the theorem, suppose $\leq$ is
+total, and let $a$ and $b$ be any elements of $A$. We need to show
+that $a < b$, $a = b$, or $a > b$. If $a = b$, we are done, so we can
+assume $a \neq b$. Since $\leq$ is total, we have $a \leq b$ or $a
+\leq b$. Since $a \neq b$, in the first case we have $a < b$, and in
+the second case, we have $a > b$.
+-----
+
+We can read about partial orders in Lean by fixing a type, =A=, and a
+binary relation, =R=, and working under the hypotheses that =A= is
+reflexive, transitive, and antisymmetric:
+#+BEGIN_SRC lean
+section
+  parameters {A : Type} {R : A → A → Prop}
+  hypothesis (reflR : reflexive R)
+  hypothesis (transR : transitive R)
+  hypothesis (antisymmR : ∀ {a b : A}, R a b → R b a → a = b)
+
+  local infix ≤ := R
+end
+#+END_SRC
+The =parameter= and =hypothesis= commands are similar to the
+=variable= and =premise= commands, except that parameters are fixed
+within a section. In other words, if you prove a theorem about =R= in
+the section above, you cannot apply that theorem to another relation,
+=S=, without closing the section. Since the parameter =R= is fixed,
+Lean allows us to define notation for =R=, to be used locally in the
+section. 
+
+In the example below, having fixed a partial order, =R=, we define the
+corresponding strict partial order, =R'=, and prove that it is,
+indeed, a strict order.
+#+BEGIN_SRC lean
+open eq.ops
+
+section
+  parameters {A : Type} {R : A → A → Prop}
+  hypothesis (reflR : reflexive R)
+  hypothesis (transR : transitive R)
+  hypothesis (antisymmR : ∀ {a b : A}, R a b → R b a → a = b)
+
+  local infix ≤ := R
+
+  definition R' (a b : A) : Prop := a ≤ b ∧ a ≠ b
+
+  local infix < := R'
+
+  theorem irrefl (a : A) : ¬ a < a :=
+  suppose a < a,
+  have a ≠ a, from and.right this,
+  have a = a, from rfl,
+  show false, from `a ≠ a` `a = a`
+
+  theorem trans {a b c : A} (H₁ : a < b) (H₂ : b < c) : a < c :=
+  have a ≤ b, from and.left H₁,
+  have a ≠ b, from and.right H₁,
+  have b ≤ c, from and.left H₂,
+  have b ≠ c, from and.right H₂,
+  have a ≤ c, from transR `a ≤ b` `b ≤ c`,
+  have a ≠ c, from 
+    suppose a = c,
+      have c ≤ b, from `a = c` ▸ `a ≤ b`,
+      have b = c, from antisymmR `b ≤ c` `c ≤ b`,
+      show false, from `b ≠ c` `b = c`, 
+  show a < c, from and.intro `a ≤ c` `a ≠ c`
+end
+#+END_SRC
+
+Notice that we have used the command =open eq.ops= to avail ourselves
+of the extra notation for equality proofs, so that the expression 
+=`a = c` ▸ `a ≤ b`= denotes a proof of =c ≤ b=.
+
+** More on orderings
+
+Let $\leq$ be a partial order on a domain, $A$, and let $<$ be the
+associated strict order, as defined in the last section. It is
+possible to show that if we go in the other direction, and define
+$\leq'$ to be the partial order associated to $<$, then $\leq$ and
+$\leq'$ are the same, which is to say, for every $a$ and $b$ in $A$,
+$a \leq b$ if and only if $a \leq' b$. So we can think of every
+partial order as really being a pair, consisting of a weak partial
+order and an associated strict one. In other words, we can assume that
+$x < y$ holds if and only if $x \leq y$ and $x \neq y$, and we can
+assume $x \leq y$ holds if and only if $x < y$ or $x = y$. 
+
+We will henceforth adopt this convention. Given a partial order $\leq$
+and the associated strict order $<$, we leave it to you to show that
+if $x \leq y$ and $y < z$, then $x < z$, and, similarly, if $x < y$
+and $y \leq z$, then $x < z$.
+
+Consider the natural numbers with the less-than-or-equal relation. It
+has a least element, $0$. We can express the fact that $0$ is the
+least element in at least two ways:
+- $0$ is less than or equal to every natural number.
+- There is no natural number that is less than $0$.
+In symbolic logic, we could formalize these statements as follows:
+- $\fa x (0 \leq x)$
+- $\fa x (x \nless 0)$
+Using the existential quantifier, we could render the second statement
+more faithfully as follows:
+- $\neg \ex x (x < 0)$
+In the next chapter, we will see that this sentence is equivalent to
+the previous one.
+
+Are these two statements equivalent? Say an element $y$ is /minimum/
+for a partial order if it is less than or equal to any other element;
+this is, if it satisfies the first definition. Say that an element $y$
+is /minimal/ for a partial order if no element is less than it; that
+is, if it satisfies the second definition. Two facts are immediate.
+-----
+*Theorem.* Any minimum element is minimal.
+ 
+*Proof.* Suppose $x$ is minimum for $\leq$. We need to show that $x$
+is minimal, that is, for every $y$, it is not the case that $y <
+x$. Suppose $y < x$. Since $x$ is minimum, we have $x \leq y$. From $y
+< x$ and $x \leq y$, we have $y < y$, contradicting the irreflexivity
+of $<$.
+ 
+*Theorem.* If a partial order $\leq$ has a minimum element, it is
+unique.
+
+*Proof.* Suppose $x_1$ and $x_2$ are both minimum. Then $x_1 \leq x_2$
+and $x_2 \leq x_1$. By asymmetry, $x_1 = x_2$.
+-----
+Notice that we have interpreted the second theorem as the statement
+that if $x_1$ and $x_2$ are both minimum, then $x_1 = x_2$. Indeed,
+this is exactly what we mean when we say that something is "unique."
+When a partial order has a minimum element $x$, uniqueness is what
+justifies calling $x$ /the/ minimum element. Such an $x$ is also
+called the /least/ element or the /smallest/ element, and the terms
+are generally interchangeable.
+
+# TODO: add natural deduction and Lean versions
+
+The converse to the second theorem, that is, the statement that every
+minimal element is minimum, if false. As an example, consider the
+nonempty subsets of the set $\{ 1, 2 \}$ with the subset relation. In
+other words, consider the collection of sets $\{ 1 \}$, $\{ 2 \}$, and
+$\{1, 2\}$, where $\{ 1 \} \subseteq \{1, 2\}$, $\{ 2 \} \subseteq
+\{1, 2\}$, and, of course, every element is a subset of itself. Then
+you can check that $\{1\}$ and $\{2\}$ are each minimal, but neither
+is minimum. (One can also exhibit such a partial order by drawing a
+diagram, with dots labeled $a$, $b$, $c$, etc., and upwards edges
+between elements to indicate that one is less than or equal to the
+other.)
+
+Notice that the statement "a minimal element of a partial order is not
+necessarily minimum" makes an "existential" assertion: it says that
+there is a partial order $\leq$, and an element $x$ of the domain,
+such that $x$ is minimal but not minimum. For a fixed partial order
+$\leq$, we can express the assertion that such an $x$ exists as
+follows:
+\begin{equation*}
+\ex x (\fa y (y \nless x) \wedge \fa y (x \leq y).
+\end{equation*}
+We will learn how to reason about such existential assertions in the
+next chapter. The assertion that there exists a domain $A$, and a
+partial order $\leq$ on that domain $A$, is more dramatic: it is a
+"higher order" existential assertion. But symbolic logic provides us
+with the means to make assertions like these as well, as we will see
+later on.
+
+We can consider other properties of orders. An order is said to be
+/dense/ if between any two distinct elements, there is another
+element. More precisely, an order is dense if, whenever $x < y$, there
+is an element $z$ satisfying $x < z$ and $z < y$. For example, the
+rational numbers are dense with the usual $\leq$ ordering, but not the
+integers. Saying that an order is dense is another example of an
+implicit use of existential quantification, and we will return to this
+in the next chapter.
+
+We close this section with one more example. A binary relation $\leq$
+on a domain $A$ is said to be a /preorder/ it is is reflexive and
+transitive. This is weaker than saying it is a partial order; we have
+removed the requirement that the relation is asymmetric. An example is
+the ordering on people currently alive on the planet defined by
+setting $x \leq y$ if and only if $x$'s birth date is earlier than
+$y$'s. Asymmetry fails, because different people can be born on the
+same day. But we leave it to you to check that the following holds:
+-----
+*Theorem.* Let $\leq$ be a binary relation on a domain $A$. Define the
+relation $\equiv$, where $x \equiv y$ holds if and only if $x \leq y$
+and $y \leq x$. Then $\equiv$ is an equivalence relation on $A$.
+-----
+
+** Proofs with Calculations
+
+Calculation is a central to mathematics, and mathematical
+proofs often involve carrying out calculations. Indeed, a calculation
+can be viewed as a proof in and of itself that two expressions
+describe the same entity.
+
+In high school algebra, students are often asked to prove identities
+like the following:
+-----
+*Proposition.* $\frac{n(n+1)}{2} + (n + 1) = \frac{(n+1)(n+2)}{2}$,
+for every natural number $n$.
+-----
+In some places, students are asked to write proofs,\ like this:
+-----
+*Proof.*
+\begin{eqnarray*}
+ \frac{n(n+1)}{2} + (n + 1) & =? & \frac{(n+1)(n+2)}{2} \\
+ \frac{n^2+n}{2} + \frac{2n + 2}{2} & =? & \frac{n^2 + 3n + 2}{2} \\
+ \frac{n^2+n + 2n + 1}{2} & =? & \frac{n^2 + 3n + 2}{2} \\
+ \frac{n^2+3n + 1}{2} & = & \frac{n^2 + 3n + 2}{2} \\
+\end{eqnarray*}
+-----
+Mathematicians generally cringe when they see this. /Don't do it!/ It
+looks like an instance of forward reasoning: where we start with a
+complex identity and end up proving $x = x$. Of course, what is really
+meant is that each line follows from the preceeding
+one. There is a way of expressing this, with the phrase "it
+suffices to show." The following presentation comes closer to
+mathematical vernacular:
+-----
+*Proof.* We want to show
+\begin{equation*}
+\frac{n(n+1)}{2} + (n + 1) = \frac{(n+1)(n+2)}{2}.
+\end{equation*}
+To do that, it suffices to show
+\begin{equation*}
+ \frac{n^2+n}{2} + \frac{2n + 2}{2} = \frac{n^2 + 3n + 2}{2}.
+\end{equation*}
+For that, it suffices to show
+\begin{equation*}
+ \frac{n^2+n + 2n + 1}{2} = \frac{n^2 + 3n + 2}{2}.
+\end{equation*}
+But this last equation is clearly true.
+-----
+The narrative doesn't flow well, however. Sometimes there are good reasons
+to work backwards in a proof, but in this case it is easy to present
+the proof in a more forward-directed manner. Here is one example:
+-----
+*Proof.* Calculating on the left-hand side, we have
+\begin{eqnarray*}
+ \frac{n(n+1)}{2} + (n + 1) & = & \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
+   & = & \frac{n^2+n + 2n + 1}{2} \\
+   & = & \frac{n^2 + 3n + 1}{2}.
+\end{eqnarray*}
+On the right-hand side, we also have 
+\begin{equation}
+ \frac{(n+1)(n+2)}{2} = \frac{n^2 + 3n + 1}{2}.
+\end{equation}
+So $\frac{n(n+1)}{2} + (n + 1) = \frac{n^2 + 3n + 1}{2}$, as required.
+-----
+Mathematicians often use the abbreviations "LHS" and "RHS" for
+"left-hand side" and "right-hand side," respectively, in situations like
+this.  In fact, here we can easily write the proof as a single
+forward-directed calculation:
+-----
+*Proof.*
+\begin{eqnarray*}
+ \frac{n(n+1)}{2} + (n + 1) & = & \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
+   & = & \frac{n^2+n + 2n + 1}{2} \\
+   & = & \frac{n^2 + 3n + 1}{2} \\
+   & = & \frac{(n+1)(n+2)}{2}.
+\end{eqnarray*}
+-----
+Such a proof is clear, compact, and easy to read. The main challenge
+to the reader is to figure out what justifies each subsequent
+step. Mathematicians sometimes annotate such a calculation with
+additional information, or add a few words of explanation in the text
+before and/or after. But the ideal situation is to carry out the
+calculation is small enough steps so that each step is
+straightforward, and needs to no explanation. (And, once again, what
+counts as "straightforward" will vary depending on who is reading the
+proof.)
+
+Let us consider another example. You may recall that if $n$ and $k$
+are natural numbers and $k \leq n$, the notation $\binom{n}{k}$
+denotes the number of ways of choosing $k$ objects out of $n$, without
+repetitions, where the order does not matter. For example, if you have
+ten shirts in your drawer, and want to choose three to take with you
+on a weekend trip, there are $\binom{10}{3}$ possibilities. You may
+also recall that a formula for $\binom{n}{k}$ is given as follows:
+\begin{eqnarray}
+\binom{n}{k} = \frac{n!}{k!(n-k)!},
+\end{eqnarray}
+where $n!$ (read "$n$ factorial") is equal to $1 \cdot 2 \cdot 3
+\cdots (n-1) \cdot n$.
+-----
+*Theorem.* For every $n$ and $k$, if $k + 1 \leq n$, then 
+\begin{equation*}
+\binom{n+1}{k+1} = \binom{n}{k+1} + \binom{n}{k}.
+\end{equation*}
+-----
+This equation can be proved in terms of the combinatorial
+interpretation. Suppose you want to choose $k+1$ shirts out of $n+1$
+in your drawer. Set aside one shirt, the blue one. Then you have two
+choices: you can either choose $k+1$ shirts from the remaining ones,
+with $\binom{n}{k+1}$ possibilities; or you can take the blue one, and
+choose $k$ shirts from the remaining ones.
+
+Our goal here, rather, is to prove the theorem using nothing more than
+the definition of $\binom{n}{k}$ in terms of factorials.
+-----
+*Proof.* We can express the left-hand side of the equation as follows:
+\begin{eqnarray*}
+\binom{n+1}{k+1} & = & \frac{(n + 1)!}{(k+1)!((n+1)-(k+1))!} \\
+& = & \frac{(n + 1)!}{(k+1)!(n - k)!}
+\end{eqnarray*}
+Similarly, we can simplify the right-hand side:
+\begin{eqnarray*}
+\binom{n}{k+1} + \binom{n}{k} & = & \frac{n!}{(k+1)!(n-(k+1))!} + \frac{n!}{k!(n-k)!} \\
+& = & \frac{n!(n-k)}{(k+1)!(n-k-1)!(n-k)} + \frac{(k+1)n!}{(k+1)k!(n-k)!} \\
+& = & \frac{n!(n-k)}{(k+1)!(n-k)!} + \frac{(k+1)n!}{(k+1)!(n-k)!} \\
+& = & \frac{n!(n-k + k + 1)}{(k+1)!(n-k)!} \\
+& = & \frac{n!(n + 1)}{(k+1)!(n-k)!} \\
+& = & \frac{(n + 1)!}{(k+1)!(n-k)!}
+\end{eqnarray*}
+Thus the left-hand side and the right-hand side are equal.
+-----
+
+** Carrying out calculations formally.
+
+Calculations like these can be carried out in symbolic logic. They
+typically amount to using the equality rules we have already
+discussed, together with a list of general identities. For example,
+the following identities for any real numbers $x$, $y$, and $z$:
+- commutativity of addition: $x + y = y + x$
+- ...
+Note that $x$, $y$, and $z$ can, in particular, be integers or
+rational numbers as well.
+
+(Do a natural deduction derivation.)
+
+(Do an example in Lean with calc.)
+
+Let us consider a more interesting example. 
+
+(Motivate the sums of squares theorem with some examples.)
+
+-----
+*Theorem.* Let $x$ and $y$ be any two integers. If $x$ and $y$ are
+both sums of squares, then so is $x y$.
+*Proof.* ...
+-----
+
+(Do it in Lean with a calc proof.)
+
+(Introduce rewrite, briefly.)
+
+(Combine calc and rewrite.)
+
+** Calculations with Propositions and Sets
+
+Boolean algebras. Identities. 
+
+Set identities.
+
+
+

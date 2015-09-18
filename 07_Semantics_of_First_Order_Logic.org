@@ -390,6 +390,7 @@ definition world_setup :=
     '[R, b, G, b],
     '[B, B, B, b]]
 
+-- ignore this line
 definition ws_inst [instance] := world_type.mk world_setup
 
 eval is_true (∀ x, green x ∨ blue x)
@@ -437,5 +438,490 @@ was one.) It is just a more difficult question than for propositional logic.
 
 In propositional logic, we saw a close connection between the provable formulas
 and the tautologies -- specifically, a formula is provable if and only if it is
-a tautology. 
-...
+a tautology. Fortunately, the same is true in first order logic. This completeness theorem
+was first proved by Kurt G#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Semantics of First Order Logic
+
+In Chapter [[file:03_Truth_Tables_and_Semantics.org::#Truth_Tables_and_Semantics][Truth Tables and Semantics]] we emphasized a distinction between
+the /syntax/ and the /semantics/ of propositional logic. Syntactic questions
+had to do with the formal structure of formulas, and the conditions under
+which different types of formulas could be derived. Semantic questions,
+on the other hand, concerned the /truth/ of a formula relative to some
+truth assignment.
+
+As you might expect, we make a similar distinction in the setting of first
+order logic. The previous two chapters have focused mainly on syntax, but
+some semantic ideas have slipped in. Recall the running example with domain
+of interest $\NN$, constant symbols 0, 1, 2, 3, function symbols $\fn{add}$ 
+and $\fn{mul}$, and predicate symbols
+$\fn{even}, \fn{prime}, \fn{equals}, \fn{lt}$, etc. We know that the formula 
+$\forall y (\fn{lt}(0, y))$
+is true in this example. But if we consider the domain $\ZZ$ instead of $\NN$,
+that same formula becomes false.
+
+This indicates that the truth or falsity or a first order formula can depend on
+what domain we have chosen to consider. But some formulas can be true (or false)
+regardless of the domain: for instance, $\fa y (\fn{lt}(0, y) \to \fn{lt}(0, y))$
+will be true over $\NN$, and $\ZZ$, and any other set we choose. A formula like
+this is called a /tautology/, and is analogous to a tautology in propositional
+logic that is true under every possible truth assignment.
+
+We can broaden this analogy: a "domain of interest" in first order logic is
+similar to a truth assignment in propositional logic. In the propositional case,
+choosing a truth assignment allowed us to assign truth values to all formulas
+of the language; now, choosing a domain will allow us to assign truth values
+to all sentences of a first order language. There is one small wrinkle here,
+which we will describe in the next section.
+
+** Interpretations
+
+The symbols of the language in our running example -- 0, 1, $\fn{add}$, 
+$\fn{prime}$, and so on -- have very indicative names. When we interpret
+sentences of this language over the domain $\NN$, for example, it is clear
+for which elements of the domain $\fn{prime}$ "should" be true, and for which
+it "should" be false. Let's consider a new first order language, which has 
+only two unary predicate symbols $\fn{fancy}$ and $\fn{tall}$. If we take
+our domain to be $\NN$, is the sentence $\fa x (\fn{fancy}(x) \to \fn{tall}(x))$
+true or false?
+
+The answer, of course, is that we don't have enough information to say. There's
+no "obvious" meaning to the predicates $\fn{fancy}$ or $\fn{tall}$, at least
+not when we apply them to natural numbers. To make sense of the sentence,
+we need to know which numbers are fancy and which ones are tall. Perhaps
+multiples of 10 are fancy, and even numbers are tall; in this case, the formula
+is true (since every multiple of 10 is even). Perhaps prime numbers are fancy
+and odd numbers are tall; then the formula is false, since 2 is fancy but not tall.
+
+We call each of these descriptions an /interpretation/ of the predicate symbols
+$\fn{fancy}$ and $\fn{tall}$ in the domain $\NN$. Formally, an interpretation
+of a predicate $\fn{P}$ in a domain $D$ is the set of all elements of $D$ for
+which $\fn{P}$ is true. For an example, the "standard" interpretation of 
+$\fn{prime}$ in $\NN$ that we used above was just the set of prime natural numbers.
+
+We can interpret constant, function, and relation symbols in a similar way.
+An interpretation of constant symbol $c$ in domain $D$ is an element of $D$.
+An interpretation of a function symbol $\fn{f}$ with arity $n$ is a function
+that maps $n$ elements of $D$ to another element of $D$. An interpretation
+of a relation symbol $\fn{R}$ with arity $n$ is the set of $n$ tuples of elements
+of $D$ for which $\fn{R}$ is true.
+
+It is important to emphasize the difference between a syntactic predicate symbol
+(or function symbol, or constant symbol) and the semantic predicate (or function,
+or object) to which it is interpreted. The former is a symbol, relates to other
+symbols, and has no meaning on its own until we specify an interpretation. It
+makes no sense to write $\fn{prime}(3)$, where $\fn{prime}$ is a predicate symbol
+and 3 is a natural number, since the argument to $\fn{prime}$ is supposed to be
+a syntactic term. Sometimes we may obscure this distinction, as above when we
+specified a language with constant symbols 0, 1, and 2. But there is still a
+fundamental distinction between the objects of the domain, and the symbols we
+use to represent them.
+
+Sometimes, when we interpret a language in a particular domain, it is useful to
+implicitly introduce new constant symbols into the language. Specifically, for
+each element $a$ of the domain, we introduce a constant symbol $\bar a$, which
+is interpreted to $a$. Then, the expression $fn{prime}(\bar 3)$ /does/ make sense.
+Interpreting the predicate symbol $\fn{prime}$ in the natural way, this expression
+will evaluate to true. We think of $\bar 3$ as a linguistic "name" that represents the 
+natural number 3, in the same way that "Madonna" is a name that represents the
+flesh-and-blood pop singer.
+
+** Truth in Models
+
+Pick any first-order language. If we have a domain $D$ and interpretations
+in $D$ for each of the symbols of that language, then we can determine the
+truth of any sentence in the language by examining the elements of $D$. We call
+this structure -- the domain $D$, paired with all of the interpretations --
+a /model/ for the language. A model for a first-order language is directly
+analogous to a truth assignment for propositional logic.
+
+Evaluating the truth of a sentence based on a model works intuitively,
+but the formal description of how to do it is slightly subtle. First, recall the
+difference between /terms/ and /assertions/ that we made earlier in Chapter 4.
+Terms, like $a$, $x + y$, or $\fn{f}(c)$, are meant to represent objects. A
+term does not have a truth value, since (for example) it makes no sense to 
+ask whether 3 is true or false. Assertions, like $\fn{P}(a)$,
+$\fn{R}(x, \fn{f}(y))$,
+ or $a + b > a \wedge \fn{prime}(c)$, apply predicate
+or relation symbols to terms to produce statements that could be true or false.
+
+The interpretation of a term in a model is an element of the domain of that model.
+The model directly specifies how to interpret constant symbols. To interpret a term
+$\fn{f}(t)$ created by applying a function symbol to another term, we interpret the
+term $t$, and then apply the interpretation of $\fn{f}$ to this term. (This process
+makes sense, since the interpretation of $\fn{f}$ is a function on the domain.) 
+This generalizes to functions of higher arity in the obvious way. We will not yet
+interpret terms that include free variables like $x$ and $y$, since these terms
+do not pick out unique elements of the domain. (The variable $x$ could potentially
+refer to any object.)
+
+Similarly, the interpretation of an assertion is a value $\true$ or $\false$. For
+the sake of brevity, we will introduce some new notation here: if $\varphi$ is an
+assertion and $\MM$ is a model of the language of $\varphi$, we write 
+$\MM \models \varphi$ to mean that $\varphi$ interprets to $\true$ in $\MM$, and
+$\MM \not\models \varphi$ to mean that $\varphi$ interprets to $\false$. (You can
+read the symbol $\models$ as "satisfies" or "validates.")
+
+To interpret a predicate or relation applied to some terms, we first interpret those
+terms, and then see if the interpretation of the relation symbol is true of those 
+objects. For example, suppose the constant symbols $a$ and $b$ are interpreted in
+$\NN$ as 2 and 4, respectively, and the relation symbol $\fn{R}(x, y)$ is interpreted as
+the greater-than-or-equal-to relation. Then $\MM \not \models \fn{R}(a, b)$, since 2 is not
+greater than 4.
+
+Interpreting expressions using the logical connectives $\wedge$, $\vee$, $\to$, and $\neg$
+works exactly as it did in the propositional setting. $\MM \models \varphi \wedge \psi$
+exactly when $\MM \models \varphi$ and $\MM \models \psi$, and so on.
+
+We still need to explain how to interpret existential and universal expressions.
+We saw that $\ex x \varphi$ intuitively meant that there was /some/ element of
+the domain that would make $\varphi$ true, when we "replaced" the variable $x$ with
+that element. To make this a bit more precise, we say that $\MM \models \ex x \varphi$
+exactly when there is an element $a$ in the domain of $\MM$ such that, when we
+interpret $x$ as $a$, then $\MM \models \varphi$. To continue the example above,
+we have $\MM \models \ex x (\fn{R}(x, b))$, since when we interpret $x$ as 5 we have
+$\MM \models \fn{R}(x, b)$.
+
+More concisely, we can say that $\MM \models \ex x \varphi$ when there is an $a$ in
+the domain of $\MM$ such that $\MM \models \varphi[\bar a / x]$. The notation
+$\varphi[\bar a / x]$ indicates that every occurrence of $x$ in $\varphi$ has been
+replaced by the symbol $\bar a$.
+
+Finally, remember that $\fa x \varphi$ meant that $\varphi$ was true for all possible
+values of $x$. We make this precise by saying that $\MM \models \fa x \varphi$ 
+exactly when for every element $a$ in the domain of $\MM$, interpreting $x$ as $a$
+gives that $\MM \models \varphi$. Alternatively, we can say that 
+$\MM \models \fa x \varphi$ when for every $a$ in the domain of $\MM$, we have
+$\MM \models \varphi[\bar a / x]$. In our example above, 
+$\MM \not\models \fa x (\fn{R}(x, b))$, since when we interpret $x$ as 2 we do not
+have $\MM \models \fn{R}(x, b)$.
+
+These rules allow us to determine the truth value of any /sentence/ in a model.
+(Remember, a sentence is a formula with no free variables.) There are some subtleties:
+for instance, we've implicitly assumed that our formula doesn't quantify over the
+same variable twice, as in $\fa x \ex x \varphi$. But for the most part, the
+interpretation process tells us to "read" a formula as talking directly about objects in
+the domain.
+
+** Examples
+
+Take a simple language with no constant symbols, one relation symbol $\leq$, and
+one binary function symbol $+$. Our model $\MM$ will have domain $NN$, and the symbols
+will be interpreted as the standard less-than-or-equal-to relation and addition function.
+
+Think about the following questions before you read the answers below! Remember,
+our domain is $\NN$, not $\ZZ$ or any other number system.
+
+- Is it true that $\MM \models \ex x (x \leq x)$? What about $\MM \models \fa x (x \leq x)$?
+- Similarly, what about $\MM \models \ex x (x + x \leq x)$? $\MM \models \fa x (x + x \leq x)$?
+- Do the sentences $\ex x \fa y (x \leq y)$ and $\fa x \ex y (x \leq y)$ mean the
+  same thing? Are they true or false?
+- Can you think of a formula $\varphi$ in this language, with one free variable $x$,
+  such that $\MM \models \fa x \varphi$ but $\MM \not \models \ex x \varphi$?
+
+These questions indicate a subtle, and often tricky, interplay between the universal
+and existential quantifiers. Once you've thought about them a bit, read on:
+
+- Both of these statements are true. For the former, we can (for example) interpret
+  $x$ as the natural number 0. Then, $\MM \models x \leq x$, so the existential is true.
+  For the latter, pick an arbitrary natural number $n$; it is still the case that when
+  we interpret $x$ as $n$, we have $\MM \models x \leq x$.
+- The first statement is true, since we can interpret $x$ as 0. The second statement,
+  though, is false. When we interpret $x$ as 1 (or, in fact, as any natural number
+  besides 0), we see that $\MM \not \models x + x \leq x$. 
+- These sentences do /not/ mean the same thing, although in the specified model,
+  both are true. The first expresses that some natural number is less than or equal
+  to every natural number. This is true: 0 is less than or equal to every natural
+  number. The second sentence says that for every natural number, there is another
+  natural number at least as big. Again, this is true: every natural number $a$ is
+  less than or equal to $a$.
+- The situation described here is impossible in our model. If $\MM \models \fa x \varphi$,
+  then $\MM \models \varphi [\bar 0 / x]$, which implies that $\MM \models \ex x \varphi$.
+  The only time this situation can happen is when the domain of our model is empty.
+
+Now consider a different language with constant symbol 2, predicate symbols $\fn{prime}$
+and $\fn{odd}$, and binary relation $<$, interpreted in the natural way over domain 
+$\NN$. The sentence $\fa x ((2 < x \wedge \fn{prime}(x)) \to \fn{odd}(x))$ expresses
+the fact that every prime number bigger than 2 is odd. It is an example of /relativization/,
+discussed in Chapter 4. We can now see semantically how relativization works. This sentence
+is true in our model if, for every natural number $n$, interpreting $x$ as $n$ makes the
+sentence true. If we interpret $x$ as 0, 1, or 2, or as any non-prime number, the hypothesis
+of the implication is false, and thus $(2 < x \wedge \fn{prime}(x))$ is true. Otherwise,
+if we interpret $x$ as a prime number bigger than 2, both the hypothesis and conclusion
+of the implication are true, and $(2 < x \wedge \fn{prime}(x))$ is again true. Thus the
+universal statement holds. It was an example like this that partially motivated our
+semantics for implication back in Chapter 3; any other choice would make relativization
+impossible.
+
+Our next example is interactive, and draws from the book Tarski's World. [CITE] Here,
+our domain of interest will be a grid of blocks. Blocks have a color (red, blue, or green)
+and a size (small or large). We use the letter =R= to represent a large red block and =r=
+to represent a small red block, and similarly for =G, g, B, b=. 
+
+The logical language we use to describe our block world has predicates =red, green, 
+blue, small= and =large= that are interpreted in the obvious ways. The relation 
+=adjacent(x, y)= is true if the blocks referred to by =x= and =y= are touching, not on
+a diagonal. The relations =same_color(x, y)=, =same_size(x, y)=, =same_row(x, y)=,
+and =same_column(x, y)= are also self-explanatory.
+
+At the bottom of the following Lean file is a grid of blocks, and a number of sentences
+in our logical language. The meaning of the commands =eval is_true= is not important, but
+the info window for each of these lines will tell you whether that sentence is true or
+false in the current model.
+
+For each sentence, see if you can find arrangements for the world that make the sentence
+true and false. For an extra challenge, try to make all of the sentences true simultaneously.
+Feel free to add more rows or columns to the grid of blocks -- as long as each row has
+the same number of blocks in it, Lean will figure out the right way to interpret the
+predicates.
+
+(TODO: MORE SENTENCES)
+
+#+BEGIN_SRC lean
+import data.list data.fin data.fintype data.tuple
+open tuple fin prod nat fintype
+
+inductive col : Type :=
+  | red : col
+  | green : col
+  | blue : col
+
+inductive size : Type :=
+  | small : size
+  | large : size
+
+definition block [reducible] := col × size
+
+definition R := pair col.red size.large
+definition r := pair col.red size.small
+definition G := pair col.green size.large
+definition g := pair col.green size.small
+definition B := pair col.blue size.large
+definition b := pair col.blue size.small
+
+definition dec_eq_col [instance] : decidable_eq col :=
+  begin
+    intros c1 c2,
+    induction c1,
+    repeat (induction c2;
+      repeat (exact decidable.inl rfl | exact decidable.inr col.no_confusion))
+  end
+
+definition dec_eq_size [instance] : decidable_eq size :=
+  begin
+    intros c1 c2,
+    induction c1,
+    repeat (induction c2;
+      repeat (exact decidable.inl rfl | exact decidable.inr size.no_confusion))
+  end
+
+section
+open list
+
+definition fin_color [instance] : fintype col :=
+  fintype.mk [col.red, col.green, col.blue] dec_trivial
+    (by intro a; induction a; repeat apply dec_trivial)
+
+definition fin_size [instance] : fintype size :=
+  fintype.mk [size.small, size.large] dec_trivial
+    (by intro a; induction a; repeat apply dec_trivial)
+
+end
+
+structure world_type [class] :=
+   {rows cols : ℕ}
+   (world : tuple (tuple block cols) rows)
+
+---------------------------------
+section defs
+variable [w : world_type]
+include w
+definition world := world_type.world
+definition rows := world_type.rows
+definition cols := world_type.cols
+definition I [reducible] := (fin rows) × (fin cols)
+
+definition I_pred_of_nat_pred [reducible] (P : ℕ → ℕ → Prop) : I → Prop
+  | (n, m) := P n m
+
+definition color_at : I → col
+  | (n, m) := pr1 (ith (ith world n) m)
+
+definition size_at : I → size
+  | (n, m) := pr2 (ith (ith world n) m)
+
+definition blue [reducible] (i : I) := color_at i = col.blue
+
+definition red [reducible] (i : I) := color_at i = col.red
+
+definition green [reducible] (i : I) := color_at i = col.green
+
+definition large [reducible] (i : I) := size_at i = size.large
+
+definition small [reducible] (i : I) := size_at i = size.small
+
+definition same_color [reducible] (i j : I) := color_at i = color_at j
+
+definition same_size [reducible] (i j : I) := size_at i = size_at j
+
+open int
+
+definition nadj [reducible] (v1 v2 v3 v4 : ℕ) :=
+  (v1 = v3 ∧ (of_nat v2 = of_nat v4 - 1 ∨ of_nat v2 = of_nat v4 + 1))
+    ∨ (v2 = v4 ∧ (of_nat v1 = of_nat v3 - 1 ∨ of_nat v1 = of_nat v3 + 1))
+
+definition adj [reducible] : I → I → Prop
+  | adj (i1, i2) (i3, i4) :=
+    fin.rec_on i1 (fin.rec_on i2 (fin.rec_on i3 (fin.rec_on i4
+    (λ v1 Hv1 v2 Hv2 v3 Hv3 v4 Hv4, nadj v1 v2 v3 v4))))
+
+definition dec_adj [instance] (i j : I) : decidable (adj i j) :=  begin
+    induction i with [i1, i2],
+    induction j with [i3, i4],
+    induction i1,
+    induction i2,
+    induction i3,
+    induction i4,
+    apply _
+  end
+
+definition same_row [reducible] : I → I → Prop
+  | same_row (i1, i2) (i3, i4) := fin.rec_on i1 (fin.rec_on i3 (λ va Ha vc Hc, va = vc))
+
+definition same_row_dec [instance] (i j : I) : decidable (same_row i j) :=
+  begin
+    induction i with [i1, i2],
+    induction j with [i3, i4],
+    induction i1,
+    induction i3,
+    apply _
+  end
+
+definition same_column [reducible] : I → I → Prop
+  | same_column (i1, i2) (i3, i4) := fin.rec_on i2 (fin.rec_on i4 (λ va Ha vc Hc, va = vc))
+
+definition same_col_dec [instance] (i j : I) : decidable (same_column i j) :=
+  begin
+    induction i with [i1, i2],
+    induction j with [i3, i4],
+    induction i2,
+    induction i4,
+    apply _
+  end
+end defs
+
+open list
+
+definition to_tuple1 (L : list block) : tuple block (length L) :=
+  subtype.tag L rfl
+prefix `'` : 50 := to_tuple1
+
+definition to_tuple2 {n : ℕ} (L : list (tuple block n)) : tuple (tuple block n) (length L) :=
+  subtype.tag L rfl
+prefix `''` : 50 := to_tuple2
+
+-- BEGIN
+---------------------------------
+-- arrange this world to your liking.
+-- all rows must have the same length.
+
+definition world_setup :=
+ ''['[R, r, g, b],
+    '[R, b, G, b],
+    '[B, B, B, b]]
+
+-- ignore this line
+definition ws_inst [instance] := world_type.mk world_setup
+
+eval is_true (∀ x, green x ∨ blue x)
+
+eval is_true (∃ x y, adj x y ∧ green x ∧ green y)
+
+eval is_true (∀ x, large x → ∃ y, small y ∧ adj x y)
+
+eval is_true (∀ x, green x → ∃ y, same_row x y ∧ blue y)
+
+eval is_true (∀ x y, same_row x y ∧ same_column x y → x = y)
+
+eval is_true (∀ x, ∃ y, adj x y ∧ same_color x y)
+
+eval is_true (∃ y, ∀ x, adj x y → same_color x y)
+-- END
+#+END_SRC
+
+** Validity
+
+As we have now seen many times, whether a formula is true or false often depends
+on the model we choose. Some formulas, though, are true in every possible model. An
+example we saw earlier was $\fa y (\fn{lt}(0, y) \to \fn{lt}(0, y))$. Why is this
+formula a tautology? Suppose $\MM$ is an arbitrary model of the language, and 
+suppose $a$ is an arbitrary element of the domain of $\MM$. Either
+$\MM \models \fn{lt}(0, \bar a)$ or $\MM \models \neg \fn{lt}(0, \bar a)$.
+In either case, the propositional semantics of implication guarantee that
+$\MM \models \fn{lt}(0, \bar a) \to \fn{lt}(0, \bar a)$. We often write $\models \varphi$
+to mean that $\varphi$ is a tautology.
+
+In the propositional setting, there is an easy method to figure out if a formula
+is a tautology or not. Writing the truth table and checking for any rows ending with
+$\false$ is algorithmic, and we know from the beginning exactly how large the truth
+table will be. Unfortunately, we cannot do the same for first-order formulas. Any
+language has infinitely many models, so a "first-order" truth table would be infinitely
+long. To make matters worse, even checking whether a formula is true in a single
+model can be a non-algorithmic task. To decide whether a universal statement like
+$\fa x (\fn{P} x)$ is true in a model with an infinite domain, we might have to check
+whether $\fn{P}$ is true of infinitely many elements.
+
+This is not to say that we can /never/ figure out if a first-order sentence is a 
+tautology. (Two paragraphs above, we argued that $\fa y (\fn{lt}(0, y) \to \fn{lt}(0, y))$
+was one.) It is just a more difficult question than for propositional logic.
+
+** Soundness and Completeness
+
+In propositional logic, we saw a close connection between the provable formulas
+and the tautologies -- specifically, a formula is provable if and only if it is
+a tautology. Fortunately, the same is true in first order logic.
+
+The "soundness" direction -- that any provable formula is a tautology -- follows for 
+similar reasons to its propositional equivalent. It is not difficult to show that
+the additional rules for quantification preserve truth.
+
+The completeness theorem for first order logic
+was first proved by Kurt Gödel, and simplified significantly by Leon Henkin.
+
+------
+**Theorem.** If a formula $\varphi$ is a tautology, then $\varphi$ is derivable.
+------
+
+Compared to the version for propositional logic, the first order completeness theorem
+is notably harder to prove. We will not go into too much detail here, but will highlight
+the details. Most of the work in Henkin's proof is done by the model existence theorem. 
+(There are a few small catches to the theorem that we will ignore here.)
+
+------
+**Theorem.** Every consistent first order theory has a model.
+------
+
+From this theorem, it is easy to deduce the completeness theorem. Suppose that $\varphi$ is
+a tautology. (We write $\models \varphi$.) This means that $\varphi$ evaluates to $\true$
+in every model, and equivalently, $\neg \varphi$ evaluates to false in every model. Since no
+model makes $\neg \varphi$ true, the model existence theorem tells us that the theory 
+consisting only of $\neg \varphi$ is inconsistent. But by the definition of consistency,
+this means we can find a proof of $\varphi$.
+
+The proof of the model existence theorem is more intricate. We say that a theory is
+/maximally consistent/ if, for every sentence $\varphi$, the theory implies either 
+$\varphi$ or $\neg \varphi$. One can show that any theory $T$ can be extended to a maximally
+consistent theory $T'$ -- that is, every formula implied by $T$ is also implied by $T'$. Given
+a consistent theory $T$, we construct a model for $T$ by using the set of terms of $T'$ as the
+domain, and interpreting predicates and relations based on the true sentences of $T'$.
+
+The moral here is much the same as it was for propositional logic. Because we have 
+developed our syntactic rules with a certain semantics in mind, the two exhibit different
+sides of the same coin: the "provable" sentences are exactly the "true" ones. This notion
+can be relativized to theories; a sentence is provable from a set of hypotheses exactly
+when it is true in every model that makes those hypotheses true. 
+
+We now have another way to answer the question posed in the previous section. To show
+that a sentence is a tautology, it suffices to produce a proof. (There is no need to
+somehow check its truth in every possible model.)

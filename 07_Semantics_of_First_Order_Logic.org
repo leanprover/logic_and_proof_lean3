@@ -214,25 +214,27 @@ semantics for implication back in Chapter 3; any other choice would make relativ
 impossible.
 
 Our next example is interactive, and draws from the book Tarski's World. [CITE] Here,
-our domain of interest will be a grid of blocks. Blocks have a color (red, blue, or green)
-and a size (small or large). We use the letter =R= to represent a large red block and =r=
-to represent a small red block, and similarly for =G, g, B, b=. 
+our domain of interest will be a grid of "dots." Dots have a color (red, blue, or green)
+and a size (small or large). We use the letter =R= to represent a large red dot and =r=
+to represent a small red dot, and similarly for =G, g, B, b=. 
 
-The logical language we use to describe our block world has predicates =red, green, 
+The logical language we use to describe our bdot world has predicates =red, green, 
 blue, small= and =large= that are interpreted in the obvious ways. The relation 
-=adjacent(x, y)= is true if the blocks referred to by =x= and =y= are touching, not on
+=adjacent(x, y)= is true if the dots referred to by =x= and =y= are touching, not on
 a diagonal. The relations =same_color(x, y)=, =same_size(x, y)=, =same_row(x, y)=,
-and =same_column(x, y)= are also self-explanatory.
+and =same_column(x, y)= are also self-explanatory. =left_of(x, y)= is true if the dot
+referred to by =y= is left of the dot referred to by =x=, regardless of what rows the 
+dots are in. =right_of=, =above=, and =below= are similar.
 
-At the bottom of the following Lean file is a grid of blocks, and a number of sentences
+At the bottom of the following Lean file is a grid of dots, and a number of sentences
 in our logical language. The meaning of the commands =eval is_true= is not important, but
 the info window for each of these lines will tell you whether that sentence is true or
 false in the current model.
 
 For each sentence, see if you can find arrangements for the world that make the sentence
 true and false. For an extra challenge, try to make all of the sentences true simultaneously.
-Feel free to add more rows or columns to the grid of blocks -- as long as each row has
-the same number of blocks in it, Lean will figure out the right way to interpret the
+Feel free to add more rows or columns to the grid of dots -- as long as each row has
+the same number of dots in it, Lean will figure out the right way to interpret the
 predicates.
 
 (TODO: MORE SENTENCES)
@@ -368,6 +370,48 @@ definition same_col_dec [instance] (i j : I) : decidable (same_column i j) :=
     induction i4,
     apply _
   end
+
+definition left_of [reducible] : I → I → Prop
+  | left_of (i1, i2) (i3, i4) := i4 < i2
+
+definition right_of [reducible] : I → I → Prop
+  | right_of (i1, i2) (i3, i4) := i4 > i2
+
+definition above [reducible] : I → I → Prop
+  | above (i1, i2) (i3, i4) := i3 > i1
+
+definition below [reducible] : I → I → Prop
+  | below (i1, i2) (i3, i4) := i3 < i1
+
+definition left_dec [instance] (i j : I) : decidable (left_of i j) :=
+  begin
+    induction i,
+    induction j,
+    apply _
+  end
+
+definition right_dec [instance] (i j : I) : decidable (right_of i j) :=
+  begin
+    induction i,
+    induction j,
+    apply _
+  end
+
+definition above_dec [instance] (i j : I) : decidable (above i j) :=
+  begin
+    induction i,
+    induction j,
+    apply _
+  end
+
+definition below_dec [instance] (i j : I) : decidable (below i j) :=
+  begin
+    induction i,
+    induction j,
+    apply _
+  end
+
+
 end defs
 
 open list
@@ -397,6 +441,8 @@ eval is_true (∀ x, green x ∨ blue x)
 
 eval is_true (∃ x y, adj x y ∧ green x ∧ green y)
 
+eval is_true (∃ x, (∃ z, right_of z x) ∧ (∀ y, left_of x y → blue y ∨ small y))
+
 eval is_true (∀ x, large x → ∃ y, small y ∧ adj x y)
 
 eval is_true (∀ x, green x → ∃ y, same_row x y ∧ blue y)
@@ -407,6 +453,7 @@ eval is_true (∀ x, ∃ y, adj x y ∧ same_color x y)
 
 eval is_true (∃ y, ∀ x, adj x y → same_color x y)
 -- END
+
 #+END_SRC
 
 ** Validity

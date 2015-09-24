@@ -28,7 +28,7 @@ defined as follows.
 - /reflexivity/: $a \equiv a$, for every $a$ in $A$.
 - /symmetry/: if $a \equiv b$, then $b \equiv a$, for every $a$ and
   $b$ in $A$.
-- /transitive/ if $a \equiv b$ and $b \equiv c$, then $a \equiv c$, for every $a$,
+- /transitive/: if $a \equiv b$ and $b \equiv c$, then $a \equiv c$, for every $a$,
   $b$, and $c$ in $A$.
 -----
 
@@ -47,7 +47,7 @@ write them as follows:
 - $\fa {a, b, c} (a \equiv b \wedge b \equiv c \to a \equiv c)$
 Here the variables $a$, $b$, and $c$ implicitly range over the domain
 $A$. We leave it to you to think about how you could write these
-statement in Lean. We will also leave you with an exercise: by a
+statements in Lean. We will also leave you with an exercise: by a
 careful choice of how to instantiate the quantifiers, you can actually
 prove the three properties above from the following two:
 - $\fa a (a \equiv a)$
@@ -55,7 +55,7 @@ prove the three properties above from the following two:
 Try to verify this using natural deduction or Lean.
 
 These three properties alone are not strong enough to characterize
-equality. You should check that the following mathematical informal
+equality. You should check that the following informal
 examples are all instances of equivalence relations:
 - the relation on days on the calendar, given by "$x$ and $y$ fall on
   the same day of the week"
@@ -271,7 +271,7 @@ not total orders:
   domain $A$
 
 On the integers, we also have the strict order relation, $<$, which is
-not a partial order, since it is not reflexive. It is, rather, and
+not a partial order, since it is not reflexive. It is, rather, an
 instance of a /strict partial order/:
 
 -----
@@ -283,7 +283,7 @@ partial order/ if it satisfies the following:
 A strict partial order is a /strict total order/ (or /strict linear
 order/) if, in addition, we have the following property:
 - /trichotomy/: $a < b$, $a = b$, or $a > b$ for
-every $a$ and $b$ in $A$. 
+  every $a$ and $b$ in $A$. 
 -----
 Here, $b \nless a$ means, of course, that it is not the case that $a <
 b$, and $a > b$ is alternative notation for $b < a$. To distinguish an
@@ -358,7 +358,7 @@ Lean allows us to define notation for =R=, to be used locally in the
 section. 
 
 In the example below, having fixed a partial order, =R=, we define the
-corresponding strict partial order, =R'=, and prove that it is,
+corresponding strict partial order, =R`=, and prove that it is,
 indeed, a strict order.
 #+BEGIN_SRC lean
 open eq.ops
@@ -462,8 +462,8 @@ are generally interchangeable.
 
 # TODO: add natural deduction and Lean versions
 
-The converse to the second theorem, that is, the statement that every
-minimal element is minimum, if false. As an example, consider the
+The converse to the second theorem -- that is, the statement that every
+minimal element is minimum -- is false. As an example, consider the
 nonempty subsets of the set $\{ 1, 2 \}$ with the subset relation. In
 other words, consider the collection of sets $\{ 1 \}$, $\{ 2 \}$, and
 $\{1, 2\}$, where $\{ 1 \} \subseteq \{1, 2\}$, $\{ 2 \} \subseteq
@@ -504,8 +504,8 @@ on a domain $A$ is said to be a /preorder/ it is is reflexive and
 transitive. This is weaker than saying it is a partial order; we have
 removed the requirement that the relation is asymmetric. An example is
 the ordering on people currently alive on the planet defined by
-setting $x \leq y$ if and only if $x$'s birth date is earlier than
-$y$'s. Asymmetry fails, because different people can be born on the
+setting $x \leq y$ if and only if $x$ 's birth date is earlier than
+$y$ 's. Asymmetry fails, because different people can be born on the
 same day. But we leave it to you to check that the following holds:
 -----
 *Theorem.* Let $\leq$ be a binary relation on a domain $A$. Define the
@@ -526,7 +526,7 @@ like the following:
 *Proposition.* $\frac{n(n+1)}{2} + (n + 1) = \frac{(n+1)(n+2)}{2}$,
 for every natural number $n$.
 -----
-In some places, students are asked to write proofs,\ like this:
+In some places, students are asked to write proofs, like this:
 -----
 *Proof.*
 \begin{eqnarray*}
@@ -537,7 +537,7 @@ In some places, students are asked to write proofs,\ like this:
 \end{eqnarray*}
 -----
 Mathematicians generally cringe when they see this. /Don't do it!/ It
-looks like an instance of forward reasoning: where we start with a
+looks like an instance of forward reasoning, where we start with a
 complex identity and end up proving $x = x$. Of course, what is really
 meant is that each line follows from the preceeding
 one. There is a way of expressing this, with the phrase "it

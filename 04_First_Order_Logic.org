@@ -1058,7 +1058,7 @@ proofs as well. Here are two examples.
 
 -----
 
-Let $A, B, C, \ldots$ denotes sets of elements of some domain, $X$.
+Let $A, B, C, \ldots$ denote sets of elements of some domain, $X$.
 
 *Theorem*. $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$.
 

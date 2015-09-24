@@ -642,42 +642,289 @@ Similarly, we can simplify the right-hand side:
 Thus the left-hand side and the right-hand side are equal.
 -----
 
-** Carrying out calculations formally.
+** Calculation in Formal Logic
 
 Calculations like these can be carried out in symbolic logic. They
 typically amount to using the equality rules we have already
 discussed, together with a list of general identities. For example,
-the following identities for any real numbers $x$, $y$, and $z$:
+the following identities hold for any real numbers $x$, $y$, and $z$:
 - commutativity of addition: $x + y = y + x$
-- ...
-Note that $x$, $y$, and $z$ can, in particular, be integers or
-rational numbers as well.
+- associativity of addition: $(x + y) + z = x + (y + z)$
+- additive identity: $x + 0 = 0 + x = x$
+- additive inverse: $-x + x = x + -x = 0$
+- multiplicative identity: $x \cdot 1 = 1 \cdot x = x$
+- commutativity of multiplication: $x \cdot y = y \cdot x$
+- associativity of multiplication: $(x \cdot y) \cdot z = x \cdot (y \cdot z)$
+- distributivity: $x \cdot (y + z) = x \cdot y + x \cdot z, \quad (x +
+  y) \cdot z = x \cdot z + y \cdot z$
+You should imagine that there are implicit universal quantifiers in
+front of each statement, asserting that the statement holds for /any/
+values of $x$, $y$, and $z$. Note that $x$, $y$, and $z$ can, in
+particular, be integers or rational numbers as well. Calculations
+involving real numbers, rational numbers, or integers generally
+involve identities like this.
 
-(Do a natural deduction derivation.)
+There is generally nothing interesting to be learned from carrying out
+such calculations in natural deduction. This simply amount to using
+the elimination rule for the elimination rule to instantiate general
+identities, using symmetry, if necessary, to orient an equation in the
+right direction, and then using the substitution rule for equality to
+change something in a previous result. For example, here is a natural
+deduction proof of a simple $\fa {x, y, z} ((x + y) + z = (x + z) +
+y)$, using only commutativity and associativity of addition. We have
+taken the liberty of using a brief name to denote the relevant
+identities, and combining multiple instances of the universal
+quantifier introduction and elimination rules into a single step.
+\begin{center}
+\AXM{}
+\UIM{\mathsf{assoc}}
+\UIM{(x + z) + y = x + (z + y)}
+\UIM{x + (z + y) = (x + z) + y}
+\AXM{}
+\UIM{\mathsf{comm}}
+\UIM{y + z = z + y}
+\AXM{}
+\UIM{\mathsf{assoc}}
+\UIM{(x + y) + z = x + (y + z)}
+\BIM{(x + y) + z = x + (z + y)}
+\BIM{(x + y) + z = (x + z) + y}
+\UIM{\fa {x, y, z} ((x + y) + z = (x + z) + y)}
+\DP
+\end{center}
 
-(Do an example in Lean with calc.)
+Lean has a mechanism to model calculational proofs like this in a more
+natural way. Whenever a proof of an equation is expected, you can
+provide a proof using the identifier =calc=, following by a chain of
+equalities and justification, in the following form:
+#+BEGIN_SRC text
+  calc
+    e1 = e2    : justification 1
+      ... = e3 : justification 2
+      ... = e4 : justification 3
+      ... = e5 : justification 4
+#+END_SRC
+The chain can go on as long as needed. Each justification is the name
+of the assumption or theorem that is used; Lean will figure out
+whether the identity needs to be used in the forward or reverse
+direction, and where it needs to be substituted into an expression. As
+usual, the syntax is finicky; notice that there are no commas, and the
+colons and dots need to be entered exactly in that form. All that
+varies are the expressions =e1, e2, e3, ...= and the justifications
+themselves. 
 
-Let us consider a more interesting example. 
+For example, Lean's library has a number of basic identities for the
+integers. Here are some examples:
+#+BEGIN_SRC lean
+import data.int
+open int
 
-(Motivate the sums of squares theorem with some examples.)
+variables x y z : int
 
+example : x + 0 = x :=
+add_zero x
+
+example : 0 + x = x :=
+zero_add x
+
+example : (x + y) + z = x + (y + z) :=
+add.assoc x y z
+
+example : x + y = y + x :=
+add.comm x y
+
+example : (x * y) * z = x * (y * z) :=
+mul.assoc x y z
+
+example : x * y = y * x :=
+mul.comm x y
+
+example : x * (y + z) = x * y + x * z :=
+left_distrib x y z
+
+example : (x + y) * z = x * z + y * z :=
+right_distrib x y z
+#+END_SRC
+You can also write the type of integers as =ℤ=, entered with either
+=\Z= or =\int=. Notice that, for example, =add.comm= is the theorem =∀
+x y, x + y = y + x=. So to instantiate it to =s + t = t + s=, you
+write =add.comm s t=. Using these axioms, here is the calculation
+above rendered in Lean, as a theorem about the integers:
+#+BEGIN_SRC lean
+import data.int
+open int
+
+example (x y z : int) : (x + y) + z = (x + z) + y :=
+calc
+  (x + y) + z = x + (y + z) : add.assoc
+          ... = x + (z + y) : add.comm
+          ... = (x + z) + y : add.assoc
+#+END_SRC
+In such a calculation, each line is a single, small step. We have seen
+that informal proofs tend to take bigger steps, and often don't bother
+to name specific calculation rules. As a result, writing calculations
+in this way can be somewhat tedious. Indeed, Lean has mechanisms for
+carrying out calculations more efficiently, but describing them here
+would take us too far afield. In examples and exercises in this text,
+we will therefore only ask you to do short calculations, with the
+understanding that there is no theoretical gap between justifying
+short calculations and long ones; only a practical one.
+
+# TODO: one day describe rewrite, and the simplifier, for more 
+# impressive examples
+
+** An Example: Sums of Squares
+
+Let us consider a more interesting example, from number
+theory. Mathematicians from ancient times have been interested in the
+question as to which integers can be written as a sum of two
+squares. For example, we can write $2 = 1^1 + 1^1$, $5 = 2^2 + 1^2$,
+$13 = 3^2 + 2^2$. If we make a sufficiently long list of these, an
+interesting pattern emerges: if two numbers can be written as a sum of
+squares, then so can their product. For example, $10 = 5 \cdot 2$, and
+we can write $10 = 3^2 + 1^2$. Or $65 = 13 \cdot 5$, and we can write
+$65 = 8^2 + 1^2$.
+
+At first, one might wonder whether this is just a coincidence. The
+following provides a proof of the fact that it is not.
 -----
 *Theorem.* Let $x$ and $y$ be any two integers. If $x$ and $y$ are
 both sums of squares, then so is $x y$.
-*Proof.* ...
+
+*Proof.* Suppose $x = a^2 + b^2$, and suppose $y = c^2 + d^2$. I claim
+that
+\begin{equation*}
+xy = (ac - bd)^2 + (ad + bc)^2.
+\end{equation*}
+To show this, notice that on the one hand we have
+\begin{equation*}
+xy = (a^2 + b^2) (c^2 + d^2) = a^2 c^2 + a^2 d^2 + b^2 c^2 + b^2 d^2.
+\end{equation*}
+On the other hand, we have
+\begin{eqnarray*}
+(ac - bd)^2 + (ad + bc)^2 & = & (a^2c^2 - 2abcd + b^2 d^2) + (a^2 d^2 + 2 a b c d + b^2 c^2) \\
+  & = & a^2 c^2 + b^2 d^2 + a^2 d^2 + b^2 c^2.
+\end{eqnarray*}
+Up to the order of summands, the two right-hand sides are the same.
 -----
 
-(Do it in Lean with a calc proof.)
+In fact, this proof can be carried out using only the identities
+above, together with the definition of the square, and some additional
+identities for subtraction and negation. A =calc= proof of this in
+Lean would be quite involved, but here is an example of a simpler
+identity, of the same sort.
+#+BEGIN_SRC lean
+import data.int
+open int
 
-(Introduce rewrite, briefly.)
+variables a b d c : int
 
-(Combine calc and rewrite.)
+example : (a + b) * (c + d) = a * c + b * c + a * d + b * d :=
+calc
+  (a + b) * (c + d) = (a + b) * c + (a + b) * d : left_distrib
+    ... = (a * c + b * c) + (a + b) * d         : right_distrib
+    ... = (a * c + b * c) + (a * d + b * d)     : right_distrib
+    ... = a * c + b * c + a * d + b * d         : add.assoc
+#+END_SRC
 
 ** Calculations with Propositions and Sets
 
-Boolean algebras. Identities. 
+In the last chapter, we considered operations involving sets. Assuming
+$A$, $B$, and $C$ are subsets of some domain $X$, the following
+identities hold:
+- $A \cup \overline A = {\mathcal U}$
+- $A \cap \overline A = \emptyset$
+- $\overline {\overline A} = A$
+- $A \cup A = A$
+- $A \cap A = A$
+- $A \cup \emptyset = A$
+- $A \cap \emptyset = \emptyset$
+- $A \cup {\mathcal U} = {\mathcal U}$
+- $A \cap {\mathcal U} = A$
+- $A \cap {\mathcal U} = A$
+- $A \cup B = B \cup A$
+- $A \cap B = B \cap A$
+- $(A \cup B) \cup C = A \cup (B \cup C)$
+- $(A \cap B) \cap C = A \cap (B \cap C)$
+- $\overline{A \cap B} = \overline A \cup \overline B$
+- $\overline{A \cup B} = \overline A \cap \overline B$
+- $\overline{A} \cap (A \cup B) = A$
+- $\overline{A} \cup (A \cap B) = A$
 
-Set identities.
+Now many identities involving sets can be proved "by calculation". 
+-----
+*Theorem*. Let $A$ and $B$ be subsets of some domain $X$. Then $(A
+\cap \overline B) \cup B = B$.
+*Proof*. 
+\begin{eqnarray*}
+(A \cap \overline B) \cup B & = & (A \cup B) \cap (\overline B \cup B)
+\\
+& = & (A \cup B) \cap {\mathcal U} \\
+& = & (A \cup B).
+\end{eqnarray*}
+-----
+Here is the corresponding proof in Lean:
+#+BEGIN_SRC lean
+import data.set
+open set
 
+variable  X : Type
+variables A B C : set X
 
+example : (A ∩ -B) ∪ B = A ∪ B :=
+calc
+  (A ∩ -B) ∪ B = (A ∪ B) ∩ (-B ∪ B) : union.distrib_right
+           ... = (A ∪ B) ∩ univ     : comp_union_self
+           ... = A ∪ B              : inter_univ
+#+END_SRC
 
+Classically, you may have noticed that propositions, under logical
+equivalence, satisfy identities similar to sets. That is no
+coincidence; both are instances of /boolean algebras/. Here are the
+identities above translated to the language of a boolean algebra:
+- $A \vee \neg A = \top$
+- $A \wedge \neg A = \bot$
+- $\neg \neg A = A$
+- $A \vee A = A$
+- $A \wedge A = A$
+- $A \vee \bot = A$
+- $A \wedge \bot = \bot$
+- $A \vee \top = \top$
+- $A \wedge \top = A$
+- $A \wedge \top = A$
+- $A \vee B = B \vee A$
+- $A \wedge B = B \wedge A$
+- $(A \vee B) \vee C = A \vee (B \vee C)$
+- $(A \wedge B) \wedge C = A \wedge (B \wedge C)$
+- $\neg{A \wedge B} = \neg A \vee \neg B$
+- $\neg{A \vee B} = \neg A \wedge \neg B$
+- $\neg{A} \wedge (A \vee B) = A$
+- $\neg{A} \vee (A \wedge B) = A$
+
+Translated to propositions, the theorem above is as follows:
+-----
+*Theorem*. Let $A$ and $B$ be elements of a boolean algebra. Then $(A
+\wedge \neg B) \vee B = B$.
+*Proof*. 
+\begin{eqnarray*}
+(A \wedge \neg B) \vee B & = & (A \vee B) \wedge (\neg B \vee B)
+\\
+& = & (A \vee B) \wedge \top \\
+& = & (A \vee B).
+\end{eqnarray*}
+-----
+
+Lean allows us to do calculations on propositions as though they are
+elements of a boolean algebra, with equality replaced by =↔=.
+
+#+BEGIN_SRC lean
+import logic
+open classical
+
+variables A B : Prop
+
+example : (A ∧ ¬ B) ∨ B ↔ A ∨ B :=
+calc
+  (A ∧ ¬ B) ∨ B ↔ (A ∨ B) ∧ (¬ B ∨ B) : or.right_distrib
+            ... ↔ (A ∨ B) ∧ true      : not_or_self_iff
+            ... ↔ (A ∨ B)             : and_true
+#+END_SRC

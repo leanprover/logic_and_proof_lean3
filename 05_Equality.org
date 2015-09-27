@@ -33,11 +33,11 @@ defined as follows.
 -----
 
 Notice the compact way of introducing the symbol $\equiv$ in the
-statement of the definition, and that $\equiv$ is written as an infix
-symbol. Notice also that even though the relation is written with the
-symbol $\equiv$, it is the only symbol occurring in the definition;
-mathematical practice favors natural language to describe its
-properties.
+statement of the definition, and the fact that $\equiv$ is written as
+an infix symbol. Notice also that even though the relation is written
+with the symbol $\equiv$, it is the only symbol occurring in the
+definition; mathematical practice favors natural language to describe
+its properties.
 
 You now know enough, however, to recognize the universal quantifiers
 that are present in the three clauses. In symbolic logic, we would
@@ -64,12 +64,12 @@ examples are all instances of equivalence relations:
 - the relation on people currently alive on the planet, given by "$x$
   and $y$ have the same birthday"
 - the relation on cities in the United States, given by "$x$ and $y$
-  are in the same state."
+  are in the same state"
 Here are two common mathematical examples:
-- the relation on lines in the same plane, given by "$x$ and $y$ are
+- the relation on lines in a plane, given by "$x$ and $y$ are
   parallel"
 - for any fixed natural number $m \geq 0$, the relation on natural
-  numbers, given by "$x$ is congruent to $y$ modulo $m$."
+  numbers, given by "$x$ is congruent to $y$ modulo $m$"
 Here, we say that $x$ is congruent to $y$ modulo $m$ if they leave the
 same remainder when divided by $m$. Soon, you will be able to prove
 rigorously that this is equivalent to saying that $x - y$ is divisible
@@ -246,21 +246,21 @@ the following are all examples of partial orders:
 - $\leq$ on the natural numbers
 - $\leq$ on the integers
 - $\leq$ on the rational numbers
-- $\leq$ on the real numbers.
+- $\leq$ on the real numbers
 But keep in mind that $\leq$ is only a symbol; it can have unexpected
 interpretations as well. For example, all of the following are also
 partial orders:
 - $\geq$ on the natural numbers
 - $\geq$ on the integers
 - $\geq$ on the rational numbers
-- $\geq$ on the real numbers.
+- $\geq$ on the real numbers
 These are not fully representative of the class of partial orders, in
 that they all have an additional property:
 
 -----
 *Definition.* A partial order $\leq$ on a domain $A$ is a /total
-order/ (also called a /linear order/) if it has the following
-additional property:
+order/ (also called a /linear order/) if it also has the following
+property:
 - for every $a$ and $b$ in $A$, either $a \leq b$ or $b \leq a$.
 -----
 
@@ -358,7 +358,7 @@ Lean allows us to define notation for =R=, to be used locally in the
 section. 
 
 In the example below, having fixed a partial order, =R=, we define the
-corresponding strict partial order, =R`=, and prove that it is,
+corresponding strict partial order, =R'=, and prove that it is,
 indeed, a strict order.
 #+BEGIN_SRC lean
 open eq.ops
@@ -526,7 +526,7 @@ like the following:
 *Proposition.* $\frac{n(n+1)}{2} + (n + 1) = \frac{(n+1)(n+2)}{2}$,
 for every natural number $n$.
 -----
-In some places, students are asked to write proofs, like this:
+In some places, students are asked to write proofs like this:
 -----
 *Proof.*
 \begin{eqnarray*}
@@ -854,6 +854,7 @@ Now many identities involving sets can be proved "by calculation".
 -----
 *Theorem*. Let $A$ and $B$ be subsets of some domain $X$. Then $(A
 \cap \overline B) \cup B = B$.
+
 *Proof*. 
 \begin{eqnarray*}
 (A \cap \overline B) \cup B & = & (A \cup B) \cap (\overline B \cup B)
@@ -904,6 +905,7 @@ Translated to propositions, the theorem above is as follows:
 -----
 *Theorem*. Let $A$ and $B$ be elements of a boolean algebra. Then $(A
 \wedge \neg B) \vee B = B$.
+
 *Proof*. 
 \begin{eqnarray*}
 (A \wedge \neg B) \vee B & = & (A \vee B) \wedge (\neg B \vee B)

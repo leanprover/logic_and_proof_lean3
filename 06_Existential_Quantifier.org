@@ -15,7 +15,7 @@ The following statements about the natural numbers reference the existence of so
 - Every number greater than one has a prime divisor.
 - For every $n$, if $n$ has a prime divisor smaller than $n$, then $n$ is composite.
 
-These statements can be expressed in first order logic using the existential quantifier in the
+These statements can be expressed in first-order logic using the existential quantifier in the
 following way
 
 - $\ex n (\fn{odd}(n) \wedge \fn{composite}(n))$.
@@ -64,7 +64,8 @@ satisfies the properties $q$ is prime, $q < n$ and $q \mid n$ from the existenti
 
 The elimination rule for the existential quantifier is a little tricky, since we have to describe
 what it means for a variable $p$ to be `new' or `fresh'. What is means in natural deduction is that
-the variable cannot occur in the conclusion and not in any assumption other than the ones we can cancel.
+the variable cannot occur in the conclusion and not in any assumption other than the ones we can
+cancel.
 
 So the elimination rule is:
 \begin{prooftree}
@@ -82,7 +83,8 @@ of the form $A(y)$ (and will hence be canceled by applying this rule). You are a
 multiple hypotheses $A(y)$.
 
 What this rule says is that you start the proof by assuming $A(y)$ for a fresh variable $y$ ($y$ is
-fresh because $y$ is not allowed). From this assumption you conclude (in multiple steps) that $B$ holds.
+fresh because $y$ is not allowed). From this assumption you conclude (in multiple steps) that $B$
+holds.
 
 Here is an example, which shows that if $A(x)$ always implies $\neg B(x)$, then there cannot be an
 $x$ for which both $A(x)$ and $B(x)$ holds.
@@ -203,26 +205,370 @@ iff.intro
   (assume `P`, exists.intro u `P`)
 #+END_SRC
 
-In the second example we used that =U= is inhabited by the element =u=, because the statement is
+In the second example we use that =U= is inhabited by the element =u=, because the statement is
 false for non-empty =U=. In the natural deduction proof we didn't have to require this
 specifically. This is because we implicitly assume that the underlying universe we work in is
 non-empty. We will elaborate on this in Chapter [[file:07_Semantics_of_First_Order_Logic.org][Semantics of First Order Logic]]. 
 
-** Counterexamples
+** Counterexamples and Relativized Quantifiers
 
-- examples of counterexamples
-- proof that not forall is exist not
+Consider the statement:
+#+BEGIN_QUOTE
+Every prime number is odd.
+#+END_QUOTE
+In first-order logic, we could formulate this as $\fa p (\fn{prime}(p) \to \fn{odd}(p))$. This
+statement is false, because there is a prime number which is even, namely the number 2. This is
+called a /counterexample/ to the statement. 
 
-** Relativized Quantifiers
+More generally, given a formula $\fa x A(x)$, a counterexample is a value $t$ such that $\neg A(t)$
+holds. Such a counterexample shows that the original formula is false. The reason for this is the
+following equivalence: $\neg\fa x A(x) \liff \ex x \neg A(x)$. So if we find a value $t$ such that
+$\neg A(t)$ holds, then by the existential introduction rule we can conclude that $\ex x \neg A(x)$,
+and then by the above equivalence we have $\neg\fa x A(x)$. We now give the proof of this
+equivalence:
 
-- difference between relativized existential and relativized universal quantifier
-- simulating other quantifiers: "exists at least 2", "exist at most 2", "exist exactly 2"
+\begin{prooftree}
+\AXM{}
+\UIM{H_1 : \neg\fa x A(x)}
+\AXM{}
+\UIM{H_4 : \neg(\ex x \neg A(x))}
+\AXM{}
+\UIM{H_5 : \neg A(x)}
+\UIM{\ex x \neg A(x)}
+\BIM{\bot}
+\RLM{H_5}
+\UIM{A(x)}
+\UIM{\fa x A(x)}
+\BIM{\bot}
+\RLM{H_4}
+\UIM{\ex x \neg A(x)}
+\AXM{}
+\UIM{H_1 : \ex x \neg A(x)}
+\AXM{}
+\UIM{H_3 : \neg A(y)}
+\AXM{}
+\UIM{H_2 : \fa x A(x)}
+\UIM{A(y)}
+\BIM{\bot}
+\RLM{H_3}
+\BIM{\bot}
+\RLM{H_2}
+\UIM{\neg\fa x A(x)}
+\RLM{H_1}
+\BIM{\neg\fa x A(x) \liff \ex x \neg A(x)}
+\end{prooftree}
+
+One remark about the proof: at the step marked by $H_4$ we /cannot/ use the existential introduction
+rule, because at that point our only assumption is $\neg\fa x A(x)$, and from that assumption we
+cannot prove $\neg A(t)$ for a particular term $t$. So we use the proof by contradiction there.
+
+As an exercise, proof the 'dual' equivalence yourself: $\neg\ex x A(x) \liff \fa x \neg A(x)$. This
+can be done without using proof by contradiction.
+
+In Chapter [[file:04_First_Order_Logic.org][First Order Logic]] we saw examples how to use relativization to restrict the scope of a
+universal quantifier. Suppose we want to say "every prime number is greater than 1". In first order
+logic this can be written as $\fa n (\fn{prime}(n) \to n > 1)$. The reason is that the original
+statement is equivalent to the statement "for every natural number, if it is prime, then it is
+greater than 1".
+
+We can do the same for an existential quantifier. Suppose we want to write "there exists a prime
+number greater than 100" in first-order logic. We can alternatively write this as "there exists a
+natural number which is prime and greater than 100". This makes the translation into first order
+logic easy: $\ex n(\fn{prime}(n) \wedge n > 100)$.
+
+Notice what is happening here: if we relativize the universal quantifier we add an implication in
+the formula. However, if we relativize the existential quantifier, we add a conjunction.
+
+As an exercise you can prove the above results about negations of quantifiers also for relativized
+quantifiers. Specifically, give proof trees of the following statements:
+- $\neg\ex x (A(x) \wedge B(x)) \liff \fa x ( A(x) \to \neg B(x))$;
+- $\neg\fa x (A(x) \to B(x)) \liff \ex x ( A(x) \wedge \neg B(x))$
+
+In first-order logic we have only two quantifiers: the universal quantifier and the existential
+quantifier. However, we already saw that using these we can /define/ much more quantifiers, namely
+all relativized quantifiers. But we can define even more quantifiers.
+
+- We can define "there are at least two elements $x$ such that $A(x)$ holds." We can write this as
+  $\ex x \ex y (x\neg y \wedge A(x) \wedge A(y))$.
+- We can define "there are at most two elements $x$ such that $A(x)$ holds." We can write this as
+  $\fa x \fa y \fa z (A(x) \wedge A(y) \wedge A(z) \to x = y \vee y = z \vee x = z)$. This states
+  that if we have three elements $a$ for which $A(a)$ holds, then two of them must be equal.
+- We can define "there are exactly two elements $x$ such that $A(x)$ holds" as the conjunction of
+  the above two statements.
+
+As an exercise, write out in first order logic the statements that there are at least, at most, and
+exactly three elements $x$ such that $A(x)$ holds.
 
 ** Number Theory
 
-- divisibility
-- modulo arithmetic
+Using the existential quantifier, we can now define divisibility on the natural numbers
+-----
+*Definition*. Given two natural numbers $m$ and $n$. We say that $m$ /is a divisor of/ $n$, written
+ $m \mid n$, if there exists some $k$ such that $m \cdot k = n$. We also say that $n$ /is divisible by/
+ $m$ or that $m$ /divides/ $n$.
+-----
+
+We can now
+
+-----
+*Theorem.* The relation $\mid$ is a partial order. However, it is not total.
+
+*Proof.* We have to show that $\mid$ is reflexive, antisymmetric and transitive. Reflexivity is
+immediate, because $n \cdot 1 = n$, hence $n\mid n$.
+
+For antisymmetry, suppose that $n$ and $m$ are natural numbers such that $n\mid m$ and $m \mid
+n$. Then there exist $k$ and $\ell$ such that $n\cdot k = m$ and $m \cdot \ell = n$. We distinguish
+two cases. If $n = 0$, then we have $m = n\cdot k = 0 = n$, so we are done. If $n > 0$, then we use
+the the equations to get $n \cdot k \cdot \ell = m \cdot \ell = n$, and we can cancel $n$ on both
+sides to get $k \cdot \ell = 1$. The product of two natural numbers can only be 1 if both natural
+numbers is 1, so we conclude that $k = \ell = 1$. hence we get $n = n \cdot k = m$, so $\mid$ is
+antisymmetric.
+
+Finally, to prove transitivity, suppose $m \mid n$ and $n \mid r$. Then there are $k,\ell$ such that
+$m \cdot k = n$ and $n \cdot \ell = r$. Now we compute
+\begin{align*}
+m \cdot (k \cdot \ell) &= (m \cdot k) \cdot \ell \\
+& = n \cdot \ell  \\
+& = r.
+\end{align*}
+-----
+
+In Lean, we can prove this as follows:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+example : (∀n, n ∣ n) ∧ (∀n m, m ∣ n → n ∣ m → n = m) ∧ (∀n m r, m ∣ n → n ∣ r → m ∣ r) :=
+have refl : ∀n, n ∣ n, from
+  take n,
+  have n = n * 1, from eq.symm (mul_one n),
+  show n ∣ n, from exists.intro 1 `n = n * 1`,
+have antisymm : ∀n m, m ∣ n → n ∣ m → n = m, from
+  take m n,
+  assume `n ∣ m` `m ∣ n`,
+  obtain k `m = n * k`, from `n ∣ m`,
+  obtain l `n = m * l`, from `m ∣ n`,
+  or.elim (eq_zero_or_pos n)
+   (assume `n = 0`,
+    show m = n, from calc
+        m = n * k : `m = n * k`
+      ... = 0 * k : {`n = 0`}
+      ... = 0     : zero_mul
+      ... = n     : `n = 0`)
+   (assume `n > 0`,
+    have n * 1 = n * (k * l), from calc
+      n * 1 = n         : mul_one
+      ... = m * l       : `n = m * l`
+      ... = (n * k) * l : {`m = n * k`}
+      ... = n * (k * l) : mul.assoc,
+    have 1 = k * l, from eq_of_mul_eq_mul_left `n > 0` `n * 1 = n * (k * l)`,
+    have k = 1, from eq_one_of_mul_eq_one_right (eq.symm `1 = k * l`),
+    show m = n, from calc
+        m = n * k : `m = n * k`
+      ... = n * 1 : {`k = 1`}
+      ... = n     : mul_one),
+have trans : ∀n m r, m ∣ n → n ∣ r → m ∣ r, from
+  take n m r,
+  assume `m ∣ n` `n ∣ r`,
+  obtain k `n = m * k`, from `m ∣ n`,
+  obtain l `r = n * l`, from `n ∣ r`,
+  have r = m * (k * l), from calc
+     r = n * l       : `r = n * l`
+   ... = (m * k) * l : {`n = m * k`}
+   ... = m * (k * l) : mul.assoc,
+  exists.intro (k * l) `r = m * (k * l)`,
+and.intro refl (and.intro antisymm trans)
+#+END_SRC
+
+Some remarks about the proof:
+
+- The proof is long, but follows the text proof closely. A minor difference is that divisibility $m
+  \mid n$ in Lean is defined as $\ex k (n = m * k)$ instead of $\ex k (m * k = n)$.
+- In Lean, you have to input $\mid$ as =\|=. The character is not the same as a regular vertical bar =|=.
+- In some calculation steps we write ={ `...` }= where =...= is the equality we are rewriting (and
+  which we have previously assumed or proven). The curly brackets indicate that we rewrite a
+  subterm, and not the whole expression. For example, if we do the step =m = n=, we can give the
+  justification =`m = n`=, but if we rewrite =m + k = n + k= we have to give the justification ={`m
+  = n`}=.
+
+As an exercise, try to prove the following properties of divisibility in Lean.
+
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+example : ∀n m, m ∣ m * n := 
+sorry
+
+example : ∀n m k, m ∣ n → m ∣ n * k := 
+sorry
+
+example : ∀n m k, m ∣ n → k * m ∣ k * n :=
+sorry
+#+END_SRC
+
+# -- PROOFS --
+# example : ∀n m, m ∣ m * n :=
+# take n m,
+# exists.intro n rfl
+# 
+# example : ∀n m k, m ∣ n → m ∣ n * k :=
+# take n m k,
+# assume `m ∣ n`,
+# obtain l `n = m * l`, from `m ∣ n`,
+# have n * k = m * (l * k), from calc
+#   n * k = (m * l) * k : {`n = m * l`}
+#     ... = m * (l * k) : mul.assoc,
+# exists.intro (l * k) `n * k = m * (l * k)`
+# 
+# example : ∀n m k, m ∣ n → k * m ∣ k * n :=
+# take n m k,
+# assume `m ∣ n`,
+# obtain l `n = m * l`, from `m ∣ n`,
+# have k * n = (k * m) * l, from calc
+#   k * n = k * (m * l) : {`n = m * l`}
+#     ... = (k * m) * l : mul.assoc,
+# exists.intro l `k * n = (k * m) * l`
+
+We can also define divisibility on the integers in the same way. If $a$ and $b$ are integers, then
+$a \mid b$ means that there is an integer $c$ such that $a \cdot c = b$. Divisibility on the
+integers has most of the same properties as divisibility on the natural numbers. One difference is
+that it is not antisymmetric. This is because, for example, $5 \mid -5$ and $-5 \mid 5$, but 5 and
+$-5$ are not equal. We will state some other useful facts about divisibility, but we omit the proofs.
+
+-----
+*Proposition*. For all integers $a$, $b$, $c$ we have
+- if $a \mid b$ then $a \mid b\cdot c$
+- if $a \mid b$ and $a \mid c$, then $a \mid b + c$ and $a \mid b - c$.
+-----
+
+Another very useful topic in number theory is modular arithmetic. To illustrate the idea of modular
+arithmetic, suppose you have a 12-hour clock without a minute hand, so it only has an hour hand
+which can point to the hours 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 and then it wraps to 12 again. We
+can do arithmetic with this clock. 
+- If it's currently 10, then 5 hours later it the clock points to 3.
+- If it's now 7, then 23 hours before that, it was 8. 
+- Suppose it's now 9, and we work for a 8 hours, then it's 5. If we worked twice as long, starting
+  at 9, it would be 1.
+
+We want to write these statements using mathematical notation, so that we can reason about is more
+easily. We cannot write $10 + 5 = 3$ for the first expression, because that would be false, so we
+introduce a new notation. The notation we use is $10 + 5 \equiv 3 \pmod{12}$. We write $\pmod{12}$
+to indicate that we forget about multiples of 12, and we use an "congruence" symbol with three
+horizontal lines to remind us that these values are not exactly equal, but only equal if we forget
+about multiples of 12. The other two lines can be formulated as $7 - 23 \equiv 8 \pmod{12}$ and $9 +
+2 \cdot 8 \equiv 1 \pmod{12}$.
+
+Some other examples:
+
+- $6 + 7 \equiv 1 \pmod{12}$;
+- $6 \cdot 7 \equiv 42 \equiv 6 \pmod{12}$;
+- We can use negative numbers: $7 \cdot 5 \equiv 35 \equiv -1 \pmod{12}$
+
+We now give the formal definition.
+
+-----
+*Definition*. For integers $a$, $b$ and $n$ we say that $a$ and $b$ are /congruent modulo/ $n$ if $n
+\mid a - b$. This is written $a \equiv b \pmod{n}$. The number $n$ is called the /modulus/.
+-----
+
+Usually we only use this definition when the modulus $n$ is positive.
+
+-----
+*Theorem*. Congruence modulo $n$ is an equivalence relation.
+
+*Proof*. We have to show that congruence modulo $n$ is reflexive, symmetric and transitive.
+
+It is reflexivity, because $a - a = 0$, so $n \mid a - a$, hence $a\equiv a \pmod{n}$.
+
+To show that it is symmetric, suppose that $a \equiv b \pmod{n}$. Then by definition, $n \mid a -
+b$. So $n \mid (-1) \cdot (a - b)$, which means that $n \mid b - a$. This means by definition that
+$b \equiv a \pmod{n}$.
+
+To show that it is transitive, suppose that $a \equiv b \pmod{n}$ and $b \equiv c \pmod{n}$. Then we
+have $n \mid a - b$ and $n \mid b - c$. Hence by the previous Proposition we have $n \mid (a - b) +
+(b - c)$ which means that $n \mid a - c$. So $a \equiv c \pmod{n}$.
+-----
+
+This theorem justifies the "chaining" notation we used above: $7 \cdot 5 \equiv 35 \equiv -1
+\pmod{12}$. Since congruence modulo 12 is transitive, we can now actually conclude that $7\cdot
+5\equiv -1 \pmod{12}$.
+
+-----
+*Theorem*. Suppose that $a\equiv b \pmod{n}$ and $c\equiv d\pmod{n}$. Then $a+c\equiv b+d \pmod{n}$
+and $a\cdot c\equiv b\cdot d\pmod{n}$.
+
+Moreover, if $a\equiv b \pmod{n}$ then $a^k\equiv b^k \pmod{n}$ for all natural numbers $k$.
+
+*Proof*. We know that $n \mid a - b$ and $n \mid c - d$. For the first statement, we can calculate
+that $(a + c) - (b + d) = (a - b) + (c - d)$, so we can conclude that $n \mid (a + c) - (b + d)$
+hence that $a+c\equiv b+d\pmod{n}$.
+
+For the second statement, we want to show that $n \mid a\cdot c - b\cdot d$. We can factor $a\cdot
+c - b\cdot d = (a - b)\cdot c + b\cdot(c-d)$. Now $n$ divides both summands on the right, hence $n$ divides $a\cdot
+c - b\cdot d$, which means that $a\cdot c\equiv b\cdot d\pmod{n}$.
+
+The last statement follows by repeatedly applying the second statement:
+\begin{equation*}
+a^k = \underbrace{a\cdot a \cdot \cdots \cdot a}_{\text{$k$ times}} \equiv \underbrace{b\cdot b \cdot \cdots \cdot b}_{\text{$k$ times}} = b^k \pmod{n}
+\end{equation*}
+-----
+
+This theorem is useful for computing modulo $n$. Here are some examples.
+- Suppose we want to compute $77 \cdot 123$ modulo 12. We know that $77 \equiv 5 \pmod{12}$ and $123
+  \equiv 3 \pmod{12}$, so $77 \cdot 123 \equiv 5 \cdot 3 \equiv 15 \equiv 3 \pmod{12}$
+- Another example: suppose we want to compute $99 \cdot 998$ modulo 10. We know that $99 \equiv
+  -1\pmod{10}$ and $998 \equiv -2 \pmod{10}$, hence $99 \cdot 998 \equiv (-1) \cdot (-2) \equiv 2 \pmod{10}$.
+- Suppose we want to know the last digit of $101^{101}$. Notice that the last digit of a number $n$
+  is congruent to $n$ modulo 10, so we can just compute $101^{101} \equiv 1^{101} \equiv 1
+  \pmod{10}$. So the last digit of $101^{101}$ is 1.
+- You are not allowed to compute in exponents with modular arithmetic. For example $8 \equiv 3 \pmod{5}$,
+  but $2^8 \not\equiv 2^3 \pmod{5}$. To see this: $2^8 = 256 \equiv 1 \pmod{5}$, but $2^3 = 8 \equiv
+  3 \pmod{5}$.
+
+Some exercises (you are not allowed to use a calculator):
+
+- Find the last digit of $99^{99}$. Can you also find the last two digits of this number?
+- Prove that $50^{22} - 22^{50}$ is divisible by 7.
+- Prove using modular arithmetic that for any two integers $m$ and $n$ that $m + n$ and $m - n$ have
+  the same parity. Notice that $m$ and $n$ have the same parity precisely when they are congruent
+  modulo 2.
+
+Recall the quotient-remainder theorem from Chapter [[file:04_First_Order_Logic.org][First Order Logic]]: if $n > 0$, then any integer
+$a$ can be expressed as $a = n q + r$, where $0 \le r < n$. In the language of modular arithmetic
+this means that $a \equiv r \pmod{n}$. So if $n > 0$, then every integer is congruent to a number
+between 0 and $n-1$ (inclusive). So there "are only $n$ different numbers" when working modulo
+$n$. This can be used to prove many statements about the natural numbers.
+
+-----
+*Proposition*. For every integer $k$, $k^2+1$ is not divisible by 3.
+
+*Proof*. Translating this problem to modular arithmetic, we have to show that $k^2+1 \not\equiv 0
+\pmod{3}$ or in other words that $k^2\not\equiv 2 \pmod{3}$ for all $k$. By the quotient-remainder
+theorem, we know that $k$ is either congruent to 0, 1 or 2, modulo 3. In the first case, $k^2\equiv
+0^2\equiv 0\pmod{3}$. In the second case, $k^{2}\equiv 1^2 \equiv 1 \pmod{3}$, and in the last case
+we have $k^{2}\equiv2^2\equiv4\equiv1\pmod{3}$. In all of those cases, $k^2\not\equiv2\pmod{3}$. So
+$k^2+1$ is never divisible by 3.
+-----
+*Proposition*. For all integers $a$ and $b$, $a^2+b^2-3$ is not divisible by 4.
+
+*Proof*. We first compute the squares modulo 4. We compute
+\begin{align*}
+0^2&\equiv 0\pmod{4}\\
+1^2&\equiv 1\pmod{4}\\
+2^2&\equiv 0\pmod{4}\\
+3^2&\equiv 1\pmod{4}
+\end{align*}
+Since every number is congruent to 0, 1, 2 or 3 modulo 4, we know that every square is congruent to
+0 or 1 modulo 4. This means that there are only four possibilities for $a^2+b^2\pmod{4}$. It can be
+congruent to $0+0$, $1+0$, $0+1$ or $0+0$. In all those cases, $a^2+b^2\not\equiv 3\pmod{4}$ Hence
+$4\nmid a^2+b^2-3$, proving the proposition.
+-----
+
+Exercises:
+- Show that for every integer $n$ the number $n^4$ is congruent to 0 or 1 modulo 5. Hint: to
+  simplify the computation, use that $4^4\equiv(-1)^4\pmod{5}$.
+- Prove that the equation $n^4+m^4=k^4+3$ has cannot hold for integers $n, m, k$. Hint: what are the
+  possible values for the left hand side modulo 5? And for the right hand side?
 
 ** Geometry
-
-- examples/exercises

@@ -529,12 +529,12 @@ for every natural number $n$.
 In some places, students are asked to write proofs like this:
 -----
 *Proof.*
-\begin{eqnarray*}
- \frac{n(n+1)}{2} + (n + 1) & =? & \frac{(n+1)(n+2)}{2} \\
- \frac{n^2+n}{2} + \frac{2n + 2}{2} & =? & \frac{n^2 + 3n + 2}{2} \\
- \frac{n^2+n + 2n + 1}{2} & =? & \frac{n^2 + 3n + 2}{2} \\
- \frac{n^2+3n + 1}{2} & = & \frac{n^2 + 3n + 2}{2} \\
-\end{eqnarray*}
+\begin{align*}
+ \frac{n(n+1)}{2} + (n + 1) & =? \frac{(n+1)(n+2)}{2} \\
+ \frac{n^2+n}{2} + \frac{2n + 2}{2} & =? \frac{n^2 + 3n + 2}{2} \\
+ \frac{n^2+n + 2n + 1}{2} & =? \frac{n^2 + 3n + 2}{2} \\
+ \frac{n^2+3n + 1}{2} & = \frac{n^2 + 3n + 2}{2} \\
+\end{align*}
 -----
 Mathematicians generally cringe when they see this. /Don't do it!/ It
 looks like an instance of forward reasoning, where we start with a
@@ -563,11 +563,11 @@ to work backwards in a proof, but in this case it is easy to present
 the proof in a more forward-directed manner. Here is one example:
 -----
 *Proof.* Calculating on the left-hand side, we have
-\begin{eqnarray*}
- \frac{n(n+1)}{2} + (n + 1) & = & \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
-   & = & \frac{n^2+n + 2n + 1}{2} \\
-   & = & \frac{n^2 + 3n + 1}{2}.
-\end{eqnarray*}
+\begin{align*}
+ \frac{n(n+1)}{2} + (n + 1) & = \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
+   & = \frac{n^2+n + 2n + 1}{2} \\
+   & = \frac{n^2 + 3n + 1}{2}.
+\end{align*}
 On the right-hand side, we also have 
 \begin{equation}
  \frac{(n+1)(n+2)}{2} = \frac{n^2 + 3n + 1}{2}.
@@ -580,12 +580,12 @@ this.  In fact, here we can easily write the proof as a single
 forward-directed calculation:
 -----
 *Proof.*
-\begin{eqnarray*}
- \frac{n(n+1)}{2} + (n + 1) & = & \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
-   & = & \frac{n^2+n + 2n + 1}{2} \\
-   & = & \frac{n^2 + 3n + 1}{2} \\
-   & = & \frac{(n+1)(n+2)}{2}.
-\end{eqnarray*}
+\begin{align*}
+ \frac{n(n+1)}{2} + (n + 1) & = \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
+   & = \frac{n^2+n + 2n + 1}{2} \\
+   & = \frac{n^2 + 3n + 1}{2} \\
+   & = \frac{(n+1)(n+2)}{2}.
+\end{align*}
 -----
 Such a proof is clear, compact, and easy to read. The main challenge
 to the reader is to figure out what justifies each subsequent
@@ -604,9 +604,9 @@ repetitions, where the order does not matter. For example, if you have
 ten shirts in your drawer, and want to choose three to take with you
 on a weekend trip, there are $\binom{10}{3}$ possibilities. You may
 also recall that a formula for $\binom{n}{k}$ is given as follows:
-\begin{eqnarray}
+\begin{align*}
 \binom{n}{k} = \frac{n!}{k!(n-k)!},
-\end{eqnarray}
+\end{align*}
 where $n!$ (read "$n$ factorial") is equal to $1 \cdot 2 \cdot 3
 \cdots (n-1) \cdot n$.
 -----
@@ -626,19 +626,19 @@ Our goal here, rather, is to prove the theorem using nothing more than
 the definition of $\binom{n}{k}$ in terms of factorials.
 -----
 *Proof.* We can express the left-hand side of the equation as follows:
-\begin{eqnarray*}
-\binom{n+1}{k+1} & = & \frac{(n + 1)!}{(k+1)!((n+1)-(k+1))!} \\
-& = & \frac{(n + 1)!}{(k+1)!(n - k)!}
-\end{eqnarray*}
+\begin{align*}
+\binom{n+1}{k+1} & = \frac{(n + 1)!}{(k+1)!((n+1)-(k+1))!} \\
+& = \frac{(n + 1)!}{(k+1)!(n - k)!}
+\end{align*}
 Similarly, we can simplify the right-hand side:
-\begin{eqnarray*}
-\binom{n}{k+1} + \binom{n}{k} & = & \frac{n!}{(k+1)!(n-(k+1))!} + \frac{n!}{k!(n-k)!} \\
-& = & \frac{n!(n-k)}{(k+1)!(n-k-1)!(n-k)} + \frac{(k+1)n!}{(k+1)k!(n-k)!} \\
-& = & \frac{n!(n-k)}{(k+1)!(n-k)!} + \frac{(k+1)n!}{(k+1)!(n-k)!} \\
-& = & \frac{n!(n-k + k + 1)}{(k+1)!(n-k)!} \\
-& = & \frac{n!(n + 1)}{(k+1)!(n-k)!} \\
-& = & \frac{(n + 1)!}{(k+1)!(n-k)!}
-\end{eqnarray*}
+\begin{align*}
+\binom{n}{k+1} + \binom{n}{k} & = \frac{n!}{(k+1)!(n-(k+1))!} + \frac{n!}{k!(n-k)!} \\
+& = \frac{n!(n-k)}{(k+1)!(n-k-1)!(n-k)} + \frac{(k+1)n!}{(k+1)k!(n-k)!} \\
+& = \frac{n!(n-k)}{(k+1)!(n-k)!} + \frac{(k+1)n!}{(k+1)!(n-k)!} \\
+& = \frac{n!(n-k + k + 1)}{(k+1)!(n-k)!} \\
+& = \frac{n!(n + 1)}{(k+1)!(n-k)!} \\
+& = \frac{(n + 1)!}{(k+1)!(n-k)!}
+\end{align*}
 Thus the left-hand side and the right-hand side are equal.
 -----
 
@@ -800,10 +800,10 @@ To show this, notice that on the one hand we have
 xy = (a^2 + b^2) (c^2 + d^2) = a^2 c^2 + a^2 d^2 + b^2 c^2 + b^2 d^2.
 \end{equation*}
 On the other hand, we have
-\begin{eqnarray*}
-(ac - bd)^2 + (ad + bc)^2 & = & (a^2c^2 - 2abcd + b^2 d^2) + (a^2 d^2 + 2 a b c d + b^2 c^2) \\
-  & = & a^2 c^2 + b^2 d^2 + a^2 d^2 + b^2 c^2.
-\end{eqnarray*}
+\begin{align*}
+(ac - bd)^2 + (ad + bc)^2 & = (a^2c^2 - 2abcd + b^2 d^2) + (a^2 d^2 + 2 a b c d + b^2 c^2) \\
+  & = a^2 c^2 + b^2 d^2 + a^2 d^2 + b^2 c^2.
+\end{align*}
 Up to the order of summands, the two right-hand sides are the same.
 -----
 
@@ -856,12 +856,12 @@ Now many identities involving sets can be proved "by calculation".
 \cap \overline B) \cup B = B$.
 
 *Proof*. 
-\begin{eqnarray*}
-(A \cap \overline B) \cup B & = & (A \cup B) \cap (\overline B \cup B)
+\begin{align*}
+(A \cap \overline B) \cup B & = (A \cup B) \cap (\overline B \cup B)
 \\
-& = & (A \cup B) \cap {\mathcal U} \\
-& = & (A \cup B).
-\end{eqnarray*}
+& = (A \cup B) \cap {\mathcal U} \\
+& = (A \cup B).
+\end{align*}
 -----
 Here is the corresponding proof in Lean:
 #+BEGIN_SRC lean
@@ -907,12 +907,12 @@ Translated to propositions, the theorem above is as follows:
 \wedge \neg B) \vee B = B$.
 
 *Proof*. 
-\begin{eqnarray*}
-(A \wedge \neg B) \vee B & = & (A \vee B) \wedge (\neg B \vee B)
+\begin{align*}
+(A \wedge \neg B) \vee B & = (A \vee B) \wedge (\neg B \vee B)
 \\
-& = & (A \vee B) \wedge \top \\
-& = & (A \vee B).
-\end{eqnarray*}
+& = (A \vee B) \wedge \top \\
+& = (A \vee B).
+\end{align*}
 -----
 
 Lean allows us to do calculations on propositions as though they are

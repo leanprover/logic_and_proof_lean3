@@ -80,7 +80,7 @@ use to represent them.
 Sometimes, when we interpret a language in a particular domain, it is useful to
 implicitly introduce new constant symbols into the language. Specifically, for
 each element $a$ of the domain, we introduce a constant symbol $\bar a$, which
-is interpreted to $a$. Then, the expression $fn{prime}(\bar 3)$ /does/ make sense.
+is interpreted to $a$. Then, the expression $\fn{prime}(\bar 3)$ /does/ make sense.
 Interpreting the predicate symbol $\fn{prime}$ in the natural way, this expression
 will evaluate to true. We think of $\bar 3$ as a linguistic "name" that represents the 
 natural number 3, in the same way that "Madonna" is a name that represents the
@@ -88,8 +88,8 @@ flesh-and-blood pop singer.
 
 ** Truth in Models
 
-Pick any first-order language. If we have a domain $D$ and interpretations
-in $D$ for each of the symbols of that language, then we can determine the
+Pick any first-order language, along with a domain $D$ and interpretations
+in $D$ for each of the symbols of that language. We can determine the
 truth of any sentence in the language by examining the elements of $D$. We call
 this structure -- the domain $D$, paired with all of the interpretations --
 a /model/ for the language. A model for a first-order language is directly
@@ -194,7 +194,8 @@ and existential quantifiers. Once you've thought about them a bit, read on:
   to every natural number. This is true: 0 is less than or equal to every natural
   number. The second sentence says that for every natural number, there is another
   natural number at least as big. Again, this is true: every natural number $a$ is
-  less than or equal to $a$.
+  less than or equal to $a$. If we took our domain to be $\ZZ$ instead of $\NN$, the
+  first sentence would be false, while the second would still be true.
 - The situation described here is impossible in our model. If $\MM \models \fa x \varphi$,
   then $\MM \models \varphi [\bar 0 / x]$, which implies that $\MM \models \ex x \varphi$.
   The only time this situation can happen is when the domain of our model is empty.

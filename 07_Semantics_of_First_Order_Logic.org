@@ -238,8 +238,6 @@ Feel free to add more rows or columns to the grid of dots -- as long as each row
 the same number of dots in it, Lean will figure out the right way to interpret the
 predicates.
 
-(TODO: MORE SENTENCES)
-
 #+BEGIN_SRC lean
 import data.list data.fin data.fintype data.tuple
 open tuple fin prod nat fintype
@@ -450,9 +448,13 @@ eval is_true (∀ x, green x → ∃ y, same_row x y ∧ blue y)
 
 eval is_true (∀ x y, same_row x y ∧ same_column x y → x = y)
 
+eval is_true (∃ x, ∀ y, adj x y → ¬ same_size x y)
+
 eval is_true (∀ x, ∃ y, adj x y ∧ same_color x y)
 
 eval is_true (∃ y, ∀ x, adj x y → same_color x y)
+
+eval is_true (∃ x, blue x ∧ (∃ y, green y ∧ above x y))
 -- END
 
 #+END_SRC

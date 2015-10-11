@@ -2,6 +2,9 @@ Title: Logic and Proof
 #+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
 
 * Semantics of First Order Logic
+:PROPERTIES:
+  :CUSTOM_ID: Semantics_of_First_Order_Logic
+:END:      
 
 In Chapter [[file:03_Truth_Tables_and_Semantics.org::#Truth_Tables_and_Semantics][Truth Tables and Semantics]] we emphasized a distinction between
 the /syntax/ and the /semantics/ of propositional logic. Syntactic questions

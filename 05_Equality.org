@@ -238,7 +238,7 @@ study a class of important binary relations in mathematics, namely,
 - /reflexivity/: $a \leq a$, for every $a$ in $A$
 - /transitivity/: if $a \leq b$ and $b \leq c$, then $a \leq c$, for
   every $a$, $b$, and $c$ in $A$
-- /asymmetry/: if $a \leq b$ and $b \leq a$ then $a = b$.
+- /antisymmetry/: if $a \leq b$ and $b \leq a$ then $a = b$.
 -----
 
 The use of the symbol $\leq$ is meant to be suggestive, and, indeed,
@@ -292,7 +292,7 @@ sometimes called a /weak/ partial order.
 
 -----
 *Proposition*. A strict partial order $<$ on $A$ is
-/antisymmetric/: for every $a$ and $b$, $a < b$ implies $b \nless a$.
+/asymmetric/: for every $a$ and $b$, $a < b$ implies $b \nless a$.
 
 *Proof*. Suppose $a < b$ and $b < a$. Then, by transitivity, $a < a$,
 contradicting irreflexivity.
@@ -326,7 +326,7 @@ To show transitivity, suppose $a < b$ and $b < c$. Then we have $a
 \leq b$, $b \leq c$, $a \neq b$, and $b \neq c$. By the transitivity
 of $\leq$, we have $a \leq c$. To show $a < c$, we only have to show
 $a \neq c$. So suppose $a = c$. then, from the hypotheses, we have $c
-< b$ and $b < c$, violating antisymmetry. So $a \neq c$, as required.
+< b$ and $b < c$, violating asymmetry. So $a \neq c$, as required.
 
 To establish the last claim in the theorem, suppose $\leq$ is
 total, and let $a$ and $b$ be any elements of $A$. We need to show
@@ -400,7 +400,7 @@ Notice that we have used the command =open eq.ops= to avail ourselves
 of the extra notation for equality proofs, so that the expression 
 =`a = c` ▸ `a ≤ b`= denotes a proof of =c ≤ b=.
 
-** More on orderings
+** More on Orderings
 
 Let $\leq$ be a partial order on a domain, $A$, and let $<$ be the
 associated strict order, as defined in the last section. It is
@@ -450,7 +450,7 @@ of $<$.
 unique.
 
 *Proof.* Suppose $x_1$ and $x_2$ are both minimum. Then $x_1 \leq x_2$
-and $x_2 \leq x_1$. By asymmetry, $x_1 = x_2$.
+and $x_2 \leq x_1$. By antisymmetry, $x_1 = x_2$.
 -----
 Notice that we have interpreted the second theorem as the statement
 that if $x_1$ and $x_2$ are both minimum, then $x_1 = x_2$. Indeed,

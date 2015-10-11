@@ -3,33 +3,38 @@
 
 * The Existential Quantifier
 
-As discussed in Chapter [[file:04_First_Order_Logic.org][First Order Logic]] we have two quantifiers in first-order logic. We already
-discussed the universal quantifier, but now it is time to study the existential quantifier.
+As discussed in Chapter [[file:04_First_Order_Logic.org::#First_Order_Logic][First Order Logic]], there are two quantifiers
+in first-order logic. We have discussed the rules for reasoning about
+the universal quantifier, so now we turn to the rules of the
+existential quantifier.
 
 ** Rules for the Existential Quantifier
 
-The following statements about the natural numbers reference the existence of some natural number:
+The following statements about the natural numbers refer to the existence of some natural number:
 
-- There exists an odd composite number (A number is /composite/ if it is not prime and greater than
-  one).
-- Every number greater than one has a prime divisor.
+- There exists an odd composite number.  (Remember that a natural number is
+  /composite/ if it is greater than 1 and not prime.)
+- Every natural number greater than one has a prime divisor.
 - For every $n$, if $n$ has a prime divisor smaller than $n$, then $n$ is composite.
 
 These statements can be expressed in first-order logic using the existential quantifier in the
-following way
+following ways:
 
-- $\ex n (\fn{odd}(n) \wedge \fn{composite}(n))$.
-- $\fa n (n > 1 \to \ex p ( \fn{prime}(p) \wedge p\mid n))$.
-- $\fa n ((\ex p (p \mid n \wedge \fn{prime}(p) \wedge p < n)) \to \fn{composite}(n))$.
+- $\ex n (\fn{odd}(n) \wedge \fn{composite}(n))$
+- $\fa n (n > 1 \to \ex p ( \fn{prime}(p) \wedge p\mid n))$
+- $\fa n ((\ex p (p \mid n \wedge \fn{prime}(p) \wedge p < n)) \to \fn{composite}(n))$
 
-After we write $\ex n$ the variable $n$ is /bound/ in the formula, just as for the universal
-quantifier. So the formulas $\ex n \fn{composite}(n)$ and $\ex m \fn{composite}(m)$ are the same. 
+After we write $\exists \; n$, the variable $n$ is /bound/ in the
+formula, just as for the universal quantifier. So the formulas $\ex n
+\fn{composite}(n)$ and $\ex m \fn{composite}(m)$ are considered the
+same.
 
 How do we prove such existential statements? Suppose we want to prove that there exists an odd
-composite number. To do this, we just give a candidate, and show that the candidate satisfies the
+composite number. To do this, we just present a candidate, and show that the candidate satisfies the
 required properties. For example, we could choose 15, and then show that 15 is odd and that 15 is
 prime. Of course, there's nothing special about 15, and we could have proven it also using a
-different number, like 9 or 35. The number which we use to prove it doesn't matter.
+different number, like 9 or 35. The choice of candidate does not
+matter, as long as it has the required property.
 
 In a natural deduction proof this would look like this:
 \begin{prooftree}
@@ -38,7 +43,7 @@ In a natural deduction proof this would look like this:
 \UIM{\ex n(\fn{odd}(n)\wedge\fn{composite}(n))}
 \end{prooftree}
 
-This illustrates the introduction rule for the existential quantifier 
+This illustrates the introduction rule for the existential quantifier:
 \begin{prooftree}
 \AXM{A(t)}
 \UIM{\ex x A(x)}
@@ -57,85 +62,98 @@ Let $p$ be any prime such that $p < n$ and $p \mid n$.
 Therefore, $n$ is composite.
 #+END_QUOTE
 
-So we assume that there is some $p$ which satisfies the properties $p$ is prime, $p < n$ and $p \mid
-n$. Here $p$ has to be a new variable. Suppose we were in the middle of a proof where we already
-introduced a variable $q$ and had some information about $q$, then we cannot also assume that $q$
-satisfies the properties $q$ is prime, $q < n$ and $q \mid n$ from the existential quantifier. 
+First, we assume that there is some $p$ which satisfies the properties $p$ is prime, $p < n$ and $p \mid
+n$, and then we reason about that $p$. As with case-based reasoning
+using "or," the assumption is only temporary: if we can show that $n$
+is composite from that assumption, that we have essentially shown that $n$ is
+composite assuming the existence of such a $p$. Notice that in this
+pattern of reasoning, $p$ should be "arbitrary." In other words, we
+should not have assumed anything about $p$ beforehand, we should not
+make any additional assumptions about $p$ along the way, and the
+conclusion should not mention $p$. Only then does it makes sense to
+say that the conclusion follows from the "mere" existence of a $p$
+with the assumed properties.
 
-The elimination rule for the existential quantifier is a little tricky, since we have to describe
-what it means for a variable $p$ to be `new' or `fresh'. What is means in natural deduction is that
-the variable cannot occur in the conclusion and not in any assumption other than the ones we can
-cancel.
-
-So the elimination rule is:
+In natural deduction, the elimination rule is expressed as follows:
 \begin{prooftree}
 \AXM{\ex x A(x)}
 \AXM{}
-\UIM{H : A(y)}\
+\RLM{a}
+\UIM{A(y)}
 \UIM{\vdots}
 \UIM{B}
-\RLM{H}
+\RLM{a}
 \BIM{B}
 \end{prooftree}
+Here we require that $y$ is not free in $B$, and that the only
+uncanceled hypotheses where $y$ occurs freely are the hypotheses
+$A(y)$ that are canceled when you apply this rule. Formally, this is
+what it means to say that $y$ is "arbitrary." As was the case for or
+elimination and implication introduction, you can use the hypothesis
+$A(y)$ multiple times in the proof of $B$, and cancel all of them at
+once.
 
-as long as $y$ is not free in $B$ /and/ the only uncanceled hypotheses where $y$ occurs freely are
-of the form $A(y)$ (and will hence be canceled by applying this rule). You are allowed to cancel
-multiple hypotheses $A(y)$.
-
-What this rule says is that you start the proof by assuming $A(y)$ for a fresh variable $y$ ($y$ is
-fresh because $y$ is not allowed). From this assumption you conclude (in multiple steps) that $B$
-holds.
-
-Here is an example, which shows that if $A(x)$ always implies $\neg B(x)$, then there cannot be an
-$x$ for which both $A(x)$ and $B(x)$ holds.
+Intuitively, the rule says that you can prove $B$ from the assumption
+$\ex x A(x)$ by assuming $A(y)$ for a fresh variable $y$, and
+concluding, in any number of steps, that $B$ follows. Here is an
+example, which shows that if $A(x)$ always implies $\neg B(x)$, then
+there cannot be an $x$ for which both $A(x)$ and $B(x)$ holds.
 
 \begin{prooftree}
 \AXM{}
-\UIM{H_2 : \ex x(A(x) \wedge B(x))}
+\RLM{b}
+\UIM{\ex x(A(x) \wedge B(x))}
 \AXM{}
-\UIM{H_1 : \fa x (A(x) \to \neg B(x))}
+\RLM{a}
+\UIM{\fa x (A(x) \to \neg B(x))}
 \UIM{A(x) \to \neg B(x)}
 \AXM{}
-\UIM{H_3 : A(x) \wedge B(x)}
+\RLM{c}
+\UIM{A(x) \wedge B(x)}
 \UIM{A(x)}
 \BIM{\neg B(x)}
 \AXM{}
-\UIM{H_3 : A(x) \wedge B(x)}
+\RLM{c}
+\UIM{A(x) \wedge B(x)}
 \UIM{B(x)}
 \BIM{\bot}
-\RLM{H_3}
+\RLM{c}
 \BIM{\bot}
-\RLM{H_2}
+\RLM{b}
 \UIM{\neg\ex x(A(x) \wedge B(x))}
-\RLM{H_1}
+\RLM{a}
 \UIM{\fa x (A(x) \to \neg B(x)) \to \neg\ex x(A(x) \wedge B(x))}
 \end{prooftree}
-In this proof tree, the existential elimination rule (the line labeled $H_3$) is used to cancel two
-hypotheses at the same time. Also note that when this rule was applied the hypothesis $\fa x (A(x)
-\to \neg B(x))$ was not yet canceled. So we have to make sure that this formula doesn't contain the
-variable $x$ freely. But this is okay, since this hypothesis contains $x$ only as a bound variable.
+In this proof tree, the existential elimination rule (the line labeled
+$c$) is used to cancel two hypotheses at the same time. Note that when
+this rule is applied, the hypothesis $\fa x (A(x) \to \neg B(x))$ has
+not yet been canceled. So we have to make sure that this formula
+doesn't contain the variable $x$ freely. But this is o.k., since this
+hypothesis contains $x$ only as a bound variable.
 
 Another example is that if $x$ does not occur in $P$, then $\ex x P$ is equivalent to $P$:
-
 \begin{prooftree}
 \AXM{}
-\UIM{H : \ex x P}
+\RLM{a}
+\UIM{\ex x P}
 \AXM{}
-\UIM{H_2 : P}
-\RLM{H_2}
+\RLM{b}
+\UIM{P}
+\RLM{b}
 \BIM{P}
 \AXM{}
-\UIM{H : P}
+\RLM{a}
+\UIM{P}
 \UIM{\ex x P}
-\RLM{H}
+\RLM{a}
 \BIM{\ex x P \liff P}
 \end{prooftree}
-
-This proof tree is deceptively short, but quite complicated to read, so let's see how it works. On
-the left, we assume $\ex x P$ to conclude $P$. We assume $P$, and now we can immediately cancel this
-assumption by existential elimination, since $x$ does not occur in $P$, so it doesn't occur freely
-in any assumption or in the conclusion. On the right we use existential introduction to conclude
-$\ex x P$ from $P$.
+This short but tricky, so let us go through it carefully. On the left, we
+assume $\ex x P$ to conclude $P$. We assume $P$, and now we can
+immediately cancel this assumption by existential elimination, since
+$x$ does not occur in $P$, so it doesn't occur freely in any
+assumption or in the conclusion. On the right we use existential
+introduction to conclude $\ex x P$ from $P$.
 
 We can also reason with existential quantification in Lean. We can enter the existential quantifier
 with =\ex=. The introduction rule is =exists.intro=. This requires two arguments: a term, and a
@@ -148,8 +166,7 @@ variable P : U → Prop
 example (y : U) (H : P y) : ∃x, P x :=
 exists.intro y H
 #+END_SRC
-
-The elimination rule for the existential quantifier is the =obtain= command. 
+The elimination rule for the existential quantifier is given by the =obtain= command. 
 Given a term of type =∃x, P x= we can use it to get a new variable =y= and a proof that =P y= holds.
 #+BEGIN_SRC lean
 variable U : Type
@@ -161,15 +178,18 @@ obtain (y : U) (H : P y), from H1,
 have P y → Q, from H2 y,
 show Q, from this H
 #+END_SRC
-Some additional notes
-- We can use =obtain= without specifying the type of the variables and proofs we get. So if we
-  replace the first line of the proof in the above example by =obtain y H, from H1,= that would also
-  be accepted.
-- We can also introduce anonymous variables, giving the type between backticks instead of the
-  variable. Then we can later refer to this assertion by writing the type between backticks
-  again. It works the same as a anonymous =have= expression. However, we cannot use the keyword
-  =this= for variables introduced by =obtain=.
-- We can also use =obtain= to destruct a hypothesis of the form =P ∧ Q= to get a proof of =P= and a proof of =Q=.
+Some additional notes:
+- We can use =obtain= without specifying the type of the variables and
+  proofs we get. So if we write =obtain y H= intead of =obtain (y : U)
+  (H : P y)= in the first line of the previous proof, that is also
+  accepted.
+- We can also introduce anonymous variables, giving the type between
+  backticks instead of the variable. Then we can later refer to this
+  assertion by writing the type between backticks again. It works the
+  same as a anonymous =have= expression. However, we cannot use the
+  keyword =this= for variables introduced by =obtain=.
+- We can also use =obtain= to destruct a hypothesis of the form =P ∧
+  Q= to get a proof of =P= and a proof of =Q=.
 
 These features are all illustrated in the following example:
 #+BEGIN_SRC lean
@@ -205,10 +225,12 @@ iff.intro
   (assume `P`, exists.intro u `P`)
 #+END_SRC
 
-In the second example we use that =U= is inhabited by the element =u=, because the statement is
-false for non-empty =U=. In the natural deduction proof we didn't have to require this
-specifically. This is because we implicitly assume that the underlying universe we work in is
-non-empty. We will elaborate on this in Chapter [[file:07_Semantics_of_First_Order_Logic.org][Semantics of First Order Logic]]. 
+In the second example we use that =U= is inhabited by the element =u=,
+because the statement is false for nonempty =U=. In the natural
+deduction proof we didn't have to require this specifically. This is
+because we implicitly assume that the underlying universe we work in
+is nonempty. We will elaborate on this in Chapter [[file:07_Semantics_of_First_Order_Logic.org::#Semantics_of_First_Order_Logic][Semantics of First
+Order Logic]].
 
 ** Counterexamples and Relativized Quantifiers
 
@@ -229,58 +251,70 @@ equivalence:
 
 \begin{prooftree}
 \AXM{}
-\UIM{H_1 : \neg\fa x A(x)}
+\RLM{a}
+\UIM{\neg\fa x A(x)}
 \AXM{}
-\UIM{H_4 : \neg(\ex x \neg A(x))}
+\RLM{d}
+\UIM{\neg(\ex x \neg A(x))}
 \AXM{}
-\UIM{H_5 : \neg A(x)}
+\RLM{e}
+\UIM{\neg A(x)}
 \UIM{\ex x \neg A(x)}
 \BIM{\bot}
-\RLM{H_5}
+\RLM{e}
 \UIM{A(x)}
 \UIM{\fa x A(x)}
-\BIM{\bot}
+\BIM{d}
 \RLM{H_4}
 \UIM{\ex x \neg A(x)}
 \AXM{}
-\UIM{H_1 : \ex x \neg A(x)}
+\RLM{a}
+\UIM{\ex x \neg A(x)}
 \AXM{}
-\UIM{H_3 : \neg A(y)}
+\RLM{c}
+\UIM{\neg A(y)}
 \AXM{}
-\UIM{H_2 : \fa x A(x)}
+\RLM{b}
+\UIM{\fa x A(x)}
 \UIM{A(y)}
 \BIM{\bot}
-\RLM{H_3}
+\RLM{c}
 \BIM{\bot}
-\RLM{H_2}
+\RLM{b}
 \UIM{\neg\fa x A(x)}
-\RLM{H_1}
+\RLM{a}
 \BIM{\neg\fa x A(x) \liff \ex x \neg A(x)}
 \end{prooftree}
 
-One remark about the proof: at the step marked by $H_4$ we /cannot/ use the existential introduction
-rule, because at that point our only assumption is $\neg\fa x A(x)$, and from that assumption we
-cannot prove $\neg A(t)$ for a particular term $t$. So we use the proof by contradiction there.
+One remark about the proof: at the step marked by $d$ we /cannot/ use
+the existential introduction rule, because at that point our only
+assumption is $\neg\fa x A(x)$, and from that assumption we cannot
+prove $\neg A(t)$ for a particular term $t$. So we use a proof by
+contradiction there. 
 
-As an exercise, proof the 'dual' equivalence yourself: $\neg\ex x A(x) \liff \fa x \neg A(x)$. This
-can be done without using proof by contradiction.
+As an exercise, prove the 'dual' equivalence yourself: $\neg\ex x A(x)
+\liff \fa x \neg A(x)$. This can be done without using proof by
+contradiction.
 
-In Chapter [[file:04_First_Order_Logic.org][First Order Logic]] we saw examples how to use relativization to restrict the scope of a
-universal quantifier. Suppose we want to say "every prime number is greater than 1". In first order
-logic this can be written as $\fa n (\fn{prime}(n) \to n > 1)$. The reason is that the original
-statement is equivalent to the statement "for every natural number, if it is prime, then it is
-greater than 1".
+In Chapter [[file:04_First_Order_Logic.org::#First_Order_Logic][First Order Logic]] we saw examples how to use relativization
+to restrict the scope of a universal quantifier. Suppose we want to
+say "every prime number is greater than 1". In first order logic this
+can be written as $\fa n (\fn{prime}(n) \to n > 1)$. The reason is
+that the original statement is equivalent to the statement "for every
+natural number, if it is prime, then it is greater than 1".
 
-We can do the same for an existential quantifier. Suppose we want to write "there exists a prime
-number greater than 100" in first-order logic. We can alternatively write this as "there exists a
-natural number which is prime and greater than 100". This makes the translation into first order
-logic easy: $\ex n(\fn{prime}(n) \wedge n > 100)$.
+We can do the same for an existential quantifier. Suppose we want to
+write "there exists a prime number greater than 100" in first-order
+logic. We can alternatively write this as "there exists a natural
+number which is prime and greater than 100". This makes the
+translation into first order logic easy: $\ex n(\fn{prime}(n) \wedge n
+> 100)$. Notice what is happening here: if we relativize the universal
+quantifier we add an implication in the formula. However, if we
+relativize the existential quantifier, we add a conjunction.
 
-Notice what is happening here: if we relativize the universal quantifier we add an implication in
-the formula. However, if we relativize the existential quantifier, we add a conjunction.
-
-As an exercise you can prove the above results about negations of quantifiers also for relativized
-quantifiers. Specifically, give proof trees of the following statements:
+As an exercise you can prove the above results about negations of
+quantifiers also for relativized quantifiers. Specifically, prove the
+following statements:
 - $\neg\ex x (A(x) \wedge B(x)) \liff \fa x ( A(x) \to \neg B(x))$;
 - $\neg\fa x (A(x) \to B(x)) \liff \ex x ( A(x) \wedge \neg B(x))$
 
@@ -289,7 +323,7 @@ quantifier. However, we already saw that using these we can /define/ much more q
 all relativized quantifiers. But we can define even more quantifiers.
 
 - We can define "there are at least two elements $x$ such that $A(x)$ holds." We can write this as
-  $\ex x \ex y (x\neg y \wedge A(x) \wedge A(y))$.
+  $\ex x \ex y (x \neq y \wedge A(x) \wedge A(y))$.
 - We can define "there are at most two elements $x$ such that $A(x)$ holds." We can write this as
   $\fa x \fa y \fa z (A(x) \wedge A(y) \wedge A(z) \to x = y \vee y = z \vee x = z)$. This states
   that if we have three elements $a$ for which $A(a)$ holds, then two of them must be equal.
@@ -299,7 +333,30 @@ all relativized quantifiers. But we can define even more quantifiers.
 As an exercise, write out in first order logic the statements that there are at least, at most, and
 exactly three elements $x$ such that $A(x)$ holds.
 
-** Number Theory
+For reference, here is a list of valid sentences involving quantifiers:
+- $\fa x A \liff A$ if $x$ is not free in $A$
+- $\ex x A \liff A$ if $x$ is not free in $A$
+- $\fa x (A(x) \land B(x)) \liff \fa x A(x) \land \fa x B(x)$
+- $\ex x (A(x) \land B) \liff \ex x A(x) \land B$ if $x$ is
+  not free in $B$
+- $\ex x (A(x) \lor B(x)) \liff \ex x A(x) \lor \ex x B(x)$
+- $\fa x (A(x) \lor B) \liff \fa x A(x) \lor B$ if $x$ is not
+  free in $B$
+- $\fa x (A(x) \to B) \liff (\ex x A(x) \to B)$ if
+  $x$ is not free in $B$
+- $\ex x (A(x) \to B) \liff (\fa x A(x) \to
+  B)$ if $x$ is not free in $B$
+- $\fa x (A \to B(x)) \liff (A \to \fa x B(x))$ if
+  $x$ is not free in $A$
+- $\ex x (A(x) \to B) \liff (A(x) \to \ex x B)$
+  if $x$ is not free in $B$
+- $\ex x A(x) \liff \neg \fa x \neg A(x)$
+- $\fa x A(x) \liff \neg \ex x \neg A(x)$
+- $\neg \ex x A(x) \liff \fa x \neg A(x)$
+- $\neg \fa x A(x) \liff \ex x \neg A(x)$
+
+
+** Divisibility
 
 Using the existential quantifier, we can now define divisibility on the natural numbers
 -----
@@ -308,7 +365,7 @@ Using the existential quantifier, we can now define divisibility on the natural 
  $m$ or that $m$ /divides/ $n$.
 -----
 
-We can now
+We can now prove the following:
 
 -----
 *Theorem.* The relation $\mid$ is a partial order. However, it is not total.
@@ -333,63 +390,133 @@ m \cdot (k \cdot \ell) &= (m \cdot k) \cdot \ell \\
 \end{align*}
 -----
 
-In Lean, we can prove this as follows:
+The proof can also be carried out in Lean. For clarity we break the
+proof into steps. Here is reflexivity:
 #+BEGIN_SRC lean
 import data.nat
 open nat
 
-example : (∀n, n ∣ n) ∧ (∀n m, m ∣ n → n ∣ m → n = m) ∧ (∀n m r, m ∣ n → n ∣ r → m ∣ r) :=
-have refl : ∀n, n ∣ n, from
-  take n,
-  have n = n * 1, from eq.symm (mul_one n),
-  show n ∣ n, from exists.intro 1 `n = n * 1`,
-have antisymm : ∀n m, m ∣ n → n ∣ m → n = m, from
-  take m n,
-  assume `n ∣ m` `m ∣ n`,
-  obtain k `m = n * k`, from `n ∣ m`,
-  obtain l `n = m * l`, from `m ∣ n`,
-  or.elim (eq_zero_or_pos n)
-   (assume `n = 0`,
-    show m = n, from calc
-        m = n * k : `m = n * k`
-      ... = 0 * k : {`n = 0`}
-      ... = 0     : zero_mul
-      ... = n     : `n = 0`)
-   (assume `n > 0`,
+example : ∀n : ℕ, n ∣ n :=
+take n,
+have n = n * 1, from eq.symm (mul_one n),
+show n ∣ n, from exists.intro 1 `n = n * 1`
+#+END_SRC
+In Lean, you have to input $\mid$ as =\|=. The character is not the
+same as a regular vertical bar =|=.  Note also that, in Lean, $m \mid
+n$ in Lean is defined as $\ex k (n = m * k)$ instead of $\ex k (m * k
+= n)$, and we have to be sure that we prove the condition in exactly
+the right form.
+
+Here is antisymmetry:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+-- BEGIN
+example : ∀ n m : ℕ, m ∣ n → n ∣ m → n = m
+take m n,
+assume `n ∣ m` `m ∣ n`,
+obtain k `m = n * k`, from `n ∣ m`,
+obtain l `n = m * l`, from `m ∣ n`,
+or.elim (eq_zero_or_pos n)
+  (assume `n = 0`,
+   show m = n, from calc
+       m = n * k : `m = n * k`
+     ... = 0 * k : {`n = 0`}
+     ... = 0     : zero_mul
+     ... = n     : `n = 0`)
+  (assume `n > 0`,
     have n * 1 = n * (k * l), from calc
       n * 1 = n         : mul_one
-      ... = m * l       : `n = m * l`
-      ... = (n * k) * l : {`m = n * k`}
-      ... = n * (k * l) : mul.assoc,
-    have 1 = k * l, from eq_of_mul_eq_mul_left `n > 0` `n * 1 = n * (k * l)`,
-    have k = 1, from eq_one_of_mul_eq_one_right (eq.symm `1 = k * l`),
+        ... = m * l       : `n = m * l`
+        ... = (n * k) * l : {`m = n * k`}
+        ... = n * (k * l) : mul.assoc,
+    have 1 = k * l, 
+      from eq_of_mul_eq_mul_left `n > 0` `n * 1 = n * (k * l)`,
+    have k = 1, 
+      from eq_one_of_mul_eq_one_right (eq.symm `1 = k * l`),
     show m = n, from calc
         m = n * k : `m = n * k`
       ... = n * 1 : {`k = 1`}
-      ... = n     : mul_one),
-have trans : ∀n m r, m ∣ n → n ∣ r → m ∣ r, from
-  take n m r,
-  assume `m ∣ n` `n ∣ r`,
-  obtain k `n = m * k`, from `m ∣ n`,
-  obtain l `r = n * l`, from `n ∣ r`,
-  have r = m * (k * l), from calc
-     r = n * l       : `r = n * l`
-   ... = (m * k) * l : {`n = m * k`}
-   ... = m * (k * l) : mul.assoc,
-  exists.intro (k * l) `r = m * (k * l)`,
-and.intro refl (and.intro antisymm trans)
+      ... = n     : mul_one)
+-- END
+#+END_SRC
+The proof is considerably longer, but it follows the informal argument
+quite closely. In some calculation steps we have written ={ `...` }=
+where =...= is the equality we are rewriting (and which we have
+previously assumed or proven). The curly brackets indicate that we
+rewrite a subterm, and not the whole expression. For example, if we
+carry out the step =m = n=, we can give the justification =`m = n`=,
+but if we rewrite =m + k = n + k= we have to give the justification
+={`m = n`}=. You can alteranatively use labels instead of backticks,
+as usual.
+
+Finally, here is transitivity:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+-- BEGIN
+example : ∀ n m r : ℕ, m ∣ n → n ∣ r → m ∣ r :=  
+take n m r,
+assume `m ∣ n` `n ∣ r`,
+obtain k `n = m * k`, from `m ∣ n`,
+obtain l `r = n * l`, from `n ∣ r`,
+have r = m * (k * l), from calc
+    r = n * l       : `r = n * l`
+  ... = (m * k) * l : {`n = m * k`}
+  ... = m * (k * l) : mul.assoc,
+exists.intro (k * l) `r = m * (k * l)`
+-- END
 #+END_SRC
 
-Some remarks about the proof:
+# Here is everything combined as a single proof:
+#
+# #+BEGIN_SRC lean
+# import data.nat
+# open nat
 
-- The proof is long, but follows the text proof closely. A minor difference is that divisibility $m
-  \mid n$ in Lean is defined as $\ex k (n = m * k)$ instead of $\ex k (m * k = n)$.
-- In Lean, you have to input $\mid$ as =\|=. The character is not the same as a regular vertical bar =|=.
-- In some calculation steps we write ={ `...` }= where =...= is the equality we are rewriting (and
-  which we have previously assumed or proven). The curly brackets indicate that we rewrite a
-  subterm, and not the whole expression. For example, if we do the step =m = n=, we can give the
-  justification =`m = n`=, but if we rewrite =m + k = n + k= we have to give the justification ={`m
-  = n`}=.
+# example : (∀n, n ∣ n) ∧ (∀n m, m ∣ n → n ∣ m → n = m) ∧ (∀n m r, m ∣ n → n ∣ r → m ∣ r) :=
+# have refl : ∀n, n ∣ n, from
+#   take n,
+#   have n = n * 1, from eq.symm (mul_one n),
+#   show n ∣ n, from exists.intro 1 `n = n * 1`,
+# have antisymm : ∀n m, m ∣ n → n ∣ m → n = m, from
+#   take m n,
+#   assume `n ∣ m` `m ∣ n`,
+#   obtain k `m = n * k`, from `n ∣ m`,
+#   obtain l `n = m * l`, from `m ∣ n`,
+#   or.elim (eq_zero_or_pos n)
+#    (assume `n = 0`,
+#     show m = n, from calc
+#         m = n * k : `m = n * k`
+#       ... = 0 * k : {`n = 0`}
+#       ... = 0     : zero_mul
+#       ... = n     : `n = 0`)
+#    (assume `n > 0`,
+#     have n * 1 = n * (k * l), from calc
+#       n * 1 = n         : mul_one
+#       ... = m * l       : `n = m * l`
+#       ... = (n * k) * l : {`m = n * k`}
+#       ... = n * (k * l) : mul.assoc,
+#     have 1 = k * l, from eq_of_mul_eq_mul_left `n > 0` `n * 1 = n * (k * l)`,
+#     have k = 1, from eq_one_of_mul_eq_one_right (eq.symm `1 = k * l`),
+#     show m = n, from calc
+#         m = n * k : `m = n * k`
+#       ... = n * 1 : {`k = 1`}
+#       ... = n     : mul_one),
+# have trans : ∀n m r, m ∣ n → n ∣ r → m ∣ r, from
+#   take n m r,
+#   assume `m ∣ n` `n ∣ r`,
+#   obtain k `n = m * k`, from `m ∣ n`,
+#   obtain l `r = n * l`, from `n ∣ r`,
+#   have r = m * (k * l), from calc
+#      r = n * l       : `r = n * l`
+#    ... = (m * k) * l : {`n = m * k`}
+#    ... = m * (k * l) : mul.assoc,
+#   exists.intro (k * l) `r = m * (k * l)`,
+# and.intro refl (and.intro antisymm trans)
+# #+END_SRC
 
 As an exercise, try to prove the following properties of divisibility in Lean.
 
@@ -442,56 +569,63 @@ $-5$ are not equal. We will state some other useful facts about divisibility, bu
 - if $a \mid b$ and $a \mid c$, then $a \mid b + c$ and $a \mid b - c$.
 -----
 
-Another very useful topic in number theory is modular arithmetic. To illustrate the idea of modular
-arithmetic, suppose you have a 12-hour clock without a minute hand, so it only has an hour hand
-which can point to the hours 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 and then it wraps to 12 again. We
-can do arithmetic with this clock. 
-- If it's currently 10, then 5 hours later it the clock points to 3.
-- If it's now 7, then 23 hours before that, it was 8. 
-- Suppose it's now 9, and we work for a 8 hours, then it's 5. If we worked twice as long, starting
-  at 9, it would be 1.
+** Modular Arithmetic
 
-We want to write these statements using mathematical notation, so that we can reason about is more
-easily. We cannot write $10 + 5 = 3$ for the first expression, because that would be false, so we
-introduce a new notation. The notation we use is $10 + 5 \equiv 3 \pmod{12}$. We write $\pmod{12}$
-to indicate that we forget about multiples of 12, and we use an "congruence" symbol with three
-horizontal lines to remind us that these values are not exactly equal, but only equal if we forget
-about multiples of 12. The other two lines can be formulated as $7 - 23 \equiv 8 \pmod{12}$ and $9 +
-2 \cdot 8 \equiv 1 \pmod{12}$.
+In the discussion of equivalence relations in Chapter [[file:05_Equality.org::#Equality][Equality]] we
+considered the example of the relation of modular equivalence on the
+integers. This is sometimes thought of as "clock arithmetic."  Suppose
+you have a 12-hour clock without a minute hand, so it only has an hour
+hand which can point to the hours 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+11 and then it wraps to 12 again. We can do arithmetic with this
+clock.
+- If the hand currently points to 10, then 5 hours later it will point to 3.
+- If the hand points to 7, then 23 hours before that, it pointed to 8. 
+- If the hand points to 9, and we work for a 8 hours, then when we are
+  done the hand will point to 5. If we worked twice as long, starting
+  at 9, the hand will point to 1.
 
-Some other examples:
+We want to write these statements using mathematical notation, so that
+we can reason about them more easily. We cannot write $10 + 5 = 3$ for
+the first expression, because that would be false, so instead we use
+the notation $10 + 5 \equiv 3 \pmod{12}$. The notation $\pmod{12}$
+indicates that we forget about multiples of 12, and we use the
+"congruence" symbol with three horizontal lines to remind us that
+these values are not exactly equal, but only equal up to multiples
+of 12. The other two lines can be formulated as $7 - 23 \equiv 8
+\pmod{12}$ and $9 + 2 \cdot 8 \equiv 1 \pmod{12}$.
 
-- $6 + 7 \equiv 1 \pmod{12}$;
-- $6 \cdot 7 \equiv 42 \equiv 6 \pmod{12}$;
-- We can use negative numbers: $7 \cdot 5 \equiv 35 \equiv -1 \pmod{12}$
+Here are some more examples:
+- $6 + 7 \equiv 1 \pmod{12}$
+- $6 \cdot 7 \equiv 42 \equiv 6 \pmod{12}$
+- $7 \cdot 5 \equiv 35 \equiv -1 \pmod{12}$
+The last example shows that we can use negative numbers as well. 
 
-We now give the formal definition.
-
+We now give a precise definition.
 -----
 *Definition*. For integers $a$, $b$ and $n$ we say that $a$ and $b$ are /congruent modulo/ $n$ if $n
 \mid a - b$. This is written $a \equiv b \pmod{n}$. The number $n$ is called the /modulus/.
 -----
-
-Usually we only use this definition when the modulus $n$ is positive.
+Typically we only use this definition when the modulus $n$ is positive.
 
 -----
 *Theorem*. Congruence modulo $n$ is an equivalence relation.
 
 *Proof*. We have to show that congruence modulo $n$ is reflexive, symmetric and transitive.
 
-It is reflexivity, because $a - a = 0$, so $n \mid a - a$, hence $a\equiv a \pmod{n}$.
+It is reflexive, because $a - a = 0$, so $n \mid a - a$, and hence $a\equiv a \pmod{n}$.
 
 To show that it is symmetric, suppose that $a \equiv b \pmod{n}$. Then by definition, $n \mid a -
 b$. So $n \mid (-1) \cdot (a - b)$, which means that $n \mid b - a$. This means by definition that
 $b \equiv a \pmod{n}$.
 
 To show that it is transitive, suppose that $a \equiv b \pmod{n}$ and $b \equiv c \pmod{n}$. Then we
-have $n \mid a - b$ and $n \mid b - c$. Hence by the previous Proposition we have $n \mid (a - b) +
+have $n \mid a - b$ and $n \mid b - c$. Hence by the previous proposition we have $n \mid (a - b) +
 (b - c)$ which means that $n \mid a - c$. So $a \equiv c \pmod{n}$.
 -----
 
-This theorem justifies the "chaining" notation we used above: $7 \cdot 5 \equiv 35 \equiv -1
-\pmod{12}$. Since congruence modulo 12 is transitive, we can now actually conclude that $7\cdot
+This theorem justifies the "chaining" notation we used above when we
+wrote $7 \cdot 5 \equiv 35 \equiv -1 \pmod{12}$. Since congruence
+modulo 12 is transitive, we can now actually conclude that $7\cdot
 5\equiv -1 \pmod{12}$.
 
 -----
@@ -514,10 +648,10 @@ a^k = \underbrace{a\cdot a \cdot \cdots \cdot a}_{\text{$k$ times}} \equiv \unde
 \end{equation*}
 -----
 
-This theorem is useful for computing modulo $n$. Here are some examples.
+This theorem is useful for carrying out computations modulo $n$. Here are some examples.
 - Suppose we want to compute $77 \cdot 123$ modulo 12. We know that $77 \equiv 5 \pmod{12}$ and $123
   \equiv 3 \pmod{12}$, so $77 \cdot 123 \equiv 5 \cdot 3 \equiv 15 \equiv 3 \pmod{12}$
-- Another example: suppose we want to compute $99 \cdot 998$ modulo 10. We know that $99 \equiv
+- Suppose we want to compute $99 \cdot 998$ modulo 10. We know that $99 \equiv
   -1\pmod{10}$ and $998 \equiv -2 \pmod{10}$, hence $99 \cdot 998 \equiv (-1) \cdot (-2) \equiv 2 \pmod{10}$.
 - Suppose we want to know the last digit of $101^{101}$. Notice that the last digit of a number $n$
   is congruent to $n$ modulo 10, so we can just compute $101^{101} \equiv 1^{101} \equiv 1
@@ -534,11 +668,13 @@ Some exercises (you are not allowed to use a calculator):
   the same parity. Notice that $m$ and $n$ have the same parity precisely when they are congruent
   modulo 2.
 
-Recall the quotient-remainder theorem from Chapter [[file:04_First_Order_Logic.org][First Order Logic]]: if $n > 0$, then any integer
-$a$ can be expressed as $a = n q + r$, where $0 \le r < n$. In the language of modular arithmetic
-this means that $a \equiv r \pmod{n}$. So if $n > 0$, then every integer is congruent to a number
-between 0 and $n-1$ (inclusive). So there "are only $n$ different numbers" when working modulo
-$n$. This can be used to prove many statements about the natural numbers.
+Recall the quotient-remainder theorem from Chapter [[file:04_First_Order_Logic.org::#First_Order_Logic][First Order Logic]]:
+if $n > 0$, then any integer $a$ can be expressed as $a = n q + r$,
+where $0 \le r < n$. In the language of modular arithmetic this means
+that $a \equiv r \pmod{n}$. So if $n > 0$, then every integer is
+congruent to a number between 0 and $n-1$ (inclusive). So there "are
+only $n$ different numbers" when working modulo $n$. This can be used
+to prove many statements about the natural numbers.
 
 -----
 *Proposition*. For every integer $k$, $k^2+1$ is not divisible by 3.
@@ -571,4 +707,6 @@ Exercises:
 - Prove that the equation $n^4+m^4=k^4+3$ has cannot hold for integers $n, m, k$. Hint: what are the
   possible values for the left hand side modulo 5? And for the right hand side?
 
-** Geometry
+
+# Do this later!
+# ** Geometry

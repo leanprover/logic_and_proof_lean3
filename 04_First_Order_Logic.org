@@ -2,6 +2,9 @@
 #+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
 
 * First Order Logic
+:PROPERTIES:
+  :CUSTOM_ID: First_Order_Logic
+:END:      
 
 Propositional logic provides a good start at describing the general
 principles of logical reasoning, but it does not go far enough. Some

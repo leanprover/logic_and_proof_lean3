@@ -4,7 +4,7 @@
 * Propositional Logic
 :PROPERTIES:
   :CUSTOM_ID: Propositional_Logic
-:END:
+:END:      
 
 ** A Puzzle
 

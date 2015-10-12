@@ -73,7 +73,7 @@ of the following.
   zero arguments to be the constant logical values, $\top$ and $\bot$.
 - In ordinary mathematics, we often use "infix" notation for binary
   functions and relations. For example, we usually write $x \times y$
-  or $x \cdot y$ intead of $\fn{mul}(x, y)$, and we write $x < y$
+  or $x \cdot y$ instead of $\fn{mul}(x, y)$, and we write $x < y$
   instead of $\fn{lt}(x, y)$. We will use these conventions when
   writing proofs in natural deduction, and they are supported in Lean
   as well.
@@ -288,7 +288,7 @@ Here are some notes on syntax:
 - In symbolic logic, the universal quantifier is usually taken to bind
   tightly. For example, $\fa x P \vee Q$ is interpreted as $(\fa x P)
   \vee Q$, and we would write $\fa x (P \vee Q)$ to extend the scope.
-- In contrast, Lean expects a comma after that universal quantifer,
+- In contrast, Lean expects a comma after that universal quantifier,
   and gives the it the /widest/ scope possible. For example, =∀ x, P ∨
   Q= is interpreted as =∀ x, (P ∨ Q)=, and we would write =(∀ x, P) ∨
   Q= to limit the scope.
@@ -328,7 +328,7 @@ x)$, have no free variables at all. Such a formula is called a
 /sentence/, because it makes an outright assertion, a statement that
 is either true or false about the intended interpretation. A couple of
 chapters from now, we will make the notion of an "intended
-interpetation" precise, and talk about what it means to be "true in an
+interpretation" precise, and talk about what it means to be "true in an
 interpretation." For now, the idea that formulas say things about
 about object in an intended interpretation should motivate the rules
 for reasoning with such expressions. 
@@ -595,7 +595,7 @@ take n,
 assume H : odd n,
 show ¬ even n, from not_even_of_odd H
 #+END_SRC
-Once again, notice the naming scheme: the conlusion is followed by the
+Once again, notice the naming scheme: the conclusion is followed by the
 hypothesis, separated by the word =of=. Notice also that when applying
 the theorems, you do not need to specify the argument =n=: it is
 implicit in the hypothesis =H=. We can illustrate these theorems more

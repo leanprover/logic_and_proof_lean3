@@ -323,7 +323,7 @@ This situation is impossible.
 Therefore Alice's husband was not in the bar.
 -----
 This is another form of hypothetical reasoning, similar to that used
-in establishing an "if ... then" statement: we temporarly assume A,
+in establishing an "if ... then" statement: we temporarily assume A,
 show that leads to a contradiction, and conclude that "not A"
 holds.
 
@@ -549,7 +549,7 @@ show C, from or.elim H
     show C, from sorry)
 #+END_SRC
 What makes this pattern confusing is that it requires two instances of
-nested hypothetial reasoning: in the first block of parentheses, we
+nested hypothetical reasoning: in the first block of parentheses, we
 temporarily assume =A=, and in the second block, we temporarily assume
 =B=. When the dust settles, we have established =C= outright.
 
@@ -676,7 +676,7 @@ show A, from iff.mpr H₁ H₂
 
 *** Proof by Contradiction
 
-We saw an example of an informal argument that implictly uses the
+We saw an example of an informal argument that implicitly uses the
 introduction rule for negation:
 -----
 Suppose Alice's husband was in the bar. 
@@ -769,7 +769,7 @@ introduction, negation introduction, or elimination, and proof by
 contradiction) change the set of hypotheses, by canceling a local or
 temporary assumption. Nonetheless, we will use a style of presentation
 that leaves this information implicit, so that each node of the tree
-is labelled with an explicit formula. Some people like to label each
+is labeled with an explicit formula. Some people like to label each
 inference with the rule that is used, but that is usually clear from
 the context, so we will omit that as well. But when a rule cancels a
 hypothesis, we will make that clear in the following way: we will
@@ -938,7 +938,7 @@ Here are some additional notes:
    =suppose= instead.
 
 - Rather than declare variables beforehand, you can declare them in
-  parentheses before the colon the marks the statemet of the theorem.
+  parentheses before the colon the marks the statement of the theorem.
 
 With these features, the previous proof can be written as follows:
 #+BEGIN_SRC lean
@@ -1011,7 +1011,7 @@ comment, and is also ignored. You can nest block comments.
 
 example (A : Prop) : A → A :=
 suppose A,         -- assume the antecedent
-show A, from this  -- use the assuption to establish the conclusion 
+show A, from this  -- use the assumption to establish the conclusion 
 #+END_SRC
 
 Notice that you can use =sorry= as a temporary placeholder while

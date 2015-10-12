@@ -41,7 +41,7 @@ following:
 
 The questions we consider semantically are different:
 - Given an assignment of truth values to the propositional
-  variables occuring in a formula $A$, is $A$ true or false?
+  variables occurring in a formula $A$, is $A$ true or false?
 - Is there any truth assignment that makes $A$ true?
 - Which are the truth assignments that make $A$ true?
 
@@ -231,7 +231,7 @@ show false, from HnB HB
 
 Now that we have defined the truth of any formula relative to a truth
 assignment, we can answer our first semantic question: given an
-assignment $v$ of truth values to the propositional variables occuring
+assignment $v$ of truth values to the propositional variables occurring
 in some formula $\ph$, how do we determine whether or not $\ph$ is
 true?  This amounts to evaluating $\bar v(\ph)$, and the recursive
 definition of $\ph$ gives a recipe: we evaluate the expressions
@@ -321,7 +321,7 @@ $\false$ & $\true$  & $\true$      \\ \hline
 $\false$ & $\false$ & $\true$      \\ \hline
 \end{tabular}
 \end{center}
-We will leave it to you to write the tabel for $\neg A$, as an easy
+We will leave it to you to write the table for $\neg A$, as an easy
 exercise.
 
 For compound formulas, the style is much the same. Sometimes it can be

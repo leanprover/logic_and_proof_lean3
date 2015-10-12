@@ -170,7 +170,7 @@ valid.
 The proof system we will use is a version of /natural deduction/, a
 type of proof system introduced by Gerhard Gentzen in the 1930's to
 model informal styles of argument. In this system, the fundamental
-unit of judgement is the assertion that an assertion, $A$,
+unit of judgment is the assertion that an assertion, $A$,
 follows from a finite set of hypotheses, $\Gamma$. This is written as
 $\Gamma \vdash A$. If $\Gamma$ and $\Delta$ are two finite sets of
 hypotheses, we will write $\Gamma, \Delta$ for the /union/ of these
@@ -373,7 +373,7 @@ possible to turn mathematical language itself into an object of
 study. Each has its place, and we hope to get you to appreciate the
 value of each without confusing the two.
 
-The proof languages used by ineractive theorem provers lie somewhere
+The proof languages used by interactive theorem provers lie somewhere
 between the two extremes. On the one hand, they have to be specified
 with enough precision for a computer to process them and act
 appropriately; on the other hand, they aim to capture some of the

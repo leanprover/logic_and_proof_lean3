@@ -516,7 +516,7 @@ $\fa x P(x)$ is true in a model with an infinite domain, we might have to check
 whether $P$ is true of infinitely many elements.
 
 This is not to say that we can /never/ figure out if a first-order
-sentence is a tautology. For example, we hvae argued that $\fa y
+sentence is a tautology. For example, we have argued that $\fa y
 (\fn{lt}(0, y) \to \fn{lt}(0, y))$ was one. It is just a more
 difficult question than for propositional logic.
 
@@ -527,7 +527,7 @@ $\varphi$ is a sentence of $L$. We will say that /$\varphi$ is a
 logical consequence of $\Gamma$/ if every model of $\Gamma$ is a model
 of $\varphi$. This is one way of spelling out that $\varphi$ is a
 "necessary consequence" of $\varphi$: under any interpretation, if the
-hypotheses in $\Gamma$ come out truem, $\varphi$ is true as well.
+hypotheses in $\Gamma$ come out true, $\varphi$ is true as well.
 
 ** Soundness and Completeness
 
@@ -599,7 +599,7 @@ semantics in mind, the two exhibit different sides of the same coin:
 the provable sentences are exactly the ones that are true in all
 models, and the sentences that are provable from a set of hypotheses
 are exactly the ones that are true in all models of those
-hypohteses. 
+hypotheses. 
 
 We therefore have another way to answer the question posed in the
 previous section. To show that a sentence is a tautology, there is no

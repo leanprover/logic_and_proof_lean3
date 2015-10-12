@@ -180,7 +180,7 @@ show Q, from this H
 #+END_SRC
 Some additional notes:
 - We can use =obtain= without specifying the type of the variables and
-  proofs we get. So if we write =obtain y H= intead of =obtain (y : U)
+  proofs we get. So if we write =obtain y H= instead of =obtain (y : U)
   (H : P y)= in the first line of the previous proof, that is also
   accepted.
 - We can also introduce anonymous variables, giving the type between
@@ -448,7 +448,7 @@ previously assumed or proven). The curly brackets indicate that we
 rewrite a subterm, and not the whole expression. For example, if we
 carry out the step =m = n=, we can give the justification =`m = n`=,
 but if we rewrite =m + k = n + k= we have to give the justification
-={`m = n`}=. You can alteranatively use labels instead of backticks,
+={`m = n`}=. You can alternatively use labels instead of backticks,
 as usual.
 
 Finally, here is transitivity:

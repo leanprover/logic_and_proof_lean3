@@ -138,7 +138,7 @@ For example, suppose we have a language with two constant symbols, $a$
 and $b$, a unary function symbol $f$, and a binary function symbol
 $g$. Let $\MM$ be the model with domain $\NN$, where $a$ and $b$ are
 interpreted as $3$ and $5$, respectively, $f(x)$ is interpreted as the
-function which maps any natural number $n$ to $n^2$m, and $g$ is the
+function which maps any natural number $n$ to $n^2$, and $g$ is the
 addition function. Then the term $g(f(a),b)$ denotes the natural
 number $3^2+5 = 14$.
 

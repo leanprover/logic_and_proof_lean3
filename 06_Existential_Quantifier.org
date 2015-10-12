@@ -704,7 +704,7 @@ $4\nmid a^2+b^2-3$, proving the proposition.
 Exercises:
 - Show that for every integer $n$ the number $n^4$ is congruent to 0 or 1 modulo 5. Hint: to
   simplify the computation, use that $4^4\equiv(-1)^4\pmod{5}$.
-- Prove that the equation $n^4+m^4=k^4+3$ has cannot hold for integers $n, m, k$. Hint: what are the
+- Prove that the equation $n^4+m^4=k^4+3$ cannot hold for integers $n, m, k$. Hint: what are the
   possible values for the left hand side modulo 5? And for the right hand side?
 
 

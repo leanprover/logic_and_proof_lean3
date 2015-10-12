@@ -358,7 +358,7 @@ For reference, here is a list of valid sentences involving quantifiers:
 
 ** Divisibility
 
-Using the existential quantifier, we can now define divisibility on the natural numbers
+Using the existential quantifier, we can now define divisibility on the natural numbers.
 -----
 *Definition*. Given two natural numbers $m$ and $n$. We say that $m$ /is a divisor of/ $n$, written
  $m \mid n$, if there exists some $k$ such that $m \cdot k = n$. We also say that $n$ /is divisible by/

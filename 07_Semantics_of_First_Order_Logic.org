@@ -22,7 +22,7 @@ $\fn{even}, \fn{prime}, \fn{equals}, \fn{lt}$, etc. We know that the
 sentence $\fa y \fn{lt}(0, y)$ is true in this example, if
 $\fn{lt}$ is interpreted as the less-than relation on the natural
 numbers. But if we consider the domain $\ZZ$ instead of $\NN$, that
-same formula becomes false. The sentence $\fa \fn{lt}(0,y)$ is also
+same formula becomes false. The sentence $\fa y \fn{lt}(0,y)$ is also
 false if we consider the domain $\NN$, but (somewhat perversely)
 interpret the predicate $\fn{lt}(x, y)$ as the relation "$x$ is
 greater than $y$" on the natural numbers.
@@ -99,7 +99,7 @@ interpreted as $a$. Then, the expression $\fn{prime}(\bar 3)$ /does/
 make sense.  Interpreting the predicate symbol $\fn{prime}$ in the
 natural way, this expression will evaluate to true. We think of $\bar
 3$ as a linguistic "name" that represents the natural number 3, in the
-same way that "Madonna" is a name that represents the flesh-and-blood
+same way that the word "Madonna" is a name that represents the flesh-and-blood
 pop singer.
 
 ** Truth in a Model

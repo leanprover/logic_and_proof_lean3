@@ -6,46 +6,54 @@ Title: Logic and Proof
   :CUSTOM_ID: Semantics_of_First_Order_Logic
 :END:      
 
-In Chapter [[file:03_Truth_Tables_and_Semantics.org::#Truth_Tables_and_Semantics][Truth Tables and Semantics]] we emphasized a distinction between
-the /syntax/ and the /semantics/ of propositional logic. Syntactic questions
-had to do with the formal structure of formulas, and the conditions under
-which different types of formulas could be derived. Semantic questions,
-on the other hand, concerned the /truth/ of a formula relative to some
-truth assignment.
+In Chapter [[file:03_Truth_Tables_and_Semantics.org::#Truth_Tables_and_Semantics][Truth Tables and Semantics]] we emphasized a distinction
+between the /syntax/ and the /semantics/ of propositional
+logic. Syntactic questions have to do with the formal structure of
+formulas, and the conditions under which different types of formulas
+can be derived. Semantic questions, on the other hand, concern the
+/truth/ of a formula relative to some truth assignment.
 
-As you might expect, we make a similar distinction in the setting of first
-order logic. The previous two chapters have focused mainly on syntax, but
-some semantic ideas have slipped in. Recall the running example with domain
-of interest $\NN$, constant symbols 0, 1, 2, 3, function symbols $\fn{add}$ 
-and $\fn{mul}$, and predicate symbols
-$\fn{even}, \fn{prime}, \fn{equals}, \fn{lt}$, etc. We know that the formula 
-$\forall y (\fn{lt}(0, y))$
-is true in this example. But if we consider the domain $\ZZ$ instead of $\NN$,
-that same formula becomes false.
+As you might expect, we can make a similar distinction in the setting
+of first order logic. The previous two chapters have focused mainly on
+syntax, but some semantic ideas have slipped in. Recall the running
+example with domain of interest $\NN$, constant symbols 0, 1, 2, 3,
+function symbols $\fn{add}$ and $\fn{mul}$, and predicate symbols
+$\fn{even}, \fn{prime}, \fn{equals}, \fn{lt}$, etc. We know that the
+sentence $\fa y \fn{lt}(0, y)$ is true in this example, if
+$\fn{lt}$ is interpreted as the less-than relation on the natural
+numbers. But if we consider the domain $\ZZ$ instead of $\NN$, that
+same formula becomes false. The sentence $\fa \fn{lt}(0,y)$ is also
+false if we consider the domain $\NN$, but (somewhat perversely)
+interpret the predicate $\fn{lt}(x, y)$ as the relation "$x$ is
+greater than $y$" on the natural numbers.
 
-This indicates that the truth or falsity or a first order formula can depend on
-what domain we have chosen to consider. But some formulas can be true (or false)
-regardless of the domain: for instance, $\fa y (\fn{lt}(0, y) \to \fn{lt}(0, y))$
-will be true over $\NN$, and $\ZZ$, and any other set we choose. A formula like
-this is called a /tautology/, and is analogous to a tautology in propositional
-logic that is true under every possible truth assignment.
+This indicates that the truth or falsity or a first order sentence can
+depend on how we interpret the quantifiers and basic relations of the
+language. But some formulas are true under any interpretation: for
+instance, $\fa y (\fn{lt}(0, y) \to \fn{lt}(0, y))$ is true of under
+all the interpretations considered in the last paragraph, and, indeed,
+under any interpretation we choose. A sentence like this is said to be
+/valid/; this is the analogue of a tautology in propositional logic,
+which is true under every possible truth assignment.
 
-We can broaden this analogy: a "domain of interest" in first order logic is
-similar to a truth assignment in propositional logic. In the propositional case,
-choosing a truth assignment allowed us to assign truth values to all formulas
-of the language; now, choosing a domain will allow us to assign truth values
-to all sentences of a first order language. There is one small wrinkle here,
-which we will describe in the next section.
+We can broaden the analogy: a "interpretation" in first order logic is
+the analogue of a truth assignment in propositional logic. In the
+propositional case, choosing a truth assignment allowed us to assign
+truth values to all formulas of the language; now, choosing an
+interpretation will allow us to assign truth values to all sentences
+of a first order language. The aim of the next section is to make this
+notion more precise.
 
 ** Interpretations
 
-The symbols of the language in our running example -- 0, 1, $\fn{add}$, 
-$\fn{prime}$, and so on -- have very indicative names. When we interpret
-sentences of this language over the domain $\NN$, for example, it is clear
-for which elements of the domain $\fn{prime}$ "should" be true, and for which
-it "should" be false. Let's consider a new first order language, which has 
-only two unary predicate symbols $\fn{fancy}$ and $\fn{tall}$. If we take
-our domain to be $\NN$, is the sentence $\fa x (\fn{fancy}(x) \to \fn{tall}(x))$
+The symbols of the language in our running example -- 0, 1,
+$\fn{add}$, $\fn{prime}$, and so on -- have very indicative
+names. When we interpret sentences of this language over the domain
+$\NN$, for example, it is clear for which elements of the domain
+$\fn{prime}$ "should" be true, and for which it "should" be false. But
+let us consider a first order language that has only two unary
+predicate symbols $\fn{fancy}$ and $\fn{tall}$. If we take our domain
+to be $\NN$, is the sentence $\fa x (\fn{fancy}(x) \to \fn{tall}(x))$
 true or false?
 
 The answer, of course, is that we don't have enough information to say. There's
@@ -56,81 +64,99 @@ multiples of 10 are fancy, and even numbers are tall; in this case, the formula
 is true (since every multiple of 10 is even). Perhaps prime numbers are fancy
 and odd numbers are tall; then the formula is false, since 2 is fancy but not tall.
 
-We call each of these descriptions an /interpretation/ of the predicate symbols
-$\fn{fancy}$ and $\fn{tall}$ in the domain $\NN$. Formally, an interpretation
-of a predicate $\fn{P}$ in a domain $D$ is the set of all elements of $D$ for
-which $\fn{P}$ is true. For an example, the "standard" interpretation of 
-$\fn{prime}$ in $\NN$ that we used above was just the set of prime natural numbers.
+We call each of these descriptions an /interpretation/ of the
+predicate symbols $\fn{fancy}$ and $\fn{tall}$ in the domain
+$\NN$. Formally, an interpretation of a unary predicate $P$ in a
+domain $D$ is the set of all elements of $D$ for which $P$ is
+true. For an example, the "standard" interpretation of $\fn{prime}$ in
+$\NN$ that we used above was just the set of prime natural numbers.
 
 We can interpret constant, function, and relation symbols in a similar way.
 An interpretation of constant symbol $c$ in domain $D$ is an element of $D$.
 An interpretation of a function symbol $\fn{f}$ with arity $n$ is a function
 that maps $n$ elements of $D$ to another element of $D$. An interpretation
-of a relation symbol $\fn{R}$ with arity $n$ is the set of $n$ tuples of elements
-of $D$ for which $\fn{R}$ is true.
+of a relation symbol $R$ with arity $n$ is the set of $n$ tuples of elements
+of $D$ for which $R$ is true.
 
-It is important to emphasize the difference between a syntactic predicate symbol
-(or function symbol, or constant symbol) and the semantic predicate (or function,
-or object) to which it is interpreted. The former is a symbol, relates to other
-symbols, and has no meaning on its own until we specify an interpretation. It
-makes no sense to write $\fn{prime}(3)$, where $\fn{prime}$ is a predicate symbol
-and 3 is a natural number, since the argument to $\fn{prime}$ is supposed to be
-a syntactic term. Sometimes we may obscure this distinction, as above when we
-specified a language with constant symbols 0, 1, and 2. But there is still a
-fundamental distinction between the objects of the domain, and the symbols we
-use to represent them.
+It is important to emphasize the difference between a syntactic
+predicate symbol (or function symbol, or constant symbol) and the
+semantic predicate (or function, or object) to which it is
+interpreted. The former is a symbol, relates to other symbols, and has
+no meaning on its own until we specify an interpretation. Strictly
+speaking, it makes no sense to write $\fn{prime}(3)$, where
+$\fn{prime}$ is a predicate symbol and 3 is a natural number, since
+the argument to $\fn{prime}$ is supposed to be a syntactic
+term. Sometimes we may obscure this distinction, as above when we
+specified a language with constant symbols 0, 1, and 2. But there is
+still a fundamental distinction between the objects of the domain and
+the symbols we use to represent them.
 
-Sometimes, when we interpret a language in a particular domain, it is useful to
-implicitly introduce new constant symbols into the language. Specifically, for
-each element $a$ of the domain, we introduce a constant symbol $\bar a$, which
-is interpreted to $a$. Then, the expression $\fn{prime}(\bar 3)$ /does/ make sense.
-Interpreting the predicate symbol $\fn{prime}$ in the natural way, this expression
-will evaluate to true. We think of $\bar 3$ as a linguistic "name" that represents the 
-natural number 3, in the same way that "Madonna" is a name that represents the
-flesh-and-blood pop singer.
+Sometimes, when we interpret a language in a particular domain, it is
+useful to implicitly introduce new constant symbols into the language
+to denote elements of this domain. Specifically, for each element $a$
+of the domain, we introduce a constant symbol $\bar a$, which is
+interpreted as $a$. Then, the expression $\fn{prime}(\bar 3)$ /does/
+make sense.  Interpreting the predicate symbol $\fn{prime}$ in the
+natural way, this expression will evaluate to true. We think of $\bar
+3$ as a linguistic "name" that represents the natural number 3, in the
+same way that "Madonna" is a name that represents the flesh-and-blood
+pop singer.
 
-** Truth in Models
+** Truth in a Model
 
-Pick any first-order language, along with a domain $D$ and interpretations
-in $D$ for each of the symbols of that language. We can determine the
-truth of any sentence in the language by examining the elements of $D$. We call
-this structure -- the domain $D$, paired with all of the interpretations --
-a /model/ for the language. A model for a first-order language is directly
-analogous to a truth assignment for propositional logic.
+Fix a first-order language. Suppose we have chosen a domain $D$ to
+interpret the language, along with an interpretation in $D$ of each of
+the symbols of that language. We will call this structure --- the
+domain $D$, paired with the interpretation --- a /model/ for the
+language. A model for a first-order language is directly analogous to
+a truth assignment for propositional logic, because it provides all
+the information we need to determine the truth value of each sentence
+in the language.
 
-Evaluating the truth of a sentence based on a model works intuitively,
-but the formal description of how to do it is slightly subtle. First, recall the
-difference between /terms/ and /assertions/ that we made earlier in Chapter 4.
-Terms, like $a$, $x + y$, or $\fn{f}(c)$, are meant to represent objects. A
-term does not have a truth value, since (for example) it makes no sense to 
-ask whether 3 is true or false. Assertions, like $\fn{P}(a)$,
-$\fn{R}(x, \fn{f}(y))$,
- or $a + b > a \wedge \fn{prime}(c)$, apply predicate
-or relation symbols to terms to produce statements that could be true or false.
+The procedure for evaluating the truth of a sentence based on a model
+works intuitively, but the formal description is subtle. Recall
+the difference between /terms/ and /assertions/ that we made earlier
+in Chapter 4.  Terms, like $a$, $x + y$, or $\fn{f}(c)$, are meant to
+represent objects. A term does not have a truth value, since (for
+example) it makes no sense to ask whether 3 is true or
+false. Assertions, like $\fn{P}(a)$, $\fn{R}(x, \fn{f}(y))$, or $a + b
+> a \wedge \fn{prime}(c)$, apply predicate or relation symbols to
+terms to produce statements that could be true or false.
 
-The interpretation of a term in a model is an element of the domain of that model.
-The model directly specifies how to interpret constant symbols. To interpret a term
-$\fn{f}(t)$ created by applying a function symbol to another term, we interpret the
-term $t$, and then apply the interpretation of $\fn{f}$ to this term. (This process
-makes sense, since the interpretation of $\fn{f}$ is a function on the domain.) 
-This generalizes to functions of higher arity in the obvious way. We will not yet
-interpret terms that include free variables like $x$ and $y$, since these terms
-do not pick out unique elements of the domain. (The variable $x$ could potentially
-refer to any object.)
+The interpretation of a term in a model is an element of the domain of
+that model.  The model directly specifies how to interpret constant
+symbols. To interpret a term $f(t)$ created by applying a
+function symbol to another term, we interpret the term $t$, and then
+apply the interpretation of $f$ to this term. (This process makes
+sense, since the interpretation of $f$ is a function on the
+domain.) This generalizes to functions of higher arity in the obvious
+way. We will not yet interpret terms that include free variables like
+$x$ and $y$, since these terms do not pick out unique elements of the
+domain. (The variable $x$ could potentially refer to any object.)
+
+For example, suppose we have a language with two constant symbols, $a$
+and $b$, a unary function symbol $f$, and a binary function symbol
+$g$. Let $\MM$ be the model with domain $\NN$, where $a$ and $b$ are
+interpreted as $3$ and $5$, respectively, $f(x)$ is interpreted as the
+function which maps any natural number $n$ to $n^2$m, and $g$ is the
+addition function. Then the term $g(f(a),b)$ denotes the natural
+number $3^2+5 = 14$.
 
 Similarly, the interpretation of an assertion is a value $\true$ or $\false$. For
-the sake of brevity, we will introduce some new notation here: if $\varphi$ is an
+the sake of brevity, we will introduce new notation here: if $\varphi$ is an
 assertion and $\MM$ is a model of the language of $\varphi$, we write 
-$\MM \models \varphi$ to mean that $\varphi$ interprets to $\true$ in $\MM$, and
-$\MM \not\models \varphi$ to mean that $\varphi$ interprets to $\false$. (You can
+$\MM \models \varphi$ to mean that $\varphi$ evaluates to $\true$ in $\MM$, and
+$\MM \not\models \varphi$ to mean that $\varphi$ evaluates to $\false$. (You can
 read the symbol $\models$ as "satisfies" or "validates.")
 
-To interpret a predicate or relation applied to some terms, we first interpret those
-terms, and then see if the interpretation of the relation symbol is true of those 
-objects. For example, suppose the constant symbols $a$ and $b$ are interpreted in
-$\NN$ as 2 and 4, respectively, and the relation symbol $\fn{R}(x, y)$ is interpreted as
-the greater-than-or-equal-to relation. Then $\MM \not \models \fn{R}(a, b)$, since 2 is not
-greater than 4.
+To interpret a predicate or relation applied to some terms, we first
+interpret those terms, and then see if the interpretation of the
+relation symbol is true of those objects. To continue with the
+example, suppose our language also has a relation symbol $\fn{R}$, and
+we extend $\MM$ to interpret $R$ as the greater-than-or-equal-to
+relation. Then we have $\MM \not \models R(a, b)$, since 3 is not
+greater than 5, but $\MM \models R(g(f(a)),b)$, since 14 is greater
+than 5.
 
 Interpreting expressions using the logical connectives $\wedge$, $\vee$, $\to$, and $\neg$
 works exactly as it did in the propositional setting. $\MM \models \varphi \wedge \psi$
@@ -142,8 +168,8 @@ the domain that would make $\varphi$ true, when we "replaced" the variable $x$ w
 that element. To make this a bit more precise, we say that $\MM \models \ex x \varphi$
 exactly when there is an element $a$ in the domain of $\MM$ such that, when we
 interpret $x$ as $a$, then $\MM \models \varphi$. To continue the example above,
-we have $\MM \models \ex x (\fn{R}(x, b))$, since when we interpret $x$ as 5 we have
-$\MM \models \fn{R}(x, b)$.
+we have $\MM \models \ex x (R(x, b))$, since when we interpret $x$ as 6 we have
+$\MM \models R(x, b)$.
 
 More concisely, we can say that $\MM \models \ex x \varphi$ when there is an $a$ in
 the domain of $\MM$ such that $\MM \models \varphi[\bar a / x]$. The notation
@@ -156,8 +182,8 @@ exactly when for every element $a$ in the domain of $\MM$, interpreting $x$ as $
 gives that $\MM \models \varphi$. Alternatively, we can say that 
 $\MM \models \fa x \varphi$ when for every $a$ in the domain of $\MM$, we have
 $\MM \models \varphi[\bar a / x]$. In our example above, 
-$\MM \not\models \fa x (\fn{R}(x, b))$, since when we interpret $x$ as 2 we do not
-have $\MM \models \fn{R}(x, b)$.
+$\MM \not\models \fa x (R(x, b))$, since when we interpret $x$ as 2 we do not
+have $\MM \models R(x, b)$.
 
 These rules allow us to determine the truth value of any /sentence/ in a model.
 (Remember, a sentence is a formula with no free variables.) There are some subtleties:
@@ -217,12 +243,14 @@ universal statement holds. It was an example like this that partially motivated 
 semantics for implication back in Chapter 3; any other choice would make relativization
 impossible.
 
-Our next example is interactive, and draws from the book Tarski's World. [CITE] Here,
-our domain of interest will be a grid of "dots." Dots have a color (red, blue, or green)
-and a size (small or large). We use the letter =R= to represent a large red dot and =r=
-to represent a small red dot, and similarly for =G, g, B, b=. 
+Our next example is interactive, and inspired by software called
+/Tarski's World/, due to Dave Barker-Plummer, Jon Barwise and John
+Etchemendy. Here, our domain of interest will be a grid of "dots."
+Dots have a color (red, blue, or green) and a size (small or
+large). We use the letter =R= to represent a large red dot and =r= to
+represent a small red dot, and similarly for =G, g, B, b=.
 
-The logical language we use to describe our bdot world has predicates =red, green, 
+The logical language we use to describe our dot world has predicates =red, green, 
 blue, small= and =large= that are interpreted in the obvious ways. The relation 
 =adjacent(x, y)= is true if the dots referred to by =x= and =y= are touching, not on
 a diagonal. The relations =same_color(x, y)=, =same_size(x, y)=, =same_row(x, y)=,
@@ -232,14 +260,17 @@ dots are in. =right_of=, =above=, and =below= are similar.
 
 At the bottom of the following Lean file is a grid of dots, and a number of sentences
 in our logical language. The meaning of the commands =eval is_true= is not important, but
-the info window for each of these lines will tell you whether that sentence is true or
+the information window for each of these lines will tell you whether that sentence is true or
 false in the current model.
 
 For each sentence, see if you can find arrangements for the world that make the sentence
 true and false. For an extra challenge, try to make all of the sentences true simultaneously.
-Feel free to add more rows or columns to the grid of dots -- as long as each row has
+Feel free to add more rows or columns to the grid of dots; as long as each row has
 the same number of dots in it, Lean will figure out the right way to interpret the
-predicates.
+predicates. (Be patient; the online version of Lean is slow, and it
+can take the system more than ten seconds to evaluate all the
+formulas. You can speed things up by commenting them out and
+evaluating them one at a time.)
 
 #+BEGIN_SRC lean
 import data.list data.fin data.fintype data.tuple
@@ -462,17 +493,17 @@ eval is_true (∃ x, blue x ∧ (∃ y, green y ∧ above x y))
 
 #+END_SRC
 
-** Validity
+** Validity and Logical Consequence
 
-As we have now seen many times, whether a formula is true or false often depends
+We have seen that whether a formula is true or false often depends
 on the model we choose. Some formulas, though, are true in every possible model. An
 example we saw earlier was $\fa y (\fn{lt}(0, y) \to \fn{lt}(0, y))$. Why is this
-formula a tautology? Suppose $\MM$ is an arbitrary model of the language, and 
+sentence valid? Suppose $\MM$ is an arbitrary model of the language, and 
 suppose $a$ is an arbitrary element of the domain of $\MM$. Either
 $\MM \models \fn{lt}(0, \bar a)$ or $\MM \models \neg \fn{lt}(0, \bar a)$.
 In either case, the propositional semantics of implication guarantee that
 $\MM \models \fn{lt}(0, \bar a) \to \fn{lt}(0, \bar a)$. We often write $\models \varphi$
-to mean that $\varphi$ is a tautology.
+to mean that $\varphi$ is a valid.
 
 In the propositional setting, there is an easy method to figure out if a formula
 is a tautology or not. Writing the truth table and checking for any rows ending with
@@ -481,59 +512,96 @@ table will be. Unfortunately, we cannot do the same for first-order formulas. An
 language has infinitely many models, so a "first-order" truth table would be infinitely
 long. To make matters worse, even checking whether a formula is true in a single
 model can be a non-algorithmic task. To decide whether a universal statement like
-$\fa x (\fn{P} x)$ is true in a model with an infinite domain, we might have to check
-whether $\fn{P}$ is true of infinitely many elements.
+$\fa x P(x)$ is true in a model with an infinite domain, we might have to check
+whether $P$ is true of infinitely many elements.
 
-This is not to say that we can /never/ figure out if a first-order sentence is a 
-tautology. (Two paragraphs above, we argued that $\fa y (\fn{lt}(0, y) \to \fn{lt}(0, y))$
-was one.) It is just a more difficult question than for propositional logic.
+This is not to say that we can /never/ figure out if a first-order
+sentence is a tautology. For example, we hvae argued that $\fa y
+(\fn{lt}(0, y) \to \fn{lt}(0, y))$ was one. It is just a more
+difficult question than for propositional logic.
+
+As was the case with propositional logic, we can extend the notion of
+validity to a notion of logical consequence. Fix a first-order
+language, $L$. Suppose $\Gamma$ is a set of sentences in $L$, and
+$\varphi$ is a sentence of $L$. We will say that /$\varphi$ is a
+logical consequence of $\Gamma$/ if every model of $\Gamma$ is a model
+of $\varphi$. This is one way of spelling out that $\varphi$ is a
+"necessary consequence" of $\varphi$: under any interpretation, if the
+hypotheses in $\Gamma$ come out truem, $\varphi$ is true as well.
 
 ** Soundness and Completeness
 
 In propositional logic, we saw a close connection between the provable formulas
 and the tautologies -- specifically, a formula is provable if and only if it is
-a tautology. Fortunately, the same is true in first order logic.
+a tautology. More generally, we say that a formula $\varphi$ is a
+logical consequence of a set of hypotheses, $\Gamma$, if and only if
+there is a natural deduction proof of $\varphi$ from $\Gamma$. It
+turns out that the analogous statements hold for first order logic. 
 
-The "soundness" direction -- that any provable formula is a tautology -- follows for 
-similar reasons to its propositional equivalent. It is not difficult to show that
-the additional rules for quantification preserve truth.
+The "soundness" direction --- the fact that if $\varphi$ is provable
+from $\Gamma$ then $\varphi$ is true in any model of $\Gamma$ --- 
+at any provable formula is a tautology -- holds for reasons that are
+similar to the reasons it holds in the propositional
+case. Specifically, the proof proceeds by showing that each rule of
+natural deduction preserves the truth in a model.
 
-The completeness theorem for first order logic
-was first proved by Kurt Gödel, and simplified significantly by Leon Henkin.
-
+The completeness theorem for first order logic was first proved by
+Kurt Gödel in his 1929 dissertation. Another, simpler proof was later
+provided by Leon Henkin.
 ------
-**Theorem.** If a formula $\varphi$ is a tautology, then $\varphi$ is derivable.
-------
-
-Compared to the version for propositional logic, the first order completeness theorem
-is notably harder to prove. We will not go into too much detail here, but will highlight
-the details. Most of the work in Henkin's proof is done by the model existence theorem. 
-(There are a few small catches to the theorem that we will ignore here.)
-
-------
-**Theorem.** Every consistent first order theory has a model.
+*Theorem.* If a formula $\varphi$ is a logical consequence of a set of
+ sentences $\Gamma$, then $\varphi$ is provable from $\Gamma$.
 ------
 
-From this theorem, it is easy to deduce the completeness theorem. Suppose that $\varphi$ is
-a tautology. (We write $\models \varphi$.) This means that $\varphi$ evaluates to $\true$
-in every model, and equivalently, $\neg \varphi$ evaluates to false in every model. Since no
-model makes $\neg \varphi$ true, the model existence theorem tells us that the theory 
-consisting only of $\neg \varphi$ is inconsistent. But by the definition of consistency,
-this means we can find a proof of $\varphi$.
+Compared to the version for propositional logic, the first order
+completeness theorem is harder to prove. We will not go into too much
+detail here, but will indicate some of the main ideas. A set of
+sentences is said to be /consistent/ if you cannot prove a
+contradiction from those hypotheses. Most of the work in Henkin's
+proof is done by the following "model existence" theorem:
 
-The proof of the model existence theorem is more intricate. We say that a theory is
-/maximally consistent/ if, for every sentence $\varphi$, the theory implies either 
-$\varphi$ or $\neg \varphi$. One can show that any theory $T$ can be extended to a maximally
-consistent theory $T'$ -- that is, every formula implied by $T$ is also implied by $T'$. Given
-a consistent theory $T$, we construct a model for $T$ by using the set of terms of $T'$ as the
-domain, and interpreting predicates and relations based on the true sentences of $T'$.
+------
+*Theorem.* Every consistent set of sentences has a model.
+------
 
-The moral here is much the same as it was for propositional logic. Because we have 
-developed our syntactic rules with a certain semantics in mind, the two exhibit different
-sides of the same coin: the "provable" sentences are exactly the "true" ones. This notion
-can be relativized to theories; a sentence is provable from a set of hypotheses exactly
-when it is true in every model that makes those hypotheses true. 
+From this theorem, it is easy to deduce the completeness
+theorem. Suppose there is no proof of $\varphi$ from $\Gamma$. Then
+the set $\Gamma \cup \{ \neg \varphi \}$ is consistent. (If we could
+prove $\bot$ from $\Gamma \cup \{ \neg \varphi \}$, then by the
+\emph{reductio ad absurdum} rule we could prove $\varphi$ from
+$\Gamma$.) By the model existence theorem, that means that there is a
+model $\MM$ of $\Gamma \cup \{ \neg \varphi \}$. But this is a model
+of $\Gamma$ that is not a model of $\varphi$, which means that
+$\varphi$ is not a logical consequence of $\Gamma$. 
 
-We now have another way to answer the question posed in the previous section. To show
-that a sentence is a tautology, it suffices to produce a proof. (There is no need to
-somehow check its truth in every possible model.)
+The proof of the model existence theorem is not intricate. Somehow,
+from a consistent set of sentences, one has to "build" a model. The
+strategy is to build the model out of syntactic entities, in other
+words, to use terms in an expanded language as the elements of the domain.
+
+# On reflection, this is both too little and too much detail. It is
+# misleading to do this without mentioning Henkin constants; but even
+# the simplified version convey much (the notion of a maximally
+# consistent set is not an intuitive one).
+
+# The proof of the model existence theorem is more intricate. We say
+# that a consistent set of sentences is /maximally consistent/ if, for every
+# sentence $\varphi$, the set proves either $\varphi$ or $\neg
+# \varphi$. One can show that any consistent set $\Gamma$ can be extended to a
+# maximally consistent set $\Gamma'$. Given a consistent theory $\Gamma$, we
+# construct a model for $\Gamma$ by using the set of terms of $\Gamma'$ as the
+# domain, and interpreting predicates and relations based on the true
+# sentences of $\Gamma'$.
+
+The moral here is much the same as it was for propositional
+logic. Because we have developed our syntactic rules with a certain
+semantics in mind, the two exhibit different sides of the same coin:
+the provable sentences are exactly the ones that are true in all
+models, and the sentences that are provable from a set of hypotheses
+are exactly the ones that are true in all models of those
+hypohteses. 
+
+We therefore have another way to answer the question posed in the
+previous section. To show that a sentence is a tautology, there is no
+need to check its proof in every possible model. Rather, it suffices to
+produce a proof.

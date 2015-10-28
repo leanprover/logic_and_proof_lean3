@@ -847,8 +847,10 @@ identities hold:
 - $(A \cap B) \cap C = A \cap (B \cap C)$
 - $\overline{A \cap B} = \overline A \cup \overline B$
 - $\overline{A \cup B} = \overline A \cap \overline B$
-- $\overline{A} \cap (A \cup B) = A$
-- $\overline{A} \cup (A \cap B) = A$
+- $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+- $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+- $A \cap (A \cup B) = A$
+- $A \cup (A \cap B) = A$
 
 Now many identities involving sets can be proved "by calculation". 
 -----
@@ -898,8 +900,10 @@ identities above translated to the language of a boolean algebra:
 - $(A \wedge B) \wedge C = A \wedge (B \wedge C)$
 - $\neg{A \wedge B} = \neg A \vee \neg B$
 - $\neg{A \vee B} = \neg A \wedge \neg B$
-- $\neg{A} \wedge (A \vee B) = A$
-- $\neg{A} \vee (A \wedge B) = A$
+- $A \wedge (B \vee C) = (A \wedge B) \vee (A \wedge C)$
+- $A \vee (B \wedge C) = (A \vee B) \wedge (A \vee C)$
+- $A \wedge (A \vee B) = A$
+- $A \vee (A \wedge B) = A$
 
 Translated to propositions, the theorem above is as follows:
 -----

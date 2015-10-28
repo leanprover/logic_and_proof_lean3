@@ -574,7 +574,7 @@ model $\MM$ of $\Gamma \cup \{ \neg \varphi \}$. But this is a model
 of $\Gamma$ that is not a model of $\varphi$, which means that
 $\varphi$ is not a logical consequence of $\Gamma$. 
 
-The proof of the model existence theorem is not intricate. Somehow,
+The proof of the model existence theorem is intricate. Somehow,
 from a consistent set of sentences, one has to "build" a model. The
 strategy is to build the model out of syntactic entities, in other
 words, to use terms in an expanded language as the elements of the domain.

@@ -1,0 +1,135 @@
+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Cardinality
+:PROPERTIES:
+  :CUSTOM_ID: Cardinality
+:END:
+
+Mathematicians -- and people using mathematics -- are often concerned
+about measuring /size/ or /quantity/. Most readers of these notes will
+have learned to count many years ago; indeed, the tools in this chapter
+for comparing and measuring /finite/ systems will seem familiar. When
+these tools are extended to /infinite/ systems, though, some strange
+and counterintuitive results appear.
+
+In this chapter, we will mostly work informally in the language of set
+theory. The definitions and arguments here can be translated to formal
+systems, though, and we will see a few examples in Lean.
+
+** Finite Sets and Equinumerosity
+
+The notion of /size/ in set theory is very closely connected to the
+notion of a /bijection/, defined in Section 8.2 [LINK]. Recall that
+a function $f : A \to B$ is said to be a /bijection/ if it is both injective
+and surjective; intuitively, every element of $A$ corresponds to exactly
+one element of $B$, and vice versa. There is a bijection between the set
+\{1, 2, 3, 4\} and the set of Beatles \{John, Paul, George, Ringo\}, and
+we can picture this bijection by writing one set above the other and
+connecting the elements in pairs.
+
+[DIAGRAM]
+
+We made the claim in section 8.2 that, in some sense, this bijection "means"
+that there are four Beatles. Why does it mean this? In effect, the
+bijection (suppose it's called $f$) allows us to count the Beatles.
+$f(1)$ is the first, $f(2)$ is the second, and so on. Since $f$ is
+a surjection, each Beatle will be counted at least once, and since $f$ is an
+injection, the same Beatle will never be counted twice.
+
+Using this idea, it is easy to define what it means for a set to have
+exactly $n$ elements.
+
+--------
+*Definition.* Let $n$ be a natural number. A set $A$ has exactly $n$ elements
+if there is a bijection between $\{1, 2, 3, \ldots, n\}$ and $A$.
+--------
+
+We also say that the cardinality of $A$ is $n$. The word
+/cardinality/ is (roughly) a synonym for size.
+
+If two sets $A$ and $B$ both have cardinality $n$, they certainly have
+the same cardinality. In this case, we say that $A$ and $B$ are
+/equinumerous/. In fact -- forseeing that we will soon extend these
+notions to infinite sets -- we will give a slightly more precise definition
+of equinumerosity.
+
+--------
+*Definition.* Two sets $A$ and $B$ are said to be /equinumerous/ if there
+is a bijection between them.
+--------
+
+Using this terminology, we could restate our earlier definition: a set has 
+cardinality $n$ if it is equinumerous with $\{1, 2, 3, \ldots, n\}$.
+
+We finish this section with one final definition.
+
+--------
+*Definition.* A set $A$ is /finite/ if there is some natural number $n$ such
+that $A$ has cardinality $n$.
+--------
+
+This definition may seem obvious. But,
+as always, it is important for us to be absolutely precise. Infinite sets
+can behave in strange and unexpected ways; we want to be sure that this
+strangeness isn't due to vague definitions!
+
+** Infinite Sets
+
+One reason that the notion of "infinity" can be confusing, perhaps, is that the
+ word "infinite" is used casually in many different ways. Sometimes, "infinite"
+is used to mean "limitless" or "unbounded" -- picture the real number line 
+extending without end in either direction. But there are infinitely many real 
+numbers between 0 and 1, which is certainly not an unbounded region. Another
+definition, proposed by the mathematician Richard Dedekind, may be of interest
+after the previous section. Dedekind says that a set
+$A$ is infinite if there is a proper subset $B \subset A$ (that is, there is
+at least one element $x \in A$ with $x\notin B$) such that $B$ and $A$ are
+equinumerous. Try to draw a picture of what this situation might look like!
+
+The definition we will adopt here may again seem almost trivial, but be assured
+this is not the case. (In fact, in most circumstances, it is equivalent to
+Dedekind's definition.)
+
+--------
+*Definition.* A set $A$ is /infinite/ if it is not finite.
+--------
+
+/Infinite/ is simply the negation of /finite/. Using our knowledge of first-order
+logic, we can turn this definition into an equivalent (positive) statement: a set
+$A$ is /infinite/ if, for each natural number $n$, there is no bijection between
+$A$ and the set $\{1, 2, 3, \ldots, n\}$. Essentially, "infinite" means that for
+every $n$, counting to $n$ will still miss something in the set.
+
+There is an obvious "first candidate" for infinity: the set of natural numbers
+$\NN$. Convince yourself that, by the definition here, $\NN$ is infinite. (What
+would it mean if there were a bijection from $\{1, 2, 3, \ldots, n\}$ to $\NN$?)
+Luckily, all of the other sets we would "hope" are infinite -- the rational
+numbers, points in the Euclidean plane, and so on -- do, indeed, fit this definition.
+
+Since natural numbers are used in the definition of "finite," the set $\NN$ has
+a kind of special status. In a sense, it is the simplest kind of infinite set we
+can create. We use a special term to describe its size.
+
+--------
+*Definition.* A set $A$ is /countably infinite/ (or sometimes just /countable/)
+if $A$ is equinumerous with $\NN$. Equivalently, we say that $A$ has cardinality
+$\aleph_0$ (read "aleph-nought").
+--------
+
+(Note that, since the identity map $id(x) = x$ is a bijection on any set, every
+set is equinumerous with itself, and thus $\NN$ itself is countably infinite.)
+
+The term "countably infinite" is meant to be evocative. Suppose $A$ is a countable
+set. By definition, there is a bijection $f : \NN \to A$. $A$ has a "first" 
+element, $f(0)$; a "second" element, $f(1)$; a "third" element, $f(2)$; and so
+on. This in itself is not overly exciting. But, since $f$ is a bijection, we can
+say something more: /every/ element of $A$ will be the $n$th element, for some
+unique $n$. That is, for any element of $A$, one must only count finitely high
+to "reach" that element.
+
+We can represent this in a diagram as follows.
+
+[DIAGRAM]
+
+

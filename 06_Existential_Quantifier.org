@@ -413,7 +413,7 @@ import data.nat
 open nat
 
 -- BEGIN
-example : ∀ n m : ℕ, m ∣ n → n ∣ m → n = m
+example : ∀ n m : ℕ, m ∣ n → n ∣ m → n = m :=
 take m n,
 assume `n ∣ m` `m ∣ n`,
 obtain k `m = n * k`, from `n ∣ m`,

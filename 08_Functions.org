@@ -703,7 +703,7 @@ But Lean can prove some basic identities by simply unfolding
 definitions and simplifying expressions, using reflexivity.
 
 #+BEGIN_SRC lean
-variables {X Y Z : Type}
+variables {X Y Z W : Type}
 
 definition compose (f : Y → Z) (g : X → Y) : X → Z :=
 λ x, f (g x)

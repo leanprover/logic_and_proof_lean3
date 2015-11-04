@@ -255,7 +255,7 @@ blue, small= and =large= that are interpreted in the obvious ways. The relation
 =adjacent(x, y)= is true if the dots referred to by =x= and =y= are touching, not on
 a diagonal. The relations =same_color(x, y)=, =same_size(x, y)=, =same_row(x, y)=,
 and =same_column(x, y)= are also self-explanatory. =left_of(x, y)= is true if the dot
-referred to by =y= is left of the dot referred to by =x=, regardless of what rows the 
+referred to by =x= is left of the dot referred to by =y=, regardless of what rows the 
 dots are in. =right_of=, =above=, and =below= are similar.
 
 At the bottom of the following Lean file is a grid of dots, and a number of sentences
@@ -405,16 +405,16 @@ definition same_col_dec [instance] (i j : I) : decidable (same_column i j) :=
   end
 
 definition left_of [reducible] : I → I → Prop
-  | left_of (i1, i2) (i3, i4) := i4 < i2
+  | left_of (i1, i2) (i3, i4) := nat.lt i2 i4
 
 definition right_of [reducible] : I → I → Prop
-  | right_of (i1, i2) (i3, i4) := i4 > i2
+  | right_of (i1, i2) (i3, i4) := nat.lt i4 i2
 
 definition above [reducible] : I → I → Prop
-  | above (i1, i2) (i3, i4) := i3 > i1
+  | above (i1, i2) (i3, i4) := nat.lt i1 i3
 
 definition below [reducible] : I → I → Prop
-  | below (i1, i2) (i3, i4) := i3 < i1
+  | below (i1, i2) (i3, i4) := nat.lt i3 i1
 
 definition left_dec [instance] (i j : I) : decidable (left_of i j) :=
   begin

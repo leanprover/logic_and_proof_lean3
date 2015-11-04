@@ -82,7 +82,7 @@ that depends on the variable $x$, logicians often use the notation
 $\lam x e(x)$ to denote the function that maps $x$ to $e(x)$. This is
 called "lambda notation," for the obvious reason, and it is often
 quite handy. Instead of saying "let $f$ be the function defined by
-$f(x) = x+1$, we can say "let $f = \lam x (x + 1)$." This is /not/
+$f(x) = x+1$," we can say "let $f = \lam x (x + 1)$." This is /not/
 common mathematical notation, and it is best to avoid it
 unless you are talking to logicians or computer scientists. We will
 see, however, that lambda notation is built in to Lean.
@@ -356,7 +356,7 @@ generalization of the fact that the composition of surjective
 functions is surjective. 
 
 Suppose $f$ is a function from $X$ to $Y$, and $A$ is a subset of
-$X$. We can \emph{view} $f$ as a function from $A$ to $Y$, by simply
+$X$. We can /view/ $f$ as a function from $A$ to $Y$, by simply
 ignoring the behavior of $f$ on elements outside of $A$. Properly
 speaking, this is another function, denoted $f \upharpoonright$ and
 called "the restriction of $f$ to $A$." In other words, given $f : X
@@ -366,7 +366,7 @@ $A$. Notice that now "$f$ is injective on $A$" means simply that the
 restriction of $f$ to $A$ is injective.
 
 There is another important operation on functions, known as the
-\emph{preimage}. If $f : X \to Y$ and $B \subseteq Y$, then the
+/preimage/. If $f : X \to Y$ and $B \subseteq Y$, then the
 /preimage of $B$ under $f$/, denoted $f^{-1}[B]$, is defined by
 \[
 f^{-1}[B] = \{ x \in X \; | \; f(x) \in B \},
@@ -482,9 +482,9 @@ is simply "undefined" at some of its inputs; for example, we can think
 of $f : \mathbb{R} \nrightarrow \mathbb{R}$ defined by $f(x) = 1 / x$,
 which is undefined at $x = 0$, so that in reality $f : \mathbb{R}
 \setminus \{ 0 \} \to R$. The set $A$ is sometimes called the
-\emph{domain of $f$}, in which case, there is no good name for $X$;
+/domain of $f$/, in which case, there is no good name for $X$;
 others continue to call $X$ the domain, and refer to $A$ as the
-\emph{domain of definition}. To indicate that a function $f$ is
+/domain of definition/. To indicate that a function $f$ is
 defined at $x$, that is, that $x$ is in the domain of definition of
 $f$, we sometimes write $f(x) \downarrow$. If $f$ and $g$ are two
 partial functions from $X$ to $Y$, we write $f(x) \simeq g(x)$ to mean
@@ -496,8 +496,8 @@ generally as you would expect them to be.
 In terms of relations, a partial function $f$ corresponds to a
 relation $R_f(x,y)$ such that for every $x$ there is at most one $y$
 such that $R_f(x,y)$ holds. Mathematicians also sometimes consider
-\emph{multifunctions} from $X$ to $Y$, which correspond to relations
-$R_f(x,y)$ such that for every $x$ in $X$, there is \emph{at least}
+/multifunctions/ from $X$ to $Y$, which correspond to relations
+$R_f(x,y)$ such that for every $x$ in $X$, there is /at least/
 one $y$ such that $R_f(x,y)$ holds. There may be many such $y$; you
 can think of these as functions which have more than one input
 value. If you think about it for a moment, you will see that a

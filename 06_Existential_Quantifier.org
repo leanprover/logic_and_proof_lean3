@@ -394,7 +394,7 @@ The proof can also be carried out in Lean. For clarity we break the
 proof into steps. Here is reflexivity:
 #+BEGIN_SRC lean
 import data.nat
-open nat
+open nat algebra
 
 example : ∀n : ℕ, n ∣ n :=
 take n,
@@ -410,7 +410,7 @@ the right form.
 Here is antisymmetry:
 #+BEGIN_SRC lean
 import data.nat
-open nat
+open nat algebra
 
 -- BEGIN
 example : ∀ n m : ℕ, m ∣ n → n ∣ m → n = m :=
@@ -454,7 +454,7 @@ as usual.
 Finally, here is transitivity:
 #+BEGIN_SRC lean
 import data.nat
-open nat
+open nat algebra
 
 -- BEGIN
 example : ∀ n m r : ℕ, m ∣ n → n ∣ r → m ∣ r :=  
@@ -522,15 +522,15 @@ As an exercise, try to prove the following properties of divisibility in Lean.
 
 #+BEGIN_SRC lean
 import data.nat
-open nat
+open nat algebra
 
-example : ∀n m, m ∣ m * n := 
+example : ∀ n m : ℕ, m ∣ m * n := 
 sorry
 
-example : ∀n m k, m ∣ n → m ∣ n * k := 
+example : ∀ n m k : ℕ, m ∣ n → m ∣ n * k := 
 sorry
 
-example : ∀n m k, m ∣ n → k * m ∣ k * n :=
+example : ∀ n m k : ℕ, m ∣ n → k * m ∣ k * n :=
 sorry
 #+END_SRC
 

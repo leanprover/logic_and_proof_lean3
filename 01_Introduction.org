@@ -270,20 +270,29 @@ a formal proof that the square root of two is irrational, following
 the model of the informal proof presented above:
 #+BEGIN_SRC lean
 import data.rat
-open eq.ops nat
+open eq.ops nat algebra
 
 theorem sqrt_two_irrational {a b : ℕ} (co : coprime a b) : a^2 ≠ 2 * b^2 :=
 assume H : a^2 = 2 * b^2,
-have even (a^2), from even_of_exists (exists.intro _ H),
-have even a, from even_of_even_pow this,
-obtain c (aeq : a = 2 * c), from exists_of_even this,
-have 2 * (2 * c^2) = 2 * b^2, by rewrite [-H, aeq, *pow_two, mul.assoc, mul.left_comm c],
-have 2 * c^2 = b^2, from eq_of_mul_eq_mul_left dec_trivial this,
-have even (b^2), from even_of_exists (exists.intro _ (eq.symm this)),
-have even b, from even_of_even_pow this,
-have 2 ∣ gcd a b, from dvd_gcd (dvd_of_even `even a`) (dvd_of_even `even b`),
-have 2 ∣ 1, from co ▸ this,
-absurd `2 ∣ 1` dec_trivial
+have even (a^2),
+  from even_of_exists (exists.intro _ H),
+have even a,
+  from even_of_even_pow this,
+obtain (c : nat) (aeq : a = 2 * c),
+  from exists_of_even this,
+have 2 * (2 * c^2) = 2 * b^2,
+  by rewrite [-H, aeq, *pow_two, algebra.mul.assoc, algebra.mul.left_comm c],
+have 2 * c^2 = b^2,
+  from eq_of_mul_eq_mul_left dec_trivial this,
+have even (b^2),
+  from even_of_exists (exists.intro _ (eq.symm this)),
+have even b,
+  from even_of_even_pow this,
+assert 2 ∣ gcd a b,
+  from dvd_gcd (dvd_of_even `even a`) (dvd_of_even `even b`),
+have 2 ∣ 1,
+  begin rewrite [gcd_eq_one_of_coprime co at this], exact this end,
+show false, from absurd `2 ∣ 1` dec_trivial
 #+END_SRC
 
 The third goal of this course is to teach you to write elementary

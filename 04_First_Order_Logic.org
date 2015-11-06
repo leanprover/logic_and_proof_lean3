@@ -115,6 +115,8 @@ One can also declare function and relation symbols in Lean. For
 example, the symbols we have just discussed could be introduced as
 follows:
 #+BEGIN_SRC lean
+namespace hide
+
 constant mul : ℕ → ℕ → ℕ
 constant add : ℕ → ℕ → ℕ
 constant square : ℕ → ℕ
@@ -125,11 +127,15 @@ constant divides : ℕ → ℕ → Prop
 constant lt : ℕ → ℕ → Prop
 constant zero : ℕ
 constant one : ℕ
+
+end hide
 #+END_SRC
 You can enter =ℕ= with =\nat= or =\N=. In Lean, the =check= command
 can be used to make sure an expression is well-formed, and determine
 what kind of expression it is:
 #+BEGIN_SRC lean
+namespace hide
+
 constant mul : ℕ → ℕ → ℕ
 constant add : ℕ → ℕ → ℕ
 constant square : ℕ → ℕ
@@ -149,9 +155,13 @@ check add x y
 check square x
 check even x
 -- END
+
+end hide
 #+END_SRC
 We can even declare infix notation of binary operations and relations:
 #+BEGIN_SRC lean
+namespace hide
+
 constant mul : ℕ → ℕ → ℕ
 constant add : ℕ → ℕ → ℕ
 constant square : ℕ → ℕ
@@ -175,10 +185,14 @@ infix + := add
 infix * := mul
 infix < := lt
 -- END
+
+end hide
 #+END_SRC
 (Getting notation for numerals =1=, =2=, =3=, ... is trickier.) With
 all this in place, the examples above can be rendered as follows:
 #+BEGIN_SRC lean
+namespace hide
+
 constant mul : ℕ → ℕ → ℕ
 constant add : ℕ → ℕ → ℕ
 constant square : ℕ → ℕ
@@ -206,6 +220,8 @@ check even (x + y + z) ∧ prime ((x + one) * y * y)
 check ¬ (square (x + y * z) = w) ∨ x + y < z
 check x < y ∧ even x ∧ even y → x + one < y
 -- END
+
+end hide
 #+END_SRC
 In fact, all of the functions, predicates, and relations discussed
 here, except for the "square" function and "prime," are defined in the
@@ -643,7 +659,7 @@ Here are some more facts about parity that are found in the Lean
 library:
 #+BEGIN_SRC lean
 import data.nat
-open nat
+open nat algebra
 
 -- BEGIN
 example (n : ℕ) (H : even n) : 2 ∣ n :=
@@ -675,7 +691,7 @@ symbol is different from the plain =|= character.) Here are some
 examples of theorems that can be proved using these facts:
 #+BEGIN_SRC lean
 import data.nat
-open nat
+open nat algebra
 
 example : ∀ m n, even m → m ∣ n → even n :=
 take m, take n,
@@ -716,7 +732,7 @@ to prove them incrementally, using =sorry=. For example, for the first
 theorem, you might start as follows:
 #+BEGIN_SRC lean
 import data.nat
-open nat
+open nat algebra
  
 -- BEGIN
 example : ∀ m n, even m → m ∣ n → even n :=
@@ -732,7 +748,7 @@ intermediate =have= statements, and so on.
 If you wanted to use these theorems later on, you could name them:
 #+BEGIN_SRC lean
 import data.nat
-open nat
+open nat algebra
 
 theorem even_add_of_even_of_even : ∀ {m n}, even m → even n → even (m + n) :=
 take m, take n,
@@ -766,7 +782,7 @@ check even_add_of_even_of_even
 Using these, we can go on to prove the following:
 #+BEGIN_SRC lean
 import data.nat
-open nat
+open nat algebra
 
 theorem even_of_even_add_left : ∀ {m n}, even (m + n) → even m → even n :=
 take m, take n,

@@ -373,19 +373,19 @@ A)= relative to these inputs. For each line in the truth table, the
 expression checks whether the formula evaluates to the value you
 entered, and takes the conjunction of the results.)
 
-Here is the analogous setup for three variables:
-#+BEGIN_SRC lean
-eval let e :=
-  λ A      B      C,        A ∧ (B → C)   in is_true (
-( e true   true   true   ↔  true          ) ∧ 
-( e true   true   false  ↔  false         ) ∧
-( e true   false  true   ↔  true          ) ∧
-( e true   false  false  ↔  true          ) ∧
-( e false  true   true   ↔  false         ) ∧
-( e false  true   false  ↔  false         ) ∧
-( e false  false  true   ↔  false         ) ∧
-( e false  false  false  ↔  false         ) )
-#+END_SRC
+# Here is the analogous setup for three variables:
+# #+BEGIN_SRC lean
+# eval let e :=
+#   λ A      B      C,        A ∧ (B → C)   in is_true (
+# ( e true   true   true   ↔  true          ) ∧ 
+# ( e true   true   false  ↔  false         ) ∧
+# ( e true   false  true   ↔  true          ) ∧
+# ( e true   false  false  ↔  true          ) ∧
+# ( e false  true   true   ↔  false         ) ∧
+# ( e false  true   false  ↔  false         ) ∧
+# ( e false  false  true   ↔  false         ) ∧
+# ( e false  false  false  ↔  false         ) )
+# #+END_SRC
 
 ** Soundness and Completeness
 

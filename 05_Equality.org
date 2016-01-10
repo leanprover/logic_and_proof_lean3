@@ -716,7 +716,7 @@ For example, Lean's library has a number of basic identities for the
 integers. Here are some examples:
 #+BEGIN_SRC lean
 import data.int
-open int algebra
+open int
 
 variables x y z : int
 
@@ -751,7 +751,7 @@ write =add.comm s t=. Using these axioms, here is the calculation
 above rendered in Lean, as a theorem about the integers:
 #+BEGIN_SRC lean
 import data.int
-open int algebra
+open int
 
 example (x y z : int) : (x + y) + z = (x + z) + y :=
 calc
@@ -814,7 +814,7 @@ Lean would be quite involved, but here is an example of a simpler
 identity, of the same sort.
 #+BEGIN_SRC lean
 import data.int
-open int algebra
+open int
 
 variables a b d c : int
 
@@ -875,7 +875,7 @@ variables A B C : set X
 
 example : (A ∩ -B) ∪ B = A ∪ B :=
 calc
-  (A ∩ -B) ∪ B = (A ∪ B) ∩ (-B ∪ B) : union.distrib_right
+  (A ∩ -B) ∪ B = (A ∪ B) ∩ (-B ∪ B) : union_distrib_right
            ... = (A ∪ B) ∩ univ     : comp_union_self
            ... = A ∪ B              : inter_univ
 #+END_SRC

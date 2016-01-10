@@ -659,7 +659,7 @@ Here are some more facts about parity that are found in the Lean
 library:
 #+BEGIN_SRC lean
 import data.nat
-open nat algebra
+open nat
 
 -- BEGIN
 example (n : ℕ) (H : even n) : 2 ∣ n :=
@@ -691,7 +691,7 @@ symbol is different from the plain =|= character.) Here are some
 examples of theorems that can be proved using these facts:
 #+BEGIN_SRC lean
 import data.nat
-open nat algebra
+open nat
 
 example : ∀ m n, even m → m ∣ n → even n :=
 take m, take n,
@@ -732,7 +732,7 @@ to prove them incrementally, using =sorry=. For example, for the first
 theorem, you might start as follows:
 #+BEGIN_SRC lean
 import data.nat
-open nat algebra
+open nat
  
 -- BEGIN
 example : ∀ m n, even m → m ∣ n → even n :=
@@ -748,7 +748,7 @@ intermediate =have= statements, and so on.
 If you wanted to use these theorems later on, you could name them:
 #+BEGIN_SRC lean
 import data.nat
-open nat algebra
+open nat
 
 theorem even_add_of_even_of_even : ∀ {m n}, even m → even n → even (m + n) :=
 take m, take n,
@@ -782,7 +782,7 @@ check even_add_of_even_of_even
 Using these, we can go on to prove the following:
 #+BEGIN_SRC lean
 import data.nat
-open nat algebra
+open nat
 
 theorem even_of_even_add_left : ∀ {m n}, even (m + n) → even m → even n :=
 take m, take n,

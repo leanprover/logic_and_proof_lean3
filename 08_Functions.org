@@ -675,6 +675,8 @@ between a type =X= and a subset =A : set X= of that type.
 
 In Lean's library, composition and identity are defined as follows:
 #+BEGIN_SRC lean
+namespace hide
+-- BEGIN
 variables {X Y Z : Type}
 
 definition compose (f : Y → Z) (g : X → Y) : X → Z :=
@@ -684,6 +686,8 @@ infixr  ` ∘ ` := compose
 
 definition id (x : X) : X :=
 x
+-- END
+end hide
 #+END_SRC
 Ordinarily, to use these definitions the notation, you use the command
 =open function=. We omit this command here, because we are duplicating
@@ -710,9 +714,6 @@ definition compose (f : Y → Z) (g : X → Y) : X → Z :=
 
 infixr  ` ∘ ` := compose
 
-definition id (x : X) : X :=
-x
-
 -- BEGIN
 lemma left_id (f : X → Y) : id ∘ f = f := rfl
 
@@ -737,9 +738,6 @@ definition compose (f : Y → Z) (g : X → Y) : X → Z :=
 
 infixr  ` ∘ ` := compose
 
-definition id (x : X) : X :=
-x
-
 -- BEGIN
 definition injective (f : X → Y) : Prop := ∀ ⦃x₁ x₂⦄, f x₁ = f x₂ → x₁ = x₂
 
@@ -762,8 +760,6 @@ definition compose (f : Y → Z) (g : X → Y) : X → Z :=
 
 infixr  ` ∘ ` := compose
 
-definition id (x : X) : X :=
-x
 
 definition injective (f : X → Y) : Prop := ∀ ⦃x₁ x₂⦄, f x₁ = f x₂ → x₁ = x₂
 
@@ -793,9 +789,6 @@ definition compose (f : Y → Z) (g : X → Y) : X → Z :=
 λ x, f (g x)
 
 infixr  ` ∘ ` := compose
-
-definition id (x : X) : X :=
-x
 
 definition injective (f : X → Y) : Prop := ∀ ⦃x₁ x₂⦄, f x₁ = f x₂ → x₁ = x₂
 
@@ -848,9 +841,6 @@ definition compose (f : Y → Z) (g : X → Y) : X → Z :=
 λ x, f (g x)
 
 infixr  ` ∘ ` := compose
-
-definition id (x : X) : X :=
-x
 
 definition left_inverse (g : Y → X) (f : X → Y) : Prop := ∀ x, g (f x) = x
 
@@ -1062,7 +1052,7 @@ example (H : ∀ x₁ x₂, x₁ ∈ A → x₂ ∈ A → f x₁ = f x₂ → x�
 -- END
 #+END_SRC
 It is synonymous with the assertion that =B= is a subset of the image
-of =A=, which is written =f '[A]=, or, equivalently, =image f A=:
+of =A=, which is written =f ' A=, or, equivalently, =image f A=:
 #+BEGIN_SRC lean
 import data.set
 open set function
@@ -1072,7 +1062,7 @@ variables (A  : set X) (B : set Y)
 variable (f : X → Y)
 
 -- BEGIN
-example (H : B ⊆ f '[A]) : surj_on f A B := H
+example (H : B ⊆ f ' A) : surj_on f A B := H
 -- END
 #+END_SRC
 With these notions in hand, we can prove that the composition of
@@ -1135,7 +1125,7 @@ variables (A₁ A₂ : set X)
 variable (f : X → Y)
 
 -- BEGIN
-theorem image_union : f '[A₁ ∪ A₂] =f '[A₁] ∪ f '[A₂] :=
+theorem image_union : f ' (A₁ ∪ A₂) =f ' A₁ ∪ f ' A₂ :=
 ext (take y, iff.intro
   (assume H : y ∈ image f (A₁ ∪ A₂),
     obtain x [(xA₁A₂ : x ∈ A₁ ∪ A₂) (fxy : f x = y)], from H,

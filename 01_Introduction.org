@@ -270,7 +270,7 @@ a formal proof that the square root of two is irrational, following
 the model of the informal proof presented above:
 #+BEGIN_SRC lean
 import data.rat
-open eq.ops nat algebra
+open eq.ops nat
 
 theorem sqrt_two_irrational {a b : ℕ} (co : coprime a b) : a^2 ≠ 2 * b^2 :=
 assume H : a^2 = 2 * b^2,
@@ -281,7 +281,7 @@ have even a,
 obtain (c : nat) (aeq : a = 2 * c),
   from exists_of_even this,
 have 2 * (2 * c^2) = 2 * b^2,
-  by rewrite [-H, aeq, *pow_two, algebra.mul.assoc, algebra.mul.left_comm c],
+  by rewrite [-H, aeq, *pow_two, mul.assoc, mul.left_comm c],
 have 2 * c^2 = b^2,
   from eq_of_mul_eq_mul_left dec_trivial this,
 have even (b^2),

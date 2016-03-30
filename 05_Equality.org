@@ -539,10 +539,9 @@ In some places, students are asked to write proofs like this:
 Mathematicians generally cringe when they see this. /Don't do it!/ It
 looks like an instance of forward reasoning, where we start with a
 complex identity and end up proving $x = x$. Of course, what is really
-meant is that each line follows from the preceding
-one. There is a way of expressing this, with the phrase "it
-suffices to show." The following presentation comes closer to
-mathematical vernacular:
+meant is that each line follows from the next. There is a way of
+expressing this, with the phrase "it suffices to show." The following
+presentation comes closer to mathematical vernacular:
 -----
 *Proof.* We want to show
 \begin{equation*}

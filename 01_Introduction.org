@@ -269,8 +269,8 @@ contemporary theorem can be verified in this way. For example, here is
 a formal proof that the square root of two is irrational, following
 the model of the informal proof presented above:
 #+BEGIN_SRC lean
-import data.rat
-open eq.ops nat
+import data.rat data.nat.parity
+open nat
 
 theorem sqrt_two_irrational {a b : ℕ} (co : coprime a b) : a^2 ≠ 2 * b^2 :=
 assume H : a^2 = 2 * b^2,
@@ -290,8 +290,8 @@ have even b,
   from even_of_even_pow this,
 assert 2 ∣ gcd a b,
   from dvd_gcd (dvd_of_even `even a`) (dvd_of_even `even b`),
-have 2 ∣ 1,
-  begin rewrite [gcd_eq_one_of_coprime co at this], exact this end,
+have 2 ∣ (1 : ℕ),
+  by rewrite [gcd_eq_one_of_coprime co at this]; exact this,
 show false, from absurd `2 ∣ 1` dec_trivial
 #+END_SRC
 

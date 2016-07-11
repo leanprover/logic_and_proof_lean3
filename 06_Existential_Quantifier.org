@@ -215,7 +215,7 @@ example : (∀x, A x → ¬ B x) → ¬ ∃x, A x ∧ B x :=
 assume `∀x, A x → ¬ B x` `∃x, A x ∧ B x`,
 obtain x `A x` `B x`, from `∃x, A x ∧ B x`,
 have ¬ B x, from `∀x, A x → ¬ B x` x `A x`,
-`¬ B x` `B x`
+show false, from `¬ B x` `B x`
 
 example : (∃x : U, P) ↔ P :=
 iff.intro

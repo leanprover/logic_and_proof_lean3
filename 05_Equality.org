@@ -875,7 +875,7 @@ variables A B C : set X
 example : (A ∩ -B) ∪ B = A ∪ B :=
 calc
   (A ∩ -B) ∪ B = (A ∪ B) ∩ (-B ∪ B) : union_distrib_right
-           ... = (A ∪ B) ∩ univ     : comp_union_self
+           ... = (A ∪ B) ∩ univ     : compl_union_self
            ... = A ∪ B              : inter_univ
 #+END_SRC
 
@@ -930,6 +930,6 @@ variables A B : Prop
 example : (A ∧ ¬ B) ∨ B ↔ A ∨ B :=
 calc
   (A ∧ ¬ B) ∨ B ↔ (A ∨ B) ∧ (¬ B ∨ B) : or.right_distrib
-            ... ↔ (A ∨ B) ∧ true      : not_or_self_iff
+            ... ↔ (A ∨ B) ∧ true      : by rewrite not_or_self_iff
             ... ↔ (A ∨ B)             : and_true
 #+END_SRC

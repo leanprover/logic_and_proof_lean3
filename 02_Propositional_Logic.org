@@ -805,13 +805,15 @@ uncanceled hypotheses. Here is a proof of $A \wedge (B \vee C) \to
 (A \wedge B) \vee (A \wedge C)$:
 \begin{prooftree}
 \AXM{}
-\UIM{y : A \wedge (B \vee C)}
+\RLM{y}
+\UIM{A \wedge (B \vee C)}
 \UIM{B \vee C}
 \AXM{}
 \UIM{y : A \wedge (B \vee C)}
 \UIM{A}
 \AXM{}
-\UIM{x : B}
+\RLM{x}
+\UIM{B}
 \BIM{A \wedge B}
 \UIM{(A \wedge B) \vee (A \wedge C)}
 \AXM{}

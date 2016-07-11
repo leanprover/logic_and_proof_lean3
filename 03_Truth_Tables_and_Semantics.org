@@ -35,7 +35,7 @@ of /meaning/ to certain formulas.
 Syntactically, we were able to ask and answer questions like the
 following:
 - Given a set of hypotheses, $\Gamma$, and a formula, $A$, can we
-  drive $A$ from $\Gamma$?
+  derive $A$ from $\Gamma$?
 - What formulas can be derived from $\Gamma$?
 - What hypotheses are need to derive $A$?
 
@@ -188,7 +188,8 @@ assumptions about $B$:
 \begin{prooftree}
 \AXM{\neg A}
 \AXM{}
-\UIM{H : A}
+\RLM{H}
+\UIM{A}
 \BIM{\bot}
 \RLM{H}
 \UIM{A \to B}
@@ -208,7 +209,8 @@ Finally, if $A$ is true and $B$ is false, we can prove $\neg (A
 \begin{prooftree}
 \AXM{\neg B}
 \AXM{}
-\UIM{H : A \to B}
+\RLM{H}
+\UIM{A \to B}
 \AXM{A}
 \BIM{B}
 \BIM{\bot}

@@ -27,6 +27,7 @@ Consider some ordinary statements about the natural numbers:
 - A natural number is even if and only if it is divisible by two.
 - If some natural number, $x$, is even, then so is $x^2$.
 - A natural number $x$ is even if and only if $x + 1$ is odd.
+- Any prime number that is greater than 2 is odd.
 - For any three natural numbers $x$, $y$, and $z$, is $x$ divides $y$
   and $y$ divides $z$, then $x$ divides $z$.
 These statements are true, but we generally do not think of them as
@@ -44,7 +45,7 @@ allows us to specify the symbols we wish to use for any given domain
 of interest. In this section, we will use the following running
 example:
 - the domain of interest is the natural numbers, $\mathbb{N}$.
-- there are objects, $1$, $2$, $3$, ....
+- there are objects, $0$, $1$, $2$, $3$, ....
 - there are functions, addition and multiplication, as well as the
   square function, on this domain.
 - there are predicates on this domain, "even," "odd," and "prime."
@@ -94,7 +95,7 @@ Now, using the predicates and relation symbols, we can make assertions
 about these expressions:
 \begin{equation*}
 \fn{even}(x + y + z), \quad \fn{prime}((x + 1) \times y \times y), \quad
-\square (x + y \times z) = w, \quad x + y < z
+\fn{square} (x + y \times z) = w, \quad x + y < z
 \end{equation*}
 Even more interestingly, we can use propositional connectives to build
 compound expressions like these:
@@ -278,9 +279,11 @@ be expressed as follows:
 \begin{itemize}
 \item $\fa x ((\fn{even}(x) \vee \fn{odd}(x)) \wedge \neg
 (\fn{even}(x) \wedge \neg \fn{odd}(x)))$.
-\item $\fa x (\fn{even}(x) \to \fn{even}(x^2))$
 \item $\fa x (\fn{even}(x) \liff 2 \mid x)$
-\item $\fa x \fa y \fa z (x \mid y \wedge y \mid z \to x \mid z)$.
+\item $\fa x (\fn{even}(x) \to \fn{even}(x^2))$
+\item $\fa x (\fn{even}(x) \liff 2 \odd{x+1})$
+\item $\fa x (\fn{prime}(x) \wedge x > 2 \to \fn{odd}(x))$
+\item $\fa x \fa y \fa z (x \mid y \wedge y \mid z \to x \mid z)$
 \end{itemize}
 It is common to combine multiple quantifiers of the same kind, and
 write, for example, $\fa {x, y, z} (x \mid y \wedge y \mid z
@@ -549,7 +552,7 @@ show false, from sorry
 Let us return to the example of the natural numbers, to see how
 deductive notions play out there. Suppose we have defined $\fn{even}$
 and $\fn{odd}$ in such a way that we can prove:
-- $\fa n, \neg \even(n) \to \odd(n)$
+- $\fa n \neg \even(n) \to \odd(n)$
 - $\fa n \odd(n) \to \neg \even(n)$
 Then we can go on to derive $\fa n (\even(n) \vee \odd(n))$ as
 follows:
@@ -557,13 +560,15 @@ follows:
 \AXM{}
 \UIM{\even(n) \vee \neg \even(n)}
 \AXM{}
-\UIM{H_1 : \even(n)}
+\RLM{H_1}
+\UIM{\even(n)}
 \UIM{\even(n) \vee \odd(n)}
 \AXM{}
 \UIM{\fa n \neg \even(n) \to \odd(n)}
 \UIM{\neg \even (n) \to \odd(n)}
 \AXM{}
-\UIM{H_2 : \neg \even(n)}
+\RLM{H_2}
+\UIM{\neg \even(n)}
 \BIM{\odd(n)}
 \UIM{\even(n) \vee \odd(n)}
 \RLM{H_1, H_2}
@@ -575,11 +580,13 @@ We can also prove and $\fa n \neg (\even(n) \wedge \odd(n))$:
 \AXM{}
 \UIM{\odd(n) \to \neg \even(n)}
 \AXM{}
-\UIM{H : \even(n) \wedge \odd(n)}
+\RLM{H}
+\UIM{\even(n) \wedge \odd(n)}
 \UIM{\odd(n)}
 \BIM{\neg \even(n)}
 \AXM{}
-\UIM{H : \even(n) \wedge \odd(n)}
+\RLM{H}
+\UIM{\even(n) \wedge \odd(n)}
 \UIM{\even(n)}
 \BIM{\bot}
 \RLM{H}

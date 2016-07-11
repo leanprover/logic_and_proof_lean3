@@ -358,8 +358,8 @@ Lean allows us to define notation for =R=, to be used locally in the
 section. 
 
 In the example below, having fixed a partial order, =R=, we define the
-corresponding strict partial order, =R'=, and prove that it is,
-indeed, a strict order.
+corresponding strict partial order and prove that it is, indeed, a
+strict order.
 #+BEGIN_SRC lean
 open eq.ops
 
@@ -432,7 +432,7 @@ more faithfully as follows:
 In the next chapter, we will see that this sentence is equivalent to
 the previous one.
 
-Are these two statements equivalent? Say an element $y$ is /minimum/
+Are the two statements above equivalent? Say an element $y$ is /minimum/
 for a partial order if it is less than or equal to any other element;
 this is, if it satisfies the first definition. Say that an element $y$
 is /minimal/ for a partial order if no element is less than it; that
@@ -481,7 +481,7 @@ such that $x$ is minimal but not minimum. For a fixed partial order
 $\leq$, we can express the assertion that such an $x$ exists as
 follows:
 \begin{equation*}
-\ex x (\fa y (y \nless x) \wedge \fa y (x \leq y).
+\ex x (\fa y (y \nless x) \wedge \fa y (x \leq y)).
 \end{equation*}
 We will learn how to reason about such existential assertions in the
 next chapter. The assertion that there exists a domain $A$, and a
@@ -508,7 +508,7 @@ setting $x \leq y$ if and only if $x$ 's birth date is earlier than
 $y$ 's. Asymmetry fails, because different people can be born on the
 same day. But we leave it to you to check that the following holds:
 -----
-*Theorem.* Let $\leq$ be a binary relation on a domain $A$. Define the
+*Theorem.* Let $\leq$ be a preorder on a domain $A$. Define the
 relation $\equiv$, where $x \equiv y$ holds if and only if $x \leq y$
 and $y \leq x$. Then $\equiv$ is an equivalence relation on $A$.
 -----
@@ -851,7 +851,7 @@ identities hold:
 - $A \cap (A \cup B) = A$
 - $A \cup (A \cap B) = A$
 
-Now many identities involving sets can be proved "by calculation". 
+Now many identities involving sets can be proved "by calculation." 
 -----
 *Theorem*. Let $A$ and $B$ be subsets of some domain $X$. Then $(A
 \cap \overline B) \cup B = B$.

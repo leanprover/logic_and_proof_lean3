@@ -151,7 +151,7 @@ have at most one inverse.
 
 -----
 
-*Proposition.* Suppose $g_1, g_2 : Y \to X$ are both inverse to
+*Proposition.* Suppose $g_1, g_2 : Y \to X$ are both inverses to
 $f$. Then $g_1 = g_2$.
 
 *Proof.* The follows from the previous proposition, since (say) $g_1$
@@ -317,7 +317,7 @@ $f(x_1) = f(x_2)$, then $x_1 = x_2$.
 If $f$ is a function from $X$ to $Y$ and $A$ is a subset of $X$, we
 write $f[A]$ to denote the /image of/ $f$ /on/ $A$, defined by
 \[
-f[A] = \{ y \in Y \; | \; y = f(x) \mbox{for some $x$ in $A$} \}.
+f[A] = \{ y \in Y \; | \; y = f(x) \; \mbox{for some $x$ in $A$} \}.
 \]
 In words, $f[A]$ is the set of elements of $Y$ that are "hit" by
 elements of $A$ under the mapping $f$. Notice that there is an
@@ -406,8 +406,8 @@ B_2, \ldots$ denote arbitrary subsets of $Y$.
 - If $B_1 \subseteq B_2$, then $f^{-1}[B_1] \subseteq f^{-1}[B_2]$.
 - $f[A_1 \cup A_2] = f[A_1] \cup f[A_2]$.
 - $f^{-1}[B_1 \cup B_2] = f^{-1}[B_1] \cup f^{-1}[B_2]$.
-- $f[A_1 \cap A_2] \subseteq f[A_1 \cap A_2]$, and if $f$ is
-  injective, $f[A_1 \cap A_2] = f[A_1 \cap A_2]$.
+- $f[A_1 \cap A_2] \subseteq f[A_1] \cap f[A_2]$, and if $f$ is
+  injective, $f[A_1 \cap A_2] = f[A_1] \cap f[A_2]$.
 - $f^{-1}[B_1 \cap B_2] = f^{-1}[B_1] \cap f^{-1}[B_2]$.
 - $f[A] \setminus f[B] \subseteq f[A \setminus B]$.
 - $f^{-1}[A] \setminus f^{-1}[B] \subseteq f[A \setminus B]$.

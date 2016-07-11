@@ -97,7 +97,7 @@ So /Alice's brother was the victim/ and Alice's husband was the
 killer.
 -----
 
-This argument relies on some "extra logical" elements, for example,
+This argument relies on some "extralogical" elements, for example,
 that a father cannot be younger than his child, and that a parent and
 his or her child cannot be twins. But the argument also involves a
 number of common logical terms and associated patterns of
@@ -188,7 +188,8 @@ words, the temporary assumption that $A$ holds is "canceled" by making
 it explicit in the conclusion.
 \begin{center}
 \AXM{}
-\UIM{H : A}
+\RLM{H}
+\UIM{A}
 \noLine
 \UIM{\vdots}
 \noLine

@@ -62,17 +62,18 @@ Let $p$ be any prime such that $p < n$ and $p \mid n$.
 Therefore, $n$ is composite.
 #+END_QUOTE
 
-First, we assume that there is some $p$ which satisfies the properties $p$ is prime, $p < n$ and $p \mid
-n$, and then we reason about that $p$. As with case-based reasoning
-using "or," the assumption is only temporary: if we can show that $n$
-is composite from that assumption, that we have essentially shown that $n$ is
-composite assuming the existence of such a $p$. Notice that in this
-pattern of reasoning, $p$ should be "arbitrary." In other words, we
-should not have assumed anything about $p$ beforehand, we should not
-make any additional assumptions about $p$ along the way, and the
-conclusion should not mention $p$. Only then does it makes sense to
-say that the conclusion follows from the "mere" existence of a $p$
-with the assumed properties.
+First, we assume that there is some $p$ which satisfies the properties
+$p$ is prime, $p < n$ and $p \mid n$, and then we reason about that
+$p$. As with case-based reasoning using "or," the assumption is only
+temporary: if we can show that $n$ is composite from that assumption,
+that we have essentially shown that $n$ is composite assuming the
+existence of such a $p$. Notice that in this pattern of reasoning, $p$
+should be "arbitrary." In other words, we should not have assumed
+anything about $p$ beforehand, we should not make any additional
+assumptions about $p$ along the way, and the conclusion should not
+mention $p$. Only then does it makes sense to say that the conclusion
+follows from the "mere" existence of a $p$ with the assumed
+properties.
 
 In natural deduction, the elimination rule is expressed as follows:
 \begin{prooftree}
@@ -95,9 +96,11 @@ once.
 
 Intuitively, the rule says that you can prove $B$ from the assumption
 $\ex x A(x)$ by assuming $A(y)$ for a fresh variable $y$, and
-concluding, in any number of steps, that $B$ follows. Here is an
-example, which shows that if $A(x)$ always implies $\neg B(x)$, then
-there cannot be an $x$ for which both $A(x)$ and $B(x)$ holds.
+concluding, in any number of steps, that $B$ follows. You should
+compare this rule to the rule for or elimination, which is somewhat
+analogous. In the following example, we show that if $A(x)$ always
+implies $\neg B(x)$, then there cannot be an $x$ for which both $A(x)$
+and $B(x)$ holds.
 
 \begin{prooftree}
 \AXM{}
@@ -264,8 +267,8 @@ equivalence:
 \RLM{e}
 \UIM{A(x)}
 \UIM{\fa x A(x)}
-\BIM{d}
-\RLM{H_4}
+\BIM{}
+\RLM{d}
 \UIM{\ex x \neg A(x)}
 \AXM{}
 \RLM{a}
@@ -292,7 +295,7 @@ assumption is $\neg\fa x A(x)$, and from that assumption we cannot
 prove $\neg A(t)$ for a particular term $t$. So we use a proof by
 contradiction there. 
 
-As an exercise, prove the 'dual' equivalence yourself: $\neg\ex x A(x)
+As an exercise, prove the "dual" equivalence yourself: $\neg\ex x A(x)
 \liff \fa x \neg A(x)$. This can be done without using proof by
 contradiction.
 
@@ -306,7 +309,7 @@ natural number, if it is prime, then it is greater than 1".
 We can do the same for an existential quantifier. Suppose we want to
 write "there exists a prime number greater than 100" in first-order
 logic. We can alternatively write this as "there exists a natural
-number which is prime and greater than 100". This makes the
+number which is prime and greater than 100." This makes the
 translation into first order logic easy: $\ex n(\fn{prime}(n) \wedge n
 > 100)$. Notice what is happening here: if we relativize the universal
 quantifier we add an implication in the formula. However, if we
@@ -318,9 +321,10 @@ following statements:
 - $\neg\ex x (A(x) \wedge B(x)) \liff \fa x ( A(x) \to \neg B(x))$;
 - $\neg\fa x (A(x) \to B(x)) \liff \ex x ( A(x) \wedge \neg B(x))$
 
-In first-order logic we have only two quantifiers: the universal quantifier and the existential
-quantifier. However, we already saw that using these we can /define/ much more quantifiers, namely
-all relativized quantifiers. But we can define even more quantifiers.
+In first-order logic there are only two quantifiers: the universal
+quantifier and the existential quantifier. However, we already saw
+that using these we can /define/ many more quantifiers, namely all
+relativized quantifiers. But we can define even more quantifiers.
 
 - We can define "there are at least two elements $x$ such that $A(x)$ holds." We can write this as
   $\ex x \ex y (x \neq y \wedge A(x) \wedge A(y))$.

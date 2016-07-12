@@ -1,16 +1,16 @@
 os:
   - linux
 language: c++
-sudo: false
+sudo: true
+dist: trusty
 cache: apt
 addons:
   apt:
     sources:
-    - kalakris-cmake
     - ubuntu-toolchain-r-test
-    - cassou-emacs
     packages:
-    - emacs24
+    - cmake
+    - cmake-data
     - mercurial
     - python2.7
     - texlive-latex-recommended
@@ -23,16 +23,16 @@ addons:
     - latexmk
     - latex-xcolor
     - lmodern
-    - dvipng
     - pgf
     - moreutils
     - nodejs
-    - g++-4.8
-    - libstdc++-4.8-dev
+    - npm
+    - g++-5
+    - libstdc++-5-dev
     - libgmp-dev
     - libmpfr-dev
     - liblua5.2-dev
-    - cmake
+    - emacs24
 env:
   global:
    # Result of "travis encrypt -r leanprover/logic_and_proof GH_TOKEN=<GH_TOKEN>"
@@ -47,20 +47,19 @@ env:
 before_install:
   - mkdir ~/bin
   - export PATH="/home/travis/.cask/bin:~/bin:$PATH"
-  - curl -fsSkL https://raw.github.com/cask/cask/master/go | python
+  - curl -fsSL https://raw.github.com/cask/cask/master/go | python
   - cask
   - tar xvfz header/l3kernel.tar.gz -C ~/
 
 install:
   # Install Lean dependencies
-  - npm -g i minify
   - git clone https://github.com/leanprover/lean
   # Build Lean
   - if [[ $TEST == TRUE ]] ; then
       cd lean &&
       mkdir build &&
       cd build &&
-      cmake -DIGNORE_SORRY=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-4.8 ../src &&
+      cmake -DIGNORE_SORRY=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-5 ../src &&
       make &&
       cd ../../;
     fi
@@ -69,15 +68,16 @@ install:
   - tar xvfz bibtex2html-1.98-linux.tar.gz
   - cp -v bibtex2html-1.98-linux/* ~/bin
   - rm -rf bibtex2html-1.98-linux bibtex2html-1.98-linux.tar.gz
+  - sudo npm -g i cssmin minify
 
 script:
   - EMACS_BIN=emacs make
   # Build completion.js
   - echo "var completions = [" > js/completion.js
-  - lean --server < js/completion_input.in | grep "|" | grep -v "^private\." | sort | uniq | sed -e "s/\([^|]\+\)|\(.\+\)/{name:\"\1\", value:\"\1\", meta:\"\2\"},/" >> js/completion.js
+  - ./lean/bin/lean --server < js/completion_input.in | grep "|" | grep -v "^private\." | sort | uniq | sed -e "s/\([^|]\+\)|\(.\+\)/{name:\"\1\", value:\"\1\", meta:\"\2\"},/" >> js/completion.js
   - echo "]" >> js/completion.js
   # Build input-method.js
-  - emacs --no-site-file --no-site-lisp -q --batch -l ./elisp/org-html-export.el -l ./lean/src/emacs/lean-input.el -f lean-input-export-translations-to-stdout > js/input-method.js
+  - cask exec emacs --no-site-file --no-site-lisp -q --batch -l ./elisp/org-html-export.el -l ./lean/src/emacs/lean-input.el -f lean-input-export-translations-to-stdout > js/input-method.js
   # Push to gh-pages
   - if [[ "${REPO}" == "BLESSED" ]] && [[ "${TRAVIS_PULL_REQUEST}" == "false" ]] ; then
       git config --global user.email "notifications@travis-ci.org" &&
@@ -85,7 +85,7 @@ script:
       git checkout --orphan gh-pages &&
       rm -f .git/index &&
       git add -f *.html logic_and_proof.pdf &&
-      for CSS in css/*.css; do minify ${CSS} | sponge ${CSS} ; done &&
+      for CSS in css/*.css; do cssmin ${CSS} | sponge ${CSS} ; done &&
       git add css &&
       git add -f ltxpng &&
       git add images &&

@@ -1,9 +1,7 @@
-(require 'cask "~/.cask/cask.el")
-(cask-initialize "./")
+(require 'f)
 (setq working-dir (f-dirname (f-this-file)))
 (add-to-list 'load-path working-dir)
 (setq make-backup-files nil)
-(add-to-list 'load-path (f-join working-dir "elisp"))
 (require 'org)
 (require 'ox)
 (require 'lean-export-util)
@@ -208,22 +206,4 @@ contextual information."
                          (concat (make-string (+ (- max-width (length loc)) 6) ? )
                                  (format "(%s)" ref)))))
                     nil (and retain-labels (cdr code-info))))))))))))
-     ;; Soonho: Add "\\noindent"
-     (defun org-latex-horizontal-rule (horizontal-rule contents info)
-       "Transcode an HORIZONTAL-RULE object from Org to LaTeX.
-CONTENTS is nil.  INFO is a plist holding contextual information."
-       (let ((attr (org-export-read-attribute :attr_latex horizontal-rule))
-             (prev (org-export-get-previous-element horizontal-rule info)))
-         (concat
-          ;; Make sure the rule doesn't start at the end of the current
-          ;; line by separating it with a blank line from previous element.
-          (when (and prev
-                     (let ((prev-blank (org-element-property :post-blank prev)))
-                       (or (not prev-blank) (zerop prev-blank))))
-            "\n")
-          (org-latex--wrap-label
-           horizontal-rule
-           (format "\\noindent\\rule{%s}{%s}"
-                   (or (plist-get attr :width) "\\linewidth")
-                   (or (plist-get attr :thickness) "0.5pt"))
-           info))))))
+     ))

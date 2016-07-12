@@ -7,7 +7,7 @@ TEXS  := $(ORGS:.org=.tex)
 PDFS  := $(ORGS:.org=.pdf)
 CWD   := $(shell pwd)
 WATCHMAN_BIN ?= $(CWD)/watchman/bin/watchman
-TMPDIR := $(shell mktemp -d /tmp/lean-tutorial.XXXX)
+TMPDIR := /tmp
 NAV_DATA := js/nav_data.js
 
 all: $(HTMLS) logic_and_proof.pdf build_nav_data

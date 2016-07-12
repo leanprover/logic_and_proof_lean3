@@ -703,13 +703,14 @@ equalities and justification, in the following form:
       ... = e5 : justification 4
 #+END_SRC
 The chain can go on as long as needed. Each justification is the name
-of the assumption or theorem that is used; Lean will figure out
-whether the identity needs to be used in the forward or reverse
-direction, and where it needs to be substituted into an expression. As
-usual, the syntax is finicky; notice that there are no commas, and the
-colons and dots need to be entered exactly in that form. All that
-varies are the expressions =e1, e2, e3, ...= and the justifications
-themselves. 
+of the assumption or theorem that is used. If the justification is an
+identity that is used at the "top level", you can just give the name
+of the identity. To apply an identity =foo= within an expression, use
+=by rewrite foo=, or =by rewrite -foo= to apply it in the reverse
+direction.  As usual, the syntax is finicky; notice that there are no
+commas in the =calc= expression, and the colons and dots need to be
+entered exactly in that form. All that varies are the expressions =e1,
+e2, e3, ...= and the justifications themselves.
 
 For example, Lean's library has a number of basic identities for the
 integers. Here are some examples:

@@ -820,7 +820,8 @@ uncanceled hypotheses. Here is a proof of $A \wedge (B \vee C) \to
 \UIM{y : A \wedge (B \vee C)}
 \UIM{A}
 \AXM{}
-\UIM{x : C}
+\RLM{x}
+\UIM{C}
 \BIM{A \wedge C}
 \UIM{(A \wedge B) \vee (A \wedge C)}
 \RLM{x}

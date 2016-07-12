@@ -11,6 +11,7 @@ addons:
     packages:
     - cmake
     - cmake-data
+    - dvipng
     - mercurial
     - python2.7
     - texlive-latex-recommended

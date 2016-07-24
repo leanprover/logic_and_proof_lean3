@@ -348,32 +348,35 @@ rows and see which truth assignments make the formula true. If all the
 entries in the final column are $\true$, as in the above example, the
 formula is said to be /valid/.
 
-We can use Lean to check if whether we have evaluated a formula
-correctly:
-#+BEGIN_SRC lean
-/-                   Put your formula here  -/
-/-                   \/                     -/
-eval let e :=
-  λ A      B,        A ∧ (B → A)   in is_true (
-( e true   true   ↔  true          ) ∧
-( e true   false  ↔  true          ) ∧
-( e false  true   ↔  false         ) ∧
-( e false  false  ↔  false         ) )
-#+END_SRC
-You can replace the formula =A ∧ (B → A)= with any other formula
-involving the variables =A= and =B=. Then, leaving the first two
-columns alone, modify the third column by entering the value =true= or
-=false= corresponding to the assignment in the first two columns. The
-resulting expression will evaluate to true if and only if you have
-entered the correct truth values.
+# Joao Marcos points out that this kills the unifier if we even change
+# A ∧ (B → A) to (A → B) ∧ (B → A). So, we'll have to wait for Lean 3.
+#
+# We can use Lean to check if whether we have evaluated a formula
+# correctly:
+# #+BEGIN_SRC lean
+# /-                   Put your formula here  -/
+# /-                   \/                     -/
+# eval let e :=
+#   λ A      B,        A ∧ (B → A)   in is_true (
+# ( e true   true   ↔  true          ) ∧
+# ( e true   false  ↔  true          ) ∧
+# ( e false  true   ↔  false         ) ∧
+# ( e false  false  ↔  false         ) )
+# #+END_SRC
+# You can replace the formula =A ∧ (B → A)= with any other formula
+# involving the variables =A= and =B=. Then, leaving the first two
+# columns alone, modify the third column by entering the value =true= or
+# =false= corresponding to the assignment in the first two columns. The
+# resulting expression will evaluate to true if and only if you have
+# entered the correct truth values.
 
-(The precise mechanism by which this works is not important right now,
-but in case you are curious, the idea is as follows. In the
-expression, the =e= is "locally" defined to be the function which
-takes two truth values =A= and =B= as input, and evaluates =A ∧ (B →
-A)= relative to these inputs. For each line in the truth table, the
-expression checks whether the formula evaluates to the value you
-entered, and takes the conjunction of the results.)
+# (The precise mechanism by which this works is not important right now,
+# but in case you are curious, the idea is as follows. In the
+# expression, the =e= is "locally" defined to be the function which
+# takes two truth values =A= and =B= as input, and evaluates =A ∧ (B →
+# A)= relative to these inputs. For each line in the truth table, the
+# expression checks whether the formula evaluates to the value you
+# entered, and takes the conjunction of the results.)
 
 # Here is the analogous setup for three variables:
 # #+BEGIN_SRC lean

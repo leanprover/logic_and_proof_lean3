@@ -243,255 +243,255 @@ universal statement holds. It was an example like this that partially motivated 
 semantics for implication back in Chapter 3; any other choice would make relativization
 impossible.
 
-Our next example is interactive, and inspired by software called
-/Tarski's World/, due to Dave Barker-Plummer, Jon Barwise and John
-Etchemendy. Here, our domain of interest will be a grid of "dots."
-Dots have a color (red, blue, or green) and a size (small or
-large). We use the letter =R= to represent a large red dot and =r= to
-represent a small red dot, and similarly for =G, g, B, b=.
+# Our next example is interactive, and inspired by software called
+# /Tarski's World/, due to Dave Barker-Plummer, Jon Barwise and John
+# Etchemendy. Here, our domain of interest will be a grid of "dots."
+# Dots have a color (red, blue, or green) and a size (small or
+# large). We use the letter =R= to represent a large red dot and =r= to
+# represent a small red dot, and similarly for =G, g, B, b=.
 
-The logical language we use to describe our dot world has predicates =red, green, 
-blue, small= and =large= that are interpreted in the obvious ways. The relation 
-=adjacent(x, y)= is true if the dots referred to by =x= and =y= are touching, not on
-a diagonal. The relations =same_color(x, y)=, =same_size(x, y)=, =same_row(x, y)=,
-and =same_column(x, y)= are also self-explanatory. =left_of(x, y)= is true if the dot
-referred to by =x= is left of the dot referred to by =y=, regardless of what rows the 
-dots are in. =right_of=, =above=, and =below= are similar.
+# The logical language we use to describe our dot world has predicates =red, green, 
+# blue, small= and =large= that are interpreted in the obvious ways. The relation 
+# =adjacent(x, y)= is true if the dots referred to by =x= and =y= are touching, not on
+# a diagonal. The relations =same_color(x, y)=, =same_size(x, y)=, =same_row(x, y)=,
+# and =same_column(x, y)= are also self-explanatory. =left_of(x, y)= is true if the dot
+# referred to by =x= is left of the dot referred to by =y=, regardless of what rows the 
+# dots are in. =right_of=, =above=, and =below= are similar.
 
-At the bottom of the following Lean file is a grid of dots, and a number of sentences
-in our logical language. The meaning of the commands =eval is_true= is not important, but
-the information window for each of these lines will tell you whether that sentence is true or
-false in the current model.
+# At the bottom of the following Lean file is a grid of dots, and a number of sentences
+# in our logical language. The meaning of the commands =eval is_true= is not important, but
+# the information window for each of these lines will tell you whether that sentence is true or
+# false in the current model.
 
-For each sentence, see if you can find arrangements for the world that make the sentence
-true and false. For an extra challenge, try to make all of the sentences true simultaneously.
-Feel free to add more rows or columns to the grid of dots; as long as each row has
-the same number of dots in it, Lean will figure out the right way to interpret the
-predicates. (Be patient; the online version of Lean is slow, and it
-can take the system more than ten seconds to evaluate all the
-formulas. You can speed things up by commenting them out and
-evaluating them one at a time.)
+# For each sentence, see if you can find arrangements for the world that make the sentence
+# true and false. For an extra challenge, try to make all of the sentences true simultaneously.
+# Feel free to add more rows or columns to the grid of dots; as long as each row has
+# the same number of dots in it, Lean will figure out the right way to interpret the
+# predicates. (Be patient; the online version of Lean is slow, and it
+# can take the system more than ten seconds to evaluate all the
+# formulas. You can speed things up by commenting them out and
+# evaluating them one at a time.)
 
-#+BEGIN_SRC lean
-import data.list data.fin data.fintype data.tuple
-open tuple fin prod nat fintype
+# #+BEGIN_SRC lean
+# import data.list data.fin data.fintype data.tuple
+# open tuple fin prod nat fintype
 
-inductive col : Type :=
-  | red : col
-  | green : col
-  | blue : col
+# inductive col : Type :=
+#   | red : col
+#   | green : col
+#   | blue : col
 
-inductive size : Type :=
-  | small : size
-  | large : size
+# inductive size : Type :=
+#   | small : size
+#   | large : size
 
-definition block [reducible] := col × size
+# definition block [reducible] := col × size
 
-definition R := pair col.red size.large
-definition r := pair col.red size.small
-definition G := pair col.green size.large
-definition g := pair col.green size.small
-definition B := pair col.blue size.large
-definition b := pair col.blue size.small
+# definition R := pair col.red size.large
+# definition r := pair col.red size.small
+# definition G := pair col.green size.large
+# definition g := pair col.green size.small
+# definition B := pair col.blue size.large
+# definition b := pair col.blue size.small
 
-definition dec_eq_col [instance] : decidable_eq col :=
-  begin
-    intros c1 c2,
-    induction c1,
-    repeat (induction c2;
-      repeat (exact decidable.inl rfl | exact decidable.inr col.no_confusion))
-  end
+# definition dec_eq_col [instance] : decidable_eq col :=
+#   begin
+#     intros c1 c2,
+#     induction c1,
+#     repeat (induction c2;
+#       repeat (exact decidable.inl rfl | exact decidable.inr col.no_confusion))
+#   end
 
-definition dec_eq_size [instance] : decidable_eq size :=
-  begin
-    intros c1 c2,
-    induction c1,
-    repeat (induction c2;
-      repeat (exact decidable.inl rfl | exact decidable.inr size.no_confusion))
-  end
+# definition dec_eq_size [instance] : decidable_eq size :=
+#   begin
+#     intros c1 c2,
+#     induction c1,
+#     repeat (induction c2;
+#       repeat (exact decidable.inl rfl | exact decidable.inr size.no_confusion))
+#   end
 
-section
-open list
+# section
+# open list
 
-definition fin_color [instance] : fintype col :=
-  fintype.mk [col.red, col.green, col.blue] dec_trivial
-    (by intro a; induction a; repeat apply dec_trivial)
+# definition fin_color [instance] : fintype col :=
+#   fintype.mk [col.red, col.green, col.blue] dec_trivial
+#     (by intro a; induction a; repeat apply dec_trivial)
 
-definition fin_size [instance] : fintype size :=
-  fintype.mk [size.small, size.large] dec_trivial
-    (by intro a; induction a; repeat apply dec_trivial)
+# definition fin_size [instance] : fintype size :=
+#   fintype.mk [size.small, size.large] dec_trivial
+#     (by intro a; induction a; repeat apply dec_trivial)
 
-end
+# end
 
-structure world_type [class] :=
-   {rows cols : ℕ}
-   (world : tuple (tuple block cols) rows)
+# structure world_type [class] :=
+#    {rows cols : ℕ}
+#    (world : tuple (tuple block cols) rows)
 
----------------------------------
-section defs
-variable [w : world_type]
-include w
-definition world := world_type.world
-definition rows := world_type.rows
-definition cols := world_type.cols
-definition I [reducible] := (fin rows) × (fin cols)
+# ---------------------------------
+# section defs
+# variable [w : world_type]
+# include w
+# definition world := world_type.world
+# definition rows := world_type.rows
+# definition cols := world_type.cols
+# definition I [reducible] := (fin rows) × (fin cols)
 
-definition I_pred_of_nat_pred [reducible] (P : ℕ → ℕ → Prop) : I → Prop
-  | (n, m) := P n m
+# definition I_pred_of_nat_pred [reducible] (P : ℕ → ℕ → Prop) : I → Prop
+#   | (n, m) := P n m
 
-definition color_at : I → col
-  | (n, m) := pr1 (ith (ith world n) m)
+# definition color_at : I → col
+#   | (n, m) := pr1 (ith (ith world n) m)
 
-definition size_at : I → size
-  | (n, m) := pr2 (ith (ith world n) m)
+# definition size_at : I → size
+#   | (n, m) := pr2 (ith (ith world n) m)
 
-definition blue [reducible] (i : I) := color_at i = col.blue
+# definition blue [reducible] (i : I) := color_at i = col.blue
 
-definition red [reducible] (i : I) := color_at i = col.red
+# definition red [reducible] (i : I) := color_at i = col.red
 
-definition green [reducible] (i : I) := color_at i = col.green
+# definition green [reducible] (i : I) := color_at i = col.green
 
-definition large [reducible] (i : I) := size_at i = size.large
+# definition large [reducible] (i : I) := size_at i = size.large
 
-definition small [reducible] (i : I) := size_at i = size.small
+# definition small [reducible] (i : I) := size_at i = size.small
 
-definition same_color [reducible] (i j : I) := color_at i = color_at j
+# definition same_color [reducible] (i j : I) := color_at i = color_at j
 
-definition same_size [reducible] (i j : I) := size_at i = size_at j
+# definition same_size [reducible] (i j : I) := size_at i = size_at j
 
-open int
+# open int
 
-definition nadj [reducible] (v1 v2 v3 v4 : ℕ) :=
-  (v1 = v3 ∧ (of_nat v2 = of_nat v4 - 1 ∨ of_nat v2 = of_nat v4 + 1))
-    ∨ (v2 = v4 ∧ (of_nat v1 = of_nat v3 - 1 ∨ of_nat v1 = of_nat v3 + 1))
+# definition nadj [reducible] (v1 v2 v3 v4 : ℕ) :=
+#   (v1 = v3 ∧ (of_nat v2 = of_nat v4 - 1 ∨ of_nat v2 = of_nat v4 + 1))
+#     ∨ (v2 = v4 ∧ (of_nat v1 = of_nat v3 - 1 ∨ of_nat v1 = of_nat v3 + 1))
 
-definition adj [reducible] : I → I → Prop
-  | adj (i1, i2) (i3, i4) :=
-    fin.rec_on i1 (fin.rec_on i2 (fin.rec_on i3 (fin.rec_on i4
-    (λ v1 Hv1 v2 Hv2 v3 Hv3 v4 Hv4, nadj v1 v2 v3 v4))))
+# definition adj [reducible] : I → I → Prop
+#   | adj (i1, i2) (i3, i4) :=
+#     fin.rec_on i1 (fin.rec_on i2 (fin.rec_on i3 (fin.rec_on i4
+#     (λ v1 Hv1 v2 Hv2 v3 Hv3 v4 Hv4, nadj v1 v2 v3 v4))))
 
-definition dec_adj [instance] (i j : I) : decidable (adj i j) :=  begin
-    induction i with [i1, i2],
-    induction j with [i3, i4],
-    induction i1,
-    induction i2,
-    induction i3,
-    induction i4,
-    apply _
-  end
+# definition dec_adj [instance] (i j : I) : decidable (adj i j) :=  begin
+#     induction i with [i1, i2],
+#     induction j with [i3, i4],
+#     induction i1,
+#     induction i2,
+#     induction i3,
+#     induction i4,
+#     apply _
+#   end
 
-definition same_row [reducible] : I → I → Prop
-  | same_row (i1, i2) (i3, i4) := fin.rec_on i1 (fin.rec_on i3 (λ va Ha vc Hc, va = vc))
+# definition same_row [reducible] : I → I → Prop
+#   | same_row (i1, i2) (i3, i4) := fin.rec_on i1 (fin.rec_on i3 (λ va Ha vc Hc, va = vc))
 
-definition same_row_dec [instance] (i j : I) : decidable (same_row i j) :=
-  begin
-    induction i with [i1, i2],
-    induction j with [i3, i4],
-    induction i1,
-    induction i3,
-    apply _
-  end
+# definition same_row_dec [instance] (i j : I) : decidable (same_row i j) :=
+#   begin
+#     induction i with [i1, i2],
+#     induction j with [i3, i4],
+#     induction i1,
+#     induction i3,
+#     apply _
+#   end
 
-definition same_column [reducible] : I → I → Prop
-  | same_column (i1, i2) (i3, i4) := fin.rec_on i2 (fin.rec_on i4 (λ va Ha vc Hc, va = vc))
+# definition same_column [reducible] : I → I → Prop
+#   | same_column (i1, i2) (i3, i4) := fin.rec_on i2 (fin.rec_on i4 (λ va Ha vc Hc, va = vc))
 
-definition same_col_dec [instance] (i j : I) : decidable (same_column i j) :=
-  begin
-    induction i with [i1, i2],
-    induction j with [i3, i4],
-    induction i2,
-    induction i4,
-    apply _
-  end
+# definition same_col_dec [instance] (i j : I) : decidable (same_column i j) :=
+#   begin
+#     induction i with [i1, i2],
+#     induction j with [i3, i4],
+#     induction i2,
+#     induction i4,
+#     apply _
+#   end
 
-definition left_of [reducible] : I → I → Prop
-  | left_of (i1, i2) (i3, i4) := nat.lt i2 i4
+# definition left_of [reducible] : I → I → Prop
+#   | left_of (i1, i2) (i3, i4) := nat.lt i2 i4
 
-definition right_of [reducible] : I → I → Prop
-  | right_of (i1, i2) (i3, i4) := nat.lt i4 i2
+# definition right_of [reducible] : I → I → Prop
+#   | right_of (i1, i2) (i3, i4) := nat.lt i4 i2
 
-definition above [reducible] : I → I → Prop
-  | above (i1, i2) (i3, i4) := nat.lt i1 i3
+# definition above [reducible] : I → I → Prop
+#   | above (i1, i2) (i3, i4) := nat.lt i1 i3
 
-definition below [reducible] : I → I → Prop
-  | below (i1, i2) (i3, i4) := nat.lt i3 i1
+# definition below [reducible] : I → I → Prop
+#   | below (i1, i2) (i3, i4) := nat.lt i3 i1
 
-definition left_dec [instance] (i j : I) : decidable (left_of i j) :=
-  begin
-    induction i,
-    induction j,
-    apply _
-  end
+# definition left_dec [instance] (i j : I) : decidable (left_of i j) :=
+#   begin
+#     induction i,
+#     induction j,
+#     apply _
+#   end
 
-definition right_dec [instance] (i j : I) : decidable (right_of i j) :=
-  begin
-    induction i,
-    induction j,
-    apply _
-  end
+# definition right_dec [instance] (i j : I) : decidable (right_of i j) :=
+#   begin
+#     induction i,
+#     induction j,
+#     apply _
+#   end
 
-definition above_dec [instance] (i j : I) : decidable (above i j) :=
-  begin
-    induction i,
-    induction j,
-    apply _
-  end
+# definition above_dec [instance] (i j : I) : decidable (above i j) :=
+#   begin
+#     induction i,
+#     induction j,
+#     apply _
+#   end
 
-definition below_dec [instance] (i j : I) : decidable (below i j) :=
-  begin
-    induction i,
-    induction j,
-    apply _
-  end
+# definition below_dec [instance] (i j : I) : decidable (below i j) :=
+#   begin
+#     induction i,
+#     induction j,
+#     apply _
+#   end
 
 
-end defs
+# end defs
 
-open list
+# open list
 
-definition to_tuple1 (L : list block) : tuple block (length L) :=
-  subtype.tag L rfl
-prefix `'` : 50 := to_tuple1
+# definition to_tuple1 (L : list block) : tuple block (length L) :=
+#   subtype.tag L rfl
+# prefix `'` : 50 := to_tuple1
 
-definition to_tuple2 {n : ℕ} (L : list (tuple block n)) : tuple (tuple block n) (length L) :=
-  subtype.tag L rfl
-prefix `''` : 50 := to_tuple2
+# definition to_tuple2 {n : ℕ} (L : list (tuple block n)) : tuple (tuple block n) (length L) :=
+#   subtype.tag L rfl
+# prefix `''` : 50 := to_tuple2
 
--- BEGIN
----------------------------------
--- arrange this world to your liking.
--- all rows must have the same length.
+# -- BEGIN
+# ---------------------------------
+# -- arrange this world to your liking.
+# -- all rows must have the same length.
 
-definition world_setup :=
- ''['[R, r, g, b],
-    '[R, b, G, b],
-    '[B, B, B, b]]
+# definition world_setup :=
+#  ''['[R, r, g, b],
+#     '[R, b, G, b],
+#     '[B, B, B, b]]
 
--- ignore this line
-definition ws_inst [instance] := world_type.mk world_setup
+# -- ignore this line
+# definition ws_inst [instance] := world_type.mk world_setup
 
-eval is_true (∀ x, green x ∨ blue x)
+# eval is_true (∀ x, green x ∨ blue x)
 
-eval is_true (∃ x y, adj x y ∧ green x ∧ green y)
+# eval is_true (∃ x y, adj x y ∧ green x ∧ green y)
 
-eval is_true (∃ x, (∃ z, right_of z x) ∧ (∀ y, left_of x y → blue y ∨ small y))
+# eval is_true (∃ x, (∃ z, right_of z x) ∧ (∀ y, left_of x y → blue y ∨ small y))
 
-eval is_true (∀ x, large x → ∃ y, small y ∧ adj x y)
+# eval is_true (∀ x, large x → ∃ y, small y ∧ adj x y)
 
-eval is_true (∀ x, green x → ∃ y, same_row x y ∧ blue y)
+# eval is_true (∀ x, green x → ∃ y, same_row x y ∧ blue y)
 
-eval is_true (∀ x y, same_row x y ∧ same_column x y → x = y)
+# eval is_true (∀ x y, same_row x y ∧ same_column x y → x = y)
 
-eval is_true (∃ x, ∀ y, adj x y → ¬ same_size x y)
+# eval is_true (∃ x, ∀ y, adj x y → ¬ same_size x y)
 
-eval is_true (∀ x, ∃ y, adj x y ∧ same_color x y)
+# eval is_true (∀ x, ∃ y, adj x y ∧ same_color x y)
 
-eval is_true (∃ y, ∀ x, adj x y → same_color x y)
+# eval is_true (∃ y, ∀ x, adj x y → same_color x y)
 
-eval is_true (∃ x, blue x ∧ (∃ y, green y ∧ above x y))
--- END
+# eval is_true (∃ x, blue x ∧ (∃ y, green y ∧ above x y))
+# -- END
 
-#+END_SRC
+# #+END_SRC
 
 ** Validity and Logical Consequence
 

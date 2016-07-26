@@ -307,7 +307,7 @@ check ∀ p q L M, p ≠ q → on p L → on q L → on p M → on q M → L = M
 -- END
 #+END_SRC
 
-** Using the universal quantifier
+** Using the Universal Quantifier
 
 In Lean, you can enter the universal quantifier by writing =\all=. The
 motivating examples from Section [[file:07_First_Order_Logic.org::#Functions_Predicates_and_Relations][Functions, Predicates, and Relations]]

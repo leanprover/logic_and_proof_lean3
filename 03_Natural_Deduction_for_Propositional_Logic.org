@@ -1,0 +1,742 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Natural Deduction for Propositional Logic
+:PROPERTIES:
+  :CUSTOM_ID: Natural_Deduction_for_Propositional_Logic
+:END:      
+
+** Derivations in Natural Deduction
+:PROPERTIES:
+  :CUSTOM_ID: Derivations_in_Natural_Deduction
+:END:      
+
+We have seen that the language of propositional logic allows us to
+build up expressions from propositional variables $A, B, C, \ldots$
+using propositional connectives like $\to$, $\wedge$, $\vee$, and
+$\neg$. We will now consider a formal deductive system that we can use
+to /prove/ propositional formulas. There are a number of such systems
+on offer; the one will use is called /natural deduction/, designed by
+Gerhard Gentzen in the 1930's.
+
+In natural deduction, every proof is a proof from /hypotheses/. In
+other words, in any proof, there is a finite set of hypotheses $\{ B,
+C, \ldots \}$ and a conclusion $A$, and what the proof shows is that
+$A$ follows from $B, C, \ldots$.
+
+Like formulas, proofs are built by putting together smaller proofs,
+according to the rules. For instance, the way to read the
+and-introduction rule,
+\begin{center}
+\AXM{A}
+\AXM{B}
+\BIM{A \wedge B}
+\DP
+\end{center}
+is as follows: if you have a proof $P_1$ of $A$ from some hypotheses,
+and you have a proof $P_2$ of $B$ from some hypotheses, then you can
+put them together using this rule to obtain a proof of $A \wedge B$,
+which uses all the hypotheses in $P_1$ together with all the hypotheses in
+$P_2$. For example, this is a proof of $(A \wedge B) \wedge (A \wedge
+C)$ from three hypotheses, $A$, $B$, and $C$:
+\begin{center}
+\AXM{A}
+\AXM{B}
+\BIM{A \wedge B}
+\AXM{A}
+\AXM{C}
+\BIM{A \wedge C}
+\BIM{(A \wedge B) \wedge (A \wedge C)}
+\DP
+\end{center}
+
+One thing that makes natural deduction confusing is that when you put
+together proofs in this way, hypotheses can be eliminated, or, as we
+will say, /canceled/. For example, we can apply the
+implies-introduction rule to the last proof, and obtain the following
+proof of $B \to (A \wedge B) \wedge (A \wedge C)$ from only /two/
+hypotheses, $A$ and $C$:
+\begin{center}
+\AXM{A}
+\AXM{}
+\RLM{1}
+\UIM{B}
+\BIM{A \wedge B}
+\AXM{A}
+\AXM{C}
+\BIM{A \wedge C}
+\BIM{(A \wedge B) \wedge (A \wedge C)}
+\RLM{1}
+\UIM{B \to (A \wedge B) \wedge (A \wedge C)}
+\DP
+\end{center}
+Here, we have used the label 1 to indicate the place where the
+hypothesis $B$ was canceled. Any label will do, though we will tend to
+use numbers for that purpose. 
+
+We can continue to cancel the hypothesis $A$:
+\begin{center}
+\AXM{}
+\RLM{2}
+\UIM{A}
+\AXM{}
+\RLM{1}
+\UIM{B}
+\BIM{A \wedge B}
+\AXM{}
+\RLM{2}
+\UIM{A}
+\AXM{C}
+\BIM{A \wedge C}
+\BIM{(A \wedge B) \wedge (A \wedge C)}
+\RLM{1}
+\UIM{B \to (A \wedge B) \wedge (A \wedge C)}
+\RLM{2}
+\UIM{A \to (B \to (A \wedge B) \wedge (A \wedge C))}
+\DP
+\end{center}
+The result is a proof using only the hypothesis $C$. We can continue
+to cancel that hypothesis as well:
+\begin{center}
+\AXM{}
+\RLM{2}
+\UIM{A}
+\AXM{}
+\RLM{1}
+\UIM{B}
+\BIM{A \wedge B}
+\AXM{}
+\RLM{2}
+\UIM{A}
+\AXM{}
+\RLM{3}
+\UIM{C}
+\BIM{A \wedge C}
+\BIM{(A \wedge B) \wedge (A \wedge C)}
+\RLM{1}
+\UIM{B \to (A \wedge B) \wedge (A \wedge C)}
+\RLM{2}
+\UIM{A \to (B \to (A \wedge B) \wedge (A \wedge C))}
+\RLM{3}
+\UIM{C \to (A \to (B \to (A \wedge B) \wedge (A \wedge C)))}
+\DP
+\end{center}
+The resulting proof uses no hypothesis at all. In other words, it
+establishes the conclusion outright.
+
+Notice that in the second step, we canceled two "copies" of the
+hypothesis $A$. In natural deduction, we can choose which hypotheses
+to cancel; we could have canceled either one, and left the other
+hypothesis /open/. In fact, we can also carry out the
+implication-introduction rule and cancel /zero/ hypotheses. For
+example, the following is a short proof of $A \to B$ from the
+hypothesis $B$:
+\begin{center}
+\AXM{B}
+\UIM{A \to B}
+\DP
+\end{center}
+In this proof, "zero" copies of $A$ have are canceled.
+
+Also notice that although we are using letters like $A$, $B$, and $C$
+as propositional variables, in the proofs above we can replace them by
+any propositional formula. For example, we can replace $A$ by the
+formula $(D \vee E)$ everywhere, and still have correct proofs. In
+some presentations of logic, different letters are used for to stand
+for propositional variables and arbitrary propositional formulas, but
+we will continue to blur the distinction. You can think of $A$, $B$,
+and $C$ as standing for propositional variables or formulas, as you
+prefer. If you think of them as propositional variables, just keep in
+mind that in any rule or proof, you can replace every variable by a
+different formula, and still have a valid rule or proof. 
+
+Finally, notice also that in these examples, we have assumed a special
+rule as the starting point for building proofs. It is called the
+assumption rule, and it looks like this:
+\begin{center}
+\AXM{A}
+\DP
+\end{center}
+What it means is that at any point we are free to simply assume a
+formula, $A$. The single formula $A$ constitutes a one-line proof, and
+the way to read this proof is as follows: assuming $A$, we have proved
+$A$.
+
+The remaining rules of inference were given in the last chapter, and
+we summarize them here.
+
+*** Implication
+
+\begin{quote}
+\AXM{}
+\RLM{1}
+\UIM{A}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{B}
+\RLM{1 \;\; \mathord{\to}\mathrm{I}}
+\UIM{A \to B}
+\DP
+\quad\quad
+\AXM{A \to B}
+\AXM{A}
+\RLM{\mathord{\to}\mathrm{E}}
+\BIM{B}
+\DP
+\end{quote}
+
+*** Conjunction
+
+\begin{quote}
+\AXM{A}
+\AXM{B}
+\RLM{\mathord{\wedge}\mathrm{I}}
+\BIM{A \wedge B}
+\DP
+\quad\quad
+\AXM{A \wedge B}
+\RLM{\mathord{\wedge}\mathrm{E_l}}
+\UIM{A}
+\DP
+\quad\quad
+\AXM{A \wedge B}
+\RLM{\mathord{\wedge}\mathrm{E_r}}
+\UIM{B}
+\DP
+\end{quote}
+
+*** Negation
+
+\begin{quote}
+\AXM{}
+\RLM{1}
+\UIM{A}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{\bot}
+\RLM{1 \;\; \neg \mathrm{I}}
+\UIM{\neg A}
+\DP
+\quad\quad
+\AXM{\neg A}
+\AXM{A}
+\RLM{\neg \mathrm{E}}
+\BIM{\bot}
+\DP
+\end{quote}
+
+*** Disjunction
+
+\begin{quote}
+\AXM{A}
+\RLM{\mathord{\vee}\mathrm{I_l}}
+\UIM{A \vee B}
+\DP
+\quad\quad
+\AXM{B}
+\RLM{\mathord{\vee}\mathrm{I_r}}
+\UIM{A \vee B}
+\DP
+\quad\quad
+\AXM{A \vee B}
+\AXM{}
+\RLM{1}
+\UIM{A}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{C}
+\AXM{}
+\RLM{1}
+\UIM{B}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{C}
+\RLM{1 \;\; \mathord{\vee}\mathrm{E}}
+\TIM{C}
+\DP
+\end{quote}
+
+*** Truth and falsity
+
+\begin{quote}
+\AXM{\bot}
+\RLM{\bot \mathrm{E}}
+\UIM{A}
+\DP
+\quad\quad
+\AXM{}
+\RLM{\top \mathrm{I}}
+\UIM{\top}
+\DP
+\end{quote}
+
+*** Bi-implication
+
+\begin{quote}
+\AXM{}
+\RLM{1}
+\UIM{A}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{B}
+\AXM{}
+\RLM{1}
+\UIM{B}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{A}
+\RLM{1 \;\; \mathord{\liff}\mathrm{I}}
+\BIM{A \liff B}
+\DP
+\AXM{A \liff B}
+\AXM{A}
+\RLM{\mathord{\liff}\mathrm{E}_l}
+\BIM{B}
+\DP
+\quad\quad
+\AXM{A \liff B}
+\AXM{B}
+\RLM{\mathord{\liff}\mathrm{E}_r}
+\BIM{A}
+\DP
+\end{quote}
+
+*** Reductio ad absurdum (proof by contradiction)
+
+\begin{quote}
+\AXM{}
+\RLM{1}
+\UIM{\neg A}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{\bot}
+\RLM{1 \;\; \mathrm{RAA}}
+\UIM{A}
+\DP
+\end{quote}
+
+
+** Examples
+
+Let us consider some more examples of natural deduction proofs. In
+each case, you should think about what the formulas say and which rule
+of inference is invoked at each step. Also pay close attention to
+which hypotheses are canceled at each stage. If you look at any node
+of the tree, what has been established at that point is that the claim
+follows from all the hypotheses above it that haven't been canceled yet. 
+
+The following is a proof of $A \to C$ from $A \to B$ and $B \to C$:
+\begin{center}
+\AXM{1}
+\RLM{}
+\UIM{A}
+\AXM{A \to B}
+\BIM{B}
+\AXM{B \to C}
+\BIM{C}
+\RLM{1}
+\UIM{A \to C}
+\DP
+\end{center}
+Intuitively, the formula
+\[
+(A \to B) \wedge (B \to C) \to (A \to C)
+\]
+"internalizes" the conclusion of the previous proof. The $\wedge$ symbol
+is used to combine hypotheses, and the $\to$ symbol is used to express
+that the right-hand side is a consequence of the left. Here is a proof
+of that formula:
+\begin{center}
+\AXM{1}
+\RLM{}
+\UIM{A}
+\AXM{}
+\RLM{2}
+\UIM{(A \to B) \wedge (B \to C)}
+\UIM{A \to B}
+\BIM{B}
+\AXM{}
+\RLM{2}
+\UIM{(A \to B) \wedge (B \to C)}
+\UIM{B \to C}
+\BIM{C}
+\RLM{1}
+\UIM{A \to C}
+\RLM{2}
+\UIM{(A \to B) \wedge (B \to C) \to (A \to C)}
+\DP
+\end{center}
+
+The next proof shows that if a conclusion, $C$, follows from $A$ and
+$B$, then it follows from their conjunction.
+\begin{center}
+\AXM{}
+\RLM{2}
+\UIM{A \to (B \to C)}
+\AXM{}
+\RLM{1}
+\UIM{A \wedge B}
+\UIM{A}
+\BIM{B \to C}
+\AXM{}
+\RLM{1}
+\UIM{A \wedge B}
+\UIM{B}
+\BIM{C}
+\RLM{1}
+\UIM{A \wedge B \to C}
+\RLM{2}
+\UIM{(A \to (B \to C)) \to
+(A \wedge B \to C)}
+\DP
+\end{center}
+
+Using the or-elimination rule can be tricky. If you are trying to
+prove $C$ and you have $A \vee B$ at your disposal, the strategy is to
+split on cases: in one branch, show that $C$ follows from $A$, and in
+the other, show that $C$ follows from $B$. In the execution of the
+rule, $C$ therefore follows from three subproofs: the proof of $A \vee
+B$, then proof of $C$ from $A$, and the proof of $C$ from $B$. Here,
+$A$ is a temporary assumption in the second component and $B$ is a
+temporary assumption in the third. After the rule is applied, both
+assumptions are canceled.
+
+For instance, here is a proof of $A \wedge (B \vee C) \to (A \wedge B)
+\vee (A \wedge C)$:
+\begin{center}
+\AXM{}
+\RLM{2}
+\UIM{A \wedge (B \vee C)}
+\UIM{B \vee C}
+\AXM{}
+\RLM{2}
+\UIM{A \wedge (B \vee C)}
+\UIM{A}
+\AXM{}
+\RLM{1}
+\UIM{B}
+\BIM{A \wedge B}
+\UIM{(A \wedge B) \vee (A \wedge C)}
+\AXM{}
+\RLM{2}
+\UIM{A \wedge (B \vee C)}
+\UIM{A}
+\AXM{}
+\RLM{1}
+\UIM{C}
+\BIM{A \wedge C}
+\UIM{(A \wedge B) \vee (A \wedge C)}
+\RLM{1}
+\TIM{(A \wedge B) \vee (A \wedge C)}
+\RLM{2}
+\UIM{(A \wedge (B \vee C)) \to ((A \wedge B) \vee
+  (A \wedge C))}
+\DP
+\end{center}
+
+The conclusion of the next proof can be interpreted as saying that if
+it is not the case that one of $A$ or $B$ is true, then they are both
+false. It illustrates the use of the rules for negation.
+\begin{center}
+\AXM{}
+\RLM{3}
+\UIM{\neg (A \vee B)}
+\AXM{}
+\RLM{1}
+\UIM{A}
+\UIM{A \vee B}
+\BIM{\bot}
+\RLM{1}
+\UIM{\neg A}
+\AXM{}
+\RLM{3}
+\UIM{\neg (A \vee B)}
+\AXM{}
+\RLM{2}
+\UIM{B}
+\UIM{A \vee B}
+\BIM{\bot}
+\RLM{2}
+\UIM{\neg B}
+\BIM{\neg A \wedge \neg B}
+\RLM{3}
+\UIM{\neg (A \vee B) \to \neg A \wedge \neg B}
+\DP
+\end{center}
+
+Finally, the next two examples illustrate the use of the /ex falso/
+rule. The first is a derivation of an arbitrary formula $B$ from $\neg
+A$ and $A$:
+\begin{center}
+\AXM{\neg A}
+\AXM{A}
+\BIM{\bot}
+\UIM{B}
+\DP
+\end{center}
+The second shows that $B$ follows from $A$ and $\neg A \vee B$:
+\begin{center}
+\AXM{\neg A \vee B}
+\AXM{}
+\RLM{1}
+\UIM{\neg A}
+\AXM{A}
+\BIM{\bot}
+\UIM{B}
+\AXM{}
+\RLM{1}
+\UIM{B}
+\RLM{1}
+\TIM{B}
+\DP
+\end{center}
+In some proof systems, these rules are taken to be part of the
+system. But we do not need to that with our system: these two examples
+show that the rules can be /derived/ from our other rules.
+
+** Forward and Backward Reasoning
+:PROPERTIES:
+  :CUSTOM_ID: Forward_and_Backward_Reasoning
+:END:      
+
+Natural deduction is supposed to represent an idealized model of the
+patterns of reasoning and argumentation we use, for example, when
+working with logic puzzles as in the last chapter. There are obvious
+differences: we describe natural deduction proofs with symbols and
+two-dimensional diagrams, whereas our informal arguments are written
+with words and paragraphs. It is worthwhile to reflect on what /is/
+captured by the model. Natural deduction is supposed to clarify
+the /form/ and /structure/ of our logical arguments, describe
+the appropriate means of justifying a conclusion, and explain the
+sense in which the rules we use are valid.
+
+Constructing natural deduction proofs can be confusing, but it is
+helpful to think about /why/ it is confusing. We could, for example,
+decide that natural deduction is not a good model for logical
+reasoning. Or we might come to the conclusion that the features of
+natural deduction that make it confusing tell us something interesting
+about ordinary arguments.
+
+In the "official" description, natural deduction proofs are
+constructed by putting smaller proofs together to obtain bigger
+ones. To prove $A \wedge B \to B \wedge A$, we start with the
+hypothesis $A \wedge B$. Then we construct, separately, the following
+two proofs:
+\begin{center}
+\AXM{A \wedge B}
+\UIM{B}
+\DP
+\quad\quad
+\AXM{A \wedge B}
+\UIM{A}
+\DP
+\end{center}
+Then we use these two proofs to construct the following one:
+\begin{center}
+\AXM{A \wedge B}
+\UIM{B}
+\AXM{A \wedge B}
+\UIM{A}
+\BIM{B \wedge A}
+\DP
+\end{center}
+Finally, we apply the implies-introduction rule to this proof to
+cancel the hypothesis and obtain the desired conclusion:
+\begin{center}
+\AXM{}
+\RLM{1}
+\UIM{A \wedge B}
+\UIM{B}
+\AXM{}
+\RLM{1}
+\UIM{A \wedge B}
+\UIM{A}
+\BIM{B \wedge A}
+\RLM{1}
+\UIM{A \wedge B \to B \wedge A}
+\DP
+\end{center}
+The process is similar to what happens in an informal
+argument, where we start with some hypotheses, and work forward
+towards a conclusion.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Suppose Susan is tall and John is happy.
+
+Then, in particular, John is happy. 
+
+Also, Susan is tall.
+
+So John is happy and Susan is tall. 
+
+Therefore we have shown that if Susan is tall and John is happy, then
+John is happy and Susan is tall.  
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+However, when we /read/ natural deduction proofs, we often read them
+backwards. First, we look at the bottom to see what is being
+proved. Then we consider the rule that is used to prove it, and see
+what premises the rule demands. Then we look to see how those claims
+are proved, and so on. Similarly, when we /construct/ a natural
+deduction proof, we typically work backwards as well: we start with
+the claim we are trying to prove, put that at the bottom, and look for
+rules to apply.
+
+At times that process breaks down. Suppose we are left with a goal
+that is a single propositional variable, $A$. There are no
+introduction rules that can be applied, so, unless $A$ is a
+hypothesis, it has to come from an elimination rule. But that
+underspecifies the problem: perhaps the $A$ comes from applying the
+and elimination rule to $A \wedge B$, or from applying the or
+elimination rule to $C$ and $C \to A$. At that point, we look to the
+hypotheses, and start working forwards. If, for example, our
+hypotheses are $C$ and $C \to A \wedge B$, we would then work forward
+to obtain $A \wedge B$ and $A$.
+
+There is thus a general heuristic for proving theorems in natural
+deduction:
+
+1. Start by working backwards from the conclusion, using the
+   introduction rules. For example, if you are trying to prove a
+   statement of the form $A \to B$, add $A$ to your list of hypotheses
+   and try to derive $B$. If you are trying to prove a statement of
+   the form $A \wedge B$, use the and-introduction rule to reduce your
+   task to proving $A$, and then proving $B$.
+
+2. When you have run out things to do in the first step, use
+   elimination rules to work forwards. If you have hypotheses $A \to
+   B$ and $A$, apply modus ponens to derive $B$. If you have a
+   hypothesis $A \vee B$, use-or elimination to split on cases, 
+   considering $A$ in one case and $B$ in the other.
+
+In Chapter [[file:04_Classical_Reasoning.org::#Classical_Reasoning][Classical Reasoning]] we will add one more element to this
+list: if all else fails, try a proof by contradiction.
+
+The tension between forward and backward reasoning is found in
+informal arguments as well, in mathematics and elsewhere. When we
+prove a theorem, we typically reason forward, using assumptions,
+hypotheses, definitions, and background knowledge. But we also keep
+the goal in mind, and that helps us make sense of the forward steps.
+
+When we turn to interactive theorem proving, we will see that /Lean/
+has mechanisms to support both forward and backward reasoning. These
+form a bridge between informal styles of argumentation and the
+natural deduction model, and thereby provide a clearer picture of what
+is going on.
+
+Another confusing feature of natural deduction proofs is that every
+hypothesis has a /scope/, which is to say, there are only certain
+points in the proof where an assumption is available for use. Of
+course, this is also a feature of informal mathematical
+arguments. Suppose a paragraph begins "Let $x$ be any number less than
+100," argues that $x$ has at most five prime factors, and concludes
+"thus we have shown that every number less than 100 has at most five
+factors." The reference "$x$", and the assumption that it is less than
+100, is only active within the scope of the paragraph. If the next
+paragraph begins with the phrase "Now suppose $x$ is any number
+greater than 100," then, of course, the assumption that $x$ is less
+than 100 no longer applies.
+
+In natural deduction, a hypothesis is available from the point where
+it is assumed until the point where it is canceled. We will see that
+interactive theorem proving languages also have mechanisms to
+determine the scope of references and hypotheses, and that these, too,
+shed light on scoping issues in informal mathematics.
+
+** Some Logical Identities
+:PROPERTIES:
+  :CUSTOM_ID: Some_Logical_Identities
+:END:      
+
+Two propositional formulas, $A$ and $B$, are said to be /logically
+equivalent/ if $A \liff B$ is provable. Logical equivalences are
+similar to identities like $x + y = y + x$ that occur in algebra. In
+particular, one can show that if two formulas are equivalent, then one
+can substitute one for the other in any formula, and the results will
+also be equivalent. (Some proof systems take this to be a basic rule,
+and interactive theorem provers can accomodate it, but we will /not/
+take it to be a fundamental rule of natural deduction.)
+
+For reference, the following is a list of commonly used propositional
+equivalences.
+\begin{enumerate}
+\item Commutativity of $\wedge$: $A \wedge B \liff B \wedge A$
+\item Commutativity of $\vee$: $A \vee B \liff B \vee A$
+\item Associativity of $\wedge$: $(A \wedge B) \wedge C \liff
+      A \wedge (B \wedge C)$
+\item Associativity of $\vee$: $(A \vee B) \vee C \liff
+      A \vee (B \vee C)$
+\item Distributivity of $\wedge$ over $\vee$: $A \wedge (B \vee C) \liff 
+      (A \wedge B) \vee (A \wedge C)$
+\item Distributivity of $\vee$ over $\wedge$: $A \vee (B \wedge C) \liff 
+      (A \vee B) \wedge (A \vee C)$
+\item $(A \to (B \to C)) \liff (A \wedge B \to C)$.
+\item $(A \to B) \to ((B \to C) \to (A \to C))$
+\item $((A \vee B) \to C) \liff (A \to C) \wedge (B \to C)$
+\item $\neg (A \vee B) \liff \neg A \wedge \neg B$
+\item $\neg (A \wedge B) \liff \neg A \vee \neg B$
+\item $\neg (A \wedge \neg A)$
+\item $\neg (A \to B) \liff A \wedge \neg B$
+\item $\neg A \to (A \to B)$
+\item $(\neg A \vee B) \liff (A \to B)$
+\item $A \vee \bot \liff A$
+\item $A \wedge \bot \liff \bot$
+\item $A \vee \neg A$
+\item $\neg (A \liff \neg A)$
+\item $(A \to B) \liff (\neg B \to \neg A)$
+\item $(A \to C \vee D) \to ((A \to C) \vee (A \to D))$
+\item $(((A \to B) \to A) \to A)$
+\end{enumerate}
+All of these can be derived in natural deduction using the fundamental
+rules listed in Section [[#Derivations_in_Natural_Deduction][Derivations in Natural Deduction]]. But some of
+them require the use of the /reductio ad absurdum/ rule, or proof by
+contradiction, which we have not yet discussed in detail. We will
+discuss the use of this rule, and other patterns of classical logic,
+in the Chapter [[file:04_Classical_Reasoning.org::#Classical_Reasoning][Classical Reasoning]].
+
+** Exercises
+
+When constructing proofs in natural deduction, use /only/ the list of
+rules given in Section [[#Derivations_in_Natural_Deduction][Derivations in Natural Deduction]].
+
+1. Give a natural deduction proof of $\neg (A \wedge B) \to (A \to
+   \neg B)$.
+
+2. Give a natural deduction proof of $(A \to C) \wedge (B \to \neg C)
+   \to \neg (A \wedge B)$.
+
+3. Give a natural deduction proof of $(A \wedge B) \to ((A \to C) \to
+   \neg (B \to \neg C))$.
+
+4. Take another look at Exercise 3 in the last chapter. Using
+   propositional variables $A$, $B$, and $C$ for ``Alan likes
+   kangaroos,'' ``Betty likes frogs'' and ``Carl likes hamsters,''
+   respectively, express the three hypotheses in the previous problem
+   as symbolic formulas, and then derive a contradiction from them in
+   natural deduction.
+
+5. Give a natural deduction proof of $A \vee B \to B \vee A$. 
+
+6. Give a natural deduction proof of $\neg A \wedge \neg B \to \neg (A
+   \vee B)$
+
+7. Give a natural deduction proof of $\neg (A \wedge B)$ from $\neg A
+   \vee \neg B$. (You do not need to use proof by contradiction.)
+
+8. Give a natural deduction proof of $\neg (A \liff \neg A)$.
+
+9. Give a natural deduction proof of $(\neg A \liff \neg B)$ from
+   hypothesis $A \liff B$.
+
+

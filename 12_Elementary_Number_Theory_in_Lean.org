@@ -1,0 +1,406 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Elementary Number Theory in Lean
+:PROPERTIES:
+  :CUSTOM_ID: Elementary_Number_Theory_in_Lean
+:END:      
+
+** Reasoning about Parity
+
+In Lean's library, there are theorems =odd_of_not_even= and
+=even_of_not_odd=, whose uses are illustrated in the following:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+example : ∀ n, ¬ even n → odd n :=
+take n,
+assume H : ¬ even n, 
+show odd n, from odd_of_not_even H
+
+example : ∀ n, odd n → ¬ even n :=
+take n,
+assume H : odd n,
+show ¬ even n, from not_even_of_odd H
+#+END_SRC
+Once again, notice the naming scheme: the conclusion is followed by the
+hypothesis, separated by the word =of=. Notice also that when applying
+the theorems, you do not need to specify the argument =n=: it is
+implicit in the hypothesis =H=. We can illustrate these theorems more
+concisely, by labeling =n= and =H= in the statement of the example:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+-- BEGIN
+example (n : ℕ) (H : ¬ even n) : odd n :=
+odd_of_not_even H
+
+example (n : ℕ) (H : odd n) : ¬ even n :=
+not_even_of_odd H
+-- END
+#+END_SRC
+In this text, we will often present theorems in the library in this
+way. Using these two theorems, the two facts we just proved in natural
+deduction can be proved in Lean as follows:
+#+BEGIN_SRC lean
+import data.nat
+open nat classical
+
+example : ∀ n, even n ∨ odd n :=
+take n,
+or.elim (em (even n))
+  (suppose even n, 
+    show even n ∨ odd n, from or.inl this)
+  (suppose ¬ even n,
+    have odd n, from odd_of_not_even this,
+    show even n ∨ odd n, from or.inr this)
+
+example : ∀ n, ¬ (even n ∧ odd n) :=
+take n,
+assume H : even n ∧ odd n,
+have even n, from and.left H,
+have odd n, from and.right H,
+have ¬ even n, from not_even_of_odd this,
+show false, from `¬ even n` `even n`
+#+END_SRC
+Notice that we used the command =open classical= in order to use the
+law of the excluded middle, =em (even n)=, to split on cases.
+
+Here are some more facts about parity that are found in the Lean
+library:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+-- BEGIN
+example (n : ℕ) (H : even n) : 2 ∣ n :=
+dvd_of_even H
+
+example (n : ℕ) (H : 2 ∣ n) : even n :=
+even_of_dvd H
+
+example (n : ℕ) : n ∣ n := dvd.refl n
+
+example (k m n : ℕ) (H₁ : k ∣ m) (H₂ : m ∣ n) : k ∣ n :=
+dvd.trans H₁ H₂
+
+example (k m n : ℕ) (H₁ : k ∣ m) (H₂ : k ∣ n) : k ∣ m + n :=
+dvd_add H₁ H₂
+
+example (k m n : ℕ) (H₁ : k ∣ m + n) (H₂ : k ∣ m) : k ∣ n :=
+dvd_of_dvd_add_left H₁ H₂
+
+example (k m n : ℕ) (H₁ : k ∣ m + n) (H₂ : k ∣ n) : k ∣ m :=
+dvd_of_dvd_add_right H₁ H₂
+
+example : odd 1 :=
+odd_one
+-- END
+#+END_SRC
+To enter the "divides" symbol in Lean, you have to type =\|=. (The
+symbol is different from the plain =|= character.) Here are some
+examples of theorems that can be proved using these facts:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+example : ∀ m n, even m → m ∣ n → even n :=
+take m, take n,
+suppose even m,
+suppose m ∣ n,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ n, from dvd.trans this `m ∣ n`,
+show even n, from even_of_dvd this
+
+example : ∀ m n, even m → even n → even (m + n) :=
+take m, take n,
+suppose even m,
+suppose even n,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ n, from dvd_of_even `even n`,
+have 2 ∣ m + n, from dvd_add `2 ∣ m` `2 ∣ n`,
+show even (m + n), from even_of_dvd this
+
+example : ∀ m n, even (m + n) → even m → even n :=
+take m, take n,
+suppose even (m + n),
+suppose even m,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ (m + n), from dvd_of_even `even (m + n)`,
+have 2 ∣ n, from dvd_of_dvd_add_left `2 ∣ m + n` `2 ∣ m`,
+show even n, from even_of_dvd this
+
+example : ∀ m n, even (m + n) → even n → even m :=
+sorry
+
+example : even 2 :=
+have 2 ∣ 2, from dvd.refl 2,
+show even 2, from even_of_dvd this
+#+END_SRC
+The second-to-last one is left to you as an exercise. Remember, when
+you are trying to prove such theorems on your own, it is a good idea
+to prove them incrementally, using =sorry=. For example, for the first
+theorem, you might start as follows:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+ 
+-- BEGIN
+example : ∀ m n, even m → m ∣ n → even n :=
+take m, take n,
+suppose even m,
+suppose m ∣ n,
+show even n, from sorry
+-- END
+#+END_SRC
+After checking to make sure that Lean accepts this, you can then add
+intermediate =have= statements, and so on.
+
+If you wanted to use these theorems later on, you could name them:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+theorem even_add_of_even_of_even : ∀ {m n}, even m → even n → even (m + n) :=
+take m, take n,
+suppose even m,
+suppose even n,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ n, from dvd_of_even `even n`,
+have 2 ∣ m + n, from dvd_add `2 ∣ m` `2 ∣ n`,
+show even (m + n), from even_of_dvd this
+
+theorem even_of_even_add_left : ∀ {m n}, even (m + n) → even m → even n :=
+take m, take n,
+suppose even (m + n),
+suppose even m,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ (m + n), from dvd_of_even `even (m + n)`,
+have 2 ∣ n, from dvd_of_dvd_add_left `2 ∣ m + n` `2 ∣ m`,
+show even n, from even_of_dvd this
+#+END_SRC
+The curly braces around =m= and =n= in the first two theorems makes
+=m= and =n= /implicit arguments/, which means that you can write, for
+example, =even_add H₁ H₂= for hypotheses =H₁ : even m= and =H₂ : even
+n=, rather than =even_add m n H₁ H₂=. In fact, the first of these is 
+already in Lean's library:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+check even_add_of_even_of_even
+#+END_SRC
+Using these, we can go on to prove the following:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+theorem even_of_even_add_left : ∀ {m n}, even (m + n) → even m → even n :=
+take m, take n,
+suppose even (m + n),
+suppose even m,
+have 2 ∣ m, from dvd_of_even `even m`,
+have 2 ∣ (m + n), from dvd_of_even `even (m + n)`,
+have 2 ∣ n, from dvd_of_dvd_add_left `2 ∣ m + n` `2 ∣ m`,
+show even n, from even_of_dvd this
+
+-- BEGIN
+example : ∀ n, even n → odd (n + 1) :=
+take n,
+suppose even n,
+have ¬ even (n + 1), from
+  suppose even (n + 1),
+  have even 1, from even_of_even_add_left this `even n`,
+  have ¬ even 1, from not_even_of_odd odd_one,
+  show false, from `¬ even 1` `even 1`,
+show odd (n + 1), from odd_of_not_even this
+
+example : ∀ m n, even (m + n) → even n → even m :=
+sorry
+
+example : ∀ n, even (n + 1) → odd n :=
+sorry
+-- END
+#+END_SRC
+The last two are left for you to do as exercises.
+
+Unfortunately, the facts we have presented to you so far do not let
+you prove that if =n= is odd, then =n+1= is even. Fortunately, that
+fact is also in the library (=succ= abbreviates "successor"), and you
+can use it to prove the second example below.
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+-- BEGIN
+example (n : ℕ) (H : odd n) : even (n + 1) := 
+even_succ_of_odd H
+
+example (n : ℕ) (H : odd (n + 1)) : even n :=
+sorry
+-- END
+#+END_SRC
+
+
+** Divisibility
+
+The proof can also be carried out in Lean. For clarity we break the
+proof into steps. Here is reflexivity:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+example : ∀n : ℕ, n ∣ n :=
+take n,
+have n = n * 1, from eq.symm (mul_one n),
+show n ∣ n, from exists.intro 1 `n = n * 1`
+#+END_SRC
+In Lean, you have to input $\mid$ as =\|=. The character is not the
+same as a regular vertical bar =|=.  Note also that, in Lean, $m \mid
+n$ in Lean is defined as $\ex k (n = m * k)$ instead of $\ex k (m * k
+= n)$, and we have to be sure that we prove the condition in exactly
+the right form.
+
+Here is antisymmetry:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+-- BEGIN
+example : ∀ n m : ℕ, m ∣ n → n ∣ m → n = m :=
+take m n,
+assume `n ∣ m` `m ∣ n`,
+obtain k `m = n * k`, from `n ∣ m`,
+obtain l `n = m * l`, from `m ∣ n`,
+or.elim (eq_zero_or_pos n)
+  (assume `n = 0`,
+   show m = n, from calc
+       m = n * k : `m = n * k`
+     ... = 0 * k : {`n = 0`}
+     ... = 0     : zero_mul
+     ... = n     : `n = 0`)
+  (assume `n > 0`,
+    have n * 1 = n * (k * l), from calc
+      n * 1 = n         : mul_one
+        ... = m * l       : `n = m * l`
+        ... = (n * k) * l : {`m = n * k`}
+        ... = n * (k * l) : mul.assoc,
+    have 1 = k * l, 
+      from eq_of_mul_eq_mul_left `n > 0` `n * 1 = n * (k * l)`,
+    have k = 1, 
+      from eq_one_of_mul_eq_one_right (eq.symm `1 = k * l`),
+    show m = n, from calc
+        m = n * k : `m = n * k`
+      ... = n * 1 : {`k = 1`}
+      ... = n     : mul_one)
+-- END
+#+END_SRC
+The proof is considerably longer, but it follows the informal argument
+quite closely. In some calculation steps we have written ={ `...` }=
+where =...= is the equality we are rewriting (and which we have
+previously assumed or proven). The curly brackets indicate that we
+rewrite a subterm, and not the whole expression. For example, if we
+carry out the step =m = n=, we can give the justification =`m = n`=,
+but if we rewrite =m + k = n + k= we have to give the justification
+={`m = n`}=. You can alternatively use labels instead of backticks,
+as usual.
+
+Finally, here is transitivity:
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+-- BEGIN
+example : ∀ n m r : ℕ, m ∣ n → n ∣ r → m ∣ r :=  
+take n m r,
+assume `m ∣ n` `n ∣ r`,
+obtain k `n = m * k`, from `m ∣ n`,
+obtain l `r = n * l`, from `n ∣ r`,
+have r = m * (k * l), from calc
+    r = n * l       : `r = n * l`
+  ... = (m * k) * l : {`n = m * k`}
+  ... = m * (k * l) : mul.assoc,
+exists.intro (k * l) `r = m * (k * l)`
+-- END
+#+END_SRC
+
+As an exercise, try to prove the following properties of divisibility in Lean.
+
+#+BEGIN_SRC lean
+import data.nat
+open nat
+
+example : ∀ n m : ℕ, m ∣ m * n := 
+sorry
+
+example : ∀ n m k : ℕ, m ∣ n → m ∣ n * k := 
+sorry
+
+example : ∀ n m k : ℕ, m ∣ n → k * m ∣ k * n :=
+sorry
+
+#+END_SRC
+# -- PROOFS --
+# example : ∀n m, m ∣ m * n :=
+# take n m,
+# exists.intro n rfl
+# 
+# example : ∀n m k, m ∣ n → m ∣ n * k :=
+# take n m k,
+# assume `m ∣ n`,
+# obtain l `n = m * l`, from `m ∣ n`,
+# have n * k = m * (l * k), from calc
+#   n * k = (m * l) * k : {`n = m * l`}
+#     ... = m * (l * k) : mul.assoc,
+# exists.intro (l * k) `n * k = m * (l * k)`
+# 
+# example : ∀n m k, m ∣ n → k * m ∣ k * n :=
+# take n m k,
+# assume `m ∣ n`,
+# obtain l `n = m * l`, from `m ∣ n`,
+# have k * n = (k * m) * l, from calc
+#   k * n = k * (m * l) : {`n = m * l`}
+#     ... = (k * m) * l : mul.assoc,
+# exists.intro l `k * n = (k * m) * l`
+
+
+** Exercises
+
+#+BEGIN_SRC lean
+import data.int
+open int algebra
+
+variables a b c : ℤ
+
+-- remember, enter ∣ with "\|"
+
+-- consider this example:
+
+theorem t1 (H : a ∣ b) : a ∣ b * c :=
+obtain d (H1 : b = a * d), from H,
+have H2 : b * c = a * (d * c), from calc
+  b * c = (a * d) * c : H1
+    ... = a * (d * c) : mul.assoc,
+show a ∣ b * c, from exists.intro (d * c) H2
+
+-- this shows you the full statement of the theorem
+check t1
+
+-- exercise 1 is similar. You will need to use this fact:
+example : a * (b + c) = a * b + a * c := left_distrib a b c
+
+-- exercise 1: fill in the "sorry" in the proof below
+
+example (H1 : a ∣ b) (H2 : a ∣ c) : a ∣ b + c :=
+sorry
+
+-- exercise 2: fill in the "sorry's" in the proof below
+
+theorem t2 : a ∣ 0 :=
+have H1 : a ∣ a, from dvd.refl a,
+have H2 : a ∣ a * 0, from sorry, -- use theorem t1, with the right arguments
+have H3 : a * 0 = 0, from mul_zero a,
+show a ∣ 0, from sorry  -- substitute H3 in H2
+#+END_SRC

@@ -1,0 +1,565 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Functions
+:PROPERTIES:
+  :CUSTOM_ID: Functions
+:END:      
+
+In the late nineteenth century, developments in a number of branches
+of mathematics pushed towards a uniform treatment of sets, functions,
+and relations. We have already considered sets and relations. In this
+chapter, we consider functions and their properties.
+
+A function, $f$, is ordinary understood as a mapping from a domain
+$X$ to another domain $Y$. In set-theoretic foundations, $X$ and $Y$
+are arbitrary sets. We have seen that in a type-based system like
+Lean, it is natural to distinguish between types and subsets of a
+type. In other words, we can consider a type =X= of elements, and a
+set =A= of elements of that type. Thus, in the type-theoretic
+formulation, it is natural to consider functions between types =X= and
+=Y=, and consider their behavior with respect to subsets of =X= and
+=Y=.
+
+In everyday mathematics, however, set-theoretic language is common,
+and most mathematicians think of a function as a map between
+sets. When discussing functions from a mathematical standpoint,
+therefore, we will also adopt this language, and later switch to the
+type-theoretic representation when we talk about formalization in
+Lean.
+
+** The Function Concept
+
+If $X$ and $Y$ are any sets, we write $f : X \to Y$ to express the
+fact that $f$ is a function from $X$ to $Y$. This means that $f$
+assigns a value $f(x)$ in $X$ to every element $x$ of $X$. The set $X$
+is called the /domain/ of $f$, and the set $Y$ is called the
+/codomain/. (Some authors use the word "range" for the codomain, but
+today it is more common to use the word "range" for what we call the
+/image/ of $A$ below. We will avoid the ambiguity by avoiding the word
+range altogether.)
+
+The simplest way to define a function is to give its value at every
+$x$ with an explicit expression. For example, we can write any of the
+following:
+- Let $f : \NN \to \NN$ be the function defined by $f(n) = n + 1$.
+- Let $g : \RR \to \RR$ be the function defined by $g(x) = x^2$.
+- Let $h : \NN \to \NN$ be the function defined by $h(n) = n^2$.
+- Let $k : \NN \to \{0, 1\}$ be the function defined by
+\[
+k(n) =
+  \left\{\begin{array}{ll}
+    0 & \mbox{if $n$ is even} \\
+    1 & \mbox{if $n$ is odd}
+  \end{array}\right.
+\]
+The ability to define functions using an explicit expression raises
+the foundational question as to what counts as legitimate
+"expression." For the moment, let us set that question aside, and
+simply note that modern mathematics is comfortable with all kinds of
+exotic definitions. For example, we can define a function $f : \RR \to
+\{0, 1\}$ by
+\[
+f(x) =
+  \left\{\begin{array}{ll}
+    0 & \mbox{if $x$ is rational} \\
+    1 & \mbox{if $x$ is irrational}
+  \end{array}\right.
+\]
+This is at odds with a view of functions as objects that are
+computable in some sense. It is not at all clear what it means to be
+presented with a real number as input, let alone whether it is
+possible to determine, algorithmically, whether such a number is
+rational or not. We will return to discuss such issues in a later
+chapter.
+
+Notice that the choice of the variables $x$ and $n$ in the definitions
+above are arbitrary. They are bound variables in that the functions
+being defined do not depend on $x$ or $n$. The values remain the same
+under renaming, just as the truth values of "for every $x$, $P(x)$"
+and "for every $y$, $P(y)$" are the same. Given an expression $e(x)$
+that depends on the variable $x$, logicians often use the notation
+$\lam x e(x)$ to denote the function that maps $x$ to $e(x)$. This is
+called "lambda notation," for the obvious reason, and it is often
+quite handy. Instead of saying "let $f$ be the function defined by
+$f(x) = x+1$," we can say "let $f = \lam x (x + 1)$." This is /not/
+common mathematical notation, and it is best to avoid it
+unless you are talking to logicians or computer scientists. We will
+see, however, that lambda notation is built in to Lean.
+
+For any set $X$, we can define a function $i_X(x)$ by the equation
+$i_X(x) = x$. This function is called the /identity function/. More
+interestingly, let $f : X \to Y$ and $g : Y \to Z$. We can define a
+new function $k : X \to Z$ by $k(x) = g(f(x))$. The function $k$ is
+called /the composition of $f$ and $g$/ or /$f$ composed with $g$/ and
+it is written $g \circ f$. The order is somewhat confusing; you just
+have to keep in mind that to evaluate the expression $g(f(x))$ you
+first evaluate $f$ on input $x$, and then evaluate $g$.
+
+We think of two functions $f, g : X \to Y$ as being equal, or the same
+function, when for they have the same values on every input; in other
+words, for every $x$ in $X$, $f(x) = g(x)$. For example, if
+$f, g : \RR \to \RR$ are defined by $f(x) = x + 1$ and $g(x) = 1 + x$,
+then $f = g$. Notice that the statement that two functions are equal
+is a universal statement (that is, for the form "for every $x$, ...").
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* For every $f : X \to Y$, $f \circ i_X = f$ and $i_Y
+\circ f = f$.
+
+*Proof.* Let $x$ be any element of $X$. Then $(f \circ i_X)(x) =
+f(i_X(x)) = f(x)$, and $(i_Y \circ f)(x) = i_Y(f(x)) = x$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+
+Suppose $f : X \to B$ and $g : Y \to A$ satisfy $g \circ f =
+i_A$. Remember that this means that $g(f(x)) = x$ for every $x$ in
+$A$. In that case, $g$ is said to be a /left inverse/ to $f$, and $f$
+is said to be a /right inverse/ to $g$. Here are some examples:
+- Define $f, g : \RR \to \RR$ by $f(x) = x + 1$ and $g(x) = x -
+  1$. Then $g$ is both a left and a right inverse to $f$, and vice-versa.
+- Write $\RR^{\geq 0}$ to denote the nonnegative reals. Define
+  $f : \RR \to \RR^{\geq 0}$ by $f(x) = x^2$, and define $g :
+  \RR^{\geq 0} \to \RR$ by $g(x) = \sqrt x$. Then $f(g(x)) = (\sqrt
+  x)^2 = x$ for every $x$ in the domain of $g$, so $f$ is a left
+  inverse to $g$, and $g$ is a right inverse to $f$. On the other
+  hand, $g(f(x)) = \sqrt{x^2} = | x |$, which is not the same as $x$
+  when $x$ is negative. So $g$ is not a left inverse to $f$, and $f$
+  is not a right inverse to $g$.
+
+The following fact is not at all obvious, even though the proof is short:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* Suppose $f : X \to Y$ has a left inverse,
+$h$, and a right inverse $k$. Then $h = k$.
+
+*Proof.* Let $y$ be any element in $B$. The idea is to compute
+$h(f(k(y))$ in two different ways. Since $h$ is a left inverse to $f$,
+we ahve $h(f(k(y))) = k(y)$. On the other hand, since $k$ is a right
+inverse to $f$, $f(k(y)) = y$, and so $h(f(k(y)) = h(y)$. So $k(y) =
+h(y)$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+If $g$ is both a right and left inverse to $f$, we say that $g$ is
+simply the inverse of $f$. X function $f$ may have more than one left
+or right inverse (we leave it to you to cook up examples), but it can
+have at most one inverse.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* Suppose $g_1, g_2 : Y \to X$ are both inverses to
+$f$. Then $g_1 = g_2$.
+
+*Proof.* The follows from the previous proposition, since (say) $g_1$
+is a left inverse to $f$, and $g_2$ is a right inverse.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+When $f$ has an inverse, $g$, this justifies calling $g$ /the/ inverse
+to $f$, and writing $f^{-1}$ to denote $g$. Notice that if $f^{-1}$ is
+an inverse to $f$, then $f$ is an inverse to $f^{-1}$. So if $f$ has
+an inverse, then so does $f^{-1}$, and $(f^{-1})^{-1} = f$. For any
+set $A$, clearly we have $i_X^{-1} = i_X$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* Suppose $f : X \to Y$ and $g : Y \to Z$. If $h : Y \to X$ is a
+left inverse to $f$ and $k : Z \to Y$ is a left inverse to $g$, then
+$h \circ k$ is a left inverse to $g \circ f$.
+
+*Proof.* For every $x$ in $X$,
+\[
+(h \circ k) \circ (g \circ f) (x) = h(k(g(f(x)) = h(f(x)) = x.
+\]
+
+*Corollary.* The previous proposition holds with "left" replaced by
+"right".
+
+*Proof.* Switch the role of $f$ with $h$ and $g$ with $k$ in the
+previous proposition.
+
+*Corollary.* If $f : X \to Y$ and $g : Y \to Z$ both have inverses,
+then $(f \circ g)^{-1} = g^{-1} \circ f^{-1}$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+# some pictures here would be helpful.
+
+** Injective, Surjective, and Bijective Functions
+
+A function $f : X \to Y$ is said to be /injective/, or an /injection/,
+or /one-one/, if given any $x_1$ and $x_2$ in $A$, if $f(x_1) = f(x_2)$, then
+$x_1 = x_2$. Notice that the conclusion is equivalent to its
+contrapositive: if $x_1 \neq x_2$, then $f(x_1) \neq f(x_2)$. So $f$ is
+injective if it maps distinct element of $X$ to distinct elements of
+$Y$.
+
+A function $f : X \to Y$ is said to be /surjective/, or a
+/surjection/, or /onto/, if for every element $y$ of $Y$, there is an
+$x$ in $X$ such that $f(x) = y$. In other words, $f$ is surjective if
+every element in the codomain is the value of $f$ at some element in
+the domain.
+
+A function $f : X \to Y$ is said to be /bijective/, or a /bijection/,
+or a /one-to-one correspondence/, if it is both injective and
+surjective. Intuitively, if there is a bijection between $X$ and $Y$,
+then $X$ and $Y$ have the same size, since $f$ makes each element of
+$X$ correspond to exactly one element of $Y$ and vice-versa. For
+example, it makes sense to interpret the statement that there were four
+Beatles as the statement that there is a bijection between the set
+$\{1, 2, 3, 4\}$ and the set $\{ \text{John, Paul, George, Ringo} \}$.
+If we claimed that there were /five/ Beatles, as evidenced by the
+function $f$ which assigns 1 to John, 2 to Paul, 3 to George, 4 to
+Ringo, and 5 to John, you should object that we double-counted John
+--- that is, $f$ is not injective. If we claimed there were only three
+Beatles, as evidenced by the function $f$ which assigns 1 to John, 2
+to Paul, and 3 to George, you should object that we left out poor
+Ringo --- that is, $f$ is not surjective.
+
+The next two propositions show that these notions can be cast in
+terms of the existence of inverses.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* Let $f : X \to Y$.
+- If $f$ has a left inverse, then $f$ is injective.
+- If $f$ has a right inverse, then $f$ is surjective.
+- If $f$ has an inverse, then it is $f$ bijective.
+
+*Proof.* For the first claim, suppose $f$ has a left inverse $g$, and
+suppose $f(x_1) = f(x_2)$. Then $g(f(x_1)) = g(f(x_2))$, and so $x_1 =
+x_2$.
+
+For the second claim, suppose $f$ has a right inverse $h$. Let $y$ be
+any element of $Y$, and let $x = g(y)$. Then $f(x) = f(g(y)) = y$.
+
+The third claim follows from the first two.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+The following proposition is more interesting, because it requires us
+to define new functions, given hypotheses on $f$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* Let $f : X \to Y$.
+- If $X$ is nonempty and $f$ is injective, then $f$ has a left
+  inverse.
+- If $f$ is surjective, then $f$ has a right inverse.
+- If $f$ if bijective, then it has an inverse.
+
+*Proof.* For the first claim, let $\hat x$ be any element of $X$, and
+suppose $f$ is injective. Define $g : Y \to X$ by setting $g(y)$ equal
+to any $x$ such that $f(x) = y$, if there is one, and $\hat x$
+otherwise. Now, suppose $g(f(x)) = x'$. By the definition of $g$, $x'$
+has to have the property that $f(x) = f(x')$. Since $f$ is injective,
+$x = x'$, so $g(f(x)) = x$.
+
+For the second claim, because $f$ is surjective, we know that for
+every $y$ in $Y$ there is any $x$ such that $f(x) = y$. Define $h : B
+\to A$ by again setting $h(y)$ equal to any such $x$. (In contrast to
+the previous paragraph, here we know that such an $x$ exists, but it
+might not be unique.) Then, by the definition of $h$, we have $f(h(y))
+= y$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+
+Notice that the definition of $g$ in the first part in the first part
+of the proof requires the function to "decide" whether there is an $x$
+in $X$ such that $f(x) = y$. There is nothing mathematically dubious
+about this definition, but if many situations, this cannot be done
+/algorithmically/; in other words, $g$ might not be computable from
+the data. More interestingly, the definition of $h$ in the second part
+of the proof requires the function to "choose" a suitable value of $x$
+from among potentially many candidates. We will see later that this is
+a version of the /axiom of choice/. In the early twentieth century,
+the use of the axiom of choice in mathematics was hotly debated, but
+today it is commonplace.
+
+Using these equivalances and the results in the previous section, we
+can prove the following:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* Let $f : X \to B$ and $g : Y \to Z$.
+- if $f$ and $g$ are injective, then so is $g \circ f$.
+- if $f$ and $g$ are surjective, then so is $g \circ f$.
+
+*Proof.* If $f$ and $g$ are injective, then they have left inverses
+$h$ and $k$, respectively, in which case $h \circ k$ is a left inverse
+to $g \circ f$. The second statement is proved similarly.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Once can prove these two statements, however, without mentioning
+inverses at all. We leave that to you as an exercise.
+
+Notice that the expression $f(n) = 2 n$ can be used to define
+infinitely many functions with domain $\NN$, such as:
+- a function $f : \NN \to \NN$
+- a function $f : \NN \to \RR$
+- a function $f: \NN \to \{ n \; | \; n \text{ is even} \}$
+Only the third one is surjective. Thus a specification of the
+function's codomain as well as the domain is essential to making sense
+of whether a function is surjective.
+
+** Functions and Subsets of the Domain
+
+Suppose $f$ is a function from $X$ to $Y$. We may wish to reason about
+the behavior of $f$ on some subset $A$ of $X$. For example, we can say
+that $f$ /is injective on/ $A$ if for every $x_1$ and $x_2$ in $A$, if
+$f(x_1) = f(x_2)$, then $x_1 = x_2$.
+
+If $f$ is a function from $X$ to $Y$ and $A$ is a subset of $X$, we
+write $f[A]$ to denote the /image of/ $f$ /on/ $A$, defined by
+\[
+f[A] = \{ y \in Y \; | \; y = f(x) \; \mbox{for some $x$ in $A$} \}.
+\]
+In words, $f[A]$ is the set of elements of $Y$ that are "hit" by
+elements of $A$ under the mapping $f$. Notice that there is an
+implicit existential quantifier here, so that reasoning about images
+invariables involves the corresponding rules. 
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* Suppose $f : X \to Y$, and $A$ is a subset of
+$X$. Then for any $x$ in $A$, $f(x)$ is in $f[A]$.
+
+*Proof.* By definition, $f(x)$ is in $f[A]$ if and only if there
+is some $x'$ in $A$ such that $f(x') = f(x)$. But that holds for $x' = x$.
+
+*Proposition.* Suppose $f : X \to Y$ and $g : Y \to Z$. Let $A$ be
+a subset of $X$. Then
+\[
+(g \circ f)[A] = g[f[A]].
+\]
+
+*Proof.* Suppose $z$ is in $(g \circ f)[A]$. Then for some $x \in
+A$, $z = (g \circ f)(x) = g(f(x))$. By the previous proposition,
+$f(x)$ is in $f[A]$. Again by the previous proposition, $g(f(x))$ is
+in $g[f[A]]$.
+
+Conversely, suppose $z$ is in $g[f[A]]$. Then there is a $y$ in $f[A]$
+such that $f(y) = z$, and since $y$ is in $f[D]$, there is an $x$ in
+$A$ such that $f(x) = y$. But then $(g \circ f)(x) = g(f(x)) = g(y) =
+z$, so $z$ is in $(g \circ f)[A]$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Notice that if $f$ is a function from $X$ to $Y$, then $f$ is
+surjective if and only if $f[X] = Y$. So the previous proposition is a
+generalization of the fact that the composition of surjective
+functions is surjective. 
+
+Suppose $f$ is a function from $X$ to $Y$, and $A$ is a subset of
+$X$. We can /view/ $f$ as a function from $A$ to $Y$, by simply
+ignoring the behavior of $f$ on elements outside of $A$. Properly
+speaking, this is another function, denoted $f \upharpoonright$ and
+called "the restriction of $f$ to $A$." In other words, given $f : X
+\to Y$ and $A \subseteq X$, $f \upharpoonright A : A \to Y$ is the
+function defined by $(f \upharpoonright A)(x) = x$ for every $x$ in
+$A$. Notice that now "$f$ is injective on $A$" means simply that the
+restriction of $f$ to $A$ is injective.
+
+There is another important operation on functions, known as the
+/preimage/. If $f : X \to Y$ and $B \subseteq Y$, then the
+/preimage of $B$ under $f$/, denoted $f^{-1}[B]$, is defined by
+\[
+f^{-1}[B] = \{ x \in X \; | \; f(x) \in B \},
+\]
+that is, the set of elements of $X$ that get mapped into $B$. Notice
+that this makes sense even if $f$ does not have an inverse; for a
+given $y$ in $B$, there may be no $x$'s with the propery $f(x) \in B$,
+or there may be many. If $f$ has an inverse, $f^{-1}$, then for every
+$y$ in $B$ there is exactly one $x \in X$ with the property $f(x) \in
+B$, in which case, $f^{-1}[B]$ means the same thing whether you
+interpret it as the image of $B$ under $f^{-1}$ or the preimage of $B$
+under $f$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* Suppose $f : X \to Y$ and $g : Y \to Z$. Let $C$ be
+a subset of $Z$. Then
+\[
+(g \circ f)^{-1}[C] = g^{-1}[f^{-1}[A]].
+\]
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+# somehow credit MathOverflow for the next list:
+# http://math.stackexchange.com/questions/359693/overview-of-basic-results-about-images-and-preimages
+
+Here we give a long list of facts properties of images and
+preimages. Here, $f$ denotes an arbitrary function from $X$ to $Y$,
+$A, A_1, A_2, \ldots$ denote arbitrary subsets of $X$, and $B, B_1,
+B_2, \ldots$ denote arbitrary subsets of $Y$.
+
+- $A \subseteq f^{-1}[f[A]]$, and if $f$ is injective, $A =
+  f^{-1}[f[A]]$.
+- $f[f^{-1}[B]] \subseteq B$, and if $f$ is surjective, $B =
+  f[f^{-1}[B]]$.
+- If $A_1 \subseteq A_2$, then $f[A_1] \subseteq f[A_2]$.
+- If $B_1 \subseteq B_2$, then $f^{-1}[B_1] \subseteq f^{-1}[B_2]$.
+- $f[A_1 \cup A_2] = f[A_1] \cup f[A_2]$.
+- $f^{-1}[B_1 \cup B_2] = f^{-1}[B_1] \cup f^{-1}[B_2]$.
+- $f[A_1 \cap A_2] \subseteq f[A_1] \cap f[A_2]$, and if $f$ is
+  injective, $f[A_1 \cap A_2] = f[A_1] \cap f[A_2]$.
+- $f^{-1}[B_1 \cap B_2] = f^{-1}[B_1] \cap f^{-1}[B_2]$.
+- $f[A] \setminus f[B] \subseteq f[A \setminus B]$.
+- $f^{-1}[A] \setminus f^{-1}[B] \subseteq f[A \setminus B]$.
+- $f[A] \cap B = f[A \cap f^{-1}[B]]$.
+- $f[A] \cup B \supseteq f[A \cup f^{-1}[B]]$.
+- $A \cap f^{-1}[B] \subseteq f^{-1}[f[A] \cap B]$.
+- $A \cup f^{-1}[B] \subseteq f^{-1}[f[A] \cup B]$.
+
+# add facts for arbitrary unions and intersections.
+
+** Functions and Relations
+:PROPERTIES:
+  :CUSTOM_ID: Functions_and_Relations
+:END:      
+
+A binary relation $R(x,y)$ on $A$ and $B$ is /functional/ if for every
+$x$ in $A$ there exists a unique $y$ in $B$ such that $R(x,y)$. If $R$
+is a functional relation, we can define a function $f_R : X \to B$ by
+setting $f_R(x)$ to be equal to the unique $y$ in $B$ such that
+$R(x,y)$. Conversely, it is not hard to see that if $f : X \to B$ is
+any function, the relation $R_f(x, y)$ defined by $f(x) = y$ is a
+functional relation. The relation $R_f(x,y)$ is known as the /graph/
+of $f$.
+
+It is not hard to check that functions and relations travel in pairs:
+if $f$ is the function associated with a functional relation $R$, then
+$R$ is the functional relation associated the function $f$, and
+vice-versa. In set-theoretic foundations, a function is
+often defined /to be/ a functional relation. Conversely, we have seen
+that in type-theoretic foundations like the one adopted by Lean,
+relations are often defined to be certain types of functions. We will
+discuss these matters later on, and in the meanwhile only remark that
+in everyday mathematical practice, the foundational details are not so
+important; what is important is simply that every function has a
+graph, and that any functional relation can be used to define a
+corresponding function.
+
+So far, we have been focusing on functions that take a single
+argument. We can also consider functions $f(x, y)$ or $g(x, y, z)$
+that take multiple arguments. For example, the addition function $f(x,
+y) = x + y$ on the integers takes two integers and returns an
+integer. Remember, we can consider binary functions, ternary
+functions, and so on, and the number of arguments to a function is
+called its "arity."  One easy way to make sense of functions with
+multiple arguments is to think of them as unary functions on sets of
+tuples. For example, if $A$ and $B$ are sets, $A \times B$ consists of
+the set of ordered pairs $(a, b)$ where $a$ in an element of $A$ and
+$b$ is an element of $B$. We can think of a function $f$ which takes
+two arguments, one in $A$ and one in $B$, and returns an argument in
+$C$ as a unary function from $A \times B$ to $C$, whereby $f(a,
+b)$ abbreviates $f((a, b))$. We have seen that in dependent type
+theory (and in Lean) it is more convenient to think of such a function
+$f$ as a function which takes an element of $A$ and returns a function
+from $B \to C$, so that $f(a, b)$ abbreviates $(f(a))(b)$. Such a
+function $f$ maps $A$ to $B \to C$, where $B \to C$ is the set of
+functions from $B$ to $C$.
+
+We will return to these different ways of modeling functions of higher
+arity later on, when we consider set-theoretic and type-theoretic
+foundations. One again, we remark that in ordinary mathematics, the
+foundational details to not matter much. The two choices above are
+inter-translatable, and sanction the same principles for reasoning
+about functions informally.
+
+In mathematics, we often also consider the notion of a /partial
+function/ from $X$ to $Y$, which is really a function from some subset
+of $X$ to $Y$. The fact that $f$ is a partial function from $X$ to $Y$
+is sometimes written $f : X \nrightarrow Y$, which should be
+interpreted as saying that $f : A \to Y$ for some subset $A$ of
+$Y$. Intuitively, we think of $f$ as a function from $X \to Y$ which
+is simply "undefined" at some of its inputs; for example, we can think
+of $f : \mathbb{R} \nrightarrow \mathbb{R}$ defined by $f(x) = 1 / x$,
+which is undefined at $x = 0$, so that in reality $f : \mathbb{R}
+\setminus \{ 0 \} \to R$. The set $A$ is sometimes called the
+/domain of $f$/, in which case, there is no good name for $X$;
+others continue to call $X$ the domain, and refer to $A$ as the
+/domain of definition/. To indicate that a function $f$ is
+defined at $x$, that is, that $x$ is in the domain of definition of
+$f$, we sometimes write $f(x) \downarrow$. If $f$ and $g$ are two
+partial functions from $X$ to $Y$, we write $f(x) \simeq g(x)$ to mean
+that either $f$ and $g$ are both defined at $x$ and have the same
+value, or are both undefined at $x$. Notions of injectivity,
+surjectivity, and composition are extended to partial functions,
+generally as you would expect them to be.
+
+In terms of relations, a partial function $f$ corresponds to a
+relation $R_f(x,y)$ such that for every $x$ there is at most one $y$
+such that $R_f(x,y)$ holds. Mathematicians also sometimes consider
+/multifunctions/ from $X$ to $Y$, which correspond to relations
+$R_f(x,y)$ such that for every $x$ in $X$, there is /at least/
+one $y$ such that $R_f(x,y)$ holds. There may be many such $y$; you
+can think of these as functions which have more than one input
+value. If you think about it for a moment, you will see that a
+/partial multifunction/ is essentially nothing more than an arbitrary
+relation.
+
+# exercises
+
+# composition of relations
+
+# inverse relation
+
+** Exercises
+
+1. Let $f$ be any function from $X$ to $Y$, and let $g$ be any
+   function from $Y$ to $Z$.
+
+   - Show that if $g \circ f$ is injective, then $f$ is injective.
+   - Give an example of functions $f$ and $g$ as above, such that that
+     $g \circ f$ is injective, but $g$ is not injective.
+   - Show that if $g \circ f$ is injective and $f$ is surjective, then
+     $g$ is injective.
+
+2. Let $f$ and $g$ be as in the last problem. Suppose $g \circ f$ is
+   surjective.
+
+   - Is $f$ necessarily surjective? Either prove that it is, or give a
+     counterexample.
+   - Is $g$ necessarily surjective? Either prove that it is, or give a
+     counterexample.
+
+3. A function $f$ from $\RR$ to $\RR$ is said to be \emph{strictly
+   increasing} if whenever $x_1 < x_2$, $f(x_1) < f(x_2)$.
+
+   - Show that if $f : \RR \to \RR$ is strictly increasing, then it is
+     injective (and hence it has a left inverse).
+   - Show that if $f : \RR \to \RR$ is strictly increasing, and $g$ is
+     a right inverse to $f$, then $g$ is strictly increasing.
+
+4. Let $f : X \to Y$ be any function, and let $A$ and $B$ be subsets
+   of $X$. Show that $f [A \cup B] = f[A] \cup f[B]$.
+
+5. Let $f: X \to Y$ be any function, and let $A$ and $B$ be any
+   subsets of $X$. Show $f[A] \setminus f[B] \subseteq f[A \setminus
+   B]$.
+

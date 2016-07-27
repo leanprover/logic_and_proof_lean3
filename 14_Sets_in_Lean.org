@@ -1,0 +1,314 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Sets in Lean
+:PROPERTIES:
+  :CUSTOM_ID: Sets_in_Lean
+:END:      
+
+[Explain how set theory is modeled in Lean. Emphasize that we only
+talk about sets of elements of a fixed type, so we can talk about
+sets of natural numbers, sets of integers, and so on.]
+
+** Basics
+
+You can carry out such reasoning in Lean, using methods you have
+already seen. For any type =X=, Lean gives us a type, =set X=, of sets
+of elements of =X=, with the element-of relation =x ∈ A=. We need only
+import the library file =data.set= and open the "namespace" set to
+have the notions and notations made available to us.
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+#+END_SRC
+We have made the type variable =X= implicit, because it can usually be
+inferred from context. The following pattern can be used to show that
+=A= is a subset of =B=:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+example : A ⊆ B :=
+take x,
+assume H : x ∈ A,
+show x ∈ B, from sorry
+-- END
+#+END_SRC
+And the following pattern be used to show that =A= and =B= are equal:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+example : A = B :=
+eq_of_subset_of_subset
+  (take x,
+    assume H : x ∈ A,
+    show x ∈ B, from sorry)
+  (take x,
+    assume H : x ∈ B,
+    show x ∈ A, from sorry)
+-- END
+#+END_SRC
+Moreover, Lean supports the following nifty feature: all of the
+equivalences above are considered to hold "definitionally," which is
+to say, in most situations you can treat and the left- and
+right-hand-sides as being the same. In other words, you can act as
+though the expression =x ∈ A ∩ B= is no different from =x ∈ A ∧ x ∈
+B=, and similarly for the other constructors.
+
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+example : ∀ x, x ∈ A → x ∈ B → x ∈ A ∩ B :=
+take x, 
+suppose x ∈ A,
+suppose x ∈ B,
+show x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`
+
+example : ∀ x : X, x ∉ ∅ :=
+take x, 
+suppose x ∈ ∅, 
+show false, from this
+-- END
+#+END_SRC
+In the second example, we annotated =x= with its type, =X=, because
+otherwise there is not enough information for Lean to infer which
+"empty set" we have in mind. You can type the symbols =⊆=, =∅=, =∪=,
+=∩=, =\= as =\subeq= =\empty=, =\un=, =\i=, and =\\=,
+respectively. The universal set is denoted =univ=, and set
+complementation is denoted with a negation symbol.
+
+The identifications above make it easy to prove some containment
+relations:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+example : A \ B ⊆ A :=
+take x,
+suppose x ∈ A \ B,
+show x ∈ A, from and.left this
+
+example : A \ B ⊆ -B :=
+take x,
+suppose x ∈ A \ B,
+have x ∉ B, from and.right this,
+show x ∈ -B, from this
+-- END
+#+END_SRC
+Here is the proof of the first identity that we proved informally
+above:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+example : A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C) :=
+eq_of_subset_of_subset
+  (take x,
+    assume H : x ∈ A ∩ (B ∪ C),
+    have x ∈ A, from and.left H,
+    have x ∈ B ∪ C, from and.right H,
+    or.elim (`x ∈ B ∪ C`)
+      (suppose x ∈ B,
+        have x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`,
+        show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inl this)
+      (suppose x ∈ C,
+        have x ∈ A ∩ C, from and.intro `x ∈ A` `x ∈ C`,
+        show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inr this))
+  (take x,
+    suppose x ∈ (A ∩ B) ∪ (A ∩ C),
+    or.elim this
+      (assume H : x ∈ A ∩ B,
+        have x ∈ A, from and.left H,
+        have x ∈ B, from and.right H,
+        have x ∈ B ∪ C, from or.inl this,
+        show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this)
+      (assume H : x ∈ A ∩ C,
+        have x ∈ A, from and.left H,
+        have x ∈ C, from and.right H,
+        have x ∈ B ∪ C, from or.inr this,
+        show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this))
+-- END
+#+END_SRC
+Notice that it is considerably longer than the informal proof above,
+because we have spelled out every last detail, though it may not be
+more readable. Keep in mind that you can always write long proofs
+incrementally, using =sorry=. You can also break up long proofs into
+smaller pieces:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable {X : Type}
+variables A B C : set X
+
+-- BEGIN
+proposition inter_union_subset : A ∩ (B ∪ C) ⊆ (A ∩ B) ∪ (A ∩ C) :=
+take x,
+assume H : x ∈ A ∩ (B ∪ C),
+have x ∈ A, from and.left H,
+have x ∈ B ∪ C, from and.right H,
+or.elim (`x ∈ B ∪ C`)
+  (suppose x ∈ B,
+    have x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`,
+    show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inl this)
+  (suppose x ∈ C,
+    have x ∈ A ∩ C, from and.intro `x ∈ A` `x ∈ C`,
+    show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inr this)
+
+proposition inter_union_inter_subset : (A ∩ B) ∪ (A ∩ C) ⊆ A ∩ (B ∪ C) :=
+take x,
+suppose x ∈ (A ∩ B) ∪ (A ∩ C),
+or.elim this
+  (assume H : x ∈ A ∩ B,
+    have x ∈ A, from and.left H,
+    have x ∈ B, from and.right H,
+    have x ∈ B ∪ C, from or.inl this,
+    show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this)
+  (assume H : x ∈ A ∩ C,
+    have x ∈ A, from and.left H,
+    have x ∈ C, from and.right H,
+    have x ∈ B ∪ C, from or.inr this,
+    show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this)
+
+example : A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C) :=
+eq_of_subset_of_subset
+  (inter_union_subset A B C)
+  (inter_union_inter_subset A B C)
+-- END
+#+END_SRC
+Notice that the two propositions depend on the variables =A=, =B=, and
+=C=, which have to be supplied as arguments when they are
+applied. They also depend on the underlying type, =X=, but because the
+variable =X= was marked implicit, Lean figures it out from the
+context.
+
+
+In the last chapter we showed $(A \cap \overline B) \cup B = B$.  Here
+is the corresponding proof in Lean:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable  X : Type
+variables A B C : set X
+
+example : (A ∩ -B) ∪ B = A ∪ B :=
+calc
+  (A ∩ -B) ∪ B = (A ∪ B) ∩ (-B ∪ B) : union_distrib_right
+           ... = (A ∪ B) ∩ univ     : compl_union_self
+           ... = A ∪ B              : inter_univ
+#+END_SRC
+
+Translated to propositions, the theorem above states that for every
+pair of elements $A$ and $B$ in a Boolean algebra, $(A \wedge \neg B)
+\vee B = B$. Lean allows us to do calculations on propositions as
+though they are elements of a Boolean algebra, with equality replaced
+by =↔=.
+
+#+BEGIN_SRC lean
+import logic
+open classical
+
+variables A B : Prop
+
+example : (A ∧ ¬ B) ∨ B ↔ A ∨ B :=
+calc
+  (A ∧ ¬ B) ∨ B ↔ (A ∨ B) ∧ (¬ B ∨ B) : or.right_distrib
+            ... ↔ (A ∨ B) ∧ true      : by rewrite not_or_self_iff
+            ... ↔ (A ∨ B)             : and_true
+#+END_SRC
+
+
+** Exercises
+
+#+BEGIN_SRC lean
+import data.set
+open set
+
+section
+  variable  U : Type
+  variable  A : U → Prop
+  variable  B : U → U → Prop
+
+  -- problem 1
+
+  example (H : ∀ x y, A x → B x y) : ∀ x, (A x → ∀ y, B x y) :=
+  sorry
+end
+
+section
+  variable U : Type
+  variables A B C : set U
+
+  -- problem 2
+
+  example : ∀ x, x ∈ A ∩ C → x ∈ A ∪ B :=
+  sorry
+
+  -- problem 3
+
+  example : ∀ x, x ∈ -(A ∪ B) → x ∈ -A :=
+  sorry
+end
+#+END_SRC
+
+#+BEGIN_SRC lean
+import logic data.set
+open eq.ops   -- this allows you to use notation for the equality rules if you want
+open set
+
+variable {X : Type}
+
+/- defining "disjoint" -/
+
+definition disjoint (A B : set X) : Prop := ∀ ⦃x⦄, x ∈ A → x ∈ B → false
+
+example (A B : set X) (H : ∀ x, ¬ (x ∈ A ∧ x ∈ B)) : disjoint A B :=
+take x,
+assume H1 : x ∈ A,
+assume H2 : x ∈ B,
+have H3 : x ∈ A ∧ x ∈ B, from and.intro H1 H2,
+show false, from H x H3
+
+-- the curly brackets around x in the definition of disjoint mean that you do not have
+-- to give it as an argument
+
+example (A B : set X) (H1 : disjoint A B) (x : X) (H2 : x ∈ A) (H3 : x ∈ B) : false :=
+H1 H2 H3
+
+-- the same is true of \subseteq
+
+example (A B : set X) (x : X) (H : A ⊆ B) (H1 : x ∈ A) : x ∈ B :=
+H H1
+
+/- problem 1 -/
+
+-- replace the "sorry" by a proof
+example (A B C D : set X) (H1 : disjoint A B) (H2 : C ⊆ A) (H3 : D ⊆ B) : disjoint C D :=
+sorry
+#+END_SRC

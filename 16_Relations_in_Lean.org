@@ -1,0 +1,74 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Relations in Lean
+:PROPERTIES:
+  :CUSTOM_ID: Relations_in_Lean
+:END:      
+
+** Order Relations
+
+We can read about partial orders in Lean by fixing a type, =A=, and a
+binary relation, =R=, and working under the hypotheses that =A= is
+reflexive, transitive, and antisymmetric:
+#+BEGIN_SRC lean
+section
+  parameters {A : Type} {R : A → A → Prop}
+  hypothesis (reflR : reflexive R)
+  hypothesis (transR : transitive R)
+  hypothesis (antisymmR : ∀ {a b : A}, R a b → R b a → a = b)
+
+  local infix ≤ := R
+end
+#+END_SRC
+The =parameter= and =hypothesis= commands are similar to the
+=variable= and =premise= commands, except that parameters are fixed
+within a section. In other words, if you prove a theorem about =R= in
+the section above, you cannot apply that theorem to another relation,
+=S=, without closing the section. Since the parameter =R= is fixed,
+Lean allows us to define notation for =R=, to be used locally in the
+section. 
+
+In the example below, having fixed a partial order, =R=, we define the
+corresponding strict partial order and prove that it is, indeed, a
+strict order.
+#+BEGIN_SRC lean
+open eq.ops
+
+section
+  parameters {A : Type} {R : A → A → Prop}
+  hypothesis (reflR : reflexive R)
+  hypothesis (transR : transitive R)
+  hypothesis (antisymmR : ∀ {a b : A}, R a b → R b a → a = b)
+
+  local infix ≤ := R
+
+  definition R' (a b : A) : Prop := a ≤ b ∧ a ≠ b
+
+  local infix < := R'
+
+  theorem irrefl (a : A) : ¬ a < a :=
+  suppose a < a,
+  have a ≠ a, from and.right this,
+  have a = a, from rfl,
+  show false, from `a ≠ a` `a = a`
+
+  theorem trans {a b c : A} (H₁ : a < b) (H₂ : b < c) : a < c :=
+  have a ≤ b, from and.left H₁,
+  have a ≠ b, from and.right H₁,
+  have b ≤ c, from and.left H₂,
+  have b ≠ c, from and.right H₂,
+  have a ≤ c, from transR `a ≤ b` `b ≤ c`,
+  have a ≠ c, from 
+    suppose a = c,
+      have c ≤ b, from `a = c` ▸ `a ≤ b`,
+      have b = c, from antisymmR `b ≤ c` `c ≤ b`,
+      show false, from `b ≠ c` `b = c`, 
+  show a < c, from and.intro `a ≤ c` `a ≠ c`
+end
+#+END_SRC
+
+Notice that we have used the command =open eq.ops= to avail ourselves
+of the extra notation for equality proofs, so that the expression 
+=`a = c` ▸ `a ≤ b`= denotes a proof of =c ≤ b=.
+

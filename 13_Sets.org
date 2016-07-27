@@ -1,0 +1,313 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Sets
+:PROPERTIES:
+  :CUSTOM_ID: Sets
+:END:      
+
+** Elementary Set Theory
+
+In a publication in the journal /Mathematische Annalen/ in 1895, the
+German mathematician Georg Cantor presented the following
+characterization of the notion of a "set" (or /Menge/, in his
+terminology):
+#+BEGIN_QUOTE
+By a /set/ we mean any collection M of determinate, distinct objects
+(called the /elements/ of M) of our intuition or thought into a whole.
+#+END_QUOTE
+Since then, the notion of a set has been used to unify a wide range of
+abstractions and constructions. Axiomatic set theory, which we will
+discuss in a later chapter, provides a foundation for mathematics in
+which everything can be viewed as a set.
+
+On a broad construal, /any/ collection can be a set; for example, we
+can consider the set whose elements are Ringo Star, the number 7, and
+the set whose only member is the Empire State Building. With such a
+broad notion of set we have to be careful: Russell's paradox has us
+consider the set $S$ of all sets that are not elements of themselves,
+which leads to a contradiction when we ask whether $S$ is an element
+of itself. (Try it!) The axioms of set theory tell us what sets exist,
+and have been carefully designed to avoid paradoxical sets like that
+of the Russell paradox.
+
+In practice, mathematicians are not so freewheeling in their use of
+sets. Typically, one fixes a domain such as the natural numbers, and
+consider subsets of that domain. In other words, we consider sets of
+numbers, sets of points, sets of lines, and so on, rather than
+arbitrary "sets." In this text, we will adopt this convention: when we
+talk about sets, we are always implicitly talking about sets of
+elements of some domain.
+
+Cantor's characterization suggests that whenever we have some
+property, $P$, of a domain, we can form the set of elements that have
+that property. This is denoted using "set-builder notation" as $\{ x
+\; | \; P(x) \}$. For example, we can consider all the following sets
+of natural numbers:
+- \( \{n \st \mbox{$n$ is even} \} \)
+- \( \{n \st \mbox{$n$ is prime} \} \)
+- \( \{n \st \mbox{$n$ is prime and greater than 2} \} \)
+- \( \{n \st \mbox{$n$ can be written as a sum of squares} \} \)
+- \( \{n \st \mbox{$n$ is equal to 1, 2, or 3}\} \)
+This last set is written more simply $\{1, 2, 3\}$.
+
+Given a set $A$ of objects in some domain and an object $x$, we write
+$x \in A$ to say that $x$ is an element of $A$. Using set-builder
+notation, we can define a number of common sets and operations. The
+/empty set/, $\emptyset$, is the set with no elements:
+\begin{equation*}
+\emptyset = \{ x \st \mbox{false} \}
+\end{equation*}
+Dually, we can define the /universal set/, $\mathcal U$, to be the set
+consisting of every element of the domain:
+\begin{equation*}
+\mathcal U = \{ x \st \mbox{true} \}
+\end{equation*}
+Given to sets $A$ and $B$, we define their /union/ to be the set of
+elements in either one:
+\begin{equation*}
+A \cup B = \{ x \st \mbox{$x \in A$ or $x \in B$} \}
+\end{equation*}
+And we define their /intersection/ to be the set of elements of both:
+\begin{equation*}
+A \cap B = \{ x \st \mbox{$x \in A$ and $x \in B$} \}
+\end{equation*}
+We define the /complement/ of a set of $A$ to be the set of elements
+that are not in $A$:
+\begin{equation*}
+\overline A = \{ x \st \mbox{$x \notin A$} \}
+\end{equation*}
+We define the /set difference/ of two sets $A$ and $B$ to be the set
+of elements in $A$ but not $B$:
+\begin{equation*}
+A \setminus B = \{ x \st \mbox{$x \in A$ and $x \notin B$} \}
+\end{equation*}
+
+Two sets are said to be equal if they have exactly the same
+elements. If $A$ and $B$ are sets, $A$ is said to be a /subset/ of
+$B$, written $A \subseteq B$, if every element of $A$ is an element of
+$B$. Notice that $A$ is equal to $B$ if and only if $A$ is a subset of
+$B$ and $B$ is a subset of $A$.
+
+Notice also that just everything we have said about sets so far is
+readily representable in symbolic logic. We can render the defining
+properties of the basic sets and constructors as follows:
+\begin{align*}
+& \fa x (x \notin \emptyset) \\
+& \fa x (x \in \mathcal U) \\
+& \fa x (x \in A \cup B \liff x \in A \vee x \in B) \\
+& \fa x (x \in A \cap B \liff x \in A \wedge x \in B) \\
+& \fa x (x \in \overline A \liff x \notin A) \\
+& \fa x (x \in A \setminus B \liff x \in A \wedge x \notin B)
+\end{align*}
+The assertion that $A$ is a subset of $B$ can be written $\fa x (x \in
+A \to x \in B)$, and the assertion that $A$ is equal to be can be
+written $\fa x (x \in A \liff x \in B)$. These are all
+\emph{universal} statements, that is, statements with universal
+quantifiers in front, followed by basic assertions and propositional
+connectives. What this means is that reasoning about sets formally
+often amounts to using nothing more than the rules for the universal
+quantifier together with the rules for propositional logic. You should
+by now be able to discern this formal structure underlying /informal/
+proofs as well. Here are two examples.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+
+Let $A, B, C, \ldots$ denote sets of elements of some domain, $X$.
+
+*Theorem*. $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$.
+
+*Proof*. Suppose $x$ is in $A \cap (B \cup C)$. Then $x$ is in $A$,
+and either $x$ is in $B$ or $x$ is in $C$. In the first case, $x$ is
+in $A$ and $B$, and hence in $A \cap B$. In the second case, $x$ is in
+$A$ and $C$, and hence $A \cap C$. Either way, we have that $x$ is in
+$(A \cap B) \cup (A \cap C)$.
+
+Conversely, suppose $x$ is in $(A \cap B) \cup (A \cap C)$. There are
+now two cases. 
+
+First, suppose $x$ is in $A \cap B$. Then $x$ is in both $A$ and
+$B$. Since $x$ is in $B$, it is also in $B \cup C$, and so $x$ is in
+$A \cap (B \cup C)$.
+
+The second case is similar: suppose $x$ is in $A \cap C$. Then $x$ is
+in both $A$ and $C$, and so also in $B \cup C$. Hence, in this case
+also, $x$ is in $A \cap (B \cup C)$, as required.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem*. $(A \setminus B) \setminus C = A \setminus (B \cup C)$.
+
+*Proof*. Suppose $x$ is in $(A \setminus B) \setminus C$. Then $x$ is
+in $A \setminus B$ but not $C$, and hence it is in $A$ but not $B$ or
+$C$. This means that $x$ is in $A$ but not $B \cup C$, and so in $A
+\setminus (B \cup C)$.
+
+Conversely, suppose $x$ is in $A \setminus (B \cup C)$. Then $x$ is in
+$A$, but not in $B \cup C$. In particular, $x$ is in neither $B$ nor
+$C$, because otherwise it would be in $B \cup C$. So $x$ is in $A
+\setminus B$, and hence $(A \setminus B) \setminus C$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+[Include indexed unions and intersections, or the union / intersection
+of a set of sets.]
+
+
+** Calculations with Sets
+
+In the last chapter, we considered operations involving sets. Assuming
+$A$, $B$, and $C$ are subsets of some domain $X$, the following
+identities hold:
+- $A \cup \overline A = {\mathcal U}$
+- $A \cap \overline A = \emptyset$
+- $\overline {\overline A} = A$
+- $A \cup A = A$
+- $A \cap A = A$
+- $A \cup \emptyset = A$
+- $A \cap \emptyset = \emptyset$
+- $A \cup {\mathcal U} = {\mathcal U}$
+- $A \cap {\mathcal U} = A$
+- $A \cap {\mathcal U} = A$
+- $A \cup B = B \cup A$
+- $A \cap B = B \cap A$
+- $(A \cup B) \cup C = A \cup (B \cup C)$
+- $(A \cap B) \cap C = A \cap (B \cap C)$
+- $\overline{A \cap B} = \overline A \cup \overline B$
+- $\overline{A \cup B} = \overline A \cap \overline B$
+- $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+- $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+- $A \cap (A \cup B) = A$
+- $A \cup (A \cap B) = A$
+
+Now many identities involving sets can be proved "by calculation." 
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem*. Let $A$ and $B$ be subsets of some domain $X$. Then $(A
+\cap \overline B) \cup B = B$.
+
+*Proof*. 
+\begin{align*}
+(A \cap \overline B) \cup B & = (A \cup B) \cap (\overline B \cup B)
+\\
+& = (A \cup B) \cap {\mathcal U} \\
+& = (A \cup B).
+\end{align*}
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Here is the corresponding proof in Lean:
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable  X : Type
+variables A B C : set X
+
+example : (A ∩ -B) ∪ B = A ∪ B :=
+calc
+  (A ∩ -B) ∪ B = (A ∪ B) ∩ (-B ∪ B) : union_distrib_right
+           ... = (A ∪ B) ∩ univ     : compl_union_self
+           ... = A ∪ B              : inter_univ
+#+END_SRC
+
+Classically, you may have noticed that propositions, under logical
+equivalence, satisfy identities similar to sets. That is no
+coincidence; both are instances of /boolean algebras/. Here are the
+identities above translated to the language of a boolean algebra:
+- $A \vee \neg A = \top$
+- $A \wedge \neg A = \bot$
+- $\neg \neg A = A$
+- $A \vee A = A$
+- $A \wedge A = A$
+- $A \vee \bot = A$
+- $A \wedge \bot = \bot$
+- $A \vee \top = \top$
+- $A \wedge \top = A$
+- $A \wedge \top = A$
+- $A \vee B = B \vee A$
+- $A \wedge B = B \wedge A$
+- $(A \vee B) \vee C = A \vee (B \vee C)$
+- $(A \wedge B) \wedge C = A \wedge (B \wedge C)$
+- $\neg{A \wedge B} = \neg A \vee \neg B$
+- $\neg{A \vee B} = \neg A \wedge \neg B$
+- $A \wedge (B \vee C) = (A \wedge B) \vee (A \wedge C)$
+- $A \vee (B \wedge C) = (A \vee B) \wedge (A \vee C)$
+- $A \wedge (A \vee B) = A$
+- $A \vee (A \wedge B) = A$
+
+Translated to propositions, the theorem above is as follows:
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem*. Let $A$ and $B$ be elements of a boolean algebra. Then $(A
+\wedge \neg B) \vee B = B$.
+
+*Proof*. 
+\begin{align*}
+(A \wedge \neg B) \vee B & = (A \vee B) \wedge (\neg B \vee B)
+\\
+& = (A \vee B) \wedge \top \\
+& = (A \vee B).
+\end{align*}
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+
+Lean allows us to do calculations on propositions as though they are
+elements of a boolean algebra, with equality replaced by =↔=.
+
+#+BEGIN_SRC lean
+import logic
+open classical
+
+variables A B : Prop
+
+example : (A ∧ ¬ B) ∨ B ↔ A ∨ B :=
+calc
+  (A ∧ ¬ B) ∨ B ↔ (A ∨ B) ∧ (¬ B ∨ B) : or.right_distrib
+            ... ↔ (A ∨ B) ∧ true      : by rewrite not_or_self_iff
+            ... ↔ (A ∨ B)             : and_true
+#+END_SRC
+
+
+** Exercises
+
+1. Prove the following theorem: Let $A$, $B$, and $C$ be sets of
+   elements of some domain. Then $A \cup (B \cap C) = (A \cup B) \cap
+   (A \cup C)$. (Henceforth, if I don't specify natural deduction or
+   Lean, ``prove'' and ``show'' mean give an ordinary mathematical
+   proof, using ordinary mathematical language rather than symbolic
+   logic.)
+
+2. Prove the following theorem: Let $A$ and $B$ be sets of elements of
+   some domain. Then $\overline{A \setminus B} = \overline{A} \cup B$.
+
+3. Two sets $A$ and $B$ are said to be \emph{disjoint} if they have no
+   element in common. Show that if $A$ and $B$ are disjoint, $C
+   \subseteq A$, and $D \subseteq B$, then $C$ and $D$ are disjoint.
+
+4. Let $A$ and $B$ be sets. Show $(A \setminus B) \cup (B \setminus A)
+   = (A \cup B) \setminus (A \cap B)$.
+
+5. Let $A$, $B$, and $C$ be subsets of some domain $\mathcal U$. Give
+   a calculational proof of the identity $A \setminus (B \cup C) = (A
+   \setminus B) \setminus C$, using the identities above. Also use the
+   fact that, in general, $C \setminus D = C \cap \overline D$.
+
+6. Similarly, give a calculational proof of $(A \setminus B) \cup (A
+   \cap B) = A$.
+
+7. Give calculational proofs of the following:
+
+   - $A \setminus B = A \setminus (A \cap B)$
+   - $A \setminus B = (A \cup B) \setminus B$
+   - $(A \cap B) \setminus C = (A \setminus C) \cap B$

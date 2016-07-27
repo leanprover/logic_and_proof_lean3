@@ -1,0 +1,380 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Relations
+:PROPERTIES:
+  :CUSTOM_ID: Relations
+:END:      
+
+
+** Order Relations
+
+In order to illustrate reasoning with the equality axioms, we will
+study a class of important binary relations in mathematics, namely,
+/partial orders/.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* A binary relation $\leq$ on a domain $A$ is a /partial
+ order/ if it has the following three properties:
+- /reflexivity/: $a \leq a$, for every $a$ in $A$
+- /transitivity/: if $a \leq b$ and $b \leq c$, then $a \leq c$, for
+  every $a$, $b$, and $c$ in $A$
+- /antisymmetry/: if $a \leq b$ and $b \leq a$ then $a = b$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+The use of the symbol $\leq$ is meant to be suggestive, and, indeed,
+the following are all examples of partial orders:
+- $\leq$ on the natural numbers
+- $\leq$ on the integers
+- $\leq$ on the rational numbers
+- $\leq$ on the real numbers
+But keep in mind that $\leq$ is only a symbol; it can have unexpected
+interpretations as well. For example, all of the following are also
+partial orders:
+- $\geq$ on the natural numbers
+- $\geq$ on the integers
+- $\geq$ on the rational numbers
+- $\geq$ on the real numbers
+These are not fully representative of the class of partial orders, in
+that they all have an additional property:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* A partial order $\leq$ on a domain $A$ is a /total
+order/ (also called a /linear order/) if it also has the following
+property:
+- for every $a$ and $b$ in $A$, either $a \leq b$ or $b \leq a$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+You can check these these are two examples of partial orders that are
+not total orders:
+- the divides relation, $x \mid y$, on the integers
+- the subset relation, $x \subseteq y$, on sets of elements of some
+  domain $A$
+
+On the integers, we also have the strict order relation, $<$, which is
+not a partial order, since it is not reflexive. It is, rather, an
+instance of a /strict partial order/:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* A binary relation $<$ on a domain $A$ is a /strict
+partial order/ if it satisfies the following:
+- /irreflexivity/: $a \nless a$ for every $a$ in $A$.
+- /transitivity/: $a < b$ and $b < c$ implies $a < c$, for every $a$,
+  $b$, and $c$ in $A$.
+A strict partial order is a /strict total order/ (or /strict linear
+order/) if, in addition, we have the following property:
+- /trichotomy/: $a < b$, $a = b$, or $a > b$ for
+  every $a$ and $b$ in $A$. 
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Here, $b \nless a$ means, of course, that it is not the case that $a <
+b$, and $a > b$ is alternative notation for $b < a$. To distinguish an
+ordinary partial order from a strict one, an ordinary partial order is
+sometimes called a /weak/ partial order.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition*. A strict partial order $<$ on $A$ is
+/asymmetric/: for every $a$ and $b$, $a < b$ implies $b \nless a$.
+
+*Proof*. Suppose $a < b$ and $b < a$. Then, by transitivity, $a < a$,
+contradicting irreflexivity.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+On the integers, there is are precise relationships between $<$ and
+$\leq$: $x \leq y$ if and only if $x < y$ or $x = y$, and $x < y$ if
+and only if $x \leq y$ and $x \neq y$. This illustrates a more general
+phenomenon.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Suppose $\leq$ is a partial order on a domain $A$. Define
+$a < b$ to mean that $a \leq b$ and $a \neq b$. Then $<$ is a strict
+partial order. Moreover, if $\leq$ is total, so is $<$.
+
+*Theorem.* Suppose $<$ is a strict partial order on a domain
+$A$. Define $a \leq b$ to mean $a < b$ or $a = b$. Then $\leq$ is a
+partial order. Moreover, if $<$ is total, so is $\leq$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+We will prove the first here, and leave the second as an
+exercise. This proof is a nice illustration of how universal
+quantification, equality, and propositional reasoning is combined in a
+mathematical argument.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proof*. Suppose $\leq$ is a partial order on $A$, and $<$ be defined
+as in the statement of the theorem. Irreflexivity is immediate, since
+$a < a$ implies $a \neq a$, which is a contradiction.
+
+To show transitivity, suppose $a < b$ and $b < c$. Then we have $a
+\leq b$, $b \leq c$, $a \neq b$, and $b \neq c$. By the transitivity
+of $\leq$, we have $a \leq c$. To show $a < c$, we only have to show
+$a \neq c$. So suppose $a = c$. then, from the hypotheses, we have $c
+< b$ and $b < c$, violating asymmetry. So $a \neq c$, as required.
+
+To establish the last claim in the theorem, suppose $\leq$ is
+total, and let $a$ and $b$ be any elements of $A$. We need to show
+that $a < b$, $a = b$, or $a > b$. If $a = b$, we are done, so we can
+assume $a \neq b$. Since $\leq$ is total, we have $a \leq b$ or $a
+\leq b$. Since $a \neq b$, in the first case we have $a < b$, and in
+the second case, we have $a > b$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+** More on Orderings
+
+Let $\leq$ be a partial order on a domain, $A$, and let $<$ be the
+associated strict order, as defined in the last section. It is
+possible to show that if we go in the other direction, and define
+$\leq'$ to be the partial order associated to $<$, then $\leq$ and
+$\leq'$ are the same, which is to say, for every $a$ and $b$ in $A$,
+$a \leq b$ if and only if $a \leq' b$. So we can think of every
+partial order as really being a pair, consisting of a weak partial
+order and an associated strict one. In other words, we can assume that
+$x < y$ holds if and only if $x \leq y$ and $x \neq y$, and we can
+assume $x \leq y$ holds if and only if $x < y$ or $x = y$. 
+
+We will henceforth adopt this convention. Given a partial order $\leq$
+and the associated strict order $<$, we leave it to you to show that
+if $x \leq y$ and $y < z$, then $x < z$, and, similarly, if $x < y$
+and $y \leq z$, then $x < z$.
+
+Consider the natural numbers with the less-than-or-equal relation. It
+has a least element, $0$. We can express the fact that $0$ is the
+least element in at least two ways:
+- $0$ is less than or equal to every natural number.
+- There is no natural number that is less than $0$.
+In symbolic logic, we could formalize these statements as follows:
+- $\fa x (0 \leq x)$
+- $\fa x (x \nless 0)$
+Using the existential quantifier, we could render the second statement
+more faithfully as follows:
+- $\neg \ex x (x < 0)$
+In the next chapter, we will see that this sentence is equivalent to
+the previous one.
+
+Are the two statements above equivalent? Say an element $y$ is /minimum/
+for a partial order if it is less than or equal to any other element;
+this is, if it satisfies the first definition. Say that an element $y$
+is /minimal/ for a partial order if no element is less than it; that
+is, if it satisfies the second definition. Two facts are immediate.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Any minimum element is minimal.
+ 
+*Proof.* Suppose $x$ is minimum for $\leq$. We need to show that $x$
+is minimal, that is, for every $y$, it is not the case that $y <
+x$. Suppose $y < x$. Since $x$ is minimum, we have $x \leq y$. From $y
+< x$ and $x \leq y$, we have $y < y$, contradicting the irreflexivity
+of $<$.
+ 
+*Theorem.* If a partial order $\leq$ has a minimum element, it is
+unique.
+
+*Proof.* Suppose $x_1$ and $x_2$ are both minimum. Then $x_1 \leq x_2$
+and $x_2 \leq x_1$. By antisymmetry, $x_1 = x_2$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Notice that we have interpreted the second theorem as the statement
+that if $x_1$ and $x_2$ are both minimum, then $x_1 = x_2$. Indeed,
+this is exactly what we mean when we say that something is "unique."
+When a partial order has a minimum element $x$, uniqueness is what
+justifies calling $x$ /the/ minimum element. Such an $x$ is also
+called the /least/ element or the /smallest/ element, and the terms
+are generally interchangeable.
+
+# TODO: add natural deduction and Lean versions
+
+The converse to the second theorem -- that is, the statement that every
+minimal element is minimum -- is false. As an example, consider the
+nonempty subsets of the set $\{ 1, 2 \}$ with the subset relation. In
+other words, consider the collection of sets $\{ 1 \}$, $\{ 2 \}$, and
+$\{1, 2\}$, where $\{ 1 \} \subseteq \{1, 2\}$, $\{ 2 \} \subseteq
+\{1, 2\}$, and, of course, every element is a subset of itself. Then
+you can check that $\{1\}$ and $\{2\}$ are each minimal, but neither
+is minimum. (One can also exhibit such a partial order by drawing a
+diagram, with dots labeled $a$, $b$, $c$, etc., and upwards edges
+between elements to indicate that one is less than or equal to the
+other.)
+
+Notice that the statement "a minimal element of a partial order is not
+necessarily minimum" makes an "existential" assertion: it says that
+there is a partial order $\leq$, and an element $x$ of the domain,
+such that $x$ is minimal but not minimum. For a fixed partial order
+$\leq$, we can express the assertion that such an $x$ exists as
+follows:
+\begin{equation*}
+\ex x (\fa y (y \nless x) \wedge \fa y (x \leq y)).
+\end{equation*}
+We will learn how to reason about such existential assertions in the
+next chapter. The assertion that there exists a domain $A$, and a
+partial order $\leq$ on that domain $A$, is more dramatic: it is a
+"higher order" existential assertion. But symbolic logic provides us
+with the means to make assertions like these as well, as we will see
+later on.
+
+We can consider other properties of orders. An order is said to be
+/dense/ if between any two distinct elements, there is another
+element. More precisely, an order is dense if, whenever $x < y$, there
+is an element $z$ satisfying $x < z$ and $z < y$. For example, the
+rational numbers are dense with the usual $\leq$ ordering, but not the
+integers. Saying that an order is dense is another example of an
+implicit use of existential quantification, and we will return to this
+in the next chapter.
+
+We close this section with one more example. A binary relation $\leq$
+on a domain $A$ is said to be a /preorder/ it is is reflexive and
+transitive. This is weaker than saying it is a partial order; we have
+removed the requirement that the relation is asymmetric. An example is
+the ordering on people currently alive on the planet defined by
+setting $x \leq y$ if and only if $x$ 's birth date is earlier than
+$y$ 's. Asymmetry fails, because different people can be born on the
+same day. But we leave it to you to check that the following holds:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Let $\leq$ be a preorder on a domain $A$. Define the
+relation $\equiv$, where $x \equiv y$ holds if and only if $x \leq y$
+and $y \leq x$. Then $\equiv$ is an equivalence relation on $A$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+** Equivalence Relations and Equality
+
+In ordinary mathematical language, an /equivalence relation/ is
+defined as follows.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition*. A binary relation $\equiv$ on some domain $A$ is said to
+ be an /equivalence relation/ if it is reflexive, symmetric, and
+ transitive. In other words, $\equiv$ is an equivalent relation if it
+ satisfies these three properties:
+- /reflexivity/: $a \equiv a$, for every $a$ in $A$.
+- /symmetry/: if $a \equiv b$, then $b \equiv a$, for every $a$ and
+  $b$ in $A$.
+- /transitive/: if $a \equiv b$ and $b \equiv c$, then $a \equiv c$, for every $a$,
+  $b$, and $c$ in $A$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Notice the compact way of introducing the symbol $\equiv$ in the
+statement of the definition, and the fact that $\equiv$ is written as
+an infix symbol. Notice also that even though the relation is written
+with the symbol $\equiv$, it is the only symbol occurring in the
+definition; mathematical practice favors natural language to describe
+its properties.
+
+You now know enough, however, to recognize the universal quantifiers
+that are present in the three clauses. In symbolic logic, we would
+write them as follows:
+- $\fa a (a \equiv a)$
+- $\fa {a, b} (a \equiv b \to b \equiv a)$
+- $\fa {a, b, c} (a \equiv b \wedge b \equiv c \to a \equiv c)$
+Here the variables $a$, $b$, and $c$ implicitly range over the domain
+$A$. We leave it to you to think about how you could write these
+statements in Lean. We will also leave you with an exercise: by a
+careful choice of how to instantiate the quantifiers, you can actually
+prove the three properties above from the following two:
+- $\fa a (a \equiv a)$
+- $\fa {a, b, c} (a \equiv b \wedge c \equiv b \to a \equiv c)$
+Try to verify this using natural deduction or Lean.
+
+These three properties alone are not strong enough to characterize
+equality. You should check that the following informal
+examples are all instances of equivalence relations:
+- the relation on days on the calendar, given by "$x$ and $y$ fall on
+  the same day of the week"
+- the relation on people currently alive on the planet, given by "$x$
+  and $y$ have the same age"
+- the relation on people currently alive on the planet, given by "$x$
+  and $y$ have the same birthday"
+- the relation on cities in the United States, given by "$x$ and $y$
+  are in the same state"
+Here are two common mathematical examples:
+- the relation on lines in a plane, given by "$x$ and $y$ are
+  parallel"
+- for any fixed natural number $m \geq 0$, the relation on natural
+  numbers, given by "$x$ is congruent to $y$ modulo $m$"
+Here, we say that $x$ is congruent to $y$ modulo $m$ if they leave the
+same remainder when divided by $m$. Soon, you will be able to prove
+rigorously that this is equivalent to saying that $x - y$ is divisible
+by $m$.
+
+Consider the equivalence relation on citizens of the United States,
+given by "$x$ and $y$ have the same age." There are some properties
+that respect that equivalence. For example, suppose I tell you that
+John and Susan have the same age, and I also tell you that John is old
+enough to vote. Then you can rightly infer that Susan is old enough to
+vote. On the other hand, if I tell you nothing more than the facts
+that John and Susan have the same age and John lives in South Dakota,
+you cannot infer that Susan lives in South Dakota. This little example
+illustrates what is special about the /equality/ relation: if two
+things are equal, then they have exactly the same properties.
+
+** Exercises
+
+1. Suppose $<$ is a strict partial order on a domain $A$, and define
+   $a \leq b$ to mean that $a < b$ or $a = b$.
+
+   - Show that $\leq$ is a partial order. 
+   - Show that if $<$ is moreover a strict total order, then $\leq$ is
+     a total order.
+
+   (Above we proved the analogous theorem going in the other
+   direction.)
+
+2. Suppose $<$ is a strict partial order on a domain $A$. (In other
+   words, it is transitive and asymmetric.) Suppose that $\leq$ is
+   defined so that $a \leq b$ if and only if $a < b$ or $a = b$. We
+   saw in class that $\leq$ is a partial order on a domain $A$,
+   i.e.~it is reflexive, transitive, and antisymmetric.
+
+   Prove that for every $a$ and $b$ in $A$, we have $a < b$ iff $a
+   \leq b$ and $a \neq b$, using the facts above.
+
+3. $\equiv$ be an equivalence relation on a set $A$. For every
+   element $a$ in $A$, let $[a]$ be the set of elements $\{ c \st c
+   \equiv a \}$, that is, the set of elements of $A$ that are
+   equivalent to $a$. Show that for every $a$ and $b$, $[a] = [b]$ if
+   and only if $a \equiv b$.
+
+   (Hints and notes: 
+   - Remember that since you are proving an ``if and only if''
+     statement, there are two directions to prove.
+   - Since that $[a]$ and $[b]$ are sets, $[a] = [b]$ means that for
+     every element $c$, $c$ is in $[a]$ if and only if $c$ is in
+     $[b]$.
+   - By definition, an element $c$ is in $[a]$ if and only if $c
+     \equiv a$. In particular, $a$ is in $[a]$.)
+

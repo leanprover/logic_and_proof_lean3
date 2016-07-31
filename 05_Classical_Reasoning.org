@@ -196,7 +196,7 @@ we ultimately $\bot$ is a consequence of the hypotheses.
   :CUSTOM_ID: Some_Classical_Principles
 :END:
 
-We have already seen that $A \vee \neg A$ and $\neg neg A \liff A$ are
+We have already seen that $A \vee \neg A$ and $\neg \neg A \liff A$ are
 two important theorems of classical propositional logic. In this
 section we will provide some more theorems, rules, and
 equivalences. Some will be proved here, but most will be left to you

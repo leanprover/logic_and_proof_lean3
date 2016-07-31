@@ -116,10 +116,10 @@ logical terms occurring in the argument above, words like "and," "or,"
 
 Our goal is to give an account of the patterns of inference that
 govern the use of those terms. To that end, using the methods of
-symbolic logic, we will introduce variables $A$, $B$, $C$, \ldots to
+symbolic logic, we will introduce variables $A$, $B$, $C$, ... to
 stand for fundamental statements, or /propositions/, and symbols
 $\wedge$, $\vee$, $\neg$, and $\to$ to stand for "and," "or," "not,"
-and "if ... then," respectively. Doing so will let us focus on the way
+and "if ... then ... ," respectively. Doing so will let us focus on the way
 that compound statements are built up from basic ones using the
 logical terms, while abstracting away from the specific content. We
 will also adopt a stylized notation for representing inferences as

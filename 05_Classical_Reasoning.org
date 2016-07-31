@@ -10,7 +10,7 @@ If we take all the rules of propositional logic we have seen so far
 and exclude /reductio ad absurdum/, or proof by contradiction, we have
 what is known as /intuitionistic logic/. In intuitionistic logic, it
 is possible to view proofs in computational terms: a proof of $A
-\wedge B$ is a proof of $A$ paired with a proof of $B$, a proof of =$A
+\wedge B$ is a proof of $A$ paired with a proof of $B$, a proof of $A
 \to B$ is a procedure which transforms evidence for $A$ into evidence
 for $B$, and a proof of $A \vee B$ is a proof of one or the other,
 tagged so that we know which is the case. The /ex falso/ rule makes
@@ -62,7 +62,7 @@ by_contradiction
 #+END_SRC
 
 One of them most important consequences of this rule is the law of the
-excluded middle. In mathematical arguments, however, one often splits
+excluded middle. In mathematical arguments, one often splits
 a proof into two cases, assuming first $A$ and then $\neg A$. Using
 the elimination rule for disjunction, this is equivalent to using $A
 \vee \neg A$, a classical principle known as the law of the excluded

@@ -119,7 +119,6 @@ mean the same thing.
 
 Using this built-in type, we can model the language of arithmetic, as
 described in the last chapter, as follows:
-follows:
 #+BEGIN_SRC lean
 namespace hide
 
@@ -362,7 +361,7 @@ This constitutes the introduction rule for the universal
 quantifier. It is very similar to the introduction rule for
 implication: instead of using =assume= to temporarily introduce an
 assumption, we use =take= to temporarily introduce a new object,
-=y=. (In fact,=assume= and =take= are both alternate syntax for a
+=y=. (In fact, =assume= and =take= are both alternate syntax for a
 single internal construct in Lean, which can also be denoted by =λ=.)
 
 The elimination rule is, similarly, implemented as follows:

@@ -4,7 +4,7 @@
 * Functions
 :PROPERTIES:
   :CUSTOM_ID: Functions
-:END:      
+:END:
 
 In the late nineteenth century, developments in a number of branches
 of mathematics pushed towards a uniform treatment of sets, functions,
@@ -149,7 +149,7 @@ h(y)$.
 #+LATEX: \horizontalrule
 
 If $g$ is both a right and left inverse to $f$, we say that $g$ is
-simply the inverse of $f$. X function $f$ may have more than one left
+simply the inverse of $f$. A function $f$ may have more than one left
 or right inverse (we leave it to you to cook up examples), but it can
 have at most one inverse.
 
@@ -337,7 +337,7 @@ f[A] = \{ y \in Y \; | \; y = f(x) \; \mbox{for some $x$ in $A$} \}.
 In words, $f[A]$ is the set of elements of $Y$ that are "hit" by
 elements of $A$ under the mapping $f$. Notice that there is an
 implicit existential quantifier here, so that reasoning about images
-invariables involves the corresponding rules. 
+invariables involves the corresponding rules.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -370,7 +370,7 @@ z$, so $z$ is in $(g \circ f)[A]$.
 Notice that if $f$ is a function from $X$ to $Y$, then $f$ is
 surjective if and only if $f[X] = Y$. So the previous proposition is a
 generalization of the fact that the composition of surjective
-functions is surjective. 
+functions is surjective.
 
 Suppose $f$ is a function from $X$ to $Y$, and $A$ is a subset of
 $X$. We can /view/ $f$ as a function from $A$ to $Y$, by simply
@@ -440,7 +440,7 @@ B_2, \ldots$ denote arbitrary subsets of $Y$.
 ** Functions and Relations
 :PROPERTIES:
   :CUSTOM_ID: Functions_and_Relations
-:END:      
+:END:
 
 A binary relation $R(x,y)$ on $A$ and $B$ is /functional/ if for every
 $x$ in $A$ there exists a unique $y$ in $B$ such that $R(x,y)$. If $R$
@@ -548,8 +548,8 @@ relation.
    - Is $g$ necessarily surjective? Either prove that it is, or give a
      counterexample.
 
-3. A function $f$ from $\RR$ to $\RR$ is said to be \emph{strictly
-   increasing} if whenever $x_1 < x_2$, $f(x_1) < f(x_2)$.
+3. A function $f$ from $\RR$ to $\RR$ is said to be \strictly
+   increasing\ if whenever $x_1 < x_2$, $f(x_1) < f(x_2)$.
 
    - Show that if $f : \RR \to \RR$ is strictly increasing, then it is
      injective (and hence it has a left inverse).
@@ -562,4 +562,3 @@ relation.
 5. Let $f: X \to Y$ be any function, and let $A$ and $B$ be any
    subsets of $X$. Show $f[A] \setminus f[B] \subseteq f[A \setminus
    B]$.
-

@@ -145,7 +145,7 @@ This corresponds to the following proof:
 What about implication? The elimination rule is easy: if =P₁= is a
 proof of =A → B= and =P₂= is a proof of =A= then =P₁ P₂= is a proof of
 =B=. Notice that we do not even need to name the rule: you just write
-=P₁= followed by =P₂=, as though you are applying the first to thes
+=P₁= followed by =P₂=, as though you are applying the first to the
 second. If =P₁= and =P₂= are compound expressions, put parentheses
 around them to make it clear where each one begins and ends.
 #+BEGIN_SRC lean
@@ -541,7 +541,7 @@ included for completeness here.
 
 The rule is called =by_contradiction=. It has one argument, which is a
 proof of =false= from =¬ A=. To use the rule, you have to ask Lean to
-allow classical reasoning, but writing =open classical=. You can do
+allow classical reasoning, by writing =open classical=. You can do
 this at the beginning of the file, or any time before using it. It you
 say =open classical= in a section, it will remain in scope for that section.
 #+BEGIN_SRC lean

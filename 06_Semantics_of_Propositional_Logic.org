@@ -108,9 +108,9 @@ as follows:
   $\bar v(\varphi \to \psi) = \false$ if $\bar v(\varphi)$ is $\true$ and
   $\bar v(\psi)$ is $\false$, and $\true$ otherwise.)
 
-The rules for conjunction and disjunction are easy to understand. "A
-and B" is true exactly when A and B are both true; "A or B" is true when
-at least one of A or B is true.
+The rules for conjunction and disjunction are easy to understand. "$A$
+and $B$" is true exactly when $A$ and $B$ are both true; "$A$ or $B$" is true when
+at least one of $A$ or $B$ is true.
 
 Understanding the rule for implication is trickier. People are often
 surprised to hear that any if-then statement with a false hypothesis
@@ -268,8 +268,10 @@ truth assignment that makes them all true at the same time.
 ** Truth Tables
 
 The second and third semantic questions we asked are a little trickier
-than the first.  Instead of considering one particular truth
-assignment, they ask us to quantify over /all/ possible truth
+than the first. Given a formula $A$, is there any truth assignment that 
+makes $A$ true? If so, which truth assignments make $A$ true?
+Instead of considering one particular truth
+assignment, these questions ask us to quantify over /all/ possible truth
 assignments.
 
 Of course, the number of possible truth assignments depends on the
@@ -406,7 +408,7 @@ truth assignment that makes every formula in $\Gamma$ true, $A$ is
 true as well. In this extended setting, soundness says that if $A$ is
 provable from $\Gamma$, then $A$ is a logical consequence of
 $\Gamma$. Completeness runs the other way: if $A$ is a logical
-consequence of $\Gamma$, it is provable.
+consequence of $\Gamma$, it is provable from $\Gamma$.
 
 Notice that with the rules of natural deduction, a formula $A$ is
 provable from a set of hypotheses $\{ B_1, B_2, \ldots, B_n \}$ if and
@@ -424,7 +426,7 @@ completeness play an important role in helping us understand the
 nature of the logical notions, and so we will try to provide some
 hints here as to why these properties hold for propositional logic.
 
-Proving soundness is easier. We wish to show that whenever $A$ is
+Proving soundness is easier than proving completeness. We wish to show that whenever $A$ is
 provable from a set of hypotheses, $\Gamma$, then $A$ is a logical
 consequence of $\Gamma$. In a later chapter, we will consider proofs
 by induction, which allows us to establish a property holds of a

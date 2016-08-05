@@ -210,7 +210,7 @@ Let $a$ and $b$ be arbitrary integers, and suppose $a^2 = 2 b^2$.
 Contradiction.
 #+END_QUOTE
 What we are really doing is proving that the universal statement
-holds, but showing that it holds of "arbitrary" values $a$ and $b$. In
+holds, by showing that it holds of "arbitrary" values $a$ and $b$. In
 natural deduction, the proof would look something like this:
 \begin{center}
 \AXM{}
@@ -577,7 +577,7 @@ that these two expressions are equivalent.
      it. (This is one way to express the statement that there are
      infinitely many perfect numbers.)
 
-   Here, the phrase ``between $a$ and $b$'' is meant to include $a$
+   Here, the phrase ``between $a$ and $b$ '' is meant to include $a$
    and $b$.
 
    By the way, we do not know whether the last two statements are

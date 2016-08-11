@@ -548,8 +548,8 @@ relation.
    - Is $g$ necessarily surjective? Either prove that it is, or give a
      counterexample.
 
-3. A function $f$ from $\RR$ to $\RR$ is said to be \strictly
-   increasing\ if whenever $x_1 < x_2$, $f(x_1) < f(x_2)$.
+3. A function $f$ from $\RR$ to $\RR$ is said to be /strictly
+   increasing/ if whenever $x_1 < x_2$, $f(x_1) < f(x_2)$.
 
    - Show that if $f : \RR \to \RR$ is strictly increasing, then it is
      injective (and hence it has a left inverse).

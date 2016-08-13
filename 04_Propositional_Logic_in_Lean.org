@@ -206,8 +206,9 @@ variable A : Prop
 
 check assume H : A, and.intro H H
 #+END_SRC lean
-Continuing the long example above, we obtain a proof of =A ∧ ¬ B → ¬ B
-∧ A= as follows:
+
+Above, we proved =¬ B ∧ A= from the premise =A ∧ ¬ B=. We can instead
+obtain a proof of =A ∧ ¬ B → ¬ B ∧ A= as follows:
 #+BEGIN_SRC lean
 variables A B : Prop
 check (assume H : A ∧ ¬ B, and.intro (and.right H) (and.left H)) 
@@ -309,7 +310,11 @@ There are two more tricks that can help you write proofs in Lean. The
 first is using =sorry=, which is a magical term in Lean which provides
 a proof of anything at all. It is also known as "cheating." But
 cheating can help you construct legitimate proofs incrementally: if
-Lean accepts a proof with =sorry='s, you know the proof is correct,
+Lean accepts a proof with =sorry='s, you know that you are on the
+right track so far. All you need to do is replace each =sorry= with a
+real proof to finish the task.
+
+ proof is correct,
 modulo the fact that each =sorry= should be replaced by a real proof.
 #+BEGIN_SRC lean
 variables A B : Prop

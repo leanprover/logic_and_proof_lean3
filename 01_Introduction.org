@@ -364,7 +364,7 @@ deductive system is strong enough to allow us to verify /all/ valid
 assertions and entailments, it is said to be /complete/.
 
 The fourth goal of course is to convey the semantic view of logic, and
-understand how logical expressions can be used to characterize states
+understand how logical expressions can be used to specify states
 of affairs.
 
 ** Goals Summarized
@@ -374,8 +374,9 @@ To summarize, these are the goals of this course:
 - to introduce you to symbolic logic and the formal modeling of
   deductive proof
 - to introduce you to interactive theorem proving
-- to teach you to understand how to use logic as a precise
-  specification language.
+- to teach you to understand how to use logic as a precise language
+  for making claims about systems of objects and the relationships
+  between them, and specifying certain states of affairs.
 
 Let us take a moment to consider the relationship between some of
 these goals. It is important not to confuse the first three. We are

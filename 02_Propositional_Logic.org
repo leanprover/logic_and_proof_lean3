@@ -530,6 +530,7 @@ In symbols, we would render this rule as follows:
 \AXM{A \vee B}
 \AXM{\neg A}
 \BIM{B}
+\DP
 \end{center}
 We will see in the next chapter that it is possible to /derive/ this
 rule from the others. As a result, we will /not/ take this to be a
@@ -792,32 +793,35 @@ sentence while abstracting others.
 1. Here is another (gruesome) logic puzzle by George J.\nbsp{}Summers,
    called ``Murder in the Family.''
 
-   > Murder occurred one evening in the home of a father and mother
-   > and their son and daughter. One member of the family murdered
-   > another member, the third member witnessed the crime, and the
-   > fourth member was an accessory after the fact.
-   >
-   > 1. The accessory and the witness were of opposite sex.
-   > 2. The oldest member and the witness were of opposite sex.
-   > 3. The youngest member and the victim were of opposite sex.
-   > 4. The accessory was older than the victim.
-   > 5. The father was the oldest member.
-   > 6. The murderer was not the youngest member.
-   >
-   > Which of the four---father, mother, son, or daughter---was the murderer?
+   #+BEGIN_QUOTE
+   Murder occurred one evening in the home of a father and mother
+   and their son and daughter. One member of the family murdered
+   another member, the third member witnessed the crime, and the
+   fourth member was an accessory after the fact.
+   
+   1. The accessory and the witness were of opposite sex.
+   2. The oldest member and the witness were of opposite sex.
+   3. The youngest member and the victim were of opposite sex.
+   4. The accessory was older than the victim.
+   5. The father was the oldest member.
+   6. The murderer was not the youngest member.
+   
+   Which of the four---father, mother, son, or daughter---was the
+   murderer?
+   #+END_QUOTE
 
    Solve this puzzle, and /write a clear argument/ to establish that
    your answer is correct.
 
-2. Using the mnemonoic =F=(ather), =M=(other), =D=(aughter), =S=(on),
-   =M=(urderer), =V=(ictim), =W=(itness), =A=(ccessory), =O=(ldest),
-   =Y=(oungest), we can define propositional variables like =FM=
-   (Father is the Murderer), =DV= (Daughter is the Victim), =FO=
-   (Father is Oldest), =VY= (Victim is Youngest), etc. Notice that
-   only the son or daughter can be the youngest, and only the mother
-   or father can be the oldest. Part (d) is tricky; try to write down
-   a formula that describes all the possibilities that are not ruled
-   out by the information.
+2. Using the mnemonoic =F= (Father), =M= (Mother), =D= (Daughter), =S=
+   (Son), =M= (Murderer), =V= (Victim), =W= (Witness), =A=
+   (Accessory), =O= (Oldest), =Y= (Youngest), we can define
+   propositional variables like =FM= (Father is the Murderer), =DV=
+   (Daughter is the Victim), =FO= (Father is Oldest), =VY= (Victim is
+   Youngest), etc. Notice that only the son or daughter can be the
+   youngest, and only the mother or father can be the oldest. Part (d)
+   is tricky; try to write down a formula that describes all the
+   possibilities that are not ruled out by the information.
 
    With these conventions, the first clue can be represented 
    \[

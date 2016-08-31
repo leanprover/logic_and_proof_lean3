@@ -334,8 +334,8 @@ follows from all the hypotheses above it that haven't been canceled yet.
 
 The following is a proof of $A \to C$ from $A \to B$ and $B \to C$:
 \begin{center}
-\AXM{1}
-\RLM{}
+\AXM{}
+\RLM{1}
 \UIM{A}
 \AXM{A \to B}
 \BIM{B}

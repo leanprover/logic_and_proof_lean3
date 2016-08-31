@@ -819,9 +819,7 @@ sentence while abstracting others.
    propositional variables like =FM= (Father is the Murderer), =DV=
    (Daughter is the Victim), =FO= (Father is Oldest), =VY= (Victim is
    Youngest), etc. Notice that only the son or daughter can be the
-   youngest, and only the mother or father can be the oldest. Part (d)
-   is tricky; try to write down a formula that describes all the
-   possibilities that are not ruled out by the information.
+   youngest, and only the mother or father can be the oldest. 
 
    With these conventions, the first clue can be represented 
    \[
@@ -830,6 +828,10 @@ sentence while abstracting others.
    in other words, if the father or son was the accessory, then the
    mother or daughter was the witness, and vice-versa. Represent the
    other five clues in a similar manner.
+
+   Representing the fourth clue is tricky. Try to write down a formula
+   that describes all the possibilities that are not ruled out by the
+   information.
 
 3. Consider the following three hypotheses:
 

@@ -6,11 +6,24 @@
   :CUSTOM_ID: Sets
 :END:      
 
+We have come to a turning point in this textbook. We will henceforth,
+for the most part, abandon natural deduction, and begin to focus on
+ordinary mathematical proofs. We will continue to think about how
+informal mathematics can be represented in symbolic terms, and how the
+rules of natural deduction play out in the informal setting. But the
+focus will be on writing ordinary mathematical arguments, not
+designing proof trees. Lean will continue to serve as a bridge between
+the informal and formal realms.
+
+In this chapter, we consider a notion that has come to play a
+fundamental role in mathematical reasoning, namely, that of a "set."
+
+
 ** Elementary Set Theory
 
 In a publication in the journal /Mathematische Annalen/ in 1895, the
 German mathematician Georg Cantor presented the following
-characterization of the notion of a "set" (or /Menge/, in his
+characterization of the notion of a /set/ (or /Menge/, in his
 terminology):
 #+BEGIN_QUOTE
 By a /set/ we mean any collection M of determinate, distinct objects
@@ -203,21 +216,6 @@ Now many identities involving sets can be proved "by calculation."
 \end{align*}
 #+HTML: <hr>
 #+LATEX: \horizontalrule
-
-Here is the corresponding proof in Lean:
-#+BEGIN_SRC lean
-import data.set
-open set
-
-variable  X : Type
-variables A B C : set X
-
-example : (A ∩ -B) ∪ B = A ∪ B :=
-calc
-  (A ∩ -B) ∪ B = (A ∪ B) ∩ (-B ∪ B) : union_distrib_right
-           ... = (A ∪ B) ∩ univ     : compl_union_self
-           ... = A ∪ B              : inter_univ
-#+END_SRC
 
 Classically, you may have noticed that propositions, under logical
 equivalence, satisfy identities similar to sets. That is no

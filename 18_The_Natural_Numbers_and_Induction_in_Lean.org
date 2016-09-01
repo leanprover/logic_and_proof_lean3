@@ -1,0 +1,7 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* The Natural Numbers and Induction in Lean
+:PROPERTIES:
+  :CUSTOM_ID: The Natural Numbers and Induction in Lean
+:END:      

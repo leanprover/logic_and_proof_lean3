@@ -8,15 +8,6 @@
 
 ** The Natural Numbers
 
-we have come to a turning point in this textbook. We will henceforth,
-for the most part, abandon natural deduction, and begin to focus on
-ordinary mathematical proofs. We will continue to think about how
-informal mathematics can be represented in symbolic terms, and how the
-rules of natural deduction play out in the informal setting. But the
-focus will be on writing ordinary mathematical arguments, not
-designing proof trees. Lean will continue to serve as a bridge between
-the informal and formal realms.
-
 As a first foray into the real of mathematical proof, we will start
 with some ordinary reasoning about the natural numbers. Remember that
 the set of natural numbers is the set

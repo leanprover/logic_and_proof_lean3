@@ -6,7 +6,6 @@
   :CUSTOM_ID: Relations
 :END:      
 
-
 ** Order Relations
 
 In order to illustrate reasoning with the equality axioms, we will

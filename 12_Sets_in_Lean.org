@@ -116,6 +116,7 @@ have x ∉ B, from and.right this,
 show x ∈ -B, from this
 -- END
 #+END_SRC
+
 Here is the proof of the first identity that we proved informally
 above:
 #+BEGIN_SRC lean

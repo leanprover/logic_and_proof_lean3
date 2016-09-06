@@ -66,9 +66,9 @@ as a product of primes.
 *Proof.* We proceed by induction on $n$. Let $n$ be any natural number
 greater than 2. If $n$ is prime, we are done; we can consider $n$
 itself as a product with one term. Otherwise, $n$ is composite, and we
-can write $n = m \cdot k$ where $m$ and $k$ are smaller than $n$. By
-the inductive hypothesis, each of $m$ can be written as a product of
-primes, say
+can write $n = m \cdot k$ where $m$ and $k$ are smaller than $n$ and
+greater than 1. By the inductive hypothesis, each of $m$ and $k$ can
+be written as a product of primes, say
 \[
 m = p_1 \cdot p_2 \cdot \ldots \cdot p_u
 \]

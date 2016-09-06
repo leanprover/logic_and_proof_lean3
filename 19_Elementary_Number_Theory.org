@@ -6,202 +6,23 @@
   :CUSTOM_ID: Elementary_Number_Theory
 :END:
 
-** The Natural Numbers
+[Still under construction.]
 
-As a first foray into the real of mathematical proof, we will start
-with some ordinary reasoning about the natural numbers. Remember that
-the set of natural numbers is the set
-\[
-\NN = \{ 0, 1, 2, 3, \ldots \},
-\]
-in contrast to the integers,
-\[
-\ZZ = \{ \ldots, -2, -1, 0, 1, 2, \ldots \},
-\]
-which include negative numbers as well.
+In the last two chapters, we say that the natural numbers are
+characterized by the fact that they suport /proof by induction/ and
+/definition by recursion/. Moreover, with these components, we can
+actually define $+$, $\times$, and $<$ in a suitable axiomatic
+foundation, and prove that they have the relevant properties. In
+Section [[file:17_The_Natural_Numbers_and_Induction::#The_Integers][The Integers]] we also discussed the integers, which include
+negative numbers and support the operation of substraction.
 
-We will first talk about the natural numbers. On the natural numbers, we have addition and
-multiplication. These operations satisfy the equalities and properties below. We will not prove
-these properties for now, but instead assume them as the basic properties of addition and
-multiplication. They can be used without further justification.
-\begin{align*}
-m + n &= n + m &&\text{(commutativity of addition)}\\
-m + (n + k) &= (m + n) + k &&\text{(associativity of addition)}\\
-n + 0 &= n &&\text{($0$ is a neutral element for addition)}\\
-n \cdot m &= m \cdot n &&\text{(commutativity of multiplication)}\\
-m \cdot (n \cdot k) &= (m \cdot n) \cdot k &&\text{(associativity of multiplication)}\\
-n \cdot 1 &= n &&\text{($1$ is an neutral element for multiplication)}\\
-n \cdot (m + k) &= n \cdot m + n \cdot k &&\text{(distributivity)}\\
-n \cdot 0 &= 0 &&\text{($0$ is an absorbing element for multiplication)}
-\end{align*}
-We also have the following properties:
-- $n + 1 \neq 0$;
-- if $n + k = m + k$ then $n = m$;
-- if $n \cdot k = m \cdot k$ and $k \neq 0$ then $n = m$.
+The natural numbers and the integers are the central components of
+/number theory/, a branch of mathematics dating back to the
+ancients. In this chapter, we will discuss some of the rudiments of number theory.
 
-We will often write simply $nm$ instead of $n \cdot m$ for multiplication.
+** The Quotient-Remainder Theorem
 
-We also have an ordering "less than", $<$, on the natural numbers. This /strict inequality/
-satisfies the following basic properties. Again, these properties can be used without justification.
-- $n < n$ is never true (/irreflexivity/);
-- if $n < m$ and $m < k$ then $n < k$ (/transitivity/);
-- for all $n$ and $m$, either $n < m$, $n = m$ or $m < n$ is true (/trichotomy/);
-- if $n < m$ then $n + k < m + k$;
-- if $k > 0$ and $n < m$ then $nk < mk$;
-- if $m > n$ then $m = n + 1$ or $m > n + 1$;
-- for all $n$, $n = 0$ or $n > 0$.
-
-The relation $x \le y$, read "$x$ is less than or equal to $y$," is defined to mean just that, that
-is, the $x$ is less than $y$ or $x$ is equal to $y$.
-
-Now from the properties of $<$ we can prove similar properties for $\le$. Note that these properties
-are /not/ basic properties we assume, but are instead properties we can derive from the properties
-of $<$ and the definition of $\le$.
-- $n \le n$ (/reflexivity/);
-- if $n \le m$ and $m \le k$ then $n \le k$ (/transitivity/);
-- if $n \le m$ and $m \le n$ then $n = m$ (/antisymmetry/);
-- for all $n$ and $m$, either $n \le m$ or $m \le n$ is true (/totality/);
-- if $n \le m$ then $n + k \le m + k$;
-- if $n \le m$ then $nk \le mk$;
-- if $m \ge n$ then $m = n$ or $m \ge n + 1$;
-- $0 \le n$.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Proof*. We will prove some of these properties listed for $\le$.
-
-The first property is straightforward. Since $n \le n$ is defined as "$n = n$ or $n < n$," it is
-true, since the equality holds.
-
-For the second property assume that $n \le m$ and $m \le k$. We have to show that $n \le k$. By
-definition of $\le$ we know from our first assumption that either $n = m$ or $n < m$. We now apply
-case analysis.
-- Suppose first that $n = m$. Since we know that $m \le k$, we can substitute $n$ for $m$ in that
-  expression to obtain $n \le k$, which is what we wanted to prove.
-- Now suppose that $n < m$. Then we know from our second assumption that either $m = k$ or $m <
-  k$. We perform a second case distinction.
-  - If $m = k$ then we can substitute $k$ for $m$ in the inequality $n < m$ to obtain $n < k$. Hence
-    we conclude that $n \le k$, as desired.
-  - In the other case, if $m < k$, then we use the transitivity of $<$ to conclude from $n < m$ and
-    $m < k$ that $n < k$. Hence we know that $n \le k$.
-In all cases we've shown that $n \le k$, so we've finished the proof.
-
-As a last example, we show that if $n \le m$ then $nk \le mk$. By assumption, we have either $n = m$
-or $n < m$. If $n = m$, then we know by multiplying both sides with $k$ that $nk = mk$, hence $nk
-\le mk$. On the other hand, if $n < m$, then apply case analysis on $k = 0$ or $k > 0$, which is one
-of the properties for the strict inequality. If $k = 0$, then $nk = n \cdot 0 = 0 = m \cdot 0 = mk$,
-hence $nk \le mk$. If $k > 0$ we can conclude that $nk < mk$ by one of the properties for the strict
-inequality, hence that $nk \le mk$.  Since in all cases we've proven that $nk \le mk$, we have
-finished the proof of this property.
-
-The rest of the proofs are left as an exercise to the reader.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-We can prove some more properties about $<$ and $\le$. These are not basic properties we assume, but
-properties we can prove from the basic properties for $<$, which you are asked to do in the
-exercises below.
-- $n < m$ and $m < n$ cannot both hold (/asymmetry/);
-- $n + 1 > n$;
-- if $n < m$ and $m \le k$ then $n < k$;
-- if $n \le m$ and $m < k$ then $n < k$;
-- if $m > n$ then $m \ge n + 1$;
-- if $m \ge n$ then $m + 1 > n$;
-- if $n + k < m + k$ then $n < m$;
-- if $nk < mk$ then $k > 0$ and $n < m$.
-
-We will now prove some statements from the given properties above.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Example*. If $n$ and $m$ are natural numbers such that $n + m = 0$, then $n = m = 0$.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Proof*. We first prove that $m = 0$. We know that $m = 0$ or $m > 0$. Suppose that $m > 0$ Then
-$n + m > n + 0 = n$. Since $n \ge 0$, we conclude that $n + m > 0$, which is in contradiction with
-$n + m = 0$. Since $m > 0$ leads to a contradiction, the other option that $m = 0$ must hold.
-
-Now we can easily conclude that $n = 0$ using the following chain of equalities $n = n + 0 = n + m =
-0$. Hence $n = m = 0$.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Example*. If $n$ is a natural number such that $n < 3$, then $n = 0$, $n = 1$ or $n = 2$.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Proof*. In this proof we repeatedly use the property that if $m > n$ then $m = n + 1$ or $m > n +
-1$. Since $2 + 1 = 3 > n$, we conclude that either $2 + 1 = n + 1$ or $2 + 1 > n + 1$. In the first
-case we conclude $n = 2$, and we are done. In the second case we conclude $2 > n$. Now we conclude
-that either $2 = n + 1$, or $2 > n + 1$. In the first case, we conlude $n = 1$, and we are done. In
-the second case, we conclude $1 > n$. One last time we use the property mentioned above, to conclude
-that either $1 = n + 1$ or $1 > n + 1$. In the first case, we conclude $n = 0$, and we are once
-again done. In the second case, we conclude that $0 > n$. This leads to a contradiction, since now
-$0 > n \ge 0$, hence $0 > 0$, which contradicts the irreflexivity of $>$.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-For the integers the properties are mostly the same as mentioned above. Some of the properties do
-not hold, though. The two basic properties which do not hold anymore are that $n + 1 \neq 0$ (which
-is false for $n = -1$) and the property that either $n = 0$ or $n > 0$ (which is false for all
-negative numbers). Look for yourself through the derived properties and examples to see which of
-those properties fail on the integers.
-
-On the integers, we can negate any number $n$ to get $-n$, satisfying $n + (-n) = 0$. We write $n +
-(-m)$ as the subtraction $n - m$.
-
-On the natural numbers, subtraction doesn't always return a natural number. If $n$ and $m$
-are natural numbers then $n - m$ is only a natural number if $n \ge m$.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Exercises*. Prove the following things in an informal style, similar to the proofs given above.
-- We derived some properties for $\le$ from the properties of $<$ and the definition of
-  $\le$. Derive the remaining properties for $\le$.
-- Prove the list of properties for $<$ and $\le$ from the basic properties of $<$.
-- Prove that if $n < 5$ then $n$ is either of the values $0, 1, 2, 3, 4$.
-- Prove that if $nm = 1$ then $n = m = 1$.
-# Tricky. Proof sketch: n ≠ 0, hence n > 0. Similarly m > 0. Hence m = 1 or m > 1.
-# Assume m > 1, then nm > n. Now both n = 1 and n > 1 imply that nm > 1, contradiction.
-- Prove the following properties for negation and subtraction on the integers. You can only use the
-  definitions of negation and subtraction given above.
-  - if $n + m = 0$ then $m = -n$;
-  - $-0 = 0$;
-  - if $-n = -m$ then $n = m$;
-  - $m + (n - m) = n$;
-  - $-(n + m) = -n - m$;
-  - if $m < n$ then $n - m > 0$;
-  - if $m < n$ then $-m > -n$;
-  - $n \cdot (-m) = -nm$;
-  - $n(m - k) = nm - nk$;
-  - if $n < m$ then $n - k < m - k$.
-
-# Do we want more properties here?
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-We will see in a later chapter that a key property of the natural
-numbers is that it supports /proof by induction/ and /definition by
-recursion/. Moreover, with these components, we can actually define
-$+$, $\times$, and $<$ in a suitable axiomatic foundation, and prove
-that they have the relevant properties. For now, let's keep in mind
-that the foundations of a building are typically underground. Right
-now, we will enter mathematics at the ground level and proceed from
-there. In the proofs below, we will use the facts above without naming
-them or justifying them; they will be assumed to be part of the common
-background. On the other hand, for example, we will rigorously define
-the notion "$m$ divides $n$," written $m \mid n$, and prove that it
-has the expected properties.
+[Prove this by induction.]
 
 A key property of the natural numbers that we will use here is the
 quotient-remainder theorem:
@@ -250,9 +71,10 @@ which contradicts the fact that $r < m$.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-Since we have proven that the quotient and remainder are unique when you divide $n$ by $m$, we can
-define functions which compute these numbers. We write $\lfloor n / m \rfloor$ for the quotient and
-$n \mod m$ for the remainder.
+Since we have proven that the quotient and remainder are unique when
+you divide $n$ by $m$, we can define functions which compute these
+numbers. We write $\lfloor n / m \rfloor$ for the quotient and $n \mod
+m$ for the remainder.
 
 ** Divisibility
 
@@ -282,15 +104,18 @@ We can now prove the following:
 *Proof.* Reflexivity is immediate, because $n \cdot 1 = n$, hence
 $n\mid n$.
 
-For antisymmetry, suppose that $n$ and $m$ are natural numbers such that $n\mid m$ and $m \mid
-n$. Then there exist $k$ and $\ell$ such that $n\cdot k = m$ and $m \cdot \ell = n$. We distinguish
-two cases. If $n = 0$, then we have $m = n\cdot k = 0 = n$, so we are done. If $n > 0$, then we use
-the the equations to get $n \cdot k \cdot \ell = m \cdot \ell = n$, and we can cancel $n$ on both
-sides to get $k \cdot \ell = 1$. We conclude that $k = \ell = 1$, hence we get $n = n \cdot k = m$,
-so $\mid$ is antisymmetric.
+For antisymmetry, suppose that $n$ and $m$ are natural numbers such
+that $n\mid m$ and $m \mid n$. Then there exist $k$ and $\ell$ such
+that $n\cdot k = m$ and $m \cdot \ell = n$. We distinguish two
+cases. If $n = 0$, then we have $m = n\cdot k = 0 = n$, so we are
+done. If $n > 0$, then we use the the equations to get $n \cdot k
+\cdot \ell = m \cdot \ell = n$, and we can cancel $n$ on both sides to
+get $k \cdot \ell = 1$. We conclude that $k = \ell = 1$, hence we get
+$n = n \cdot k = m$, so $\mid$ is antisymmetric.
 
-Finally, to prove transitivity, suppose $m \mid n$ and $n \mid r$. Then there are $k,\ell$ such that
-$m \cdot k = n$ and $n \cdot \ell = r$. Now we compute
+Finally, to prove transitivity, suppose $m \mid n$ and $n \mid
+r$. Then there are $k,\ell$ such that $m \cdot k = n$ and $n \cdot
+\ell = r$. Now we compute
 \begin{align*}
 m \cdot (k \cdot \ell) &= (m \cdot k) \cdot \ell \\
 & = n \cdot \ell  \\
@@ -552,6 +377,8 @@ Exercises:
 
 ** Proofs with Calculations
 
+[Is this the most natural palace for this? Are there better examples?]
+
 Calculation is a central to mathematics, and mathematical proofs often
 involve carrying out calculations. Indeed, a calculation can be viewed
 as a proof in and of itself that two expressions describe the same
@@ -758,11 +585,42 @@ Up to the order of summands, the two right-hand sides are the same.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
+# This was on a homework assignment in 2015. We could include this
+# here, or save it for a chapter on combinatorics.
+
+# ** Binomial Coefficients
+
+# Remember that for $0 \leq k \leq n$, $\binom{n}{k}$ is defined by
+# \[
+#  \binom{n}{k} = \frac{n!}{k! (n - k)!}.
+# \]
+
+# It is easy to see that for every $n$, $\binom{n}{0} = 1$, and we
+# showed in class that whenever $1 \leq k + 1 \leq n$, we have
+
+# \[
+#  \binom{n+1}{k+1} = \binom{n}{k+1} + \binom{n}{k}.
+# \]
+
+# Replacing $k + 1$ by $k$, whenever $1 \leq k \leq n$, we have
+
+# \[
+#   \binom{n+1}{k} = \binom{n}{k} + \binom{n}{k-1}.
+# \]
+
+# Use this to show, by induction on $n$, that for every $k \leq n$,
+# that if $S$ is any set of $n$ elements, $\binom{n}{k}$ is the number
+# of subsets of $S$ with $k$ elements.
+
 
 ** Exercises
 
 1. Prove the following: if $a$, $b$, and $c$ are any integers such
    that $a \mid b$ and $a \mid c$, then $a \mid b + c$.
+
+2. Show by induction on $n$ that for every pair of integers $x$ and
+   $y$, $x - y$ divides $x^n - y^n$. (Hint: start by writing
+   $x^{n+1} - y^{n+1}$ as $x^n (x - y) + x^n y - y^{n+1}$.)
 
 2. Give an informal proof of the following theorem : For every integer
    $n$, if $n$ is odd, then $n^2 - 1$ is divisible by 8. (Hint: first

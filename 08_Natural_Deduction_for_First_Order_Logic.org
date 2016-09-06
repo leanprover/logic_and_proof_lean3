@@ -528,13 +528,10 @@ form.
     proof in which the first three statements appear as (uncancelled)
     hypotheses, and the last line is the conclusion:
 
-    > Every young and healthy person likes baseball.
-
-    > Every active person is healthy.
-
-    > Someone is young and active.
-
-    > Therefore, someone likes baseball.
+    - Every young and healthy person likes baseball.
+    - Every active person is healthy.
+    - Someone is young and active.
+    - Therefore, someone likes baseball.
 
     Use $Y(x)$ for ``is young,'' $H(x)$ for ``is healthy,'' $A(x)$ for
     ``is active,'' and $B(x)$ for ``likes baseball.''

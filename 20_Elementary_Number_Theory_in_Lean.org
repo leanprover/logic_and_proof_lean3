@@ -6,6 +6,8 @@
   :CUSTOM_ID: Elementary_Number_Theory_in_Lean
 :END:      
 
+[Under construction.]
+
 ** Reasoning about Parity
 
 In Lean's library, there are theorems =odd_of_not_even= and

@@ -3,5 +3,196 @@
 
 * The Natural Numbers and Induction in Lean
 :PROPERTIES:
-  :CUSTOM_ID: The Natural Numbers and Induction in Lean
+  :CUSTOM_ID: The_Natural_Numbers_and_Induction_in_Lean
 :END:      
+
+[This chapter is only sketched now.]
+
+The goal of this chapter is to give a more axiomatic, foundational
+account of the natural numbers and its basic operations. First, we
+will do this informally, showing how operations like addition and
+multiplication can be defined using the principles of recursion, and
+showing how some of their basic properties can be proved using
+induction. Then we will see how this plays out in the Lean theorem
+prover, using Lean's built-in mechanisms for induction and recursion.
+
+** Defining the Arithmetic Operations Axiomatically
+
+In this section, we provide an informal axiomatic description of the
+natral numbers.  Let $\NN$ be the set of natural numbers, with least
+element $0$, and let $\suc(x) = x + 1$ be the successor function. The
+structure, $( \NN, 0, \suc )$ is characterized uniquely, up to
+isomorphism, by the following clauses:
+- $0 \neq \suc(x)$ for any $x$ in $\NN$.
+- For every $x$ and $y$ in $\NN$, if $x \neq y$, then $\suc(x) \neq
+  \suc(y)$. In other words, $s$ is \emph{injective}.
+- If $A$ is any subset of $\NN$ with the property that $0$ is in $A$
+  and whenever $x$ is in $A$ then $\suc(x)$ is in $A$, then $A = \NN$.
+
+The last clause can be reformulated as the principle of induction:
+#+BEGIN_QUOTE
+Suppose $P(x)$ is any property of natural numbers, such that $P$ holds
+of $0$, and for every $x$, $P(x)$ implies $P(\suc(x))$. Then every $P$
+holds of every natural number.
+#+END_QUOTE
+
+This principle can be used to justify the principle of definition by
+recursion:
+#+BEGIN_QUOTE 
+Let $A$ be any set, $a$ be any element of $A$, and let $g(n,x)$ be any
+function from $\NN \times A$ to $A$. Then there is a unique function
+$f: \NN \to A$ satisfying the following two clauses:
+- $f(0) = a$
+- $f(\suc(n)) = g(n,f(n))$ for every $n$ in $N$.
+#+END_QUOTE
+
+For example, we can define addition with the following two clauses:
+\begin{align*}
+x + 0 & = x \\
+x + \suc(y) & = \suc(x + y)
+\end{align*}
+Note that we are fixing $x$, and viewing this as a function of $y$.
+
+Having done so, one can define multiplication using the following two
+clauses:
+\begin{align*}
+x \cdot 0 & = 0 \\
+x \cdot \suc(y) & = x \cdot y + x
+\end{align*}
+
+If we write $1 = \suc(0)$, $2 = \suc(1)$, and so on, it is easy to
+prove $x + 1 = \suc(x)$ from the definition of addition.
+
+One can also define a predecessor function by
+\begin{align*}
+\fn{pred}(0) & = 0 \\
+\fn{pred}(\suc(x)) & = x,
+\end{align*}
+and ``truncated subtraction'' by
+\begin{align*}
+x \tsub 0 & = 0 \\
+x \tsub (\suc(y)) & = p(x \tsub y).
+\end{align*}
+
+
+With these definitions and the induction principle, one can prove all
+the following identities:
+- $x \neq 0 \to \suc(\fn{pred}(x)) = x$
+- $0 + x = x$
+- $\suc(x) + y = \suc(x + y)$, where $1$ is defined to be $\suc(0)$
+- $(x + y) + z = x + (y + z)$
+- $x + y = y + x$
+- $x(y + z) = xy + xz$
+- $0 \cdot x = 0$
+- $1 \cdot x = x$
+- $(xy)z = x(yz)$
+- $xy = yx$
+
+
+[Do 1-5, for the exercises below.]
+
+
+** Induction and Recursion in Lean
+
+[Fill in. Need an overview introduction.]
+
+
+** Defining the Artithmetic Operations in Lean
+
+[Do the examples in Lean.]
+
+** Defining the Ordering Axiomatically
+
+[Return to informal presentation. Define $<$ and show that it has
+these properties.]
+
+- $n < n$ is never true (/irreflexivity/);
+- if $n < m$ and $m < k$ then $n < k$ (/transitivity/);
+- for all $n$ and $m$, either $n < m$, $n = m$ or $m < n$ is true (/trichotomy/);
+- if $n < m$ then $n + k < m + k$;
+- if $k > 0$ and $n < m$ then $nk < mk$;
+- if $m > n$ then $m = n + 1$ or $m > n + 1$;
+- for all $n$, $n = 0$ or $n > 0$.
+
+The relation $x \le y$, read "$x$ is less than or equal to $y$," is
+defined to mean just that, that is, the $x$ is less than $y$ or $x$ is
+equal to $y$.
+
+Now from the properties of $<$ we can prove similar properties for
+$\le$. Note that these properties are /not/ basic properties we
+assume, but are instead properties we can derive from the properties
+of $<$ and the definition of $\le$.
+- $n \le n$ (/reflexivity/);
+- if $n \le m$ and $m \le k$ then $n \le k$ (/transitivity/);
+- if $n \le m$ and $m \le n$ then $n = m$ (/antisymmetry/);
+- for all $n$ and $m$, either $n \le m$ or $m \le n$ is true (/totality/);
+- if $n \le m$ then $n + k \le m + k$;
+- if $n \le m$ then $nk \le mk$;
+- if $m \ge n$ then $m = n$ or $m \ge n + 1$;
+- $0 \le n$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proof*. We will prove some of these properties listed for $\le$.
+
+The first property is straightforward. Since $n \le n$ is defined as
+"$n = n$ or $n < n$," it is true, since the equality holds.
+
+For the second property assume that $n \le m$ and $m \le k$. We have
+to show that $n \le k$. By definition of $\le$ we know from our first
+assumption that either $n = m$ or $n < m$. We now apply case analysis.
+- Suppose first that $n = m$. Since we know that $m \le k$, we can
+  substitute $n$ for $m$ in that expression to obtain $n \le k$, which
+  is what we wanted to prove.
+- Now suppose that $n < m$. Then we know from our second assumption
+  that either $m = k$ or $m < k$. We perform a second case
+  distinction.
+  - If $m = k$ then we can substitute $k$ for $m$ in the inequality $n
+    < m$ to obtain $n < k$. Hence we conclude that $n \le k$, as
+    desired.
+  - In the other case, if $m < k$, then we use the transitivity of $<$
+    to conclude from $n < m$ and $m < k$ that $n < k$. Hence we know
+    that $n \le k$.
+In all cases we've shown that $n \le k$, so we've finished the proof.
+
+As a last example, we show that if $n \le m$ then $nk \le mk$. By
+assumption, we have either $n = m$ or $n < m$. If $n = m$, then we
+know by multiplying both sides with $k$ that $nk = mk$, hence $nk \le
+mk$. On the other hand, if $n < m$, then apply case analysis on $k =
+0$ or $k > 0$, which is one of the properties for the strict
+inequality. If $k = 0$, then $nk = n \cdot 0 = 0 = m \cdot 0 = mk$,
+hence $nk \le mk$. If $k > 0$ we can conclude that $nk < mk$ by one of
+the properties for the strict inequality, hence that $nk \le mk$.
+Since in all cases we've proven that $nk \le mk$, we have finished the
+proof of this property.
+
+The rest of the proofs are left as an exercise to the reader.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+We can prove some more properties about $<$ and $\le$. These are not
+basic properties we assume, but properties we can prove from the basic
+properties for $<$, which you are asked to do in the exercises below.
+- $n < m$ and $m < n$ cannot both hold (/asymmetry/);
+- $n + 1 > n$;
+- if $n < m$ and $m \le k$ then $n < k$;
+- if $n \le m$ and $m < k$ then $n < k$;
+- if $m > n$ then $m \ge n + 1$;
+- if $m \ge n$ then $m + 1 > n$;
+- if $n + k < m + k$ then $n < m$;
+- if $nk < mk$ then $k > 0$ and $n < m$.
+
+** Defining the Ordering in Lean
+
+[Show how to do this.]
+
+** Exercises
+
+1. Give an informal but detailed proof of $x \cdot (y + z) = x \cdot
+   y + x \cdot z$, using the definition of addition and multiplication
+   and the properties that were proved above. (Indicate
+   which properties you are using and where.)
+
+2. Prove $x \cdot (y \cdot z) = (x \cdot y) \cdot z$ in the same way.

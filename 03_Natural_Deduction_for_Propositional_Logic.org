@@ -668,8 +668,10 @@ also be equivalent. (Some proof systems take this to be a basic rule,
 and interactive theorem provers can accomodate it, but we will /not/
 take it to be a fundamental rule of natural deduction.)
 
-For reference, the following is a list of commonly used propositional
-equivalences.
+For reference, the following list contains some commonly used propositional
+equivalences, along with some noteworthy formulas. Think about why,
+intuitively, these formulas should be true.
+
 \begin{enumerate}
 \item Commutativity of $\wedge$: $A \wedge B \liff B \wedge A$
 \item Commutativity of $\vee$: $A \vee B \liff B \vee A$

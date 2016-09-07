@@ -159,44 +159,6 @@ As exercises, try writing proving the following, informally:
   or both odd. Prove that if $m$ and $n$ are any two integers, then
   $m + n$ and $m - n$ have the same parity.
 
-Notice that the proofs above do not look anything like proofs in
-symbolic logic. For one thing, ordinary proofs tend to favor words
-over symbols. Of course, mathematics uses symbols all the time, but
-not in place of words like "and" and "not"; you will rarely, if ever,
-see the symbols $\wedge$ and $\neg$ in a mathematics textbook, unless
-it is a textbook specifically about logic.
-
-Similarly, the structure of an informal proof is conveyed with
-ordinary paragraphs and punctuation. Don't rely on pictorial diagrams,
-line breaks, and indentation to convey the structure of a
-proof. Rather, you should rely on literary devices like signposting
-and foreshadowing. It is often helpful to present an outline of a
-proof or the key ideas before delving into the details, and the
-introductory sentence of a paragraph can help guide a reader's
-expectations, just as it does in an expository essay.
-
-Perhaps the biggest difference between informal proofs and formal
-proofs is the level of detail. Informal proofs will often skip over
-details that are taken to be "straightforward" or "obvious," devoting
-more effort to spelling out inferences that are novel of unexpected.
-
-Writing a good proof is like writing a good essay. To convince your
-readers that the conclusion is correct, you have to get them to
-understand the argument, without overwhelming them with unnecessary
-details. It helps to have a specific audience in mind. Try speaking
-the argument aloud to friends, roommates, and family members; if their
-eyes glaze over, it is unreasonable to expect anonymous readers to do
-better.
-
-Perhaps the best way to learn to write good proofs is to /read/ good
-proofs, and pay attention to the style of writing. Pick an example of
-a textbook that you find especially clear and engaging, and think
-about what makes it so.
-
-Natural deduction and formal verification can help you understand the
-components that make a proof /correct/, but you will have to develop
-an intuitive feel for what makes a proof easy and enjoyable to read.
-
 ** Modular Arithmetic
 
 # add chapter reference

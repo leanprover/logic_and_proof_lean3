@@ -4,7 +4,7 @@
 * Sets
 :PROPERTIES:
   :CUSTOM_ID: Sets
-:END:      
+:END:
 
 We have come to a turning point in this textbook. We will henceforth,
 for the most part, abandon natural deduction, and begin to focus on
@@ -120,13 +120,14 @@ written $\fa x (x \in A \liff x \in B)$. These are all
 quantifiers in front, followed by basic assertions and propositional
 connectives. What this means is that reasoning about sets formally
 often amounts to using nothing more than the rules for the universal
-quantifier together with the rules for propositional logic. You should
-by now be able to discern this formal structure underlying /informal/
-proofs as well. Here are two examples.
+quantifier together with the rules for propositional logic. However,
+the proofs we write down from now on will be /informal/ instead of the
+/formal/ proofs we've written when writing proof trees of natural
+deductions. We use English instead of only mathematical formulas, and
+we write paragraphs instead of trees.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
-
 
 Let $A, B, C, \ldots$ denote sets of elements of some domain, $X$.
 
@@ -139,7 +140,7 @@ $A$ and $C$, and hence $A \cap C$. Either way, we have that $x$ is in
 $(A \cap B) \cup (A \cap C)$.
 
 Conversely, suppose $x$ is in $(A \cap B) \cup (A \cap C)$. There are
-now two cases. 
+now two cases.
 
 First, suppose $x$ is in $A \cap B$. Then $x$ is in both $A$ and
 $B$. Since $x$ is in $B$, it is also in $B \cup C$, and so $x$ is in
@@ -152,27 +153,63 @@ also, $x$ is in $A \cap (B \cup C)$, as required.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
 *Theorem*. $(A \setminus B) \setminus C = A \setminus (B \cup C)$.
 
 *Proof*. Suppose $x$ is in $(A \setminus B) \setminus C$. Then $x$ is
-in $A \setminus B$ but not $C$, and hence it is in $A$ but not $B$ or
-$C$. This means that $x$ is in $A$ but not $B \cup C$, and so in $A
+in $A \setminus B$ but not $C$, and hence it is in $A$ but not in $B$
+or $C$. This means that $x$ is in $A$ but not $B \cup C$, and so in $A
 \setminus (B \cup C)$.
 
 Conversely, suppose $x$ is in $A \setminus (B \cup C)$. Then $x$ is in
 $A$, but not in $B \cup C$. In particular, $x$ is in neither $B$ nor
 $C$, because otherwise it would be in $B \cup C$. So $x$ is in $A
-\setminus B$, and hence $(A \setminus B) \setminus C$.
+\setminus B$, and hence in $(A \setminus B) \setminus C$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
+Notice that the proofs above do not look anything like proofs in
+symbolic logic. For one thing, ordinary proofs tend to favor words
+over symbols. Of course, mathematics uses symbols all the time, but
+not in place of words like "and" and "not"; you will rarely, if ever,
+see the symbols $\wedge$ and $\neg$ in a mathematics textbook, unless
+it is a textbook specifically about logic.
+
+Similarly, the structure of an informal proof is conveyed with
+ordinary paragraphs and punctuation. Don't rely on pictorial diagrams,
+line breaks, and indentation to convey the structure of a
+proof. Rather, you should rely on literary devices like signposting
+and foreshadowing. It is often helpful to present an outline of a
+proof or the key ideas before delving into the details, and the
+introductory sentence of a paragraph can help guide a reader's
+expectations, just as it does in an expository essay.
+
+Perhaps the biggest difference between informal proofs and formal
+proofs is the level of detail. Informal proofs will often skip over
+details that are taken to be "straightforward" or "obvious," devoting
+more effort to spelling out inferences that are novel of unexpected.
+
+Writing a good proof is like writing a good essay. To convince your
+readers that the conclusion is correct, you have to get them to
+understand the argument, without overwhelming them with unnecessary
+details. It helps to have a specific audience in mind. Try speaking
+the argument aloud to friends, roommates, and family members; if their
+eyes glaze over, it is unreasonable to expect anonymous readers to do
+better.
+
+Perhaps the best way to learn to write good proofs is to /read/ good
+proofs, and pay attention to the style of writing. Pick an example of
+a textbook that you find especially clear and engaging, and think
+about what makes it so.
+
+Natural deduction and formal verification can help you understand the
+components that make a proof /correct/, but you will have to develop
+an intuitive feel for what makes a proof easy and enjoyable to read.
+
+
+
 [Include indexed unions and intersections, or the union / intersection
 of a set of sets.]
-
 
 ** Calculations with Sets
 
@@ -200,14 +237,14 @@ identities hold:
 - $A \cap (A \cup B) = A$
 - $A \cup (A \cap B) = A$
 
-Now many identities involving sets can be proved "by calculation." 
+Now many identities involving sets can be proved "by calculation."
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
 *Theorem*. Let $A$ and $B$ be subsets of some domain $X$. Then $(A
 \cap \overline B) \cup B = B$.
 
-*Proof*. 
+*Proof*.
 \begin{align*}
 (A \cap \overline B) \cup B & = (A \cup B) \cap (\overline B \cup B)
 \\
@@ -249,7 +286,7 @@ Translated to propositions, the theorem above is as follows:
 *Theorem*. Let $A$ and $B$ be elements of a boolean algebra. Then $(A
 \wedge \neg B) \vee B = B$.
 
-*Proof*. 
+*Proof*.
 \begin{align*}
 (A \wedge \neg B) \vee B & = (A \vee B) \wedge (\neg B \vee B)
 \\

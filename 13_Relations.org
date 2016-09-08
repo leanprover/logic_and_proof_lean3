@@ -6,6 +6,17 @@
   :CUSTOM_ID: Relations
 :END:      
 
+Earlier, we discussed the notion of a /relation symbol/ in first-order
+logic, and saw how to interpret such a symbol in a model. In this chapter,
+we'll look at some kinds of relations that are omnipresent in mathematics.
+
+As before, we can define a binary relation $R$ on a domain $A$ to be a 
+subset of $A \times A$, and similarly for relations of higher arity.
+The binary relation holds of two elements $a, b \in A$ -- that is, $R(a, b)$ is
+true -- exactly when the pair $(a, b)$ is an element of $R$. In mathematics,
+we favor "relation" notation over "set membership" notation; often, we
+use "infix" notation, writing $a R b$ instead of $R(a, b)$.
+
 ** Order Relations
 
 In order to illustrate reasoning with the equality axioms, we will
@@ -24,6 +35,24 @@ study a class of important binary relations in mathematics, namely,
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
+
+
+Notice the compact way of introducing the symbol $\leq$ in the
+statement of the definition, and the fact that $\leq$ is written as
+an infix symbol. Notice also that even though the relation is written
+with the symbol $\leq$, it is the only symbol occurring in the
+definition; mathematical practice favors natural language to describe
+its properties.
+
+You now know enough, however, to recognize the universal quantifiers
+that are present in the three clauses. In symbolic logic, we would
+write them as follows:
+- $\fa a (a \leq a)$
+- $\fa {a, b, c} (a \leq b \wedge b \leq c \to a \leq c)$
+- $\fa {a, b} (a \leq b \wedge b \leq a \to a = b)$
+
+Here the variables $a$, $b$, and $c$ implicitly range over the domain
+$A$.
 
 The use of the symbol $\leq$ is meant to be suggestive, and, indeed,
 the following are all examples of partial orders:
@@ -95,7 +124,7 @@ contradicting irreflexivity.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-On the integers, there is are precise relationships between $<$ and
+On the integers, there are precise relationships between $<$ and
 $\leq$: $x \leq y$ if and only if $x < y$ or $x = y$, and $x < y$ if
 and only if $x \leq y$ and $x \neq y$. This illustrates a more general
 phenomenon.
@@ -116,7 +145,7 @@ partial order. Moreover, if $<$ is total, so is $\leq$.
 
 We will prove the first here, and leave the second as an
 exercise. This proof is a nice illustration of how universal
-quantification, equality, and propositional reasoning is combined in a
+quantification, equality, and propositional reasoning are combined in a
 mathematical argument.
 
 #+HTML: <hr>
@@ -231,8 +260,7 @@ follows:
 \begin{equation*}
 \ex x (\fa y (y \nless x) \wedge \fa y (x \leq y)).
 \end{equation*}
-We will learn how to reason about such existential assertions in the
-next chapter. The assertion that there exists a domain $A$, and a
+ The assertion that there exists a domain $A$, and a
 partial order $\leq$ on that domain $A$, is more dramatic: it is a
 "higher order" existential assertion. But symbolic logic provides us
 with the means to make assertions like these as well, as we will see
@@ -244,27 +272,8 @@ element. More precisely, an order is dense if, whenever $x < y$, there
 is an element $z$ satisfying $x < z$ and $z < y$. For example, the
 rational numbers are dense with the usual $\leq$ ordering, but not the
 integers. Saying that an order is dense is another example of an
-implicit use of existential quantification, and we will return to this
-in the next chapter.
+implicit use of existential quantification.
 
-We close this section with one more example. A binary relation $\leq$
-on a domain $A$ is said to be a /preorder/ it is is reflexive and
-transitive. This is weaker than saying it is a partial order; we have
-removed the requirement that the relation is asymmetric. An example is
-the ordering on people currently alive on the planet defined by
-setting $x \leq y$ if and only if $x$ 's birth date is earlier than
-$y$ 's. Asymmetry fails, because different people can be born on the
-same day. But we leave it to you to check that the following holds:
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Theorem.* Let $\leq$ be a preorder on a domain $A$. Define the
-relation $\equiv$, where $x \equiv y$ holds if and only if $x \leq y$
-and $y \leq x$. Then $\equiv$ is an equivalence relation on $A$.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
 
 ** Equivalence Relations and Equality
 
@@ -281,28 +290,14 @@ defined as follows.
 - /reflexivity/: $a \equiv a$, for every $a$ in $A$.
 - /symmetry/: if $a \equiv b$, then $b \equiv a$, for every $a$ and
   $b$ in $A$.
-- /transitive/: if $a \equiv b$ and $b \equiv c$, then $a \equiv c$, for every $a$,
+- /transitivity/: if $a \equiv b$ and $b \equiv c$, then $a \equiv c$, for every $a$,
   $b$, and $c$ in $A$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
-
-Notice the compact way of introducing the symbol $\equiv$ in the
-statement of the definition, and the fact that $\equiv$ is written as
-an infix symbol. Notice also that even though the relation is written
-with the symbol $\equiv$, it is the only symbol occurring in the
-definition; mathematical practice favors natural language to describe
-its properties.
-
-You now know enough, however, to recognize the universal quantifiers
-that are present in the three clauses. In symbolic logic, we would
-write them as follows:
-- $\fa a (a \equiv a)$
-- $\fa {a, b} (a \equiv b \to b \equiv a)$
-- $\fa {a, b, c} (a \equiv b \wedge b \equiv c \to a \equiv c)$
-Here the variables $a$, $b$, and $c$ implicitly range over the domain
-$A$. We leave it to you to think about how you could write these
-statements in Lean. We will also leave you with an exercise: by a
+ We leave it to you to think about how you could write these
+statements in first-order logic. (Note the similarity to the rules for a partial order.)
+ We will also leave you with an exercise: by a
 careful choice of how to instantiate the quantifiers, you can actually
 prove the three properties above from the following two:
 - $\fa a (a \equiv a)$
@@ -362,7 +357,22 @@ things are equal, then they have exactly the same properties.
    Prove that for every $a$ and $b$ in $A$, we have $a < b$ iff $a
    \leq b$ and $a \neq b$, using the facts above.
 
-3. $\equiv$ be an equivalence relation on a set $A$. For every
+3. An /ordered graph/ is a collection of vertices (points), along with
+   a collection of arrows between vertices. For each pair of vertices,
+   there is at most one arrow between them: in other words, every
+   pair of vertices is either unconnected, or one vertex is "directed"
+   toward the other. Note that it is possible to have an arrow from a
+   vertex to itself.
+
+   Define a relation $\leq$ on the set of vertices, such that for two
+   vertices $a$ and $b$, $a \leq b$ means that there is an arrow from
+   $a$ pointing to $b$. 
+
+   On an arbitrary graph, is $\leq$ a preorder, a partial order, a 
+   total order, or none of the above? If possible, give examples of 
+   graphs where $\leq$ fails to have these properties. 
+
+3. Let $\equiv$ be an equivalence relation on a set $A$. For every
    element $a$ in $A$, let $[a]$ be the set of elements $\{ c \st c
    \equiv a \}$, that is, the set of elements of $A$ that are
    equivalent to $a$. Show that for every $a$ and $b$, $[a] = [b]$ if
@@ -377,3 +387,21 @@ things are equal, then they have exactly the same properties.
    - By definition, an element $c$ is in $[a]$ if and only if $c
      \equiv a$. In particular, $a$ is in $[a]$.)
 
+4. A binary relation $\leq$
+   on a domain $A$ is said to be a /preorder/ it is is reflexive and
+   transitive. This is weaker than saying it is a partial order; we have
+   removed the requirement that the relation is asymmetric. An example is
+   the ordering on people currently alive on the planet defined by
+   setting $x \leq y$ if and only if $x$ 's birth date is earlier than
+   $y$ 's. Asymmetry fails, because different people can be born on the
+   same day. But, prove that the following theorem holds:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Let $\leq$ be a preorder on a domain $A$. Define the
+relation $\equiv$, where $x \equiv y$ holds if and only if $x \leq y$
+and $y \leq x$. Then $\equiv$ is an equivalence relation on $A$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule

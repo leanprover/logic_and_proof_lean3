@@ -6,9 +6,20 @@
   :CUSTOM_ID: Relations_in_Lean
 :END:      
 
+In first-order logic, a (binary) relation was defined to be a set of
+pairs of elements of the domain. We adopted a similar definition in
+informal mathematics, although we've tended to use infix notation for
+relation symbols and have mostly ignored the "set-membership" definition.
+In practice, a (binary) relation was a sort of function that took two
+elements of the domain and returned either "true" or "false."
+
+In Lean, we make this notion explicit: a binary relation on a type =A=
+is a function =A → A → Prop=. If =R= has this type, and =a b : A=,
+then =R a b= is either =True= or =False=.
+
 ** Order Relations
 
-We can read about partial orders in Lean by fixing a type, =A=, and a
+We can reason about partial orders in Lean by fixing a type, =A=, and a
 binary relation, =R=, and working under the hypotheses that =A= is
 reflexive, transitive, and antisymmetric:
 #+BEGIN_SRC lean

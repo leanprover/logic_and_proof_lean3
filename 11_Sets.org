@@ -52,22 +52,24 @@ arbitrary "sets." In this text, we will adopt this convention: when we
 talk about sets, we are always implicitly talking about sets of
 elements of some domain.
 
-Cantor's characterization suggests that whenever we have some
-property, $P$, of a domain, we can form the set of elements that have
-that property. This is denoted using "set-builder notation" as $\{ x
-\; | \; P(x) \}$. For example, we can consider all the following sets
-of natural numbers:
+Given a set $A$ of objects in some domain and an object $x$, we write
+$x \in A$ to say that $x$ is an element of $A$. Cantor's
+characterization suggests that whenever we have some property, $P$, of
+a domain, we can form the set of elements that have that
+property. This is denoted using "set-builder notation" as $\{ x \; |
+\; P(x) \}$. For example, we can consider all the following sets of
+natural numbers:
 - \( \{n \st \mbox{$n$ is even} \} \)
 - \( \{n \st \mbox{$n$ is prime} \} \)
 - \( \{n \st \mbox{$n$ is prime and greater than 2} \} \)
 - \( \{n \st \mbox{$n$ can be written as a sum of squares} \} \)
 - \( \{n \st \mbox{$n$ is equal to 1, 2, or 3}\} \)
-This last set is written more simply $\{1, 2, 3\}$.
+This last set is written more simply $\{1, 2, 3\}$. If the domain is
+not clear from the context, we can specify it by writing \( \{n\in
+\NN \st \text{$n$ is even} \} \).
 
-Given a set $A$ of objects in some domain and an object $x$, we write
-$x \in A$ to say that $x$ is an element of $A$. Using set-builder
-notation, we can define a number of common sets and operations. The
-/empty set/, $\emptyset$, is the set with no elements:
+Using set-builder notation, we can define a number of common sets and
+operations. The /empty set/, $\emptyset$, is the set with no elements:
 \begin{equation*}
 \emptyset = \{ x \st \mbox{false} \}
 \end{equation*}
@@ -206,11 +208,6 @@ Natural deduction and formal verification can help you understand the
 components that make a proof /correct/, but you will have to develop
 an intuitive feel for what makes a proof easy and enjoyable to read.
 
-
-
-[Include indexed unions and intersections, or the union / intersection
-of a set of sets.]
-
 ** Calculations with Sets
 
 In the last chapter, we considered operations involving sets. Assuming
@@ -224,7 +221,6 @@ identities hold:
 - $A \cup \emptyset = A$
 - $A \cap \emptyset = \emptyset$
 - $A \cup {\mathcal U} = {\mathcal U}$
-- $A \cap {\mathcal U} = A$
 - $A \cap {\mathcal U} = A$
 - $A \cup B = B \cup A$
 - $A \cap B = B \cap A$
@@ -242,14 +238,14 @@ Now many identities involving sets can be proved "by calculation."
 #+LATEX: \horizontalrule
 
 *Theorem*. Let $A$ and $B$ be subsets of some domain $X$. Then $(A
-\cap \overline B) \cup B = B$.
+\cap \overline B) \cup B = A \cup B$.
 
 *Proof*.
 \begin{align*}
 (A \cap \overline B) \cup B & = (A \cup B) \cap (\overline B \cup B)
 \\
 & = (A \cup B) \cap {\mathcal U} \\
-& = (A \cup B).
+& = A \cup B.
 \end{align*}
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -266,7 +262,6 @@ identities above translated to the language of a boolean algebra:
 - $A \vee \bot = A$
 - $A \wedge \bot = \bot$
 - $A \vee \top = \top$
-- $A \wedge \top = A$
 - $A \wedge \top = A$
 - $A \vee B = B \vee A$
 - $A \wedge B = B \wedge A$
@@ -313,6 +308,72 @@ calc
             ... ↔ (A ∨ B)             : and_true
 #+END_SRC
 
+** Families of sets
+
+Sometimes we are working with a /family/ of sets, which is just a
+collection of zero or more sets. This concept is best illustrated by some examples.
+
+- For each natural number $n$ we have a set $A_n$ of living people of
+  age $n$. For every age we have a set. Someone of age 20 is an
+  element of the set $A_{20}$, while newborn babies are in $A_0$. The
+  set $A_{200}$ is empty. This is a family of sets indexed by the
+  natural numbers. We can write this family as $\{A_n\}_{n\in\NN}$.
+- For every real number $r$ we can define $B_r$ to be the set of
+  positive real numbers larger than $r$, so $B_r = \{x\in \RR \mid x >
+  r \text{ and } x > 0\}$. Then $\{B_r\}_{r\in\RR}$ is a family of
+  sets indexed over the real numbers.
+- For every natural number $n$ we can define $C_n=\{k\in\NN\mid k
+  \text{ is a divisor of } n\}$ as the set of divisors of $n$.
+
+We have operations on families of sets. If we have a family of sets
+$\{A_i\}_{i\in I}$ indexed by some set $I$, we can form the /union/ of
+this family of sets:
+\begin{equation*}
+\bigcup_{i \in I} A_i = \{ x \st x \in A_i \text{ for some $i \in I$} \}
+\end{equation*}
+We can also form the /intersection/ of a family of sets:
+\begin{equation*}
+\bigcap_{i \in I} A_i = \{ x \st x \in A_i \text{ for all $i \in I$} \}
+\end{equation*}
+
+These operations are represented in symbolic logic by the existential
+and the universal quantifier. We have:
+- $\fa x (x \in \bigcup_{i \in I} A_i \liff \ex i \in I, x \in A_i)$
+- $\fa x (x \in \bigcap_{i \in I} A_i \liff \fa i \in I, x \in A_i)$
+
+Returning to our examples of families of sets, we have that
+$\bigcup_{n \in \NN} A_n$ is the set of all living people, and
+$\bigcap_{n \in \NN} A_n = \emptyset$. Also, $\bigcup_{r \in \RR} B_r
+= \RR_{>0}$, the set of all positive real numbers, and $\bigcap_{r \in
+\RR} B_r = \emptyset$. For the last example, we have
+$\bigcup_{n \in \NN} C_n = \NN$ and $\bigcap_{n \in \NN} C_n = \{1\}$,
+since 1 is a divisor of every natural number.
+
+Suppose that $I$ contains just two elements, say $I=\{c, d\}$. Let
+$\{A_i\}_{i\in I}$ be a family over $I$. Because $I$ has two elements,
+this family consists of just two sets $A_c$ and A_d$. Then the union
+and intersection of this family are just the union and intersection of
+the two sets:
+\begin{align*}
+\bigcup_{i \in I} A_i &= A_c \cup A_d\\
+\bigcap_{i \in I} A_i &= A_c \cap A_d.
+\end{align*}
+This means that the union and intersection of two sets are just a
+special case of the union and intersection of a family of sets.
+
+We also have equalities for unions and intersections of families of
+sets. Here are a few of them:
+- $A \cap \bigcup_{i \in I} B_i = \bigcup_{i \in I} (A \cap B_i)$
+- $A \cup \bigcap_{i \in I} B_i = \bigcap_{i \in I} (A \cup B_i)$
+- $\overline{\bigcap_{i \in I} A_i} = \bigcup_{i \in I} \overline{A_i}$
+- $\overline{\bigcup_{i \in I} A_i} = \bigcap_{i \in I} \overline{A_i}$
+- $\bigcup_{i \in I} \bigcup_{j \in J} A_{i,j} = \bigcup_{j \in J} \bigcup_{i \in I} A_{i,j}$
+- $\bigcap_{i \in I} \bigcap_{j \in J} A_{i,j} = \bigcap_{j \in J} \bigcap_{i \in I} A_{i,j}$
+
+In the last two lines, $A_{i,j}$ is indexed by two sets $I$ and
+$J$. This means that for every $i \in I$ and $j\in J$ we have a set
+$A_{i,j}$. For the first four equalities, try to figure out what the rule
+means if the index set $I$ contains two elements.
 
 ** Exercises
 
@@ -346,3 +407,19 @@ calc
    - $A \setminus B = A \setminus (A \cap B)$
    - $A \setminus B = (A \cup B) \setminus B$
    - $(A \cap B) \setminus C = (A \setminus C) \cap B$
+
+8. Prove that if $\{A_{i,j}\}_{i \in I, j \in J}$ is a family indexed
+   over two sets $I$ and $J$, then
+   \begin{equation*}
+     \bigcup_{i \in I}\bigcap_{j \in J} A_{i, j} \subseteq \bigcap_{j \in J}\bigcup_{i \in I} A_{i, j}.
+   \end{equation*}
+   Also, find a family $\{A_{i,j}\}_{i \in I, j \in J}$ where the
+   reverse inclusion does not hold.
+
+9. Prove using calculational reasoning that
+   \begin{equation*}
+     \left(\bigcup_{i \in I}A_i\right)\cap \left(\bigcup_{j \in J}B_j\right) =
+     \bigcup_{\substack{i \in I \\ j \in J}}(A_i \cap B_j).
+   \end{equation*}
+   The notation $\bigcup_{\substack{i \in I \\ j \in J}}(A_i \cap B_j)$ means $\bigcup_{i
+   \in I} \bigcup_{j \in J}(A_i \cap B_j)$.

@@ -471,18 +471,16 @@ y) = x + y$ on the integers takes two integers and returns an
 integer. Remember, we can consider binary functions, ternary
 functions, and so on, and the number of arguments to a function is
 called its "arity."  One easy way to make sense of functions with
-multiple arguments is to think of them as unary functions on sets of
-tuples. For example, if $A$ and $B$ are sets, $A \times B$ consists of
-the set of ordered pairs $(a, b)$ where $a$ in an element of $A$ and
-$b$ is an element of $B$. We can think of a function $f$ which takes
-two arguments, one in $A$ and one in $B$, and returns an argument in
-$C$ as a unary function from $A \times B$ to $C$, whereby $f(a,
-b)$ abbreviates $f((a, b))$. We have seen that in dependent type
-theory (and in Lean) it is more convenient to think of such a function
-$f$ as a function which takes an element of $A$ and returns a function
-from $B \to C$, so that $f(a, b)$ abbreviates $(f(a))(b)$. Such a
-function $f$ maps $A$ to $B \to C$, where $B \to C$ is the set of
-functions from $B$ to $C$.
+multiple arguments is to think of them as unary functions from a
+cartesian product. We can think of a function $f$ which takes two
+arguments, one in $A$ and one in $B$, and returns an argument in $C$
+as a unary function from $A \times B$ to $C$, whereby $f(a, b)$
+abbreviates $f((a, b))$. We have seen that in dependent type theory
+(and in Lean) it is more convenient to think of such a function $f$ as
+a function which takes an element of $A$ and returns a function from
+$B \to C$, so that $f(a, b)$ abbreviates $(f(a))(b)$. Such a function
+$f$ maps $A$ to $B \to C$, where $B \to C$ is the set of functions
+from $B$ to $C$.
 
 We will return to these different ways of modeling functions of higher
 arity later on, when we consider set-theoretic and type-theoretic

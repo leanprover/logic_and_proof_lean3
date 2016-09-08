@@ -122,11 +122,13 @@ written $\fa x (x \in A \liff x \in B)$. These are all
 quantifiers in front, followed by basic assertions and propositional
 connectives. What this means is that reasoning about sets formally
 often amounts to using nothing more than the rules for the universal
-quantifier together with the rules for propositional logic. However,
-the proofs we write down from now on will be /informal/ instead of the
-/formal/ proofs we've written when writing proof trees of natural
-deductions. We use English instead of only mathematical formulas, and
-we write paragraphs instead of trees.
+quantifier together with the rules for propositional logic.
+
+The proofs we write down from now on will be /informal/ instead of the
+/formal/ proofs we've written when writing natural deduction proof
+trees. In informal proofs we focus on readability. We use English
+words instead of mathematical formulas to structure the proof, and we
+write paragraphs instead of trees.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -338,14 +340,15 @@ We can also form the /intersection/ of a family of sets:
 
 These operations are represented in symbolic logic by the existential
 and the universal quantifier. We have:
-- $\fa x (x \in \bigcup_{i \in I} A_i \liff \ex i \in I, x \in A_i)$
-- $\fa x (x \in \bigcap_{i \in I} A_i \liff \fa i \in I, x \in A_i)$
+- $\fa x (x \in \bigcup_{i \in I} A_i \liff \ex{i \in I,} x \in A_i)$
+- $\fa x (x \in \bigcap_{i \in I} A_i \liff \fa{i \in I,} x \in A_i)$
 
-Returning to our examples of families of sets, we have that
-$\bigcup_{n \in \NN} A_n$ is the set of all living people, and
-$\bigcap_{n \in \NN} A_n = \emptyset$. Also, $\bigcup_{r \in \RR} B_r
-= \RR_{>0}$, the set of all positive real numbers, and $\bigcap_{r \in
-\RR} B_r = \emptyset$. For the last example, we have
+Returning to our examples of families of sets, we can compute the
+union and intersection of the families in these examples. For the
+first example, $\bigcup_{n \in \NN} A_n$ is the set of all living
+people, and $\bigcap_{n \in \NN} A_n = \emptyset$. Also, $\bigcup_{r
+\in \RR} B_r = \RR_{>0}$, the set of all positive real numbers, and
+$\bigcap_{r \in \RR} B_r = \emptyset$. For the last example, we have
 $\bigcup_{n \in \NN} C_n = \NN$ and $\bigcap_{n \in \NN} C_n = \{1\}$,
 since 1 is a divisor of every natural number.
 
@@ -374,6 +377,77 @@ In the last two lines, $A_{i,j}$ is indexed by two sets $I$ and
 $J$. This means that for every $i \in I$ and $j\in J$ we have a set
 $A_{i,j}$. For the first four equalities, try to figure out what the rule
 means if the index set $I$ contains two elements.
+
+** Cartesian Product and Power Set
+
+Before we can introduce the next operation on sets, we need to talk
+about pairs. A pair, or /ordered pair/, of two object $a$ and $b$ is
+denoted $(a, b)$. Here $a$ is the /first component/ and $b$ is the
+/second component/ of $(a, b)$. Two pairs are only equal if the first
+component are equal and the second components are equal. So $(a, b) =
+(c, d)$ if and only if $a = c$ and $b = d$.
+
+We can take pairs as primitive notions, which is usually done in type
+theory. This is also the method used in Lean. However, in set theory
+we can define pairs as a particular set, namely \( (a, b) = \{\{a\},
+\{a, b\}\} \). Note that in this definition, an ordered pair $(a, b)$
+doesn't always have two elements, namely if $a = b$, then
+\begin{equation*}
+(a, a) = \{\{a\},\{a, a\}\} = \{\{a\},\{a\}\} = \{\{a\}\}.
+\end{equation*}
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem*. Using the definition \( (a, b) = \{\{a\}, \{a, b\}\} \) we have
+$(a, b) = (c, d)$ if and only if $a = c$ and $b = d$.
+
+*Proof*.  If $a = c$ and $b = d$ then clearly $(a, b) = (c, d)$.  For
+the other direction, suppose that $(a, b) = (c, d)$, which means
+\begin{equation*}
+\underbrace{\{\{a\}, \{a, b\}\}}_L = \underbrace{\{\{c\}, \{c, d\}\}}_R.
+\end{equation*}
+Suppose first that $a = b$. Then $L = \{\{a\}\}$. This means that
+$\{c\} = \{a\}$ and $\{c, d\} = \{a\}$, from which we conclude that $c
+= a$ and $d = a = b$.
+
+Now suppose that $a \neq b$. If $\{c\} = \{a, b\}$ then we conclude
+that $a$ and $b$ are both equal to $c$, contradiction $a \neq
+b$. Since $\{c\}\in L$, $\{c\}$ must be equal to $\{a\}$, which means that $a =
+c$. We know that $\{a, b\} \in R$, and since we know $\{a, b\}\neq
+\{c\}$, we conclude $\{a, b\} = \{c, d\}$. This means that $b \in\{c,
+d\}$, since $b \neq a = c$, we conclude that $b = d$.
+
+Hence in both cases we conclude that $a = c$ and $b = d$, proving the theorem.
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Using ordered pairs we can also define /ordered triples/ $(a, b, c)$ as
+$(a, (b, c))$. Then we can prove that $(a, b, c) = (d, e, f)$ if and
+only if $a = d$, $b = e$ and $c = f$, which you are asked to do in
+the exercises. We can also define ordered $n$-tuples which is a
+sequence of $n$ objects in a similar way.
+
+Given two sets $A$ and $B$, we can define the /cartesian product/ $A
+\times B$ of these two types as the set of all pairs where the first
+component is an element in $A$ and the second component is an element
+in $B$. In set-builder notation this means
+\begin{equation*}
+A \times B = \{(a, b)\mid a \in A \text{ and } b \in B\}.
+\end{equation*}
+Note that if $A$ and $B$ are subsets of a particular domain $\mathcal
+U$, the set $A \times B$ need not be a subset of the same
+domain. However, it will be a subset of $\mathcal U \times \mathcal
+U$.
+
+Given a set $A$ we can define the /power set/ $\mathcal P(A)$
+to be the set of all subsets of $A$. In set-builder notation we can
+write this as
+\begin{equation*}
+\mathcal P(A) = \{B \mid B \subseteq A\}.
+\end{equation*}
+Similar to the cartesian product, if $A$ is a subset of $\mathcal U$,
+we don't necessarily have that $\mathcal P(A)$ is a subset of the
+same domain. However, it is a subset of $\mathcal P(\mathcal U)$.
 
 ** Exercises
 
@@ -423,3 +497,17 @@ means if the index set $I$ contains two elements.
    \end{equation*}
    The notation $\bigcup_{\substack{i \in I \\ j \in J}}(A_i \cap B_j)$ means $\bigcup_{i
    \in I} \bigcup_{j \in J}(A_i \cap B_j)$.
+
+10. Using the definition $(a, b, c) = (a, (b, c))$, show that $(a, b,
+    c) = (d, e, f)$ if and only if $a = d$, $b = e$ and $c = f$.
+
+11. Prove that $A \times (B \cup C) = (A \times B) \cup (A \times
+    C)$
+
+12. Prove that $(A \cap B) \times (C \cap D) = (A \times C) \cap (B
+    \times D)$. Find an expression for $(A \cup B) \times (C \cup D)$
+    consisting of unions of cartesian products, and prove that your
+    expression is correct.
+
+13. Prove that that $A \subseteq B$ if and only if $\mathcal P(A)
+    \subseteq \mathcal P(B)$.

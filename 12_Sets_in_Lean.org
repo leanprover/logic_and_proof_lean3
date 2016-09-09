@@ -4,35 +4,49 @@
 * Sets in Lean
 :PROPERTIES:
   :CUSTOM_ID: Sets_in_Lean
-:END:      
-
-[Explain how set theory is modeled in Lean. Emphasize that we only
-talk about sets of elements of a fixed type, so we can talk about
-sets of natural numbers, sets of integers, and so on.]
+:END:
 
 ** Basics
 
-You can carry out such reasoning in Lean, using methods you have
-already seen. For any type =X=, Lean gives us a type, =set X=, of sets
-of elements of =X=, with the element-of relation =x ∈ A=. We need only
-import the library file =data.set= and open the "namespace" set to
-have the notions and notations made available to us.
+In the last chapter we discussed basic set theory. We can also do set
+theory in Lean. Recall that in the previous chapter we used the
+convention that all sets are subsets of an ambient domain $\mathcal
+U$. This is also the way sets are used in Lean. In Lean, the domain
+$\mathcal U$ is a type, and all sets we consider are subsets of the
+type $\mathcal U$ (or a subset of any another type). For any type =U=,
+Lean gives us a type, =set U=, of sets of elements of =U=. If =A : set
+U= and =x : U= we can write =x ∈ A= to state that =x= is a member of
+the set =A=. The character =∈= can be typed using =\in=. We need
+to import the library file =data.set= and open the "namespace" set
+to have the notions and notations made available to us.
 #+BEGIN_SRC lean
 import data.set
 open set
 
-variable {X : Type}
-variables A B C : set X
+variable {U : Type}
+variables A B C : set U
+variable x : U
+check x ∈ A
+check A ∪ B
+check B \ C
+check C ∩ A
+check -C
+check ∅ ⊆ A
+check B ⊆ univ
 #+END_SRC
-We have made the type variable =X= implicit, because it can usually be
-inferred from context. The following pattern can be used to show that
-=A= is a subset of =B=:
+You can type the symbols =⊆=, =∅=, =∪=, =∩=, =\= as =\subeq= =\empty=,
+=\un=, =\i=, and =\\=, respectively. We have made the type variable
+=U= implicit, because it can be inferred from context. The universal
+set is denoted =univ=, and set complementation is denoted with a
+negation symbol.
+
+The following pattern can be used to show that =A= is a subset of =B=:
 #+BEGIN_SRC lean
 import data.set
 open set
 
-variable {X : Type}
-variables A B C : set X
+variable {U : Type}
+variables A B C : set U
 
 -- BEGIN
 example : A ⊆ B :=
@@ -46,8 +60,8 @@ And the following pattern be used to show that =A= and =B= are equal:
 import data.set
 open set
 
-variable {X : Type}
-variables A B C : set X
+variable {U : Type}
+variables A B C : set U
 
 -- BEGIN
 example : A = B :=
@@ -60,39 +74,37 @@ eq_of_subset_of_subset
     show x ∈ A, from sorry)
 -- END
 #+END_SRC
-Moreover, Lean supports the following nifty feature: all of the
-equivalences above are considered to hold "definitionally," which is
-to say, in most situations you can treat and the left- and
-right-hand-sides as being the same. In other words, you can act as
-though the expression =x ∈ A ∩ B= is no different from =x ∈ A ∧ x ∈
-B=, and similarly for the other constructors.
 
+Moreover, Lean supports the following nifty feature: the defining
+rules for union, intersection and other operations on sets are
+considered to hold "definitionally." This means that the expressions
+=x ∈ A ∩ B= and =x ∈ A ∧ x ∈ B= mean the same thing for Lean. This is
+the same for the other constructions on sets, for example =x ∈ A \ B=
+and =x ∈ A ∧ ¬(x ∈ B)= mean the same thing for Lean. You can also
+write =x ∉ B= for =¬(x ∈ B)=, where =∉= is written using =\notin=. For
+the other set constructions, the defining equivalences in the last
+chapter hold definitionally. The following example illustrates these
+features.
 #+BEGIN_SRC lean
 import data.set
 open set
 
-variable {X : Type}
-variables A B C : set X
+variable {U : Type}
+variables A B C : set U
 
 -- BEGIN
 example : ∀ x, x ∈ A → x ∈ B → x ∈ A ∩ B :=
-take x, 
+take x,
 suppose x ∈ A,
 suppose x ∈ B,
 show x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`
 
-example : ∀ x : X, x ∉ ∅ :=
-take x, 
-suppose x ∈ ∅, 
-show false, from this
+example : ∅ ⊆ A  :=
+take x,
+suppose x ∈ ∅,
+show x ∈ A, from false.elim `x ∈ ∅`
 -- END
 #+END_SRC
-In the second example, we annotated =x= with its type, =X=, because
-otherwise there is not enough information for Lean to infer which
-"empty set" we have in mind. You can type the symbols =⊆=, =∅=, =∪=,
-=∩=, =\= as =\subeq= =\empty=, =\un=, =\i=, and =\\=,
-respectively. The universal set is denoted =univ=, and set
-complementation is denoted with a negation symbol.
 
 The identifications above make it easy to prove some containment
 relations:
@@ -100,8 +112,8 @@ relations:
 import data.set
 open set
 
-variable {X : Type}
-variables A B C : set X
+variable {U : Type}
+variables A B C : set U
 
 -- BEGIN
 example : A \ B ⊆ A :=
@@ -118,13 +130,13 @@ show x ∈ -B, from this
 #+END_SRC
 
 Here is the proof of the first identity that we proved informally
-above:
+in the previous chapter:
 #+BEGIN_SRC lean
 import data.set
 open set
 
-variable {X : Type}
-variables A B C : set X
+variable {U : Type}
+variables A B C : set U
 
 -- BEGIN
 example : A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C) :=
@@ -164,8 +176,8 @@ smaller pieces:
 import data.set
 open set
 
-variable {X : Type}
-variables A B C : set X
+variable {U : Type}
+variables A B C : set U
 
 -- BEGIN
 proposition inter_union_subset : A ∩ (B ∪ C) ⊆ (A ∩ B) ∪ (A ∩ C) :=
@@ -204,10 +216,9 @@ eq_of_subset_of_subset
 #+END_SRC
 Notice that the two propositions depend on the variables =A=, =B=, and
 =C=, which have to be supplied as arguments when they are
-applied. They also depend on the underlying type, =X=, but because the
-variable =X= was marked implicit, Lean figures it out from the
+applied. They also depend on the underlying type, =U=, but because the
+variable =U= was marked implicit, Lean figures it out from the
 context.
-
 
 In the last chapter we showed $(A \cap \overline B) \cup B = B$.  Here
 is the corresponding proof in Lean:
@@ -215,14 +226,16 @@ is the corresponding proof in Lean:
 import data.set
 open set
 
-variable  X : Type
-variables A B C : set X
+variable  U : Type
+variables A B C : set U
 
+-- BEGIN
 example : (A ∩ -B) ∪ B = A ∪ B :=
 calc
   (A ∩ -B) ∪ B = (A ∪ B) ∩ (-B ∪ B) : union_distrib_right
            ... = (A ∪ B) ∩ univ     : compl_union_self
            ... = A ∪ B              : inter_univ
+-- END
 #+END_SRC
 
 Translated to propositions, the theorem above states that for every
@@ -235,6 +248,7 @@ by =↔=.
 import logic
 open classical
 
+-- BEGIN
 variables A B : Prop
 
 example : (A ∧ ¬ B) ∨ B ↔ A ∨ B :=
@@ -242,10 +256,61 @@ calc
   (A ∧ ¬ B) ∨ B ↔ (A ∨ B) ∧ (¬ B ∨ B) : or.right_distrib
             ... ↔ (A ∨ B) ∧ true      : by rewrite not_or_self_iff
             ... ↔ (A ∨ B)             : and_true
+-- END
 #+END_SRC
 
+In Lean we also have power sets and indexed unions. If =A : set U=,
+then =powerset A= is a subset of =set U=, hence =powerset A : set (set
+X)=. For Lean, =A ∈ powerset B= means the same thing as =A ⊆ B=, which
+means =∀x, x ∈ A → x ∈ B=.
+
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variable  {U : Type}
+variables (A B : set U)
+
+-- BEGIN
+check powerset A
+
+example : A ∈ powerset (A ∪ B) :=
+take x,
+assume `x ∈ A`,
+show x ∈ A ∪ B, from or.inl `x ∈ A`
+-- END
+#+END_SRC
+
+A family of sets in Lean is written as =A : I → set U= where =I= is a
+=Type=. Then the intersection and union of the family of sets =A= is
+written =⋂i, A i= =⋃i, A i=. These characters can be types with =\I=
+and =\Un=. For Lean, =x ∈ ⋂i, A i= means =∀i : I, x ∈ A i= and =x ∈
+⋃i, A i= means =∃i : I, x ∈ A i=. To refresh your memory on how to
+work with the universal and existential quantifier in Lean, see
+[[file:09_First_Order_Logic_in_Lean.org][Chapter 9]].
+
+#+BEGIN_SRC lean
+import data.set
+open set
+
+-- BEGIN
+variables {I U : Type}
+variables (A : I → set U)
+
+check ⋃i, A i
+check ⋂i, A i
+
+example (i₀ : I) : (⋂i, A i) ⊆ (⋃i, A i) :=
+take x,
+assume H : x ∈ ⋂i, A i,
+have x ∈ A i₀, from H i₀,
+exists.intro i₀ `x ∈ A i₀`
+-- END
+#+END_SRC
 
 ** Exercises
+
+1. Fill in the =sorry='s.
 
 #+BEGIN_SRC lean
 import data.set
@@ -278,38 +343,109 @@ section
 end
 #+END_SRC
 
+2. Fill in the =sorry=.
+
 #+BEGIN_SRC lean
 import logic data.set
 open eq.ops   -- this allows you to use notation for the equality rules if you want
 open set
 
-variable {X : Type}
+variable {U : Type}
 
 /- defining "disjoint" -/
 
-definition disjoint (A B : set X) : Prop := ∀ ⦃x⦄, x ∈ A → x ∈ B → false
+definition disjoint (A B : set U) : Prop := ∀ ⦃x⦄, x ∈ A → x ∈ B → false
 
-example (A B : set X) (H : ∀ x, ¬ (x ∈ A ∧ x ∈ B)) : disjoint A B :=
+example (A B : set U) (H : ∀ x, ¬ (x ∈ A ∧ x ∈ B)) : disjoint A B :=
 take x,
 assume H1 : x ∈ A,
 assume H2 : x ∈ B,
 have H3 : x ∈ A ∧ x ∈ B, from and.intro H1 H2,
 show false, from H x H3
 
--- the curly brackets around x in the definition of disjoint mean that you do not have
--- to give it as an argument
-
-example (A B : set X) (H1 : disjoint A B) (x : X) (H2 : x ∈ A) (H3 : x ∈ B) : false :=
+example (A B : set U) (H1 : disjoint A B) (x : U) (H2 : x ∈ A) (H3 : x ∈ B) : false :=
 H1 H2 H3
 
 -- the same is true of \subseteq
 
-example (A B : set X) (x : X) (H : A ⊆ B) (H1 : x ∈ A) : x ∈ B :=
+example (A B : set U) (x : U) (H : A ⊆ B) (H1 : x ∈ A) : x ∈ B :=
 H H1
 
 /- problem 1 -/
 
 -- replace the "sorry" by a proof
-example (A B C D : set X) (H1 : disjoint A B) (H2 : C ⊆ A) (H3 : D ⊆ B) : disjoint C D :=
+example (A B C D : set U) (H1 : disjoint A B) (H2 : C ⊆ A) (H3 : D ⊆ B) : disjoint C D :=
 sorry
 #+END_SRC
+
+3. Prove the following exercises about indexed unions and intersections.
+
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variables {I J U : Type}
+variables (A : I → J → set U)
+
+example : (⋃i, ⋂j, A i j) ⊆ (⋂j, ⋃i, A i j) :=
+sorry
+#+END_SRC
+
+# Solution:
+# take x,
+# assume H : x ∈ ⋃i, ⋂j, A i j,
+# obtain (i : I) (H2 : x ∈ ⋂j, A i j), from H,
+# show x ∈ ⋂j, ⋃i, A i j, from
+#   take j,
+#   have x ∈ A i j, from H2 j,
+#   exists.intro i `x ∈ A i j`
+
+
+#+BEGIN_SRC lean
+import data.set
+open classical set
+
+variables {I U : Type}
+variables (A : I → set U) (B : set U)
+
+example : B ∩ (⋃i, A i) = ⋃i, B ∩ A i :=
+sorry
+
+-- Hint: the reverse inclusion of the following example requires classical reasoning
+example : B ∪ (⋂i, A i) = ⋂i, B ∪ A i :=
+sorry
+#+END_SRC
+
+# Sloppy proofs:
+# eq_of_subset_of_subset
+#   (λx H, obtain i H2, from and.right H, exists.intro i (and.intro (and.left H) H2))
+#   (λx H, obtain i H2, from H, and.intro (and.left H2) (exists.intro i (and.right H2)))
+
+# eq_of_subset_of_subset
+#   (λx H i, or.elim H or.inl (λH2, or.inr (H2 i)))
+#   (λx H, by_contradiction (λH2, H2 (or.inr (λi, by_contradiction (λH3, H2 (or.inl (or.elim (H i) (λH4, H4) (λH4, false.elim (H3 H4)))))))))
+
+
+5. Proof the following fact about power sets. You can use the theorems
+   =subset.trans= and =subset.refl=
+#+BEGIN_SRC lean
+import data.set
+open set
+
+variables {U : Type}
+variables (A B C : set U)
+
+-- For the exercise these two facts are useful
+example (H1 : A ⊆ B) (H2 : B ⊆ C) : A ⊆ C :=
+subset.trans H1 H2
+
+example : A ⊆ A :=
+subset.refl A
+
+example : A ⊆ B ↔ powerset A ⊆ powerset B :=
+sorry
+#+END_SRC
+
+# Sloppy proof:
+# iff.intro (λH C H2, subset.trans H2 H)
+#           (λH, H A (subset.refl A))

@@ -108,8 +108,8 @@ Notice also that just everything we have said about sets so far is
 readily representable in symbolic logic. We can render the defining
 properties of the basic sets and constructors as follows:
 \begin{align*}
-& \fa x (x \notin \emptyset) \\
-& \fa x (x \in \mathcal U) \\
+& \fa x (x \in \emptyset \liff \bot) \\
+& \fa x (x \in \mathcal U \liff \top) \\
 & \fa x (x \in A \cup B \liff x \in A \vee x \in B) \\
 & \fa x (x \in A \cap B \liff x \in A \wedge x \in B) \\
 & \fa x (x \in \overline A \liff x \notin A) \\
@@ -354,7 +354,7 @@ since 1 is a divisor of every natural number.
 
 Suppose that $I$ contains just two elements, say $I=\{c, d\}$. Let
 $\{A_i\}_{i\in I}$ be a family over $I$. Because $I$ has two elements,
-this family consists of just two sets $A_c$ and A_d$. Then the union
+this family consists of just two sets $A_c$ and $A_d$. Then the union
 and intersection of this family are just the union and intersection of
 the two sets:
 \begin{align*}

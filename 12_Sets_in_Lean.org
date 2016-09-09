@@ -312,140 +312,134 @@ exists.intro i₀ `x ∈ A i₀`
 
 1. Fill in the =sorry='s.
 
-#+BEGIN_SRC lean
-import data.set
-open set
+   #+BEGIN_SRC lean
+   import data.set
+   open set
 
-section
-  variable  U : Type
-  variable  A : U → Prop
-  variable  B : U → U → Prop
+   section
+     variable  U : Type
+     variable  A : U → Prop
+     variable  B : U → U → Prop
 
-  -- problem 1
+     -- problem 1
 
-  example (H : ∀ x y, A x → B x y) : ∀ x, (A x → ∀ y, B x y) :=
-  sorry
-end
+     example (H : ∀ x y, A x → B x y) : ∀ x, (A x → ∀ y, B x y) :=
+     sorry
+   end
 
-section
-  variable U : Type
-  variables A B C : set U
+   section
+     variable U : Type
+     variables A B C : set U
 
-  -- problem 2
+     -- problem 2
 
-  example : ∀ x, x ∈ A ∩ C → x ∈ A ∪ B :=
-  sorry
+     example : ∀ x, x ∈ A ∩ C → x ∈ A ∪ B :=
+     sorry
 
-  -- problem 3
+     -- problem 3
 
-  example : ∀ x, x ∈ -(A ∪ B) → x ∈ -A :=
-  sorry
-end
-#+END_SRC
+     example : ∀ x, x ∈ -(A ∪ B) → x ∈ -A :=
+     sorry
+   end
+   #+END_SRC
 
 2. Fill in the =sorry=.
 
-#+BEGIN_SRC lean
-import logic data.set
-open eq.ops   -- this allows you to use notation for the equality rules if you want
-open set
+   #+BEGIN_SRC lean
+   import logic data.set
+   open eq.ops   -- this allows you to use notation for the equality rules if you want
+   open set
 
-variable {U : Type}
+   variable {U : Type}
 
-/- defining "disjoint" -/
+   /- defining "disjoint" -/
 
-definition disjoint (A B : set U) : Prop := ∀ ⦃x⦄, x ∈ A → x ∈ B → false
+   definition disjoint (A B : set U) : Prop := ∀ ⦃x⦄, x ∈ A → x ∈ B → false
 
-example (A B : set U) (H : ∀ x, ¬ (x ∈ A ∧ x ∈ B)) : disjoint A B :=
-take x,
-assume H1 : x ∈ A,
-assume H2 : x ∈ B,
-have H3 : x ∈ A ∧ x ∈ B, from and.intro H1 H2,
-show false, from H x H3
+   example (A B : set U) (H : ∀ x, ¬ (x ∈ A ∧ x ∈ B)) : disjoint A B :=
+   take x,
+   assume H1 : x ∈ A,
+   assume H2 : x ∈ B,
+   have H3 : x ∈ A ∧ x ∈ B, from and.intro H1 H2,
+   show false, from H x H3
 
-example (A B : set U) (H1 : disjoint A B) (x : U) (H2 : x ∈ A) (H3 : x ∈ B) : false :=
-H1 H2 H3
+   example (A B : set U) (H1 : disjoint A B) (x : U) (H2 : x ∈ A) (H3 : x ∈ B) : false :=
+   H1 H2 H3
 
--- the same is true of \subseteq
+   -- the same is true of \subseteq
 
-example (A B : set U) (x : U) (H : A ⊆ B) (H1 : x ∈ A) : x ∈ B :=
-H H1
+   example (A B : set U) (x : U) (H : A ⊆ B) (H1 : x ∈ A) : x ∈ B :=
+   H H1
 
-/- problem 1 -/
+   /- problem 1 -/
 
--- replace the "sorry" by a proof
-example (A B C D : set U) (H1 : disjoint A B) (H2 : C ⊆ A) (H3 : D ⊆ B) : disjoint C D :=
-sorry
-#+END_SRC
+   -- replace the "sorry" by a proof
+   example (A B C D : set U) (H1 : disjoint A B) (H2 : C ⊆ A) (H3 : D ⊆ B) : disjoint C D :=
+   sorry
+   #+END_SRC
 
 3. Prove the following exercises about indexed unions and intersections.
 
-#+BEGIN_SRC lean
-import data.set
-open set
+   #+BEGIN_SRC lean
+   import data.set
+   open set
 
-variables {I J U : Type}
-variables (A : I → J → set U)
+   variables {I J U : Type}
+   variables (A : I → J → set U)
 
-example : (⋃i, ⋂j, A i j) ⊆ (⋂j, ⋃i, A i j) :=
-sorry
-#+END_SRC
+   example : (⋃i, ⋂j, A i j) ⊆ (⋂j, ⋃i, A i j) :=
+   sorry
+   #+END_SRC
+   # Solution:
+   # take x,
+   # assume H : x ∈ ⋃i, ⋂j, A i j,
+   # obtain (i : I) (H2 : x ∈ ⋂j, A i j), from H,
+   # show x ∈ ⋂j, ⋃i, A i j, from
+   #   take j,
+   #   have x ∈ A i j, from H2 j,
+   #   exists.intro i `x ∈ A i j`
+   #+BEGIN_SRC lean
+   import data.set
+   open classical set
 
-# Solution:
-# take x,
-# assume H : x ∈ ⋃i, ⋂j, A i j,
-# obtain (i : I) (H2 : x ∈ ⋂j, A i j), from H,
-# show x ∈ ⋂j, ⋃i, A i j, from
-#   take j,
-#   have x ∈ A i j, from H2 j,
-#   exists.intro i `x ∈ A i j`
+   variables {I U : Type}
+   variables (A : I → set U) (B : set U)
 
+   example : B ∩ (⋃i, A i) = ⋃i, B ∩ A i :=
+   sorry
 
-#+BEGIN_SRC lean
-import data.set
-open classical set
+   -- Hint: the reverse inclusion of the following example requires classical reasoning
+   example : B ∪ (⋂i, A i) = ⋂i, B ∪ A i :=
+   sorry
+   #+END_SRC
+   # Sloppy proofs:
+   # eq_of_subset_of_subset
+   #   (λx H, obtain i H2, from and.right H, exists.intro i (and.intro (and.left H) H2))
+   #   (λx H, obtain i H2, from H, and.intro (and.left H2) (exists.intro i (and.right H2)))
+   # eq_of_subset_of_subset
+   #   (λx H i, or.elim H or.inl (λH2, or.inr (H2 i)))
+   #   (λx H, by_contradiction (λH2, H2 (or.inr (λi, by_contradiction (λH3, H2 (or.inl (or.elim (H i) (λH4, H4) (λH4, false.elim (H3 H4)))))))))
 
-variables {I U : Type}
-variables (A : I → set U) (B : set U)
-
-example : B ∩ (⋃i, A i) = ⋃i, B ∩ A i :=
-sorry
-
--- Hint: the reverse inclusion of the following example requires classical reasoning
-example : B ∪ (⋂i, A i) = ⋂i, B ∪ A i :=
-sorry
-#+END_SRC
-
-# Sloppy proofs:
-# eq_of_subset_of_subset
-#   (λx H, obtain i H2, from and.right H, exists.intro i (and.intro (and.left H) H2))
-#   (λx H, obtain i H2, from H, and.intro (and.left H2) (exists.intro i (and.right H2)))
-
-# eq_of_subset_of_subset
-#   (λx H i, or.elim H or.inl (λH2, or.inr (H2 i)))
-#   (λx H, by_contradiction (λH2, H2 (or.inr (λi, by_contradiction (λH3, H2 (or.inl (or.elim (H i) (λH4, H4) (λH4, false.elim (H3 H4)))))))))
-
-
-5. Proof the following fact about power sets. You can use the theorems
+4. Proof the following fact about power sets. You can use the theorems
    =subset.trans= and =subset.refl=
-#+BEGIN_SRC lean
-import data.set
-open set
+   #+BEGIN_SRC lean
+   import data.set
+   open set
 
-variables {U : Type}
-variables (A B C : set U)
+   variables {U : Type}
+   variables (A B C : set U)
 
--- For the exercise these two facts are useful
-example (H1 : A ⊆ B) (H2 : B ⊆ C) : A ⊆ C :=
-subset.trans H1 H2
+   -- For the exercise these two facts are useful
+   example (H1 : A ⊆ B) (H2 : B ⊆ C) : A ⊆ C :=
+   subset.trans H1 H2
 
-example : A ⊆ A :=
-subset.refl A
+   example : A ⊆ A :=
+   subset.refl A
 
-example : A ⊆ B ↔ powerset A ⊆ powerset B :=
-sorry
-#+END_SRC
+   example : A ⊆ B ↔ powerset A ⊆ powerset B :=
+   sorry
+   #+END_SRC
 
-# Sloppy proof:
-# iff.intro (λH C H2, subset.trans H2 H)
-#           (λH, H A (subset.refl A))
+   # Sloppy proof:
+   # iff.intro (λH C H2, subset.trans H2 H)
+   #           (λH, H A (subset.refl A))

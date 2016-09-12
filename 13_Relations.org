@@ -14,14 +14,20 @@ As before, we can define a binary relation $R$ on a domain $A$ to be a
 subset of $A \times A$, and similarly for relations of higher arity.
 The binary relation holds of two elements $a, b \in A$ -- that is, $R(a, b)$ is
 true -- exactly when the pair $(a, b)$ is an element of $R$. In mathematics,
-we favor "relation" notation over "set membership" notation; often, we
-use "infix" notation, writing $a R b$ instead of $R(a, b)$.
+we often use /infix/ notation, writing $a R b$ instead of $R(a, b)$.
+
+Despite this definition, we almost never think of a relation as a set
+in informal mathematics. A (binary) relation is a property that can be true
+or false of a pair of elements from the domain. In some sense, these two
+notions are equivalent. We point out the difference to emphasize the distinction
+between formal and informal arguments. In informal proofs, we will almost
+never have trouble thinking of relations in the "informal" way, and
+you should think of them this way throughout this chapter. 
 
 ** Order Relations
 
-In order to illustrate reasoning with the equality axioms, we will
-study a class of important binary relations in mathematics, namely,
-/partial orders/.
+We will study a class of important binary relations in mathematics, namely,
+/partial orders/. 
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -237,8 +243,6 @@ justifies calling $x$ /the/ minimum element. Such an $x$ is also
 called the /least/ element or the /smallest/ element, and the terms
 are generally interchangeable.
 
-# TODO: add natural deduction and Lean versions
-
 The converse to the second theorem -- that is, the statement that every
 minimal element is minimum -- is false. As an example, consider the
 nonempty subsets of the set $\{ 1, 2 \}$ with the subset relation. In
@@ -336,6 +340,21 @@ you cannot infer that Susan lives in South Dakota. This little example
 illustrates what is special about the /equality/ relation: if two
 things are equal, then they have exactly the same properties.
 
+An important related notion is that of an /equivalence class/. Let
+$\equiv$ be an equivalence relation on a set $A$. For every
+element $a$ in $A$, let $[a]$ be the set of elements $\{ c \st c
+\equiv a \}$, that is, the set of elements of $A$ that are
+equivalent to $a$. We call $[a]$ the equivalence class of $A$, under
+the equivalence relation $\equiv$.
+
+Equivalence tries to capture a "weak" notion of equality: if two elements
+of $A$ are equivalent, they are not necessarily the same, but they
+are "similar" in some way. Equivalence classes collect similar objects
+together. If we define $A' = \{ [a] : a \in A \}$, the set of equivalence
+classes of elements in $A$, we get a version of the set $A$ where sets of 
+similar elements have been "compressed" into single elements.
+This is illustrated in an exercise below.
+
 ** Exercises
 
 1. Suppose $<$ is a strict partial order on a domain $A$, and define
@@ -368,14 +387,14 @@ things are equal, then they have exactly the same properties.
    vertices $a$ and $b$, $a \leq b$ means that there is an arrow from
    $a$ pointing to $b$. 
 
-   On an arbitrary graph, is $\leq$ a preorder, a partial order, a 
-   total order, or none of the above? If possible, give examples of 
+   On an arbitrary graph, is $\leq$ a partial order, a strict partial order, a 
+   total order, a strict total order, or none of the above? If possible, give examples of 
    graphs where $\leq$ fails to have these properties. 
 
-3. Let $\equiv$ be an equivalence relation on a set $A$. For every
-   element $a$ in $A$, let $[a]$ be the set of elements $\{ c \st c
-   \equiv a \}$, that is, the set of elements of $A$ that are
-   equivalent to $a$. Show that for every $a$ and $b$, $[a] = [b]$ if
+4. Let $\equiv$ be an equivalence relation on a set $A$. For every
+   element $a$ in $A$, let $[a]$ be the equivalence class of $a$: that
+   is, the set of elements $\{ c \st c
+   \equiv a \}$. Show that for every $a$ and $b$, $[a] = [b]$ if
    and only if $a \equiv b$.
 
    (Hints and notes: 
@@ -387,7 +406,18 @@ things are equal, then they have exactly the same properties.
    - By definition, an element $c$ is in $[a]$ if and only if $c
      \equiv a$. In particular, $a$ is in $[a]$.)
 
-4. A binary relation $\leq$
+5. Let the relation $~$ on the natural numbers $\NN$ be defined as follows:
+   if $n$ is even, then $n ~ n+1$, and if $n$ is odd, then $n ~ n-1$. Furthermore,
+   for every $n$, $n ~ n$. Show that $~$ is an equivalence relation. What
+   is the equivalence class of the number 5? Describe the set of equivalence
+   classes $\{ [n] \st n \in \NN \}$. 
+
+6. Show that the relation on lines in the plane, given by "$l_1$ and $l_2$ are
+   parallel," is an equivalence relation. What is the equivalence class of the
+   x-axis? Describe the set of equivalence classes $\{ [l] \st l\text{ is 
+   a line in the plane} \}$.
+
+7. A binary relation $\leq$
    on a domain $A$ is said to be a /preorder/ it is is reflexive and
    transitive. This is weaker than saying it is a partial order; we have
    removed the requirement that the relation is asymmetric. An example is

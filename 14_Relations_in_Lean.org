@@ -15,7 +15,7 @@ elements of the domain and returned either "true" or "false."
 
 In Lean, we make this notion explicit: a binary relation on a type =A=
 is a function =A → A → Prop=. If =R= has this type, and =a b : A=,
-then =R a b= is either =True= or =False=.
+then =R a b= is a proposition.
 
 ** Order Relations
 
@@ -83,3 +83,46 @@ Notice that we have used the command =open eq.ops= to avail ourselves
 of the extra notation for equality proofs, so that the expression 
 =`a = c` ▸ `a ≤ b`= denotes a proof of =c ≤ b=.
 
+In the exercises, we ask you to show the other direction of this: 
+from a strict partial order we can define a partial order.
+
+Conveniently, Lean has the normal orderings on the natural numbers,
+integers, and so on defined already.
+
+#+BEGIN_SRC lean 
+open nat
+variables n m : ℕ
+
+check 0 ≤ n
+check n < n + 1
+
+example : 0 ≤ n := zero_le n
+example : n < n + 1 := self_lt_succ n
+
+example (H : n + 1 ≤ m) : n < m + 1 :=
+have H1 : n < n + 1, from self_lt_succ n,
+have H2 : n < m, from lt_of_lt_of_le H1 H,
+have H3 : m < m + 1, from self_lt_succ m,
+show n < m + 1, from lt.trans H2 H3
+#+END_SRC
+
+Exercises
+
+#+BEGIN_SRC lean
+open eq.ops
+
+section
+  parameters {A : Type} {R : A → A → Prop}
+  hypothesis (irreflR : irreflexive R)
+  hypothesis (transR : transitive R)
+  
+  local infix < := R
+  
+  definition R' : A → A → Prop := λ a b, R a b ∨ a = b
+  local infix ≤ := R'
+  
+  theorem reflR' (a : A) : a ≤ a := sorry
+  theorem transR' {a b c : A} (H1 : a ≤ b) (H2 : b ≤ c): a ≤ c := sorry
+  theorem antisymmR' {a b : A} (H1 : a ≤ b) (H2 : b ≤ a) : a = b := sorry 
+end
+#+END_SRC

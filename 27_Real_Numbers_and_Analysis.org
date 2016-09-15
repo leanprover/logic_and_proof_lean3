@@ -16,7 +16,7 @@ What these basic principles are, exactly, depends on one's choice of logical fra
 In this chapter, we will look at how the various number structures are defined both in
 set theory and in Lean's type theory.
 
-** The Natural Numbers
+** COMMENT The Natural Numbers
 At this point, you must be familiar with the set $\NN$ of natural numbers $\{0, 1, 2, \ldots\}$.
 They form the basis of many, many further mathematical definitions. In fact, the other
 number structures we'll look at in this chapter are all based on $\NN$.

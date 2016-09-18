@@ -33,14 +33,14 @@ mathematics.
 
 The set of natural numbers is the set 
 \begin{equation*} 
-\NN = \{ 0, 1, 2, 3, \ldots \}, 
+\NN = \{ 0, 1, 2, 3, \ldots \}. 
 \end{equation*}
 In the past, opinions have differed as to whether the set of natural
 numbers should start with 0 or 1, but these days most mathematicians
 take them to start with 0. Logicians often call the function $s(n) =
 n + 1$ the /successor/ function, since it maps each natural number,
 $n$, to the one that follows it. What makes the natural numbers
-special is that they are /generated/ by the natural numbers, which is
+special is that they are /generated/ by the successor function, which is
 to say, the only way to "construct" a natural number is to start with
 $0$ and apply the successor function finitely many times. From a
 foundational standpoint, we are in danger of running into a

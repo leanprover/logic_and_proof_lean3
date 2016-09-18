@@ -8,7 +8,7 @@
 
 This chapter marks a transition from the abstract to the concrete.
 Viewing the mathematical universe in terms of sets, relations, and
-strutures gives us useful ways of thinking about mathematical objects
+functions gives us useful ways of thinking about mathematical objects
 and structures and the relationships between them. At some point,
 however, we need to start thinking about /particular/ mathematical
 objects and structures, and the natural numbers are a good place to
@@ -20,34 +20,35 @@ mathematical universe, and that many other objects and structures of
 interest can be constructed from these.
 
 In this chapter, we will consider the natural numbers and the basic
-principles that govern them. In Chapter [[file:18_The_Natural_Numbers_and_Induction_in_Lean.org::#The_Natural_Numbers_and_Induction_in_Lean][The Natural Numbers and
-Induction in Lean]] we will see that even basic operations like addition
-and multiplication can be defined using means described here, and
-their properties derived from these basic principles. Our presentation
-in this chapter will remain informal, however. In Chapter [[file:19_Elementary_Number_Theory.org::#Elementary_Number_Theory][Elementary
-Number Theory]], we will see how these principles play out in one of the
-oldest and most venerable branches of mathematics.
+principles that govern them. In [[file:18_The_Natural_Numbers_and_Induction_in_Lean.org::#The_Natural_Numbers_and_Induction_in_Lean][Chapter 18]] we will see that even basic
+operations like addition and multiplication can be defined using means
+described here, and their properties derived from these basic
+principles. Our presentation in this chapter will remain informal,
+however. In Chapter 19, we will see how these principles play out in
+number theory, one of the oldest and most venerable branches of
+mathematics.
+# TODO: fill in the link!  [[file:19_Elementary_Number_Theory.org::#Elementary_Number_Theory][Chapter 19]], 
 
 ** The Principal of Induction
 
 The set of natural numbers is the set 
-\[ 
+\begin{equation*} 
 \NN = \{ 0, 1, 2, 3, \ldots \}, 
-\]
-In the past, conventions have differed as to whether the set of
-natural numbers should start with 0 or 1, but these days most
-mathematicians take them to start with 0. Logicians often call the
-function $s(n) = n + 1$ the /successor/ function, since it maps each
-natural number, $n$, to the one that follows it. What makes the
-natural numbers special is that they are /generated/ by the natural
-numbers, which is to say, the only way to "construct" a natural number
-is to start with $0$ and apply the successor function finitely many
-times. From a foundational standpoint, we are in danger of running
-into a circularity here, because it is not clear how we can explain
-what it means to apply a function "finitely many times" without
-talking about the natural numbers themselves. But the following
-principle, known as the /principle of induction/, describes this
-essential property of the natural numbers in a non-circular way.
+\end{equation*}
+In the past, opinions have differed as to whether the set of natural
+numbers should start with 0 or 1, but these days most mathematicians
+take them to start with 0. Logicians often call the function $s(n) =
+n + 1$ the /successor/ function, since it maps each natural number,
+$n$, to the one that follows it. What makes the natural numbers
+special is that they are /generated/ by the natural numbers, which is
+to say, the only way to "construct" a natural number is to start with
+$0$ and apply the successor function finitely many times. From a
+foundational standpoint, we are in danger of running into a
+circularity here, because it is not clear how we can explain what it
+means to apply a function "finitely many times" without talking about
+the natural numbers themselves. But the following principle, known as
+the /principle of induction/, describes this essential property of the
+natural numbers in a non-circular way.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -136,7 +137,7 @@ by the following natural deduction rule:
 \DP
 \end{center}
 You should think about how some of the proofs in this chapter could be
-represented formally using natural deduction proofs. 
+represented formally using natural deduction. 
 
 For another example of a proof by induction, let us derive a formula
 that, given any finite set $S$, determines the number of subsets of
@@ -236,12 +237,13 @@ Here is one example of a proof using this variant of induction.
 n^2$, as required.
 
 For the induction step, suppose $n \ge 5$ and $2^n > n^2$. Since $n$
-is greater than or equal to $5$, we have $2n + 1 \leq 3 n \leq n²$,
+is greater than or equal to $5$, we have $2n + 1 \leq 3 n \leq n^2$,
 and so
 \begin{align*}
 (n+1)² &= n^2 + 2n + 1 \\
   & \leq n^2 + n^2 \\
-  & < 2^n + 2^n
+  & < 2^n + 2^n \\
+  & = 2^{n+1}.
 \end{align*}
 
 #+HTML: <hr>
@@ -249,8 +251,8 @@ and so
 
 For another example, let us derive a formula for the sum total of the
 angles in a convex polygon. A polygon is said to be /convex/ if every
-line between two vertices stays inside the polygon. We will accept,
-without proof, the visually obvious fact that one can subdivide any
+line between two vertices stays inside the polygon. We will accept
+without proof the visually obvious fact that one can subdivide any
 convex polygon with more than three sides into a triangle and a convex
 polygon with one fewer side, namely, by closing off any two consecutive
 sides to form a triangle. We will also accept, without proof, the
@@ -261,14 +263,14 @@ degrees.
 #+LATEX: \horizontalrule
 
 *Theorem.* For any $n \geq 3$, the sum of the angles of any convex
-$n$-gon is $180(n - 2)$.
+\(n\)-gon is $180(n - 2)$.
 
 *Proof.* In the base case, when $n = 3$, this reduces to the statement
 that the sum of the angles in any triangle is 180 degrees.
 
 For the induction step, suppose $n \geq 3$, and let $P$ be a convex
-$(n+1)$-gon. Divide $P$ into a triangle and an $n$-gon. By the
-inductive hypotheses, the sum of the angles of the $n$-gon is
+\((n+1)\)-gon. Divide $P$ into a triangle and an \(n\)-gon. By the
+inductive hypotheses, the sum of the angles of the \(n\)-gon is
 $180(n-2)$ degrees, and the sum of the angles of the triangle is $180$
 degrees. The measures of these angles taken together make up the sum
 of the measures of the angles of $P$, for a total of $180(n-2) + 180 =
@@ -468,8 +470,8 @@ The principle of recursive definition makes two claims at once: first,
 that there is a function $f$ satisfying the clauses above, and,
 second, that any two functions $f_1$ and $f_2$ satsifying those
 clauses are equal, which is to say, they have the same values for
-every input. In the example above, $A$ is just $\NN$ and $g(n, f(n)) =
-2 \cdot f(n)$.
+every input. In the example with which we began this section, $A$ is
+just $\NN$ and $g(n, f(n)) = 2 \cdot f(n)$.
 
 In some axiomatic frameworks, the principle of recursive definition can be
 justified using the principle of induction. In others, the principle
@@ -484,7 +486,7 @@ $h : \NN \to \NN$ defined recursively by the following clauses:
   g(n+1) & = (n + 1) \cdot g(n)
 \end{align*}
 Try calculating the first few values. Unwrapping the definition, we
-see that $g(n) = 1 \cdot 2 \cdot 3 \cdots (n-1) \cdot n$ for every
+see that $g(n) = 1 \cdot 2 \cdot 3 \cdot \ldots \cdot (n-1) \cdot n$ for every
 $n$; indeed, definition by recursion is usually the proper way to make
 expressions using "\ldots" precise. The value $g(n)$ is read "$n$
 factorial," and written $n!$.
@@ -502,7 +504,7 @@ function $k(n) = \sum_{i < n} f (i)$ can be defined recursively as
 follows:
 \begin{align*}
 k(0) &= 0 \\
-k(n+1) &= k(n) + f(n + 1)
+k(n+1) &= k(n) + f(n)
 \end{align*}
 
 Induction and recursion are complementary principles, and typically
@@ -539,21 +541,21 @@ predecessors:
 \begin{align*}
   \fn{fib}(0) & = 0 \\
   \fn{fib}(1) & = 1 \\
-  \fn{fib}(n+2) & = \fn{fib}(n + 2) + \fn{fib}(n).
+  \fn{fib}(n+2) & = \fn{fib}(n + 1) + \fn{fib}(n).
 \end{align*}
 Calculating the values of $\fn{fib}$ on $0, 1, 2, \ldots$ we obtain
-\[
+\begin{equation*}
 0, 1, 1, 2, 3, 5, 8, 13, 21, \ldots
-\]
-where, after the second number, each successive number is the sum of
-the two values preceding it. This is known as the \emph{Fibonacci
-sequence}, and the corresponding numbers are known as the
-\emph{Fibonacci numbers}. An ordinary mathematical presentation would
-write $F_n$ instead of $\fn{fib}(n)$ and specify the sequence with the
-following equations:
-\[
- F_0 = 0, \quad F_1 = 1, \quad F_{n+2} = F_{n+1} + F_n
-\]
+\end{equation*}
+Here, after the second number, each successive number is the sum of
+the two values preceding it. This is known as the /Fibonacci
+sequence/, and the corresponding numbers are known as the /Fibonacci
+numbers/. An ordinary mathematical presentation would write $F_n$
+instead of $\fn{fib}(n)$ and specify the sequence with the following
+equations:
+\begin{equation*}
+F_0 = 0, \quad F_1 = 1, \quad F_{n+2} = F_{n+1} + F_n
+\end{equation*}
 But you can now recognize such a specification as an implicit appeal
 to the principle of definition by recursion. We ask you to prove some
 facts about the Fibonacci sequence in the exercises below.
@@ -565,17 +567,18 @@ facts about the Fibonacci sequence in the exercises below.
   :CUSTOM_ID: Arithmetic_on_the_Natural_Numbers
 :END:
 
-In the next chapter, we will it is even possible to define addition
-and multiplication recursively, and to establish most of their basic
-properties using the principle of recursion. This is important from a
-foundational perspective, in which, as much as possible, we want to
-ground our reasoning on a small number of fundamental principles. Just
-as the foundations of a building are below ground, however, the
-foundations of mathematics should only be visible when we choose to go
-down to the basement and look around. In this section, therefore, we
-summarize the basic properties of natural numbers that play a role in
-day-to-day mathematics. In an ordinary mathematical argument or
-calculation, they can be used without explicit justification.
+In the next chapter, we will see that it is even possible to define
+addition and multiplication recursively, and to establish most of
+their basic properties using the principle of recursion. This is
+important from a foundational perspective, in which, as much as
+possible, we want to ground our reasoning on a small number of
+fundamental principles. Just as the foundations of a building are
+below ground, however, the foundations of mathematics should only be
+visible when we choose to go down to the basement and look around. In
+this section, we summarize the basic properties of natural numbers
+that play a role in day-to-day mathematics. In an ordinary
+mathematical argument or calculation, they can be used without
+explicit justification.
 
 \begin{align*}
 m + n &= n + m &&\text{(commutativity of addition)}\\
@@ -593,23 +596,10 @@ We also have the following properties:
 - if $n + k = m + k$ then $n = m$;
 - if $n \cdot k = m \cdot k$ and $k \neq 0$ then $n = m$.
 
-If we define $m < n$, "$m$ is less than $n$," to mean that there
-exists a $k$ such that $m + k + 1 = n$, then the less-than relation is
-a strictly inequality, satisfying all of the following properties:
-
-- $n < n$ is never true (/irreflexivity/);
-- if $n < m$ and $m < k$ then $n < k$ (/transitivity/);
-- for all $n$ and $m$, either $n < m$, $n = m$ or 
-    $m < n$ is true (/trichotomy/);
-- if $n < m$ then $n + k < m + k$;
-- if $k > 0$ and $n < m$ then $nk < mk$;
-- if $m > n$ then $m = n + 1$ or $m > n + 1$;
-- for all $n$, $n = 0$ or $n > 0$.
-
-The relation $x \le y$, read "$x$ is less than or equal to $y$," is
-defined to mean just that, that is, the $x$ is less than $y$ or $x$ is
-equal to $y$. The following properties follow from this definition and
-the properties of $<$:
+We can define $m \le n$, "$m$ is less than or equal to $n$," to mean
+that there exists a $k$ such that $m + k = n$. If we do that, it is
+not hard to show that the less-than-or-equal-to relation satisfies all
+the following properties, for every $n$, $m$, and $k$:
 - $n \le n$ (/reflexivity/);
 - if $n \le m$ and $m \le k$ then $n \le k$ (/transitivity/);
 - if $n \le m$ and $m \le n$ then $n = m$ (/antisymmetry/);
@@ -618,6 +608,73 @@ the properties of $<$:
 - if $n \le m$ then $nk \le mk$;
 - if $m \ge n$ then $m = n$ or $m \ge n + 1$;
 - $0 \le n$.
+Remember from [[file:13_Relations.org::#Relations][Chapter 13]] that the first four items assert that $\le$
+is a linear order. Note that when we write $m \ge n$, we mean $n \le
+m$.
+
+We can then define $m < n$, "$m$ is less than $n$," to mean $m + 1 \le
+n$. The following proposition then justifies the terminology.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* With the definitions above, for every $m$ and $n$, $m
+\le n$ if and only if $m < n$ or $m = n$. 
+
+*Proof.* First, suppose $m \le n$, and let us show $m < n$ or $m =
+n$. Since $m \le n$, then $m + k = n$. If $k = 0$, we have $m =
+n$. Otherwise, $k \ge 1$, and we have $m + 1 \le m + k = n$, which
+mean $m < n$. 
+
+Conversely, suppose $m < n$ or $m = n$. If $m < n$, then we have $m
+\le m + 1 \le n$, so $m \le n$. And if $m = n$, we also have $m \le
+n$, as required.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+In a similar way, we can show that $m < n$ if and only if $m \le n$
+and $m \ne n$. In fact, we can demonstrate all of the following from
+these properties and the properties of $\le$:
+- $n < n$ is never true (/irreflexivity/);
+- if $n < m$ and $m < k$ then $n < k$ (/transitivity/);
+- for all $n$ and $m$, either $n < m$, $n = m$ or 
+    $m < n$ is true (/trichotomy/);
+- if $n < m$ then $n + k < m + k$;
+- if $k > 0$ and $n < m$ then $nk < mk$;
+- if $m > n$ then $m = n + 1$ or $m > n + 1$;
+- for all $n$, $n = 0$ or $n > 0$.
+The first three items mean that $<$ is a strict linear order, and the
+properties above means that $\le$ is the associated linear order, in
+the sense described in [[file:13_Relations.org::#Order_Relations][Section 13.1]].
+
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proof*. We will prove some of these properties.
+
+The first property is straightforward: we know $n \le n + 1$, and if
+we had $n + 1 \le n$, we sould have $n = n + 1$, a contradiction.
+
+For the second property, assume $n < m$ and $m < k$. Then $n + 1 \le m
+\le m + 1 \le k$, which implies $n < k$.
+
+For the third, we know that either $n \le m$ or $m \le n$. If $m = n$,
+we are done, and otherwise we have either $n < m$ or $m < n$.
+
+For the fourth, if $n + 1 \le m$, we have $n + 1 + k = (n + k) + 1 \le
+m + k$, as required.
+
+For the fifth, suppose $k > 0$, which is to say, $k \ge 1$. If $n <
+m$, then $n + 1 \le m$, and so $nk + 1 \le n k + k \le mk$. But this
+implies $n k < m k$, as required.
+
+The rest of the remaining proofs are left as an exercise to the reader.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
 
 Here are some additional properties of $<$ and $\le$:
 - $n < m$ and $m < n$ cannot both hold (/asymmetry/);
@@ -640,13 +697,12 @@ informal mathematical arguments.
 0$, then $n = m = 0$.
 
 *Proof.* We first prove that $m = 0$. We know that $m = 0$ or $m >
-0$. Suppose that $m > 0$ Then $n + m > n + 0 = n$. Since $n \ge 0$, we
-conclude that $n + m > 0$, which is in contradiction with $n + m =
-0$. Since $m > 0$ leads to a contradiction, the other option that $m =
-0$ must hold.
+0$. Suppose that $m > 0$. Then $n + m > n + 0 = n$. Since $n \ge 0$,
+we conclude that $n + m > 0$, which contradicts the fact that $n + m =
+0$. Since $m > 0$ leads to a contradiction, we must have $m = 0$.
 
-Now we can easily conclude that $n = 0$ using the following chain of
-equalities $n = n + 0 = n + m = 0$. Hence $n = m = 0$.
+Now we can easily conclude that $n = 0$, since $n = n + 0 = n + m =
+0$. Hence $n = m = 0$.
 
 *Proposition.* If $n$ is a natural number such that $n < 3$, then $n =
 0$, $n = 1$ or $n = 2$.
@@ -655,14 +711,14 @@ equalities $n = n + 0 = n + m = 0$. Hence $n = m = 0$.
 then $m = n + 1$ or $m > n + 1$. Since $2 + 1 = 3 > n$, we conclude
 that either $2 + 1 = n + 1$ or $2 + 1 > n + 1$. In the first case we
 conclude $n = 2$, and we are done. In the second case we conclude $2 >
-n$. Now we conclude that either $2 = n + 1$, or $2 > n + 1$. In the
-first case, we conlude $n = 1$, and we are done. In the second case,
-we conclude $1 > n$. One last time we use the property mentioned
-above, to conclude that either $1 = n + 1$ or $1 > n + 1$. In the
-first case, we conclude $n = 0$, and we are once again done. In the
-second case, we conclude that $0 > n$. This leads to a contradiction,
-since now $0 > n \ge 0$, hence $0 > 0$, which contradicts the
-irreflexivity of $>$.
+n$, which implies that either $2 = n + 1$, or $2 > n + 1$. In the
+first case, we conclude $n = 1$, and we are done. In the second case,
+we conclude $1 > n$, and appeal one last time to the general principle
+presented above to conclude that either $1 = n + 1$ or $1 > n + 1$. In
+the first case, we conclude $n = 0$, and we are once again done. In
+the second case, we conclude that $0 > n$. This leads to a
+contradiction, since now $0 > n \ge 0$, hence $0 > 0$, which
+contradicts the irreflexivity of $>$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -673,13 +729,14 @@ irreflexivity of $>$.
 :END:
 
 The natural numbers are designed for counting discrete quantities, but
-they suffer an annoying drawback: if is possible to subtract $n$ from
+they suffer an annoying drawback: it is possible to subtract $n$ from
 $m$ if $n$ is less than or equal to $m$, but not if $m$ is greater
-than $n$. The /integers/, $\ZZ$, extends the natural numbers with
-negative values to make it possible to carry out substraction in full:
-\[
-\ZZ = \{ \ldots, -3, -2, -1, 0, 1, 2, 3, \ldots \} 
-\]
+than $n$. The set of /integers/, $\ZZ$, extends the natural numbers
+with negative values, to make it possible to carry out substraction in
+full:
+\begin{equation*}
+\ZZ = \{ \ldots, -3, -2, -1, 0, 1, 2, 3, \ldots \}
+\end{equation*}
 We will see in a later chapter that the integers can be extended to
 the /rational numbers/, the /real numbers/, and the /complex numbers/,
 each of which serves useful purposes. For dealing with discrete
@@ -711,70 +768,73 @@ $n$, written $|n|$, to be $n$ if $n \geq 0$, and $-n$ otherwise.
 Proof by induction no longer holds, because induction does not cover
 the negative numbers. But we can use induction to show that a property
 holds of every nonnegative integer, for example. Moreover, we know
-that every negative integer is the negation of a positive one. Proofs
-involving the integers therefore break down into two cases, for
-example, using one case to cover the nonnegative integers, and another
-to cover the negative ones.
+that every negative integer is the negation of a positive one.As a
+result, proofs involving the integers often break down into two cases,
+where one case covers the nonnegative integers, and the other case
+covers the negative ones.
 
 ** Exercises
 
-1. Write the principle of complete induction using the notation of
-   symbolic logic. Also write the least element principle this way,
-   and use logical manipulations to show that the two are equivalent.
+1.  Write the principle of complete induction using the notation of
+    symbolic logic. Also write the least element principle this way,
+    and use logical manipulations to show that the two are equivalent.
 
-2. Show that for every $n$, $0^2 + 1^2 + 2^2 + \ldots n^2=
-   \frac{1}{6}n(n+1)(n+2)$.
+2.  Show that for every $n$, $0^2 + 1^2 + 2^2 + \ldots n^2=
+    \frac{1}{6}n(n+1)(n+2)$.
 
-3. Show that for every $n$, $0^3 + 1^3 + \ldots + n^3 = \frac{1}{4}
-   n^2 (n+1)^2$.
+3.  Show that for every $n$, $0^3 + 1^3 + \ldots + n^3 = \frac{1}{4}
+    n^2 (n+1)^2$.
 
-4. Given the definition of the Fibonacci numbers in Section [[#Recursive_Definitions][Recursive
-   Definitions]], prove Cassini's identity: for every $n$, $F^2_{n+1} -
-   F_{n+2} F_n = (-1)^n$. Hint: in the induction step, write
-   $F_{n+2}^2$ as $F_{n+2}(F_{n+1} + F_n)$.
+4.  Given the definition of the Fibonacci numbers in [[#Recursive_Definitions][Section 17.3]],
+    prove Cassini's identity: for every $n$, $F^2_{n+1} - F_{n+2} F_n
+    = (-1)^n$. Hint: in the induction step, write $F_{n+2}^2$ as
+    $F_{n+2}(F_{n+1} + F_n)$.
 
-5. Prove $\sum_{i < n} F_{2i+1} = F_{2n}$.
+5.  Prove $\sum_{i < n} F_{2i+1} = F_{2n}$.
 
-6. Prove the following two identities:
+6.  Prove the following two identities:
 
-   - $F_{2n+1} = F^2_{n+1} + F^2_n$
-   - $F_{2n+2} = F^2_{n+2} - F^2_n$
+    - $F_{2n+1} = F^2_{n+1} + F^2_n$
+    - $F_{2n+2} = F^2_{n+2} - F^2_n$
 
-   Hint: use induction on $n$, and prove them both at once. In the
-   induction step, expand $F_{2n+3} = F_{2n+2} + F_{2n+1}$, and
-   similarly for $F_{2n+4}$. Proving the second equation is
-   especially tricky. Use the inductive hypothesis and the first
-   identity to simplify the left-hand side, and repeatedly unfold the
-   Fibonacci number with the highest index and simplify the equation
-   you need to prove. (When you have worked out a solution, write a
-   clear equational proof, calculating in the ``forwards''
-   direction.)
+    Hint: use induction on $n$, and prove them both at once. In the
+    induction step, expand $F_{2n+3} = F_{2n+2} + F_{2n+1}$, and
+    similarly for $F_{2n+4}$. Proving the second equation is
+    especially tricky. Use the inductive hypothesis and the first
+    identity to simplify the left-hand side, and repeatedly unfold the
+    Fibonacci number with the highest index and simplify the equation
+    you need to prove. (When you have worked out a solution, write a
+    clear equational proof, calculating in the ``forwards''
+    direction.)
 
-7. Following the example in Section [[#Arithmetic_on_the_Natural_Numbers][Arithmetic on the Natural Numbers]],
-   prove that if $n$ is a natural number and $n < 5$, then $n$ is one
-   of the values $0, 1, 2, 3$, or $4$.
+7.  Following the example in [[#Arithmetic_on_the_Natural_Numbers][Section 17.4]] prove that if $n$ is a
+    natural number and $n < 5$, then $n$ is one of the values $0, 1,
+    2, 3$, or $4$.
 
-8. Prove that if $n$ and $m$ are natural numbers and $n m = 1$, then
-   $n = m = 1$.
+8.  Prove that if $n$ and $m$ are natural numbers and $n m = 1$, then
+    $n = m = 1$.
 
-   This is tricky. First show that $n$ and $m$ are greater than $0$,
-   and hence greater than or equal to $1$. Then show that if either
-   one of them is greater than $1$, then $n m > 1$.
+    This is tricky. First show that $n$ and $m$ are greater than $0$,
+    and hence greater than or equal to $1$. Then show that if either
+    one of them is greater than $1$, then $n m > 1$.
 
-9. Prove the following properties of negation and subtraction on the
-   integers, using only the properties of negation and subtraction
-   given in Section [[#The_Integers][The Integers]].
+9.  Prove all the claims in [[#Arithmetic_on_the_Natural_Numbers][Section 17.4]] that were stated without
+    proof.
 
-   - if $n + m = 0$ then $m = -n$;
-   - $-0 = 0$;
-   - if $-n = -m$ then $n = m$;
-   - $m + (n - m) = n$;
-   - $-(n + m) = -n - m$;
-   - if $m < n$ then $n - m > 0$;
-   - if $m < n$ then $-m > -n$;
-   - $n \cdot (-m) = -nm$;
-   - $n(m - k) = nm - nk$;
-   - if $n < m$ then $n - k < m - k$.
+10. Prove the following properties of negation and subtraction on the
+    integers, using only the properties of negation and subtraction
+    given in [[#The_Integers][Section 17.5]]
+
+    - if $n + m = 0$ then $m = -n$;
+    - $-0 = 0$;
+    - if $-n = -m$ then $n = m$;
+    - $m + (n - m) = n$;
+    - $-(n + m) = -n - m$;
+    - if $m < n$ then $n - m > 0$;
+    - if $m < n$ then $-m > -n$;
+    - $n \cdot (-m) = -nm$;
+    - $n(m - k) = nm - nk$;
+    - if $n < m$ then $n - k < m - k$.
 
 
 

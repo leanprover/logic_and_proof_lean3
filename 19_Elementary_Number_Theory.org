@@ -1,0 +1,490 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Elementary Number Theory
+:PROPERTIES:
+  :CUSTOM_ID: Elementary_Number_Theory
+:END:
+
+[Still under construction.]
+
+In the last two chapters, we say that the natural numbers are
+characterized by the fact that they suport /proof by induction/ and
+/definition by recursion/. Moreover, with these components, we can
+actually define $+$, $\times$, and $<$ in a suitable axiomatic
+foundation, and prove that they have the relevant properties. In
+Section [[file:17_The_Natural_Numbers_and_Induction::#The_Integers][The Integers]] we also discussed the integers, which include
+negative numbers and support the operation of substraction.
+
+The natural numbers and the integers are the central components of
+/number theory/, a branch of mathematics dating back to the
+ancients. In this chapter, we will discuss some of the rudiments of number theory.
+
+** The Quotient-Remainder Theorem
+
+[Prove this by induction.]
+
+A key property of the natural numbers that we will use here is the
+quotient-remainder theorem:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Let $n$ and $m$ be natural numbers with $m > 0$. Then there
+are natural numbers $q$ and $r$ satisfying $n = m q + r$ and $r < m$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Later we will see how to prove this from the definitions of
+multiplication and addition; for now, we will simply take it for
+granted.
+
+Intuitively, $q$ is the integer /quotient/ when you divide $n$ by $m$, and
+$r$ is the /remainder/. Remember that using the word "the" presupposes
+that there are unique values meeting that description. That is, in
+fact, the case:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition*. If $n$ and $m$ are as above, $n = m q + r$ and $n =
+m q' + r'$ with both $r$ and $r'$ less than $n$, then $q = q'$ and $r
+= r'$.
+
+*Proof*. By assumption, we have $mq + r = m q' + r'$. It suffices to
+show that $q = q'$, because then $m q = m q'$, and hence $r = r'$.
+
+Suppose $q \ne q'$. Then either $q < q'$ or $q' < q$. Suppose without
+loss of generality that $q < q'$. (The other case is symmetric.) Then
+$m q < m q'$, so we can subtract $mq$ from both sides of the equality
+$mq + r = m q' + r'$ to obtain
+\[
+r = m q' + r - m q = m (q - q') + r'.
+\]
+But since $q' < q$, we have $q - q' \ge 1$, which means
+\[
+m (q - q') + r' \ge m + r' \ge m,
+\]
+which contradicts the fact that $r < m$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Since we have proven that the quotient and remainder are unique when
+you divide $n$ by $m$, we can define functions which compute these
+numbers. We write $\lfloor n / m \rfloor$ for the quotient and $n \mod
+m$ for the remainder.
+
+** Divisibility
+
+We can define divisibility on the natural numbers as follows.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition*. Given two natural numbers $m$ and $n$. We say that $m$
+ /is a divisor of/ $n$, written $m \mid n$, if there exists some $k$
+ such that $m \cdot k = n$. We also say that $n$ /is divisible by/ $m$
+ or that $m$ /divides/ $n$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+We can now prove the following:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+# Note: reflexive, antisymmetric and transitive are already mentioned above.
+*Theorem.* The relation $\mid$ is reflexive, antisymmetric and transitive. That is
+- $n \mid n$ (/reflexivity/);
+- if $n \mid m$ and $m \mid n$ then $n = m$ (/antisymmetry/);
+- if $m \mid n$ and $n \mid r$ then $m \mid r$ (/transitivity/).
+
+*Proof.* Reflexivity is immediate, because $n \cdot 1 = n$, hence
+$n\mid n$.
+
+For antisymmetry, suppose that $n$ and $m$ are natural numbers such
+that $n\mid m$ and $m \mid n$. Then there exist $k$ and $\ell$ such
+that $n\cdot k = m$ and $m \cdot \ell = n$. We distinguish two
+cases. If $n = 0$, then we have $m = n\cdot k = 0 = n$, so we are
+done. If $n > 0$, then we use the the equations to get $n \cdot k
+\cdot \ell = m \cdot \ell = n$, and we can cancel $n$ on both sides to
+get $k \cdot \ell = 1$. We conclude that $k = \ell = 1$, hence we get
+$n = n \cdot k = m$, so $\mid$ is antisymmetric.
+
+Finally, to prove transitivity, suppose $m \mid n$ and $n \mid
+r$. Then there are $k,\ell$ such that $m \cdot k = n$ and $n \cdot
+\ell = r$. Now we compute
+\begin{align*}
+m \cdot (k \cdot \ell) &= (m \cdot k) \cdot \ell \\
+& = n \cdot \ell  \\
+& = r.
+\end{align*}
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Let us close with some examples of elementary theorems of number
+theory. (These are all exercises in Chapter 1 of /An Introduction to
+the Theory of Numbers/ by Niven and Zuckerman.)
+
+# define even, odd, prove odd => 2 k + 1, prove that in a sequence of k consecutive numbers, one of
+# them is divisible by k.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* The product of any three consecutive integers is divisible
+by 6.
+
+*Proof.* Denote the three integers by $n$, $n + 1$, and $n + 2$. Then
+either $n$ or $n + 1$ is divisible by 2, and either $n$, $n + 1$, or
+$n + 2$ is divisible by 3. So, their product is divisible by 6.
+
+*Theorem*. For every $n$, $n^3 - n$ is divisible by 6.
+
+*Proof.* We have $n^3 - n = (n - 1) n (n + 1)$, which is a product of
+ three consecutive integers.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+As exercises, try writing proving the following, informally:
+- For any integer $n$, $n^2$ leaves a remainder of 0 or 1
+  when you divide it by 4. Hence $n^2 + 2$ is never divisible by 4.
+- If $n$ is odd, $n^2 - 1$ is divisible by 8.
+- If $m$ and $n$ are odd, then $m^2 + n^2$ is even but not divisible
+  by 4.
+- Say that two integers "have the same parity" if they are both even
+  or both odd. Prove that if $m$ and $n$ are any two integers, then
+  $m + n$ and $m - n$ have the same parity.
+
+** Modular Arithmetic
+
+# add chapter reference
+In the discussion of equivalence relations in Chapter ?? we considered
+the example of the relation of modular equivalence on the
+integers. This is sometimes thought of as "clock arithmetic." Suppose
+you have a 12-hour clock without a minute hand, so it only has an hour
+hand which can point to the hours 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+11 and then it wraps to 12 again. We can do arithmetic with this
+clock.
+- If the hand currently points to 10, then 5 hours later it will point to 3.
+- If the hand points to 7, then 23 hours before that, it pointed to 8.
+- If the hand points to 9, and we work for a 8 hours, then when we are
+  done the hand will point to 5. If we worked twice as long, starting
+  at 9, the hand will point to 1.
+
+We want to write these statements using mathematical notation, so that
+we can reason about them more easily. We cannot write $10 + 5 = 3$ for
+the first expression, because that would be false, so instead we use
+the notation $10 + 5 \equiv 3 \pmod{12}$. The notation $\pmod{12}$
+indicates that we forget about multiples of 12, and we use the
+"congruence" symbol with three horizontal lines to remind us that
+these values are not exactly equal, but only equal up to multiples
+of 12. The other two lines can be formulated as $7 - 23 \equiv 8
+\pmod{12}$ and $9 + 2 \cdot 8 \equiv 1 \pmod{12}$.
+
+Here are some more examples:
+- $6 + 7 \equiv 1 \pmod{12}$
+- $6 \cdot 7 \equiv 42 \equiv 6 \pmod{12}$
+- $7 \cdot 5 \equiv 35 \equiv -1 \pmod{12}$
+The last example shows that we can use negative numbers as well.
+
+We now give a precise definition.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition*. For integers $a$, $b$ and $n$ we say that $a$ and $b$
+are /congruent modulo/ $n$ if $n \mid a - b$. This is written $a
+\equiv b \pmod{n}$. The number $n$ is called the /modulus/.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Typically we only use this definition when the modulus $n$ is
+positive.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem*. Congruence modulo $n$ is an equivalence relation.
+
+*Proof*. We have to show that congruence modulo $n$ is reflexive,
+symmetric and transitive.
+
+It is reflexive, because $a - a = 0$, so $n \mid a - a$, and hence
+$a\equiv a \pmod{n}$.
+
+To show that it is symmetric, suppose that $a \equiv b \pmod{n}$. Then
+by definition, $n \mid a - b$. So $n \mid (-1) \cdot (a - b)$, which
+means that $n \mid b - a$. This means by definition that $b \equiv a
+\pmod{n}$.
+
+To show that it is transitive, suppose that $a \equiv b \pmod{n}$ and
+$b \equiv c \pmod{n}$. Then we have $n \mid a - b$ and $n \mid b -
+c$. Hence by the previous proposition we have $n \mid (a - b) + (b -
+c)$ which means that $n \mid a - c$. So $a \equiv c \pmod{n}$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+This theorem justifies the "chaining" notation we used above when we
+wrote $7 \cdot 5 \equiv 35 \equiv -1 \pmod{12}$. Since congruence
+modulo 12 is transitive, we can now actually conclude that $7\cdot
+5\equiv -1 \pmod{12}$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem*. Suppose that $a\equiv b \pmod{n}$ and $c\equiv
+d\pmod{n}$. Then $a+c\equiv b+d \pmod{n}$ and $a\cdot c\equiv b\cdot
+d\pmod{n}$.
+
+Moreover, if $a\equiv b \pmod{n}$ then $a^k\equiv b^k \pmod{n}$ for
+all natural numbers $k$.
+
+*Proof*. We know that $n \mid a - b$ and $n \mid c - d$. For the first
+statement, we can calculate that $(a + c) - (b + d) = (a - b) + (c -
+d)$, so we can conclude that $n \mid (a + c) - (b + d)$ hence that
+$a+c\equiv b+d\pmod{n}$.
+
+For the second statement, we want to show that $n \mid a\cdot c -
+b\cdot d$. We can factor $a\cdot c - b\cdot d = (a - b)\cdot c +
+b\cdot(c-d)$. Now $n$ divides both summands on the right, hence $n$
+divides $a\cdot c - b\cdot d$, which means that $a\cdot c\equiv b\cdot
+d\pmod{n}$.
+
+The last statement follows by repeatedly applying the second
+statement:
+\begin{equation*}
+a^k = \underbrace{a\cdot a \cdot \cdots \cdot a}_{\text{$k$ times}} \equiv
+\underbrace{b\cdot b \cdot \cdots \cdot b}_{\text{$k$ times}} = b^k \pmod{n}
+\end{equation*}
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+This theorem is useful for carrying out computations modulo $n$. Here
+are some examples.
+- Suppose we want to compute $77 \cdot 123$ modulo 12. We know that
+  $77 \equiv 5 \pmod{12}$ and $123 \equiv 3 \pmod{12}$, so $77 \cdot
+  123 \equiv 5 \cdot 3 \equiv 15 \equiv 3 \pmod{12}$
+- Suppose we want to compute $99 \cdot 998$ modulo 10. We know that
+  $99 \equiv -1\pmod{10}$ and $998 \equiv -2 \pmod{10}$, hence $99
+  \cdot 998 \equiv (-1) \cdot (-2) \equiv 2 \pmod{10}$.
+- Suppose we want to know the last digit of $101^{101}$. Notice that
+  the last digit of a number $n$ is congruent to $n$ modulo 10, so we
+  can just compute $101^{101} \equiv 1^{101} \equiv 1 \pmod{10}$. So
+  the last digit of $101^{101}$ is 1.
+- You are not allowed to compute in exponents with modular
+  arithmetic. For example $8 \equiv 3 \pmod{5}$, but $2^8 \not\equiv
+  2^3 \pmod{5}$. To see this: $2^8 = 256 \equiv 1 \pmod{5}$, but $2^3
+  = 8 \equiv 3 \pmod{5}$.
+
+Recall the quotient-remainder theorem:
+if $n > 0$, then any integer $a$ can be expressed as $a = n q + r$,
+where $0 \le r < n$. In the language of modular arithmetic this means
+that $a \equiv r \pmod{n}$. So if $n > 0$, then every integer is
+congruent to a number between 0 and $n-1$ (inclusive). So there "are
+only $n$ different numbers" when working modulo $n$. This can be used
+to prove many statements about the natural numbers.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition*. For every integer $k$, $k^2+1$ is not divisible by 3.
+
+*Proof*. Translating this problem to modular arithmetic, we have to
+show that $k^2+1 \not\equiv 0 \pmod{3}$ or in other words that
+$k^2\not\equiv 2 \pmod{3}$ for all $k$. By the quotient-remainder
+theorem, we know that $k$ is either congruent to 0, 1 or 2,
+modulo 3. In the first case, $k^2\equiv 0^2\equiv 0\pmod{3}$. In the
+second case, $k^{2}\equiv 1^2 \equiv 1 \pmod{3}$, and in the last case
+we have $k^{2}\equiv2^2\equiv4\equiv1\pmod{3}$. In all of those cases,
+$k^2\not\equiv2\pmod{3}$. So $k^2+1$ is never divisible by 3.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition*. For all integers $a$ and $b$, $a^2+b^2-3$ is not
+divisible by 4.
+
+*Proof*. We first compute the squares modulo 4. We compute
+\begin{align*}
+0^2&\equiv 0\pmod{4}\\
+1^2&\equiv 1\pmod{4}\\
+2^2&\equiv 0\pmod{4}\\
+3^2&\equiv 1\pmod{4}
+\end{align*}
+Since every number is congruent to 0, 1, 2 or 3 modulo 4, we know that
+every square is congruent to 0 or 1 modulo 4. This means that there
+are only four possibilities for $a^2+b^2\pmod{4}$. It can be congruent
+to $0+0$, $1+0$, $0+1$ or $0+0$. In all those cases,
+$a^2+b^2\not\equiv 3\pmod{4}$ Hence $4\nmid a^2+b^2-3$, proving the
+proposition.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Exercises:
+- Show that for every integer $n$ the number $n^4$ is congruent to 0
+  or 1 modulo 5. Hint: to simplify the computation, use that
+  $4^4\equiv(-1)^4\pmod{5}$.
+- Prove that the equation $n^4+m^4=k^4+3$ cannot hold for integers $n,
+  m, k$. Hint: what are the possible values for the left hand side
+  modulo 5? And for the right hand side?
+
+** Sums of Squares
+
+Mathematicians from ancient times have been interested in the question
+as to which integers can be written as a sum of two squares. For
+example, we can write $2 = 1^1 + 1^1$, $5 = 2^2 + 1^2$, $13 = 3^2 +
+2^2$. If we make a sufficiently long list of these, an interesting
+pattern emerges: if two numbers can be written as a sum of squares,
+then so can their product. For example, $10 = 5 \cdot 2$, and we can
+write $10 = 3^2 + 1^2$. Or $65 = 13 \cdot 5$, and we can write $65 =
+8^2 + 1^2$.
+
+At first, one might wonder whether this is just a coincidence. The
+following provides a proof of the fact that it is not.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Let $x$ and $y$ be any two integers. If $x$ and $y$ are
+both sums of squares, then so is $x y$.
+
+*Proof.* Suppose $x = a^2 + b^2$, and suppose $y = c^2 + d^2$. I claim
+that
+\begin{equation*}
+xy = (ac - bd)^2 + (ad + bc)^2.
+\end{equation*}
+To show this, notice that on the one hand we have
+\begin{equation*}
+xy = (a^2 + b^2) (c^2 + d^2) = a^2 c^2 + a^2 d^2 + b^2 c^2 + b^2 d^2.
+\end{equation*}
+On the other hand, we have
+\begin{align*}
+(ac - bd)^2 + (ad + bc)^2 & = (a^2c^2 - 2abcd + b^2 d^2) + (a^2 d^2 + 2 a b c d + b^2 c^2) \\
+  & = a^2 c^2 + b^2 d^2 + a^2 d^2 + b^2 c^2.
+\end{align*}
+Up to the order of summands, the two right-hand sides are the same.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+
+# Let us consider another example. You may recall that if $n$ and $k$
+# are natural numbers and $k \leq n$, the notation $\binom{n}{k}$
+# denotes the number of ways of choosing $k$ objects out of $n$, without
+# repetitions, where the order does not matter. For example, if you have
+# ten shirts in your drawer, and want to choose three to take with you
+# on a weekend trip, there are $\binom{10}{3}$ possibilities. You may
+# also recall that a formula for $\binom{n}{k}$ is given as follows:
+# \begin{align*}
+# \binom{n}{k} = \frac{n!}{k!(n-k)!},
+# \end{align*}
+# where $n!$ (read "$n$ factorial") is equal to $1 \cdot 2 \cdot 3
+# \cdots (n-1) \cdot n$.
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+# *Theorem.* For every $n$ and $k$, if $k + 1 \leq n$, then
+# \begin{equation*}
+# \binom{n+1}{k+1} = \binom{n}{k+1} + \binom{n}{k}.
+# \end{equation*}
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+# This equation can be proved in terms of the combinatorial
+# interpretation. Suppose you want to choose $k+1$ shirts out of $n+1$
+# in your drawer. Set aside one shirt, the blue one. Then you have two
+# choices: you can either choose $k+1$ shirts from the remaining ones,
+# with $\binom{n}{k+1}$ possibilities; or you can take the blue one, and
+# choose $k$ shirts from the remaining ones.
+
+# Our goal here, rather, is to prove the theorem using nothing more than
+# the definition of $\binom{n}{k}$ in terms of factorials.
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+# *Proof.* We can express the left-hand side of the equation as follows:
+# \begin{align*}
+# \binom{n+1}{k+1} & = \frac{(n + 1)!}{(k+1)!((n+1)-(k+1))!} \\
+# & = \frac{(n + 1)!}{(k+1)!(n - k)!}
+# \end{align*}
+# Similarly, we can simplify the right-hand side:
+# \begin{align*}
+# \binom{n}{k+1} + \binom{n}{k} & = \frac{n!}{(k+1)!(n-(k+1))!} + \frac{n!}{k!(n-k)!} \\
+# & = \frac{n!(n-k)}{(k+1)!(n-k-1)!(n-k)} + \frac{(k+1)n!}{(k+1)k!(n-k)!} \\
+# & = \frac{n!(n-k)}{(k+1)!(n-k)!} + \frac{(k+1)n!}{(k+1)!(n-k)!} \\
+# & = \frac{n!(n-k + k + 1)}{(k+1)!(n-k)!} \\
+# & = \frac{n!(n + 1)}{(k+1)!(n-k)!} \\
+# & = \frac{(n + 1)!}{(k+1)!(n-k)!}
+# \end{align*}
+# Thus the left-hand side and the right-hand side are equal.
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+# This was on a homework assignment in 2015. We could include this
+# here, or save it for a chapter on combinatorics.
+
+# ** Binomial Coefficients
+
+# Remember that for $0 \leq k \leq n$, $\binom{n}{k}$ is defined by
+# \[
+#  \binom{n}{k} = \frac{n!}{k! (n - k)!}.
+# \]
+
+# It is easy to see that for every $n$, $\binom{n}{0} = 1$, and we
+# showed in class that whenever $1 \leq k + 1 \leq n$, we have
+
+# \[
+#  \binom{n+1}{k+1} = \binom{n}{k+1} + \binom{n}{k}.
+# \]
+
+# Replacing $k + 1$ by $k$, whenever $1 \leq k \leq n$, we have
+
+# \[
+#   \binom{n+1}{k} = \binom{n}{k} + \binom{n}{k-1}.
+# \]
+
+# Use this to show, by induction on $n$, that for every $k \leq n$,
+# that if $S$ is any set of $n$ elements, $\binom{n}{k}$ is the number
+# of subsets of $S$ with $k$ elements.
+
+
+** Exercises
+
+1. Prove the following: if $a$, $b$, and $c$ are any integers such
+   that $a \mid b$ and $a \mid c$, then $a \mid b + c$.
+
+2. Show by induction on $n$ that for every pair of integers $x$ and
+   $y$, $x - y$ divides $x^n - y^n$. (Hint: start by writing
+   $x^{n+1} - y^{n+1}$ as $x^n (x - y) + x^n y - y^{n+1}$.)
+
+2. Give an informal proof of the following theorem : For every integer
+   $n$, if $n$ is odd, then $n^2 - 1$ is divisible by 8. (Hint: first
+   show that if a number $m$ is even, then either $m$ or $m + 2$ is
+   divisible by 4. Also, remember that $n^2 - 1 = (n + 1) (n - 1)$.)
+
+3. Say two integers ``have the same parity'' if they are either both
+   even or both odd. Show that if $m$ and $n$ are any two integers,
+   then $m + n$ and $m - n$ have the same parity. (Hint: there are
+   lots of cases to consider. You can use facts like ``if $m$ and $n$
+   are odd, then $m + n$ is even'' as obvious.)
+
+4. Find the last digit of $99^{99}$. Can you also find the last two
+   digits of this number?
+
+5. Prove that $50^{22} - 22^{50}$ is divisible by 7.
+
+6. Prove that the equation $n^4+m^4=k^4+3$ has no solutions in the
+   integers. (Hint: consider the possible values for both sides modulo
+   5.)

@@ -146,10 +146,10 @@ number $3^2+5 = 14$.
 
 Similarly, the interpretation of an assertion is a value $\true$ or
 $\false$. For the sake of brevity, we will introduce new notation
-here: if $\varphi$ is an assertion and $\MM$ is a model of the
-language of $\varphi$, we write $\MM \models \varphi$ to mean that
-$\varphi$ evaluates to $\true$ in $\MM$, and $\MM \not\models \varphi$
-to mean that $\varphi$ evaluates to $\false$. (You can read the symbol
+here: if $A$ is an assertion and $\MM$ is a model of the
+language of $A$, we write $\MM \models A$ to mean that
+$A$ evaluates to $\true$ in $\MM$, and $\MM \not\models A$
+to mean that $A$ evaluates to $\false$. (You can read the symbol
 $\models$ as "satisfies" or "validates.")
 
 To interpret a predicate or relation applied to some terms, we first
@@ -163,32 +163,32 @@ than 5.
 
 Interpreting expressions using the logical connectives $\wedge$,
 $\vee$, $\to$, and $\neg$ works exactly as it did in the propositional
-setting. $\MM \models \varphi \wedge \psi$ exactly when $\MM \models
-\varphi$ and $\MM \models \psi$, and so on.
+setting. $\MM \models A \wedge B$ exactly when $\MM \models
+A$ and $\MM \models B$, and so on.
 
 We still need to explain how to interpret existential and universal
-expressions.  We saw that $\ex x \varphi$ intuitively meant that there
-was /some/ element of the domain that would make $\varphi$ true, when
+expressions.  We saw that $\ex x A$ intuitively meant that there
+was /some/ element of the domain that would make $A$ true, when
 we "replaced" the variable $x$ with that element. To make this a bit
-more precise, we say that $\MM \models \ex x \varphi$ exactly when
+more precise, we say that $\MM \models \ex x A$ exactly when
 there is an element $a$ in the domain of $\MM$ such that, when we
-interpret $x$ as $a$, then $\MM \models \varphi$. To continue the
+interpret $x$ as $a$, then $\MM \models A$. To continue the
 example above, we have $\MM \models \ex x (R(x, b))$, since when we
 interpret $x$ as 6 we have $\MM \models R(x, b)$.
 
-More concisely, we can say that $\MM \models \ex x \varphi$ when there
-is an $a$ in the domain of $\MM$ such that $\MM \models \varphi[\bar a
-/ x]$. The notation $\varphi[\bar a / x]$ indicates that every
-occurrence of $x$ in $\varphi$ has been replaced by the symbol $\bar
+More concisely, we can say that $\MM \models \ex x A$ when there
+is an $a$ in the domain of $\MM$ such that $\MM \models A[\bar a
+/ x]$. The notation $A[\bar a / x]$ indicates that every
+occurrence of $x$ in $A$ has been replaced by the symbol $\bar
 a$.
 
-Finally, remember that $\fa x \varphi$ meant that $\varphi$ was true
+Finally, remember that $\fa x A$ meant that $A$ was true
 for all possible values of $x$. We make this precise by saying that
-$\MM \models \fa x \varphi$ exactly when for every element $a$ in the
+$\MM \models \fa x A$ exactly when for every element $a$ in the
 domain of $\MM$, interpreting $x$ as $a$ gives that $\MM \models
-\varphi$. Alternatively, we can say that $\MM \models \fa x \varphi$
+A$. Alternatively, we can say that $\MM \models \fa x A$
 when for every $a$ in the domain of $\MM$, we have $\MM \models
-\varphi[\bar a / x]$. In our example above, $\MM \not\models \fa x
+A[\bar a / x]$. In our example above, $\MM \not\models \fa x
 (R(x, b))$, since when we interpret $x$ as 2 we do not have $\MM
 \models R(x, b)$.
 
@@ -196,7 +196,7 @@ These rules allow us to determine the truth value of any /sentence/ in
 a model.  (Remember, a sentence is a formula with no free variables.)
 There are some subtleties: for instance, we've implicitly assumed that
 our formula doesn't quantify over the same variable twice, as in $\fa
-x \ex x \varphi$. But for the most part, the interpretation process
+x \ex x A$. But for the most part, the interpretation process
 tells us to "read" a formula as talking directly about objects in the
 domain.
 
@@ -216,9 +216,9 @@ Remember, our domain is $\NN$, not $\ZZ$ or any other number system.
    \models \fa x (x + x \leq x)$?
 3. Do the sentences $\ex x \fa y (x \leq y)$ and $\fa x \ex y (x \leq
    y)$ mean the same thing? Are they true or false?
-4. Can you think of a formula $\varphi$ in this language, with one free
-   variable $x$, such that $\MM \models \fa x \varphi$ but $\MM \not
-   \models \ex x \varphi$?
+4. Can you think of a formula $A$ in this language, with one free
+   variable $x$, such that $\MM \models \fa x A$ but $\MM \not
+   \models \ex x A$?
 
 These questions indicate a subtle, and often tricky, interplay between
 the universal and existential quantifiers. Once you've thought about
@@ -243,8 +243,8 @@ them a bit, read the answers:
    domain to be $\ZZ$ instead of $\NN$, the first sentence would be
    false, while the second would still be true.
 4. The situation described here is impossible in our model. If $\MM
-   \models \fa x \varphi$, then $\MM \models \varphi [\bar 0 / x]$,
-   which implies that $\MM \models \ex x \varphi$.  The only time this
+   \models \fa x A$, then $\MM \models A [\bar 0 / x]$,
+   which implies that $\MM \models \ex x A$.  The only time this
    situation can happen is when the domain of our model is empty.
 
 Now consider a different language with constant symbol 2, predicate
@@ -341,7 +341,7 @@ element of the domain of $\MM$. Either $\MM \models \fn{lt}(0, \bar
 a)$ or $\MM \models \neg \fn{lt}(0, \bar a)$.  In either case, the
 propositional semantics of implication guarantee that $\MM \models
 \fn{lt}(0, \bar a) \to \fn{lt}(0, \bar a)$. We often write $\models
-\varphi$ to mean that $\varphi$ is a valid.
+A$ to mean that $A$ is a valid.
 
 In the propositional setting, there is an easy method to figure out if
 a formula is a tautology or not. Writing the truth table and checking
@@ -363,24 +363,24 @@ difficult question than for propositional logic.
 As was the case with propositional logic, we can extend the notion of
 validity to a notion of logical consequence. Fix a first-order
 language, $L$. Suppose $\Gamma$ is a set of sentences in $L$, and
-$\varphi$ is a sentence of $L$. We will say that /$\varphi$ is a
+$A$ is a sentence of $L$. We will say that /$A$ is a
 logical consequence of $\Gamma$/ if every model of $\Gamma$ is a model
-of $\varphi$. This is one way of spelling out that $\varphi$ is a
-"necessary consequence" of $\varphi$: under any interpretation, if the
-hypotheses in $\Gamma$ come out true, $\varphi$ is true as well.
+of $A$. This is one way of spelling out that $A$ is a
+"necessary consequence" of $A$: under any interpretation, if the
+hypotheses in $\Gamma$ come out true, $A$ is true as well.
 
 ** Soundness and Completeness
 
 In propositional logic, we saw a close connection between the provable
 formulas and the tautologies -- specifically, a formula is provable if
 and only if it is a tautology. More generally, we say that a formula
-$\varphi$ is a logical consequence of a set of hypotheses, $\Gamma$,
-if and only if there is a natural deduction proof of $\varphi$ from
+$A$ is a logical consequence of a set of hypotheses, $\Gamma$,
+if and only if there is a natural deduction proof of $A$ from
 $\Gamma$. It turns out that the analogous statements hold for first
 order logic.
 
-The "soundness" direction --- the fact that if $\varphi$ is provable
-from $\Gamma$ then $\varphi$ is true in any model of $\Gamma$ --- at
+The "soundness" direction --- the fact that if $A$ is provable
+from $\Gamma$ then $A$ is true in any model of $\Gamma$ --- at
 any provable formula is a tautology -- holds for reasons that are
 similar to the reasons it holds in the propositional
 case. Specifically, the proof proceeds by showing that each rule of
@@ -393,8 +393,8 @@ provided by Leon Henkin.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem.* If a formula $\varphi$ is a logical consequence of a set of
- sentences $\Gamma$, then $\varphi$ is provable from $\Gamma$.
+*Theorem.* If a formula $A$ is a logical consequence of a set of
+ sentences $\Gamma$, then $A$ is provable from $\Gamma$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -415,14 +415,14 @@ proof is done by the following "model existence" theorem:
 #+LATEX: \horizontalrule
 
 From this theorem, it is easy to deduce the completeness
-theorem. Suppose there is no proof of $\varphi$ from $\Gamma$. Then
-the set $\Gamma \cup \{ \neg \varphi \}$ is consistent. (If we could
-prove $\bot$ from $\Gamma \cup \{ \neg \varphi \}$, then by the
-\emph{reductio ad absurdum} rule we could prove $\varphi$ from
+theorem. Suppose there is no proof of $A$ from $\Gamma$. Then
+the set $\Gamma \cup \{ \neg A \}$ is consistent. (If we could
+prove $\bot$ from $\Gamma \cup \{ \neg A \}$, then by the
+\emph{reductio ad absurdum} rule we could prove $A$ from
 $\Gamma$.) By the model existence theorem, that means that there is a
-model $\MM$ of $\Gamma \cup \{ \neg \varphi \}$. But this is a model
-of $\Gamma$ that is not a model of $\varphi$, which means that
-$\varphi$ is not a logical consequence of $\Gamma$.
+model $\MM$ of $\Gamma \cup \{ \neg A \}$. But this is a model
+of $\Gamma$ that is not a model of $A$, which means that
+$A$ is not a logical consequence of $\Gamma$.
 
 The proof of the model existence theorem is intricate. Somehow, from a
 consistent set of sentences, one has to "build" a model. The strategy
@@ -493,13 +493,13 @@ produce a proof.
    - $\ex x (\fn{blue}(x) \wedge \ex y (\fn{green}(y) \wedge
      \fn{above}(x, y)))$
 
-3. Fix a first-order language $L$, and let $\ph$ and $\psi$ be any two
-   sentences in $L$. Remember that $\vDash \ph$ means that $\ph$ is
-   valid. Unpacking the definition, show that if $\vDash \ph \wedge
-   \psi$, then $\vDash \ph$ and $\vDash \psi$.
+3. Fix a first-order language $L$, and let $A$ and $B$ be any two
+   sentences in $L$. Remember that $\vDash A$ means that $A$ is
+   valid. Unpacking the definition, show that if $\vDash A \wedge
+   B$, then $\vDash A$ and $\vDash B$.
 
-4. Give a concrete example to show that $\vDash \ph \vee \psi$ does
-   not necessarily imply $\vDash \ph$ or $\vDash \psi$. In other
-   words, pick a language $L$ and choose particular sentences $\ph$
-   and $\psi$ such that $\ph \vee \psi$ is valid, but neither $\ph$
-   nor $\psi$ is valid.
+4. Give a concrete example to show that $\vDash A \vee B$ does
+   not necessarily imply $\vDash A$ or $\vDash B$. In other
+   words, pick a language $L$ and choose particular sentences $A$
+   and $B$ such that $A \vee B$ is valid, but neither $A$
+   nor $B$ is valid.

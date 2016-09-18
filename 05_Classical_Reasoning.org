@@ -84,7 +84,7 @@ by contradiction:
 \RLM{1}
 \UIM{\neg (A \vee \neg A)}
 \BIM{\bot}
-\RLM{2}
+\RLM{1}
 \UIM{A \vee \neg A}
 \DP
 \end{center}

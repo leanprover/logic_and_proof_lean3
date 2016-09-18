@@ -802,6 +802,9 @@ show (A ∧ B) ∨ (A ∧ C), from
 #+END_SRC
 
 ** Definitions and Theorems
+:PROPERTIES:
+  :CUSTOM_ID: Definitions_and_Theorems
+:END:
 
 Lean allows us to name definitions and theorems for later use. For
 example, here is a definition of a new "connective":

@@ -1,33 +1,40 @@
 #+Title: Logic and Proof
 #+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
 
+# Things that could be added:
+# General operations on relations (composition and inverse)
+# min and max (in the section on minimal and maximal elements)
+
 * Relations
 :PROPERTIES:
   :CUSTOM_ID: Relations
 :END:      
 
-Earlier, we discussed the notion of a /relation symbol/ in first-order
-logic, and saw how to interpret such a symbol in a model. In this chapter,
-we'll look at some kinds of relations that are omnipresent in mathematics.
+In [[file:07_First_Order_Logic.org::#First_Order_Logic][Chapter 7]] we discussed the notion of a /relation symbol/ in
+first-order logic, and in [[file:10_Semantics_of_First_Order_Logic.org::#Semantics_of_First_Order_Logic][Chapter 10]] we saw how to interpret such a
+symbol in a model. In mathematics, we are generally interested in
+different sorts of relationships between mathematical objects, and so
+the notion of a relation is ubiquitous. In this chapter, we will
+consider some common kinds of relations.
 
-As before, we can define a binary relation $R$ on a domain $A$ to be a 
-subset of $A \times A$, and similarly for relations of higher arity.
-The binary relation holds of two elements $a, b \in A$ -- that is, $R(a, b)$ is
-true -- exactly when the pair $(a, b)$ is an element of $R$. In mathematics,
-we often use /infix/ notation, writing $a R b$ instead of $R(a, b)$.
-
-Despite this definition, we almost never think of a relation as a set
-in informal mathematics. A (binary) relation is a property that can be true
-or false of a pair of elements from the domain. In some sense, these two
-notions are equivalent. We point out the difference to emphasize the distinction
-between formal and informal arguments. In informal proofs, we will almost
-never have trouble thinking of relations in the "informal" way, and
-you should think of them this way throughout this chapter. 
+In some axiomatic foundations, the notion of a relation is taken to be
+primitive, but in axiomatic set theory, a relation is taken to be a
+set of tuples of the corresponding arity. For example, we can take a
+binary relation on $A$ to be a subset of $A \times A$, where $R(a, b)$
+means that $(a, b) \in R$. The foundational definition is generally
+irrelevant to everyday mathematical practice; what is important is
+simply that we can write expressions like $R(a, b)$, and that they are
+true or false, depending on the values of $a$ and $b$.  In
+mathematics, we often use /infix/ notation, writing $a R b$ instead of
+$R(a, b)$.
 
 ** Order Relations
+:PROPERTIES:
+  :CUSTOM_ID: Order_Relations
+:END:      
 
-We will study a class of important binary relations in mathematics, namely,
-/partial orders/. 
+We will start with a class of important binary relations in
+mathematics, namely, /partial orders/.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -42,7 +49,6 @@ We will study a class of important binary relations in mathematics, namely,
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-
 Notice the compact way of introducing the symbol $\leq$ in the
 statement of the definition, and the fact that $\leq$ is written as
 an infix symbol. Notice also that even though the relation is written
@@ -56,7 +62,6 @@ write them as follows:
 - $\fa a (a \leq a)$
 - $\fa {a, b, c} (a \leq b \wedge b \leq c \to a \leq c)$
 - $\fa {a, b} (a \leq b \wedge b \leq a \to a = b)$
-
 Here the variables $a$, $b$, and $c$ implicitly range over the domain
 $A$.
 
@@ -294,16 +299,17 @@ defined as follows.
 - /reflexivity/: $a \equiv a$, for every $a$ in $A$.
 - /symmetry/: if $a \equiv b$, then $b \equiv a$, for every $a$ and
   $b$ in $A$.
-- /transitivity/: if $a \equiv b$ and $b \equiv c$, then $a \equiv c$, for every $a$,
-  $b$, and $c$ in $A$.
+- /transitivity/: if $a \equiv b$ and $b \equiv c$, then $a \equiv c$,
+  for every $a$, $b$, and $c$ in $A$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
- We leave it to you to think about how you could write these
-statements in first-order logic. (Note the similarity to the rules for a partial order.)
- We will also leave you with an exercise: by a
-careful choice of how to instantiate the quantifiers, you can actually
-prove the three properties above from the following two:
+
+We leave it to you to think about how you could write these statements
+in first-order logic. (Note the similarity to the rules for a partial
+order.)  We will also leave you with an exercise: by a careful choice
+of how to instantiate the quantifiers, you can actually prove the
+three properties above from the following two:
 - $\fa a (a \equiv a)$
 - $\fa {a, b, c} (a \equiv b \wedge c \equiv b \to a \equiv c)$
 Try to verify this using natural deduction or Lean.
@@ -387,9 +393,10 @@ This is illustrated in an exercise below.
    vertices $a$ and $b$, $a \leq b$ means that there is an arrow from
    $a$ pointing to $b$. 
 
-   On an arbitrary graph, is $\leq$ a partial order, a strict partial order, a 
-   total order, a strict total order, or none of the above? If possible, give examples of 
-   graphs where $\leq$ fails to have these properties. 
+   On an arbitrary graph, is $\leq$ a partial order, a strict partial
+   order, a total order, a strict total order, or none of the above?
+   If possible, give examples of graphs where $\leq$ fails to have
+   these properties.
 
 4. Let $\equiv$ be an equivalence relation on a set $A$. For every
    element $a$ in $A$, let $[a]$ be the equivalence class of $a$: that
@@ -426,12 +433,12 @@ This is illustrated in an exercise below.
    $y$ 's. Asymmetry fails, because different people can be born on the
    same day. But, prove that the following theorem holds:
 
-#+HTML: <hr>
-#+LATEX: \horizontalrule
+   #+HTML: <hr>
+   #+LATEX: \horizontalrule
 
-*Theorem.* Let $\leq$ be a preorder on a domain $A$. Define the
-relation $\equiv$, where $x \equiv y$ holds if and only if $x \leq y$
-and $y \leq x$. Then $\equiv$ is an equivalence relation on $A$.
+   *Theorem.* Let $\leq$ be a preorder on a domain $A$. Define the
+   relation $\equiv$, where $x \equiv y$ holds if and only if $x \leq y$
+   and $y \leq x$. Then $\equiv$ is an equivalence relation on $A$.
 
-#+HTML: <hr>
-#+LATEX: \horizontalrule
+   #+HTML: <hr>
+   #+LATEX: \horizontalrule

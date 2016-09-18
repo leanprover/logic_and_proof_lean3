@@ -267,8 +267,8 @@ In some places, students are asked to write proofs like this:
 \begin{align*}
  \frac{n(n+1)}{2} + (n + 1) & =? \frac{(n+1)(n+2)}{2} \\
  \frac{n^2+n}{2} + \frac{2n + 2}{2} & =? \frac{n^2 + 3n + 2}{2} \\
- \frac{n^2+n + 2n + 1}{2} & =? \frac{n^2 + 3n + 2}{2} \\
- \frac{n^2+3n + 1}{2} & = \frac{n^2 + 3n + 2}{2} \\
+ \frac{n^2+n + 2n + 2}{2} & =? \frac{n^2 + 3n + 2}{2} \\
+ \frac{n^2+3n + 2}{2} & = \frac{n^2 + 3n + 2}{2} \\
 \end{align*}
 
 #+HTML: <hr>
@@ -294,7 +294,7 @@ To do that, it suffices to show
 \end{equation*}
 For that, it suffices to show
 \begin{equation*}
- \frac{n^2+n + 2n + 1}{2} = \frac{n^2 + 3n + 2}{2}.
+ \frac{n^2+n + 2n + 2}{2} = \frac{n^2 + 3n + 2}{2}.
 \end{equation*}
 But this last equation is clearly true.
 
@@ -312,14 +312,14 @@ example:
 *Proof.* Calculating on the left-hand side, we have
 \begin{align*}
  \frac{n(n+1)}{2} + (n + 1) & = \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
-   & = \frac{n^2+n + 2n + 1}{2} \\
-   & = \frac{n^2 + 3n + 1}{2}.
+   & = \frac{n^2+n + 2n + 2}{2} \\
+   & = \frac{n^2 + 3n + 2}{2}.
 \end{align*}
 On the right-hand side, we also have
 \begin{equation}
- \frac{(n+1)(n+2)}{2} = \frac{n^2 + 3n + 1}{2}.
+ \frac{(n+1)(n+2)}{2} = \frac{n^2 + 3n + 2}{2}.
 \end{equation}
-So $\frac{n(n+1)}{2} + (n + 1) = \frac{n^2 + 3n + 1}{2}$, as required.
+So $\frac{n(n+1)}{2} + (n + 1) = \frac{n^2 + 3n + 2}{2}$, as required.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -335,8 +335,8 @@ forward-directed calculation:
 *Proof.*
 \begin{align*}
  \frac{n(n+1)}{2} + (n + 1) & = \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
-   & = \frac{n^2+n + 2n + 1}{2} \\
-   & = \frac{n^2 + 3n + 1}{2} \\
+   & = \frac{n^2+n + 2n + 2}{2} \\
+   & = \frac{n^2 + 3n + 2}{2} \\
    & = \frac{(n+1)(n+2)}{2}.
 \end{align*}
 

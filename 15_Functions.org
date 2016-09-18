@@ -46,13 +46,13 @@ following:
 - Let $g : \RR \to \RR$ be the function defined by $g(x) = x^2$.
 - Let $h : \NN \to \NN$ be the function defined by $h(n) = n^2$.
 - Let $k : \NN \to \{0, 1\}$ be the function defined by
-\[
-k(n) =
-  \left\{\begin{array}{ll}
-    0 & \mbox{if $n$ is even} \\
-    1 & \mbox{if $n$ is odd}
-  \end{array}\right.
-\]
+  \[
+  k(n) =
+    \left\{\begin{array}{ll}
+      0 & \mbox{if $n$ is even} \\
+      1 & \mbox{if $n$ is odd.}
+    \end{array}\right.
+  \]
 The ability to define functions using an explicit expression raises
 the foundational question as to what counts as legitimate
 "expression." For the moment, let us set that question aside, and
@@ -63,7 +63,7 @@ exotic definitions. For example, we can define a function $f : \RR \to
 f(x) =
   \left\{\begin{array}{ll}
     0 & \mbox{if $x$ is rational} \\
-    1 & \mbox{if $x$ is irrational}
+    1 & \mbox{if $x$ is irrational.}
   \end{array}\right.
 \]
 This is at odds with a view of functions as objects that are
@@ -114,7 +114,6 @@ f(i_X(x)) = f(x)$, and $(i_Y \circ f)(x) = i_Y(f(x)) = x$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
-
 
 Suppose $f : X \to B$ and $g : Y \to A$ satisfy $g \circ f =
 i_A$. Remember that this means that $g(f(x)) = x$ for every $x$ in
@@ -280,11 +279,10 @@ might not be unique.) Then, by the definition of $h$, we have $f(h(y))
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-
-Notice that the definition of $g$ in the first part in the first part
-of the proof requires the function to "decide" whether there is an $x$
-in $X$ such that $f(x) = y$. There is nothing mathematically dubious
-about this definition, but if many situations, this cannot be done
+Notice that the definition of $g$ in the first part of the proof
+requires the function to "decide" whether there is an $x$ in $X$ such
+that $f(x) = y$. There is nothing mathematically dubious about this
+definition, but if many situations, this cannot be done
 /algorithmically/; in other words, $g$ might not be computable from
 the data. More interestingly, the definition of $h$ in the second part
 of the proof requires the function to "choose" a suitable value of $x$
@@ -310,7 +308,7 @@ to $g \circ f$. The second statement is proved similarly.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-Once can prove these two statements, however, without mentioning
+We can prove these two statements, however, without mentioning
 inverses at all. We leave that to you as an exercise.
 
 Notice that the expression $f(n) = 2 n$ can be used to define
@@ -521,12 +519,6 @@ value. If you think about it for a moment, you will see that a
 /partial multifunction/ is essentially nothing more than an arbitrary
 relation.
 
-# exercises
-
-# composition of relations
-
-# inverse relation
-
 ** Exercises
 
 1. Let $f$ be any function from $X$ to $Y$, and let $g$ be any
@@ -560,3 +552,6 @@ relation.
 5. Let $f: X \to Y$ be any function, and let $A$ and $B$ be any
    subsets of $X$. Show $f[A] \setminus f[B] \subseteq f[A \setminus
    B]$.
+
+6. Define notions of composition and inverse for binary relations that
+   generalize the notions for functions.

@@ -1002,7 +1002,7 @@ show A, from this  -- use the assumption to establish the conclusion
 Prove the following in Lean:
 
 #+BEGIN_SRC lean
-variables A B C : Prop
+variables A B C D : Prop
 
 example : A ∧ (A → B) → B :=
 sorry
@@ -1013,7 +1013,7 @@ sorry
 example : ¬ (A ∧ B) → (A → ¬ B) :=
 sorry
 
-example (H₁ : A ∨ B) (H₂ : A → C) (H₃ : B → C) : C :=
+example (H₁ : A ∨ B) (H₂ : A → C) (H₃ : B → D) : C ∨ D :=
 sorry
 
 example (H : ¬ A ∧ ¬ B) : ¬ (A ∨ B) :=

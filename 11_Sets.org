@@ -182,13 +182,13 @@ Nonetheless, you should be able to see elements of natural deduction
 implicitly in the proof above. In formal terms, the theorem is equivalent to
 the assertion
 \begin{equation*}
-\fa x (x \in A \cap (B \cup C) \liff (A \cap B) \cup (A \cap C)),
+\fa x (x \in A \cap (B \cup C) \liff x \in (A \cap B) \cup (A \cap C)),
 \end{equation*}
 and the proof proceeds accordingly. The phrase "let $x$ be arbitrary"
 is code for the \(\forall\) introduction rule, and the form of the rest
 of the proof is a $\liff$ introduction. Saying that $x$ is in $A \cap
 (B \cup C)$ is implicitly an "and," and the argument uses
-$\wedge$-elimination to get $x \in A$ and $x \in B \cup C$. Saying $x
+$\wedge$ elimination to get $x \in A$ and $x \in B \cup C$. Saying $x
 \in B \cup C$ is implicitly an "or," and the proof then splits on
 cases, depending on whether $x \in B$ or $x \in C$. And so on. 
 
@@ -229,7 +229,7 @@ the argument aloud to friends, roommates, and family members; if their
 eyes glaze over, it is unreasonable to expect anonymous readers to do
 better.
 
-Perhaps the best way to learn to write good proofs is to /read/ good
+One of the best ways to learn to write good proofs is to /read/ good
 proofs, and pay attention to the style of writing. Pick an example of
 a textbook that you find especially clear and engaging, and think
 about what makes it so.
@@ -569,7 +569,7 @@ $\{c\} = \{a\}$ and $\{c, d\} = \{a\}$, from which we conclude that $c
 = a$ and $d = a = b$.
 
 Now suppose that $a \neq b$. If $\{c\} = \{a, b\}$ then we conclude
-that $a$ and $b$ are both equal to $c$, contradiction $a \neq
+that $a$ and $b$ are both equal to $c$, contradicting $a \neq
 b$. Since $\{c\}\in L$, $\{c\}$ must be equal to $\{a\}$, which means
 that $a = c$. We know that $\{a, b\} \in R$, and since we know $\{a,
 b\}\neq \{c\}$, we conclude $\{a, b\} = \{c, d\}$. This means that $b
@@ -581,11 +581,11 @@ theorem.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-Using ordered pairs we can define the /ordered triple/ $(a, b, c)$ to
+Using ordered pairs we can define the /ordered triple/ $(a, b, c)$ to be
 $(a, (b, c))$. Then we can prove that $(a, b, c) = (d, e, f)$ if and
 only if $a = d$, $b = e$ and $c = f$, which you are asked to do in
-the exercises. We can also define ordered \(n\)-tuples which is a
-sequence of $n$ objects in a similar way.
+the exercises. We can also define ordered \(n\)-tuples, which are
+sequence of $n$ objects, in a similar way.
 
 Given two sets $A$ and $B$, we define the /cartesian product/ $A
 \times B$ of these two sets as the set of all pairs where the first

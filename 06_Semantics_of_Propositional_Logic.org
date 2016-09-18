@@ -64,14 +64,17 @@ the law of the excluded middle says that $A$ is either true or false.
 
 The next notion we will need is that of a /truth assignment/, which is
 simply a function that assigns a truth value to each element of a
-propositional variables. For example, the function $v$ defined by
+propositional variables. In this section, we will distinguish between
+propositional variables and arbitrary formulas by using letters $P, Q,
+R, \ldots$ for the former and $A, B, C, \ldots$ for the latter. For
+example, the function $v$ defined by
  
-- $v(A) := \true$
-- $v(B) := \false$
-- $v(C) := \false$
-- $v(D) := \true$
+- $v(P) := \true$
+- $v(Q) := \false$
+- $v(R) := \false$
+- $v(S) := \true$
 
-is a truth assignment for the set of variables $\{ A, B, C, D \}$. 
+is a truth assignment for the set of variables $\{ P, Q, R, S \}$. 
 
 Intuitively, a truth assignment describes a possible "state of the
 world." Going back to the Malice and Alice puzzle, let's suppose the
@@ -97,16 +100,16 @@ as follows:
 - $\bar v(\top) = \true$
 - $\bar v(\bot) = \false$
 - $\bar v(\ell) = v(\ell)$, where $\ell$ is any propositional variable.
-- $\bar v(\neg \varphi) = \true$ if $\bar v(\varphi)$ is $\false$, and vice
+- $\bar v(\neg A) = \true$ if $\bar v(A)$ is $\false$, and vice
   versa.
-- $\bar v(\varphi \wedge \psi) = \true$ if $\bar v(\varphi)$ and $\bar
-  v(\psi)$ are both $\true$, and $\false$ otherwise.
-- $\bar v(\varphi \vee \psi) = \true$ if at least one of $\bar v(\varphi)$ and
-  $\bar v(\psi)$ is $\true$; otherwise $\false$.
-- $\bar v(\varphi \to \psi) = \true$ if either $\bar v(\psi)$ is $\true$ or
-  $\bar v(\varphi)$ is $\false$, and $\false$ otherwise. (Equivalently,
-  $\bar v(\varphi \to \psi) = \false$ if $\bar v(\varphi)$ is $\true$ and
-  $\bar v(\psi)$ is $\false$, and $\true$ otherwise.)
+- $\bar v(A \wedge B) = \true$ if $\bar v(A)$ and $\bar
+  v(B)$ are both $\true$, and $\false$ otherwise.
+- $\bar v(A \vee B) = \true$ if at least one of $\bar v(A)$ and
+  $\bar v(B)$ is $\true$; otherwise $\false$.
+- $\bar v(A \to B) = \true$ if either $\bar v(B)$ is $\true$ or
+  $\bar v(A)$ is $\false$, and $\false$ otherwise. (Equivalently,
+  $\bar v(A \to B) = \false$ if $\bar v(A)$ is $\true$ and
+  $\bar v(B)$ is $\false$, and $\true$ otherwise.)
 
 The rules for conjunction and disjunction are easy to understand. "$A$
 and $B$" is true exactly when $A$ and $B$ are both true; "$A$ or $B$" is true when

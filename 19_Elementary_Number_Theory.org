@@ -336,188 +336,16 @@ Exercises:
   m, k$. Hint: what are the possible values for the left hand side
   modulo 5? And for the right hand side?
 
+** Sums of Squares
 
-** Proofs with Calculations
-
-[Is this the most natural palace for this? Are there better examples?]
-
-Calculation is a central to mathematics, and mathematical proofs often
-involve carrying out calculations. Indeed, a calculation can be viewed
-as a proof in and of itself that two expressions describe the same
-entity.
-
-In high school algebra, students are often asked to prove identities
-like the following:
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Proposition.* $\frac{n(n+1)}{2} + (n + 1) = \frac{(n+1)(n+2)}{2}$,
-for every natural number $n$.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-In some places, students are asked to write proofs like this:
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Proof.*
-\begin{align*}
- \frac{n(n+1)}{2} + (n + 1) & =? \frac{(n+1)(n+2)}{2} \\
- \frac{n^2+n}{2} + \frac{2n + 2}{2} & =? \frac{n^2 + 3n + 2}{2} \\
- \frac{n^2+n + 2n + 1}{2} & =? \frac{n^2 + 3n + 2}{2} \\
- \frac{n^2+3n + 1}{2} & = \frac{n^2 + 3n + 2}{2} \\
-\end{align*}
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-Mathematicians generally cringe when they see this. /Don't do it!/ It
-looks like an instance of forward reasoning, where we start with a
-complex identity and end up proving $x = x$. Of course, what is really
-meant is that each line follows from the next. There is a way of
-expressing this, with the phrase "it suffices to show." The following
-presentation comes closer to mathematical vernacular:
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Proof.* We want to show
-\begin{equation*}
-\frac{n(n+1)}{2} + (n + 1) = \frac{(n+1)(n+2)}{2}.
-\end{equation*}
-To do that, it suffices to show
-\begin{equation*}
- \frac{n^2+n}{2} + \frac{2n + 2}{2} = \frac{n^2 + 3n + 2}{2}.
-\end{equation*}
-For that, it suffices to show
-\begin{equation*}
- \frac{n^2+n + 2n + 1}{2} = \frac{n^2 + 3n + 2}{2}.
-\end{equation*}
-But this last equation is clearly true.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-The narrative doesn't flow well, however. Sometimes there are good
-reasons to work backwards in a proof, but in this case it is easy to
-present the proof in a more forward-directed manner. Here is one
-example:
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Proof.* Calculating on the left-hand side, we have
-\begin{align*}
- \frac{n(n+1)}{2} + (n + 1) & = \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
-   & = \frac{n^2+n + 2n + 1}{2} \\
-   & = \frac{n^2 + 3n + 1}{2}.
-\end{align*}
-On the right-hand side, we also have
-\begin{equation}
- \frac{(n+1)(n+2)}{2} = \frac{n^2 + 3n + 1}{2}.
-\end{equation}
-So $\frac{n(n+1)}{2} + (n + 1) = \frac{n^2 + 3n + 1}{2}$, as required.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-Mathematicians often use the abbreviations "LHS" and "RHS" for
-"left-hand side" and "right-hand side," respectively, in situations
-like this.  In fact, here we can easily write the proof as a single
-forward-directed calculation:
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Proof.*
-\begin{align*}
- \frac{n(n+1)}{2} + (n + 1) & = \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
-   & = \frac{n^2+n + 2n + 1}{2} \\
-   & = \frac{n^2 + 3n + 1}{2} \\
-   & = \frac{(n+1)(n+2)}{2}.
-\end{align*}
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-Such a proof is clear, compact, and easy to read. The main challenge
-to the reader is to figure out what justifies each subsequent
-step. Mathematicians sometimes annotate such a calculation with
-additional information, or add a few words of explanation in the text
-before and/or after. But the ideal situation is to carry out the
-calculation is small enough steps so that each step is
-straightforward, and needs to no explanation. (And, once again, what
-counts as "straightforward" will vary depending on who is reading the
-proof.)
-
-Let us consider another example. You may recall that if $n$ and $k$
-are natural numbers and $k \leq n$, the notation $\binom{n}{k}$
-denotes the number of ways of choosing $k$ objects out of $n$, without
-repetitions, where the order does not matter. For example, if you have
-ten shirts in your drawer, and want to choose three to take with you
-on a weekend trip, there are $\binom{10}{3}$ possibilities. You may
-also recall that a formula for $\binom{n}{k}$ is given as follows:
-\begin{align*}
-\binom{n}{k} = \frac{n!}{k!(n-k)!},
-\end{align*}
-where $n!$ (read "$n$ factorial") is equal to $1 \cdot 2 \cdot 3
-\cdots (n-1) \cdot n$.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Theorem.* For every $n$ and $k$, if $k + 1 \leq n$, then
-\begin{equation*}
-\binom{n+1}{k+1} = \binom{n}{k+1} + \binom{n}{k}.
-\end{equation*}
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-This equation can be proved in terms of the combinatorial
-interpretation. Suppose you want to choose $k+1$ shirts out of $n+1$
-in your drawer. Set aside one shirt, the blue one. Then you have two
-choices: you can either choose $k+1$ shirts from the remaining ones,
-with $\binom{n}{k+1}$ possibilities; or you can take the blue one, and
-choose $k$ shirts from the remaining ones.
-
-Our goal here, rather, is to prove the theorem using nothing more than
-the definition of $\binom{n}{k}$ in terms of factorials.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-*Proof.* We can express the left-hand side of the equation as follows:
-\begin{align*}
-\binom{n+1}{k+1} & = \frac{(n + 1)!}{(k+1)!((n+1)-(k+1))!} \\
-& = \frac{(n + 1)!}{(k+1)!(n - k)!}
-\end{align*}
-Similarly, we can simplify the right-hand side:
-\begin{align*}
-\binom{n}{k+1} + \binom{n}{k} & = \frac{n!}{(k+1)!(n-(k+1))!} + \frac{n!}{k!(n-k)!} \\
-& = \frac{n!(n-k)}{(k+1)!(n-k-1)!(n-k)} + \frac{(k+1)n!}{(k+1)k!(n-k)!} \\
-& = \frac{n!(n-k)}{(k+1)!(n-k)!} + \frac{(k+1)n!}{(k+1)!(n-k)!} \\
-& = \frac{n!(n-k + k + 1)}{(k+1)!(n-k)!} \\
-& = \frac{n!(n + 1)}{(k+1)!(n-k)!} \\
-& = \frac{(n + 1)!}{(k+1)!(n-k)!}
-\end{align*}
-Thus the left-hand side and the right-hand side are equal.
-
-#+HTML: <hr>
-#+LATEX: \horizontalrule
-
-Let us consider a more interesting example, from number
-theory. Mathematicians from ancient times have been interested in the
-question as to which integers can be written as a sum of two
-squares. For example, we can write $2 = 1^1 + 1^1$, $5 = 2^2 + 1^2$,
-$13 = 3^2 + 2^2$. If we make a sufficiently long list of these, an
-interesting pattern emerges: if two numbers can be written as a sum of
-squares, then so can their product. For example, $10 = 5 \cdot 2$, and
-we can write $10 = 3^2 + 1^2$. Or $65 = 13 \cdot 5$, and we can write
-$65 = 8^2 + 1^2$.
+Mathematicians from ancient times have been interested in the question
+as to which integers can be written as a sum of two squares. For
+example, we can write $2 = 1^1 + 1^1$, $5 = 2^2 + 1^2$, $13 = 3^2 +
+2^2$. If we make a sufficiently long list of these, an interesting
+pattern emerges: if two numbers can be written as a sum of squares,
+then so can their product. For example, $10 = 5 \cdot 2$, and we can
+write $10 = 3^2 + 1^2$. Or $65 = 13 \cdot 5$, and we can write $65 =
+8^2 + 1^2$.
 
 At first, one might wonder whether this is just a coincidence. The
 following provides a proof of the fact that it is not.
@@ -546,6 +374,63 @@ Up to the order of summands, the two right-hand sides are the same.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
+
+
+# Let us consider another example. You may recall that if $n$ and $k$
+# are natural numbers and $k \leq n$, the notation $\binom{n}{k}$
+# denotes the number of ways of choosing $k$ objects out of $n$, without
+# repetitions, where the order does not matter. For example, if you have
+# ten shirts in your drawer, and want to choose three to take with you
+# on a weekend trip, there are $\binom{10}{3}$ possibilities. You may
+# also recall that a formula for $\binom{n}{k}$ is given as follows:
+# \begin{align*}
+# \binom{n}{k} = \frac{n!}{k!(n-k)!},
+# \end{align*}
+# where $n!$ (read "$n$ factorial") is equal to $1 \cdot 2 \cdot 3
+# \cdots (n-1) \cdot n$.
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+# *Theorem.* For every $n$ and $k$, if $k + 1 \leq n$, then
+# \begin{equation*}
+# \binom{n+1}{k+1} = \binom{n}{k+1} + \binom{n}{k}.
+# \end{equation*}
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+# This equation can be proved in terms of the combinatorial
+# interpretation. Suppose you want to choose $k+1$ shirts out of $n+1$
+# in your drawer. Set aside one shirt, the blue one. Then you have two
+# choices: you can either choose $k+1$ shirts from the remaining ones,
+# with $\binom{n}{k+1}$ possibilities; or you can take the blue one, and
+# choose $k$ shirts from the remaining ones.
+
+# Our goal here, rather, is to prove the theorem using nothing more than
+# the definition of $\binom{n}{k}$ in terms of factorials.
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+# *Proof.* We can express the left-hand side of the equation as follows:
+# \begin{align*}
+# \binom{n+1}{k+1} & = \frac{(n + 1)!}{(k+1)!((n+1)-(k+1))!} \\
+# & = \frac{(n + 1)!}{(k+1)!(n - k)!}
+# \end{align*}
+# Similarly, we can simplify the right-hand side:
+# \begin{align*}
+# \binom{n}{k+1} + \binom{n}{k} & = \frac{n!}{(k+1)!(n-(k+1))!} + \frac{n!}{k!(n-k)!} \\
+# & = \frac{n!(n-k)}{(k+1)!(n-k-1)!(n-k)} + \frac{(k+1)n!}{(k+1)k!(n-k)!} \\
+# & = \frac{n!(n-k)}{(k+1)!(n-k)!} + \frac{(k+1)n!}{(k+1)!(n-k)!} \\
+# & = \frac{n!(n-k + k + 1)}{(k+1)!(n-k)!} \\
+# & = \frac{n!(n + 1)}{(k+1)!(n-k)!} \\
+# & = \frac{(n + 1)!}{(k+1)!(n-k)!}
+# \end{align*}
+# Thus the left-hand side and the right-hand side are equal.
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
 
 # This was on a homework assignment in 2015. We could include this
 # here, or save it for a chapter on combinatorics.

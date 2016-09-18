@@ -227,12 +227,18 @@ in a new identity. For example, the two clauses in the definition of
 #+BEGIN_SRC lean
 open nat
 
+namespace hide
+
 definition pow : ℕ → ℕ → ℕ 
 | m 0        := 1
 | m (n + 1)  := m * pow m n
 
+-- BEGIN
 proposition pow_zero (n : ℕ) : pow n 0 = 1 := rfl
 proposition pow_succ (m n : ℕ) : pow m (succ n) = m * pow m n := rfl
+-- END
+
+end hide
 #+END_SRC
 
 Notice that we could alternatively have used =(pow m n) * m= in the

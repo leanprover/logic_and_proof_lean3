@@ -823,7 +823,7 @@ covers the negative ones.
 
 10. Prove the following properties of negation and subtraction on the
     integers, using only the properties of negation and subtraction
-    given in [[#The_Integers][Section 17.5]]
+    given in [[#The_Integers][Section 17.5]].
 
     - if $n + m = 0$ then $m = -n$;
     - $-0 = 0$;

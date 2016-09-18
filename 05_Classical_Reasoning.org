@@ -172,7 +172,7 @@ iff.intro
 In the next section, we will derive a number of classical rules and
 equivalences. These are tricky to prove. In general, to use classical
 reasoning in natural deduction, we need to extend the general
-heuristic presented in Section [[file:02_Natural_Deduction_for_Propositional_Logic.org::#Forward_and_Backward_Reasoning][Forward and Backward Reasoning]] as follows:
+heuristic presented in [[file:03_Natural_Deduction_for_Propositional_Logic.org::#Forward_and_Backward_Reasoning][Section 3.3]] as follows:
 1. First, work backwards from the conclusion, using the introduction
    rules. 
 2. When you have run out things to do in the first step, use

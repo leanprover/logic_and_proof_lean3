@@ -230,7 +230,8 @@ lemma left_id (f : X → Y) : id ∘ f = f := rfl
 
 lemma right_id (f : X → Y) : f ∘ id = f := rfl
 
-theorem comp.assoc (f : Z → W) (g : Y → Z) (h : X → Y) : (f ∘ g) ∘ h = f ∘ (g ∘ h) := rfl
+theorem comp.assoc (f : Z → W) (g : Y → Z) (h : X → Y) : 
+  (f ∘ g) ∘ h = f ∘ (g ∘ h) := rfl
 
 theorem comp.left_id (f : X → Y) : id ∘ f = f := rfl
 
@@ -287,7 +288,8 @@ theorem surjective_id : surjective (@id X) :=
 take y, 
 show ∃ x, id x = y, from exists.intro y rfl
 
-theorem bijective_id : bijective (@id X) := and.intro injective_id surjective_id
+theorem bijective_id : bijective (@id X) := 
+and.intro injective_id surjective_id
 -- END
 #+END_SRC
 More interestingly, we can prove that the composition of injective
@@ -307,14 +309,16 @@ definition surjective (f : X → Y) : Prop := ∀ y, ∃ x, f x = y
 definition bijective (f : X → Y) := injective f ∧ surjective f
 
 -- BEGIN
-theorem injective_comp {g : Y → Z} {f : X → Y} (Hg : injective g) (Hf : injective f) :
+theorem injective_comp {g : Y → Z} {f : X → Y} 
+    (Hg : injective g) (Hf : injective f) :
   injective (g ∘ f) :=
 take x₁ x₂, 
 suppose (g ∘ f) x₁ = (g ∘ f) x₂, 
 have f x₁ = f x₂, from Hg this,
 show x₁ = x₂, from Hf this
 
-theorem surjective_comp {g : Y → Z} {f : X → Y} (Hg : surjective g) (Hf : surjective f) :
+theorem surjective_comp {g : Y → Z} {f : X → Y} 
+    (Hg : surjective g) (Hf : surjective f) :
   surjective (g ∘ f) :=
 take z,
 obtain y (Hy : g y = z), from Hg z,
@@ -322,7 +326,8 @@ obtain x (Hx : f x = y), from Hf y,
 have g (f x) = z, from eq.subst (eq.symm Hx) Hy,
 show ∃ x, g (f x) = z, from exists.intro x this
 
-theorem bijective_comp {g : Y → Z} {f : X → Y} (Hg : bijective g) (Hf : bijective f) :
+theorem bijective_comp {g : Y → Z} {f : X → Y} 
+    (Hg : bijective g) (Hf : bijective f) :
   bijective (g ∘ f) :=
 obtain Hginj Hgsurj, from Hg,
 obtain Hfinj Hfsurj, from Hf,
@@ -380,13 +385,15 @@ definition left_inverse (g : Y → X) (f : X → Y) : Prop := ∀x, g (f x) = x
 definition right_inverse (g : Y → X) (f : X → Y) : Prop := left_inverse f g
 
 -- BEGIN
-theorem injective_of_left_inverse {g : Y → X} {f : X → Y} : left_inverse g f → injective f :=
+theorem injective_of_left_inverse {g : Y → X} {f : X → Y} : 
+  left_inverse g f → injective f :=
 assume h, take x₁ x₂, assume feq,
 calc x₁ = g (f x₁) : by rewrite h
     ... = g (f x₂) : feq
     ... = x₂       : by rewrite h
 
-theorem surjective_of_right_inverse {g : Y  → X} {f : X → Y} : right_inverse g f → surjective f :=
+theorem surjective_of_right_inverse {g : Y  → X} {f : X → Y} : 
+  right_inverse g f → surjective f :=
 assume h, take y,
 let  x : X := g y in
 have f x = y, from calc
@@ -459,13 +466,15 @@ noncomputable definition inverse (f : X → Y) (default : X) : Y → X :=
 λ y, if H : ∃ x, f x = y then some H else default
 
 -- BEGIN
-proposition inverse_of_exists (f : X → Y) (default : X) (y : Y) (H : ∃ x, f x = y) :
+proposition inverse_of_exists (f : X → Y) (default : X) (y : Y) 
+  (H : ∃ x, f x = y) :
 f (inverse f default y) = y :=
 have H1 : inverse f default y = some H, from dif_pos H,
 have H2 : f (some H) = y, from some_spec H,
 eq.subst (eq.symm H1) H2
 
-theorem is_left_inverse_of_injective (f : X → Y) (default : X) (injf : injective f) :
+theorem is_left_inverse_of_injective (f : X → Y) (default : X) 
+  (injf : injective f) :
 left_inverse (inverse f default) f :=
 let finv := (inverse f default) in
 take x,
@@ -531,7 +540,8 @@ variable (A : set X)
 variable (f : X → Y)
 
 -- BEGIN
-example (H : ∀ x₁ x₂, x₁ ∈ A → x₂ ∈ A → f x₁ = f x₂ → x₁ = x₂) : inj_on f A := H
+example (H : ∀ x₁ x₂, x₁ ∈ A → x₂ ∈ A → f x₁ = f x₂ → x₁ = x₂) : 
+  inj_on f A := H
 -- END
 #+END_SRC
 The variables =x₁= and =x₂= are marked implicit in the definition of
@@ -562,7 +572,8 @@ variable (A : set X)
 variable (f : X → Y)
 
 -- BEGIN
-example (H : ∀ x₁ x₂, x₁ ∈ A → x₂ ∈ A → f x₁ = f x₂ → x₁ = x₂) : inj_on f A := H
+example (H : ∀ x₁ x₂, x₁ ∈ A → x₂ ∈ A → f x₁ = f x₂ → x₁ = x₂) : 
+  inj_on f A := H
 -- END
 #+END_SRC
 It is synonymous with the assertion that =B= is a subset of the image
@@ -604,7 +615,8 @@ have    H2 : f x1 = f x2, from Hg fx1B fx2B H1,
 show x1 = x2, from Hf x1A x2A H2
 -- END
 #+END_SRC
-We can similarly prove that the composition of surjective functions is surjective:
+We can similarly prove that the composition of surjective functions is
+surjective:
 #+BEGIN_SRC lean
 import data.set
 open set function
@@ -682,7 +694,7 @@ ext (take y, iff.intro
    show ∃ x, f x = y, from exists.intro (y - 3) H1
 
    example (x y : ℤ) (H : 2 * x = 2 * y) : x = y :=
-   have H1 : 2 ≠ (0 : ℤ), from dec_trivial,    -- this tells Lean to figure it out itself
+   have H1 : 2 ≠ (0 : ℤ), from dec_trivial,  -- this tells Lean to figure it out itself
    show x = y, from eq_of_mul_eq_mul_left H1 H
 
    example (x : ℤ) : -(-x) = x := neg_neg x

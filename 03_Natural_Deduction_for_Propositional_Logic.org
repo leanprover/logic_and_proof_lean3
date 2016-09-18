@@ -620,8 +620,8 @@ deduction:
    hypothesis $A \vee B$, use-or elimination to split on cases, 
    considering $A$ in one case and $B$ in the other.
 
-In Chapter [[file:04_Classical_Reasoning.org::#Classical_Reasoning][Classical Reasoning]] we will add one more element to this
-list: if all else fails, try a proof by contradiction.
+In [[file:05_Classical_Reasoning.org::#Classical_Reasoning][Chapter 5]] we will add one more element to this list: if all else
+fails, try a proof by contradiction.
 
 The tension between forward and backward reasoning is found in
 informal arguments as well, in mathematics and elsewhere. When we
@@ -699,16 +699,15 @@ equivalences.
 \item $(((A \to B) \to A) \to A)$
 \end{enumerate}
 All of these can be derived in natural deduction using the fundamental
-rules listed in Section [[#Derivations_in_Natural_Deduction][Derivations in Natural Deduction]]. But some of
-them require the use of the /reductio ad absurdum/ rule, or proof by
-contradiction, which we have not yet discussed in detail. We will
-discuss the use of this rule, and other patterns of classical logic,
-in the Chapter [[file:04_Classical_Reasoning.org::#Classical_Reasoning][Classical Reasoning]].
+rules listed in [[#Derivations_in_Natural_Deduction][Section 3.1]] But some of them require the use of the
+/reductio ad absurdum/ rule, or proof by contradiction, which we have
+not yet discussed in detail. We will discuss the use of this rule, and
+other patterns of classical logic, in the Chapter [[file:05_Classical_Reasoning.org::#Classical_Reasoning][Chapter 5]].
 
 ** Exercises
 
 When constructing proofs in natural deduction, use /only/ the list of
-rules given in Section [[#Derivations_in_Natural_Deduction][Derivations in Natural Deduction]].
+rules given in [[#Derivations_in_Natural_Deduction][Section 3.1]].
 
 1. Give a natural deduction proof of $\neg (A \wedge B) \to (A \to
    \neg B)$.

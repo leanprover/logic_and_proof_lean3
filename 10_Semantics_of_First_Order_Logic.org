@@ -6,12 +6,12 @@
   :CUSTOM_ID: Semantics_of_First_Order_Logic
 :END:      
 
-In Chapter [[file:06_Semantics_of_Propositional_Logic.org::#Semantics_of_Propositional_Logic][Semantics of Propositional Logic]], we emphasized a
-distinction between the /syntax/ and the /semantics/ of propositional
-logic. Syntactic questions have to do with the formal structure of
-formulas and the conditions under which different types of formulas
-can be derived. Semantic questions, on the other hand, concern the
-/truth/ of a formula relative to some truth assignment.
+In [[file:06_Semantics_of_Propositional_Logic.org::#Semantics_of_Propositional_Logic][Chapter 6]], we emphasized a distinction between the /syntax/ and the
+/semantics/ of propositional logic. Syntactic questions have to do
+with the formal structure of formulas and the conditions under which
+different types of formulas can be derived. Semantic questions, on the
+other hand, concern the /truth/ of a formula relative to some truth
+assignment.
 
 As you might expect, we can make a similar distinction in the setting
 of first order logic. The previous two chapters have focused mainly on
@@ -252,18 +252,17 @@ symbols $\fn{prime}$ and $\fn{odd}$, and binary relation $<$,
 interpreted in the natural way over domain $\NN$. The sentence $\fa x
 ((2 < x \wedge \fn{prime}(x)) \to \fn{odd}(x))$ expresses the fact
 that every prime number bigger than 2 is odd. It is an example of
-/relativization/, discussed in Chapter [[file:07_First_Order_Logic.org::#Relativization_and_Sorts][Relativization and Sorts]]. We
-can now see semantically how relativization works. This sentence is
-true in our model if, for every natural number $n$, interpreting $x$
-as $n$ makes the sentence true. If we interpret $x$ as 0, 1, or 2, or
-as any non-prime number, the hypothesis of the implication is false,
-and thus $(2 < x \wedge \fn{prime}(x))$ is true. Otherwise, if we
-interpret $x$ as a prime number bigger than 2, both the hypothesis and
-conclusion of the implication are true, and $(2 < x \wedge
-\fn{prime}(x))$ is again true. Thus the universal statement holds. It
-was an example like this that partially motivated our semantics for
-implication back in Chapter 3; any other choice would make
-relativization impossible.
+/relativization/, discussed in [[file:07_First_Order_Logic.org::#Relativization_and_Sorts][Section 7.4]]. We can now see
+semantically how relativization works. This sentence is true in our
+model if, for every natural number $n$, interpreting $x$ as $n$ makes
+the sentence true. If we interpret $x$ as 0, 1, or 2, or as any
+non-prime number, the hypothesis of the implication is false, and thus
+$(2 < x \wedge \fn{prime}(x))$ is true. Otherwise, if we interpret $x$
+as a prime number bigger than 2, both the hypothesis and conclusion of
+the implication are true, and $(2 < x \wedge \fn{prime}(x))$ is again
+true. Thus the universal statement holds. It was an example like this
+that partially motivated our semantics for implication back in Chapter
+3; any other choice would make relativization impossible.
 
 For the next example, we will consider models that are given by a
 rectangular grid of "dots." Each dot has a color (red, blue, or green)

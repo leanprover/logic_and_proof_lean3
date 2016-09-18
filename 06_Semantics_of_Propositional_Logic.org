@@ -53,14 +53,14 @@ natural deduction, and =true= and =false= are intended to denote in
 Lean.
 
 In this text, we will adopt a "classical" notion of truth, following
-our discussion in Chapter [[file:05_Classical_Reasoning.org::#Classical_Reasoning][Classical Reasoning]]. This can be understood
-in various ways, but, concretely, it comes down to this: we will
-assume that any proposition is either true or false (but, of course,
-not both). This conception of truth is what underlies the law of the
-excluded middle, $A \vee \neg A$. Semantically, we read this sentence
-as saying "either $A$ is true, or $\neg A$ is true." Since, in our
-semantic interpretation, $\neg A$ is true exactly when $A$ is false,
-the law of the excluded middle says that $A$ is either true or false.
+our discussion in [[file:05_Classical_Reasoning.org::#Classical_Reasoning][Chapter 5]]. This can be understood in various ways,
+but, concretely, it comes down to this: we will assume that any
+proposition is either true or false (but, of course, not both). This
+conception of truth is what underlies the law of the excluded middle,
+$A \vee \neg A$. Semantically, we read this sentence as saying "either
+$A$ is true, or $\neg A$ is true." Since, in our semantic
+interpretation, $\neg A$ is true exactly when $A$ is false, the law of
+the excluded middle says that $A$ is either true or false.
 
 The next notion we will need is that of a /truth assignment/, which is
 simply a function that assigns a truth value to each element of a
@@ -112,8 +112,8 @@ as follows:
   $\bar v(B)$ is $\false$, and $\true$ otherwise.)
 
 The rules for conjunction and disjunction are easy to understand. "$A$
-and $B$" is true exactly when $A$ and $B$ are both true; "$A$ or $B$" is true when
-at least one of $A$ or $B$ is true.
+and $B$" is true exactly when $A$ and $B$ are both true; "$A$ or $B$"
+is true when at least one of $A$ or $B$ is true.
 
 Understanding the rule for implication is trickier. People are often
 surprised to hear that any if-then statement with a false hypothesis
@@ -429,30 +429,30 @@ completeness play an important role in helping us understand the
 nature of the logical notions, and so we will try to provide some
 hints here as to why these properties hold for propositional logic.
 
-Proving soundness is easier than proving completeness. We wish to show that whenever $A$ is
-provable from a set of hypotheses, $\Gamma$, then $A$ is a logical
-consequence of $\Gamma$. In a later chapter, we will consider proofs
-by induction, which allows us to establish a property holds of a
-general collection of objects by showing that it holds of some
-"simple" ones and is preserved under the passage to objects that are
-more complex. In the case of natural deduction, it is enough to show
-that soundness holds of the most basic proofs --- using the assumption
-rule --- and that it is preserved under each rule of inference. The
-base case is easy: the assumption rule says that $A$ is provable from
-hypothesis $A$, and clearly every truth assignment that makes $A$ true
-makes $A$ true. The inductive steps are not much harder; it involves
-checking that the rules we have chosen mesh with the semantic
-notions. For example, suppose the last rule is the and introduction
-rule. In that case, we have a proof of $A$ from some hypotheses
-$\Gamma$, and a proof of $B$ from some hypotheses $\Delta$, and we
-combine these to form a proof of $A \wedge B$ from the hypotheses in
-$\Gamma \cup \Delta$, that is, the hypotheses in both. Inductively, we
-can assume that $A$ is a logical consequence of $\Gamma$ and that $B$
-is a logical consequence of $\Delta$. Let $v$ be any truth assignment
-that makes every formula in $\Gamma \cup \Delta$ true. Then by the
-inductive hypothesis, we have that it makes $A$ true, and $B$ true as
-well. By the definition of the valuation function, $\bar v (A \wedge
-B) = \true$, as required.
+Proving soundness is easier than proving completeness. We wish to show
+that whenever $A$ is provable from a set of hypotheses, $\Gamma$, then
+$A$ is a logical consequence of $\Gamma$. In a later chapter, we will
+consider proofs by induction, which allows us to establish a property
+holds of a general collection of objects by showing that it holds of
+some "simple" ones and is preserved under the passage to objects that
+are more complex. In the case of natural deduction, it is enough to
+show that soundness holds of the most basic proofs --- using the
+assumption rule --- and that it is preserved under each rule of
+inference. The base case is easy: the assumption rule says that $A$ is
+provable from hypothesis $A$, and clearly every truth assignment that
+makes $A$ true makes $A$ true. The inductive steps are not much
+harder; it involves checking that the rules we have chosen mesh with
+the semantic notions. For example, suppose the last rule is the and
+introduction rule. In that case, we have a proof of $A$ from some
+hypotheses $\Gamma$, and a proof of $B$ from some hypotheses $\Delta$,
+and we combine these to form a proof of $A \wedge B$ from the
+hypotheses in $\Gamma \cup \Delta$, that is, the hypotheses in
+both. Inductively, we can assume that $A$ is a logical consequence of
+$\Gamma$ and that $B$ is a logical consequence of $\Delta$. Let $v$ be
+any truth assignment that makes every formula in $\Gamma \cup \Delta$
+true. Then by the inductive hypothesis, we have that it makes $A$
+true, and $B$ true as well. By the definition of the valuation
+function, $\bar v (A \wedge B) = \true$, as required.
 
 Proving completeness is harder. It suffices to show that if $A$ is any
 tautology, then $A$ is provable. One strategy is to show that natural

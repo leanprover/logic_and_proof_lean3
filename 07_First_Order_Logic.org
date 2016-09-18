@@ -9,16 +9,16 @@
 Propositional logic provides a good start at describing the general
 principles of logical reasoning, but it does not go far enough. Some
 of the limitations are apparent even in the "Malice and Alice" example
-from Chapter [[file:02_Propositional_Logic.org::#Propositional_Logic][Propositional Logic]]. Propositional logic does not give us
-the means to express a general principle that tells us that if Alice
-is with her son on the beach, then her son is with Alice; the general
-fact that no child is younger than his or her parent; or the general
-fact that if someone is alone, they are not with someone else. To
-express principles like these, we need a way to talk about objects and
+from [[file:02_Propositional_Logic.org::#Propositional_Logic][Chapter 2]]. Propositional logic does not give us the means to
+express a general principle that tells us that if Alice is with her
+son on the beach, then her son is with Alice; the general fact that no
+child is younger than his or her parent; or the general fact that if
+someone is alone, they are not with someone else. To express
+principles like these, we need a way to talk about objects and
 individuals, as well as their properties and the relationships between
 them. These are exactly what is provided by a more expressive logical
-framework known as /first-order logic/, which will be the topic of
-the next few chapters.
+framework known as /first-order logic/, which will be the topic of the
+next few chapters.
 
 ** Functions, Predicates, and Relations
 :PROPERTIES:
@@ -179,15 +179,15 @@ changes the meaning of a formula.
 Notice also that some formulas, like $\fa {x, y} (x \le y \vee y \le
 x)$, have no free variables at all. Such a formula is called a
 /sentence/, because it makes an outright assertion, a statement that
-is either true or false about the intended interpretation. In Chapter
-[[file:10_Semantics_of_First_Order_Logic::#Semantics_of_First_Order_Logic][Semantics of First Order Logic]], we will make the notion of an
-"intended interpretation" precise, and explain what it means to be
-"true in an interpretation." For now, the idea that formulas say
-things about about object in an intended interpretation should
-motivate the rules for reasoning with such expressions.
+is either true or false about the intended interpretation. In [[file:10_Semantics_of_First_Order_Logic::#Semantics_of_First_Order_Logic.org][Chapter
+10]], we will make the notion of an "intended interpretation" precise,
+and explain what it means to be "true in an interpretation." For now,
+the idea that formulas say things about about object in an intended
+interpretation should motivate the rules for reasoning with such
+expressions.
 
-In Chapter [[file:01_Introduction.org::#Introduction][Introduction]] we proved that the square root of two is
-irrational. One way to construe the statement is as follows:
+In [[file:01_Introduction.org::#Introduction][Chapter 1]] we proved that the square root of two is irrational. One
+way to construe the statement is as follows:
 #+BEGIN_QUOTE
 For every pair of natural numbers, $a$ and $b$, it is not the case
 that $a^2 = 2 b^2$.

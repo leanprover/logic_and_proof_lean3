@@ -272,11 +272,10 @@ is to say, it denotes a natural number. If we =check= the expression
 =even (x + y + 1)=, we are told that it has type =Prop=, which is to
 say, it expresses a proposition.
 
-In Chapter [[file:07_First_Order_Logic.org::#First_Order_Logic][First Order Logic]] we considered many-sorted logic, where
-one can have multiple universes. For example, we might want to use
-first-order logic for geometry, with quantifiers ranging over points
-and lines. In Lean, we can model this as by introducing a new type
-for each sort:
+In [[file:07_First_Order_Logic.org::#First_Order_Logic][Chapter 7]] we considered many-sorted logic, where one can have
+multiple universes. For example, we might want to use first-order
+logic for geometry, with quantifiers ranging over points and lines. In
+Lean, we can model this as by introducing a new type for each sort:
 #+BEGIN_SRC lean
 variables Point Line : Type
 variable  on : Point → Line → Prop
@@ -309,8 +308,7 @@ check ∀ p q L M, p ≠ q → on p L → on q L → on p M → on q M → L = M
 ** Using the Universal Quantifier
 
 In Lean, you can enter the universal quantifier by writing =\all=. The
-motivating examples from Section [[file:07_First_Order_Logic.org::#Functions_Predicates_and_Relations][Functions, Predicates, and Relations]]
-are rendered as follows:
+motivating examples from [[file:07_First_Order_Logic.org::#Functions_Predicates_and_Relations][Section 7.1]] are rendered as follows:
 #+BEGIN_SRC lean
 import data.nat
 open nat

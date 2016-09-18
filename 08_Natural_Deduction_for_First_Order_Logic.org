@@ -430,16 +430,16 @@ As an exercise, prove the "dual" equivalence yourself: $\neg\ex x A(x)
 \liff \fa x \neg A(x)$. This can be done without using proof by
 contradiction.
 
-In Chapter [[file:04_First_Order_Logic.org::#First_Order_Logic][First Order Logic]] we saw examples of how to use
-relativization to restrict the scope of a universal
-quantifier. Suppose we want to say "every prime number is greater than
-1". In first order logic this can be written as $\fa n (\fn{prime}(n)
-\to n > 1)$. The reason is that the original statement is equivalent
-to the statement "for every natural number, if it is prime, then it is
-greater than 1". Similarly, suppose we want to say "there exists a
-prime number greater than 100." This is equivalent to saying "there
-exists a natural number which is prime and greater than 100," which
-can be expressed as $\ex n(\fn{prime}(n) \wedge n > 100)$.
+In [[file:07_First_Order_Logic.org::#First_Order_Logic][Chapter 7]] we saw examples of how to use relativization to restrict
+the scope of a universal quantifier. Suppose we want to say "every
+prime number is greater than 1". In first order logic this can be
+written as $\fa n (\fn{prime}(n) \to n > 1)$. The reason is that the
+original statement is equivalent to the statement "for every natural
+number, if it is prime, then it is greater than 1". Similarly, suppose
+we want to say "there exists a prime number greater than 100." This is
+equivalent to saying "there exists a natural number which is prime and
+greater than 100," which can be expressed as $\ex n(\fn{prime}(n)
+\wedge n > 100)$.
 
 As an exercise you can prove the above results about negations of
 quantifiers also for relativized quantifiers. Specifically, prove the

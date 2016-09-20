@@ -349,7 +349,7 @@ written =⋂i, A i= =⋃i, A i=. These characters can be typed with =\I=
 and =\Un=. For Lean, =x ∈ ⋂i, A i= means =∀i : I, x ∈ A i= and =x ∈
 ⋃i, A i= means =∃i : I, x ∈ A i=. To refresh your memory at to how to
 work with the universal and existential quantifier in Lean, see
-[[file:09_First_Order_Logic_in_Lean.org][Chapter 9]].
+[[file:09_First_Order_Logic_in_Lean.org::#First_Order_Logic_in_Lean][Chapter 9]].
 
 #+BEGIN_SRC lean
 import data.set

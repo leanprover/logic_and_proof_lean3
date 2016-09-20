@@ -702,7 +702,7 @@ All of these can be derived in natural deduction using the fundamental
 rules listed in [[#Derivations_in_Natural_Deduction][Section 3.1]] But some of them require the use of the
 /reductio ad absurdum/ rule, or proof by contradiction, which we have
 not yet discussed in detail. We will discuss the use of this rule, and
-other patterns of classical logic, in the Chapter [[file:05_Classical_Reasoning.org::#Classical_Reasoning][Chapter 5]].
+other patterns of classical logic, in the [[file:05_Classical_Reasoning.org::#Classical_Reasoning][Chapter 5]].
 
 ** Exercises
 

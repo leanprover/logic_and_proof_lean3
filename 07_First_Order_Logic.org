@@ -155,14 +155,14 @@ Here are some notes on syntax:
   $\fa x (\fn{even}(x) \vee \fn{odd}(x))$ as being the same as the
   expression $\fa y (\fn{even}(y) \vee \fn{odd}(y))$. Lean treats
   these expressions as the same as well.
-- The expression =∀ x y z, x ∣ y → y ∣ z → x ∣ z= is interpreted as =∀
-  x y z, x ∣ y → (y ∣ z → x ∣ z)=, with parentheses associated to the
-  /right/. The part of the expression after the universal quantifier
-  can therefore be interpreted as saying "given that =x= divides =y=
-  and that =y= divides =z=, =x= divides =z=." The expression is
-  logically equivalent to =∀ x y z, x ∣ y ∧ y ∣ z → x ∣ z=, but we
-  will see that, in Lean, it is often convenient to express facts like
-  this as an iterated implication.
+- In Lean, the expression =∀ x y z, x ∣ y → y ∣ z → x ∣ z= is
+  interpreted as =∀ x y z, x ∣ y → (y ∣ z → x ∣ z)=, with parentheses
+  associated to the /right/. The part of the expression after the
+  universal quantifier can therefore be interpreted as saying "given
+  that =x= divides =y= and that =y= divides =z=, =x= divides =z=." The
+  expression is logically equivalent to =∀ x y z, x ∣ y ∧ y ∣ z → x ∣
+  z=, but we will see that, in Lean, it is often convenient to express
+  facts like this as an iterated implication.
 
 A variable that is not bound is called /free/. Notice that formulas in
 first-order logic say things about their free variables. For example,
@@ -179,8 +179,8 @@ changes the meaning of a formula.
 Notice also that some formulas, like $\fa {x, y} (x \le y \vee y \le
 x)$, have no free variables at all. Such a formula is called a
 /sentence/, because it makes an outright assertion, a statement that
-is either true or false about the intended interpretation. In [[file:10_Semantics_of_First_Order_Logic::#Semantics_of_First_Order_Logic.org][Chapter
-10]], we will make the notion of an "intended interpretation" precise,
+is either true or false about the intended interpretation. In [[file:10_Semantics_of_First_Order_Logic.org::#Semantics_of_First_Order_Logic][Chapter
+10]] we will make the notion of an "intended interpretation" precise,
 and explain what it means to be "true in an interpretation." For now,
 the idea that formulas say things about about object in an intended
 interpretation should motivate the rules for reasoning with such
@@ -301,6 +301,7 @@ required property.
 In a natural deduction proof this would look like this:
 \begin{center}
 \AXM{\vdots}
+\noLine
 \UIM{\fn{odd}(15)\wedge\fn{composite}(15)}
 \UIM{\ex n(\fn{odd}(n)\wedge\fn{composite}(n))}
 \DP
@@ -345,7 +346,9 @@ In natural deduction, the elimination rule is expressed as follows:
 \AXM{}
 \RLM{1}
 \UIM{A(y)}
+\noLine
 \UIM{\vdots}
+\noLine
 \UIM{B}
 \RLM{1}
 \BIM{B}
@@ -389,12 +392,11 @@ less than or equal to $y$. In that interpretation, the sentence
 \fn{loves}(x, z))
 \end{equation*}
 is true, though in the original interpretation it makes an implausible
-claim about the nature of love triangles. In Chapter [[file:10_Semantics_of_First_Order_Logic.org::#Semantics_of_First_Order_Logic][Semantics of
-First Order Logic]], we will spell out the notion that the deductive
-rules of first-order logic enable us to determine the statements that
-are true in \emph{all} interpretations, just as the rules of
-propositional logic enable us to determine the statements that are
-true under all truth assignments.
+claim about the nature of love triangles. In [[file:10_Semantics_of_First_Order_Logic.org::#Semantics_of_First_Order_Logic][Chapter 10]], we will spell
+out the notion that the deductive rules of first-order logic enable us
+to determine the statements that are true in \emph{all}
+interpretations, just as the rules of propositional logic enable us to
+determine the statements that are true under all truth assignments.
 
 Returning to the original example, suppose we want to represent the
 statement that, in our town, all the women are strong and all the men

@@ -111,9 +111,21 @@ Notice that neither of the assumptions 1 or 2 mention $y$, so
 that $y$ is really "arbitrary" at the point where the universal
 quantifiers are introduced.
 
-As an exercise, try proving the converse:
+Here is another example:
+\begin{prooftree}
+\AXM{}
+\RLM{1}
+\UIM{\fa x A(x)}
+\UIM{A(y)}
+\UIM{A(y) \vee B(y)}
+\UIM{\fa x (A(x) \vee B(x))}
+\RLM{1}
+\UIM{\fa x A(x) \to \fa x (A(x) \vee B(x))}
+\end{prooftree}
+
+As an exercise, try proving the following:
 \begin{equation*}
-(\fa x (A(x) \to B(x))) \to (\fa x A(x) \to \fa x B(x)).
+\fa x (A(x) \to B(x)) \to (\fa x A(x) \to \fa x B(x)).
 \end{equation*}
 Here is a more challenging exercise. Suppose I tell you that, in a town,
 there is a (male) barber that shaves all and only the men who do not
@@ -188,8 +200,52 @@ proofs.
 
 ** The Existential Quantifier
 
-The following example illustrates the elimination rule for the
-existential quantifier:
+Remember that the intuition behind the elimination rule for the
+existential quantifier is that if we know $\ex x A(x)$, we can
+temporarily reason about an arbitrary element $y$ satisfying $A(y)$ in
+order to prove a conclusion that doesn't depend on $y$. Here is an
+example of how it can be used. The next proof says that if we know
+there is something satisfying both $A$ and $B$, then we know, in
+particular, that there is something satisfying $A$.
+\begin{prooftree}
+\AXM{}
+\RLM{1}
+\UIM{\ex x (A(x) \wedge B(x))}
+\AXM{}
+\RLM{2}
+\UIM{A(y) \wedge B(y)}
+\UIM{A(y)}
+\UIM{\ex x A(x)}
+\RLM{2}
+\BIM{\ex x A(x)}
+\RLM{1}
+\UIM{\ex x (A(x) \wedge B(x)) \to \ex x A(x)}
+\end{prooftree}
+The following proof shows that if there is something satsifying either
+$A$ or $B$, then either there is something satisfying $A$, or there is
+something satisfying $B$.
+\begin{prooftree}
+\AXM{}
+\RLM{1}
+\UIM{\ex x (A(x) \vee B(x))}
+\AXM{}
+\RLM{2}
+\UIM{A(y)}
+\UIM{\ex x A(x)}
+\UIM{\ex x A(x) \vee \ex x B(x)}
+\AXM{}
+\RLM{2}
+\UIM{B(y)}
+\UIM{\ex x B(x)}
+\UIM{\ex x A(x) \vee \ex x B(x)}
+\RLM{2}
+\TIM{\ex x A(x) \vee \ex x B(x)}
+\RLM{1}
+\UIM{\ex x (A(x) \vee B(x)) \to \ex x A(x) \vee \ex x B(x))}
+\end{prooftree}
+
+
+The following example is more involved:
 \begin{prooftree}
 \AXM{}
 \RLM{2}
@@ -491,16 +547,18 @@ form.
 
 ** Exercises
 
-1.  Give a natural deduction proof of $\fa x B(x)$ from hypotheses
+1.  Give a natural deduction proof of
+    \begin{equation*}
+    \fa x (A(x) \to B(x)) \to (\fa x A(x) \to \fa x B(x)).
+    \end{equation*}
+
+2.  Give a natural deduction proof of $\fa x B(x)$ from hypotheses
     $\fa x (A(x) \vee B(x))$ and $\fa y \neg A(y)$.
 
-2.  From hypotheses $\fa x (\fn{even}(x) \vee \fn{odd}(x))$ and $\fa x
+3.  From hypotheses $\fa x (\fn{even}(x) \vee \fn{odd}(x))$ and $\fa x
     (\fn{odd}(x) \to \fn{even}(s(x)))$ give a natural deduction proof
     $\fa x (\fn{even}(x) \vee \fn{even}(s(x)))$. (It might help to
     think of $s(x)$ as the function defined by $s(x) = x + 1$.)
-
-3.  Give a natural deduction proof of $\ex x A(x) \vee \ex x B(x) \to
-    \ex x (A(x) \vee B(x))$.
 
 4.  Give a natural deduction proof of $\ex x (A(x) \vee B(x)) \to \ex
     x A(x) \vee \ex x B(x)$.

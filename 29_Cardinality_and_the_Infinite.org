@@ -30,8 +30,8 @@ one element of $B$, and vice versa. There is a bijection between the set
 we can picture this bijection by writing one set above the other and
 connecting the elements in pairs.
 
-#+ATTR_LATEX: :width 300bp
-# [[./card_diagram_1.png]]
++ATTR_LATEX: :width 300bp
+ [[./card_diagram_1.png]]
 
 We made the claim in section 8.2 that, in some sense, this bijection "means"
 that there are four Beatles. Why does it mean this? In effect, the
@@ -149,8 +149,8 @@ to "reach" that element.
 
 We can represent this in a diagram as follows.
 
-#+ATTR_LATEX: :width 300bp
-# [[./card_diagram_2.png]]
++ATTR_LATEX: :width 300bp
+ [[./card_diagram_2.png]]
 
 With this definition in mind, one might find it hard to resist asking the following
 question: which of our favorite sets are countable? Is the set of integers $\ZZ$
@@ -172,8 +172,8 @@ could be less than the third, which could be less than the second, etc. It was
 only a nice coincidence that we counted $\NN$ "in order." With a bit of thought,
 we can find the following bijection between $\NN$ and $\ZZ$:
 
-#+ATTR_LATEX: :width 400bp
-# [[./card_diagram_3.png]]
++ATTR_LATEX: :width 400bp
+ [[./card_diagram_3.png]]
 
 From this bijection, we see that $\ZZ$ is, in fact, countably infinite.
 
@@ -197,8 +197,8 @@ Consider the rational numbers laid out in a table as follows:
 # | 5/1 | 5/2 | 5/3 | 5/4 | 5/5 | ... |
 # | ... | ... | ... | ... | ... |     |
 
-#+ATTR_LATEX: :width 350bp
-# [[./card_diagram_4.png]]
++ATTR_LATEX: :width 350bp
+ [[./card_diagram_4.png]]
 
 It should be easy to convince yourself that this table contains every positive rational
 number. (The number $p / q$ occurs in the $p$th row and $q$th column.) In fact,
@@ -214,8 +214,8 @@ been counted, and count each positive rational exactly once.
 # | 5/1 ↓ | 5/2 ←   | 5/3 ← | 5/4 ← | 5/5 ← | ... |
 # | ... | ...   | ... | ... | ... |     |
 
-#+ATTR_LATEX: :width 350bp
-# [[./card_diagram_5.png]]
++ATTR_LATEX: :width 350bp
+ [[./card_diagram_5.png]]
 
 Once we've agreed that the positive rationals are countable, it is easy to extend
 our argument to the full set of rationals, using the same alternating trick we

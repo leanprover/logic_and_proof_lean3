@@ -169,7 +169,7 @@ follows:
 \UIM{\even(n) \vee \odd(n)}
 \RLM{1}
 \TIM{\even(n) \vee \odd(n)}
-\UIM{\fa n (\even (n) \vee \odd(n)}
+\UIM{\fa n (\even (n) \vee \odd(n))}
 \end{prooftree}
 We can also prove and $\fa n \neg (\even(n) \wedge \odd(n))$:
 \begin{prooftree}

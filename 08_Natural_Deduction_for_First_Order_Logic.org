@@ -460,7 +460,7 @@ the above equivalence we have $\neg\fa x A(x)$. Here is a proof of the equivalen
 \RLM{5}
 \UIM{A(x)}
 \UIM{\fa x A(x)}
-\BIM{}
+\BIM{\bot}
 \RLM{4}
 \UIM{\ex x \neg A(x)}
 \AXM{}

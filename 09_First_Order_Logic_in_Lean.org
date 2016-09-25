@@ -315,8 +315,6 @@ open nat
 
 constant prime : ℕ → Prop
 
-variables x y z : ℕ
-
 check ∀ x, (even x ∨ odd x) ∧ ¬ (even x ∧ odd x)
 check ∀ x, even x ↔ 2 ∣ x
 check ∀ x, even x → even (x^2)
@@ -421,7 +419,7 @@ have B y, from HB y,
 show A y ∧ B y, from and.intro `A y` `B y`
 #+END_SRC
 
-The exercises below as you to prove the barber paradox, which was
+The exercises below ask you to prove the barber paradox, which was
 discussed in the last chapter. You can do that using only
 propositional reasoning and the rules for the universal quantifer that
 we have just discussed.

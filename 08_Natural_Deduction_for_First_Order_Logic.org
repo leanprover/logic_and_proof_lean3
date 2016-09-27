@@ -309,6 +309,9 @@ assumption or in the conclusion. On the right we use existential
 introduction to conclude $\ex x P$ from $P$.
 
 ** Equality 
+:PROPERTIES:
+  :CUSTOM_ID: Equality
+:END:      
 
 Recall the natural deduction rules for equality:
 \begin{center}
@@ -600,8 +603,7 @@ form.
     ``is active,'' and $B(x)$ for ``likes baseball.''
 
 9.  Give a natural deduction proof of $\fa {x, y, z} (x = z \to (y = z
-    \to x = y))$ using the equality rules in Section 5.1 in the online
-    notes.
+    \to x = y))$ using the equality rules in [[#Equality][Section 8.4]].
 
 10. Give a natural deduction proof of $\fa {x, y} (x = y \to y = x)$
     using only these two hypotheses (and none of the new equality
@@ -621,7 +623,7 @@ form.
     \liff \ex x (A(x) \wedge \neg B(x))$
 
 13. Remember that both the following express $\exists!x \; A(x)$, that
-    is, the statment that there is a unique $x$ satisfying $A(x)$:
+    is, the statement that there is a unique $x$ satisfying $A(x)$:
 
     - $\ex x (A(x) \wedge \fa y (A(y) \to y = x))$
     - $\ex x A(x) \wedge \fa y \fa {y'} (A(y) \wedge A(y') \to y = y')$ 

@@ -374,6 +374,34 @@ Observe the notation: =P a= is obtained by "applying" the hypothesis
 =H= to =a=. Once again, note the similarity to the elimination rule
 for implication.
 
+Here is an example of how it is used:
+#+BEGIN_SRC lean
+variable U : Type
+variables A B : U → Prop
+
+example (H1 : ∀ x, A x → B x) (H2 : ∀ x, A x) : ∀ x, B x :=
+take y,
+have H3 : A y, from H2 y,
+have H4 : A y → B y, from H1 y,
+show B y, from H4 H3
+#+END_SRC
+
+Here is an even shorter version of the same proof, where we avoid
+using =have=:
+#+BEGIN_SRC lean
+variable U : Type
+variables A B : U → Prop
+
+-- BEGIN
+example (H1 : ∀ x, A x → B x) (H2 : ∀ x, A x) : ∀ x, B x :=
+take y,
+show B y, from H1 y (H2 y)
+-- END
+#+END_SRC
+You should talk through the steps, here. Applying =H1= to =y= yields a
+proof of =A y → B y=, which we then apply to =H2 y=, which is a proof
+of =A y=. The result is the proof of =B y= that we are after.
+
 In the last chapter, we considered the following proof in natural
 deduction:
 \begin{prooftree}
@@ -454,6 +482,44 @@ You can often use =obtain= without specifying the type of the object
 and the assumption. If you write =obtain y H= instead of =obtain (y : U)
 (H : P y)= in the first line of the previous proof, that is also
 accepted.
+
+The following example uses both the introduction and the elimination
+rules for the existential quantifier.
+#+BEGIN_SRC lean
+variable U : Type
+variables A B : U → Prop
+
+example : (∃ x, A x ∧ B x) → ∃ x, A x :=
+assume H1 : ∃ x, A x ∧ B x,
+obtain y (H2 : A y ∧ B y), from H1,
+have H3 : A y, from and.left H2,
+show ∃ x, A x, from exists.intro y H3
+#+END_SRC
+Notice the parentheses in the hypothesis; if we left them out,
+everything after the first =∃ x= would be included in the scope of
+that quantifier. From the hypothesis, we obtain a =y= that satisfies =A y
+∧ B y=, and hence =A y= in particular. So =y= is enough to witness the
+conclusion.
+
+The following example is more involved:
+#+BEGIN_SRC lean
+variable U : Type
+variables A B : U → Prop
+
+-- BEGIN
+example : (∃ x, A x ∨ B x) → (∃ x, A x) ∨ (∃ x, B x) :=
+assume H1 : ∃ x, A x ∨ B x,
+obtain y (H2 : A y ∨ B y), from H1,
+or.elim H2
+  (assume H3 : A y, 
+    have H4 : ∃ x, A x, from exists.intro y H3,
+    show (∃ x, A x) ∨ (∃ x, B x), from or.inl H4)
+  (assume H3 : B y, 
+    have H4 : ∃ x, B x, from exists.intro y H3,
+    show (∃ x, A x) ∨ (∃ x, B x), from or.inr H4)
+-- END
+#+END_SRC
+Note again the placement of parentheses in the statement.
 
 In the last chapter, we considered the following natural deduction
 proof:
@@ -880,193 +946,266 @@ by rewrite [left_distrib, *right_distrib, -add.assoc]
 
 ** Exercises
 
-1. Fill in the =sorry=.
+1.  Fill in the =sorry=.
 
-   #+BEGIN_SRC lean
-   section
-     variable A : Type
-     variable f : A → A
-     variable P : A → Prop
-     premise  H : ∀ x, P x → P (f x)
+    #+BEGIN_SRC lean
+    section
+      variable A : Type
+      variable f : A → A
+      variable P : A → Prop
+      premise  H : ∀ x, P x → P (f x)
 
-     -- Show the following:
-     example : ∀ y, P y → P (f (f y)) :=
-     sorry
-   end
-   #+END_SRC
+      -- Show the following:
+      example : ∀ y, P y → P (f (f y)) :=
+      sorry
+    end
+    #+END_SRC
 
-2. Fill in the =sorry='s below, to prove the barber paradox.
+2.  Fill in the =sorry=.
 
-   #+BEGIN_SRC lean
-   import data.nat
-   open classical   -- not needed, but you can use it
+    #+BEGIN_SRC lean
+    section
+      variable U : Type
+      variables A B : U → Prop
 
-   -- This is an exercise from Chapter 3. Use it as an axiom here.
-   axiom not_iff_not_self (P : Prop) : ¬ (P ↔ ¬ P)
+      example : (∀ x, A x ∧ B x) → ∀ x, A x :=
+      sorry
+    end
+    #+END_SRC
 
-   example (Q : Prop) : ¬ (Q ↔ ¬ Q) :=
-   not_iff_not_self Q
+3.  Fill in the =sorry=.
 
-   section
-     variable Person : Type
-     variable shaves : Person → Person → Prop
-     variable barber : Person
-     premise H : ∀ x, shaves barber x ↔ ¬ shaves x x
+    #+BEGIN_SRC lean
+    section
+      variable U : Type
+      variables A B C : U → Prop
 
-     -- Show the following:
-     example : false :=
-     sorry
-   end
-   #+END_SRC
+      premise H1 : ∀ x, A x ∨ B x
+      premise H2 : ∀ x, A x → C x
+      premise H3 : ∀ x, B x → C x
 
-3. Do the following.
+      example : ∀ x, C x :=
+      sorry
+    end
+    #+END_SRC
 
-   #+BEGIN_SRC lean
-   import data.nat
-   open nat
+4.  Fill in the =sorry='s below, to prove the barber paradox.
 
-   -- You can use the facts "odd_succ_of_even" and "odd_mul_of_odd_of_odd".
-   -- Their use is illustrated in the next two examples.
+    #+BEGIN_SRC lean
+    import data.nat
+    open classical   -- not needed, but you can use it
 
-   example (x : ℕ) (H1 : even x) : odd (x + 1) :=
-   odd_succ_of_even H1
+    -- This is an exercise from Chapter 3. Use it as an axiom here.
+    axiom not_iff_not_self (P : Prop) : ¬ (P ↔ ¬ P)
 
-   example (x y : ℕ) (H1 : odd x) (H2 : odd y) : odd (x * y) :=
-   odd_mul_of_odd_of_odd H1 H2
+    example (Q : Prop) : ¬ (Q ↔ ¬ Q) :=
+    not_iff_not_self Q
 
-   -- Show the following:
-   example : ∀ x y z : ℕ, odd x → odd y → even z → odd ((x * y) * (z + 1)) :=
-   sorry
-   #+END_SRC
+    section
+      variable Person : Type
+      variable shaves : Person → Person → Prop
+      variable barber : Person
+      premise H : ∀ x, shaves barber x ↔ ¬ shaves x x
 
-4. Complete these proofs.
+      -- Show the following:
+      example : false :=
+      sorry
+    end
+    #+END_SRC
 
-   #+BEGIN_SRC lean
-   variable  X : Type
-   variables A B C : X → Prop
+5.  Fill in the =sorry=.
 
-   example : (¬ ∃ x, A x) → ∀ x, ¬ A x :=
-   sorry
+    #+BEGIN_SRC lean
+    section
+      variable U : Type
+      variables A B : U → Prop
 
-   example : (∀ x, ¬ A x) → ¬ ∃ x, A x :=
-   sorry
+      example : (∃ x, A x) → ∃ x, A x ∨ B x :=
+      sorry
+    end
+    #+END_SRC
 
-   example (H1 : ∃ x, A x ∧ B x) (H2 : ∀ x, A x ∧ B x → C x) :
-       ∃ x, A x ∧ C x :=
-   sorry
-   #+END_SRC
+6.  Fill in the =sorry=.
 
-5. The following exercise shows that in the presence of reflexivity,
-   the rules for symmetry and transitivity are equivalent to a single rule.
+    #+BEGIN_SRC lean
+    section
+      variable U : Type
+      variables A B : U → Prop
 
-   #+BEGIN_SRC lean
-   theorem foo {A : Type} {a b c : A} : a = b → c = b → a = c :=
-   sorry
+      premise H1 : ∀ x, A x → B x
+      premise H2 : ∃ x, A x
 
-   -- notice that you can now use foo as a rule. The curly braces mean that
-   -- you do not have to give A, a, b, or c
+      example : ∃ x, B x :=
+      sorry
+    end
+    #+END_SRC
 
-   section
-     variable A : Type
-     variables a b c : A
+7.  Fill in the =sorry=.
 
-     example (H1 : a = b) (H2 : c = b) : a = c :=
-     foo H1 H2
-   end
+    #+BEGIN_SRC lean
+    variable  U : Type
+    variables A B C : U → Prop
 
-   section
-     variable A : Type
-     variables {a b c : A}
+    example (H1 : ∃ x, A x ∧ B x) (H2 : ∀ x, B x → C x) :
+        ∃ x, A x ∧ C x :=
+    sorry
+    #+END_SRC
 
-     -- replace the sorry with a proof, using foo and rfl, *without* using eq.symm.
-     proposition my_symm (H : b = a) : a = b :=
-     sorry
-    
-     -- now use foo, rfl, and my_symm to prove transitivity
-     proposition my_trans (H1 : a = b) (H2 : b = c) : a = c :=
-     sorry
-   end
-   #+END_SRC
+8.  Complete these proofs.
 
-6. Replace each "sorry" below by the correct axiom from the list.
+    #+BEGIN_SRC lean
+    variable  U : Type
+    variables A B C : U → Prop
 
-   #+BEGIN_SRC lean
-   import data.int
-   open int
+    example : (¬ ∃ x, A x) → ∀ x, ¬ A x :=
+    sorry
 
-   -- these are the axioms for a commutative ring
+    example : (∀ x, ¬ A x) → ¬ ∃ x, A x :=
+    sorry
+    #+END_SRC
 
-   check @add.assoc
-   check @add.comm
-   check @add_zero
-   check @zero_add
-   check @mul.assoc
-   check @mul.comm
-   check @mul_one
-   check @one_mul
-   check @left_distrib
-   check @right_distrib
-   check @add.left_inv
-   check @add.right_inv
-   check @sub_eq_add_neg
+9.  Fill in the =sorry=.
 
-   variables x y z : int
+    #+BEGIN_SRC lean
+    variable  U : Type
+    variables R : U → U → Prop
 
-   theorem t1 : x - x = 0 :=
-   calc
-     x - x = x + -x : sub_eq_add_neg
-       ... = 0      : add.right_inv
+    example : (∃ x, ∀ y, R x y) → ∀ y, ∃ x, R x y :=
+    sorry
+    #+END_SRC
 
-   theorem t2 (H : x + y = x + z) : y = z :=
-   calc
-     y     = 0 + y        : zero_add
-       ... = (-x + x) + y : add.left_inv
-       ... = -x + (x + y) : add.assoc
-       ... = -x + (x + z) : H
-       ... = (-x + x) + z : add.assoc
-       ... = 0 + z        : add.left_inv
-       ... = z            : zero_add
+10.  Do the following.
 
-   theorem t3 (H : x + y = z + y) : x = z :=
-   calc
-     x     = x + 0        : sorry
-       ... = x + (y + -y) : sorry
-       ... = (x + y) + -y : sorry
-       ... = (z + y) + -y : H
-       ... = z + (y + -y) : sorry
-       ... = z + 0        : sorry
-       ... = z            : sorry
+    #+BEGIN_SRC lean
+    import data.nat
+    open nat
 
-   theorem t4 (H : x + y = 0) : x = -y :=
-   calc
-     x     = x + 0        : add_zero
-       ... = x + (y + -y) : add.right_inv
-       ... = (x + y) + -y : add.assoc
-       ... = 0 + -y       : H
-       ... = -y           : zero_add
+    -- You can use the facts "odd_succ_of_even" and "odd_mul_of_odd_of_odd".
+    -- Their use is illustrated in the next two examples.
 
-   theorem t5 : x * 0 = 0 :=
-   have H1 : x * 0 + x * 0 = x * 0 + 0, from
-     calc
-       x * 0 + x * 0 = x * (0 + 0) : sorry
-                 ... = x * 0       : sorry
-                 ... = x * 0 + 0   : sorry,
-   show x * 0 = 0, from t2 _ _ _ H1
+    example (x : ℕ) (H1 : even x) : odd (x + 1) :=
+    odd_succ_of_even H1
 
-   theorem t6 : x * (-y) = -(x * y) :=
-   have H1 : x * (-y) + x * y = 0, from
-     calc
-       x * (-y) + x * y = x * (-y + y) : sorry
-                    ... = x * 0        : sorry
-                    ... = 0            : t5 x,
-   show x * (-y) = -(x * y), from t4 _ _ H1
+    example (x y : ℕ) (H1 : odd x) (H2 : odd y) : odd (x * y) :=
+    odd_mul_of_odd_of_odd H1 H2
 
-   theorem t7 : x + x = 2 * x :=
-   calc
-     x + x = 1 * x + 1 * x : one_mul
-       ... = (1 + 1) * x   : sorry
-       ... = 2 * x         : rfl
-   #+END_SRC
+    -- Show the following:
+    example : ∀ x y z : ℕ, odd x → odd y → even z → odd ((x * y) * (z + 1)) :=
+    sorry
+    #+END_SRC
+
+
+11. The following exercise shows that in the presence of reflexivity,
+    the rules for symmetry and transitivity are equivalent to a single rule.
+
+    #+BEGIN_SRC lean
+    theorem foo {A : Type} {a b c : A} : a = b → c = b → a = c :=
+    sorry
+
+    -- notice that you can now use foo as a rule. The curly braces mean that
+    -- you do not have to give A, a, b, or c
+
+    section
+      variable A : Type
+      variables a b c : A
+
+      example (H1 : a = b) (H2 : c = b) : a = c :=
+      foo H1 H2
+    end
+
+    section
+      variable A : Type
+      variables {a b c : A}
+
+      -- replace the sorry with a proof, using foo and rfl, *without* using eq.symm.
+      proposition my_symm (H : b = a) : a = b :=
+      sorry
+     
+      -- now use foo, rfl, and my_symm to prove transitivity
+      proposition my_trans (H1 : a = b) (H2 : b = c) : a = c :=
+      sorry
+    end
+    #+END_SRC
+
+12. Replace each "sorry" below by the correct axiom from the list.
+
+    #+BEGIN_SRC lean
+    import data.int
+    open int
+
+    -- these are the axioms for a commutative ring
+
+    check @add.assoc
+    check @add.comm
+    check @add_zero
+    check @zero_add
+    check @mul.assoc
+    check @mul.comm
+    check @mul_one
+    check @one_mul
+    check @left_distrib
+    check @right_distrib
+    check @add.left_inv
+    check @add.right_inv
+    check @sub_eq_add_neg
+
+    variables x y z : int
+
+    theorem t1 : x - x = 0 :=
+    calc
+      x - x = x + -x : sub_eq_add_neg
+        ... = 0      : add.right_inv
+
+    theorem t2 (H : x + y = x + z) : y = z :=
+    calc
+      y     = 0 + y        : zero_add
+        ... = (-x + x) + y : add.left_inv
+        ... = -x + (x + y) : add.assoc
+        ... = -x + (x + z) : H
+        ... = (-x + x) + z : add.assoc
+        ... = 0 + z        : add.left_inv
+        ... = z            : zero_add
+
+    theorem t3 (H : x + y = z + y) : x = z :=
+    calc
+      x     = x + 0        : sorry
+        ... = x + (y + -y) : sorry
+        ... = (x + y) + -y : sorry
+        ... = (z + y) + -y : H
+        ... = z + (y + -y) : sorry
+        ... = z + 0        : sorry
+        ... = z            : sorry
+
+    theorem t4 (H : x + y = 0) : x = -y :=
+    calc
+      x     = x + 0        : add_zero
+        ... = x + (y + -y) : add.right_inv
+        ... = (x + y) + -y : add.assoc
+        ... = 0 + -y       : H
+        ... = -y           : zero_add 
+
+    theorem t5 : x * 0 = 0 :=
+    have H1 : x * 0 + x * 0 = x * 0 + 0, from
+      calc
+        x * 0 + x * 0 = x * (0 + 0) : sorry
+                  ... = x * 0       : sorry
+                  ... = x * 0 + 0   : sorry,
+    show x * 0 = 0, from t2 _ _ _ H1
+
+    theorem t6 : x * (-y) = -(x * y) :=
+    have H1 : x * (-y) + x * y = 0, from
+      calc
+        x * (-y) + x * y = x * (-y + y) : sorry
+                     ... = x * 0        : sorry
+                     ... = 0            : t5 x,
+    show x * (-y) = -(x * y), from t4 _ _ H1
+
+    theorem t7 : x + x = 2 * x :=
+    calc
+      x + x = 1 * x + 1 * x : one_mul
+        ... = (1 + 1) * x   : sorry
+        ... = 2 * x         : rfl
+    #+END_SRC
 
 
 

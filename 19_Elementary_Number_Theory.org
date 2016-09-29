@@ -13,32 +13,53 @@ characterized by the fact that they suport /proof by induction/ and
 /definition by recursion/. Moreover, with these components, we can
 actually define $+$, $\times$, and $<$ in a suitable axiomatic
 foundation, and prove that they have the relevant properties. In
-Section [[file:17_The_Natural_Numbers_and_Induction::#The_Integers][The Integers]] we also discussed the integers, which include
+Section [[file:17_The_Natural_Numbers_and_Induction.org::#The_Integers][The Integers]] we also discussed the integers, which include
 negative numbers and support the operation of substraction.
 
 The natural numbers and the integers are the central components of
 /number theory/, a branch of mathematics dating back to the
-ancients. In this chapter, we will discuss some of the rudiments of number theory.
+ancients. In this chapter, we will discuss some of the rudiments of
+number theory.
 
 ** The Quotient-Remainder Theorem
+:PROPERTIES:
+  :CUSTOM_ID: The_Quotient_Remainder_Theorem
+:END:
 
-[Prove this by induction.]
-
-A key property of the natural numbers that we will use here is the
+A key property of the integers that we will use here is the
 quotient-remainder theorem:
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem.* Let $n$ and $m$ be natural numbers with $m > 0$. Then there
-are natural numbers $q$ and $r$ satisfying $n = m q + r$ and $r < m$.
+*Theorem.* Let $n$ and $m$ be integers with $m > 0$. Then there
+are integers $q$ and $r$ satisfying $n = m q + r$ and $0 \le r < m$.
+
+*Proof.* First we prove this if $n$ is a natural number, in which case
+we prove it by complete induction on $n$. Let $n$ be any natural
+number. If $n < m$, then we can take $q = 0$ and $r = n$, and we
+indeed have $n = m q + r$ and $0 \le r < m$. Otherwise, we have $n \geq
+m$. In this case $n - m$ is a natural number smaller than $n$. By
+induction hypothesis, we know that we can find $q'$ and $r'$ such that
+$n - m = m q' + r'$ and $0 \le r' < m$. Then we can choose $q = q' + 1$ and
+$r = r'$, and we obtain $n = m q + r$ and $0 \le r < m$, as desired.
+
+If $n$ is negative, then $-(n+1)$ is a natural number, hence we can use
+the previous part for $-(n+1)$ to obtain $q'$ and $r'$ such that $-(n+1) = m q' +
+r'$ and $0 \le r' < m$. Now let $q = -(q' + 1)$ and $r = m - r' -
+1$. Then we can compute
+\begin{align*}
+m q + r &= -m (q' + 1) + m - r' - 1\\
+&=  -(m q' + r') - m + m - 1\\
+&= -(-(n+1)) - 1\\
+&= n + 1 - 1\\
+&= n.
+\end{align*}
+Also, since $r' \geq 0$ we have $r < m$ and since $r' < m$ we have $r
+\geq 0$. This completes the proof.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
-
-Later we will see how to prove this from the definitions of
-multiplication and addition; for now, we will simply take it for
-granted.
 
 Intuitively, $q$ is the integer /quotient/ when you divide $n$ by $m$, and
 $r$ is the /remainder/. Remember that using the word "the" presupposes
@@ -77,14 +98,17 @@ numbers. We write $\lfloor n / m \rfloor$ for the quotient and $n \mod
 m$ for the remainder.
 
 ** Divisibility
+:PROPERTIES:
+  :CUSTOM_ID: Divisibility
+:END:
 
-We can define divisibility on the natural numbers as follows.
+We can define divisibility on the integers as follows.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Definition*. Given two natural numbers $m$ and $n$. We say that $m$
- /is a divisor of/ $n$, written $m \mid n$, if there exists some $k$
+*Definition*. Given two integers $m$ and $n$. We say that $m$ /is a
+ divisor of/ $n$, written $m \mid n$, if there exists some integer $k$
  such that $m \cdot k = n$. We also say that $n$ /is divisible by/ $m$
  or that $m$ /divides/ $n$.
 
@@ -95,25 +119,14 @@ We can now prove the following:
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
-# Note: reflexive, antisymmetric and transitive are already mentioned above.
-*Theorem.* The relation $\mid$ is reflexive, antisymmetric and transitive. That is
-- $n \mid n$ (/reflexivity/);
-- if $n \mid m$ and $m \mid n$ then $n = m$ (/antisymmetry/);
-- if $m \mid n$ and $n \mid r$ then $m \mid r$ (/transitivity/).
+*Theorem.* The relation $\mid$ is reflexive and transitive. Also, if
+$n \mid m$ and $m \mid n$, then $m = \pm n$. This means that
+restricted to the natural numbers, this relation is a partial order.
 
 *Proof.* Reflexivity is immediate, because $n \cdot 1 = n$, hence
 $n\mid n$.
 
-For antisymmetry, suppose that $n$ and $m$ are natural numbers such
-that $n\mid m$ and $m \mid n$. Then there exist $k$ and $\ell$ such
-that $n\cdot k = m$ and $m \cdot \ell = n$. We distinguish two
-cases. If $n = 0$, then we have $m = n\cdot k = 0 = n$, so we are
-done. If $n > 0$, then we use the the equations to get $n \cdot k
-\cdot \ell = m \cdot \ell = n$, and we can cancel $n$ on both sides to
-get $k \cdot \ell = 1$. We conclude that $k = \ell = 1$, hence we get
-$n = n \cdot k = m$, so $\mid$ is antisymmetric.
-
-Finally, to prove transitivity, suppose $m \mid n$ and $n \mid
+For transitivity, suppose $m \mid n$ and $n \mid
 r$. Then there are $k,\ell$ such that $m \cdot k = n$ and $n \cdot
 \ell = r$. Now we compute
 \begin{align*}
@@ -121,15 +134,54 @@ m \cdot (k \cdot \ell) &= (m \cdot k) \cdot \ell \\
 & = n \cdot \ell  \\
 & = r.
 \end{align*}
+
+Suppose that $n$ and $m$ are integers such that $n\mid m$ and $m \mid
+n$. Then there exist $k$ and $\ell$ such that $n\cdot k = m$ and $m
+\cdot \ell = n$. We distinguish two cases. If $n = 0$, then we have $m
+= n\cdot k = 0 = n$, so we are done. If $n \neq 0$, then we use the
+the equations to get $n \cdot k \cdot \ell = m \cdot \ell = n$, and we
+can cancel $n$ on both sides to get $k \cdot \ell = 1$. We conclude
+that $k = \ell = \pm 1$, hence we get $m = n \cdot k = \pm n$.
+
+Note that this means that if $n$ and $m$ are both natural numbers,
+then $n = m$, which means that $\mid$ is antisymmetric, and hence a
+partial order, on the natural numbers.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+An integer is \emph{even} if it is divisible by $2$, in other words,
+$n$ is even if $2 \mid n$. An integer if \emph{odd} if it's not
+even. Of course, odd numbers are of the form $2k+1$ for some $k$, and
+we can prove this now.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* If $n$ is an odd integer, then $n=2k+1$ for some integer $k$.
+
+*Proof.* By the quotient-remainder theorem, we can write $n = 2k+r$
+for some integers $k$ and $r$ with $0\le r < 2$. The last condition
+means that $r = 0$ or $r = 1$. In the first case, we have $n = 2k$,
+hence $2 \mid n$, contradicting that $n$ is odd. So we have $r = 1$,
+which means that $n = 2k+1$.
+
+*Theorem*. Every sequence of $k$ consecutive numbers contains a number
+divisible by $k$.
+
+*Proof.* Denote the largest number of the sequence by $n$. This means
+that the sequence is $n - (k - 1), \ldots, n - 1, n$. By the
+quotient-remainder theorem, we have $n = q k + r$ for some integers
+$q$ and $r$ with $0\leq r < k$. From these inequalities we conclude
+that $n - r$ is in our sequence, and $n - r = q k$, hence divisible by
+$k$.
+
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
 Let us close with some examples of elementary theorems of number
 theory. (These are all exercises in Chapter 1 of /An Introduction to
 the Theory of Numbers/ by Niven and Zuckerman.)
-
-# define even, odd, prove odd => 2 k + 1, prove that in a sequence of k consecutive numbers, one of
-# them is divisible by k.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -149,20 +201,12 @@ $n + 2$ is divisible by 3. So, their product is divisible by 6.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-As exercises, try writing proving the following, informally:
-- For any integer $n$, $n^2$ leaves a remainder of 0 or 1
-  when you divide it by 4. Hence $n^2 + 2$ is never divisible by 4.
-- If $n$ is odd, $n^2 - 1$ is divisible by 8.
-- If $m$ and $n$ are odd, then $m^2 + n^2$ is even but not divisible
-  by 4.
-- Say that two integers "have the same parity" if they are both even
-  or both odd. Prove that if $m$ and $n$ are any two integers, then
-  $m + n$ and $m - n$ have the same parity.
-
 ** Modular Arithmetic
+:PROPERTIES:
+  :CUSTOM_ID: Modular_Arithmetic
+:END:
 
-# add chapter reference
-In the discussion of equivalence relations in Chapter ?? we considered
+In the discussion of equivalence relations in [[file:13_Relations.org::#Equivalence_Relations_and_Equality][Section 13.3]] we considered
 the example of the relation of modular equivalence on the
 integers. This is sometimes thought of as "clock arithmetic." Suppose
 you have a 12-hour clock without a minute hand, so it only has an hour
@@ -224,8 +268,8 @@ means that $n \mid b - a$. This means by definition that $b \equiv a
 
 To show that it is transitive, suppose that $a \equiv b \pmod{n}$ and
 $b \equiv c \pmod{n}$. Then we have $n \mid a - b$ and $n \mid b -
-c$. Hence by the previous proposition we have $n \mid (a - b) + (b -
-c)$ which means that $n \mid a - c$. So $a \equiv c \pmod{n}$.
+c$. Hence we have $n \mid (a - b) + (b - c)$ which means that $n \mid
+a - c$. So $a \equiv c \pmod{n}$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -256,11 +300,10 @@ b\cdot(c-d)$. Now $n$ divides both summands on the right, hence $n$
 divides $a\cdot c - b\cdot d$, which means that $a\cdot c\equiv b\cdot
 d\pmod{n}$.
 
-The last statement follows by repeatedly applying the second
-statement:
-\begin{equation*}
-a^k = \underbrace{a\cdot a \cdot \cdots \cdot a}_{\text{$k$ times}} \equiv
-\underbrace{b\cdot b \cdot \cdots \cdot b}_{\text{$k$ times}} = b^k \pmod{n}
+The last statement follows by induction on $k$. If $k = 0$, then
+$1\equiv 1 \pmod{n}$, and for the induction step, suppose that
+$a^k\equiv b^k\pmod{n}$, then we have
+$a^{k+1}= a\cdot a^k \equiv b \cdot b^k = b^{k+1} \pmod{n}$
 \end{equation*}
 
 #+HTML: <hr>
@@ -283,13 +326,13 @@ are some examples.
   2^3 \pmod{5}$. To see this: $2^8 = 256 \equiv 1 \pmod{5}$, but $2^3
   = 8 \equiv 3 \pmod{5}$.
 
-Recall the quotient-remainder theorem:
-if $n > 0$, then any integer $a$ can be expressed as $a = n q + r$,
-where $0 \le r < n$. In the language of modular arithmetic this means
-that $a \equiv r \pmod{n}$. So if $n > 0$, then every integer is
-congruent to a number between 0 and $n-1$ (inclusive). So there "are
-only $n$ different numbers" when working modulo $n$. This can be used
-to prove many statements about the natural numbers.
+Recall the quotient-remainder theorem: if $n > 0$, then any integer
+$a$ can be expressed as $a = n q + r$, where $0 \le r < n$. In the
+language of modular arithmetic this means that $a \equiv r
+\pmod{n}$. So if $n > 0$, then every integer is congruent to a number
+between 0 and $n-1$ (inclusive). So there "are only $n$ different
+numbers" when working modulo $n$. This can be used to prove many
+statements about the natural numbers.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -328,24 +371,19 @@ proposition.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-Exercises:
-- Show that for every integer $n$ the number $n^4$ is congruent to 0
-  or 1 modulo 5. Hint: to simplify the computation, use that
-  $4^4\equiv(-1)^4\pmod{5}$.
-- Prove that the equation $n^4+m^4=k^4+3$ cannot hold for integers $n,
-  m, k$. Hint: what are the possible values for the left hand side
-  modulo 5? And for the right hand side?
-
 ** Sums of Squares
+:PROPERTIES:
+  :CUSTOM_ID: Sums_of_Squares
+:END:
 
 Mathematicians from ancient times have been interested in the question
 as to which integers can be written as a sum of two squares. For
 example, we can write $2 = 1^1 + 1^1$, $5 = 2^2 + 1^2$, $13 = 3^2 +
 2^2$. If we make a sufficiently long list of these, an interesting
-pattern emerges: if two numbers can be written as a sum of squares,
-then so can their product. For example, $10 = 5 \cdot 2$, and we can
-write $10 = 3^2 + 1^2$. Or $65 = 13 \cdot 5$, and we can write $65 =
-8^2 + 1^2$.
+pattern emerges: if two numbers can be written as a sum of two
+squares, then so can their product. For example, $10 = 5 \cdot 2$, and
+we can write $10 = 3^2 + 1^2$. Or $65 = 13 \cdot 5$, and we can write
+$65 = 8^2 + 1^2$.
 
 At first, one might wonder whether this is just a coincidence. The
 following provides a proof of the fact that it is not.
@@ -354,7 +392,7 @@ following provides a proof of the fact that it is not.
 #+LATEX: \horizontalrule
 
 *Theorem.* Let $x$ and $y$ be any two integers. If $x$ and $y$ are
-both sums of squares, then so is $x y$.
+both sums of two squares, then so is $x y$.
 
 *Proof.* Suppose $x = a^2 + b^2$, and suppose $y = c^2 + d^2$. I claim
 that
@@ -462,29 +500,42 @@ Up to the order of summands, the two right-hand sides are the same.
 
 ** Exercises
 
-1. Prove the following: if $a$, $b$, and $c$ are any integers such
-   that $a \mid b$ and $a \mid c$, then $a \mid b + c$.
 
-2. Show by induction on $n$ that for every pair of integers $x$ and
+1. Prove the following properties about divisibility (for any
+   integers $a$, $b$ and $c$):
+
+    - if $a \mid b$ and $a \mid c$ then $a \mid b + c$.
+    - if $a \mid b$ then $a \mid bc$
+    - $a \mid 0$
+    - if $0 \mid a$ then $a = 0$.
+    - if $a \neq 0$ then the statements $b \mid c$ and $ab \mid ac$
+      are equivalent.
+
+2. Prove that for any integer $n$, $n^2$ leaves a remainder of 0 or 1
+   when you divide it by 4. Conclude that $n^2 + 2$ is never divisible
+   by 4.
+
+3. Prove that if $n$ is odd, $n^2 - 1$ is divisible by 8.
+
+4. Prove that if $m$ and $n$ are odd, then $m^2 + n^2$ is even but not
+   divisible by 4.
+
+5. Say that two integers "have the same parity" if they are both even
+   or both odd. Prove that if $m$ and $n$ are any two integers, then
+   $m + n$ and $m - n$ have the same parity.
+
+6. Show by induction on $n$ that for every pair of integers $x$ and
    $y$, $x - y$ divides $x^n - y^n$. (Hint: start by writing
    $x^{n+1} - y^{n+1}$ as $x^n (x - y) + x^n y - y^{n+1}$.)
 
-2. Give an informal proof of the following theorem : For every integer
-   $n$, if $n$ is odd, then $n^2 - 1$ is divisible by 8. (Hint: first
-   show that if a number $m$ is even, then either $m$ or $m + 2$ is
-   divisible by 4. Also, remember that $n^2 - 1 = (n + 1) (n - 1)$.)
-
-3. Say two integers ``have the same parity'' if they are either both
-   even or both odd. Show that if $m$ and $n$ are any two integers,
-   then $m + n$ and $m - n$ have the same parity. (Hint: there are
-   lots of cases to consider. You can use facts like ``if $m$ and $n$
-   are odd, then $m + n$ is even'' as obvious.)
-
-4. Find the last digit of $99^{99}$. Can you also find the last two
+7. Find the last digit of $99^{99}$. Can you also find the last two
    digits of this number?
 
-5. Prove that $50^{22} - 22^{50}$ is divisible by 7.
+8. Prove that $50^{22} - 22^{50}$ is divisible by 7.
 
-6. Prove that the equation $n^4+m^4=k^4+3$ has no solutions in the
-   integers. (Hint: consider the possible values for both sides modulo
-   5.)
+9. Show that for every integer $n$ the number $n^4$ is congruent to 0
+   or 1 modulo 5. Hint: to simplify the computation, use that
+   $4^4\equiv(-1)^4\pmod{5}$.
+
+10. Prove that the equation $n^4+m^4=k^4+3$ has no solutions in the
+    integers. (Hint: use the previous exercise.)

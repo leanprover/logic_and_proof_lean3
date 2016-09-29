@@ -8,7 +8,7 @@
 * Relations
 :PROPERTIES:
   :CUSTOM_ID: Relations
-:END:      
+:END:
 
 In [[file:07_First_Order_Logic.org::#First_Order_Logic][Chapter 7]] we discussed the notion of a /relation symbol/ in
 first-order logic, and in [[file:10_Semantics_of_First_Order_Logic.org::#Semantics_of_First_Order_Logic][Chapter 10]] we saw how to interpret such a
@@ -31,7 +31,7 @@ $R(a, b)$.
 ** Order Relations
 :PROPERTIES:
   :CUSTOM_ID: Order_Relations
-:END:      
+:END:
 
 We will start with a class of important binary relations in
 mathematics, namely, /partial orders/.
@@ -113,7 +113,7 @@ partial order/ if it satisfies the following:
 A strict partial order is a /strict total order/ (or /strict linear
 order/) if, in addition, we have the following property:
 - /trichotomy/: $a < b$, $a = b$, or $a > b$ for
-  every $a$ and $b$ in $A$. 
+  every $a$ and $b$ in $A$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -193,7 +193,7 @@ $a \leq b$ if and only if $a \leq' b$. So we can think of every
 partial order as really being a pair, consisting of a weak partial
 order and an associated strict one. In other words, we can assume that
 $x < y$ holds if and only if $x \leq y$ and $x \neq y$, and we can
-assume $x \leq y$ holds if and only if $x < y$ or $x = y$. 
+assume $x \leq y$ holds if and only if $x < y$ or $x = y$.
 
 We will henceforth adopt this convention. Given a partial order $\leq$
 and the associated strict order $<$, we leave it to you to show that
@@ -225,13 +225,13 @@ Two facts are immediate.
 #+LATEX: \horizontalrule
 
 *Theorem.* Any minimum element is minimal.
- 
+
 *Proof.* Suppose $x$ is minimum for $\leq$. We need to show that $x$
 is minimal, that is, for every $y$, it is not the case that $y <
 x$. Suppose $y < x$. Since $x$ is minimum, we have $x \leq y$. From $y
 < x$ and $x \leq y$, we have $y < y$, contradicting the irreflexivity
 of $<$.
- 
+
 *Theorem.* If a partial order $\leq$ has a minimum element, it is
 unique.
 
@@ -286,6 +286,9 @@ implicit use of existential quantification.
 
 
 ** Equivalence Relations and Equality
+:PROPERTIES:
+  :CUSTOM_ID: Equivalence_Relations_and_Equality
+:END:
 
 In ordinary mathematical language, an /equivalence relation/ is
 defined as follows.
@@ -358,7 +361,7 @@ Equivalence tries to capture a "weak" notion of equality: if two elements
 of $A$ are equivalent, they are not necessarily the same, but they
 are "similar" in some way. Equivalence classes collect similar objects
 together. If we define $A' = \{ [a] : a \in A \}$, the set of equivalence
-classes of elements in $A$, we get a version of the set $A$ where sets of 
+classes of elements in $A$, we get a version of the set $A$ where sets of
 similar elements have been "compressed" into single elements.
 This is illustrated in an exercise below.
 
@@ -367,7 +370,7 @@ This is illustrated in an exercise below.
 1. Suppose $<$ is a strict partial order on a domain $A$, and define
    $a \leq b$ to mean that $a < b$ or $a = b$.
 
-   - Show that $\leq$ is a partial order. 
+   - Show that $\leq$ is a partial order.
    - Show that if $<$ is moreover a strict total order, then $\leq$ is
      a total order.
 
@@ -392,7 +395,7 @@ This is illustrated in an exercise below.
 
    Define a relation $\leq$ on the set of vertices, such that for two
    vertices $a$ and $b$, $a \leq b$ means that there is an arrow from
-   $a$ pointing to $b$. 
+   $a$ pointing to $b$.
 
    On an arbitrary graph, is $\leq$ a partial order, a strict partial
    order, a total order, a strict total order, or none of the above?
@@ -405,7 +408,7 @@ This is illustrated in an exercise below.
    \equiv a \}$. Show that for every $a$ and $b$, $[a] = [b]$ if
    and only if $a \equiv b$.
 
-   (Hints and notes: 
+   (Hints and notes:
    - Remember that since you are proving an ``if and only if''
      statement, there are two directions to prove.
    - Since that $[a]$ and $[b]$ are sets, $[a] = [b]$ means that for
@@ -418,11 +421,11 @@ This is illustrated in an exercise below.
    if $n$ is even, then $n \sim n+1$, and if $n$ is odd, then $n \sim n-1$. Furthermore,
    for every $n$, $n \sim n$. Show that $\sim$ is an equivalence relation. What
    is the equivalence class of the number 5? Describe the set of equivalence
-   classes $\{ [n] \st n \in \NN \}$. 
+   classes $\{ [n] \st n \in \NN \}$.
 
 6. Show that the relation on lines in the plane, given by "$l_1$ and $l_2$ are
    parallel," is an equivalence relation. What is the equivalence class of the
-   x-axis? Describe the set of equivalence classes $\{ [l] \st l\text{ is 
+   x-axis? Describe the set of equivalence classes $\{ [l] \st l\text{ is
    a line in the plane} \}$.
 
 7. A binary relation $\leq$

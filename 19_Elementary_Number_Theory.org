@@ -6,8 +6,6 @@
   :CUSTOM_ID: Elementary_Number_Theory
 :END:
 
-[Still under construction.]
-
 In the last two chapters, we say that the natural numbers are
 characterized by the fact that they suport /proof by induction/ and
 /definition by recursion/. Moreover, with these components, we can
@@ -201,6 +199,16 @@ $n + 2$ is divisible by 3. So, their product is divisible by 6.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
+** Primes
+:PROPERTIES:
+  :CUSTOM_ID: Modular_Arithmetic
+:END:
+
+# TODO: definition (or is this already done?), properties, how they
+# relate to divisibility (p \mid mn implies p \mid m or m \mid n),
+# proof that there are infinitely many of them, ...
+
+
 ** Modular Arithmetic
 :PROPERTIES:
   :CUSTOM_ID: Modular_Arithmetic
@@ -371,9 +379,9 @@ proposition.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-** Sums of Squares
+** Properties of Squares
 :PROPERTIES:
-  :CUSTOM_ID: Sums_of_Squares
+  :CUSTOM_ID: Properties of Squares
 :END:
 
 Mathematicians from ancient times have been interested in the question
@@ -412,6 +420,8 @@ Up to the order of summands, the two right-hand sides are the same.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
+
+# TODO: n^2 \neq 2m^2
 
 
 # Let us consider another example. You may recall that if $n$ and $k$
@@ -504,10 +514,10 @@ Up to the order of summands, the two right-hand sides are the same.
 1. Prove the following properties about divisibility (for any
    integers $a$, $b$ and $c$):
 
-    - if $a \mid b$ and $a \mid c$ then $a \mid b + c$.
-    - if $a \mid b$ then $a \mid bc$
-    - $a \mid 0$
-    - if $0 \mid a$ then $a = 0$.
+    - if $a \mid b$ and $a \mid c$ then $a \mid b + c$;
+    - if $a \mid b$ then $a \mid bc$;
+    - $a \mid 0$;
+    - if $0 \mid a$ then $a = 0$;
     - if $a \neq 0$ then the statements $b \mid c$ and $ab \mid ac$
       are equivalent.
 
@@ -525,8 +535,8 @@ Up to the order of summands, the two right-hand sides are the same.
    $m + n$ and $m - n$ have the same parity.
 
 6. Show by induction on $n$ that for every pair of integers $x$ and
-   $y$, $x - y$ divides $x^n - y^n$. (Hint: start by writing
-   $x^{n+1} - y^{n+1}$ as $x^n (x - y) + x^n y - y^{n+1}$.)
+   $y$, $x - y$ divides $x^n - y^n$. (Hint: in the induction step,
+   write $x^{n+1} - y^{n+1}$ as $x^n (x - y) + x^n y - y^{n+1}$.)
 
 7. Find the last digit of $99^{99}$. Can you also find the last two
    digits of this number?

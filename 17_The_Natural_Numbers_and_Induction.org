@@ -27,12 +27,12 @@ principles. Our presentation in this chapter will remain informal,
 however. In Chapter 19, we will see how these principles play out in
 number theory, one of the oldest and most venerable branches of
 mathematics.
-# TODO: fill in the link!  [[file:19_Elementary_Number_Theory.org::#Elementary_Number_Theory][Chapter 19]], 
+# TODO: fill in the link!  [[file:19_Elementary_Number_Theory.org::#Elementary_Number_Theory][Chapter 19]],
 
 ** The Principal of Induction
 
-The set of natural numbers is the set 
-\begin{equation*} 
+The set of natural numbers is the set
+\begin{equation*}
 \NN = \{ 0, 1, 2, 3, \ldots \}. 
 \end{equation*}
 In the past, opinions have differed as to whether the set of natural
@@ -40,15 +40,15 @@ numbers should start with 0 or 1, but these days most mathematicians
 take them to start with 0. Logicians often call the function $s(n) =
 n + 1$ the /successor/ function, since it maps each natural number,
 $n$, to the one that follows it. What makes the natural numbers
-special is that they are /generated/ by the successor function, which is
-to say, the only way to "construct" a natural number is to start with
-$0$ and apply the successor function finitely many times. From a
-foundational standpoint, we are in danger of running into a
-circularity here, because it is not clear how we can explain what it
-means to apply a function "finitely many times" without talking about
-the natural numbers themselves. But the following principle, known as
-the /principle of induction/, describes this essential property of the
-natural numbers in a non-circular way.
+special is that they are /generated/ by the number zero and the
+successor function, which is to say, the only way to "construct" a
+natural number is to start with $0$ and apply the successor function
+finitely many times. From a foundational standpoint, we are in danger
+of running into a circularity here, because it is not clear how we can
+explain what it means to apply a function "finitely many times"
+without talking about the natural numbers themselves. But the
+following principle, known as the /principle of induction/, describes
+this essential property of the natural numbers in a non-circular way.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -78,34 +78,36 @@ called the /inductive hypothesis/.
 
 You can visualize proof by induction as a method of knocking down an
 infinite stream of dominoes, all at once. We set the mechanism in
-place and known down domino 0, which knocks down domino 1; that knocks
-down domino 2, and so on. 
+place and knock down domino 0 (the base case), and every domino knocks
+down the next domino (the induction step). So domino 0 knocks down
+domino 1; that knocks down domino 2, and so on.
 
 Here is an example of a proof by induction.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem.* For every natural number $n$, 
+*Theorem.* For every natural number $n$,
 \[
 1 + 2 + \ldots + 2^n = 2^{n+1} - 1.
 \]
 
-*Proof.* By induction on $n$. In the base case, when $n = 0$, we have
-$1 = 2^{0+1} - 1$, as required.
+*Proof.* We prove this by induction on $n$. In the base case, when $n
+= 0$, we have $1 = 2^{0+1} - 1$, as required.
 
-For the induction step, fix $n$, and assume
-\[
-1 + 2 + \ldots + 2^n = 2^{n+1} - 1.
-\]
-We need to show that this same claim holds with $n$ replaced by $n +
-1$. But this is just a calculation:
+For the induction step, fix $n$, and assume \[1 + 2 + \ldots + 2^n =
+2^{n+1} - 1\] (the induction hypothesis). We need to show that this
+same claim holds with $n$ replaced by $n + 1$. But this is just a
+calculation:
 \begin{align*}
 1 + 2 + \ldots + 2^{n+1} & = (1 + 2 + \ldots + 2^n) + 2^{n+1} \\
 & = 2^{n+1} - 1 + 2^{n+1} \\
 & = 2 \cdot 2^{n+1} - 1 \\
 & = 2^{n+2} - 1.
 \end{align*}
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
 
 In the notation of first-order logic, if we write $P(n)$ to mean that
 $P$ holds of $n$, we could express the principle of induction as
@@ -137,7 +139,7 @@ by the following natural deduction rule:
 \DP
 \end{center}
 You should think about how some of the proofs in this chapter could be
-represented formally using natural deduction. 
+represented formally using natural deduction.
 
 For another example of a proof by induction, let us derive a formula
 that, given any finite set $S$, determines the number of subsets of
@@ -157,9 +159,9 @@ set with $0$ elements, the empty set, and there is exactly one subset
 of the empty set, as required.
 
 In the inductive case, suppose $S$ has $n + 1$ elements. Let $a$ be
-any element of $S$, and let $S'$ be the remaining $n$ elements. In
-order to count the subsets of $S$, we divide them into two
-groups. 
+any element of $S$, and let $S'$ be the set containing the remaining
+$n$ elements. In order to count the subsets of $S$, we divide them
+into two groups.
 
 First, we consider the subsets of $S$ that don't contain
 $a$. These are exactly the subsets of $S'$, and by the inductive
@@ -240,7 +242,7 @@ For the induction step, suppose $n \ge 5$ and $2^n > n^2$. Since $n$
 is greater than or equal to $5$, we have $2n + 1 \leq 3 n \leq n^2$,
 and so
 \begin{align*}
-(n+1)² &= n^2 + 2n + 1 \\
+(n+1)^2 &= n^2 + 2n + 1 \\
   & \leq n^2 + n^2 \\
   & < 2^n + 2^n \\
   & = 2^{n+1}.
@@ -321,7 +323,7 @@ as a product of primes.
 
 *Proof.* We proceed by induction on $n$. Let $n$ be any natural number
 greater than 2. If $n$ is prime, we are done; we can consider $n$
-itself as a product with one term. Otherwise, $n$ is composite, and we
+itself as a product with one factor. Otherwise, $n$ is composite, and we
 can write $n = m \cdot k$ where $m$ and $k$ are smaller than $n$ and
 greater than 1. By the inductive hypothesis, each of $m$ and $k$ can
 be written as a product of primes, say
@@ -442,7 +444,7 @@ What can you infer about $f$? Try calculating a few values:
   f(2) & = f(1 + 1) = 2 \cdot f(1) = 4 \\
   f(3) & = f(2 + 1) = 2 \cdot f(2) = 8
 \end{align*}
-It soon becomes apparent that for every $n$, $f(n) = 2^n$. 
+It soon becomes apparent that for every $n$, $f(n) = 2^n$.
 
 What is more interesting is that the two conditions above specify
 /all/ the values of $f$, which is to say, there is exactly one
@@ -585,7 +587,7 @@ m + n &= n + m &&\text{(commutativity of addition)}\\
 m + (n + k) &= (m + n) + k &&\text{(associativity of addition)}\\
 n + 0 &= n &&\text{($0$ is a neutral element for addition)}\\
 n \cdot m &= m \cdot n &&\text{(commutativity of multiplication)}\\
-m \cdot (n \cdot k) &= (m \cdot n) \cdot k 
+m \cdot (n \cdot k) &= (m \cdot n) \cdot k
     &&\text{(associativity of multiplication)}\\
 n \cdot 1 &= n &&\text{($1$ is an neutral element for multiplication)}\\
 n \cdot (m + k) &= n \cdot m + n \cdot k &&\text{(distributivity)}\\
@@ -619,12 +621,12 @@ n$. The following proposition then justifies the terminology.
 #+LATEX: \horizontalrule
 
 *Proposition.* With the definitions above, for every $m$ and $n$, $m
-\le n$ if and only if $m < n$ or $m = n$. 
+\le n$ if and only if $m < n$ or $m = n$.
 
 *Proof.* First, suppose $m \le n$, and let us show $m < n$ or $m =
 n$. Since $m \le n$, then $m + k = n$. If $k = 0$, we have $m =
 n$. Otherwise, $k \ge 1$, and we have $m + 1 \le m + k = n$, which
-mean $m < n$. 
+mean $m < n$.
 
 Conversely, suppose $m < n$ or $m = n$. If $m < n$, then we have $m
 \le m + 1 \le n$, so $m \le n$. And if $m = n$, we also have $m \le
@@ -638,7 +640,7 @@ and $m \ne n$. In fact, we can demonstrate all of the following from
 these properties and the properties of $\le$:
 - $n < n$ is never true (/irreflexivity/);
 - if $n < m$ and $m < k$ then $n < k$ (/transitivity/);
-- for all $n$ and $m$, either $n < m$, $n = m$ or 
+- for all $n$ and $m$, either $n < m$, $n = m$ or
     $m < n$ is true (/trichotomy/);
 - if $n < m$ then $n + k < m + k$;
 - if $k > 0$ and $n < m$ then $nk < mk$;
@@ -763,7 +765,7 @@ the natural numbers, is that for every integer $n$ there is a value
 $-n$ with the property that $n + (-n) = 0$. The value $-n$ is called
 the /negation/ of $n$. We define subtraction $n - m$ to be $n +
 (-m)$. For any integer $n$, we also define the /absolute value/ of
-$n$, written $|n|$, to be $n$ if $n \geq 0$, and $-n$ otherwise. 
+$n$, written $|n|$, to be $n$ if $n \geq 0$, and $-n$ otherwise.
 
 Proof by induction no longer holds, because induction does not cover
 the negative numbers. But we can use induction to show that a property

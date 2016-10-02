@@ -33,7 +33,7 @@ mathematics.
 
 The set of natural numbers is the set
 \begin{equation*}
-\NN = \{ 0, 1, 2, 3, \ldots \}. 
+\NN = \{ 0, 1, 2, 3, \ldots \}.
 \end{equation*}
 In the past, opinions have differed as to whether the set of natural
 numbers should start with 0 or 1, but these days most mathematicians
@@ -809,21 +809,35 @@ covers the negative ones.
     clear equational proof, calculating in the ``forwards''
     direction.)
 
-7.  Following the example in [[#Arithmetic_on_the_Natural_Numbers][Section 17.4]] prove that if $n$ is a
+7.  Prove that every natural number can be written as a sum of
+    /distinct/ powers of 2. For this problem, $1 = 2^0$ is counted as
+    power of 2.
+
+
+8.  Let $V$ be a non-empty set of integers such that the following two
+    properties hold:
+
+    - if $x, y \in V$, then $x - y \in V$
+    - if $x \in V$, then every multiple of $x$ is an element of $V$
+
+    Prove that there is some $d \in V$, such that $V$ is equal to the set of
+    multiples of $d$. Hint: use the least element principle.
+
+9.  Following the example in [[#Arithmetic_on_the_Natural_Numbers][Section 17.4]] prove that if $n$ is a
     natural number and $n < 5$, then $n$ is one of the values $0, 1,
     2, 3$, or $4$.
 
-8.  Prove that if $n$ and $m$ are natural numbers and $n m = 1$, then
+10. Prove that if $n$ and $m$ are natural numbers and $n m = 1$, then
     $n = m = 1$.
 
     This is tricky. First show that $n$ and $m$ are greater than $0$,
     and hence greater than or equal to $1$. Then show that if either
     one of them is greater than $1$, then $n m > 1$.
 
-9.  Prove all the claims in [[#Arithmetic_on_the_Natural_Numbers][Section 17.4]] that were stated without
+11. Prove all the claims in [[#Arithmetic_on_the_Natural_Numbers][Section 17.4]] that were stated without
     proof.
 
-10. Prove the following properties of negation and subtraction on the
+12. Prove the following properties of negation and subtraction on the
     integers, using only the properties of negation and subtraction
     given in [[#The_Integers][Section 17.5]].
 
@@ -838,5 +852,12 @@ covers the negative ones.
     - $n(m - k) = nm - nk$;
     - if $n < m$ then $n - k < m - k$.
 
+13. Suppose you have an infinite chessboard with a natural number
+    written in each square. The value in each square is the average of
+    the values of the four neighboring squares. Prove that all the
+    values on the chessboard are equal.
 
-
+14. Prove that every natural number can be written as a sum of
+    /distinct non-consecutive/ Fibonacci numbers. For example, $22 =
+    1 + 3 + 5 + 13$ is not allowed, since 3 and 5 are consecutive
+    Fibonacci numbers, but $22 = 1 + 21$ is allowed.

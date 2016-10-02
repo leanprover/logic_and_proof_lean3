@@ -138,11 +138,11 @@ example.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem*.  Let $A, B, C, \ldots$ denote sets of elements of some
+*Theorem*.  Let $A$, $B$, and $C$ denote sets of elements of some
 domain, $\mathcal U$. Then $A \cap (B \cup C) = (A \cap B) \cup (A
 \cap C)$.
 
-*Proof*. Let $x$ be arbitrary, suppose $x$ is in $A \cap (B \cup
+*Proof*. Let $x$ be arbitrary, and suppose $x$ is in $A \cap (B \cup
 C)$. Then $x$ is in $A$, and either $x$ is in $B$ or $x$ is in $C$. In
 the first case, $x$ is in $A$ and $B$, and hence in $A \cap B$. In the
 second case, $x$ is in $A$ and $C$, and hence $A \cap C$. Either way,

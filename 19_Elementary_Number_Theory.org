@@ -67,11 +67,11 @@ fact, the case:
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Proposition*. If $n$ and $m$ are as above, $n = m q + r$ and $n =
+*Proposition.* If $n$ and $m$ are as above, $n = m q + r$ and $n =
 m q' + r'$ with both $r$ and $r'$ less than $n$, then $q = q'$ and $r
 = r'$.
 
-*Proof*. By assumption, we have $mq + r = m q' + r'$. It suffices to
+*Proof.* By assumption, we have $mq + r = m q' + r'$. It suffices to
 show that $q = q'$, because then $m q = m q'$, and hence $r = r'$.
 
 Suppose $q \ne q'$. Then either $q < q'$ or $q' < q$. Suppose without
@@ -90,11 +90,6 @@ which contradicts the fact that $r < m$.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-Since we have proven that the quotient and remainder are unique when
-you divide $n$ by $m$, we can define functions which compute these
-numbers. We write $\lfloor n / m \rfloor$ for the quotient and $n \mod
-m$ for the remainder.
-
 ** Divisibility
 :PROPERTIES:
   :CUSTOM_ID: Divisibility
@@ -105,10 +100,11 @@ We can define divisibility on the integers as follows.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Definition*. Given two integers $m$ and $n$. We say that $m$ /is a
+*Definition.* Given two integers $m$ and $n$. We say that $m$ /is a
  divisor of/ $n$, written $m \mid n$, if there exists some integer $k$
  such that $m \cdot k = n$. We also say that $n$ /is divisible by/ $m$
- or that $m$ /divides/ $n$.
+ or that $m$ /divides/ $n$. We write $m \nmid n$ to say that $m$ is
+ not a divisor of $n$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -148,8 +144,10 @@ partial order, on the natural numbers.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-An integer is \emph{even} if it is divisible by $2$, in other words,
-$n$ is even if $2 \mid n$. An integer if \emph{odd} if it's not
+Look at Exercise 1 for some basic properties about divisibility.
+
+An integer is /even/ if it is divisible by $2$, in other words,
+$n$ is even if $2 \mid n$. An integer is /odd/ if it's not
 even. Of course, odd numbers are of the form $2k+1$ for some $k$, and
 we can prove this now.
 
@@ -164,7 +162,7 @@ means that $r = 0$ or $r = 1$. In the first case, we have $n = 2k$,
 hence $2 \mid n$, contradicting that $n$ is odd. So we have $r = 1$,
 which means that $n = 2k+1$.
 
-*Theorem*. Every sequence of $k$ consecutive numbers contains a number
+*Theorem.* Every sequence of $k$ consecutive numbers contains a number
 divisible by $k$.
 
 *Proof.* Denote the largest number of the sequence by $n$. This means
@@ -177,36 +175,266 @@ $k$.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-Let us close with some examples of elementary theorems of number
-theory. (These are all exercises in Chapter 1 of /An Introduction to
-the Theory of Numbers/ by Niven and Zuckerman.)
+*Definition.* Given two integers $m$ and $n$ such that either $m \neq
+0$ or $n \neq 0$. We define the /greatest common divisor/ $\gcd(m,n)$
+of $m$ and $n$ to be the largest integer $d$ which is both a divisor
+of $m$ and $n$, that is $d \mid m$ and $d \mid n$.
+
+This largest integer exists, because there is at least one common
+divisor, but only finitely many. There is at least one, since 1 is a
+common divisor of any two integers, and there are finitely many, since
+a nonzero number has only finitely many divisors.
+
+If $n = m = 0$, then we define $\gcd(0,0) = 0$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem.* The product of any three consecutive integers is divisible
-by 6.
+The greatest common divisor of two numbers is always a natural number,
+since 1 is always a common divisor of two numbers.  As an example,
+let's compute the greatest common divisor of 6 and 28. The positive
+divisors of 6 are $\{1, 2, 3, 6\}$ and the positive divisors of 28 are
+$\{1, 2, 4, 7, 14, 28\}$. The largest number in both these sets is 2,
+which is the greatest common divisor of 6 and 28.
 
-*Proof.* Denote the three integers by $n$, $n + 1$, and $n + 2$. Then
-either $n$ or $n + 1$ is divisible by 2, and either $n$, $n + 1$, or
-$n + 2$ is divisible by 3. So, their product is divisible by 6.
-
-*Theorem*. For every $n$, $n^3 - n$ is divisible by 6.
-
-*Proof.* We have $n^3 - n = (n - 1) n (n + 1)$, which is a product of
- three consecutive integers.
+However, computing the greatest common divisors of two numbers by
+listing all the divisors of both numbers is a lot of work, so we will
+now find a method to compute the greatest common divisor more
+efficiently.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
+
+*Lemma.* For all integers $n$, $m$ and $k$ we have
+$\gcd(n,m)=\gcd(m,n-km)$.
+
+*Proof.* Let $d = \gcd(n,m)$ and $r = n-km$. If $n = m = 0$, then $d
+= 0 = \gcd(m,r)$, and we're done.
+
+In the other case we first show that the set of common divisors of $n$
+and $m$ is the same as the set of the common divisors of $m$ and
+$r$. To see this, let $d' \mid m$ and $d' \mid n$. Then also $d' \mid
+n - km$ by Exercise 1 below. Hence $d'$ is a common divisor of $m$
+and $r$. On the other hand, if $d'$ is a divisor of $n$ and $r$, then
+$d' \mid r + km$, hence $d' \mid n$, hence $d'$ is a common divisor
+of $n$ and $m$.
+
+Since the sets of common divisors are the same, the largest element
+in each set is also the same, hence $\gcd(n,m)=\gcd(m,n-km)$.
+
+*Lemma.* For all integers $n$ we have $\gcd(n,0)=|n|$.
+
+*Proof.* Every number is a divisor of 0, hence the greatest common
+divisor of $n$ and 0 is just the greatest divisor of $n$, which is
+the absolute value of $n$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+These two lemma's give us a quick way to compute the greatest common
+divisor of two numbers. This is called *the Euclidean
+Algorithm.* Suppose we want to compute $\gcd(a, b)$.
+
+- We let $r_0 = a$ and $r_1 = b$.
+- Given $r_n$ and $r_{n+1}$ we compute $r_{n+2}$ as the remainder of
+  of $r_n$ when divided by $r_{n+1}$.
+- Once $r_n = 0$, we stop, and $\gcd(a, b) = |r_{n-1}|$.
+
+This works, because by the lemma's above, we have $\gcd(r_k,r_{k+1}) =
+\gcd(r_{k+1}, r_{k+2})$, since $r_{k+2} = r_k - qr_{k+1}$ for some
+$q$. Hence if $r_n=0$ we have
+$\gcd(a,b)=\gcd(r_0,r_1)=\gcd(r_{n-1},r_n)=\gcd(r_{n-1},0)=|r_{n-1}|$
+
+For example, suppose we want to compute the greatest common divisor of
+1311 and 5757. We compute the following remainders:
+\begin{align*}
+5757 &= 4\times1311 + 513\\
+1311 &= 2\times513 + 285\\
+513 &= 1\times285 + 228\\
+285 &= 1\times228 + 57\\
+228 &= 4\times57 + 0.
+\end{align*}
+Hence $\gcd(1311,5757) = 57$. This is much quicker than computing all
+the divisors of both 1311 and 5757.
+
+Here is an important result about greatest common divisors. It is only
+called a 'lemma' for historical reasons.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem* (B‎ézout's Lemma). Given integers $n$ and $m$. Then there
+are integers $a$ and $b$ such that $an+bm=\gcd(n,m)$.
+
+*Proof.* We compute $\gcd(n,m)$ by the Euclidean Algorithm given
+above, and during the algorithm we get the intermediate values $r_0,
+r_1, \ldots, r_n$ where $r_n = 0$. Now by induction on $k$ we prove
+that we can write $r_k = a_kn+b_km$ for some integers $a_k$ and
+$b_k$. Indeed: $r_0 = 1\cdot n + 0\cdot m$ and $r_1 = 0\cdot n +
+1\cdot m$. Now if we assume that $r_k = a_kn+b_km$ and $r_{k+1} =
+a_{k+1}n+b_{k+1}m$, we know that $r_{k+2} = r_k - q\cdot r_{k+1}$,
+where $q$ is the quotient of $r_k$ when divided by $r_{k+1}$. These
+equations together give
+\begin{equation*}
+r_{k+2} = (a_k-qa_{k+1})n + (b_k-qb_{k+1})m
+\end{equation*}
+This completes the induction. In particular, $r_{n-1} =
+a_{n-1}n+b_{n-1}m$, and since $\gcd(n,m)=\pm r_{n-1}$ we can write
+$\gcd(n,m)$ as $an+bm$ for some $a$ and $b$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Corollary.* If $c$ is any common divisor of $n$ and $m$, then $c \mid
+\gcd(n, m)$.
+
+*Proof.* By B‎ézout's Lemma, there are $a$ and $b$ such that
+$\gcd(n,m)=an+bm$. Since $c$ divides both $n$ and $m$, $c$ divides
+$an+bm$ by Exercise 1 below, and hence also $\gcd(n,m)$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Of special interest are pairs of integers which have no divisors in
+common, except 1 and $-1$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* Two integers $n$ and $m$ are /coprime/ if $\gcd(n,m) = 1$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* Let $n$, $m$ and $k$ be integers such that $n$ and $k$
+are coprime. If $k \mid nm$ then $k \mid m$
+
+*Proof.* By B‎ézout's Lemma, there are $a$ and $b$ such that $an+bk =
+1$. Multiplying by $m$ gives $anm + bkm = m$ Since $k$ divides $nm$,
+$k$ divides the left-hand side of the equation, hence $k \mid m$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+
+# Let us close this section with some examples of elementary theorems of
+# number theory. (These are all exercises in Chapter 1 of /An
+# Introduction to the Theory of Numbers/ by Niven and Zuckerman.)
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+# *Theorem.* The product of any three consecutive integers is divisible
+# by 6.
+
+# *Proof.* Denote the three integers by $n$, $n + 1$, and $n + 2$. Then
+# either $n$ or $n + 1$ is divisible by 2, and either $n$, $n + 1$, or
+# $n + 2$ is divisible by 3. So, their product is divisible by 6.
+
+# *Theorem.* For every $n$, $n^3 - n$ is divisible by 6.
+
+# *Proof.* We have $n^3 - n = (n - 1) n (n + 1)$, which is a product of
+#  three consecutive integers.
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
 
 ** Primes
 :PROPERTIES:
   :CUSTOM_ID: Modular_Arithmetic
 :END:
 
-# TODO: definition (or is this already done?), properties, how they
-# relate to divisibility (p \mid mn implies p \mid m or m \mid n),
-# proof that there are infinitely many of them, ...
+In this section we will talk about the special properties of prime
+numbers.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* An integer $p\geq 2$ is called /prime/ if the only
+positive divisors of $p$ are 1 and $p$. An integer $n \geq 2$ which
+is not prime is called /composite/.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+An equivalent definition of a prime number is a positive number with
+exactly 2 positive divisors.
+
+Recall from [[file:17_The_Natural_Numbers_and_Induction.org][Chapter 17]] that every natural number greater than 1 can
+be written as the product of primes numbers. In particular, ever
+natural number greater than 1 is divisible by some prime number.
+
+We now prove some other properties about prime numbers.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* There are infinitely many primes.
+
+*Proof.* Suppose for the sake of contradiction that there are only
+finitely many primes $p_1$, $p_2$, $\ldots$, $p_k$. Let $n = p_1
+\times p_2 \times \cdots \times p_k$. Since $n$ is divisible by $p_i$
+for all $i\leq k$ we know that $n+1$ is not divisible by $p_i$ for
+any $i$. However, we assumed that these are all primes, contradicting the
+fact that every number is divisible by a prime number.
+
+*Lemma.* If $n$ is an integer and $p$ is a prime number, then either $n$
+and $p$ are coprime or $p \mid n$.
+
+*Proof.* Let $d = \gcd(n, p)$. Since $d$ is a positive divisor of
+$p$, either $d = 1$ or $d = p$. In the first case, $n$ and $p$ are
+coprime by definition, and in the second case we have $p \mid n$.
+
+*Proposition.* If $n$ and $m$ are integers and $p$ is a prime number such
+that $p \mid nm$ then either $p \mid n$ or $p \mid m$.
+
+*Proof.* Suppose that $p \nmid n$. By the previous Lemma, this means
+that $p$ and $n$ are coprime. From this we can conclude that $p \mid m$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+The last result in this section captures that the primes are the
+"building blocks" of the positive integers for multiplication: all
+other integers can be written as a product of primes in an
+essentially unique way.
+
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem* (Fundamental Theorem of Arithmetic). Let $n > 0$ be an
+integer. Then there are primes $p_1, \ldots, p_k$ such that $n =
+p_1\times \cdots \times p_k$. Moreover, these primes are unique up to
+reordering. That means that if there are prime numbers $q_1, \ldots,
+q_\ell$ such that $q_1\times \cdots \times q_\ell = n$, then the $q_i$
+are a reordering of the $p_i$. To be completely precise, this means
+that there is a bijection $\sigma : \{1, \ldots, k\} \to \{1, \ldots,
+k\}$ such that $q_i = p_{\sigma(i)}$.
+
+*Remark.* 1 can be written as the product of zero prime numbers. The
+/empty product/ is defined to be 1.
+
+*Proof.* We have already seen that every number can be written as the
+product of primes, so we only need to prove the uniqueness up to
+reordering. Suppose this is not true, and by the least element
+principle, let $n$ be the smallest positive integers such that $n$ can
+be written as the product of primes in two ways: $n = p_1\times \cdots
+\times p_k = q_1 \times \cdots \times q_\ell$.
+
+Since 1 can be written as product of primes /only/ as empty product,
+we have $n > 1$, hence $k \geq 1$. Since $p_k$ is prime, we must have
+$p_k \mid q_j$ for some $j \leq \ell$. By swapping $q_j$ and $q_\ell$,
+we may assume that $j = \ell$. Since $q_\ell$ is also prime, we have
+$p_k = q_\ell$.
+
+Now we have $p_1\times \cdots \times p_{k-1} = q_1 \times
+\cdots \times q_{\ell-1}$. This product is smaller than $n$, but can
+be written as product of primes in two different ways. But we assumed
+$n$ was the smallest such number. Contradiction!
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
 
 
 ** Modular Arithmetic
@@ -248,7 +476,7 @@ We now give a precise definition.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Definition*. For integers $a$, $b$ and $n$ we say that $a$ and $b$
+*Definition.* For integers $a$, $b$ and $n$ we say that $a$ and $b$
 are /congruent modulo/ $n$ if $n \mid a - b$. This is written $a
 \equiv b \pmod{n}$. The number $n$ is called the /modulus/.
 
@@ -261,9 +489,9 @@ positive.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem*. Congruence modulo $n$ is an equivalence relation.
+*Theorem.* Congruence modulo $n$ is an equivalence relation.
 
-*Proof*. We have to show that congruence modulo $n$ is reflexive,
+*Proof.* We have to show that congruence modulo $n$ is reflexive,
 symmetric and transitive.
 
 It is reflexive, because $a - a = 0$, so $n \mid a - a$, and hence
@@ -290,14 +518,14 @@ modulo 12 is transitive, we can now actually conclude that $7\cdot
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem*. Suppose that $a\equiv b \pmod{n}$ and $c\equiv
+*Theorem.* Suppose that $a\equiv b \pmod{n}$ and $c\equiv
 d\pmod{n}$. Then $a+c\equiv b+d \pmod{n}$ and $a\cdot c\equiv b\cdot
 d\pmod{n}$.
 
 Moreover, if $a\equiv b \pmod{n}$ then $a^k\equiv b^k \pmod{n}$ for
 all natural numbers $k$.
 
-*Proof*. We know that $n \mid a - b$ and $n \mid c - d$. For the first
+*Proof.* We know that $n \mid a - b$ and $n \mid c - d$. For the first
 statement, we can calculate that $(a + c) - (b + d) = (a - b) + (c -
 d)$, so we can conclude that $n \mid (a + c) - (b + d)$ hence that
 $a+c\equiv b+d\pmod{n}$.
@@ -312,7 +540,6 @@ The last statement follows by induction on $k$. If $k = 0$, then
 $1\equiv 1 \pmod{n}$, and for the induction step, suppose that
 $a^k\equiv b^k\pmod{n}$, then we have
 $a^{k+1}= a\cdot a^k \equiv b \cdot b^k = b^{k+1} \pmod{n}$
-\end{equation*}
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -329,6 +556,13 @@ are some examples.
   the last digit of a number $n$ is congruent to $n$ modulo 10, so we
   can just compute $101^{101} \equiv 1^{101} \equiv 1 \pmod{10}$. So
   the last digit of $101^{101}$ is 1.
+
+*Warning.* You cannot do all computations you might expect with
+modular arithmetic:
+- You are not allowed to divide congruent numbers in modular
+  arithmetic. For example $12 \equiv 16 \pmod{4}$, but we are not
+  allowed to divide both sides of the equation by 2, because $6
+  \not\equiv 8 \pmod{4}$.
 - You are not allowed to compute in exponents with modular
   arithmetic. For example $8 \equiv 3 \pmod{5}$, but $2^8 \not\equiv
   2^3 \pmod{5}$. To see this: $2^8 = 256 \equiv 1 \pmod{5}$, but $2^3
@@ -345,9 +579,9 @@ statements about the natural numbers.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Proposition*. For every integer $k$, $k^2+1$ is not divisible by 3.
+*Proposition.* For every integer $k$, $k^2+1$ is not divisible by 3.
 
-*Proof*. Translating this problem to modular arithmetic, we have to
+*Proof.* Translating this problem to modular arithmetic, we have to
 show that $k^2+1 \not\equiv 0 \pmod{3}$ or in other words that
 $k^2\not\equiv 2 \pmod{3}$ for all $k$. By the quotient-remainder
 theorem, we know that $k$ is either congruent to 0, 1 or 2,
@@ -359,10 +593,10 @@ $k^2\not\equiv2\pmod{3}$. So $k^2+1$ is never divisible by 3.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Proposition*. For all integers $a$ and $b$, $a^2+b^2-3$ is not
+*Proposition.* For all integers $a$ and $b$, $a^2+b^2-3$ is not
 divisible by 4.
 
-*Proof*. We first compute the squares modulo 4. We compute
+*Proof.* We first compute the squares modulo 4. We compute
 \begin{align*}
 0^2&\equiv 0\pmod{4}\\
 1^2&\equiv 1\pmod{4}\\
@@ -378,6 +612,67 @@ proposition.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
+
+Recall that we warned you about dividing in modular arithmetic. This
+doesn't always work, but often it does. For example, suppose we want
+to solve $2n \equiv 1 \pmod{5}$. We cannot solve this by saying that
+$n \equiv \frac12 \pmod{5}$, because we cannot work with fractions in
+modular arithmetic. However, we can still solve it by multiplying
+both sides with 3. Then we get $6n \equiv 3 \pmod{5}$, and since
+$6\equiv 1 \pmod{5}$ we get $n \equiv 3 \pmod{5}$. So instead of
+dividing by 2 we could multiply by 3 to get the answer. The reason
+this worked is because $2\times 3\equiv 1\pmod{5}$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* Let $n$ and $a$ be integers. A /multiplicative inverse
+of $a$ modulo $n$/ is an integer $b$ such that $ab \equiv 1\pmod{n}$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+For example, 3 is a multiplicative inverse of 5 modulo 7, since
+$3\times 5\equiv1\pmod{7}$. But $2$ has no multiplicative inverse
+modulo 6. Indeed, suppose that $2b\equiv 1 \pmod{6}$, then $6 \mid
+2b-1$. However, $2b-1$ is odd, and cannot be divisible by an even
+number. We can use multiplicative inverses to solve equations. If we
+want to solve $ax\equiv c \pmod{n}$ for $x$ and we know that $b$ is a
+multiplicative inverse of $a$, the solution is $x\equiv bc \pmod{n}$
+which we can see by multiplying both sides by $b$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Lemma* Let $n$ and $a$ be integers. $a$ has at most one
+multiplicative inverse modulo $n$. That is, if $b$ and $b'$ are both
+multiplicative inverses of $a$ modulo $n$, then $b\equiv b'\pmod{n}$.
+
+*Proof.* Suppose that $ab\equiv 1 \equiv ab' \pmod{n}$. Then we can
+compute $bab'$ in two ways: $b \equiv b(ab') = (ba)b' \equiv b' \pmod{n}$.
+
+*Proposition.* Let $n$ and $a$ be integers. $a$ has a multiplicative
+inverse modulo $n$ if and only if $n$ and $a$ are coprime.
+
+*Proof.* Suppose $b$ is a multiplicative inverse of $a$ modulo
+$n$. Then $n \mid ab - 1$. Let $d = \gcd(a, b)$. Since $d \mid n$ we
+have $d \mid ab-1$. But since $d$ is a divisor of $ab$, we have $d
+\mid ab - (ab-1) = 1$. Since $d\geq0$ we have $d=1$. Hence $n$ and
+$a$ are coprime.
+
+On the other hand, suppose that $n$ and $a$ are coprime. By B‎ézout's
+Lemma we know that there are integers $b$ and $c$ such that
+$cn+ba=\gcd(n,a)=1$. We can rewrite this to $ab - 1 = (-c)n$, hence
+$n \mid ab - 1$, which means by definition $ab \equiv 1
+\pmod{n}$. This means that $b$ is a multiplicative inverse of $a$
+modulo $n$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Note that if $p$ is a prime number and $a$ is a integer not divisible
+by $p$, then $a$ and $p$ are coprime, hence $a$ has a multiplicative
+inverse.
 
 ** Properties of Squares
 :PROPERTIES:
@@ -421,7 +716,27 @@ Up to the order of summands, the two right-hand sides are the same.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-# TODO: n^2 \neq 2m^2
+We will now prove that $\sqrt{2}$ is not a fraction of two integers.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* There are no integers $a$ and $b$ such that $\frac ab=\sqrt{2}$.
+
+*Proof.* Suppose that $\frac ab=\sqrt{2}$ for some integers $a$ and
+$b$. By cancelling common factors, we may assume that $a$ and $b$ are
+coprime. By squaring both sides, we get $\frac{a^2}{b^2}=2$, and
+multiplying both sides by $b^2$ gives $a^2=2b^2$. Since $2b^2$ is
+even, we know that $a^2$ is even, and since odd squares are odd, we
+conclude that $a$ is even. Hence we can write $a = 2c$ for some
+integer $c$. This means that $(2c)^2=2b^2$, hence $2c^2=b^2$. The same
+reasoning shows that $b$ is even. But we assumed that $a$ and $b$ are
+coprime, which contradicts the fact that they are both even.
+
+Hence there are no integers $a$ and $b$ such that $\frac ab=\sqrt{2}$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
 
 
 # Let us consider another example. You may recall that if $n$ and $k$
@@ -510,16 +825,18 @@ Up to the order of summands, the two right-hand sides are the same.
 
 ** Exercises
 
-
+# This exercise is being referred to by number in the text
 1. Prove the following properties about divisibility (for any
    integers $a$, $b$ and $c$):
 
-    - if $a \mid b$ and $a \mid c$ then $a \mid b + c$;
+    - if $a \mid b$ and $a \mid c$ then $a \mid b + c$ and $a \mid b -
+      c$;
     - if $a \mid b$ then $a \mid bc$;
     - $a \mid 0$;
     - if $0 \mid a$ then $a = 0$;
     - if $a \neq 0$ then the statements $b \mid c$ and $ab \mid ac$
-      are equivalent.
+      are equivalent;
+    - if $a \mid b$ and $b \neq 0$ then $|a| \leq |b|$.
 
 2. Prove that for any integer $n$, $n^2$ leaves a remainder of 0 or 1
    when you divide it by 4. Conclude that $n^2 + 2$ is never divisible
@@ -534,14 +851,36 @@ Up to the order of summands, the two right-hand sides are the same.
    or both odd. Prove that if $m$ and $n$ are any two integers, then
    $m + n$ and $m - n$ have the same parity.
 
+5. Write 11160 as product of primes.
+
+6. List all the divisors of 42 and 198, and find the greatest common
+   divisor by looking at the largest number in both lists. Also
+   compute the greatest common divisor of the numbers by the
+   Euclidean Algorithm.
+
+6. Compute $\gcd(15, 55)$, $\gcd(12345, 54321)$ and $\gcd(-77, 110)$
+
 6. Show by induction on $n$ that for every pair of integers $x$ and
    $y$, $x - y$ divides $x^n - y^n$. (Hint: in the induction step,
    write $x^{n+1} - y^{n+1}$ as $x^n (x - y) + x^n y - y^{n+1}$.)
+
+7. Compute $2^{12} \pmod{13}$. Use this to compute $2^{1212004}
+   \pmod{13}$.
 
 7. Find the last digit of $99^{99}$. Can you also find the last two
    digits of this number?
 
 8. Prove that $50^{22} - 22^{50}$ is divisible by 7.
+
+9. Check whether the following multiplicative inverses exist, and if
+   so, find them.
+
+   - The multiplicative inverse of 5 modulo 7;
+   - The multiplicative inverse of 17 modulo 21;
+   - The multiplicative inverse of 4 modulo 14;
+   - The multiplicative inverse of $-2$ modulo 9.
+
+9. Find all integers $x$ such that $75x \equiv 45 \pmod{8}$.
 
 9. Show that for every integer $n$ the number $n^4$ is congruent to 0
    or 1 modulo 5. Hint: to simplify the computation, use that
@@ -549,3 +888,16 @@ Up to the order of summands, the two right-hand sides are the same.
 
 10. Prove that the equation $n^4+m^4=k^4+3$ has no solutions in the
     integers. (Hint: use the previous exercise.)
+
+10. Suppose $p$ is a prime number such that $p \nmid k$. Show that if
+    $kn\equiv km \pmod{p}$ then $n \equiv m \pmod{p}$.
+
+11. Let $n$, $m$ and $c$ be given integers. Use B‎ézout's Lemma to
+    prove that the equation $an+bm=c$ has a solution for integers $a$
+    and $b$ if and only if $\gcd(n, m) \mid c$.
+
+12. Suppose that $a \mid n$ and $a \mid n$ and let $d =
+    \gcd(n,m)$. Prove that $\gcd(\frac na, \frac ma) =\frac
+    da$. Conclude that for any two integers $n$ and $m$ with greatest
+    common divisor $d$ the numbers $\frac nd$ and $\frac md$ are
+    coprime.

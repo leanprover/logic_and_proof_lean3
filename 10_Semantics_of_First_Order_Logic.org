@@ -286,7 +286,7 @@ Consider the following sentences:
 1.  $\fa x (\fn{green}(x) \vee \fn{blue}(x))$
 2.  $\ex {x, y} (\fn{adj}(x, y) \wedge \fn{green}(x) \wedge
     \fn{green}(y))$
-3.  $\ex x ((\ex z \fn{right_of}(z, x)) \wedge (\fa y
+3.  $\ex x ((\ex z \fn{right{\dash}of}(z, x)) \wedge (\fa y
     (\fn{left{\dash}of}(x, y) \to \fn{blue}(y) \vee \fn{small}(y))))$
 4.  $\fa x (\fn{large}(x) \to \ex y (\fn{small}(y) \wedge \fn{adj}(x,
     y)))$

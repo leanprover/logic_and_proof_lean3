@@ -185,16 +185,55 @@ the assertion
 \fa x (x \in A \cap (B \cup C) \liff x \in (A \cap B) \cup (A \cap C)),
 \end{equation*}
 and the proof proceeds accordingly. The phrase "let $x$ be arbitrary"
-is code for the \(\forall\) introduction rule, and the form of the rest
-of the proof is a $\liff$ introduction. Saying that $x$ is in $A \cap
-(B \cup C)$ is implicitly an "and," and the argument uses
+is code for the \(\forall\) introduction rule, and the form of the
+rest of the proof is a $\liff$ introduction. Saying that $x$ is in $A
+\cap (B \cup C)$ is implicitly an "and," and the argument uses
 $\wedge$ elimination to get $x \in A$ and $x \in B \cup C$. Saying $x
 \in B \cup C$ is implicitly an "or," and the proof then splits on
-cases, depending on whether $x \in B$ or $x \in C$. And so on. 
+cases, depending on whether $x \in B$ or $x \in C$. 
 
+Modulo the unfolding of definition of intersection and union in terms
+of "and" and "or," the "only if" direction of the previous proof could
+be represented in natural deduction like this:
+\begin{prooftree}
+\small
+\AXM{}
+\RLM{1}
+\UIM{y \in A \cap (B \cup C)}
+\UIM{y \in B \cup C}
+
+\AXM{}
+\RLM{1}
+\UIM{y \in A \cap (B \cup C)}
+\UIM{y \in A}
+\AXM{}
+\RLM{2}
+\UIM{y \in B}
+\BIM{y \in A \cap B}
+\UIM{y \in (A \cap B) \cup (A \cap C)}
+
+\AXM{}
+\RLM{1}
+\UIM{y \in A \cap (B \cup C)}
+\UIM{y \in A}
+\AXM{}
+\RLM{2}
+\UIM{y \in C}
+\BIM{y \in A \cap C}
+\UIM{y \in (A \cap B) \cup (A \cap C)}
+\RLM{2}
+\TIM{y \in (A \cap B) \cup (A \cap C)}
+
+\AXM{\vdots}
+\RLM{1}
+\BIM{y \in A \cap (B \cup C) \liff y \in (A \cap B) \cup (A \cap C)}
+\UIM{\fa x (x \in A \cap (B \cup C) \liff x \in (A \cap B) \cup (A \cap C))}
+\end{prooftree}
 In the next chapter, we will see that this logical structure is made
-manifest in Lean. The goal here is to teach you to think in terms of
-natural deduction rules, but express the steps in ordinary English.
+manifest in Lean. But writing long proofs in natural deduction is not
+the most effective to communicate the mathematical ideas. So our goal
+here is to teach you to think in terms of natural deduction rules, but
+express the steps in ordinary English.
 
 Here is another example.
 

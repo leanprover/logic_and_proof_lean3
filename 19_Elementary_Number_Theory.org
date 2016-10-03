@@ -11,8 +11,8 @@ characterized by the fact that they suport /proof by induction/ and
 /definition by recursion/. Moreover, with these components, we can
 actually define $+$, $\times$, and $<$ in a suitable axiomatic
 foundation, and prove that they have the relevant properties. In
-Section [[file:17_The_Natural_Numbers_and_Induction.org::#The_Integers][The Integers]] we also discussed the integers, which include
-negative numbers and support the operation of substraction.
+[[file:17_The_Natural_Numbers_and_Induction.org::#The_Integers][Section 17.1]] we also discussed the integers, which include negative
+numbers and support the operation of substraction.
 
 The natural numbers and the integers are the central components of
 /number theory/, a branch of mathematics dating back to the
@@ -113,6 +113,7 @@ We can now prove the following:
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
+
 *Theorem.* The relation $\mid$ is reflexive and transitive. Also, if
 $n \mid m$ and $m \mid n$, then $m = \pm n$. This means that
 restricted to the natural numbers, this relation is a partial order.
@@ -232,8 +233,8 @@ the absolute value of $n$.
 #+LATEX: \horizontalrule
 
 These two lemma's give us a quick way to compute the greatest common
-divisor of two numbers. This is called *the Euclidean
-Algorithm.* Suppose we want to compute $\gcd(a, b)$.
+divisor of two numbers. This is called the /Euclidean
+Algorithm/. Suppose we want to compute $\gcd(a, b)$.
 
 - We let $r_0 = a$ and $r_1 = b$.
 - Given $r_n$ and $r_{n+1}$ we compute $r_{n+2}$ as the remainder of

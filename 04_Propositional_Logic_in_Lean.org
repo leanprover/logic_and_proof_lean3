@@ -1018,4 +1018,7 @@ sorry
 
 example (H : ¬ A ∧ ¬ B) : ¬ (A ∨ B) :=
 sorry
+
+example : ¬ (A ↔ ¬ A) :=
+sorry
 #+END_SRC

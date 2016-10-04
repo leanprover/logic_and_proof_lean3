@@ -992,10 +992,9 @@ by rewrite [left_distrib, *right_distrib, -add.assoc]
 4.  Fill in the =sorry='s below, to prove the barber paradox.
 
     #+BEGIN_SRC lean
-    import data.nat
     open classical   -- not needed, but you can use it
 
-    -- This is an exercise from Chapter 3. Use it as an axiom here.
+    -- This is an exercise from Chapter 4. Use it as an axiom here.
     axiom not_iff_not_self (P : Prop) : ¬ (P ↔ ¬ P)
 
     example (Q : Prop) : ¬ (Q ↔ ¬ Q) :=
@@ -1093,7 +1092,6 @@ by rewrite [left_distrib, *right_distrib, -add.assoc]
     example : ∀ x y z : ℕ, odd x → odd y → even z → odd ((x * y) * (z + 1)) :=
     sorry
     #+END_SRC
-
 
 11. The following exercise shows that in the presence of reflexivity,
     the rules for symmetry and transitivity are equivalent to a single rule.

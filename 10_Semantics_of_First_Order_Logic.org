@@ -448,8 +448,8 @@ produce a proof.
 
    - $\ex x \fa y R(x, y)$
    - $\ex y \fa x R(x, y)$
-   - $\fa {x,y} (R(x,y) \to \ex z (R(x,z) \wedge R(z,y) \wedge x \neq
-     z \wedge y \neq z))$
+   - $\fa {x,y} (R(x,y) \wedge x \neq y \to \ex z (R(x,z) \wedge
+     R(z,y) \wedge x \neq z \wedge y \neq z))$
 
    For each of the following structures, determine whether of each of
    those sentences is true or false.

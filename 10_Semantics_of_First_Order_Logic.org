@@ -469,7 +469,7 @@ produce a proof.
 
    - $\fa x (\fn{green}(x) \vee \fn{blue}(x))$
 
-   - $\ex {x, y} (\fn{adj}(x, y) \wedge \fn{green}(x) \fn{green}(y))$
+   - $\ex {x, y} (\fn{adj}(x, y) \wedge \fn{green}(x) \wedge \fn{green}(y))$
 
    - $\ex x (\ex z \fn{right{\dash}of}(z, x) \wedge \fa y
      (\fn{left{\dash}of}(x, y) \to \fn{blue}(y) \vee \fn{small}(y)))$

@@ -313,7 +313,7 @@ B & B & B & b \\
 \end{tabular}
 \end{center}
 There they have the following truth values:
-1.  true
+1.  false
 2.  true
 3.  false
 4.  false

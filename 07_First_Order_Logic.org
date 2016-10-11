@@ -394,7 +394,7 @@ less than or equal to $y$. In that interpretation, the sentence
 is true, though in the original interpretation it makes an implausible
 claim about the nature of love triangles. In [[file:10_Semantics_of_First_Order_Logic.org::#Semantics_of_First_Order_Logic][Chapter 10]], we will spell
 out the notion that the deductive rules of first-order logic enable us
-to determine the statements that are true in \emph{all}
+to determine the statements that are true in /all/
 interpretations, just as the rules of propositional logic enable us to
 determine the statements that are true under all truth assignments.
 

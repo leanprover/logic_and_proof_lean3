@@ -24,7 +24,7 @@ let $\suc(m) = m + 1$ be the successor function. The structure $( \NN,
 0, \suc )$ satisfies the following clauses:
 - $0 \neq \suc(m)$ for any $m$ in $\NN$.
 - For every $m$ and $n$ in $\NN$, if $m \neq n$, then $\suc(m) \neq
-  \suc(n)$. In other words, $\suc$ is \emph{injective}.
+  \suc(n)$. In other words, $\suc$ is /injective/.
 - If $A$ is any subset of $\NN$ with the property that $0$ is in $A$
   and whenever $n$ is in $A$ then $\suc(n)$ is in $A$, then $A = \NN$.
 The last clause can be reformulated as the principle of induction:

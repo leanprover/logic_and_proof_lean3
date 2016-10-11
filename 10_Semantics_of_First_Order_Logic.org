@@ -417,7 +417,7 @@ From this theorem, it is easy to deduce the completeness
 theorem. Suppose there is no proof of $A$ from $\Gamma$. Then
 the set $\Gamma \cup \{ \neg A \}$ is consistent. (If we could
 prove $\bot$ from $\Gamma \cup \{ \neg A \}$, then by the
-\emph{reductio ad absurdum} rule we could prove $A$ from
+/reductio ad absurdum/ rule we could prove $A$ from
 $\Gamma$.) By the model existence theorem, that means that there is a
 model $\MM$ of $\Gamma \cup \{ \neg A \}$. But this is a model
 of $\Gamma$ that is not a model of $A$, which means that

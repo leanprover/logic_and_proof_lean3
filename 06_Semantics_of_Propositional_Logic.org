@@ -168,7 +168,7 @@ $A$.
 \end{prooftree}
 This follows from the proper reading of the implication introduction
 rule: given $B$, one can always infer $A \to B$, and then cancel an
-assumption $A$, \emph{if there is one}. If $A$ was never used in the
+assumption $A$, /if there is one/. If $A$ was never used in the
 proof, the conclusion is simply weaker than it needs to be. This
 inference is validated in Lean:
 #+BEGIN_SRC lean

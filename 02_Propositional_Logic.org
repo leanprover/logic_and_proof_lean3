@@ -130,7 +130,7 @@ will also adopt a stylized notation for representing inferences as
 \BIM{C}
 \DP
 \end{center}
-indicates that statement $C$ is a \emph{logical consequence} of $A$
+indicates that statement $C$ is a /logical consequence/ of $A$
 and $B$.
 
 ** Rules of Inference

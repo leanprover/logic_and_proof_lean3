@@ -32,7 +32,7 @@ Lean.
 
 If $X$ and $Y$ are any sets, we write $f : X \to Y$ to express the
 fact that $f$ is a function from $X$ to $Y$. This means that $f$
-assigns a value $f(x)$ in $X$ to every element $x$ of $X$. The set $X$
+assigns a value $f(x)$ in $Y$ to every element $x$ of $X$. The set $X$
 is called the /domain/ of $f$, and the set $Y$ is called the
 /codomain/. (Some authors use the word "range" for the codomain, but
 today it is more common to use the word "range" for what we call the

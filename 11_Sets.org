@@ -138,11 +138,11 @@ example.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem*.  Let $A$, $B$, and $C$ denote sets of elements of some
+*Theorem.*  Let $A$, $B$, and $C$ denote sets of elements of some
 domain, $\mathcal U$. Then $A \cap (B \cup C) = (A \cap B) \cup (A
 \cap C)$.
 
-*Proof*. Let $x$ be arbitrary, and suppose $x$ is in $A \cap (B \cup
+*Proof.* Let $x$ be arbitrary, and suppose $x$ is in $A \cap (B \cup
 C)$. Then $x$ is in $A$, and either $x$ is in $B$ or $x$ is in $C$. In
 the first case, $x$ is in $A$ and $B$, and hence in $A \cap B$. In the
 second case, $x$ is in $A$ and $C$, and hence $A \cap C$. Either way,
@@ -240,9 +240,9 @@ Here is another example.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem*. $(A \setminus B) \setminus C = A \setminus (B \cup C)$.
+*Theorem.* $(A \setminus B) \setminus C = A \setminus (B \cup C)$.
 
-*Proof*. Let $x$ be arbitrary, and suppose $x$ is in $(A \setminus B)
+*Proof.* Let $x$ be arbitrary, and suppose $x$ is in $(A \setminus B)
 \setminus C$. Then $x$ is in $A \setminus B$ but not $C$, and hence it
 is in $A$ but not in $B$ or $C$. This means that $x$ is in $A$ but not
 $B \cup C$, and so in $A \setminus (B \cup C)$.
@@ -485,10 +485,10 @@ Translated to propositions, the first theorem above is as follows:
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem*. Let $A$ and $B$ be elements of a boolean algebra. Then $(A
+*Theorem.* Let $A$ and $B$ be elements of a boolean algebra. Then $(A
 \wedge \neg B) \vee B = B$.
 
-*Proof*.
+*Proof.*
 \begin{align*}
 (A \wedge \neg B) \vee B & = (A \vee B) \wedge (\neg B \vee B)
 \\
@@ -532,7 +532,10 @@ We can also form the /intersection/ of a family of sets:
 \begin{equation*}
 \bigcap_{i \in I} A_i = \{ x \st x \in A_i \text{ for every $i \in I$} \}
 \end{equation*}
-These operations are represented in symbolic logic by the existential
+So an element $x$ is in $\bigcup_{i \in I} A_i$ if and only
+if $x$ is in $A_i$ for \emph{some} $i$ in $I$, and $x$ is in
+$\bigcap_{i \in I} A_i$ if and only if $x$ is in $A_i$ for every $i$
+in $I$. These operations are represented in symbolic logic by the existential
 and the universal quantifiers. We have:
 - $\fa x (x \in \bigcup_{i \in I} A_i \liff \ex{i \in I} (x \in A_i))$
 - $\fa x (x \in \bigcap_{i \in I} A_i \liff \fa{i \in I} (x \in A_i))$
@@ -564,13 +567,40 @@ sets. Here are a few of them:
 - $A \cup \bigcap_{i \in I} B_i = \bigcap_{i \in I} (A \cup B_i)$
 - $\overline{\bigcap_{i \in I} A_i} = \bigcup_{i \in I} \overline{A_i}$
 - $\overline{\bigcup_{i \in I} A_i} = \bigcap_{i \in I} \overline{A_i}$
-- $\bigcup_{i \in I} \bigcup_{j \in J} A_{i,j} = \bigcup_{j \in J} \bigcup_{i \in I} A_{i,j}$
-- $\bigcap_{i \in I} \bigcap_{j \in J} A_{i,j} = \bigcap_{j \in J} \bigcap_{i \in I} A_{i,j}$
+- $\bigcup_{i \in I} \bigcup_{j \in J} A_{i,j} = \bigcup_{j \in J}
+  \bigcup_{i \in I} A_{i,j}$
+- $\bigcap_{i \in I} \bigcap_{j \in J} A_{i,j} = \bigcap_{j \in J}
+  \bigcap_{i \in I} A_{i,j}$
 
 In the last two lines, $A_{i,j}$ is indexed by two sets $I$ and
 $J$. This means that for every $i \in I$ and $j\in J$ we have a set
 $A_{i,j}$. For the first four equalities, try to figure out what the
 rule means if the index set $I$ contains two elements.
+
+Let's prove the first identity. Notice how the logical forms of the
+assertions $x \in A \cap \bigcup_{i \in I} B_i$ and $x \in \bigcup_{i
+\in I} (A \cap B_i)$ dictate the structure of the proof.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Let $A$ be any subset of some domain $U$, and let $(B_i)_{i
+\in I}$ be a family of subsets of $U$ indexed by $I$. Then
+\begin{equation*}
+A \cap \bigcup_{i \in I} B_i = \bigcup_{i \in I} (A \cap B_i)
+\end{equation*}
+
+*Proof.* Suppose $x$ is in $A \cap \bigcup_{i \in I} B_i$. Then $x$ is
+in $A$ and $x$ is in $B_j$ for some $j \in I$. So $x$ is in $A \cap
+B_j$, and hence in $\bigcup_{i \in I} (A \cap B_i)$.
+
+Conversely, suppose $x$ is in $\bigcup_{i \in I} (A \cap B_i)$. Then,
+for some $j$ in $I$, $x$ is in $A \cap B_j$. Hence $x$ is in $A$, and
+since $x$ is in $B_j$, it is in $\bigcup_{i \in I} B_i$. Hence $x$ is
+in $A \cap \bigcup_{i \in I} B_i$, as required.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
 
 ** Cartesian Product and Power Set
 
@@ -595,10 +625,10 @@ The following theorem shows that this definition is reasonable.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem*. Using the definition of ordered pairs above, we have $(a,
+*Theorem.* Using the definition of ordered pairs above, we have $(a,
 b) = (c, d)$ if and only if $a = c$ and $b = d$.
 
-*Proof*.  If $a = c$ and $b = d$ then clearly $(a, b) = (c, d)$.  For
+*Proof.*  If $a = c$ and $b = d$ then clearly $(a, b) = (c, d)$.  For
 the other direction, suppose that $(a, b) = (c, d)$, which means
 \begin{equation*}
 \underbrace{\{\{a\}, \{a, b\}\}}_L = \underbrace{\{\{c\}, \{c, d\}\}}_R.

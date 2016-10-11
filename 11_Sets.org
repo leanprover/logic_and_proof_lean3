@@ -124,7 +124,7 @@ properties of the basic sets and constructors as follows:
 The assertion that $A$ is a subset of $B$ can be written $\fa x (x \in
 A \to x \in B)$, and the assertion that $A$ is equal to be can be
 written $\fa x (x \in A \liff x \in B)$. These are all
-\emph{universal} statements, that is, statements with universal
+/universal/ statements, that is, statements with universal
 quantifiers in front, followed by basic assertions and propositional
 connectives. What this means is that reasoning about sets formally
 often amounts to using nothing more than the rules for the universal
@@ -533,7 +533,7 @@ We can also form the /intersection/ of a family of sets:
 \bigcap_{i \in I} A_i = \{ x \st x \in A_i \text{ for every $i \in I$} \}
 \end{equation*}
 So an element $x$ is in $\bigcup_{i \in I} A_i$ if and only
-if $x$ is in $A_i$ for \emph{some} $i$ in $I$, and $x$ is in
+if $x$ is in $A_i$ for /some/ $i$ in $I$, and $x$ is in
 $\bigcap_{i \in I} A_i$ if and only if $x$ is in $A_i$ for every $i$
 in $I$. These operations are represented in symbolic logic by the existential
 and the universal quantifiers. We have:
@@ -690,7 +690,7 @@ U)$.
 2. Prove the following theorem: Let $A$ and $B$ be sets of elements of
    some domain. Then $\overline{A \setminus B} = \overline{A} \cup B$.
 
-3. Two sets $A$ and $B$ are said to be \emph{disjoint} if they have no
+3. Two sets $A$ and $B$ are said to be /disjoint/ if they have no
    element in common. Show that if $A$ and $B$ are disjoint, $C
    \subseteq A$, and $D \subseteq B$, then $C$ and $D$ are disjoint.
 

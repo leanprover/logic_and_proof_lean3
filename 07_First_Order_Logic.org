@@ -585,8 +585,10 @@ that these two expressions are equivalent.
    By the way, we do not know whether the last two statements are
    true. They are open questions.
 
-2. Using a language with variables ranging over people and suitable
-   predicates, write down first-order sentences asserting the
+2. Using a language with variables ranging over people, and predicates
+   $\mathit{trusts}(x,y)$, $\mathit{politician}(x)$,
+   $\mathit{knows}(x, y)$, and $\mathit{related{\dash}to}(x, y)$, and
+   $\mathit{rich}(x)$, write down first-order sentences asserting the
    following:
 
    - Nobody trusts a politician.

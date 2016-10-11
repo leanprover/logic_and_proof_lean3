@@ -211,14 +211,15 @@ In symbolic logic, we could formalize these statements as follows:
 Using the existential quantifier, we could render the second statement
 more faithfully as follows:
 - $\neg \ex x (x < 0)$
-In the next chapter, we will see that this sentence is equivalent to
-the previous one.
+Notice that this more faithful statement is equivalent to the original,
+using deMorgan's laws for quantifiers.
 
 Are the two statements above equivalent? Say an element $y$ is /minimum/
 for a partial order if it is less than or equal to any other element;
-this is, if it satisfies the first definition. Say that an element $y$
-is /minimal/ for a partial order if no element is less than it; that
-is, if it satisfies the second definition. Two facts are immediate.
+this is, if it takes the place of 0 in the first statement. Say that an
+element $y$ is /minimal/ for a partial order if no element is less than it;
+that is, if it takes the place of 0 in the second statement. 
+Two facts are immediate.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule

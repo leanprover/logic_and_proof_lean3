@@ -138,7 +138,7 @@ The following fact is not at all obvious, even though the proof is short:
 *Proposition.* Suppose $f : X \to Y$ has a left inverse,
 $h$, and a right inverse $k$. Then $h = k$.
 
-*Proof.* Let $y$ be any element in $B$. The idea is to compute
+*Proof.* Let $y$ be any element in $Y$. The idea is to compute
 $h(f(k(y))$ in two different ways. Since $h$ is a left inverse to $f$,
 we ahve $h(f(k(y))) = k(y)$. On the other hand, since $k$ is a right
 inverse to $f$, $f(k(y)) = y$, and so $h(f(k(y)) = h(y)$. So $k(y) =

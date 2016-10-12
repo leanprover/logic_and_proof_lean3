@@ -115,9 +115,9 @@ f(i_X(x)) = f(x)$, and $(i_Y \circ f)(x) = i_Y(f(x)) = x$.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-Suppose $f : X \to B$ and $g : Y \to A$ satisfy $g \circ f =
-i_A$. Remember that this means that $g(f(x)) = x$ for every $x$ in
-$A$. In that case, $g$ is said to be a /left inverse/ to $f$, and $f$
+Suppose $f : X \to Y$ and $g : Y \to X$ satisfy $g \circ f =
+i_X$. Remember that this means that $g(f(x)) = x$ for every $x$ in
+$X$. In that case, $g$ is said to be a /left inverse/ to $f$, and $f$
 is said to be a /right inverse/ to $g$. Here are some examples:
 - Define $f, g : \RR \to \RR$ by $f(x) = x + 1$ and $g(x) = x -
   1$. Then $g$ is both a left and a right inverse to $f$, and vice-versa.

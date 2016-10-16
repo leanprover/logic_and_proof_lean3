@@ -4,6 +4,711 @@
 * Combinatorics
 :PROPERTIES:
   :CUSTOM_ID: Combinatorics
-:END:      
+:END:
+
+Combinatorics is the art of counting without counting. It is a
+fundamental mathematical task to determine how many things there are
+in a given collection, and when the collection is large, it can be
+tedious or infeasible to count the elements individually. Moreover,
+when the collection is described in terms of a changing parameter
+(say, a natural number, $n$), we would like a formula that tells us
+how the number of objects depends on that parameter. In this chapter
+we will set up a foundation for achieving this goal, and learn some of
+the tricks of the trade.
 
 ** Finite Sets and Cardinality
+
+It will be helpful, for every natural number $n$, to have a canonical
+set of elements of size $n$. To that end, we will choose the set
+\begin{equation*}
+[n] = \{ m \mid m < n \} = \{ 0, 1, \ldots, n-1 \}.
+\end{equation*}
+We used the same notation, $[n]$, to describe equivalence classes with
+respect to an equivalence relation, but hopefully our intended meaning
+will always be clear from the context.
+
+A set $A$ of elements is said to be /finite/ if there is a bijection
+from $A$ to $[n]$ for some $n$. In that case, we would like to say
+that $A$ /has $n$ elements/, or that the set $A$ /has cardinality/
+$n$, and write $|A| = n$. But to do so, we need to know that when $A$
+is finite, there is a /unique/ $n$ with the property above, justifying
+the use of the term "the."
+
+Suppose there are bijections from $A$ to $[m]$ and $[n]$. Composing
+the inverse of the first bijection with the second, we get a bijection
+from $[m]$ to $[n]$. It seems intuitively clear that this implies $m =
+n$, but our goal is to prove this from the fundamental properties of
+sets, functions, and the natural numbers.
+
+So suppose, for the sake of contradiction, $m \neq n$. Without loss of
+generality, we can assume $m > n$ (why?). In particular, there is an
+injective function $f$ from $[m]$ to $[n]$. Since $m > n$, $m \geq n+1$,
+and so we can restrict $f$ to get an injective function from $[n+1]$
+to $[n]$. The next theorem shows that this cannot happen.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* For any natural number $n$, there is no injective function
+from $[n+1]$ to $[n]$.
+
+*Proof.* By induction on $n$. The theorem is clear when $n = 0$,
+because $[1] = \{ 0 \}$ and $[0] = \emptyset$. If $f$ were an
+injective function from $[1]$ to $[0]$, we would have $f(0) \in
+\emptyset$, which is impossible.
+
+So suppose the claim is true for $n$, and suppose $f$ is an injective
+function from $[n+2]$ to $[n+1]$. We consider two cases.
+
+In the first case, suppose $n$ is not in the image of $f$. Then $f$
+maps $[n+2]$ to $[n]$, and restricting the domain, we have an
+injective function from $[n+1]$ to $[n]$, contradicting the inductive
+hypothesis.
+
+In the second case, there is some $m < n + 1$ such that $f(m) =
+n$. The idea is to alter $f$ slightly to get an injective function
+from $[n+1]$ to $[n]$, again contradicting the inductive
+hypothesis. If $m = n + 1$, which is to say it is the last element of
+$[n+2]$ that it mapped to the last element of $[n+1]$, we can just
+restrict $f$ to $[n+1]$. The fact that $f$ was injective implies that
+all the elements in $[n+1]$ are mapped to $n$.
+
+Otherwise, define $f' : [n+1] \to [n]$ by
+\begin{equation*}
+f'(i) =
+  \begin{cases}
+    f(i) & \mbox{if $i \neq m$} \\
+    f(n+1) & \mbox{if $i = m$.}
+  \end{cases}
+\end{equation*}
+In other words, we map $m$ to the value that $n+1$ was mapped
+to. Since $f$ is injective, $f(n+1) \neq f(m)$, and so $f(n+1) < n$,
+as required. It is not hard to check that $f'$ is injective, so we
+have the contradiction we were after.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+This theorem is known as the "pigeonhole principle." It implies that
+if $n + 1$ pigeons inhabit $n$ holes, then at least one hole has more
+than one pigeon. The principle implies that for every finite set $A$,
+there is a unique $n$ such that there is a bijection from $[n]$ to
+$A$, and we can define the cardinality of $A$ to be that $n$.
+
+** Counting Principles
+:PROPERTIES:
+  :CUSTOM_ID: Counting_Principles
+:END:
+
+Here is a basic counting principle.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Let $A$ and $B$ be disjoint finite sets. Then $| A \cup B |
+= | A | + | B |$.
+
+*Proof.* Suppose $f : [m] \to A$ and $g : [n] \to B$ are
+bijections. Define $h : m + n \to A \cup B$ by
+\begin{equation*}
+h(i) =
+  \begin{cases}
+    f(i) & \mbox{if $i < m$} \\
+    g(i - m) & \mbox{if $m \leq i < m + n$}    
+  \end{cases}
+\end{equation*}
+To see that $h$ is surjective, note that every $k$ in $A \cup B$ can
+be written as either $k = f(i)$ for some $i \in [m]$ or $k = g(j)$ for
+some $j \in [n]$. In the first case, $k = f(i) = h(i)$, and in the
+second case, $k = g(j) = h(m + h)$.
+
+It is not hard to show that $h$ is also injective. Suppose $h(i) =
+h(j)$. If $h(i)$ is in $A$, then it is not in the range of $g$, and so
+we must have $h(i) = f(i)$ and $h(j) = f(j)$. Then $f(i) = f(j)$, the
+injectivity of $f$ implies that $i = j$. If $h(i)$ is instead in $B$,
+the argument it similar.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+The proof only spells out our basic intuitions: if you want to list
+all of the elements of $A \cup B$, you can list all the elements of
+$A$ and then all the elements of $B$. And if $A$ and $B$ have no
+elements in common, then to count the elements of $A \cup B$, you can
+count the elements of $A$ and then continue counting the elements of
+$B$. Once you are comfortable translating the intuitive argument into a
+precise mathematical proof (and mathematicians generally are), you can
+use the more intuitive descriptions (and mathematicians generally do).
+
+Here is another basic counting principle:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Let $A$ and $B$ be finite sets. Then $| A \times B | = |
+A | \cdot | B |$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Notice that this time we are counting the number of ordered pairs $(a,
+b)$ with $a \in A$ and $b \in B$. The exercises ask you to give a
+detailed proof of this theorem. There are at least two ways to go
+about it. The first is to start with bijections $f : [m] \to A$ and
+$g : [n] \to B$ and describe an explicit bijection $h : [m \cdot n]
+\to A \times B$. The second is to fix $m$, say, and use induction on
+$n$ and the previous counting principle. Notice that if $U$ and $V$
+are any sets and $w$ is not in $V$, we have
+\begin{equation*}
+U \times (V \cup \{ w \}) = (U \times V) \cup (U \times \{w\}),
+\end{equation*}
+and the two sets in this union are disjoint.
+
+Just as we have notions of union $\bigcup_{i\in I} A_i$ and
+intersection $\bigcap_{i \in I} A_i$ for indexed families of sets, it
+is useful to have a notion of a product $\prod_{i \in I} A_i$. We can
+think of an element $a$ of this product as a function which, for each
+element $i \in I$, returns an element $a_i \in A_i$. For example, when
+$I = \{1, 2, 3\}$, an element of $\prod_{i \in I} A_i$ is just a
+triple $a_1, a_2, a_3$ with $a_1 \in A_1$, $a_2 \in A_2$, and $a_3 \in
+A_3$. This is essentially the same as $A_1 \times A_2 \times A_3$, up
+to the fiddly details as to whether we represent a triple as a
+function or with iterated pairing $(a_1, (a_2, a_3))$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Let $I$ be a finite index set, and let $(A_i)_{i \in I}$ be
+a family of finite sets. Then:
+- If each pair of sets $A_i$, $A_j$ are disjoint, then $|\bigcup_{i \in
+  I} A_i| = \sum_{i \in I} | A_i |$.
+- $| \prod_{i \in I} A_i | = \prod_{i \in I} | A_i |$.
+
+*Proof.* By induction on $|I|$, using the previous counting principles.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+We can already use these principles to carry out basic calculations.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Example.* The dessert menu at a restaurant has four flavors of ice
+cream, two kinds of cake, and three kinds of pie. How many dessert
+choices are there?
+
+*Solution.* $4 + 2 + 3 = 9$, the cardinality of the union of the three
+disjoint sets.
+
+*Example.* The menu at a diner has 6 choices of appetizers, 7 choices
+of entrée, and 5 choices of dessert. How many choices of three-course
+dinners are there?
+
+*Solution.* A three-course dinner is a triple consisting of an
+appetizer, an entrée, and a dessert. There are therefore $6 \cdot 7
+\cdot 5 = 210$ options.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+A special case of the previous counting principles arises when all the
+sets have the same size. If $I$ has cardinality $k$ and each $A_i$ has
+cardinality $n$, then the cardinality of $\bigcup_{i \in I} A_i$ is $k
+\cdot n$ if the sets are pairwise disjoint, and the cardinality of
+$\prod_{i \in I} A_i$ is $n^k$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Example.* A deck of playing cards has four suits (diamonds, hearts,
+spades, and clubs) and 13 cards in each suit, for a total of $4 \cdot
+13 = 52$.
+
+*Example.* A binary string of length $n$ is a sequence of $n$ many
+0's and 1's. We can think of this as an element of 
+\begin{equation*}
+\{0, 1\}^n = \prod_{i < n} \{0, 1\},
+\end{equation*}
+so there are $2^n$ many binary strings of length $n$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+There is another counting principle that is almost too obvious to
+mention: if $A$ is a finite set and there is a bijection between $A$
+and $B$, then $B$ is also finite, and $|A| = |B|$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Example.* Consider the power set of $[n]$, that is, the collection of
+all subsets of $\{0, 1, 2, \ldots, n-1\}$. There is a one-to-one
+correspondence between subsets and binary strings of length $n$, where
+element $i$ of the string is $1$ if $i$ is in the set and $0$
+otherwise. As a result, we have $| \mathcal P (A) | = 2^n$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+** Ordered Selections
+
+Let $S$ be a finite set, which we will think of as being a set of
+options, such as items on a menu or books that can be selected from a
+shelf. We now turn to a family of problems in combinatorics that involves
+making repeated selections from that set of options. In each case,
+there are finitely many selections, and the order counts: there is a
+first choice, a second one, a third one, and so on.
+
+In the first variant of the problem, you are allowed to repeat a
+choice. For example, if you are choosing 3 flavors from a list of 31
+ice cream flavors, you can choose "chocolate, vanilla, chocolate."
+This is known as /ordered selection with repetition/. If you are
+making $k$ choices from among $n$ options in $S$, such a slection is
+essentially a tuple $(a_0, a_1, \ldots, a_{k-1})$, where each $a_i$ is
+one of the $n$ elements in $S$. In other words, the set of ways of
+making $k$ selections from $S$ with repetition is the set $S^k$, and
+we have seen in the last section that if $S$ has cardinality $n$, the
+set $S^k$ has cardinality $n^k$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Let $S$ set of $n$ elements. Then the number of ways of making
+$k$ selections from $S$ with repetition allowed is $n^k$.
+
+*Example.* How many three-letter strings (like "xyz," "qqa," ...) can
+be formed using the twenty-six letters of the alphabet?
+
+*Solution.* We have to make three selections from a set of 26
+elements, for a total of $26^3 = 17,576$ possibilities.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Suppose instead we wish to make $k$ ordered selections, but we are not
+allowed to repeat ourselves. This would arise, from example, if a
+museum had 26 paintings in its storeroom, and has to select three of
+them to put on display, ordered from left to right along a wall. There
+are 26 choices for the first position. Once we have made that choice,
+25 remain for the second position, and then 24 remain for the
+third. So it seems clear that there are $26 \cdot 25 \cdot 24$
+arrangements overall.
+
+Let us try to frame the problem in mathematical terms. We can think of
+an ordered selection of $k$ elements from a set $S$ without repetition
+as being an /injective function/ $f$ from $[k]$ to $S$. The element
+$f(0)$ is the first choice; $f(1)$ is the second choice, which has to
+be distinct from $f(0)$; $f(2)$ is the third choice, which has to be
+distinct from $f(0)$ and $f(1)$; and so on.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Let $A$ and $B$ be finite sets, with $|A| = k$ and $|B| =
+n$, and $k \le n$, The number of injective functions from $A$
+to $B$ is $n \cdot (n - 1) \cdot \ldots \cdot (n - k + 1)$.
+
+*Proof.* Using induction on $k$, we will show that for every $A$, $B$,
+and $n \geq k$, the claim holds. When $k = 0$ and there is only one
+injective function, namely the function with empty domain. Suppose $A$
+has cardinality $k + 1$, let $a_0$ be any element of $A$. Then any
+injective function from $A$ to $B$ can be obtained by choosing an
+element $b_0$ for the image of $a_0$, and then choosing an injective
+function from $A \setminus \{ a_0 \}$ to $B \setminus \{ b_0
+\}$. There are $n$ choices of $b_0$, and since $| A \setminus \{ a_0
+\} | = n - 1$ and $|B \setminus \{ b_0 \} | = k - 1$, there are
+$(n - 1) \cdot \ldots \cdot (n - k + 1)$ choices of the injective
+function, by the inductive hypothesis.
+
+*Theorem.* Let $S$ be a finite set, with $|S| = n$. Then the number of
+ways of making $k$ selections from $S$ without repetition allowed is
+$n \cdot (n - 1) \cdot \ldots \cdot (n - k + 1)$.
+
+*Proof.* This is just a restatement of the previous theorem, where $A
+= [k]$ and $B = S$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+If $A$ is a finite set, a bijection $f$ from $S$ to $S$ is also called
+a /permutation/ of $S$. The previous theorem shows that if $|S| = n$
+then the number of permutations of $A$ is $n \cdot (n - 1) \cdot
+\ldots \cdot 1$. This quantity comes up so often that it has a name,
+$n$ /factorial/, and a special notation, $n!$. If we think of the
+elements of $S$ listed in some order, a permutation of $S$ is
+essentially an ordered selection of $n$ elements from $S$ without
+repetition: we choose where to map the first element, then the second
+element, and so on. It is a useful convention to take $0!$ to be equal
+to $1$.
+
+The more general case where we are choosing only $k$ elements from a
+set $S$ is called a \(k\)-permutation of $S$. The theorem above says
+that the number of \(k\)-permutations of an \(n\)-element set is equal to
+$n! / (n - k)!$, because if you expand the numerator and denominator
+into products and cancel, you get exactly the $n \cdot (n - 1) \cdot
+\ldots \cdot (n - k + 1)$. This number is often denoted $P(n, k)$ or
+$P^n_k$, or some similar variant. So we have $P(n, k) = n! / (n -
+k)!$. Notice that the expression on the right side of the equality
+provides an efficient way of writing the value of $P(n, k)$, but an
+inefficient way of calculating it.
+
+** Combinations and Binomial Coefficients
+:PROPERTIES:
+  :CUSTOM_ID: Combinations_and_Binomial_Coefficients
+:END:
+
+
+In the last section, we calculated the number of ways in which a
+museum could arrange three paintings along a wall, chosen from among
+26 paintings in its storeroom. By the final observation in the
+previous section, we can write this number as $26! / 23!$.
+
+Suppose now we want to calculate the number of ways that a museum can
+choose three paintings from its storeroom to put on display, where we
+do not care about the order. In other words, if $a$, $b$, and $c$ are
+paintings, we do not want to distinguish between choosing $a$ then $b$
+then $c$ and choosing $c$ then $b$ then $a$. When we were arranging
+paintings along all wall, it made sense to consider these two
+different arrangements, but if we only care about the /set/ of
+elements we end up with at the end, the order that we choose them does
+not matter. 
+
+The problem is that each set of three paintings will be counted
+multiple times. In fact, each one will be counted six times: there are
+$3! = 6$ permutations of the set $\{a, b, c\}$, for example. So to
+count the number of outcomes we simply need to divide by 6. In other
+words, the number we want is $\frac{26!}{3! \cdot 23!}$.
+
+There is nothing special about the numbers $26$ and $3$. The same
+formula holds for what we will call /unordered selections of $k$
+elements from a set of $n$ elements/, or /$k$-combinations from an
+$n$-element set/. Our goal is once again to describe the situation in
+precise mathematical terms, at which point we will be able to state
+the formula as a theorem.
+
+In fact, describing the situation in more mathematical terms is quite
+easy to do. If $S$ is a set of $n$ elements, an unordered selection of
+$k$ elements from $S$ is just a subset of $S$ that has cardinality $k$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* Let $S$ be any set with cardinality $n$, and let $k \leq
+n$. Then the number of subsets of $S$ of cardinality $k$ is
+$\frac{n!}{k!(n-k)!}$.
+
+*Proof.* Let $U$ be the set of unordered selections of $k$ elements
+from $S$, let $V$ be the set of permutations of $[k]$, and let $W$ be the set of
+/ordered/ selections of $k$ elements from $S$. There is a bijection
+between $U \times V$ and $W$: given any $k$-element subset $\{ a_0, \ldots,
+a_{k-1} \}$ of $S$, each permutation gives a different ordered
+selection.
+
+By the counting principles, we have
+\begin{equation*}
+P(n, k) = |W| = |U \times V| = |U| \cdot |V| = |U| \cdot k!,
+\end{equation*}
+so we have $|U| = P(n,k) / k! = \frac{n!}{k!(n-k)!}$.
+
+*Example.* Someone is going on vacation and wants to choose three
+outfits from ten in their closet to pack in their suitcase. How many
+choices do they have?
+
+*Solution.* $\frac{10!}{3! 7!} = \frac{10 \cdot 9 \cdot 8}{3 \cdot 2
+\cdot 1} = 120$. 
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+The number of unordered selections of $k$ elements from a set of size
+$n$, or, equivalently, the number of \(k\)-combinations from an
+\(n\)-element set, is typically denoted by $\binom{n}{k}$, $C(n, k)$,
+$C^n_k$, or something similar. We will use the first notation, because
+it is most common. Notice that $\binom{n}0 = 1$ for every $n$; this
+makes sense, because there is exactly one subset of any $n$-element
+set of cardinality $0$.
+
+Here is one important property of this function.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* For every $n$ and $k \leq n$, we have $\binom{n}{k} =
+\binom{n}{n - k}$.
+
+*Proof.* This is an easy calculation:
+\begin{equation*}
+\frac{n!}{(n - k)! (n - (n - k))!} = \frac{n!}{(n - k)! k!}.
+\end{equation*}
+But it is also easy to see from the combinatorial interpretation:
+choosing $k$ outfits from $n$ to take on vacation is the same task as
+choosing $n - k$ outfits to leave home.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Here is another important property.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* For every $n$ and $k$, if $k + 1 \leq n$, then
+\begin{equation*}
+\binom{n+1}{k+1} = \binom{n}{k+1} + \binom{n}{k}.
+\end{equation*}
+
+*Proof.* One way to understand this theorem is in terms of the 
+combinatorial interpretation. Suppose you want to choose $k+1$ outfits
+out of $n + 1$. Set aside one outfit, say, the blue one. Then you have two
+choices: you can either choose $k+1$ outfits from the remaining ones,
+with $\binom{n}{k+1}$ possibilities; or you can take the blue one, and
+choose $k$ outfits from the remaining ones.
+
+The theorem can also be proved by direct calculation. We can express
+the left-hand side of the equation as follows:
+\begin{align*}
+\binom{n+1}{k+1} & = \frac{(n + 1)!}{(k+1)!((n+1)-(k+1))!} \\
+& = \frac{(n + 1)!}{(k+1)!(n - k)!}
+\end{align*}
+Similarly, we can simplify the right-hand side:
+\begin{align*}
+\binom{n}{k+1} + \binom{n}{k} & = \frac{n!}{(k+1)!(n-(k+1))!} + \frac{n!}{k!(n-k)!} \\
+& = \frac{n!(n-k)}{(k+1)!(n-k-1)!(n-k)} + \frac{(k+1)n!}{(k+1)k!(n-k)!} \\
+& = \frac{n!(n-k)}{(k+1)!(n-k)!} + \frac{(k+1)n!}{(k+1)!(n-k)!} \\
+& = \frac{n!(n-k + k + 1)}{(k+1)!(n-k)!} \\
+& = \frac{n!(n + 1)}{(k+1)!(n-k)!} \\
+& = \frac{(n + 1)!}{(k+1)!(n-k)!}
+\end{align*}
+Thus the left-hand side and the right-hand side are equal.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+For every $n$, we know $\binom{n}{0} = \binom{n}{n} = 1$. The previous
+theorem then gives a recipe to compute all the binomial coefficients:
+once we have determine $\binom{n}{k}$ for some $n$ and every $k \leq
+n$, we can determine the values of $\binom{n+1}{k}$ for every $k \leq
+n + 1$ using the recipe above. The results can be displayed
+graphically in what is known as /Pascal's triangle/:
+
+# Thanks to http://www.bedroomlan.org/coding/pascals-triangle-latex 
+# for the typesetting
+\begin{center}
+\begin{tabular}{rccccccccc}
+    &    &    &  1\\\noalign{\smallskip\smallskip}
+    &    &    &  1 &    &  1\\\noalign{\smallskip\smallskip}
+    &    &  1 &    &  2 &    &  1\\\noalign{\smallskip\smallskip}
+    &  1 &    &  3 &    &  3 &    &  1\\\noalign{\smallskip\smallskip}
+  1 &    &  4 &    &  6 &    &  4 &    &  1\\\noalign{\smallskip\smallskip}
+\end{tabular}
+\end{center}
+Specifically, if we start counting at $0$, the \(k\)th element of the
+\(n\)th row is equal to $\binom{n}{k}$.
+
+There is also a connection between $\binom{n}{k}$ and the
+polynomials $(a + b)^n$, namely, that the \(k\)th coefficient of $(a +
+b)^n$ is exactly $\binom{n}{k}$. For example, we have
+\begin{equation*}
+(a + b)^4 = a^4 + 4 a^3 b + 6 a^2 b^2 + 4 a b^3 + b^4.
+\end{equation*}
+For that reason, the values $\binom{n}{k}$ are often called /binomial
+coefficients/, and the statement that
+\begin{equation*}
+(a + b)^n = \sum_{k \le n} \binom{n}{k} a^{n-k} b^k
+\end{equation*}
+is known as the /binomial theorem/.
+
+There are a couple of ways of seeing why this theorem holds. One
+is to expand the polynomial, 
+\begin{equation*}
+(a + b)^n = (a + b) (a + b) \cdots (a + b)
+\end{equation*}
+and notice that the coefficient of the term $a^{n-k} b^k$ is equal to
+the number of ways of taking the summand $b$ in exactly $k$ positions,
+and $a$ in the remaining $n - k$ positions. Another way to prove the
+result is to use induction on $n$, and use the identity
+$\binom{n+1}{k+1} = \binom{n}{k+1} + \binom{n}{k}$. The details are
+left as an exercise.
+
+Finally, we have considered ordered selections with and without
+repetitions, and unordered selections without repetitions. What about
+unordered selections with repetitions? In other words, given a set
+$S$ with $n$ elements, we would like to know how many ways there are
+of making $k$ choices, where we can choose elements of $S$ repeatedly,
+but we only care about the number of times each element was chosen,
+and not the order. We have the following:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+The number of unordered selections of $k$ elements from an \(n\)-element
+set, with repetition, is $\binom{n + k - 1}{k}$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+A proof of this is outlined in the exercises.
+
+
+** The Inclusion-Exclusion Principle
+
+Let $A$ and $B$ be any two subsets of some domain, $U$. Then $A = A
+\setminus B \cup (A \cap B)$, and the two sets in the union are
+disjoint, so we have $|A| = |A \setminus B| + |A \cap B|$. This means $|A
+\setminus B| = |A| - |A \cap B|$. Intuitively, this makes sense: we
+can count the elements of $A \setminus B$ by counting the elements in
+$A$, and then subtracting the number of elements that are in both $A$
+and $B$.
+
+Similarly, we have $A \cup B = A \cup (B \setminus A)$, and the two
+sets on the right-hand side of this equation are disjoint, so we have
+\begin{equation*}
+  |A \cup B| = |A| + |B \setminus A| = |A| + |B| - |A \cap B|.
+\end{equation*}
+If we draw a Venn diagram, this makes sense: to count the elements in
+$A \cup B$, we can add the number of elements in $A$ to the number of
+elements in $B$, but then we have to subtract the number of elements
+of both.
+
+What happen when there are three sets? To compute $|A \cup B \cup C|$,
+we can start by adding the number of elements in each, and then
+subtracting the number of elements of $| A \cap B |$, $|A \cap C|$,
+and $|B \cap C|$, each of which have been double-counted. But thinking
+about the Venn diagram should help us realize that then we have
+over-corrected: each element of $A \cap B \cap C$ was counted three
+times in the original sum, and the subtracted three times. So we need
+to add them back in:
+\begin{equation*}
+  | A \cup B \cup C | = | A | + | B | + | C | - 
+    | A \cap B | - | A \cap C | - | B \cap C | + | A \cap B \cap C |. 
+\end{equation*}
+
+This generalizes to any number of sets. To state the general result, suppose
+the sets are numbered $A_0, \ldots, A_{n-1}$. For each nonempty subset
+$I$ of $\{0, \ldots, n-1 \}$, consider $\bigcap_{i \in I} A_i$. If
+$|I|$ is odd (that is, equal to 1, 3, 5, \ldots) we want to add the
+cardinality of the intersection; if it is even we want to subtract it. This
+recipe is expressed compactly by the following formula:
+\begin{equation*}
+\left| \bigcup_{i < n} A_i \right| = 
+  \sum_{\emptyset \ne I \subseteq [n]} 
+    (-1)^{|I|} \left| \bigcap_{i \in I} A_i \right| 
+\end{equation*}
+You are invited to try proving this as an exercise, if you are
+ambitious. The following example illustrates its use:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Example.* Among a group of college Freshmen, 30 are taking Logic, 25
+are taking History, and 20 are taking French. Moreover, 11 are taking
+Logic and History, 10 are taking Logic and French, 7 are taking
+History and French, and 3 are taking all three. How many students are
+taking at least one of the three classes?
+
+*Solution.* Letting $L$, $H$, and $F$ denote the sets of students
+ taking Logic, History, and French, respectively, we have
+\begin{equation*}
+| L \cup H \cup F | = 30 + 25 + 20 - 11 - 10 - 7 + 3 = 50. 
+\end{equation*}
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+** Exercises
+
+1.  Suppose that, at a party, every two people either know each other
+    or don't. In other words, "$x$ knows $y$" is symmetric. Also, let
+    us ignore the complex question of whether we always know ourselves
+    by restricting attention to the relation between distinct people;
+    in other words, for this problem, take "$x$ knows $y$" to be
+    antisymmetric as well.
+
+    Use the pigeonhole principle (and an additional insight) to show
+    that there must be two people who know exactly the same number of
+    people.
+
+2.  Show that in any set of $n + 1$ integers, two of them are
+    equivalent modulo $n$.
+ 
+3.  Spell out in detail a proof of the second counting principle in
+    [[#Counting_Principles][Section 21.1]].
+
+4.  An ice cream parlor has 31 flavors of ice cream.
+
+    a. Determine how many three-flavor ice-cream cones are possible, if
+       we care about the order and repetitions are allowed. (So
+       choosing chocolate-chocolate-vanilla scoops, from bottom to top, 
+       is different from choosing chocolate-vanilla-chocolate.)
+
+    b. Determine how many three flavor ice-cream cones are possible, if
+       we care about the order, but repetitions are not allowed. 
+
+    c. Determine how many three flavor ice-cream cones are possible, 
+       if we don't care about the order, but repetitions are not
+       allowed.
+
+5.  A club of 10 people has to elect a president, vice president, and
+    secretary. How many possibilities are there:
+
+    a. if no person can hold more than one office?
+
+    b. if anyone can hold any number of those offices? 
+
+    c. if anyone can hold up to two offices?
+
+    d. if the president cannot hold another office, but
+       the vice president and secretary may or may not be the same
+       person?
+ 
+6.  How many 7 digit phone numbers are there, if any 7 digits can be
+    used? How many are there is the first digit cannot be 0?
+
+7.  In a class of 20 kindergarten students, two are twins. How many
+    ways are there of lining up the students, so that the twins are
+    standing together?
+
+8.  A woman has 8 murder mysteries sitting on her shelf, and wants to
+    take three of them on a vacation. How many ways can she do this?
+
+9.  In poker, a "full house" is a hand with three of one rank and two
+    of another (for example, three kings and two fives). Determine the
+    number of full houses in poker.
+
+10. We saw in [[#Combinations_and_Binomial_Coefficients][Section 21.4]] that
+    \begin{equation*} 
+      \binom{n+1}{k+1} = \binom{n}{k+1} + \binom{n}{k}.
+    \end{equation*}
+    Replacing $k + 1$ by $k$, whenever $1 \leq k \leq n$, we have
+    \begin{equation*}
+      \binom{n+1}{k} = \binom{n}{k} + \binom{n}{k-1}.
+    \end{equation*}
+    Use this to show, by induction on $n$, that for every $k \leq n$,
+    that if $S$ is any set of $n$ elements, $\binom{n}{k}$ is the number
+   of subsets of $S$ with $k$ elements.
+
+11. How many distinct arrangments are there of the letters in the word
+    MISSISSIPPI?
+
+    (Hint: this is tricky. First, suppose all the S's, I's, and P's
+    were painted different colors. Then determine how many distinct
+    arrangements of the letters there would be. In the absence of
+    distinguishing colors, determine how many times each configuration
+    appeared in the first count, and divide by that number.
+
+12. Prove the inclusion exclusion principle.
+
+13. Use the inclusion exclusion principle to determine the number of
+    integers less than 100 that are divisible by 2, 3, or 5.
+
+14. Show that the number of /unordered/ selections of $k$ elements
+    from an \(n\)-element set is $\binom{n + k - 1}{k}$.
+
+    Hint: consider $[n]$. We need to choose some number $i_0$ of 0's,
+    some number $i_1$ of 1's, and so on, so that $i_0 + i_1 +
+    \ldots + i_{n-1} = k$. Suppose we assign to each such tuple a
+    the following binary sequence: we write down $i_0$ 0's, then a 1,
+    then $i_1$ $0's$, then a 1, then $i_2$ 0's, and so on. The result
+    is a binary sequence of length $n + k - 1$ with exactly $k$ 1's,
+    and such binary sequence arises from a unique tuple in this way.

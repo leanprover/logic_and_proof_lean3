@@ -17,7 +17,7 @@ In the special case where the outcomes are equally likely, we reduce
 to combinatorics. Examples: cards, dice.
 
 
-** Expecation and Conditional Probability
+** Expectation and Conditional Probability
 
 Define, again in the finite case, and give some examples.
 

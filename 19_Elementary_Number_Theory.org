@@ -6,18 +6,18 @@
   :CUSTOM_ID: Elementary_Number_Theory
 :END:
 
-In the last two chapters, we say that the natural numbers are
+In the last two chapters, we saw that the natural numbers are
 characterized by the fact that they suport /proof by induction/ and
 /definition by recursion/. Moreover, with these components, we can
 actually define $+$, $\times$, and $<$ in a suitable axiomatic
 foundation, and prove that they have the relevant properties. In
 [[file:17_The_Natural_Numbers_and_Induction.org::#The_Integers][Section 17.1]] we also discussed the integers, which include negative
-numbers and support the operation of substraction.
+numbers and support the operation of subtraction.
 
 The natural numbers and the integers are the central components of
 /number theory/, a branch of mathematics dating back to the
 ancients. In this chapter, we will discuss some of the rudiments of
-number theory.
+this subject.
 
 ** The Quotient-Remainder Theorem
 :PROPERTIES:
@@ -33,19 +33,20 @@ quotient-remainder theorem:
 *Theorem.* Let $n$ and $m$ be integers with $m > 0$. Then there
 are integers $q$ and $r$ satisfying $n = m q + r$ and $0 \le r < m$.
 
-*Proof.* First we prove this if $n$ is a natural number, in which case
-we prove it by complete induction on $n$. Let $n$ be any natural
-number. If $n < m$, then we can take $q = 0$ and $r = n$, and we
-indeed have $n = m q + r$ and $0 \le r < m$. Otherwise, we have $n \geq
-m$. In this case $n - m$ is a natural number smaller than $n$. By
+*Proof.* First we prove this in the case where $n$ is a natural
+number, in which case use complete induction on $n$. Let $n$ be any
+natural number. If $n < m$, then we can take $q = 0$ and $r = n$, and
+we indeed have $n = m q + r$ and $0 \le r < m$. Otherwise, we have $n
+\geq m$. In this case $n - m$ is a natural number smaller than $n$. By
 induction hypothesis, we know that we can find $q'$ and $r'$ such that
-$n - m = m q' + r'$ and $0 \le r' < m$. Then we can choose $q = q' + 1$ and
-$r = r'$, and we obtain $n = m q + r$ and $0 \le r < m$, as desired.
+$n - m = m q' + r'$ and $0 \le r' < m$. Then we can choose $q = q' +
+1$ and $r = r'$, and we obtain $n = m q + r$ and $0 \le r < m$, as
+desired.
 
-If $n$ is negative, then $-(n+1)$ is a natural number, hence we can use
-the previous part for $-(n+1)$ to obtain $q'$ and $r'$ such that $-(n+1) = m q' +
-r'$ and $0 \le r' < m$. Now let $q = -(q' + 1)$ and $r = m - r' -
-1$. Then we can compute
+If $n$ is negative, then $-(n+1)$ is a natural number, hence we can
+use the previous part for $-(n+1)$ to obtain $q'$ and $r'$ such that
+$-(n+1) = m q' + r'$ and $0 \le r' < m$. Now let $q = -(q' + 1)$ and
+$r = m - r' - 1$. Then we can compute
 \begin{align*}
 m q + r &= -m (q' + 1) + m - r' - 1\\
 &=  -(m q' + r') - m + m - 1\\
@@ -59,10 +60,10 @@ Also, since $r' \geq 0$ we have $r < m$ and since $r' < m$ we have $r
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-Intuitively, $q$ is the integer /quotient/ when you divide $n$ by $m$, and
-$r$ is the /remainder/. Remember that using the word "the" presupposes
-that there are unique values meeting that description. That is, in
-fact, the case:
+Intuitively, $q$ is the integer /quotient/ when you divide $n$ by $m$
+and $r$ is the /remainder/. Remember that using the word "the"
+presupposes that there are unique values meeting that
+description. That is, in fact, the case:
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -145,7 +146,7 @@ partial order, on the natural numbers.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-Look at Exercise 1 for some basic properties about divisibility.
+See Exercise 1 for some basic properties of divisibility.
 
 An integer is /even/ if it is divisible by $2$, in other words,
 $n$ is even if $2 \mid n$. An integer is /odd/ if it's not
@@ -192,15 +193,15 @@ If $n = m = 0$, then we define $\gcd(0,0) = 0$.
 #+LATEX: \horizontalrule
 
 The greatest common divisor of two numbers is always a natural number,
-since 1 is always a common divisor of two numbers.  As an example,
-let's compute the greatest common divisor of 6 and 28. The positive
+since 1 is always a common divisor of two numbers.  As an example, let
+us compute the greatest common divisor of 6 and 28. The positive
 divisors of 6 are $\{1, 2, 3, 6\}$ and the positive divisors of 28 are
 $\{1, 2, 4, 7, 14, 28\}$. The largest number in both these sets is 2,
 which is the greatest common divisor of 6 and 28.
 
-However, computing the greatest common divisors of two numbers by
+However, computing the greatest common divisor of two numbers by
 listing all the divisors of both numbers is a lot of work, so we will
-now find a method to compute the greatest common divisor more
+now consider a method to compute the greatest common divisor more
 efficiently.
 
 #+HTML: <hr>
@@ -232,7 +233,7 @@ the absolute value of $n$.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-These two lemma's give us a quick way to compute the greatest common
+These two lemmas give us a quick way to compute the greatest common
 divisor of two numbers. This is called the /Euclidean
 Algorithm/. Suppose we want to compute $\gcd(a, b)$.
 
@@ -241,7 +242,7 @@ Algorithm/. Suppose we want to compute $\gcd(a, b)$.
   of $r_n$ when divided by $r_{n+1}$.
 - Once $r_n = 0$, we stop, and $\gcd(a, b) = |r_{n-1}|$.
 
-This works, because by the lemma's above, we have $\gcd(r_k,r_{k+1}) =
+This works, because by the lemmas above, we have $\gcd(r_k,r_{k+1}) =
 \gcd(r_{k+1}, r_{k+2})$, since $r_{k+2} = r_k - qr_{k+1}$ for some
 $q$. Hence if $r_n=0$ we have
 $\gcd(a,b)=\gcd(r_0,r_1)=\gcd(r_{n-1},r_n)=\gcd(r_{n-1},0)=|r_{n-1}|$
@@ -259,12 +260,12 @@ Hence $\gcd(1311,5757) = 57$. This is much quicker than computing all
 the divisors of both 1311 and 5757.
 
 Here is an important result about greatest common divisors. It is only
-called a 'lemma' for historical reasons.
+called a "lemma" for historical reasons.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem* (B‎ézout's Lemma). Given integers $n$ and $m$. Then there
+*Theorem* (B‎ézout's Lemma). Let $n$ and $m$ be integers. Then there
 are integers $a$ and $b$ such that $an+bm=\gcd(n,m)$.
 
 *Proof.* We compute $\gcd(n,m)$ by the Euclidean Algorithm given
@@ -318,35 +319,12 @@ $k$ divides the left-hand side of the equation, hence $k \mid m$.
 #+LATEX: \horizontalrule
 
 
-# Let us close this section with some examples of elementary theorems of
-# number theory. (These are all exercises in Chapter 1 of /An
-# Introduction to the Theory of Numbers/ by Niven and Zuckerman.)
-
-# #+HTML: <hr>
-# #+LATEX: \horizontalrule
-
-# *Theorem.* The product of any three consecutive integers is divisible
-# by 6.
-
-# *Proof.* Denote the three integers by $n$, $n + 1$, and $n + 2$. Then
-# either $n$ or $n + 1$ is divisible by 2, and either $n$, $n + 1$, or
-# $n + 2$ is divisible by 3. So, their product is divisible by 6.
-
-# *Theorem.* For every $n$, $n^3 - n$ is divisible by 6.
-
-# *Proof.* We have $n^3 - n = (n - 1) n (n + 1)$, which is a product of
-#  three consecutive integers.
-
-# #+HTML: <hr>
-# #+LATEX: \horizontalrule
-
-** Primes
+** Prime Numbers
 :PROPERTIES:
   :CUSTOM_ID: Modular_Arithmetic
 :END:
 
-In this section we will talk about the special properties of prime
-numbers.
+In this section we consider properties of prime numbers.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -361,9 +339,9 @@ is not prime is called /composite/.
 An equivalent definition of a prime number is a positive number with
 exactly 2 positive divisors.
 
-Recall from [[file:17_The_Natural_Numbers_and_Induction.org][Chapter 17]] that every natural number greater than 1 can
-be written as the product of primes numbers. In particular, ever
-natural number greater than 1 is divisible by some prime number.
+Recall from [[file:17_The_Natural_Numbers_and_Induction.org][Chapter 17]] that every natural number greater than 1 can be
+written as the product of primes. In particular, ever natural number
+greater than 1 is divisible by some prime number.
 
 We now prove some other properties about prime numbers.
 
@@ -373,7 +351,7 @@ We now prove some other properties about prime numbers.
 *Theorem.* There are infinitely many primes.
 
 *Proof.* Suppose for the sake of contradiction that there are only
-finitely many primes $p_1$, $p_2$, $\ldots$, $p_k$. Let $n = p_1
+finitely many primes $p_1, p_2, \ldots, p_k$. Let $n = p_1
 \times p_2 \times \cdots \times p_k$. Since $n$ is divisible by $p_i$
 for all $i\leq k$ we know that $n+1$ is not divisible by $p_i$ for
 any $i$. However, we assumed that these are all primes, contradicting the
@@ -740,93 +718,9 @@ Hence there are no integers $a$ and $b$ such that $\frac ab=\sqrt{2}$.
 #+LATEX: \horizontalrule
 
 
-# Let us consider another example. You may recall that if $n$ and $k$
-# are natural numbers and $k \leq n$, the notation $\binom{n}{k}$
-# denotes the number of ways of choosing $k$ objects out of $n$, without
-# repetitions, where the order does not matter. For example, if you have
-# ten shirts in your drawer, and want to choose three to take with you
-# on a weekend trip, there are $\binom{10}{3}$ possibilities. You may
-# also recall that a formula for $\binom{n}{k}$ is given as follows:
-# \begin{align*}
-# \binom{n}{k} = \frac{n!}{k!(n-k)!},
-# \end{align*}
-# where $n!$ (read "$n$ factorial") is equal to $1 \cdot 2 \cdot 3
-# \cdots (n-1) \cdot n$.
-
-# #+HTML: <hr>
-# #+LATEX: \horizontalrule
-
-# *Theorem.* For every $n$ and $k$, if $k + 1 \leq n$, then
-# \begin{equation*}
-# \binom{n+1}{k+1} = \binom{n}{k+1} + \binom{n}{k}.
-# \end{equation*}
-
-# #+HTML: <hr>
-# #+LATEX: \horizontalrule
-
-# This equation can be proved in terms of the combinatorial
-# interpretation. Suppose you want to choose $k+1$ shirts out of $n+1$
-# in your drawer. Set aside one shirt, the blue one. Then you have two
-# choices: you can either choose $k+1$ shirts from the remaining ones,
-# with $\binom{n}{k+1}$ possibilities; or you can take the blue one, and
-# choose $k$ shirts from the remaining ones.
-
-# Our goal here, rather, is to prove the theorem using nothing more than
-# the definition of $\binom{n}{k}$ in terms of factorials.
-
-# #+HTML: <hr>
-# #+LATEX: \horizontalrule
-
-# *Proof.* We can express the left-hand side of the equation as follows:
-# \begin{align*}
-# \binom{n+1}{k+1} & = \frac{(n + 1)!}{(k+1)!((n+1)-(k+1))!} \\
-# & = \frac{(n + 1)!}{(k+1)!(n - k)!}
-# \end{align*}
-# Similarly, we can simplify the right-hand side:
-# \begin{align*}
-# \binom{n}{k+1} + \binom{n}{k} & = \frac{n!}{(k+1)!(n-(k+1))!} + \frac{n!}{k!(n-k)!} \\
-# & = \frac{n!(n-k)}{(k+1)!(n-k-1)!(n-k)} + \frac{(k+1)n!}{(k+1)k!(n-k)!} \\
-# & = \frac{n!(n-k)}{(k+1)!(n-k)!} + \frac{(k+1)n!}{(k+1)!(n-k)!} \\
-# & = \frac{n!(n-k + k + 1)}{(k+1)!(n-k)!} \\
-# & = \frac{n!(n + 1)}{(k+1)!(n-k)!} \\
-# & = \frac{(n + 1)!}{(k+1)!(n-k)!}
-# \end{align*}
-# Thus the left-hand side and the right-hand side are equal.
-
-# #+HTML: <hr>
-# #+LATEX: \horizontalrule
-
-# This was on a homework assignment in 2015. We could include this
-# here, or save it for a chapter on combinatorics.
-
-# ** Binomial Coefficients
-
-# Remember that for $0 \leq k \leq n$, $\binom{n}{k}$ is defined by
-# \[
-#  \binom{n}{k} = \frac{n!}{k! (n - k)!}.
-# \]
-
-# It is easy to see that for every $n$, $\binom{n}{0} = 1$, and we
-# showed in class that whenever $1 \leq k + 1 \leq n$, we have
-
-# \[
-#  \binom{n+1}{k+1} = \binom{n}{k+1} + \binom{n}{k}.
-# \]
-
-# Replacing $k + 1$ by $k$, whenever $1 \leq k \leq n$, we have
-
-# \[
-#   \binom{n+1}{k} = \binom{n}{k} + \binom{n}{k-1}.
-# \]
-
-# Use this to show, by induction on $n$, that for every $k \leq n$,
-# that if $S$ is any set of $n$ elements, $\binom{n}{k}$ is the number
-# of subsets of $S$ with $k$ elements.
-
-
 ** Exercises
 
-# This exercise is being referred to by number in the text
+# This exercise is referred to by number in the text
 1. Prove the following properties about divisibility (for any
    integers $a$, $b$ and $c$):
 

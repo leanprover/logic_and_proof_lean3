@@ -414,9 +414,9 @@ This is illustrated in an exercise below.
    - By definition, an element $c$ is in $[a]$ if and only if $c
      \equiv a$. In particular, $a$ is in $[a]$.)
 
-5. Let the relation $~$ on the natural numbers $\NN$ be defined as follows:
-   if $n$ is even, then $n ~ n+1$, and if $n$ is odd, then $n ~ n-1$. Furthermore,
-   for every $n$, $n ~ n$. Show that $~$ is an equivalence relation. What
+5. Let the relation $\sim$ on the natural numbers $\NN$ be defined as follows:
+   if $n$ is even, then $n \sim n+1$, and if $n$ is odd, then $n \sim n-1$. Furthermore,
+   for every $n$, $n \sim n$. Show that $\sim$ is an equivalence relation. What
    is the equivalence class of the number 5? Describe the set of equivalence
    classes $\{ [n] \st n \in \NN \}$. 
 

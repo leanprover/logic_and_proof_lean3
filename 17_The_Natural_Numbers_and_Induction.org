@@ -318,7 +318,7 @@ taken verbatim from the introduction to this book:
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem.* Every natural number greater than equal to 2 can be written
+*Theorem.* Every natural number greater than or equal to 2 can be written
 as a product of primes.
 
 *Proof.* We proceed by induction on $n$. Let $n$ be any natural number

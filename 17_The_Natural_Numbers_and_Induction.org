@@ -300,7 +300,7 @@ any property $P$, $P$ holds of all the natural numbers less than zero,
 for the trivial reason that there aren't any! So, in particular, any
 such property automatically holds of zero.
 
-Notice also that such a property $P$ holds of every number less than
+Notice also that if such a property $P$ holds of every number less than
 $n$, then it also holds of every number less than $n + 1$ (why?). So,
 for such a $P$, the ordinary principle of induction implies that for
 every natural number $n$, $P$ holds of every natural number less than

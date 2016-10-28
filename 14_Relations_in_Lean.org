@@ -125,7 +125,7 @@ about inequality relations. We list some common ones here.
 ** Exercises
 
 1. Replace the =sorry= commands in the following proofs to show that
-   we can create a partial order =R'= out of a strict partial order =R=.
+   we can create a partial order =R'​= out of a strict partial order =R=.
  
    #+BEGIN_SRC lean
    open eq.ops

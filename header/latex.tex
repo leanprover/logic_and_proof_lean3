@@ -31,6 +31,8 @@
   \newmintedfile[inputc]{c}{#1}%
 }
 \expandafter\makenewmintedfiles\expandafter{\args}
+% workaround to remove red boxes
+\AtBeginEnvironment{minted}{\renewcommand{\fcolorbox}[4][]{#4}}
 
 % Colors, links, syntax highlighting
 \usepackage[dvipsnames,table]{xcolor}

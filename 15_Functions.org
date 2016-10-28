@@ -435,6 +435,28 @@ B_2, \ldots$ denote arbitrary subsets of $Y$.
 
 # add facts for arbitrary unions and intersections.
 
+Proving identities like this is typically a matter of unfolding
+definitions and using basic logical inferences. Here is an example.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* Let $X$ and $Y$ be sets, $f : X \to Y$, $A \subseteq
+X$, and $B \subseteq Y$. Then $f[A] \cap B = f[A \cap f^{-1}[B]]$.
+
+*Proof.* Suppose $y \in f[A] \cap B$. Then $y \in B$, and for some $x
+\in A$, $f(x) = y$. But this means that $x$ is in $f^{-1}[B]$, and so
+$x \in A \cap f^{-1}[B]$. Since $f(x) = y$, we have $y \in f[A \cap
+f^{-1}[B]]$, as needed. 
+
+Conversely, suppose $y \in f[A \cap f^{-1}[B]]$. Then for some $x \in
+A \cap f^{-1}[B]$, we have $f(x) = y$. For this $x$, have $x \in A$
+and $f(x) \in B$. Since $f(x) = y$, we have $y \in B$, and since $x
+\in A$, we also have $y \in f[A]$, as required.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
 ** Functions and Relations
 :PROPERTIES:
   :CUSTOM_ID: Functions_and_Relations

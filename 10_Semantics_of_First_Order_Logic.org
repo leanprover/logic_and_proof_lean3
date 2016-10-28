@@ -458,7 +458,7 @@ produce a proof.
      the natural numbers where $R$ is $\leq$
    - the structure $(\mathbb Z, \leq)$
    - the structure $(\mathbb Q, \leq)$
-   - the structure $(\mathbb Z, \mid)$, that is, the interpretation in
+   - the structure $(\mathbb N, \mid)$, that is, the interpretation in
      the natural numbers where $R$ is the ``divides'' relation
    - the structure $(P(\mathbb N), \subseteq)$, that is, the
      interpretation where variables range over sets of natural

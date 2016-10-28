@@ -179,7 +179,7 @@ $h \circ k$ is a left inverse to $g \circ f$.
 
 *Proof.* For every $x$ in $X$,
 \[
-(h \circ k) \circ (g \circ f) (x) = h(k(g(f(x)) = h(f(x)) = x.
+(h \circ k) \circ (g \circ f) (x) = h(k(g(f(x)))) = h(f(x)) = x.
 \]
 
 *Corollary.* The previous proposition holds with "left" replaced by

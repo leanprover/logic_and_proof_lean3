@@ -44,7 +44,8 @@ mathematics, namely, /partial orders/.
 - /reflexivity/: $a \leq a$, for every $a$ in $A$
 - /transitivity/: if $a \leq b$ and $b \leq c$, then $a \leq c$, for
   every $a$, $b$, and $c$ in $A$
-- /antisymmetry/: if $a \leq b$ and $b \leq a$ then $a = b$.
+- /antisymmetry/: if $a \leq b$ and $b \leq a$ then $a = b$, for every
+  $a$ and $b$ in $A$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule

@@ -27,7 +27,7 @@ closer to a hole in the rational line, a hole where we would expect to find the 
 
 As it turns out, there are many such gaps in $\QQ$. We obtain the real numbers $\RR$ by filling in all of these
 gaps, a process that is known as /completing/ the rationals. There are multiple ways to do this, and we describe
-a few common ones here.
+a few common ones below.
 
 ** Cauchy Sequences
 
@@ -64,11 +64,11 @@ our other example, but from above instead of from below. It is slightly misleadi
 the same point," since there is no rational point that they approach; a more precise statement is that the
 sequences eventually become arbitrary close.
 
-*Definition.* Two Cauchy sequences $\{p_i\}_{i \in \NN}$ and $\{q_i\}_{i \in \NN}$ are /equivalent/ if for every
+*Definition.* Two Cauchy sequences $p = \{p_i\}_{i \in \NN}$ and $q = \{q_i\}_{i \in \NN}$ are /equivalent/ if for every
 rational number $\epsilon > 0$, there is some natural number $N \in \NN$ such that for all $i \geq N$, we have
-that $|p_i - q_i| < \epsilon$.
+that $|p_i - q_i| < \epsilon$. We write $p \sim q$.
 
-As you might suspect from the name, this defines an equivalence relation on Cauchy sequences. It is easy to check
+As you might suspect from the name, $\sim$ defines an equivalence relation on Cauchy sequences. It is easy to check
 reflexivity and symmetry; we leave it as an exercise to check transitivity. We also leave it as an exercise to 
 show that the two approximations of $\sqrt{2}$ are equivalent.
 
@@ -79,4 +79,54 @@ as $q$. Any two distinct equivalence classes of Cauchy sequences approach differ
 But these spots on the rational line are precisely the real numbers, which include the rational numbers themselves
 and the gaps in between. So we can define the real numbers to be 
 \[ \RR = \{[q] \mid q\text{ is a Cauchy sequence of rational numbers}\}, \]
-the set of equivalence classes of Cauchy sequences of rationals.
+the set of equivalence classes of Cauchy sequences of rationals. This general move, going from a set $A$ to the
+set of equivalence classes of elements of $A$, is called taking the /quotient/ of A. So the real numbers are the
+quotient of the set of Cauchy sequences of rationals, with respect to Cauchy sequence equivalence.
+
+Having the set $\RR$ by itself is not enough: we also would like to know how to add, subtract, multiply, and divide
+real numbers. A common way to divide operations on quotient sets is to define them first on the original set, and
+then show that the operation "respects" the equivalence relation. That is, we will say how to add Cauchy sequences
+of rationals, and then show that if $p_1 \sim p_2$ and $q_1 \sim q_2$, then $p_1 + q_1 \sim p_2 + q_2$. We can then
+lift this definition to $\RR$ by defining $[p] + [q]$ to be $[p + q]$.
+
+Luckily, it is easy to define addition, subtraction, and multiplication on Cauchy sequences. If 
+$p = \{p_i\}_{i \in \NN}$ and $q = \{q_i\}_{i \in \NN}$ are Cauchy sequences, let $p + q = \{p_i + q_i\}_{i \in \NN}
+and similarly for subtraction and multiplication. It is trickier to show that these sequences are Cauchy themselves,
+and to show that the operations have the appropriate algebraic properties. We walk through these arguments in a
+series of exercises below.
+
+Once we have lifted these operations to the quotient set $\RR$, we are basically finished. Our construction of $\RR$ 
+looks and behaves just like we expect the real numbers to look and behave. However, thinking about Cauchy sequences
+can be cumbersome, and we often want to abstract away from this kind of definition.
+
+** An Algebraic Characterization
+
+When we first introduced the natural numbers, we did so by describing an "interface" rather than a concrete
+implementation. This allowed us to be modular in our implementation: Lean's version of natural numbers will look
+somewhat different from the version in axiomatic set theory, but as long as they behave according to the same
+higher-level rules, both structures will be the same in the relevant ways.
+
+We can describe an interface for the real numbers in much the same way. Concisely, the real numbers are a complete
+totally ordered field. Spelled out, this means:
+
+- There are associative, commutative, and invertible binary operations $+$ and $*$ defined on $\RR$
+- Multiplication distributes over addition: for all $x, y, z\in \RR$ we have $x*(y + z) = x*y + y*z$
+- There are elements $0, 1 \in \RR$ that interact with addition and multiplication in the usual ways
+- There is a total order $\leq$ defined on $\RR$
+- For all $x, y, z \in \RR$, if $x \leq y$ then $x + z \leq y + z$
+- For all $x, y \in \RR$, if $0 \leq x$ and $0 \leq y$ then $0 \leq x * y$
+- Every Cauchy sequence of real numbers converges to a real number.
+
+Notice that without this last property (completeness), the rational numbers would also meet this specification.
+
+It is a fundamental algebraic result that these axioms characterize a unique structure. Any two models that meet
+these requirements must behave in exactly the same way, at least insofar as the constants $0$ and $1$, the
+operations $+$ and $*$, and the relation $\leq$ are concerned. This fact is hugely powerful because it allows us to
+avoid thinking about the Cauchy sequence construction in normal mathematics. Once we have shown that our 
+construction meets these requirements, we can take $\RR$ to be the unique complete totally ordered field and ignore
+any implementation details. We are also free to implement $\RR$ in any way we choose, and as long as it meets this
+interface, any theorems we prove about the reals will still apply.
+
+
+** Dedekind Cuts
+

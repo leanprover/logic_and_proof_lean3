@@ -1,4 +1,4 @@
-Title: Logic and Proof
+#+Title: Logic and Proof
 #+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
 
 * Cardinality
@@ -26,11 +26,11 @@ notion of a /bijection/, defined in Section 8.2 [LINK]. Recall that
 a function $f : A \to B$ is said to be a /bijection/ if it is both injective
 and surjective; intuitively, every element of $A$ corresponds to exactly
 one element of $B$, and vice versa. There is a bijection between the set
-\{1, 2, 3, 4\} and the set of Beatles \{John, Paul, George, Ringo\}, and
+{1, 2, 3, 4} and the set of Beatles {John, Paul, George, Ringo}, and
 we can picture this bijection by writing one set above the other and
 connecting the elements in pairs.
 
-+ATTR_LATEX: :width 300bp
+#+ATTR_LATEX: :width 300bp
  [[./card_diagram_1.png]]
 
 We made the claim in section 8.2 that, in some sense, this bijection "means"
@@ -149,7 +149,7 @@ to "reach" that element.
 
 We can represent this in a diagram as follows.
 
-+ATTR_LATEX: :width 300bp
+#+ATTR_LATEX: :width 300bp
  [[./card_diagram_2.png]]
 
 With this definition in mind, one might find it hard to resist asking the following
@@ -172,7 +172,7 @@ could be less than the third, which could be less than the second, etc. It was
 only a nice coincidence that we counted $\NN$ "in order." With a bit of thought,
 we can find the following bijection between $\NN$ and $\ZZ$:
 
-+ATTR_LATEX: :width 400bp
+#+ATTR_LATEX: :width 400bp
  [[./card_diagram_3.png]]
 
 From this bijection, we see that $\ZZ$ is, in fact, countably infinite.
@@ -197,11 +197,11 @@ Consider the rational numbers laid out in a table as follows:
 # | 5/1 | 5/2 | 5/3 | 5/4 | 5/5 | ... |
 # | ... | ... | ... | ... | ... |     |
 
-+ATTR_LATEX: :width 350bp
+#+ATTR_LATEX: :width 350bp
  [[./card_diagram_4.png]]
 
 It should be easy to convince yourself that this table contains every positive rational
-number. (The number $p / q$ occurs in the $p$th row and $q$th column.) In fact,
+number. (The number $p / q$ occurs in the $p$ th row and $q$ th column.) In fact,
 this table contains many copies of every rational number: the number $1$ appears
 as $1/1$, $2/2$, $3/3$, and so on. But this shouldn't matter -- if we can count
 every entry in this table, then we can "skip over" entries that have already
@@ -214,7 +214,7 @@ been counted, and count each positive rational exactly once.
 # | 5/1 ↓ | 5/2 ←   | 5/3 ← | 5/4 ← | 5/5 ← | ... |
 # | ... | ...   | ... | ... | ... |     |
 
-+ATTR_LATEX: :width 350bp
+#+ATTR_LATEX: :width 350bp
  [[./card_diagram_5.png]]
 
 Once we've agreed that the positive rationals are countable, it is easy to extend

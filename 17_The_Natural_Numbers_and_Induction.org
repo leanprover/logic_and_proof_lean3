@@ -813,7 +813,6 @@ covers the negative ones.
     /distinct/ powers of 2. For this problem, $1 = 2^0$ is counted as
     power of 2.
 
-
 8.  Let $V$ be a non-empty set of integers such that the following two
     properties hold:
 

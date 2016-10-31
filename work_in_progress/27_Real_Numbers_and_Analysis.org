@@ -1,5 +1,4 @@
- 
-Title: Logic and Proof
+#+Title: Logic and Proof
 #+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
 
 * Real Numbers and Analysis
@@ -20,7 +19,7 @@ rational numbers are /dense/.
 Despite being dense, though, there are still "gaps" in the rationals. Recall that any finite decimal number 
 (e.g. 3.141) is rational, and consider the (infinite) decimal representation of $\sqrt{2}$, 1.41421356.... Define
 a sequence of rational numbers $\{q_i\}_{i \in \NN}$, such that $q_i$ includes the first $i+1$ digits of $\sqrt{2}$:
-$q_0=1, q_1=1.4, q_2 = 1.41,$ and so on. This is an increasing sequence, and the distance between subsequent
+$q_0=1, q_1=1.4, q_2 = 1.41$ and so on. This is an increasing sequence, and the distance between subsequent
 entries in the sequence gets smaller as $i$ grows. Nonetheless, it has no /limit point/. For any rational number
 $q$, either the sequence "crosses" $q$ -- there is some $n$ such that, for all $i \geq n$, $q_i > q$ -- or there is
 another rational $q' < q$ such that $q_i < q'$ for all $i \in \NN$. The entries of the sequence get closer and
@@ -39,20 +38,25 @@ idea of a "convergent" sequence without referring to a point that the sequence c
 We will approach this with the notion of a Cauchy sequence. Roughly speaking, a Cauchy sequence is one where the
 entries become arbitrarily close, not just to their successors but to all following entries. More precisely:
 
+--------
 *Definition.* A sequence of rational numbers $\{q_i\}_{i \in \NN}$ is said to be /Cauchy/ if for every rational
 number $\epsilon > 0$, there is some natural number $N \in \NN$ such that for all $i, j \geq N$, we have that
 $|q_i - q_j| < \epsilon$.
+--------
 
 (It is common to use $\epsilon$ to represent a very small quantity.)
 
+--------
 *Lemma.* The sequence defined above to approximate $\sqrt{2}$ is Cauchy.
+
 *Proof.* First, we note that if $i \leq j$, we know that $q_i \leq q_j$, and $q_j - q_i < \frac{1}{10^i}$. This
-is true because $q_i$ and $q_j$ match through the $i$th decimal place.
+is true because $q_i$ and $q_j$ match through the $i$ th decimal place.
 
 Let $\epsilon$ be an arbitrary rational number, and let $N$ be a natural number such that 
 $\frac{1}{10^N} < \epsilon$. (Since $\epsilon > 0$, such an $N$ must exist.) Take $i$ and $j$ such that 
 $i, j \geq N$, and suppose without loss of generality that $i \leq j$. Then 
-$$|q_i - q_j| = q_j - q_i < \frac{1}{10^i} \leq \frac{1}{10^N} < \epsilon.$$
+\[ |q_i - q_j| = q_j - q_i < \frac{1}{10^i} \leq \frac{1}{10^N} < \epsilon. \]
+--------
 
 Cauchy sequences allow us to notice these gaps in the rationals, but they are not unique: many Cauchy sequences
 can approach the same hole. For instance, the sequence $\{2, 1.5, 1.42, ...\}$ approaches the same point as
@@ -74,5 +78,5 @@ The /equivalence class/ $[q]$ of a Cauchy sequence $q$ is the set of all Cauchy 
 as $q$. Any two distinct equivalence classes of Cauchy sequences approach different spots on the rational line.
 But these spots on the rational line are precisely the real numbers, which include the rational numbers themselves
 and the gaps in between. So we can define the real numbers to be 
-$$\RR = \{[q] \mid q\text{ is a Cauchy sequence of rational numbers}\},$$
+\[ \RR = \{[q] \mid q\text{ is a Cauchy sequence of rational numbers}\}, \]
 the set of equivalence classes of Cauchy sequences of rationals.

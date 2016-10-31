@@ -33,5 +33,46 @@ a few common ones here.
 ** Cauchy Sequences
 
 The sequence of rationals we defined above had the interesting property that, although it seemed to approach a
-single spot on the rational line, there was no rational number at that spot. We need to formally capture this
-notion of a "convergent" sequence without referring to a point that the sequence converges to. 
+single spot on the rational line, there was no rational number at that spot. We seek to formally capture this
+idea of a "convergent" sequence without referring to a point that the sequence converges to.
+
+We will approach this with the notion of a Cauchy sequence. Roughly speaking, a Cauchy sequence is one where the
+entries become arbitrarily close, not just to their successors but to all following entries. More precisely:
+
+*Definition.* A sequence of rational numbers $\{q_i\}_{i \in \NN}$ is said to be /Cauchy/ if for every rational
+number $\epsilon > 0$, there is some natural number $N \in \NN$ such that for all $i, j \geq N$, we have that
+$|q_i - q_j| < \epsilon$.
+
+(It is common to use $\epsilon$ to represent a very small quantity.)
+
+*Lemma.* The sequence defined above to approximate $\sqrt{2}$ is Cauchy.
+*Proof.* First, we note that if $i \leq j$, we know that $q_i \leq q_j$, and $q_j - q_i < \frac{1}{10^i}$. This
+is true because $q_i$ and $q_j$ match through the $i$th decimal place.
+
+Let $\epsilon$ be an arbitrary rational number, and let $N$ be a natural number such that 
+$\frac{1}{10^N} < \epsilon$. (Since $\epsilon > 0$, such an $N$ must exist.) Take $i$ and $j$ such that 
+$i, j \geq N$, and suppose without loss of generality that $i \leq j$. Then 
+$$|q_i - q_j| = q_j - q_i < \frac{1}{10^i} \leq \frac{1}{10^N} < \epsilon.$$
+
+Cauchy sequences allow us to notice these gaps in the rationals, but they are not unique: many Cauchy sequences
+can approach the same hole. For instance, the sequence $\{2, 1.5, 1.42, ...\}$ approaches the same point as
+our other example, but from above instead of from below. It is slightly misleading to say that they "approach
+the same point," since there is no rational point that they approach; a more precise statement is that the
+sequences eventually become arbitrary close.
+
+*Definition.* Two Cauchy sequences $\{p_i\}_{i \in \NN}$ and $\{q_i\}_{i \in \NN}$ are /equivalent/ if for every
+rational number $\epsilon > 0$, there is some natural number $N \in \NN$ such that for all $i \geq N$, we have
+that $|p_i - q_i| < \epsilon$.
+
+As you might suspect from the name, this defines an equivalence relation on Cauchy sequences. It is easy to check
+reflexivity and symmetry; we leave it as an exercise to check transitivity. We also leave it as an exercise to 
+show that the two approximations of $\sqrt{2}$ are equivalent.
+
+Morally, two Cauchy sequences are eqivalent if they approach the same spot on the rational line. This spot may
+be a gap, as in our example, or it may be a rational number: consider the Cauchy sequence $\{2, 2, 2, ...\}$.
+The /equivalence class/ $[q]$ of a Cauchy sequence $q$ is the set of all Cauchy sequences that approach the same spot
+as $q$. Any two distinct equivalence classes of Cauchy sequences approach different spots on the rational line.
+But these spots on the rational line are precisely the real numbers, which include the rational numbers themselves
+and the gaps in between. So we can define the real numbers to be 
+$$\RR = \{[q] \mid q\text{ is a Cauchy sequence of rational numbers}\},$$
+the set of equivalence classes of Cauchy sequences of rationals.

@@ -1,0 +1,37 @@
+ 
+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Real Numbers and Analysis
+:PROPERTIES:
+  :CUSTOM_ID: Real_Numbers_and_Analysis
+:END:
+
+Mathematicians often distinguish the /discrete/ from the /continuous/. The natural numbers and the integers 
+fall into the former category. Roughly speaking, this is because there is "space" between any two distinct
+integers: 0 and 1 are not equal, but there is no integer that falls between them. (The study of topology makes
+this distinction more precise.)
+
+The rational numbers are different. If $a$ and $b$ are distinct rationals with $a < b$, then we know that
+$a < \frac{b - a}{2} < b$. Put another way, for any rational $a$, there must be another rational arbitrarily close
+to $a$: for any $\epsilon \in \QQ$, there is a $b \in \QQ$ such that $|a - b| < \epsilon$. We say that the
+rational numbers are /dense/.
+
+Despite being dense, though, there are still "gaps" in the rationals. Recall that any finite decimal number 
+(e.g. 3.141) is rational, and consider the (infinite) decimal representation of $\sqrt{2}$, 1.41421356.... Define
+a sequence of rational numbers $\{q_i\}_{i \in \NN}$, such that $q_i$ includes the first $i+1$ digits of $\sqrt{2}$:
+$q_0=1, q_1=1.4, q_2 = 1.41,$ and so on. This is an increasing sequence, and the distance between subsequent
+entries in the sequence gets smaller as $i$ grows. Nonetheless, it has no /limit point/. For any rational number
+$q$, either the sequence "crosses" $q$ -- there is some $n$ such that, for all $i \geq n$, $q_i > q$ -- or there is
+another rational $q' < q$ such that $q_i < q'$ for all $i \in \NN$. The entries of the sequence get closer and
+closer to a hole in the rational line, a hole where we would expect to find the irrational $\sqrt{2}$.
+
+As it turns out, there are many such gaps in $\QQ$. We obtain the real numbers $\RR$ by filling in all of these
+gaps, a process that is known as /completing/ the rationals. There are multiple ways to do this, and we describe
+a few common ones here.
+
+** Cauchy Sequences
+
+The sequence of rationals we defined above had the interesting property that, although it seemed to approach a
+single spot on the rational line, there was no rational number at that spot. We need to formally capture this
+notion of a "convergent" sequence without referring to a point that the sequence converges to. 

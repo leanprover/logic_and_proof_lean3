@@ -245,7 +245,7 @@ caution, so we will skip over some subtle details here.
 Recall that every real number $r$ has a decimal expansion; if
 $0 < r < 1$, we can write $r = 0.r_1 r_2 r_3 r_4 \ldots$, where each $r_i$ is a digit in
 $\{0, 1, \ldots, 9\}$. A bit more formally, we have a decomposition
-$r = \sum_{i = 1}^\infty \frac{r_i}{10^i}$ for each $r \in \RR$.
+$r = \sum_{i = 1}^\infty \frac{r_i}{10^i}$ for each $r \in \RR$ with $0 < r < 1$.
 
 Suppose that $\RR$ were countable. In that case, the real numbers strictly between 0 and 1
 must be countable as well. As before, we can put them in their "counting order," this time

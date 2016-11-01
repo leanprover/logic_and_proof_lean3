@@ -123,10 +123,71 @@ It is a fundamental algebraic result that these axioms characterize a unique str
 these requirements must behave in exactly the same way, at least insofar as the constants $0$ and $1$, the
 operations $+$ and $*$, and the relation $\leq$ are concerned. This fact is hugely powerful because it allows us to
 avoid thinking about the Cauchy sequence construction in normal mathematics. Once we have shown that our 
-construction meets these requirements, we can take $\RR$ to be the unique complete totally ordered field and ignore
+construction meets these requirements, we can take $\RR$ to be "the" unique complete totally ordered field and ignore
 any implementation details. We are also free to implement $\RR$ in any way we choose, and as long as it meets this
 interface, any theorems we prove about the reals will still apply.
 
-
 ** Dedekind Cuts
 
+Many sources will use an alternative construction to of the Cauchy sequence method. This construction,
+based on a definition known as a /Dedekind cut/, produces a structure that is (classically) identical.
+
+A Dedekind cut is an ordered pair $\langle A, B \rangle$ of sets of rational numbers with the
+following properties:
+
+- Every rational number $q$ is in either $A$ or $B$.
+- Each $a \in A$ is less than every $b \in B$.
+- There is no greatest element of $A$.
+- $A$ and $B$ are both nonempty.
+
+The first two properties show why we call this pair a "cut." The set $A$ contains all of
+the rational numbers to the left of some mark on the number line, and $B$ all of the points
+to the right. The third property tells us something about what happens exactly at that mark.
+But there are two possibilities: either $B$ has a least element, or it doesn't. Picturing
+the situation where $A$ has no greatest element and $B$ has no least element may be tricky,
+but consider the example $A = \{x \in \QQ : x^2 < 2\}$ and $B = \{x \in \QQ : x^2 > 2\}$.
+There is no rational number $q$ such that $q^2 = 2$, but there are rational numbers on
+either side that are arbitrarily close; thus neither $A$ nor $B$ contains an endpoint.
+
+We define $\RR$ to be the set of Dedekind cuts. A Dedekind cut $\langle A, B \rangle$
+corresponds to a rational number $q$ if $q$ is the least element of $B$, and to an irrational
+number if $B$ has no least element. It is straightforward to define addition on $\RR$:
+$$\langle A_1, B_1 \rangle + \langle A_2, B_2 \rangle = \langle \{a_1 + a_2 : a_1 \in A_1,
+ a_2 \in A_2 \}, \{b_1 + b_2 : b_1 \in B_1, b_2 \in B_2 \} \rangle .$$
+Multiplication is defined similarly.
+
+Some authors prefer this construction to the Cauchy sequence construction because it avoids
+taking the quotient of a set, and thus removes the complication of showing that arithmetic operations
+respect equivalence. Others prefer Cauchy sequences since they provide a clearer notion
+of approximation: if a real number $r$ is given by a Cauchy sequence $\{q_i\}_{i \in \NN}$,
+then an arbitrarily close rational approximation of $r$ is given by $q_N$ for a sufficiently
+high $N$. It is a matter of context, or sometimes personal taste, to decide which approach to use.
+
+** Constructive Real Numbers
+
+A strict constructivist would be upset by this claim about finding arbitrarily close rational
+approximations. Suppose that $q = \{q_i\}_{i \in \NN}$ is a Cauchy sequence of rationals; for which
+value $N$ is $q_N$ within $\frac{1}{10}$ of the corresponding real? The fact that $q$ is
+Cauchy implies that there is some such $N$, but in general there is no way to compute what it is.
+We could check 1000 terms and confirm that all are within $\frac{1}{100}$ of each other, but
+the 1001st might jump up. The approximation is nonconstructive -- there is /some/ approximation
+$q_N$, but we cannot compute what it is.
+
+The Cauchy sequence construction looks somewhat different in constructive mathematics, in order
+to ameliorate this kind of problem. Rather than calling a sequence Cauchy if it converges
+/eventually/ (with no a priori information about when), we require that sequences converge at a
+fixed rate.
+
+------
+*Definition.* A sequence of rationals $\{q_i\}_{i \in \NN}$ is /constructively Cauchy/ if for
+all $i, j \in \NN$, we have that $|q_i - q_j| < \frac{1}{i + 1} + \frac{1}{j + 1}$.
+------
+
+It is not hard to see that every constructively Cauchy sequence is classically Cauchy. Furthermore,
+if $\{q_i\}_{i \in \NN}$ is constructively Cauchy, it follows that $q_i$ is within $\frac{1}{i}$
+of its corresponding real number, providing a computable approximation method.
+
+However, there are still limitations to the constructive approach. For one, defining the 
+arithmetic operations on constructive Cauchy sequences is more difficult. The classical approach
+of adding the sequences piecewise fails, since two constructive Cauchy sequences could sum to
+a non-Cauchy sequence. Defining division is 

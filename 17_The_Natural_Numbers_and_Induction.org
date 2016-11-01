@@ -482,7 +482,7 @@ recursive definition. For now, we will simply take both to be
 fundamental properties of the natural numbers.
 
 As another example of a recursive definition, consider the function
-$h : \NN \to \NN$ defined recursively by the following clauses:
+$g : \NN \to \NN$ defined recursively by the following clauses:
 \begin{align*}
   g(0) & = 1 \\
   g(n+1) & = (n + 1) \cdot g(n)
@@ -527,7 +527,7 @@ In the inductive step, we have
 & = n (n + 1) / 2 + n + 1 \\
 & = \frac{n^2 +n}{2} + \frac{2n + 2}{2} \\
 & = \frac{n^2 + 3n + 2}{2} \\
-& = \frac{(n+1)(n_2)}{2}.
+& = \frac{(n+1)(n+2)}{2}.
 \end{align*}
 
 #+HTML: <hr>

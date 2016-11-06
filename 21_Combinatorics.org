@@ -383,7 +383,7 @@ words, the number we want is $\frac{26!}{3! \cdot 23!}$.
 There is nothing special about the numbers $26$ and $3$. The same
 formula holds for what we will call /unordered selections of $k$
 elements from a set of $n$ elements/, or /$k$-combinations from an
-$n$-element set/. Our goal is once again to describe the situation in
+\(n\)-element set/. Our goal is once again to describe the situation in
 precise mathematical terms, at which point we will be able to state
 the formula as a theorem.
 
@@ -401,7 +401,7 @@ $\frac{n!}{k!(n-k)!}$.
 *Proof.* Let $U$ be the set of unordered selections of $k$ elements
 from $S$, let $V$ be the set of permutations of $[k]$, and let $W$ be the set of
 /ordered/ selections of $k$ elements from $S$. There is a bijection
-between $U \times V$ and $W$: given any $k$-element subset $\{ a_0, \ldots,
+between $U \times V$ and $W$: given any \(k\)-element subset $\{ a_0, \ldots,
 a_{k-1} \}$ of $S$, each permutation gives a different ordered
 selection.
 
@@ -426,7 +426,7 @@ $n$, or, equivalently, the number of \(k\)-combinations from an
 \(n\)-element set, is typically denoted by $\binom{n}{k}$, $C(n, k)$,
 $C^n_k$, or something similar. We will use the first notation, because
 it is most common. Notice that $\binom{n}0 = 1$ for every $n$; this
-makes sense, because there is exactly one subset of any $n$-element
+makes sense, because there is exactly one subset of any \(n\)-element
 set of cardinality $0$.
 
 Here is one important property of this function.

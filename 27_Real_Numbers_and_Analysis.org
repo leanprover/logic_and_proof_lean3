@@ -1,0 +1,649 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Real Numbers and Analysis
+:PROPERTIES:
+  :CUSTOM_ID: Real_Numbers_and_Analysis
+:END:
+
+** The Number Systems
+
+We have already come across some of the fundamental number systems:
+the natural numbers, $\NN$, the integers, $\ZZ$, and the rationals,
+$\QQ$. In a sense, each subsequent element of the list was designed to
+remedy defects in the previous system: we can substract any integer
+from any other integer and end up with another integer, and we can
+divide any rational number by a nonzero rational number and end up
+with a rational number.
+
+# TODO: eventually the discussion of the algebraic properties should
+# go in the algebraic structures chapter
+
+The integers and rationals are instances of /ordered rings/, which is
+to say, they satisfy all of the following properties:
+
+- Addition is associative and commutative.
+- There is an additive identity, $0$.
+- Every element $x$ has an additive inverse, $-x$.
+- Multiplication is associative and commutative.
+- There is a multiplicative identity, $1$.
+- Every nonzero element has a multiplicative inverse, $1 / x$.
+- There is a total order $\leq$.
+- For any elements $x$, $y$, and $z$, if $x \leq y$ then $x + z \leq
+  y + z$.
+- For any elements $x$ and $y$, if $0 \leq x$ and $0 \leq y$ then $0
+  \leq x * y$.
+
+The set of natural numbers lacks the third property, but satisfies a
+weaker set of axioms, making it an /ordered semiring/. The
+rational numbers satisfy the additional property that every nonzero
+element has a multiplicative inverse, which makes it an /ordered
+field/.
+
+It is worth knowing that once we have the natural numbers, it is
+possible to /construct/ the integers and rational numbers, using
+set-theoretic constructions you have already seen. For example, we can
+take an integer to be a pair $(i, n)$ of natural numbers; the idea is
+that $(0, n)$ represents the positive integer $n$, and $(1, n)$
+represents the negative integer $-(n+1)$. (We use $-(n+1)$ instead of
+$-n$ to avoid having two representations of $0$.) With this
+definition, the integers are simply $\{0, 1\} \times \NN$. We can then
+go on to define the operations of addition and multiplication, the
+additive inverse, and the order relation, and prove they have the
+desired properties.
+
+This construction has the side effect that the natural numbers
+themselves are not integers; for example, we have to distinguish
+between the natural number $2$, and the integer $2$. In Lean, for
+example, this is the case. In ordinary mathematics, it is common to
+think of the natural numbers as a subset of the integers. Once we
+construct the integers, however, we can throw away the old version of
+the natural numbers, and afterwards identify the natural numbers as
+nonnegative integers. 
+
+We can do the same for the rationals, defining them to be the set of
+pairs $(a, b)$ in $\ZZ \times \NN$, where either $a = 0$ and $b = 1$,
+or $b > 0$ and $a$ and $b$ have no common divisor (other than $1$ and
+$-1$). The idea is that $(a, b)$ represents $a / b$. With this
+definition, the rationals are really a subset of $\ZZ \times \NN$. We
+can then define all the operations accordingly.
+
+# TODO: add chapter reference in the next paragraph
+
+In the next section, we will define a more sophisticated approach, one
+which will scale to a definition of the real numbers. And in a later
+chapter, we will show how to construct the natural numbers from the
+axioms of set theory. This shows that we can construct all the number
+systems from the bottom up.
+
+But first, let us pause for a moment to consider why the real numbers
+are needed. We have seen that $2$ has no rational square root. This
+means, in a sense, that there is a "gap" in the rationals: the are
+rationals whose squares are arbitrarily close to 2, but there is no
+rational $x$ with the property that $x^2 = 2$. But it seems
+intuitively clear that there should be some /number/ with that
+property: $\sqrt{2}$ is the length of the diagonal of a square with
+side length $1$. Similarly, $\pi$, the area of a circle with radius 1,
+is missing from the rationals. These are the kinds of "defects" that
+the real numbers are designed to repair.
+
+# TODO: the previous presentation had this. It's confusing; in
+# mathematical terms, I don't think the rationals are considered
+# discrete or continuous. Anyhow, perhaps the discussion of density
+# can do in the chapter on orders? Or algebraic structurs?
+
+# Mathematicians often distinguish the /discrete/ from the
+# /continuous/. The natural numbers and the integers fall into the
+# former category. Roughly speaking, this is because there is "space"
+# between any two distinct integers: 0 and 1 are not equal, but there is
+# no integer that falls between them. (The study of topology makes this
+# distinction more precise.)
+
+# The rational numbers are different. If $a$ and $b$ are distinct
+# rationals with $a < b$, then we know that $a < \frac{b - a}{2} <
+# b$. Put another way, for any rational $a$, there must be another
+# rational arbitrarily close to $a$: for any $\varepsilon \in \QQ$, there
+# is a $b \in \QQ$ such that $|a - b| < \varepsilon$. We say that the
+# rational numbers are /dense/.
+
+You may be used to thinking of real numbers as (potentially) infinite
+decimals: for example, $\sqrt{2} = 1.41421356\ldots$ and $\pi =
+3.14159265\ldots$. A central goal of this chapter is to make the "..."
+precise. The idea is that we can take an infinite decimal to represent
+a sequence of rational approximations. For example, we can approximate
+the square root of 2 with the sequence $1, 1.4, 1.41, 1.414, \ldots$.
+We would like to define $\sqrt{2}$ to be the "limit" of that sequence,
+but we have seen that the sequence does not have a limit in the
+rationals. So we have to construct new objects, the real numbers, to
+serve that purpose.
+
+In fact, we will define the real numbers, more or less, to /be/ such
+sequences of rational approximations. But we will have to deal with
+the fact that, for example, there are /lots/ of ways of approximating
+the square root of two. The next section will show us how to "glue"
+all these sequences together and treat them as a single object.
+
+** Quotient Constructions
+:PROPERTIES:
+  :CUSTOM_ID: Quotient_Constructions
+:END:
+
+# TODO: this could be foreshadowed better in the chapter on number
+# theory. And maybe it ultimately belongs in the chapter on algebraic
+# structures?
+
+# Anyhow, the exposition should be expanded and improved.
+
+Let $A$ be any set, and let $\equiv$ be any equivalence relation on
+$A$. Recall from [[file:11_Sets.org::#Sets][Chapter 11]] that we can assign to every element $a$ of
+$A$ the equivalence class $[a]$, where $b \in [a]$ means $b \equiv
+a$. This assignment has the property that for every $a$ and $b$, $a
+\equiv b$ if and only if $[a] = [b]$.
+
+Given any set $A$ and equivalence relation $\equiv$, define the set
+\begin{equation*}
+A / \equiv = \{ [ a ] \mid a \in A \}
+\end{equation*}
+of /equivalence classes/ of $A$ modulo $\equiv$. You can think of this
+as the set $A$ where equivalent elements are "glued together" to make
+a coarser set. 
+
+For example, if we consider the integers $\ZZ$ with $\equiv$ denoting
+equivalence modulo 5 (see [[file:19_Elementary_Number_Theory.org::#Elementary_Number_Theory][Chapter 19]]), then $\ZZ / \equiv$ is just
+$\{ [0], [1], [2], [3], [4] \}$. We can define addition on $\ZZ /
+\equiv$ by $[a] + [b] = [a + b]$. For this definition to make sense,
+it is important to know that the right-hand side does not depend on
+which representatives of $[a]$ and $[b]$ we choose. In other words, we
+need to know that whenever $[a] = [a']$ and $[b] = [b']$, then $[a +
+b] = [a' + b']$. This, in turn, is equivalent to saying that if $a
+\equiv a'$ and $b \equiv b'$, then $a + b \equiv a' + b'$. And we saw
+in [[file:19_Elementary_Number_Theory.org::#Elementary_Number_Theory][Chapter 19]] that this is in fact the case. In this case, we say that
+the operation of addition /respects/ equivalence modulo 5, and that we
+have /extended/ the operation of addition from $\ZZ$ to $\ZZ /
+\equiv$.
+
+To construct the integers, start with $\NN \times \NN$. Think of the
+pair of natural numbers $(m, n)$ as representing $m - n$, when we view
+$m$ and $n$ as integers. For example, both $(2, 5)$ and $(6, 9)$
+represent the integer $-3$. Intuitively, the pairs $(m, n)$ and $(m',
+n')$ will represent the same integer when $m - n = m' - n'$, but we do
+not have the right operation of subtraction, since we haven't
+constructed the integers. But the equation is equivalent to $m + n' =
+m' + n$, and /this/ makes sense with addition on the natural numbers.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* Define the relation $\equiv$ on $\NN \times
+\NN$ by $(m, n) \equiv (m', n')$ if and only if $m + n' = m' + n$.
+
+*Proposition.* $\equiv$ is an equivalence relation.
+
+*Proof.* For reflexivity, it is clear that $(m, n) \equiv (m, n)$,
+since $m + n = m + n$.
+
+For symmetry, suppose $(m, n) \equiv (m', n')$. This means $m + n' =
+m' + n$. But the symmetry of equality implies $(m', n') \equiv (m,
+n)$, as required.
+
+For transitivity, suppose $(m, n) \equiv (m', n')$, and $(m', n') =
+(m'', n'')$. Then we have $m + n' = m' + n$ and $m' + n'' = n' +
+m''$. Adding these equations, we get
+\begin{equation*}
+m + n' + m' + n'' = m' + n + n' + m''.
+\end{equation*}
+Subtracting $m' + n'$ from both sides, we get $m + n'' = n + m''$,
+which is equivalent to $(m', n') = (m'', n'')$, as required.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+We can now define the integers to be $\NN \times \NN / \equiv$. How
+should we define addition? If $[(m, n)]$ represents $m - n$, and $[(u,
+v)]$ represents $u - v$, then $[(m, n)] + [(u, v)]$ should represent $(m +
+u) - (n + v)$. Thus, it makes sense to define $[(m, n)] + [(u, v)]$ to be
+$[(m + u) - (n + v)]$. For this to work, we need to know that the
+operation which sends $(m, n)$ and $(u, v)$ to $(m + u, n + v)$
+respects the equivalence relation.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition.* If $(m, n) \equiv (m', n')$ and $(u, v) \equiv (u',
+v')$, then $(m + u, n + v) \equiv (m' + u', n' + v')$.
+
+*Proof.* The first equivalence means $m + n' = m' + n$, and the second
+means $u + v' = u' + v$. Adding the two equations, we get $(m + u) +
+(n' + v') \equiv (m' + u') + (n + v)$, which is exactly the same as
+saying $(m + u, n + v) \equiv (m' + u', n' + v')$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Every natural number $n$ can be represented by the integer $[(n, 0)]$,
+and, in particular, $0$ is represented by $[(0, 0)]$. Moreover, if
+$[(m, n)]$ is any integer, we can define its negation to be $[(n,
+m)]$, since $[(m, n)] + [(n, m)] = [(m + n, n + m)] = [(0, 0)]$, since
+$(m + n, n + m) \equiv (0, 0)$. In short, we have "invented" the
+negative numbers!
+
+We could go on this way to define multiplication and the ordering on
+the integers, and prove that they have the desired properties. We
+could also carry out a similar construction for the rational
+numbers. Here, we would start with the set $\ZZ \times \ZZ^{>0}$,
+where $\ZZ^{>0}$ denotes the strictly positive integers. The idea, of
+course, is that $(a, b)$ represents $(a / b)$. With that in mind, it
+makes sense to define $(a, b) \equiv (c, d)$ if $a d = b c$. We could
+go on to define addition, multiplication, and the ordering there,
+too. The details are tedious, however, and not very illuminating. So
+we turn, instead, to a construction of the real numbers.
+
+# TODO: we can use the text below to add more information about the
+# rationals.
+
+# A rational number consists of a numerator and a nonzero
+# denominator. It's tempting, then, to define the set $\QQ$ to be the
+# set of ordered pairs $\langle n, d \rangle$, where $n \in \ZZ$ and
+# $d \in \NN^+$ (the set of positive natural numbers). But this
+# contains "repeat" elements: $\langle 1, 2 \rangle$ and $\langle 2, 4
+# \rangle$ are different sets but represent the same rational
+# number. For now, we will call this set of pairs $Q$.
+
+# We say that $\langle n_1, d_1 \rangle$ and $\langle n_2, d_2
+# \rangle$ are /equivalent/ if $n_1 \cdot (d_2 + 1) = n_2 \cdot (d_1 +
+# 1)$. For $p \in Q$, the /equivalence class/ of $p$ is the set $\{q
+# \in Q : p \text{ and } q \text{ are equivalent} \}$. Notice that an
+# equivalence class is simply a subset of $Q$ whose elements represent
+# the same rational number, and that every pair which represents this
+# rational number is an element of that equivalence class.  We define
+# $\QQ$ to be the set of all such equivalence classes in $Q$.
+
+# This process is known as taking the /quotient/ of a set with respect
+# to an equivalence relation, and appears quite frequently in
+# mathematics. There is a similar operation allowed in type theory: to
+# define the type rat, we take the quotient of the type $bool \times
+# nat$ with respect to the appropriate equivalence relation.
+
+** Constructing the Real Numbers
+:PROPERTIES:
+  :CUSTOM_ID: Constructing_the_Real_Numbers
+:END:
+
+The problem we face is that the sequence $1, 1.4, 1.41, 1.414, 1.4142,
+\ldots$ of rational numbers seems to approach a value that /would/ be
+the square root of 2, but there is no rational number that can play
+that role. The next definition captures the notion that this sequence
+of numbers "seems to approach a value," wihout referring to a value
+that it is approaching.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* A sequence of rational numbers $(q_i)_{i \in \NN}$ is
+/Cauchy/ if for every rational number $\varepsilon > 0$, there is some
+natural number $N \in \NN$ such that for all $i, j \geq N$, we have
+that $|q_i - q_j| < \varepsilon$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Roughly speaking, a Cauchy sequence is one where the elements become
+arbitrarily close, not just to their successors but to all following
+elements. It is common in mathematics to use $\varepsilon$ to represent
+a quantity that is intended to denote something small; you should read
+the phrase "for every $\varepsilon > 0$" as saying "no matter how
+small $\varepsilon$ is." So a sequence is Cauchy if, for any
+$\varepsilon > 0$, no matter how small, there is some point $N$,
+beyond which the elements stay within a distance of $\varepsilon$ of
+one another.
+
+# This next part doesn't make sense: we haven't said what
+# 1.412... means. We are presenting a construction of the reals, and
+# it is circular, misleading, and confusing to say that the square
+# root of two is the Cauchy sequence that approximates the square root
+# of two.
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+# *Lemma.* The sequence defined above to approximate $\sqrt{2}$ is Cauchy.
+
+# *Proof.* First, we note that if $i \leq j$, we know that $q_i \leq
+# *q_j$, and $q_j - q_i < \frac{1}{10^i}$. This # is true because
+# *$q_i$ and $q_j$ match through the $i$ th decimal place.
+
+# Let $\varepsilon$ be an arbitrary rational number, and let $N$ be a
+# natural number such that $\frac{1}{10^N} < \varepsilon$. (Since
+# $\varepsilon > 0$, such an $N$ must exist.) Take $i$ and $j$ such
+# that $i, j \geq N$, and suppose without loss of generality that $i
+# \leq j$. Then \[ |q_i - q_j| = q_j - q_i < \frac{1}{10^i} \leq
+# \frac{1}{10^N} < \varepsilon. \]
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+Cauchy sequences can be used to describe these gaps in the rationals,
+but many Cauchy sequences can be used to describe the same gap. For
+instance, a sequence $2, 1.5, 1.42, \ldots$ can approache the same
+value as our $1, 1.4, 1.41, \ldots$, but from above instead of from
+below. It is slightly misleading to say that they "approach the same
+point," since there is no rational point that they approach; a more
+precise statement is that the sequences eventually become arbitrary
+close.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* Two Cauchy sequences $p = (p_i)_{i \in \NN}$ and $q =
+(q_i)_{i \in \NN}$ are /equivalent/ if for every rational number
+$\varepsilon > 0$, there is some natural number $N \in \NN$ such that
+for all $i \geq N$, we have that $|p_i - q_i| < \varepsilon$. We write
+$p \equiv q$.
+
+*Proposition.* $\equiv$ is an equivalence relation on
+Cauchy sequences.
+
+*Proof.* Reflexivity and symmetry are easy, so let us prove
+transitivity. Suppose $(p_i) \equiv (q_i)$ and $(q_i) \equiv
+(r_i)$. We want to show that the sequence $(q_i)$ is equivalent to
+$(r_i)$. So, given any $\varepsilon > 0$, choose $N_0$ large enough
+such that for every $i \ge N_0$, $|p_i - q_i| < \varepsilon /
+2|$. Choose another number, $N_1$, so that for every $i \geq
+N_1$, |q_i - r_i| < \varepsilon / 2$. Let $N = \max(N_0, N_1)$. Then
+for every $i \geq N$, we have
+\begin{equation*}
+ |p_i - r_i | = |(p_i - q_i) + (q_i - r_i)| \leq |p_i - q_i| + |q_i - r_i| 
+  \leq \varepsilon / 2 + \varepsilon / 2 = \varepsilon,
+\end{equation*}
+as required.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Notice that the proof uses the triangle inequality: for any rational
+numbers $a$ and $b$, $|a + b| \leq |a| + |b|$. (The triangle
+inequality will also be true of the real numbers, once we are done
+constructing them.)
+
+We now let the $A$ be the set of Cauchy sequences of rationals, and
+define the real numbers, $\RR$, to be $A / \equiv$. In other words,
+the real numbers is the set of Cauchy sequence of rationals, modulo
+the equivalence relation we just defined.
+
+Having the set $\RR$ by itself is not enough: we also would like to
+know how to add, subtract, multiply, and divide real numbers. As with
+the integers, we need to define operations on the underlying set, and
+then show that they respect the equivalence relation. For example, we
+will say how to add Cauchy sequences of rationals, and then show that
+if $p_1 \equiv p_2$ and $q_1 \equiv q_2$, then $p_1 + q_1 \equiv p_2 +
+q_2$. We can then lift this definition to $\RR$ by defining $[p] +
+[q]$ to be $[p + q]$.
+
+Luckily, it is easy to define addition, subtraction, and
+multiplication on Cauchy sequences. If $p = (p_i)_{i \in \NN}$ and $q
+= (q_i)_{i \in \NN}$ are Cauchy sequences, let $p + q = (p_i + q_i)_{i
+\in \NN}$ and similarly for subtraction and multiplication. It is
+trickier to show that these sequences are Cauchy themselves, and to
+show that the operations have the appropriate algebraic properties. We
+ask you to prove this for addition in the exercises.
+
+We can identify each rational number $q$ with the constant Cauchy
+sequence $q, q, q, \ldots$, so the real numbers include all the
+rationals. The next step is to abstract away the details of the
+particular construction we have chosen, so that henceforth we can work
+with the real numbers abstractly, and no longer think of them as given
+by equivalence classes of Cauchy sequences of rationals.
+
+** The Completeness of the Real Numbers
+
+We constructed the real numbers to fill in "gaps" in the rationals.
+How do we know that we have got them all? Perhaps we need to construct
+even more numbers, using Cauchy sequences of reals? The next theorem
+tells us that, on the contrary, there is no need to extend the reals
+any further in this way.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* A sequence $(r_i)_{i \in \NN}$ of real numbers
+/converges/ if there is a real number $r$ such that, for every
+$\varepsilon > 0$, there is an $N$ such that for every $i \geq N$,
+$|r_i - r| < \varepsilon$. 
+
+*Theorem.* Every Cauchy sequence of real numbers converges.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+The statement of the theorem is often expressed by saying that the
+real numbers are /complete/.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* An element $u \in \RR$ is said to be an /upper bound/ to
+a subset $S \subseteq \RR$ if everything in $S$ is less
+than or equal to $u$. $S$ is said to be /bounded/ if there is an upper
+bound to $S$. An element $u$ is said to be a /least upper bound/ to
+$S$ if it is an upper bound to $S$, and nothing smaller than $u$ is an
+upper bound to $S$.
+
+*Theorem.* Let $S$ be a bounded, nonempty subset of $\RR$. Then $S$
+has a least upper bound.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+The rational numbers do not have this property: if we set $S = \{x \in
+\QQ \mid x^2 < 2\}$, then the rational number 2 is an upper bound for
+$S$, but $S$ has no least upper bound in $\QQ$.
+
+# TODO: prove the theorems!
+
+# TODO: in the next paragraph, we want to say "isomorphic."
+
+It is a fundamental theorem that the real numbers are characterized
+exactly by the property that they are a complete ordered field, such
+that every real number $r$ is less than or equal to some natural
+number $N$. Any two models that meet these requirements must behave in
+exactly the same way, at least insofar as the constants $0$ and $1$,
+the operations $+$ and $*$, and the relation $\leq$ are
+concerned. This fact extremely powerful because it allows us to avoid
+thinking about the Cauchy sequence construction in normal
+mathematics. Once we have shown that our construction meets these
+requirements, we can take $\RR$ to be "the" unique complete totally
+ordered field and ignore any implementation details. We are also free
+to implement $\RR$ in any way we choose, and as long as it meets this
+interface, and as long as they do not refer to the underlying
+representations, any theorems we prove about the reals will hold
+equally well for all constructions.
+
+[More needed here.]
+
+
+** An Alternative Construction
+
+Many sources will use an alternative construction of the reals, taking
+them instead to be /Dedekind cuts/. A Dedekind cut is an ordered pair
+$\langle A, B \rangle$ of sets of rational numbers with the following
+properties:
+
+- Every rational number $q$ is in either $A$ or $B$.
+- Each $a \in A$ is less than every $b \in B$.
+- There is no greatest element of $A$.
+- $A$ and $B$ are both nonempty.
+
+The first two properties show why we call this pair a "cut." The set
+$A$ contains all of the rational numbers to the left of some mark on
+the number line, and $B$ all of the points to the right. The third
+property tells us something about what happens exactly at that mark.
+But there are two possibilities: either $B$ has a least element, or it
+doesn't. Picturing the situation where $A$ has no greatest element and
+$B$ has no least element may be tricky, but consider the example $A =
+\{x \in \QQ \mid x^2 < 2\}$ and $B = \{x \in \QQ \mid x^2 > 2\}$.  There is
+no rational number $q$ such that $q^2 = 2$, but there are rational
+numbers on either side that are arbitrarily close; thus neither $A$
+nor $B$ contains an endpoint.
+
+We define $\RR$ to be the set of Dedekind cuts. A Dedekind cut
+$(A, B)$ corresponds to a rational number $q$ if $q$ is
+the least element of $B$, and to an irrational number if $B$ has no
+least element. It is straightforward to define addition on $\RR$:
+\begin{equation*}
+(A_1, B_1) + (A_2, B_2) = ( \{a_1 + a_2 \mid a_1 \in A_1,
+ a_2 \in A_2 \}, \{b_1 + b_2 \mid b_1 \in B_1, b_2 \in B_2 \} )
+\end{equation*}
+
+# Multiplication is defined similarly.
+# TODO: this isn't really true -- it is more complicated, I think.
+
+Some authors prefer this construction to the Cauchy sequence
+construction because it avoids taking the quotient of a set, and thus
+removes the complication of showing that arithmetic operations respect
+equivalence. Others prefer Cauchy sequences since they provide a
+clearer notion of approximation: if a real number $r$ is given by a
+Cauchy sequence $(q_i)_{i \in \NN}$, then an arbitrarily close
+rational approximation of $r$ is given by $q_N$ for a sufficiently
+large $N$.
+
+# TODO: before we said
+# "It is a matter of context, or sometimes personal taste, to
+# decide which approach to use."
+# Maybe later we should say that the two structures are isomorphic?
+
+** Limits and Continuity
+
+[Under construction]
+
+# A good goal here would be to prove the polynomials are continuous. A
+# better goal would be to prove the intermediate value theorem. These
+# two together would let us (finally) prove that the square root of 2
+# exists.
+
+# TODO: on reflection, this just doesn't fit here. It doesn't make
+# sense to talk about constructive developments of the reals without
+# more information about constructive foundations, and anyhow the
+# Cauchy construction above is perfectly constructive. 
+#
+# At issue is the fact that classically, we can prove that something
+# converges without having a computable rate of convergence. But that
+# is a separate story, and it needs to be embedded in a discussion of
+# computability. (We can add this, for example, to a later chapter.)
+
+# On top of that, as far as effective rates of convergence, there is
+# nothing special about 1 / n. That is a reasonable choice for
+# formalization and implementation (though for the latter 1/2^n is
+# certainly more natural), but anyhow the focus should be effectivity,
+# not any particular rate.
+
+# ** Constructive Real Numbers
+
+# A strict constructivist would be upset by this claim about finding arbitrarily close rational
+# approximations. Suppose that $q = \{q_i\}_{i \in \NN}$ is a Cauchy sequence of rationals; for which
+# value $N$ is $q_N$ within $\frac{1}{10}$ of the corresponding real? The fact that $q$ is
+# Cauchy implies that there is some such $N$, but in general there is no way to compute what it is.
+# We could check 1000 terms and confirm that all are within $\frac{1}{100}$ of each other, but
+# the 1001st might jump up. The approximation is nonconstructive -- there is /some/ approximation
+# $q_N$, but we cannot compute what it is.
+
+# The Cauchy sequence construction looks somewhat different in constructive mathematics, in order
+# to ameliorate this kind of problem. Rather than calling a sequence Cauchy if it converges
+# /eventually/ (with no a priori information about when), we require that sequences converge at a
+# fixed rate.
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+# *Definition.* A sequence of rationals $\{q_i\}_{i \in \NN}$ is /constructively Cauchy/ if for
+# all $i, j \in \NN$, we have that $|q_i - q_j| < \frac{1}{i + 1} + \frac{1}{j + 1}$.
+
+# Two constructively Cauchy sequences  $\{p_i\}_{i \in \NN}$, $\{q_i\}_{i \in \NN}$ are /equivalent/ if
+# for all $i \in \NN$, we have that $|p_i - q_i| < \frac{2}{i + 1}$.
+
+# #+HTML: <hr>
+# #+LATEX: \horizontalrule
+
+# It is not hard to see that every constructively Cauchy sequence is classically Cauchy. Furthermore,
+# if $\{q_i\}_{i \in \NN}$ is constructively Cauchy, it follows that $q_i$ is within $\frac{1}{i}$
+# of its corresponding real number, providing a computable approximation method.
+
+# However, there are still limitations to the constructive approach. For one, defining the 
+# arithmetic operations on constructive Cauchy sequences is more difficult. The classical approach
+# of adding the sequences piecewise fails, since two constructive Cauchy sequences could sum to
+# a non-Cauchy sequence. There is a simple workaround in the case of addition, but for multiplication,
+# the workaround is more complicated.
+
+# Defining division is even harder; the reason why has far-reaching consequences. Recall that in
+# constructive logic, we cannot prove the statement $p \vee \not p$ for all propositions $p$. This
+# is not to say that we can /never/ prove $p \vee \not p$, though; for instance, we can prove
+# $\top \vee \not \top$. In fact, for any natural numbers $m$ and $n$, we can prove
+# $n = m \vee n \neq m$ constructively. Intuitively, natural numbers contain a finite amount
+# of information, and so one can compare two naturals completely in a finite amount of time. 
+# The same is not true for the reals. Consider a constructive Cauchy sequence $\{q_i\}_{i \in \NN}$
+# whose entries are
+# decreasing, and compare it to the sequence where every entry is 0. The sequences are equivalent --
+# and their corresponding real numbers are equal -- if $|q_i| < \frac{2}{i + 1}$ for all $i \in \NN$.
+# But this is infinitary, and we cannot (in general) algorithmically check it. Since division normally
+# requires us to know whether the denominator is 0 or not, we must be very careful in setting up
+# our definitions.
+
+# The moral is that a real number is a much more complicated kind of object than a natural, an integer,
+# or a rational. There is no way to represent an arbitrary real number in finite space or compute
+# with it precisely in finite time. Despite an apparent similarity between $\QQ$ and $\RR$ -- both
+# are dense, and every real has an arbitrarily close rational -- the real line is more intricate
+# than the rational line. We explore this again in a later chapter on cardinality and the infinite.
+
+** Exercises
+
+# TODO: I am getting tired. Many of these need to be spelled out in
+# more detail.
+
+1. Show that addition for the integers, as defined in [[#Quotient_Constructions][Section 27.2]], is
+   commutative and associative.
+
+2. Show from the construction of the integers in  [[#Quotient_Constructions][Section 27.2]] that
+   $a + 0 = a$ for every integers $a$.
+
+3. Define substraction for the integers by $a - b = a + (-b)$, and
+   show that $a - b + b = a$ for every pair of integers $a$ and $b$.
+
+4. Define multiplication for the integers, by first defining it on the
+   underlying representation and then showing that the operation
+   respects the equivalence relation.
+
+5. Show that every Cauchy sequence is bounded: that is, if $\{q_i\}_{i
+   \in \NN}$ is Cauchy, there is some rational $M$ such that $|q_i|
+   \leq M$ for all $i$. Hint: try letting $\varepsilon = 1$.
+
+6. Let $p = (p_i)_{i \in \NN}$ and $q = (q_i)_{i \in \NN}$ be Cauchy
+   sequences, and define $p + q = (p_i + q_i)_{i \in \NN}, $p*q =
+   (p_i * q_i)_{i \in \NN}$.
+
+   a. Show that $p + q$ is Cauchy. That is, for arbitrary $\varepsilon
+      > 0$, show that there exists an $N$ such that for all $i, j \geq
+      N$, $|(p_i + q_i) - (p_j + q_j)| < \varepsilon$.
+
+   b. Show that $p * q$ is Cauchy. In addition to the triangle
+      inequality, you will find the previous exercise useful.
+
+7. These two parts show that addition of Cauchy sequences respects
+   equivalence.
+
+   a. Show that if $p, p', q$ are Cauchy sequences and $p \equiv p'$,
+      then $p + q \equiv p' + q$.
+
+   b. Argue, using exercise 1 and the first part of this problem, that
+      if $p, p', q, q'$ are Cauchy sequences, $p \equiv p'$, and $q
+      \equiv q'$, then $p + q \equiv p' + q'$.
+
+8. Show that if $(A_1, B_1)$ and $(A_2, B_2)$ are Dedekind cuts, then
+   $(A_1, B_1) + (A_2, B_2)$ is also a Dedekind cut.
+
+
+
+
+# 7. Describe an example of two constructively Cauchy sequences $p =
+# \{p_i\}_{i \in \NN}$ and $q = \{q_i\}_{i \in \NN}$ such that the sum
+# $p + q = \{p_i + q_i\}_{i \in \NN}$ is not constructively
+# Cauchy. Give an alternate definition of the sum that makes this
+# true.

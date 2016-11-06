@@ -1,0 +1,36 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Probability
+:PROPERTIES:
+  :CUSTOM_ID: Probability
+:END:      
+
+[Under construction.]
+
+# ** Probability on a Finite Set
+
+# Probability assignments. Example. Events. Disjoint events, and the
+# probability law. Independent events.
+
+# In the special case where the outcomes are equally likely, we reduce
+# to combinatorics. Examples: cards, dice.
+
+
+# ** Expectation and Conditional Probability
+
+# Define, again in the finite case, and give some examples.
+
+
+# ** Probability Spaces
+
+# Issue: we also want to deal with infinite sets, like spinning a
+# spinner, or time.
+
+# Definition: algebra. Axioms for probability.
+
+# Examples of some derivations from the axioms for probability.
+
+# (Mention: sigma algebras.)
+
+

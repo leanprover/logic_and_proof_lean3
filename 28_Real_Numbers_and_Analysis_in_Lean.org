@@ -1,0 +1,9 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* Real Numbers and Analysis in Lean
+:PROPERTIES:
+  :CUSTOM_ID: Real_Numbers_and_Analysis_in_Lean
+:END:
+
+[Under construction.]

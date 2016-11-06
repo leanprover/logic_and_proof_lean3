@@ -1,0 +1,661 @@
+#+Title: Logic and Proof
+#+Author: [[http://www.andrew.cmu.edu/user/avigad][Jeremy Avigad]], [[http://www.andrew.cmu.edu/user/rlewis1/][Robert Y. Lewis]],  [[http://www.contrib.andrew.cmu.edu/~fpv/][Floris van Doorn]]
+
+* The Infinite
+:PROPERTIES:
+  :CUSTOM_ID: The_Infinite
+:END:
+
+** Equinumerosity
+
+Remember that in [[file:21_Combinatorics.org::#Combinatorics][Chapter 21]] we defined, for each natural number $n$,
+the set $[n] = \{0, 1, \ldots, n-1\}$. We then said that a set $A$ is
+said to be /finite/ if there is a bijection between $A$ and $[n]$ for
+some $n$. A set is said to be /infinite/ if it is not finite.
+
+If $A$ and $B$ are two finite sets, then they have the same
+cardinality if and only if there is a bijection between them. It turns
+out that the same notion of "having the same cardinality" makes sense
+even if $A$ and $B$ are not finite.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* Two sets $A$ and $B$ are said to be /equinumerous/, $A
+\approx B$, if there is a bijection between them. Equivalently, we say
+that $A$ and $B$ /have the same cardinality/.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+At this stage, saying that $A$ and $B$ have the same cardinality may
+sound strange, because it is not clear that there is any object, "the
+cardinality of $A$," that they both "have." It turns out that, in
+set-theoretic foundatoins, there are certain objects ---
+generalizations of the natural numbers --- that one can use to measure
+the size of an infinite set, and which therefore fill the role of the
+"cardinality" of a set. But this is irrelevant to our purposes here:
+for the rest of this chapter, when we say that $A$ and $B$ have the
+same cardinality, we mean neither more nor less than the fact that
+there is a bijection between them.
+
+The following theorem says, essentially, the equinumerosity is an
+equivalence relation. (The caveat is that so far we have spoke only of
+relations between sets, and the collection of all sets is not itself a
+set.)
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Proposition*. Let $A$, $B$, and $C$ be any sets.
+- $A \approx A$.
+- If $A \approx B$, then $B \approx A$.
+- If $A \approx B$ and $B \approx C$ then $A \approx C$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+The proof is left as an exercise.
+
+** Countably Infinite Sets
+
+The set of natural numbers, $\NN$, is a prototypical example of an
+infinite set. To see that it is infinite, suppose, on the other hand,
+that it is finite. This means that there is a bijection $f$ between $\NN$
+and $[n]$  for some natural number $n$. We can restrict to the subset
+$[n+1]$ of $\NN$, and thereby obtain an injective map from $[n+1]$ to
+$[n]$. But this violates the pigeonhole principle, proved in [[file:21_Combinatorics.org::#Combinatorics][Chapter 21]].
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* A set $A$ is said to be /countably infinite/ if it is
+equinumerous with $\NN$. A set $A$ is said to be /countable/ if it is
+finite or countably infinite.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Since the identity map $id(x) = x$ is a bijection on any set, every
+set is equinumerous with itself, and thus $\NN$ itself is countably
+infinite.
+
+The term "countably infinite" is meant to be evocative. Suppose $A$ is
+a countable set. By definition, there is a bijection $f : \NN \to
+A$. $A$ has a "first" element, $f(0)$, a "second" element, $f(1)$, a
+"third" element, $f(2)$, \ and so on. Since $f$ is a bijection, for
+every element $a$ of $A$, $a$ is the $n$th element enumerated in this
+way, for a unique value of $n$. That is, each element of $A$ is
+"counted" at some finite stage.
+
+# TODO: if we want to use the diagram, we need to start with zero
+# instead of 1. Also, I would prefer having f(0), f(1), f(2), ... in
+# the boxes, maybe with an elongated oval around them with the label
+# $A$, to indicate that the elements make up the set A.
+# We can represent this in a diagram as follows.
+#
+# #+ATTR_LATEX: :width 300bp
+# [[./card_diagram_2.png]]
+
+With this definition in mind, it is natural to ask the following
+question: which of our favorite sets are countable? Is the set of
+integers $\ZZ$ countable? How about the rationals $\QQ$, or the reals
+$\RR$? What is the logical form of the statement "a set $A$ is not
+countable," and how might we prove such a statement? You should think
+about these questions before reading on.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* The set of integers, $\ZZ$, is countable.
+
+*Proof.* We need to show that there exists a bijection between $\NN$
+ and $\ZZ$. Define $f : \NN \to \ZZ$ as follows:
+\begin{equation*}
+f(n) = \begin{cases}
+         n / 2 & \mbox{if $n$ is even} \\
+         -(n + 1) / 2 & \mbox{if $n$ is odd}
+       \end{cases}    
+\end{equation*}
+We claim that $f$ is a bijection. To see that it is injective, suppose
+$f(m) = f(n)$. If they are nonnegative, then $m$ and $n$ are
+even, in which case $m / 2 = n / 2$ implies $m = n$. Otherwise, $m$
+and $n$ are odd, and again $-(m+1) / 2 = -(n+1)/ 2$ implies $m = n$.
+
+To see that $f$ is surjective, suppose $a$ is any integer. If $a$ is
+nonnegative, then $a = f(a / 2)$. If $a$ is strictly negative, then $2
+a - 1$ is also strictly negative, and hence $-(2 a - 1)$ is an odd
+natural number. In that case, it is not hard to check that $a =
+f(-(2a - 1))$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+# TODO: we could use a picture here. The previous one needs to be
+# fixed: we have to start at 0.
+# #+ATTR_LATEX: :width 400bp
+#  [[./card_diagram_3.png]]
+
+We will now build up an arsenal of theorems that we can use to show
+that various sets are countable.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* A set $A$ is countable if and only if $A$ is empty or there
+is a surjective function $f : \NN \to A$.
+
+*Proof.* For the forward direction, suppose $A$ is countable. Then it
+is either finite or countably infinite. If $A$ is countably infinite,
+there is a bijection from $\NN$ to $A$, and we are done. Suppose, then,
+that $A$ is finite. If $A$ is empty, we are done; otherwise, for some
+$n$, there is a bijection $f : [n] \to A$, with $n \geq 1$. Define a
+function $g : \NN \to A$ as follows:
+\begin{equation*}
+g(i) = \begin{cases}
+         f(i) & \mbox{if $i < n$} \\
+         f(0) & \mbox{otherwise}
+       \end{cases}
+\end{equation*}
+In other words, $g$ enumerates the elements of $A$ by using $f$ first,
+and then repeating the element $f(0)$. Clearly $f$ is surjective, as
+required.
+
+In the other direction, if $A$ is finite, then it is countable, and we
+are done. So suppose $A$ is not finite. Then it is not empty, and so
+there is a surjective function $f : \NN \to A$. We need to turn $f$
+into a /bijective/ function. The problem is that $f$ may not be
+injective, which is to say, elements in $A$ may be enumerated more
+than once. The solution is to define a function, $g$, which eliminates
+all the duplicates. The idea is that $g$ should enumerate the elements
+$f(0), f(1), f(2), \ldots$, but skip over the ones that have already
+been enumerated. 
+
+To be precise, the function $g$ is defined recursively as follows:
+$g(0) = f(0)$, and for every $i$, $g(i+1) = f(j)$, where $j$ is the
+least natural number such that $f(j)$ is not among $\{g(0), g(1),
+g(2), \ldots, g(i) \}$. The assumption that $A$ is infinite and $f$ is
+surjective guarantees that some such $j$ always exists.
+
+We only need to check that $g$ is a bijection. By definition, for
+every $i$, $g(i+1)$ is different from $g(0), \ldots, g(i)$. This
+implies that $g$ is injective. But we can also show by induction that
+for every $i$, $\{g(0), \ldots, g(i)\} \supseteq \{ f(0), \ldots,
+f(i)\}$. Since $f$ is surjective, $g$ is too.
+ 
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+In a similar manner to the proof that the integers are countable, we
+can prove the following:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* If $A$ and $B$ are countably infinite, then so is $A \cup
+B$.
+
+*Proof.* Suppose $f : \NN \to A$ and $g : \NN \to B$ are
+surjective. Then we can define a function $h : \NN \to A
+\cup B$:
+\begin{equation*}
+h(n) = \begin{cases}
+         f(n/2) & \mbox{if $n$ is even} \\
+         f((n-1)/2) & \mbox{if $n$ is odd}
+       \end{cases}
+\end{equation*}
+It is not hard to show that $h$ is surjective.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Intuitively, if $A = \{ f(0), f(1), f(2), \ldots \}$ and $B = \{ g(0),
+g(1), g(2), \ldots\}$, then we can enumerate $A \cup B$ as $\{ f(0),
+g(0), f(1), g(1), f(2), g(2), \ldots \}$.
+
+The next two theorems are also helpful. The first says that to show
+that a set $B$ is countable, it is enough to "cover" it with a
+surjective function from a countable set. The second says that to show
+that a set $A$ is countable, then it is enough to embed it in a
+countable set.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* If $A$ is countable and $f : A \to B$ is surjective, then
+$B$ is countable.
+
+*Proof.* If $A$ is countable, then there is a surjective function $g :
+\NN \to A$, and $f \circ g$ is a surjective function from $\NN \to B$.
+
+*Theorem.* If $B$ is countable and $f : A \to B$ is injective, then
+$A$ is countable.
+
+*Proof.* Assuming $f : A \to B$ is injective, it has a left inverse,
+$g : B \to A$. Since $g$ has a right inverse, $f$, we know that $g$ is
+surjective, and we can apply the previous theorem.
+
+*Corollary.* If $B$ is countable and $A \subseteq B$, then $A$ is
+countable.
+
+*Proof.* The function $f : A \to B$ defined by $f(x) = x$ is
+injective.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Remember that $\NN \times \NN$ is the set of ordered pairs $(i, j)$
+where $i$ and $j$ are natural numbers.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* $\NN \times \NN$ is countable.
+
+*Proof.* Enumerate the elements as follows:
+\begin{equation*}
+(0, 0), (1, 0), (0, 1), (2, 0), (1, 1), (1, 2), (3, 0), (2, 1), 
+  (1, 2), (0, 3), \ldots
+\end{equation*}
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+# TODO: we could use a picture here. 
+
+If you think of the pairs as coordinates in the \(x\)-\(y\) plane, the
+pairs are enumerated along diagonals: first the diagonal with pairs
+whose elements sum to $0$, then the diagonal with pairs whose elements
+sum to $1$, and so on. This is often called a "dovetailing" argument,
+because if you imagine drawing a line that weaves back and forth
+through the pairs enumerated this ways, it will be analogous to the a
+carpenter's practice of using a dovetail to join two pieces of
+wood. (And that term, in turn, comes from the similarity to a dove's
+tail.)
+
+As far as proofs go, the informal description above and the associated
+diagram are perfectly compelling. It is possible to describe a
+bijection between $\NN \times \NN$ explicitly, however, in algebraic
+terms. You are asked to do this in the exercises.
+
+The previous theorem has a number of interesting consequences.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* If $A$ and $B$ are countable, then so is $A \times B$. 
+
+*Proof.* Let $f : \NN \to \NN \times \NN$ be a surjection, as
+guaranteed by the previous theorem, and if $p$ is an element of $\NN
+\times \NN$, let $p_0$ and $p_1$ be the two components. Suppose $g :
+\NN \to A$ and $h : \NN \to B$ be surjective. Then the function $k(i)
+= ( g(f(i)_0), h(f(i)_1) )$ is a surjective function from $\NN$ to $A
+\times B$.
+
+*Theorem.* The set of rational numbers, $\QQ$, is countable.
+
+*Proof.* By the previous theorem, we know that $\ZZ \times \ZZ$ is
+countable. Define $f : \ZZ \times \ZZ \to \QQ$ by
+\begin{equation*}
+  f(i,j) = \begin{cases}
+             i / j & \mbox{if $j \neq 0$} \\
+             0 & \mbox{otherwise}
+           \end{cases}
+\end{equation*}
+Since every element of $\QQ$ can be written as $i / j$ for some $i$
+and $j$ in $\ZZ$, $f$ is surjective.
+
+*Theorem.* Suppose that $A$ is countable. For each $n$, the set $A^n$
+is countable.
+
+*Proof.* Remember that we can identify the set of \(n\)-tuples of
+elements from $A$ with $A \times \ldots \times A$, where there are $n$
+copies of $A$ in the product. The result follows using induction on
+$n$.
+
+*Theorem.* Let $(A_i)_{i \in \NN}$ be a family of sets indexed by the
+natural numbers, and suppose that each $A_i$ is countable. Then
+$\bigcup_i A_i$ is countable.
+
+*Proof.* Suppose for each $i$, $f_i$ is a surjective function from
+$\NN$ to $A_i$. Then the function $g(i, j) = f_i(j)$ is a surjective
+function from $\NN$ to $\bigcup_i A_i$.
+
+*Theorem.* Suppose that $A$ is countable. Then the set of finite
+sequences of elements of $A$ is countable.
+
+*Proof.* The set of finite sequences of elements of $A$ is equal to
+$\bigcup_i A^i$, and we can apply the previous two theorems.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+Notice that the set of all alphanumeric characters and punctuation
+(say, represented as the set of all ASCII characters) is
+finite. Togteher with the last theorem, this implies that there are
+only countably many sentences in the English language (and, indeed,
+any language in which sentences are represented by finite sequences of
+symbols, chosen from any countable stock).
+
+At this stage, it might seem as though everything is countable. In the
+next section, we will see that this is not the case: the set of real
+numbers, $\RR$, is not countable, and if $A$ is any set (finite or
+infinite), the powerset of $A$, ${\mathcal P}(A)$, is not equinumerous
+with $A$.
+
+# TODO: This was the previous text. The above is a more streamlined,
+# rigorous version; it shows students how to make precise the idea of
+# "skipping over duplicates" and "alternating between the two
+# enumerations."
+#
+
+# The natural numbers and the integers are both "discrete." That is,
+# when we draw a number line, there is "space" between each integer; for
+# every integer, there are unique integers to its left and its right. We
+# used this property in order to come up with our enumeration.
+
+# Since this property is not true of the rational numbers, we might
+# hypothesize that $\QQ$ is uncountable. Remarkably, this hypothesis is
+# false: we can find a bijection between $\NN$ and $\QQ$. Doing so with
+# full mathematical rigor takes a bit of work, so we will first see the
+# general idea, and then indicate how to make it more precise.
+
+# Consider the rational numbers laid out in a table as follows:
+
+# # | 1/1 | 1/2 | 1/3 | 1/4 | 1/5 | ... |
+# # | 2/1 | 2/2 | 2/3 | 2/4 | 2/5 | ... |
+# # | 3/1 | 3/2 | 3/3 | 3/4 | 3/5 | ... |
+# # | 4/1 | 4/2 | 4/3 | 4/4 | 4/5 | ... |
+# # | 5/1 | 5/2 | 5/3 | 5/4 | 5/5 | ... |
+# # | ... | ... | ... | ... | ... |     |
+
+# #+ATTR_LATEX: :width 350bp
+#  [[./card_diagram_4.png]]
+
+# It should be easy to convince yourself that this table contains every
+# positive rational number. (The number $p / q$ occurs in the $p$ th row
+# and $q$ th column.) In fact, this table contains many copies of every
+# rational number: the number $1$ appears as $1/1$, $2/2$, $3/3$, and so
+# on. But this shouldn't matter -- if we can count every entry in this
+# table, then we can "skip over" entries that have already been counted,
+# and count each positive rational exactly once.
+
+# # | 1/1 ↓ | 1/2 →   | 1/3 ↓ | 1/4 → | 1/5 ↓ | ... |
+# # | 2/1 → | 2/2 ↑   | 2/3 ↓ | 2/4 ↑ | 2/5 ↓ | ... |
+# # | 3/1 ↓ | 3/2 ←   | 3/3 ← | 3/4 ↑ | 3/5 ↓ | ... |
+# # | 4/1 →  | 4/2 →   | 4/3 → | 4/4 ↑ | 4/5 ↓ | ... |
+# # | 5/1 ↓ | 5/2 ←   | 5/3 ← | 5/4 ← | 5/5 ← | ... |
+# # | ... | ...   | ... | ... | ... |     |
+ 
+# #+ATTR_LATEX: :width 350bp
+#  [[./card_diagram_5.png]]
+
+# Once we've agreed that the positive rationals are countable, it is
+# easy to extend our argument to the full set of rationals, using the
+# same alternating trick we used with $\ZZ$.
+
+# In the case of the integers, it was reasonably easy to come up with a
+# formula $f(n)$ that told us exactly which integer corresponded to
+# which natural number.  Because of the "double-counting" problem,
+# there's no obvious way to come up with a similar formula here. Notice,
+# though, that the double-counting problem disappears if we consider
+# /ordered pairs/ of natural numbers instead of fractions.  That is,
+# instead of writing $2/3$ in the table, we write the pair $(2, 3)$.
+# The pair $(2, 2)$ is different from the pair $(3, 3)$, and thus we
+# don't have to worry about counting the same fraction twice. Next,
+# notice that the positive rational numbers correspond to a /subset/ of
+# the set of ordered pairs of naturals: specifically, the rational
+# number $p / q$ (in lowest terms) corresponds to the pair $(p,
+# q)$. This correspondence is an /injection/: every positive rational
+# has a unique ordered pair, but not every ordered pair has a
+# corresponding rational.
+
+
+** Cantor's Theorem
+
+A set $A$ is /uncountable/ if it is not countable. Our goal is to
+prove the following theorem, due to Georg Cantor.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* The set of real numbers is uncountable.
+
+*Proof.* Remember that $[0,1]$ denotes the closed interval $\{ r \in
+\RR \mid 0 \leq r \leq 1\}$. It suffices to show that there is no
+surjective function $f : \NN \to [0,1]$, since if $\RR$ were
+countable, $[0,1]$ would be countable too.
+
+Recall that every real number $r \in [0,1]$ has a decimal expansion of
+the form $r = 0.r_1 r_2 r_3 r_4 \ldots$, where each $r_i$ is a digit
+in $\{0, 1, \ldots, 9\}$. More formally, we can write $r = \sum_{i =
+1}^\infty \frac{r_i}{10^{-i}}$ for each $r \in \RR$ with $0 \leq r \leq 1$.
+
+(Remember that $1$ can be written $0.9999\ldots$. In general every
+other rational number in $[0,1]$ will have two representations of this
+form; for example, $0.5 = 0.5000\ldots = 0.49999\ldots$. For
+concreteness, for these numbers we can choose the representation that
+ends with zeros.)
+
+As a result, we can write
+- $f(0) = 0.r_{0,0} r_{0,1} r_{0,2} r_{0,3} \ldots$
+- $f(1) = 0.r_{1,0} r_{1,1} r_{1,2} r_{1,3} \ldots$
+- $f(2) = 0.r_{2,0} r_{2,1} r_{2,2} r_{2,3} \ldots$
+- $f(3) = 0.r_{3,0} r_{3,1} r_{3,2} r_{3,3} \ldots$
+- ...
+
+Our goal is to show that $f$ is not surjective. To that end, define a
+new sequence of digits $(r_i)_{i \in \NN}$ by
+\begin{equation*}
+r_i = \begin{cases}
+        7 & \mbox{if $r_{i,i} \neq 7$} \\
+        3 & \mbox{otherwise.}
+      \end{cases}
+\end{equation*}
+The define the real number $r = 0.r_0 r_1 r_2 r_3 \ldots$. Then, for
+each $i$, $r$ differs from $f(i)$ in the $i$th digit. But this means
+that for every $i$, $f(i) \neq r$. Since $r$ is not in the range of $f$, and
+hence $f$ is not surjective. Since $f$ was arbitrary, there is no
+surjective function from $\NN$ to $[0,1]$.
+
+(We chose the digits $3$ and $7$ only to avoid $0$ and $9$, to avoid
+the case where, for example, $f(0) = 0.5000\ldots$ and $r =
+0.4999\ldots$. Since there are no zeros or nines in $r$, since the
+$i$th digit of $r$ differs from $f(i)$, it really is a different real
+number.)
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+This remarkable proof is known as a "diagonalization argument." We are
+trying to construct a real number with a certain property, namely,
+that it is not in the range of $f$. We make a table of digits, in
+which the rows represent infinitely many constraints we have to
+satisfy (namely, that for each $i$, $f(i) \neq r$), and the columns
+represent opportunities to satisfy that contraint (namely, by choosing
+the \(i\)th digit of $r$ appropriately). The complete the construction
+by stepping along the diagonal, using the $i$th opportunity to satisfy
+the \(i\)th constraint. This technique is used often in logic and
+computability theory.
+
+The following provides another example of an uncountable set.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* The power set of the natural numbers, ${\mathcal P}(\NN)$, is
+uncountable.
+
+*Proof.* Let $f : \NN \to {\mathcal P}(\NN)$ be any function. Once again,
+our goal is to show that $f$ is not surjective. Let $S$ be the set of
+natural numbers, defined as follows:
+\begin{equation*}
+S = \{ n \in \NN \mid n \notin f(i) \}
+\end{equation*}
+In words, for every natural number, $n$, $n$ is in $S$ if and only if
+it is not in $f(n)$. Then clearly for every $n$, $f(n) \neq S$. So $f$
+is not surjective.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+We can also view this as a diagonalization argument: draw a table with
+rows and columns indexed by the natural numbers, where the entry in
+the \(i\)th row and \(j\)th column is "yes" if $j$ is an element of
+$f(i)$, and "no" otherwise. The set $S$ is constructed by switching
+"yes" and "no" entries along the diagonal.
+
+In fact, exactly the same argument yields the following:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* For every set $A$, there is no surjective function from $A$
+to ${\mathcal P}(A)$.
+
+*Proof.* As above, if $f$ is any function from $A$ to ${\mathcal P}(A)$,
+the set $S = \{ a \in A \mid a \notin f(a) \}$ is not in the range of
+$f$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+This shows that there is an endless hierarchy of infinites. For
+example, in the sequence $\NN, {\mathcal P}(\NN),
+{\mathcal P}({\mathcal P}(\NN)), \ldots$, there is an injective function
+mapping each set into the next, but no surjective function. The union
+of all those sets is even larger still, and then we can take the power
+set of /that/, and so on. Set theorists are still today investigating
+the structure within this hierarchy.
+
+** An Alternative Definition of the Infinite
+
+One thing that distinguishes the infinite from the finite is that and
+infinite set can have the same size as a proper subset of itself. For
+example, the natural numbers, the set of even numbers, and the set of
+perfect squares are all equinumerous, even though the latter two are
+strictly contained among the natural numbers. 
+
+In the nineteenth century, the mathematician Richard Dedekind used
+this curious property to /define/ what it means to be infinite. We can
+show that his definition is equivalent to ours, but the proof requires
+the axiom of choice.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* A set is $A$ /Dedekind infinite/ if $A$ is equinumerous
+with a proper subset of itself, and finite otherwise.
+
+*Theorem.* A set is Dedekind infinite if and only it is infinite.
+
+*Proof.* Suppose $A$ is Dedekind infinite. We need to show it is not
+finite; suppose, to the contrary, it is bijective with $[n]$ for some
+$n$. Composing bijections, we have that $[n]$ is bijective with a
+proper subset of itself. This means that there is an injective
+function $f$ from $[n]$ to a proper subset of $n$. Modifying $f$, we
+can get an injective function from $[n]$ into $[n-1]$, contradicting
+the pigeonhole principle.
+
+Suppose, on the other hand, that $A$ is infinite. We need to show that
+there is an injective function $f$ from $A$ to a proper subset of itself
+(because then $f$ is a bijection between $A$ and the range of
+$f$). Choose a sequence of distinct element $a_0, a_1, a_2, \ldots$ of
+$A$. Let $f$ map each $a_i$ to $a_{i+1}$, but leave every other
+element of $A$ fixed. Then $f$ is injective$, but $a_0$ is not in the
+range of $f$, as required.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+** The Cantor-Bernstein Theorem
+:PROPERTIES:
+  :CUSTOM_ID: The_Cantor-Bernstein_Theorem
+:END:
+
+Saying that $A$ and $B$ ar equinumerous means, intuitively, that $A$
+and $B$ have the same side. There is also a natural way of saying that
+$A$ is not larger than $B$:
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Definition.* For two sets $A$ and $B$, we say the cardinality of $A$ is
+less than or equal to the cardinality of $B$, written $A \preceq B$, 
+when there is an injection $f : A \to B$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+As an exercise, we ask you to show that $\preceq$ is a /preorder/,
+which is to say, it is reflexive and transitive. Here is a natural
+question: does $A \preceq B$ and $B \preceq A$ imply $A \approx B$? In
+other words, assuming there are injective functions $f : A \to B$ and
+$g : B \to A$, is there necessarily a bijection from $A$ to $B$?
+
+The answer is "yes," but the proof is tricky. The result is known as
+the /Cantor-Bernstein Theorem/, and we state it without proof.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+*Theorem.* For any sets $A$ and $B$, if $A \preceq B$ and $B \preceq
+ A$, then $A \approx B$.
+
+#+HTML: <hr>
+#+LATEX: \horizontalrule
+
+# TODO: add a proof!
+
+** Exercises
+
+1. Show that equinumerosity is reflexive, symmetric, and transitive.
+
+2. Show that the function $f(x) = x / (1 - x)$ is a bijection between
+   the interval $[0,1)$ and $\RR^{\geq 0}$.
+  
+3. Show that the $g(x) = x / (1 - |x|)$ gives a bijection between
+   $(-1, 1)$ and $\RR$.
+
+4. Define a function $J : \NN \times \NN \to \NN$ by 
+   $J(i,j) = \frac{(i + j)(i + j + 1)}{2} + i$.
+
+   a. Draw a picture indicating which pairs are sent to $0, 1, 2,
+      \ldots$.
+
+   b. Let $n = i + j$. Show that $J(i,j)$ is equal the number of pairs
+       $(u, v)$ such that either $u + v < n$, or $u + v = n$
+       and $u < i$. (Use the fact that $1 + 2 + \ldots + n = n(n+1)/2$.)
+
+   c. Conclude that $J$ is surjective: to find $i$ and $j$ such that
+      $J(i,j) = k$, it suffices to find the largest $n$ such that
+      $n(n+1)/2 \leq k$, let $i = k - n(n+1)/2$, and let $j = n - i$.
+
+    d. Conclude that $J$ is injective: if $J(i,j) = J(i',j')$, let $n
+       = i + j$ and $n' = i' + j'$. Argue that $n = n'$, and so $i = i'$
+       and $j = j'$.
+
+    This shows that $J$ is a bijection from $\NN \times \NN$ to $\NN$.
+
+5. Let $S$ be the set of functions from $\NN$ to $\{ 0, 1\}$.  Use a
+   diagonal argument to show that $S$ is uncountable. (Notice that you
+   can think of a function $f: \NN \to \{0, 1\}$ as an infinite
+   sequence of 0's and 1's, given by $f(0), f(1), f(2), \ldots$. So,
+   given a function $F(n)$ which, for each natural number $n$, returns
+   an infinite sequence of 0's and 1's, you need to find a sequence
+   that is not in the image of $F$.)
+  
+6. If $f$ and $g$ are functions from $\NN$ to $\NN$, say that $g$
+   \emph{eventually dominates} $f$ if there is some $n$ such that for
+   every $m \geq n$, $g(m) > f(m)$. In other words, from some point
+   on, $g$ is bigger than $f$.
+
+   Show that if $f_0, f_1, f_2, \ldots$ is any sequence of functions
+   from $\NN$ to $\NN$, indexed by the natural numbers, then there is
+   a function $g$ that eventually dominates each $f_i$.  (Hint:
+   construct $g$ so that for each $i$, $g(n) > f_i(n)$ for every $n
+   \geq i$.)
+
+7. Show that the relation $\preceq$ defined in [[#The_Cantor-Bernstein_Theorem][Section 29.5]] is
+   reflexive and transitive.
+

@@ -69,7 +69,7 @@ description. That is, in fact, the case:
 #+LATEX: \horizontalrule
 
 *Proposition.* If $n$ and $m$ are as above, $n = m q + r$ and $n =
-m q' + r'$ with both $r$ and $r'$ less than $n$, then $q = q'$ and $r
+m q' + r'$ with both $r$ and $r'$ less than $m$, then $q = q'$ and $r
 = r'$.
 
 *Proof.* By assumption, we have $mq + r = m q' + r'$. It suffices to
@@ -80,7 +80,7 @@ loss of generality that $q < q'$. (The other case is symmetric.) Then
 $m q < m q'$, so we can subtract $mq$ from both sides of the equality
 $mq + r = m q' + r'$ to obtain
 \[
-r = m q' + r - m q = m (q - q') + r'.
+r = m q' + r' - m q = m (q - q') + r'.
 \]
 But since $q' < q$, we have $q - q' \ge 1$, which means
 \[
@@ -101,7 +101,7 @@ We can define divisibility on the integers as follows.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Definition.* Given two integers $m$ and $n$. We say that $m$ /is a
+*Definition.* Given two integers $m$ and $n$, we say that $m$ /is a
  divisor of/ $n$, written $m \mid n$, if there exists some integer $k$
  such that $m \cdot k = n$. We also say that $n$ /is divisible by/ $m$
  or that $m$ /divides/ $n$. We write $m \nmid n$ to say that $m$ is
@@ -149,7 +149,7 @@ partial order, on the natural numbers.
 See Exercise 1 for some basic properties of divisibility.
 
 An integer is /even/ if it is divisible by $2$, in other words,
-$n$ is even if $2 \mid n$. An integer is /odd/ if it's not
+$n$ is even if $2 \mid n$. An integer is /odd/ if it is not
 even. Of course, odd numbers are of the form $2k+1$ for some $k$, and
 we can prove this now.
 
@@ -178,7 +178,7 @@ $k$.
 #+LATEX: \horizontalrule
 
 *Definition.* Given two integers $m$ and $n$ such that either $m \neq
-0$ or $n \neq 0$. We define the /greatest common divisor/ $\gcd(m,n)$
+0$ or $n \neq 0$, we define the /greatest common divisor/ $\gcd(m,n)$
 of $m$ and $n$ to be the largest integer $d$ which is both a divisor
 of $m$ and $n$, that is $d \mid m$ and $d \mid n$.
 
@@ -217,7 +217,7 @@ In the other case we first show that the set of common divisors of $n$
 and $m$ is the same as the set of the common divisors of $m$ and
 $r$. To see this, let $d' \mid m$ and $d' \mid n$. Then also $d' \mid
 n - km$ by Exercise 1 below. Hence $d'$ is a common divisor of $m$
-and $r$. On the other hand, if $d'$ is a divisor of $n$ and $r$, then
+and $r$. On the other hand, if $d'$ is a divisor of $m$ and $r$, then
 $d' \mid r + km$, hence $d' \mid n$, hence $d'$ is a common divisor
 of $n$ and $m$.
 
@@ -245,7 +245,7 @@ Algorithm/. Suppose we want to compute $\gcd(a, b)$.
 This works, because by the lemmas above, we have $\gcd(r_k,r_{k+1}) =
 \gcd(r_{k+1}, r_{k+2})$, since $r_{k+2} = r_k - qr_{k+1}$ for some
 $q$. Hence if $r_n=0$ we have
-$\gcd(a,b)=\gcd(r_0,r_1)=\gcd(r_{n-1},r_n)=\gcd(r_{n-1},0)=|r_{n-1}|$
+$\gcd(a,b)=\gcd(r_0,r_1)=\gcd(r_{n-1},r_n)=\gcd(r_{n-1},0)=|r_{n-1}|.$
 
 For example, suppose we want to compute the greatest common divisor of
 1311 and 5757. We compute the following remainders:
@@ -265,24 +265,24 @@ called a "lemma" for historical reasons.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem* (B‎ézout's Lemma). Let $n$ and $m$ be integers. Then there
-are integers $a$ and $b$ such that $an+bm=\gcd(n,m)$.
+*Theorem* (B‎ézout's Lemma). Let $s$ and $t$ be integers. Then there
+are integers $a$ and $b$ such that $as+bt=\gcd(s,t)$.
 
-*Proof.* We compute $\gcd(n,m)$ by the Euclidean Algorithm given
+*Proof.* We compute $\gcd(s,t)$ by the Euclidean Algorithm given
 above, and during the algorithm we get the intermediate values $r_0,
 r_1, \ldots, r_n$ where $r_n = 0$. Now by induction on $k$ we prove
-that we can write $r_k = a_kn+b_km$ for some integers $a_k$ and
-$b_k$. Indeed: $r_0 = 1\cdot n + 0\cdot m$ and $r_1 = 0\cdot n +
-1\cdot m$. Now if we assume that $r_k = a_kn+b_km$ and $r_{k+1} =
-a_{k+1}n+b_{k+1}m$, we know that $r_{k+2} = r_k - q\cdot r_{k+1}$,
+that we can write $r_k = a_ks+b_kt$ for some integers $a_k$ and
+$b_k$. Indeed: $r_0 = 1\cdot s + 0\cdot t$ and $r_1 = 0\cdot s +
+1\cdot t$. Now if we assume that $r_k = a_ks+b_kt$ and $r_{k+1} =
+a_{k+1}s+b_{k+1}t$, we know that $r_{k+2} = r_k - q\cdot r_{k+1}$,
 where $q$ is the quotient of $r_k$ when divided by $r_{k+1}$. These
 equations together give
 \begin{equation*}
-r_{k+2} = (a_k-qa_{k+1})n + (b_k-qb_{k+1})m
+r_{k+2} = (a_k-qa_{k+1})s + (b_k-qb_{k+1})t
 \end{equation*}
 This completes the induction. In particular, $r_{n-1} =
-a_{n-1}n+b_{n-1}m$, and since $\gcd(n,m)=\pm r_{n-1}$ we can write
-$\gcd(n,m)$ as $an+bm$ for some $a$ and $b$.
+a_{n-1}s+b_{n-1}t$, and since $\gcd(s,t)=\pm r_{n-1}$ we can write
+$\gcd(s,t)$ as $as+bt$ for some $a$ and $b$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule

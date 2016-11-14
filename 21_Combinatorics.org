@@ -31,8 +31,7 @@ A set $A$ of elements is said to be /finite/ if there is a bijection
 from $A$ to $[n]$ for some $n$. In that case, we would like to say
 that $A$ /has $n$ elements/, or that the set $A$ /has cardinality/
 $n$, and write $|A| = n$. But to do so, we need to know that when $A$
-is finite, there is a /unique/ $n$ with the property above, justifying
-the use of the term "the."
+is finite, there is a /unique/ $n$ with the property above.
 
 Suppose there are bijections from $A$ to $[m]$ and $[n]$. Composing
 the inverse of the first bijection with the second, we get a bijection
@@ -109,7 +108,7 @@ Here is a basic counting principle.
 = | A | + | B |$.
 
 *Proof.* Suppose $f : [m] \to A$ and $g : [n] \to B$ are
-bijections. Define $h : m + n \to A \cup B$ by
+bijections. Define $h : [m + n] \to A \cup B$ by
 \begin{equation*}
 h(i) =
   \begin{cases}

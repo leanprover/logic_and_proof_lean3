@@ -64,11 +64,11 @@ maps $[n+2]$ to $[n]$, and restricting the domain, we have an
 injective function from $[n+1]$ to $[n]$, contradicting the inductive
 hypothesis.
 
-In the second case, there is some $m < n + 1$ such that $f(m) =
+In the second case, there is some $m < n + 2$ such that $f(m) =
 n$. The idea is to alter $f$ slightly to get an injective function
 from $[n+1]$ to $[n]$, again contradicting the inductive
 hypothesis. If $m = n + 1$, which is to say it is the last element of
-$[n+2]$ that it mapped to the last element of $[n+1]$, we can just
+$[n+2]$ that is mapped to the last element of $[n+1]$, we can just
 restrict $f$ to $[n+1]$. The fact that $f$ was injective implies that
 all the elements in $[n+1]$ are mapped to $n$.
 

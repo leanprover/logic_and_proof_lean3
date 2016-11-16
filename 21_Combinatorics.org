@@ -119,7 +119,7 @@ h(i) =
 To see that $h$ is surjective, note that every $k$ in $A \cup B$ can
 be written as either $k = f(i)$ for some $i \in [m]$ or $k = g(j)$ for
 some $j \in [n]$. In the first case, $k = f(i) = h(i)$, and in the
-second case, $k = g(j) = h(m + h)$.
+second case, $k = g(j) = h(m + j)$.
 
 It is not hard to show that $h$ is also injective. Suppose $h(i) =
 h(j)$. If $h(i)$ is in $A$, then it is not in the range of $g$, and so
@@ -245,7 +245,7 @@ and $B$, then $B$ is also finite, and $|A| = |B|$.
 all subsets of $\{0, 1, 2, \ldots, n-1\}$. There is a one-to-one
 correspondence between subsets and binary strings of length $n$, where
 element $i$ of the string is $1$ if $i$ is in the set and $0$
-otherwise. As a result, we have $| \mathcal P (A) | = 2^n$.
+otherwise. As a result, we have $| \mathcal P ([n]) | = 2^n$.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -273,7 +273,7 @@ set $S^k$ has cardinality $n^k$.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Theorem.* Let $S$ set of $n$ elements. Then the number of ways of making
+*Theorem.* Let $S$ be a set of $n$ elements. Then the number of ways of making
 $k$ selections from $S$ with repetition allowed is $n^k$.
 
 *Example.* How many three-letter strings (like "xyz," "qqa," ...) can
@@ -305,11 +305,11 @@ distinct from $f(0)$ and $f(1)$; and so on.
 #+LATEX: \horizontalrule
 
 *Theorem.* Let $A$ and $B$ be finite sets, with $|A| = k$ and $|B| =
-n$, and $k \le n$, The number of injective functions from $A$
+n$, and $k \le n$. The number of injective functions from $A$
 to $B$ is $n \cdot (n - 1) \cdot \ldots \cdot (n - k + 1)$.
 
 *Proof.* Using induction on $k$, we will show that for every $A$, $B$,
-and $n \geq k$, the claim holds. When $k = 0$ and there is only one
+and $n \geq k$, the claim holds. When $k = 0$ there is only one
 injective function, namely the function with empty domain. Suppose $A$
 has cardinality $k + 1$, let $a_0$ be any element of $A$. Then any
 injective function from $A$ to $B$ can be obtained by choosing an
@@ -330,19 +330,19 @@ $n \cdot (n - 1) \cdot \ldots \cdot (n - k + 1)$.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-If $A$ is a finite set, a bijection $f$ from $S$ to $S$ is also called
-a /permutation/ of $S$. The previous theorem shows that if $|S| = n$
+If $A$ is a finite set, a bijection $f$ from $A$ to $A$ is also called
+a /permutation/ of $A$. The previous theorem shows that if $|A| = n$
 then the number of permutations of $A$ is $n \cdot (n - 1) \cdot
 \ldots \cdot 1$. This quantity comes up so often that it has a name,
 $n$ /factorial/, and a special notation, $n!$. If we think of the
-elements of $S$ listed in some order, a permutation of $S$ is
-essentially an ordered selection of $n$ elements from $S$ without
+elements of $A$ listed in some order, a permutation of $A$ is
+essentially an ordered selection of $n$ elements from $A$ without
 repetition: we choose where to map the first element, then the second
 element, and so on. It is a useful convention to take $0!$ to be equal
 to $1$.
 
 The more general case where we are choosing only $k$ elements from a
-set $S$ is called a \(k\)-permutation of $S$. The theorem above says
+set $A$ is called a \(k\)-permutation of $A$. The theorem above says
 that the number of \(k\)-permutations of an \(n\)-element set is equal to
 $n! / (n - k)!$, because if you expand the numerator and denominator
 into products and cancel, you get exactly the $n \cdot (n - 1) \cdot

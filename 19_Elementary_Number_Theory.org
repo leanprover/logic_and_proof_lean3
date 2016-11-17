@@ -245,7 +245,9 @@ Algorithm/. Suppose we want to compute $\gcd(a, b)$.
 This works, because by the lemmas above, we have $\gcd(r_k,r_{k+1}) =
 \gcd(r_{k+1}, r_{k+2})$, since $r_{k+2} = r_k - qr_{k+1}$ for some
 $q$. Hence if $r_n=0$ we have
-$\gcd(a,b)=\gcd(r_0,r_1)=\gcd(r_{n-1},r_n)=\gcd(r_{n-1},0)=|r_{n-1}|.$
+\begin{equation*}
+\gcd(a,b)=\gcd(r_0,r_1)=\gcd(r_{n-1},r_n)=\gcd(r_{n-1},0)=|r_{n-1}|.
+\end{equation*}
 
 For example, suppose we want to compute the greatest common divisor of
 1311 and 5757. We compute the following remainders:

@@ -25,9 +25,9 @@ do
 done
 
 # Collect Appendices
-echo "#+BEGIN_LATEX" >> ${TUTORIAL_ORG_FILE}
-echo "\appendix"     >> ${TUTORIAL_ORG_FILE}
-echo "#+END_LATEX"   >> ${TUTORIAL_ORG_FILE}
+echo "#+BEGIN_EXPORT latex" >> ${TUTORIAL_ORG_FILE}
+echo "\appendix"            >> ${TUTORIAL_ORG_FILE}
+echo "#+END_EXPORT"         >> ${TUTORIAL_ORG_FILE}
 
 for APPENDIX in A[0-9]*.org
 do

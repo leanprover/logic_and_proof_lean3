@@ -1,4 +1,4 @@
-#+BEGIN_LATEX
+#+BEGIN_EXPORT latex
 %\bibliographystyle{plain}
 %\bibliography{lean}
 
@@ -9,4 +9,4 @@
 %\clearpage
 %\addcontentsline{toc}{chapter}{Index}
 %\printindex
-#+END_LATEX
+#+END_EXPORT

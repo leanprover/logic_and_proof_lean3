@@ -16,6 +16,6 @@
 #+LATEX_CLASS: per-file-class
 #+LATEX_CLASS_OPTIONS: [11pt,book,table,dvipsnames,oneside,openany]
 #+LATEX_HEADER: \input{header/latex.tex}
-#+BEGIN_LATEX
+#+BEGIN_EXPORT latex
 %\OnehalfSpacing
-#+END_LATEX
+#+END_EXPORT

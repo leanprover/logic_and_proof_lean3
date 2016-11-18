@@ -11,7 +11,7 @@
 We have already come across some of the fundamental number systems:
 the natural numbers, $\NN$, the integers, $\ZZ$, and the rationals,
 $\QQ$. In a sense, each subsequent element of the list was designed to
-remedy defects in the previous system: we can substract any integer
+remedy defects in the previous system: we can subtract any integer
 from any other integer and end up with another integer, and we can
 divide any rational number by a nonzero rational number and end up
 with a rational number.
@@ -90,7 +90,7 @@ the real numbers are designed to repair.
 # TODO: the previous presentation had this. It's confusing; in
 # mathematical terms, I don't think the rationals are considered
 # discrete or continuous. Anyhow, perhaps the discussion of density
-# can do in the chapter on orders? Or algebraic structurs?
+# can do in the chapter on orders? Or algebraic structures?
 
 # Mathematicians often distinguish the /discrete/ from the
 # /continuous/. The natural numbers and the integers fall into the
@@ -273,7 +273,7 @@ The problem we face is that the sequence $1, 1.4, 1.41, 1.414, 1.4142,
 \ldots$ of rational numbers seems to approach a value that /would/ be
 the square root of 2, but there is no rational number that can play
 that role. The next definition captures the notion that this sequence
-of numbers "seems to approach a value," wihout referring to a value
+of numbers "seems to approach a value," without referring to a value
 that it is approaching.
 
 #+HTML: <hr>
@@ -324,7 +324,7 @@ one another.
 
 Cauchy sequences can be used to describe these gaps in the rationals,
 but many Cauchy sequences can be used to describe the same gap. For
-instance, a sequence $2, 1.5, 1.42, \ldots$ can approache the same
+instance, a sequence $2, 1.5, 1.42, \ldots$ can approach the same
 value as our $1, 1.4, 1.41, \ldots$, but from above instead of from
 below. It is slightly misleading to say that they "approach the same
 point," since there is no rational point that they approach; a more
@@ -349,7 +349,7 @@ transitivity. Suppose $(p_i) \equiv (q_i)$ and $(q_i) \equiv
 $(r_i)$. So, given any $\varepsilon > 0$, choose $N_0$ large enough
 such that for every $i \ge N_0$, $|p_i - q_i| < \varepsilon /
 2|$. Choose another number, $N_1$, so that for every $i \geq
-N_1$, |q_i - r_i| < \varepsilon / 2$. Let $N = \max(N_0, N_1)$. Then
+N_1$, $|q_i - r_i| < \varepsilon / 2$. Let $N = \max(N_0, N_1)$. Then
 for every $i \geq N$, we have
 \begin{equation*}
  |p_i - r_i | = |(p_i - q_i) + (q_i - r_i)| \leq |p_i - q_i| + |q_i - r_i| 
@@ -604,7 +604,7 @@ large $N$.
 2. Show from the construction of the integers in  [[#Quotient_Constructions][Section 27.2]] that
    $a + 0 = a$ for every integers $a$.
 
-3. Define substraction for the integers by $a - b = a + (-b)$, and
+3. Define subtraction for the integers by $a - b = a + (-b)$, and
    show that $a - b + b = a$ for every pair of integers $a$ and $b$.
 
 4. Define multiplication for the integers, by first defining it on the

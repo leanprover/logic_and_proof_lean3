@@ -432,7 +432,7 @@ Contradiction.
   :CUSTOM_ID: Recursive_Definitions
 :END:
 
-Supose I tell you that I have a function $f : \NN \to \NN$ in mind,
+Suppose I tell you that I have a function $f : \NN \to \NN$ in mind,
 satisfying the following properties:
 \begin{align*}
  f(0) & = 1 \\
@@ -470,7 +470,7 @@ unique function $f$ satisfying the following two clauses:
 
 The principle of recursive definition makes two claims at once: first,
 that there is a function $f$ satisfying the clauses above, and,
-second, that any two functions $f_1$ and $f_2$ satsifying those
+second, that any two functions $f_1$ and $f_2$ satisfying those
 clauses are equal, which is to say, they have the same values for
 every input. In the example with which we began this section, $A$ is
 just $\NN$ and $g(n, f(n)) = 2 \cdot f(n)$.
@@ -657,7 +657,7 @@ the sense described in [[file:13_Relations.org::#Order_Relations][Section 13.1]]
 *Proof*. We will prove some of these properties.
 
 The first property is straightforward: we know $n \le n + 1$, and if
-we had $n + 1 \le n$, we sould have $n = n + 1$, a contradiction.
+we had $n + 1 \le n$, we should have $n = n + 1$, a contradiction.
 
 For the second property, assume $n < m$ and $m < k$. Then $n + 1 \le m
 \le m + 1 \le k$, which implies $n < k$.
@@ -734,7 +734,7 @@ The natural numbers are designed for counting discrete quantities, but
 they suffer an annoying drawback: it is possible to subtract $n$ from
 $m$ if $n$ is less than or equal to $m$, but not if $m$ is greater
 than $n$. The set of /integers/, $\ZZ$, extends the natural numbers
-with negative values, to make it possible to carry out substraction in
+with negative values, to make it possible to carry out subtraction in
 full:
 \begin{equation*}
 \ZZ = \{ \ldots, -3, -2, -1, 0, 1, 2, 3, \ldots \}
@@ -748,7 +748,7 @@ You can think of the integers as consisting of two copies of the
 natural numbers, a positive one and a negative one, sharing a common
 zero. Conversely, once we have the integers, you can think of the
 natural numbers as consisting of the nonnegative integers, that is,
-the itnegers that are greater than or equal to $0$. Most
+the integers that are greater than or equal to $0$. Most
 mathematicians blur the distinction between the two, though we will
 see that in Lean, for example, the natural numbers and the integers
 represent two different data types.

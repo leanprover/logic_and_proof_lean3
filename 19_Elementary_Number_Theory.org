@@ -7,7 +7,7 @@
 :END:
 
 In the last two chapters, we saw that the natural numbers are
-characterized by the fact that they suport /proof by induction/ and
+characterized by the fact that they support /proof by induction/ and
 /definition by recursion/. Moreover, with these components, we can
 actually define $+$, $\times$, and $<$ in a suitable axiomatic
 foundation, and prove that they have the relevant properties. In
@@ -705,7 +705,7 @@ We will now prove that $\sqrt{2}$ is not a fraction of two integers.
 *Theorem.* There are no integers $a$ and $b$ such that $\frac ab=\sqrt{2}$.
 
 *Proof.* Suppose that $\frac ab=\sqrt{2}$ for some integers $a$ and
-$b$. By cancelling common factors, we may assume that $a$ and $b$ are
+$b$. By canceling common factors, we may assume that $a$ and $b$ are
 coprime. By squaring both sides, we get $\frac{a^2}{b^2}=2$, and
 multiplying both sides by $b^2$ gives $a^2=2b^2$. Since $2b^2$ is
 even, we know that $a^2$ is even, and since odd squares are odd, we

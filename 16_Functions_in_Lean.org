@@ -8,7 +8,7 @@
 
 ** Functions and Symbolic Logic
 
-Let us kow consider functions in formal terms. Even though we have
+Let us now consider functions in formal terms. Even though we have
 avoided the use of quantifiers and logical symbols in the definitions
 in the last chapter, by now you should be seeing them lurking beneath
 the surface. That fact that two functions $f, g : X \to Y$ are equal
@@ -81,7 +81,7 @@ In that case, a logician might use "iota notation,"
 \[
 f(x) = \iota y \; R(x, y)
 \]
-to define $f(x)$ to be equal to the unique $y$ satsifying $R(x,y)$. If
+to define $f(x)$ to be equal to the unique $y$ satisfying $R(x,y)$. If
 $R$ satisfies the weaker property
 \[
 \fa x \ex y R(x,y),
@@ -489,7 +489,7 @@ show finv (f x) = x, from injf H2
 In [[file:07_First_Order_Logic.org::#Relativization_and_Sorts][Section 7.4]] we saw how to represent relativized universal and
 existential quantifiers when formalizing phrases like "every prime
 number greater than two is odd" and "some prime number is even." In a
-similar way, we can relativie statements to sets. In symbolic logic,
+similar way, we can relativize statements to sets. In symbolic logic,
 the expression $\ex {x \in A} P (x)$ abbreviates $\ex x (x \in A
 \wedge P(x))$, and $\fa {x \in A} P (x)$ abbreviates $\fa x (x \in A
 \to P(x))$.
@@ -641,7 +641,7 @@ show ∃x, x ∈ A ∧ g (f x) = z, from
             ... = z   : and.right H1))
 -- END
 #+END_SRC
-The folowing shows that the image of a union is the union of images:
+The following shows that the image of a union is the union of images:
 #+BEGIN_SRC lean
 import data.set
 open set function

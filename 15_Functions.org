@@ -140,7 +140,7 @@ $h$, and a right inverse $k$. Then $h = k$.
 
 *Proof.* Let $y$ be any element in $Y$. The idea is to compute
 $h(f(k(y))$ in two different ways. Since $h$ is a left inverse to $f$,
-we ahve $h(f(k(y))) = k(y)$. On the other hand, since $k$ is a right
+we have $h(f(k(y))) = k(y)$. On the other hand, since $k$ is a right
 inverse to $f$, $f(k(y)) = y$, and so $h(f(k(y)) = h(y)$. So $k(y) =
 h(y)$.
 
@@ -291,7 +291,7 @@ a version of the /axiom of choice/. In the early twentieth century,
 the use of the axiom of choice in mathematics was hotly debated, but
 today it is commonplace.
 
-Using these equivalances and the results in the previous section, we
+Using these equivalences and the results in the previous section, we
 can prove the following:
 
 #+HTML: <hr>
@@ -388,7 +388,7 @@ f^{-1}[B] = \{ x \in X \; | \; f(x) \in B \},
 \]
 that is, the set of elements of $X$ that get mapped into $B$. Notice
 that this makes sense even if $f$ does not have an inverse; for a
-given $y$ in $B$, there may be no \(x\)'s with the propery $f(x) \in B$,
+given $y$ in $B$, there may be no \(x\)'s with the property $f(x) \in B$,
 or there may be many. If $f$ has an inverse, $f^{-1}$, then for every
 $y$ in $B$ there is exactly one $x \in X$ with the property $f(x) \in
 B$, in which case, $f^{-1}[B]$ means the same thing whether you

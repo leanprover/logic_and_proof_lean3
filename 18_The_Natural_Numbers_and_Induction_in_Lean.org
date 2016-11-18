@@ -200,7 +200,7 @@ definition fact : ℕ → ℕ
 | (n + 1) := (n + 1) * fact n
 -- END
 #+END_SRC
-If we wanted to define the fuction =m^n=, we would do that by fixing
+If we wanted to define the function =m^n=, we would do that by fixing
 =m=, and writing doing the recursion on the second argument:
 #+BEGIN_SRC lean
 open nat

@@ -328,7 +328,7 @@ instance, a sequence $2, 1.5, 1.42, \ldots$ can approache the same
 value as our $1, 1.4, 1.41, \ldots$, but from above instead of from
 below. It is slightly misleading to say that they "approach the same
 point," since there is no rational point that they approach; a more
-precise statement is that the sequences eventually become arbitrary
+precise statement is that the sequences eventually become arbitrarily
 close.
 
 #+HTML: <hr>
@@ -365,9 +365,9 @@ numbers $a$ and $b$, $|a + b| \leq |a| + |b|$. (The triangle
 inequality will also be true of the real numbers, once we are done
 constructing them.)
 
-We now let the $A$ be the set of Cauchy sequences of rationals, and
+We now let $A$ be the set of Cauchy sequences of rationals, and
 define the real numbers, $\RR$, to be $A / \equiv$. In other words,
-the real numbers is the set of Cauchy sequence of rationals, modulo
+the real numbers are the set of Cauchy sequence of rationals, modulo
 the equivalence relation we just defined.
 
 Having the set $\RR$ by itself is not enough: we also would like to

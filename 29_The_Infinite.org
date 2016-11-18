@@ -82,9 +82,9 @@ infinite.
 
 The term "countably infinite" is meant to be evocative. Suppose $A$ is
 a countable set. By definition, there is a bijection $f : \NN \to
-A$. $A$ has a "first" element, $f(0)$, a "second" element, $f(1)$, a
-"third" element, $f(2)$, \ and so on. Since $f$ is a bijection, for
-every element $a$ of $A$, $a$ is the $n$th element enumerated in this
+A$. $A$ has a "first" element $f(0)$, a "second" element $f(1)$, a
+"third" element $f(2)$, and so on. Since $f$ is a bijection, for
+every element $a$ of $A$, $a$ is the \(n\)th element enumerated in this
 way, for a unique value of $n$. That is, each element of $A$ is
 "counted" at some finite stage.
 
@@ -431,18 +431,28 @@ the form $r = 0.r_1 r_2 r_3 r_4 \ldots$, where each $r_i$ is a digit
 in $\{0, 1, \ldots, 9\}$. More formally, we can write $r = \sum_{i =
 1}^\infty \frac{r_i}{10^{-i}}$ for each $r \in \RR$ with $0 \leq r \leq 1$.
 
-(Remember that $1$ can be written $0.9999\ldots$. In general every
+(Notice that $1$ can be written $0.9999\ldots$. In general every
 other rational number in $[0,1]$ will have two representations of this
 form; for example, $0.5 = 0.5000\ldots = 0.49999\ldots$. For
 concreteness, for these numbers we can choose the representation that
 ends with zeros.)
 
 As a result, we can write
-- $f(0) = 0.r_{0,0} r_{0,1} r_{0,2} r_{0,3} \ldots$
-- $f(1) = 0.r_{1,0} r_{1,1} r_{1,2} r_{1,3} \ldots$
-- $f(2) = 0.r_{2,0} r_{2,1} r_{2,2} r_{2,3} \ldots$
-- $f(3) = 0.r_{3,0} r_{3,1} r_{3,2} r_{3,3} \ldots$
+# - $f(0) = 0.r_{0,0} r_{0,1} r_{0,2} r_{0,3} \ldots$
+# - $f(1) = 0.r_{1,0} r_{1,1} r_{1,2} r_{1,3} \ldots$
+# - $f(2) = 0.r_{2,0} r_{2,1} r_{2,2} r_{2,3} \ldots$
+# - $f(3) = 0.r_{3,0} r_{3,1} r_{3,2} r_{3,3} \ldots$
+# - ...
+
+- $f(0) = r^0_0 r^0_1 r^0_2 r^0_3 r^0_4 \ldots$
+- $f(1) = r^1_0 r^1_1 r^1_2 r^1_3 r^1_4 \ldots$
+- $f(2) = r^2_0 r^2_1 r^2_2 r^2_3 r^2_4 \ldots$
+- $f(3) = r^3_0 r^3_1 r^3_2 r^3_3 r^3_4 \ldots$
+- $f(4) = r^4_0 r^4_1 r^4_2 r^4_3 r^4_4 \ldots$
 - ...
+
+(We use superscripts, $r^i$, to denote the digits of $f(i)$. The superscripts
+do not mean the "\(i\)th power.")
 
 Our goal is to show that $f$ is not surjective. To that end, define a
 new sequence of digits $(r_i)_{i \in \NN}$ by
@@ -453,7 +463,7 @@ r_i = \begin{cases}
       \end{cases}
 \end{equation*}
 The define the real number $r = 0.r_0 r_1 r_2 r_3 \ldots$. Then, for
-each $i$, $r$ differs from $f(i)$ in the $i$th digit. But this means
+each $i$, $r$ differs from $f(i)$ in the \(i\)th digit. But this means
 that for every $i$, $f(i) \neq r$. Since $r$ is not in the range of $f$, and
 hence $f$ is not surjective. Since $f$ was arbitrary, there is no
 surjective function from $\NN$ to $[0,1]$.
@@ -461,7 +471,7 @@ surjective function from $\NN$ to $[0,1]$.
 (We chose the digits $3$ and $7$ only to avoid $0$ and $9$, to avoid
 the case where, for example, $f(0) = 0.5000\ldots$ and $r =
 0.4999\ldots$. Since there are no zeros or nines in $r$, since the
-$i$th digit of $r$ differs from $f(i)$, it really is a different real
+\(i\)th digit of $r$ differs from $f(i)$, it really is a different real
 number.)
 
 #+HTML: <hr>
@@ -474,7 +484,7 @@ which the rows represent infinitely many constraints we have to
 satisfy (namely, that for each $i$, $f(i) \neq r$), and the columns
 represent opportunities to satisfy that contraint (namely, by choosing
 the \(i\)th digit of $r$ appropriately). The complete the construction
-by stepping along the diagonal, using the $i$th opportunity to satisfy
+by stepping along the diagonal, using the \(i\)th opportunity to satisfy
 the \(i\)th constraint. This technique is used often in logic and
 computability theory.
 
@@ -562,7 +572,7 @@ there is an injective function $f$ from $A$ to a proper subset of itself
 (because then $f$ is a bijection between $A$ and the range of
 $f$). Choose a sequence of distinct element $a_0, a_1, a_2, \ldots$ of
 $A$. Let $f$ map each $a_i$ to $a_{i+1}$, but leave every other
-element of $A$ fixed. Then $f$ is injective$, but $a_0$ is not in the
+element of $A$ fixed. Then $f$ is injective, but $a_0$ is not in the
 range of $f$, as required.
 
 #+HTML: <hr>

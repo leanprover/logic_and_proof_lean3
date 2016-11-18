@@ -263,7 +263,7 @@ In the first variant of the problem, you are allowed to repeat a
 choice. For example, if you are choosing 3 flavors from a list of 31
 ice cream flavors, you can choose "chocolate, vanilla, chocolate."
 This is known as /ordered selection with repetition/. If you are
-making $k$ choices from among $n$ options in $S$, such a slection is
+making $k$ choices from among $n$ options in $S$, such a selection is
 essentially a tuple $(a_0, a_1, \ldots, a_{k-1})$, where each $a_i$ is
 one of the $n$ elements in $S$. In other words, the set of ways of
 making $k$ selections from $S$ with repetition is the set $S^k$, and
@@ -687,7 +687,7 @@ taking at least one of the three classes?
     that if $S$ is any set of $n$ elements, $\binom{n}{k}$ is the number
    of subsets of $S$ with $k$ elements.
 
-11. How many distinct arrangments are there of the letters in the word
+11. How many distinct arrangements are there of the letters in the word
     MISSISSIPPI?
 
     (Hint: this is tricky. First, suppose all the S's, I's, and P's

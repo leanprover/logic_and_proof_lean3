@@ -10,8 +10,8 @@
 
 Remember that in [[file:21_Combinatorics.org::#Combinatorics][Chapter 21]] we defined, for each natural number $n$,
 the set $[n] = \{0, 1, \ldots, n-1\}$. We then said that a set $A$ is
-said to be /finite/ if there is a bijection between $A$ and $[n]$ for
-some $n$. A set is said to be /infinite/ if it is not finite.
+/finite/ if there is a bijection between $A$ and $[n]$ for some $n$. A
+set is said to be /infinite/ if it is not finite.
 
 If $A$ and $B$ are two finite sets, then they have the same
 cardinality if and only if there is a bijection between them. It turns
@@ -21,9 +21,10 @@ even if $A$ and $B$ are not finite.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-*Definition.* Two sets $A$ and $B$ are said to be /equinumerous/, $A
-\approx B$, if there is a bijection between them. Equivalently, we say
-that $A$ and $B$ /have the same cardinality/.
+*Definition.* Two sets $A$ and $B$ are said to be /equinumerous/,
+written $A \approx B$, if there is a bijection between
+them. Equivalently, we say that $A$ and $B$ /have the same
+cardinality/.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -33,11 +34,11 @@ sound strange, because it is not clear that there is any object, "the
 cardinality of $A$," that they both "have." It turns out that, in
 set-theoretic foundations, there are certain objects ---
 generalizations of the natural numbers --- that one can use to measure
-the size of an infinite set, and which therefore fill the role of the
-"cardinality" of a set. But this is irrelevant to our purposes here:
-for the rest of this chapter, when we say that $A$ and $B$ have the
-same cardinality, we mean neither more nor less than the fact that
-there is a bijection between them.
+the size of an infinite set. There are known as the "cardinal numbers"
+or "cardinals."  But they are irrelevant to our purposes here: for the
+rest of this chapter, when we say that $A$ and $B$ have the same
+cardinality, we mean neither more nor less than the fact that there is
+a bijection between them.
 
 The following theorem says, essentially, the equinumerosity is an
 equivalence relation. (The caveat is that so far we have spoke only of
@@ -82,7 +83,7 @@ infinite.
 
 The term "countably infinite" is meant to be evocative. Suppose $A$ is
 a countable set. By definition, there is a bijection $f : \NN \to
-A$. $A$ has a "first" element $f(0)$, a "second" element $f(1)$, a
+A$. So $A$ has a "first" element $f(0)$, a "second" element $f(1)$, a
 "third" element $f(2)$, and so on. Since $f$ is a bijection, for
 every element $a$ of $A$, $a$ is the \(n\)th element enumerated in this
 way, for a unique value of $n$. That is, each element of $A$ is
@@ -97,12 +98,12 @@ way, for a unique value of $n$. That is, each element of $A$ is
 # #+ATTR_LATEX: :width 300bp
 # [[./card_diagram_2.png]]
 
-With this definition in mind, it is natural to ask the following
-question: which of our favorite sets are countable? Is the set of
-integers $\ZZ$ countable? How about the rationals $\QQ$, or the reals
-$\RR$? What is the logical form of the statement "a set $A$ is not
-countable," and how might we prove such a statement? You should think
-about these questions before reading on.
+With this definition in hand, it is natural to wonder which of our
+favorite sets are countable. Is the set of integers $\ZZ$ countable?
+How about the set of rationals $\QQ$, or the set of reals $\RR$? At
+this point, you should reflect on the logical form of the statement
+"$A$ is countable," and think about what is required to show that a
+set $A$ does or does not have this property.
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -118,9 +119,10 @@ f(n) = \begin{cases}
        \end{cases}    
 \end{equation*}
 We claim that $f$ is a bijection. To see that it is injective, suppose
-$f(m) = f(n)$. If they are nonnegative, then $m$ and $n$ are
-even, in which case $m / 2 = n / 2$ implies $m = n$. Otherwise, $m$
-and $n$ are odd, and again $-(m+1) / 2 = -(n+1)/ 2$ implies $m = n$.
+$f(m) = f(n)$. If $f(m)$ (and hence also $f(n)$) is nonnegative, then
+$m$ and $n$ are even, in which case $m / 2 = n / 2$ implies $m =
+n$. Otherwise, $m$ and $n$ are odd, and again $-(m+1) / 2 = -(n+1)/ 2$
+implies $m = n$.
 
 To see that $f$ is surjective, suppose $a$ is any integer. If $a$ is
 nonnegative, then $a = f(a / 2)$. If $a$ is strictly negative, then $2
@@ -148,7 +150,7 @@ is a surjective function $f : \NN \to A$.
 *Proof.* For the forward direction, suppose $A$ is countable. Then it
 is either finite or countably infinite. If $A$ is countably infinite,
 there is a bijection from $\NN$ to $A$, and we are done. Suppose, then,
-that $A$ is finite. If $A$ is empty, we are done; otherwise, for some
+that $A$ is finite. If $A$ is empty, we are done. Otherwise, for some
 $n$, there is a bijection $f : [n] \to A$, with $n \geq 1$. Define a
 function $g : \NN \to A$ as follows:
 \begin{equation*}
@@ -186,8 +188,8 @@ f(i)\}$. Since $f$ is surjective, $g$ is too.
 #+HTML: <hr>
 #+LATEX: \horizontalrule
 
-In a similar manner to the proof that the integers are countable, we
-can prove the following:
+In a manner similar to the way we proved that the integers are
+countable, we can prove the following:
 
 #+HTML: <hr>
 #+LATEX: \horizontalrule
@@ -285,9 +287,9 @@ The previous theorem has a number of interesting consequences.
 
 *Theorem.* If $A$ and $B$ are countable, then so is $A \times B$. 
 
-*Proof.* Let $f : \NN \to \NN \times \NN$ be a surjection, as
-guaranteed by the previous theorem, and if $p$ is an element of $\NN
-\times \NN$, let $p_0$ and $p_1$ be the two components. Suppose $g :
+*Proof.* If $p$ is any element of $\NN \times \NN$, write $p_0$ and
+$p_1$ to denote the two components.  Let $f : \NN \to \NN \times \NN$
+be a surjection, as guaranteed by the previous theorem.  Suppose $g :
 \NN \to A$ and $h : \NN \to B$ be surjective. Then the function $k(i)
 = ( g(f(i)_0), h(f(i)_1) )$ is a surjective function from $\NN$ to $A
 \times B$.
@@ -458,7 +460,7 @@ Our goal is to show that $f$ is not surjective. To that end, define a
 new sequence of digits $(r_i)_{i \in \NN}$ by
 \begin{equation*}
 r_i = \begin{cases}
-        7 & \mbox{if $r_{i,i} \neq 7$} \\
+        7 & \mbox{if $r^i_i \neq 7$} \\
         3 & \mbox{otherwise.}
       \end{cases}
 \end{equation*}
@@ -531,16 +533,16 @@ $f$.
 #+LATEX: \horizontalrule
 
 This shows that there is an endless hierarchy of infinities. For
-example, in the sequence $\NN, {\mathcal P}(\NN),
-{\mathcal P}({\mathcal P}(\NN)), \ldots$, there is an injective function
-mapping each set into the next, but no surjective function. The union
-of all those sets is even larger still, and then we can take the power
-set of /that/, and so on. Set theorists are still today investigating
-the structure within this hierarchy.
+example, in the sequence $\NN, {\mathcal P}(\NN), {\mathcal
+P}({\mathcal P}(\NN)), \ldots$, there is an injective function mapping
+each set into the next, but no surjective function. The union of all
+those sets is even larger still, and then we can take the power set of
+/that/, and so on. Set theorists are still today investigating the
+structure within this hierarchy.
 
 ** An Alternative Definition of the Infinite
 
-One thing that distinguishes the infinite from the finite is that and
+One thing that distinguishes the infinite from the finite is that an
 infinite set can have the same size as a proper subset of itself. For
 example, the natural numbers, the set of even numbers, and the set of
 perfect squares are all equinumerous, even though the latter two are

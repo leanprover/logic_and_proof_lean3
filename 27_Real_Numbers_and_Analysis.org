@@ -127,7 +127,7 @@ In fact, we will define the real numbers, more or less, to /be/ such
 sequences of rational approximations. But we will have to deal with
 the fact that, for example, there are /lots/ of ways of approximating
 the square root of two. For example, we can just as well approach it
-from bove, $2, 1.5, 1.42, \ldots$, or by oscillating above and below.
+from above, $2, 1.5, 1.42, \ldots$, or by oscillating above and below.
 The next section will show us how to "glue" all these sequences
 together and treat them as a single object.
 

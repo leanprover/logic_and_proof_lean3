@@ -180,7 +180,7 @@ equivalence relation defined on $A$, and let $f : A \to B$. Suppose
 $f$ respects the equivalence relation, which is to say, for every $a$
 and $a'$ in $A$, if $a \equiv a'$, then $f(a) = f(a')$. Then there is
 a unique function $\bar f : A / \mathord{\equiv} \to B$, defined by
-$\bar f ([a]) = f a$ for every $a$ in $A$.
+$\bar f ([a]) = f(a)$ for every $a$ in $A$.
 
 *Proof.* We have defined the value of $\bar f$ on an equivalence class
 $x$ by writing $x = [a]$, and setting $\bar f(x) = f(a)$. In other
@@ -352,7 +352,7 @@ become arbitrarily close.
 (q_i)_{i \in \NN}$ are /equivalent/ if for every rational number
 $\varepsilon > 0$, there is some natural number $N \in \NN$ such that
 for all $i \geq N$, we have that $|p_i - q_i| < \varepsilon$. We will
-write $p \equiv q$ to express that $p$ is equivalent too $q$.
+write $p \equiv q$ to express that $p$ is equivalent to$q$.
 
 *Proposition.* $\equiv$ is an equivalence relation on
 Cauchy sequences.
@@ -421,7 +421,7 @@ multiplication on Cauchy sequences. If $p = (p_i)_{i \in \NN}$ and $q
 \in \NN}$, and similarly for subtraction and multiplication. It is
 trickier to show that these sequences are Cauchy themselves, and to
 show that the operations have the appropriate algebraic properties. We
-ask you to prove this for addition in the exercises.
+ask you to prove some of these properties in the exercises.
 
 We can identify each rational number $q$ with the constant Cauchy
 sequence $q, q, q, \ldots$, so the real numbers include all the
@@ -446,7 +446,7 @@ of real numbers /converges/ to $r$ if, for every $\varepsilon > 0$,
 there is an $N$ such that for every $i \geq N$, $|r_i - r| <
 \varepsilon$.
 
-*Definition.* A sequence (r_i)_{i \in \NN}$ /converges/ if it
+*Definition.* A sequence $(r_i)_{i \in \NN}$ /converges/ if it
 converges to some $r$.
 
 *Theorem.* Every Cauchy sequence of real numbers converges.
@@ -489,7 +489,7 @@ that every real number $r$ is less than or equal to some natural
 number $N$. Any two models that meet these requirements must behave in
 exactly the same way, at least insofar as the constants $0$ and $1$,
 the operations $+$ and $*$, and the relation $\leq$ are
-concerned. This fact extremely powerful because it allows us to avoid
+concerned. This fact is extremely powerful because it allows us to avoid
 thinking about the Cauchy sequence construction in normal
 mathematics. Once we have shown that our construction meets these
 requirements, we can take $\RR$ to be "the" unique complete totally
@@ -544,7 +544,32 @@ equivalence. Others prefer Cauchy sequences since they provide a
 clearer notion of approximation: if a real number $r$ is given by a
 Cauchy sequence $(q_i)_{i \in \NN}$, then an arbitrarily close
 rational approximation of $r$ is given by $q_N$ for a sufficiently
-large $N$.
+large $N$. 
+
+For most mathematicians most of the time, though, the difference
+is immaterial. Both constructions create complete linear ordered fields,
+and in a certain sense, they create the /same/ complete linear ordered 
+field. Strictly speaking, the set of Cauchy reals is not equal to the
+set of Dedekind reals, since one consists of equivalence classes of 
+rational Cauchy sequences and one consists of pairs of sets of rationals.
+But there is a bijection between the two sets that preserves the field
+properties. That is, there is a bijection $f$ from the Cauchy reals
+to the Dedekind reals such that 
+
+- $f(0)=0$
+- $f(1)=1$
+- $f(x+y)=f(x)+f(y)$
+- $f(x \cdot y)=f(x) \cdot f(y)$
+- $f(-x)=-f(x)$
+- $f(x^{-1})=f(x)^{-1}$
+- $f(x) \leq f(y) \iff x \leq y$.
+
+We say that the two constructions are /isomorphic/, and that the function
+$f$ is an /isomorphism/. Since we often only care about the real
+numbers in regard to their status as a complete ordered field, and the
+two constructions are indistinguishable as ordered fields, it makes
+no difference which construction is used. 
+
 
 # TODO: before we said
 # "It is a matter of context, or sometimes personal taste, to
@@ -603,7 +628,6 @@ large $N$.
 
 8. Show that if $(A_1, B_1)$ and $(A_2, B_2)$ are Dedekind cuts, then
    $(A_1, B_1) + (A_2, B_2)$ is also a Dedekind cut.
-
 
 
 

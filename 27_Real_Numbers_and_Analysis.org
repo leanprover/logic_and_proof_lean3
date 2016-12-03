@@ -32,7 +32,7 @@ The integers satisfy all of the following properties:
 - For any elements $x$, $y$, and $z$, if $x \leq y$ then $x + z \leq
   y + z$.
 - For any elements $x$ and $y$, if $0 \leq x$ and $0 \leq y$ then $0
-  \leq x * y$.
+  \leq x y$.
 
 The first five clauses say that with $\times$, $+$, $0$, and $1$, the
 integers form a /commutative ring/, and the last three say that
@@ -169,7 +169,7 @@ a' + b'$. In other words, we require that the operation of addition
 this is in fact the case.
 
 This general strategy for transferring a function defined on a set to
-a function define on a quotient of that set is given by the following
+a function defined on a quotient of that set is given by the following
 theorem.
 
 #+HTML: <hr>
@@ -366,7 +366,7 @@ such that for every $i \ge N_0$, $|p_i - q_i| < \varepsilon /
 N_1$, $|q_i - r_i| < \varepsilon / 2$. Let $N = \max(N_0, N_1)$. Then
 for every $i \geq N$, we have
 \begin{equation*}
- |p_i - r_i | = |(p_i - q_i) + (q_i - r_i)| \leq |p_i - q_i| + |q_i - r_i| 
+ |p_i - r_i | = |(p_i - q_i) + (q_i - r_i)| <    |p_i - q_i| + |q_i - r_i| 
   \leq \varepsilon / 2 + \varepsilon / 2 = \varepsilon,
 \end{equation*}
 as required.
@@ -601,7 +601,7 @@ no difference which construction is used.
    underlying representation and then showing that the operation
    respects the equivalence relation.
 
-5. Show that every Cauchy sequence is bounded: that is, if $\{q_i\}_{i
+5. Show that every Cauchy sequence is bounded: that is, if $(q_i)_{i
    \in \NN}$ is Cauchy, there is some rational $M$ such that $|q_i|
    \leq M$ for all $i$. Hint: try letting $\varepsilon = 1$.
 

@@ -125,7 +125,7 @@ n$. Otherwise, $m$ and $n$ are odd, and again $-(m+1) / 2 = -(n+1)/ 2$
 implies $m = n$.
 
 To see that $f$ is surjective, suppose $a$ is any integer. If $a$ is
-nonnegative, then $a = f(a / 2)$. If $a$ is strictly negative, then $2
+nonnegative, then $a = f(2 a)$. If $a$ is strictly negative, then $2
 a - 1$ is also strictly negative, and hence $-(2 a - 1)$ is an odd
 natural number. In that case, it is not hard to check that $a =
 f(-(2a - 1))$.
@@ -629,8 +629,9 @@ the /Cantor-Bernstein Theorem/, and we state it without proof.
 3. Show that the $g(x) = x / (1 - |x|)$ gives a bijection between
    $(-1, 1)$ and $\RR$.
 
-4. Define a function $J : \NN \times \NN \to \NN$ by 
-   $J(i,j) = \frac{(i + j)(i + j + 1)}{2} + i$.
+4. Define a function $J : \NN \times \NN \to \NN$ by $J(i,j) =
+   \frac{(i + j)(i + j + 1)}{2} + i$. This goal of this problem is to
+   show that $J$ is a bijection from $\NN \times \NN$ to $\NN$.
 
    a. Draw a picture indicating which pairs are sent to $0, 1, 2,
       \ldots$.
@@ -646,8 +647,6 @@ the /Cantor-Bernstein Theorem/, and we state it without proof.
     d. Conclude that $J$ is injective: if $J(i,j) = J(i',j')$, let $n
        = i + j$ and $n' = i' + j'$. Argue that $n = n'$, and so $i = i'$
        and $j = j'$.
-
-    This shows that $J$ is a bijection from $\NN \times \NN$ to $\NN$.
 
 5. Let $S$ be the set of functions from $\NN$ to $\{ 0, 1\}$.  Use a
    diagonal argument to show that $S$ is uncountable. (Notice that you

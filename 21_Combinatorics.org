@@ -495,11 +495,11 @@ graphically in what is known as /Pascal's triangle/:
 # for the typesetting
 \begin{center}
 \begin{tabular}{rccccccccc}
-    &    &    &  1\\\noalign{\smallskip\smallskip}
-    &    &    &  1 &    &  1\\\noalign{\smallskip\smallskip}
-    &    &  1 &    &  2 &    &  1\\\noalign{\smallskip\smallskip}
-    &  1 &    &  3 &    &  3 &    &  1\\\noalign{\smallskip\smallskip}
-  1 &    &  4 &    &  6 &    &  4 &    &  1\\\noalign{\smallskip\smallskip}
+    &    &    &    &  1 \\\noalign{\smallskip\smallskip}
+    &    &    &  1 &    &  1 \\\noalign{\smallskip\smallskip}
+    &    &  1 &    &  2 &    &  1 \\\noalign{\smallskip\smallskip}
+    &  1 &    &  3 &    &  3 &    &  1 \\\noalign{\smallskip\smallskip}
+  1 &    &  4 &    &  6 &    &  4 &    &  1 \\\noalign{\smallskip\smallskip}
 \end{tabular}
 \end{center}
 Specifically, if we start counting at $0$, the \(k\)th element of the

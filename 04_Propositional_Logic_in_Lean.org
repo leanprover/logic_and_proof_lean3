@@ -159,7 +159,7 @@ premise H4 : B
 check H2 H3
 check H1 (H2 H3)
 check (H1 (H2 H3)) H4
-#+END_SRC lean
+#+END_SRC
 Lean adopts the convention that applications associate to the
 left, so that an expression =H1 H2 H3= is interpreted as =(H1 H2)
 H3=. Implications associate to the /right/, so that =A → B → C= is
@@ -179,7 +179,7 @@ premise H4 : B
 check H2 H3
 check H1 (H2 H3)
 check H1 (H2 H3) H4
-#+END_SRC lean
+#+END_SRC
 Notice that parentheses are still needed in the expression =H1 (H2
 H3)=.
 
@@ -193,7 +193,7 @@ example, we can construct a proof of =A → A ∧ A= as follows:
 variable A : Prop
 
 check (assume H : A, and.intro H H)
-#+END_SRC lean
+#+END_SRC
 Notice that we no longer have to declare =A= as a premise. The word
 =assume= makes the premise local to the expression in parentheses, and
 after the assumption is made, we can refer to =H=. Given the
@@ -205,7 +205,7 @@ expression is unambiguous:
 variable A : Prop
 
 check assume H : A, and.intro H H
-#+END_SRC lean
+#+END_SRC
 
 Above, we proved =¬ B ∧ A= from the premise =A ∧ ¬ B=. We can instead
 obtain a proof of =A ∧ ¬ B → ¬ B ∧ A= as follows:

@@ -69,13 +69,12 @@ class LeanTestBuilder(Builder):
 
     def write_doc(self, docname, doctree):
         i = 0
-        for node in doctree.traverse(nodes.literal_block):
-            if node['language'] != 'lean': continue
+        for node in doctree.traverse(lean_code_goodies):
             i += 1
             fn = os.path.join(self.outdir, '{0}_{1}.lean'.format(docname, i))
             self.written_files.add(fn)
             out = codecs.open(fn, 'w', encoding='utf-8')
-            out.write(node.rawsource)
+            out.write(node['full_code'])
 
     def finish(self):
         for root, _, filenames in os.walk(self.outdir):

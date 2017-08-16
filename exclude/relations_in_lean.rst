@@ -60,7 +60,7 @@ strict order.
       local infix < := R'
 
       theorem irrefl (a : A) : ¬ a < a :=
-      suppose a < a,
+      assume : a < a,
       have a ≠ a, from and.right this,
       have a = a, from rfl,
       show false, from `a ≠ a` `a = a`
@@ -72,7 +72,7 @@ strict order.
       have b ≠ c, from and.right H₂,
       have a ≤ c, from transR `a ≤ b` `b ≤ c`,
       have a ≠ c, from 
-        suppose a = c,
+        assume : a = c,
           have c ≤ b, from `a = c` ▸ `a ≤ b`,
           have b = c, from antisymmR `b ≤ c` `c ≤ b`,
           show false, from `b ≠ c` `b = c`, 

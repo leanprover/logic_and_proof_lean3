@@ -135,13 +135,13 @@ features.
     -- BEGIN
     example : ∀ x, x ∈ A → x ∈ B → x ∈ A ∩ B :=
     assume x,
-    suppose x ∈ A,
-    suppose x ∈ B,
+    assume : x ∈ A,
+    assume : x ∈ B,
     show x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`
 
     example : ∅ ⊆ A  :=
     assume x,
-    suppose x ∈ ∅,
+    assume : x ∈ ∅,
     show x ∈ A, from false.elim `x ∈ ∅`
     -- END
 
@@ -190,12 +190,12 @@ makes it easy to prove inclusions btween sets:
     -- BEGIN
     example : A \ B ⊆ A :=
     assume x,
-    suppose x ∈ A \ B,
+    assume : x ∈ A \ B,
     show x ∈ A, from and.left this
 
     example : A \ B ⊆ -B :=
     assume x,
-    suppose x ∈ A \ B,
+    assume : x ∈ A \ B,
     have x ∉ B, from and.right this,
     show x ∈ -B, from this
     -- END
@@ -222,14 +222,14 @@ previous chapter:
         have x ∈ A, from and.left H,
         have x ∈ B ∪ C, from and.right H,
         or.elim (`x ∈ B ∪ C`)
-          (suppose x ∈ B,
+          (assume : x ∈ B,
             have x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`,
             show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inl this)
-          (suppose x ∈ C,
+          (assume : x ∈ C,
             have x ∈ A ∩ C, from and.intro `x ∈ A` `x ∈ C`,
             show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inr this))
       (assume x,
-        suppose x ∈ (A ∩ B) ∪ (A ∩ C),
+        assume : x ∈ (A ∩ B) ∪ (A ∩ C),
         or.elim this
           (assume H : x ∈ A ∩ B,
             have x ∈ A, from and.left H,
@@ -264,16 +264,16 @@ mind that you can always write long proofs incrementally, using
     have x ∈ A, from and.left H,
     have x ∈ B ∪ C, from and.right H,
     or.elim (`x ∈ B ∪ C`)
-      (suppose x ∈ B,
+      (assume : x ∈ B,
         have x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`,
         show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inl this)
-      (suppose x ∈ C,
+      (assume : x ∈ C,
         have x ∈ A ∩ C, from and.intro `x ∈ A` `x ∈ C`,
         show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inr this)
 
     proposition inter_union_inter_subset : (A ∩ B) ∪ (A ∩ C) ⊆ A ∩ (B ∪ C) :=
     assume x,
-    suppose x ∈ (A ∩ B) ∪ (A ∩ C),
+    assume : x ∈ (A ∩ B) ∪ (A ∩ C),
     or.elim this
       (assume H : x ∈ A ∩ B,
         have x ∈ A, from and.left H,

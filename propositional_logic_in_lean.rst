@@ -871,7 +871,7 @@ When we ask you to prove basic facts from propositional logic in Lean, as with p
 
 Let us now describe a few bells and whistles that make proofs look prettier. for one thing, you can use subscripted numbers with a backslash. For example, you can write ``h₁`` by typing ``h\1``. The labels are irrelevant to Lean, so the difference is only cosmetic.
 
-Another feature is that you can use ``suppose`` instead of ``assume`` and omit the label. You can then refer back to the last anonymous assumption using the keyword ``this``:
+Another feature is that you can use ``assume :`` instead of ``assume`` and omit the label. You can then refer back to the last anonymous assumption using the keyword ``this``:
 
 .. code-block:: lean
 
@@ -879,7 +879,7 @@ Another feature is that you can use ``suppose`` instead of ``assume`` and omit t
 
     -- BEGIN
     example : A → A ∨ B :=
-    suppose A,
+    assume : A,
     show A ∨ B, from or.inl this
     -- END
 
@@ -891,8 +891,8 @@ Alternatively, you can refer back to unlabeled assumptions by putting them in ba
 
     -- BEGIN
     example : A → B → A ∧ B :=
-    suppose A,
-    suppose B, 
+    assume : A,
+    assume : B, 
     show A ∧ B, from and.intro `A` `B`
     -- END
 
@@ -920,10 +920,10 @@ You can also use the word ``have`` without giving a label, and refer back to the
     have B ∨ C, from and.right h,
     show (A ∧ B) ∨ (A ∧ C), from
       or.elim `B ∨ C`
-        (suppose B,
+        (assume : B,
           have A ∧ B, from and.intro `A` `B`,
           show (A ∧ B) ∨ (A ∧ C), from or.inl this)
-        (suppose C,
+        (assume : C,
           have A ∧ C, from and.intro `A` `C`,
           show (A ∧ B) ∨ (A ∧ C), from or.inr this)
 
@@ -935,7 +935,7 @@ Finally, you can add comments to your proofs in two ways. First, any text after 
        It can fill multiple lines. -/
 
     example (A : Prop) : A → A :=
-    suppose A,         -- assume the antecedent
+    assume : A,         -- assume the antecedent
     show A, from this  -- use it to establish the conclusion 
 
 Exercises

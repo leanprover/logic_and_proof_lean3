@@ -106,8 +106,8 @@ The principle is known as the law of the excluded middle because it says that a 
 
     example (A : Prop) : A ∨ ¬ A :=
     or.elim (em A)
-      (suppose A, or.inl this)
-      (suppose ¬ A, or.inr this)
+      (assume : A, or.inl this)
+      (assume : ¬ A, or.inr this)
 
 Or even more simply:
 
@@ -243,10 +243,10 @@ Here is the same proof, rendered in Lean:
     variables (A B : Prop)
 
     example (h : ¬ (A ∧ ¬ B)) : A → B :=
-    suppose A,
+    assume : A,
     show B, from
       by_contradiction
-        (suppose ¬ B,
+        (assume : ¬ B,
           have A ∧ ¬ B, from and.intro `A` this,
           show false, from h this)
 
@@ -329,7 +329,7 @@ Exercises
 
        lemma step2 (h₁ : ¬ (A ∧ B)) (h₂ : ¬ (¬ A ∨ ¬ B)) : false :=
        have ¬ A, from
-         suppose A,
+         assume : A,
          have ¬ A ∨ ¬ B, from step1 h₁ `A`,
          show false, from h₂ this,
        show false, from sorry

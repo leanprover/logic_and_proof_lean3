@@ -381,7 +381,7 @@ functions is injective, and so on.
         (Hg : injective g) (Hf : injective f) :
       injective (g ∘ f) :=
     assume x₁ x₂, 
-    suppose (g ∘ f) x₁ = (g ∘ f) x₂, 
+    assume : (g ∘ f) x₁ = (g ∘ f) x₂, 
     have f x₁ = f x₂, from Hg this,
     show x₁ = x₂, from Hf this
 

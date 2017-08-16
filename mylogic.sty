@@ -1,0 +1,72 @@
+
+\newcommand{\horizontalrule}{\noindent \rule{\linewidth}{0.5pt}}
+
+% theorem environments
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+% special fonts for theory names, functions, axioms, etc.
+\newcommand{\fn}[1]{\mathit{#1}}    % function; e.g. successor
+\newcommand{\mdl}[1]{\frak{#1}}  % model; e.g. M
+
+% logical connectives
+\newcommand{\liff}{\leftrightarrow}
+\newcommand{\ex}[1]{\exists #1 \;} % exists x ...
+\newcommand{\fa}[1]{\forall #1 \;} % forall x ...
+\newcommand{\lam}[1]{\lambda #1 \;} % forall x ...
+\newcommand{\exunique}[1]{\exists ! #1 \;}
+
+% useful symbols
+\newcommand{\proves}{\vdash}
+\newcommand{\nproves}{\nvdash}
+\newcommand{\forces}{\Vdash}
+\newcommand{\nforces}{\nVdash}
+
+\newcommand{\ph}{\varphi}
+
+\newcommand{\st}{\mid} % x such that ...
+\newcommand{\dash}{\mathord{\mbox{-}}}
+
+\newcommand{\inv}{^{-1}}
+
+% useful abbreviations
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\lqt}{\mbox{`}}
+\newcommand{\rqt}{\mbox{'}}
+\newcommand{\true}{\mathbf{T}}
+\newcommand{\false}{\mathbf{F}}
+\newcommand{\MM}{\mathcal{M}}
+
+% BussProofs abbreviations
+\newcommand{\AXM}[1]{\AXC{$#1$}}
+\newcommand{\UIM}[1]{\UIC{$#1$}}
+\newcommand{\BIM}[1]{\BIC{$#1$}}
+\newcommand{\TIM}[1]{\TIC{$#1$}}
+\newcommand{\AXN}[1]{\AX$#1$}
+\newcommand{\BIN}[1]{\BI$#1$}
+\newcommand{\UIN}[1]{\UI$#1$}
+\newcommand{\TIN}[1]{\TI$#1$}
+% \newcommand{\RLM}[1]{\RL{$\mathrm{#1}$}}
+\newcommand{\RLM}[1]{\RL{$\scriptstyle #1$}}
+
+% common predicates and relations
+\newcommand{\even}{\ensuremath{\fn{even}}}
+\newcommand{\odd}{\ensuremath{\fn{odd}}}
+\newcommand{\primep}{\ensuremath{\fn{prime}}}
+\newcommand{\suc}{\ensuremath{\fn{succ}}}
+\newcommand{\tsub}{\mathbin{\mathchoice% truncated subtraction
+{\buildrel .\lower.6ex\hbox{\vphantom{.}} \over {\smash-}}%
+{\buildrel .\lower.6ex\hbox{\vphantom{.}} \over {\smash-}}%
+{\buildrel .\lower.4ex\hbox{\vphantom{.}} \over {\smash-}}%
+{\buildrel .\lower.3ex\hbox{\vphantom{.}} \over {\smash-}}}}
+
+\EnableBpAbbreviations
+ 

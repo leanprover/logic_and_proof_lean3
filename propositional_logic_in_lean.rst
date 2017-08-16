@@ -18,7 +18,7 @@ At its core, Lean is what is known as a *type checker*. This means that we can w
 
 In the online version of this text, you can press the "try it!" button to copy the example to the editor window, press the "play" button, and then hover over the markers on the left to read the messages.
 
-In the example, we declare three variables ranging over propositions, and ask Lean to #check the expression ``A ∧ ¬ B → C``. The output of the ``check`` command is ``A ∧ ¬ B → C : Prop``, which asserts that ``A ∧ ¬ B → C`` is of type ``Prop``. In Lean, every well-formed expression has a type.
+In the example, we declare three variables ranging over propositions, and ask Lean to check the expression ``A ∧ ¬ B → C``. The output of the ``#check`` command is ``A ∧ ¬ B → C : Prop``, which asserts that ``A ∧ ¬ B → C`` is of type ``Prop``. In Lean, every well-formed expression has a type.
 
 The logical connectives are rendered in unicode. The following chart shows you how you can type these symbols in the editor, and also provides ascii equivalents, for the purists among you.
 
@@ -48,7 +48,7 @@ The logical connectives are rendered in unicode. The following chart shows you h
 | ≠         | ~=                | ``\ne``                         |
 +-----------+-------------------+---------------------------------+
 
-So far, we have only talked about the first seven items on the list. We will discuss the quantifiers, lambda, and equality later. Try typing some expressions and #checking them on your own. You should try changing one of the variables in the example above to ``D``, or inserting a nonsense symbol into the expression, and take a look at the error message that Lean returns.
+So far, we have only talked about the first seven items on the list. We will discuss the quantifiers, lambda, and equality later. Try typing some expressions and checking them on your own. You should try changing one of the variables in the example above to ``D``, or inserting a nonsense symbol into the expression, and take a look at the error message that Lean returns.
 
 In addition to declaring variables, if ``P`` is any expression of type ``Prop``, we can declare the hypothesis that ``P`` is true:
 

@@ -317,7 +317,7 @@ proved in Lean as follows:
                    ... = m           : mul_one
                    ... = 1 * m       : one_mul
                    ... = pow m 0 * m : pow_zero)
-      (take n,
+      (assume n,
         assume ih : pow m (succ n) = pow m n * m,
         show pow m (succ (succ n)) = pow m (succ n) * m, from calc
           pow m (succ (succ n)) = m * (pow m (succ n)) : pow_succ
@@ -351,7 +351,7 @@ inductive hypothesis. The proof can be shortened with a clever use of
     nat.induction_on n
       (show pow m (succ 0) = pow m 0 * m, 
         by rewrite [pow_succ, pow_zero, mul_one, one_mul])
-      (take n,
+      (assume n,
         assume ih : pow m (succ n) = pow m n * m,
         show pow m (succ (succ n)) = pow m (succ n) * m, 
           by rewrite [pow_succ, ih at {1}, -mul.assoc])
@@ -376,10 +376,10 @@ above, and the theorems above are also there:
     import data.nat 
     open nat
 
-    check @pow_nat
-    check @pow_zero
-    check @pow_succ
-    check @pow_succ'
+    #check @pow_nat
+    #check @pow_zero
+    #check @pow_succ
+    #check @pow_succ'
 
 The library also allows us to use the usual notation:
 
@@ -391,7 +391,7 @@ The library also allows us to use the usual notation:
     -- BEGIN
     variables m n : ℕ
 
-    check m^n
+    #check m^n
     -- END
 
 As another example of a proof by induction, here is a proof of the
@@ -411,7 +411,7 @@ identity ``m^(n + k) = m^n * m^k``.
         m^(n + 0) = m^n       : add_zero
               ... = m^n * 1   : mul_one
               ... = m^n * m^0 : pow_zero)
-      (take k,
+      (assume k,
         assume ih : m^(n + k) = m^n * m^k,
         show m^(n + succ k) = m^n * m^(succ k), from calc
           m^(n + succ k) = m^(succ (n + k)) : add_succ
@@ -438,7 +438,7 @@ cleverness, we can shorten the proof with ``rewrite``:
     nat.induction_on k
       (show m^(n + 0) = m^n * m^0, 
         by rewrite [add_zero, pow_zero, mul_one]) 
-      (take k,
+      (assume k,
         assume ih : m^(n + k) = m^n * m^k,
         show m^(n + succ k) = m^n * m^(succ k),
          by rewrite [add_succ, pow_succ', ih, mul.assoc, pow_succ'])
@@ -477,10 +477,10 @@ and multiplication:
     import data.nat 
     open nat
 
-    check @pred_zero
-    check @pred_succ
-    check @mul_zero
-    check @mul_succ
+    #check @pred_zero
+    #check @pred_succ
+    #check @mul_zero
+    #check @mul_succ
 
 Here are the five propositions proved in `Section
 18.1 <#Defining_the_Arithmetic_Operations_Axiomatically>`__.
@@ -497,7 +497,7 @@ Here are the five propositions proved in `Section
     nat.induction_on n
       (assume H : 0 ≠ 0,
         show succ (pred 0) = 0, from absurd rfl H)
-      (take n,
+      (assume n,
         assume ih,
         assume H : succ n ≠ 0,
         show succ (pred (succ n)) = succ n, 
@@ -506,7 +506,7 @@ Here are the five propositions proved in `Section
     theorem zero_add (n : nat) : 0 + n = n :=
     nat.induction_on n
       (show 0 + 0 = 0, from rfl)
-      (take n,
+      (assume n,
         assume IH : 0 + n = n,
         show 0 + succ n = succ n, from
           calc
@@ -516,7 +516,7 @@ Here are the five propositions proved in `Section
     theorem succ_add (m n : nat) : succ m + n = succ (m + n) :=
     nat.induction_on n
       (show succ m + 0 = succ (m + 0), from rfl)
-      (take n,
+      (assume n,
         assume IH : succ m + n = succ (m + n),
         show succ m + succ n = succ (m + succ n), from
           calc
@@ -527,7 +527,7 @@ Here are the five propositions proved in `Section
     theorem add_assoc (m n k : nat) : m + n + k = m + (n + k) :=
     nat.induction_on k
       (show m + n + 0 = m + (n + 0), by rewrite *add_zero)
-      (take k, 
+      (assume k, 
         assume ih : m + n + k = m + (n + k),
         show m + n + succ k = m + (n + (succ k)), from calc
           m + n + succ k = succ (m + n + k)   : add_succ
@@ -537,7 +537,7 @@ Here are the five propositions proved in `Section
     theorem add_comm (m n : nat) : m + n = n + m :=
     nat.induction_on n
       (show m + 0 = 0 + m, by rewrite [add_zero, zero_add])
-      (take n,
+      (assume n,
         assume ih : m + n = n + m,
         show m + succ n = succ n + m, from calc
           m + succ n = succ (m + n) : add_succ

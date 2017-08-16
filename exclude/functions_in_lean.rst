@@ -346,12 +346,12 @@ We can then prove that the identity function is bijective:
 
     -- BEGIN
     theorem injective_id : injective (@id X) := 
-    take x₁ x₂, 
+    assume x₁ x₂, 
     assume H : id x₁ = id x₂, 
     show x₁ = x₂, from H
 
     theorem surjective_id : surjective (@id X) := 
-    take y, 
+    assume y, 
     show ∃ x, id x = y, from exists.intro y rfl
 
     theorem bijective_id : bijective (@id X) := 
@@ -380,7 +380,7 @@ functions is injective, and so on.
     theorem injective_comp {g : Y → Z} {f : X → Y} 
         (Hg : injective g) (Hf : injective f) :
       injective (g ∘ f) :=
-    take x₁ x₂, 
+    assume x₁ x₂, 
     suppose (g ∘ f) x₁ = (g ∘ f) x₂, 
     have f x₁ = f x₂, from Hg this,
     show x₁ = x₂, from Hf this
@@ -388,7 +388,7 @@ functions is injective, and so on.
     theorem surjective_comp {g : Y → Z} {f : X → Y} 
         (Hg : surjective g) (Hf : surjective f) :
       surjective (g ∘ f) :=
-    take z,
+    assume z,
     obtain y (Hy : g y = z), from Hg z,
     obtain x (Hx : f x = y), from Hf y,
     have g (f x) = z, from eq.subst (eq.symm Hx) Hy,
@@ -460,14 +460,14 @@ injective, and if it has a right inverse, then it is surjective.
     -- BEGIN
     theorem injective_of_left_inverse {g : Y → X} {f : X → Y} : 
       left_inverse g f → injective f :=
-    assume h, take x₁ x₂, assume feq,
+    assume h, assume x₁ x₂, assume feq,
     calc x₁ = g (f x₁) : by rewrite h
         ... = g (f x₂) : feq
         ... = x₂       : by rewrite h
 
     theorem surjective_of_right_inverse {g : Y  → X} {f : X → Y} : 
       right_inverse g f → surjective f :=
-    assume h, take y,
+    assume h, assume y,
     let  x : X := g y in
     have f x = y, from calc
       f x  = (f (g y))    : rfl
@@ -486,9 +486,9 @@ with ``open function``:
 
     open function
 
-    check comp
-    check left_inverse
-    check has_right_inverse
+    #check comp
+    #check left_inverse
+    #check has_right_inverse
 
 Defining inverse functions, however, requires classical reasoning, which
 we get by opening the classical namespace:
@@ -556,7 +556,7 @@ is injective, then the ``inverse`` function really is a left inverse.
       (injf : injective f) :
     left_inverse (inverse f default) f :=
     let finv := (inverse f default) in
-    take x,
+    assume x,
     have H1 : ∃ x', f x' = f x, from exists.intro x rfl,
     have H2 : f (finv (f x)) = f x, from inverse_of_exists f default (f x) H1,
     show finv (f x) = x, from injf H2
@@ -702,7 +702,7 @@ though now we have to be more careful to relativize claims to ``A`` and
     -- BEGIN
     theorem inj_on_comp (fAB : maps_to f A B) (Hg : inj_on g B) (Hf: inj_on f A) :
       inj_on (g ∘ f) A :=
-    take x1 x2 : X,
+    assume x1 x2 : X,
     assume x1A : x1 ∈ A,
     assume x2A : x2 ∈ A,
     have  fx1B : f x1 ∈ B, from fAB x1A,
@@ -727,7 +727,7 @@ surjective:
     -- BEGIN
     theorem surj_on_comp (Hg : surj_on g B C) (Hf: surj_on f A B) :
       surj_on (g ∘ f) A C :=
-    take z,
+    assume z,
     assume zc : z ∈ C,
     obtain y (H1 : y ∈ B ∧ g y = z), from Hg zc,
     obtain x (H2 : x ∈ A ∧ f x = y), from Hf (and.left H1),
@@ -753,7 +753,7 @@ The following shows that the image of a union is the union of images:
 
     -- BEGIN
     theorem image_union : f ' (A₁ ∪ A₂) =f ' A₁ ∪ f ' A₂ :=
-    ext (take y, iff.intro
+    ext (assume y, iff.intro
       (assume H : y ∈ image f (A₁ ∪ A₂),
         obtain x [(xA₁A₂ : x ∈ A₁ ∪ A₂) (fxy : f x = y)], from H,
         or.elim xA₁A₂
@@ -784,12 +784,12 @@ Exercises
        definition h (x : ℤ) : ℤ := 2 * x + 3
 
        example : injective f :=
-       take x1 x2,
+       assume x1 x2,
        assume H1 : x1 + 3 = x2 + 3,   -- Lean knows this is the same as f x1 = f x2
        show x1 = x2, from eq_of_add_eq_add_right H1
 
        example : surjective f :=
-       take y,
+       assume y,
        have H1 : f (y - 3) = y, from calc
          f (y - 3) = (y - 3) + 3 : rfl
                ... = y           : sub_add_cancel,
@@ -820,7 +820,7 @@ Exercises
        example (A B : Type) (u : A → B) (v1 : B → A) (v2 : B → A)
          (H1 : left_inverse v1 u) (H2 : right_inverse v2 u) : v1 = v2 :=
        funext
-         (take x,
+         (assume x,
            calc
              v1 x = v1 (u (v2 x)) : sorry
               ... = v2 x          : sorry)
@@ -838,7 +838,7 @@ Exercises
 
        example : f ' (A ∪ B) = f ' A ∪ f ' B :=
        eq_of_subset_of_subset
-         (take y,
+         (assume y,
            assume H1 : y ∈ f ' (A ∪ B),
            obtain x [(H2 : x ∈ A ∪ B) (H3 : f x = y)], from H1,
            or.elim H2
@@ -848,7 +848,7 @@ Exercises
              (assume H4 : x ∈ B,
                have H5 : y ∈ f ' B, from mem_image H4 H3,
                show y ∈ f ' A ∪ f ' B, from or.inr H5))
-         (take y,
+         (assume y,
            assume H2 : y ∈ f ' A ∪ f ' B,
            or.elim H2
              (assume H3 : y ∈ f ' A,
@@ -871,6 +871,6 @@ Exercises
        -- (It should take about 8 lines.)
 
        example : f ' (A ∩ B) ⊆ f ' A ∩ f ' B :=
-       take y,
+       assume y,
        assume H1 : y ∈ f ' (A ∩ B),
        show y ∈ f ' A ∩ f ' B, from sorry

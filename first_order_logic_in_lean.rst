@@ -35,22 +35,22 @@ We can then use them as follows:
     -- BEGIN
     variables x y : U
 
-    check c
-    check f c
-    check g x y
-    check g x (f c)
+    #check c
+    #check f c
+    #check g x y
+    #check g x (f c)
 
-    check P (g x (f c))
-    check R x y
+    #check P (g x (f c))
+    #check R x y
     -- END
 
-The ``check`` command tells us that the first four expressions have type ``U``, and that the last two have type ``Prop``. Roughly, this means that the first four expressions correspond to terms of first-order logic, and that the last two correspond to formulas.
+The ``#check`` command tells us that the first four expressions have type ``U``, and that the last two have type ``Prop``. Roughly, this means that the first four expressions correspond to terms of first-order logic, and that the last two correspond to formulas.
 
 Note all the following:
 
 -  A unary function is represented as an object of type ``U → U`` and a binary function is represented as an object of type ``U → U → U``, using the same notation as for implication between propositions.
 -  We write, for example, ``f x`` to denote the result of applying ``f`` to ``x``, and ``g x y`` to denote the result of applying ``g`` to ``x`` and ``y``, again just as we did when using modus ponens for first-order logic. Parentheses are needed in the expression ``g x (f c)`` to ensure that ``f c`` is parsed as a single argument. 
--  A unary predicate is presented as an object of type ``U → Prop`` and a binary function is represented as an object of type ``U → U → Prop``. You can think of a binary relation ``R`` as being a function that takes two arguments in the universe, ``U``, and returns a proposition.
+-  A unary predicate is presented as an object of type ``U → Prop`` and a binary function is represented as an object of type ``U → U → Prop``. You can think of a binary relation ``R`` as being a function that assumes two arguments in the universe, ``U``, and returns a proposition.
 -  We write ``P x`` to denote the assertion that ``P`` holds of ``x``, and ``R x y`` to denote that ``R`` holds of ``x`` and ``y``.
 
 You may reasonably wonder what difference there is between a constant and a variable in Lean. The following declarations also work:
@@ -67,13 +67,13 @@ You may reasonably wonder what difference there is between a constant and a vari
 
     variables x y : U
 
-    check c
-    check f c
-    check g x y
-    check g x (f c)
+    #check c
+    #check f c
+    #check g x y
+    #check g x (f c)
 
-    check P (g x (f c))
-    check R x y
+    #check P (g x (f c))
+    #check R x y
 
 Although the examples function in much the same way, the ``constant`` and ``variable`` commands do very different things. The ``constant`` command declares a new object, axiomatically, and adds it to the list of objects Lean knows about. In contrast, when it is first executed, the ``variable`` command does not create anything. Rather, it tells Lean that whenever we enter an expression using the corresponding identifier, it should create a temporary variable of the corresponding type.
 
@@ -81,8 +81,8 @@ Many types are already declared in Lean's standard library. For example, there i
 
 .. code-block:: lean
 
-    check nat
-    check ℕ
+    #check nat
+    #check ℕ
 
 You can enter the unicode ``ℕ`` with ``\nat`` or ``\N``. The two expressions mean the same thing.
 
@@ -105,7 +105,7 @@ Using this built-in type, we can model the language of arithmetic, as described 
 
     end hide
 
-We have used the ``namespace`` command to avoid conflicts with identifiers that are already declared in the Lean library. (Outside the namespace, the constant ``mul`` we just declared is named ``hide.mul``.) We can again use the ``check`` command to try them out:
+We have used the ``namespace`` command to avoid conflicts with identifiers that are already declared in the Lean library. (Outside the namespace, the constant ``mul`` we just declared is named ``hide.mul``.) We can again use the ``#check`` command to try them out:
 
 .. code-block:: lean
 
@@ -125,10 +125,10 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
     -- BEGIN
     variables w x y z : ℕ
 
-    check mul x y
-    check add x y
-    check square x
-    check even x
+    #check mul x y
+    #check add x y
+    #check square x
+    #check even x
     -- END
 
     end hide
@@ -152,10 +152,10 @@ We can even declare infix notation of binary operations and relations:
 
     variables w x y z : ℕ
 
-    check mul x y
-    check add x y
-    check square x
-    check even x 
+    #check mul x y
+    #check add x y
+    #check square x
+    #check even x 
 
     -- BEGIN
     infix + := add
@@ -184,19 +184,19 @@ We can even declare infix notation of binary operations and relations:
 
     variables w x y z : ℕ
 
-    check mul x y
-    check add x y
-    check square x
-    check even x 
+    #check mul x y
+    #check add x y
+    #check square x
+    #check even x 
 
     infix + := add
     infix * := mul
     infix < := lt
 
     -- BEGIN
-    check even (x + y + z) ∧ prime ((x + one) * y * y)
-    check ¬ (square (x + y * z) = w) ∨ x + y < z
-    check x < y ∧ even x ∧ even y → x + one < y
+    #check even (x + y + z) ∧ prime ((x + one) * y * y)
+    #check ¬ (square (x + y * z) = w) ∨ x + y < z
+    #check x < y ∧ even x ∧ even y → x + one < y
     -- END
 
     end hide
@@ -213,9 +213,9 @@ In fact, all of the functions, predicates, and relations discussed here, except 
 
     variables w x y z : ℕ
 
-    check even (x + y + z) ∧ prime ((x + 1) * y * y)
-    check ¬ (square (x + y * z) = w) ∨ x + y < z
-    check x < y ∧ even x ∧ even y → x + 1 < y
+    #check even (x + y + z) ∧ prime ((x + 1) * y * y)
+    #check ¬ (square (x + y * z) = w) ∨ x + y < z
+    #check x < y ∧ even x ∧ even y → x + 1 < y
 
 Here, we declare the constants ``square`` and ``prime`` axiomatically, but refer to the other operations and predicates in the Lean library. In this book, we will often proceed in this way, telling you explicitly what facts from the library you should use for exercises.
 
@@ -223,10 +223,10 @@ Again, note the following aspects of syntax:
 
 -  In contrast to ordinary mathematical notation, in Lean, functions are applied without parentheses or commas. For example, we write ``square x`` and ``add x y`` instead of :math:`\mathit{square}(x)` and :math:`\mathit{add}(x, y)`.
 -  The same holds for predicates and relations: we write ``even x`` and ``lt x y`` instead of :math:`\mathit{even}(x)` and :math:`\mathit{lt}(x, y)`, as one might do in symbolic logic.
--  The notation ``add : ℕ → ℕ → ℕ`` indicates that addition takes two arguments, both natural numbers, and returns a natural number.
--  Similarly, the notation ``divides : ℕ → ℕ → Prop`` indicates that ``divides`` is a binary relation, which takes two natural numbers as arguments and forms a proposition. In other words, ``divides x y`` expresses the assertion that ``x`` divides ``y``.
+-  The notation ``add : ℕ → ℕ → ℕ`` indicates that addition assumes two arguments, both natural numbers, and returns a natural number.
+-  Similarly, the notation ``divides : ℕ → ℕ → Prop`` indicates that ``divides`` is a binary relation, which assumes two natural numbers as arguments and forms a proposition. In other words, ``divides x y`` expresses the assertion that ``x`` divides ``y``.
 
-Lean can help us distinguish between terms and formulas. If we ``check`` the expression ``x + y + 1`` in Lean, we are told it has type ``ℕ``, which is to say, it denotes a natural number. If we ``check`` the expression ``even (x + y + 1)``, we are told that it has type ``Prop``, which is to say, it expresses a proposition.
+Lean can help us distinguish between terms and formulas. If we ``#check`` the expression ``x + y + 1`` in Lean, we are told it has type ``ℕ``, which is to say, it denotes a natural number. If we ``#check`` the expression ``even (x + y + 1)``, we are told that it has type ``Prop``, which is to say, it expresses a proposition.
 
 In :numref:`Chapter %s <first_order_logic>` we considered many-sorted logic, where one can have multiple universes. For example, we might want to use first-order logic for geometry, with quantifiers ranging over points and lines. In Lean, we can model this as by introducing a new type for each sort:
 
@@ -243,7 +243,7 @@ We can then express that two distinct points determine a line as follows:
     variable  on : Point → Line → Prop
 
     -- BEGIN
-    check ∀ (p q : Point) (L M : Line),
+    #check ∀ (p q : Point) (L M : Line),
             p ≠ q → on p L → on q L → on p M → on q M → L = M
     -- END
 
@@ -255,7 +255,7 @@ Notice that we have followed the convention of using iterated implication rather
     variable  on : Point → Line → Prop
 
     -- BEGIN
-    check ∀ p q L M, p ≠ q → on p L → on q L → on p M → on q M → L = M
+    #check ∀ p q L M, p ≠ q → on p L → on q L → on p M → on q M → L = M
     -- END
 
 Using the Universal Quantifier
@@ -270,12 +270,12 @@ In Lean, you can enter the universal quantifier by writing ``\all``. The motivat
 
     constant prime : ℕ → Prop
 
-    check ∀ x, (even x ∨ odd x) ∧ ¬ (even x ∧ odd x)
-    check ∀ x, even x ↔ 2 ∣ x
-    check ∀ x, even x → even (x^2)
-    check ∀ x, even x ↔ odd (x + 1)
-    check ∀ x, prime x ∧ x > 2 → odd x
-    check ∀ x y z, x ∣ y → y ∣ z → x ∣ z
+    #check ∀ x, (even x ∨ odd x) ∧ ¬ (even x ∧ odd x)
+    #check ∀ x, even x ↔ 2 ∣ x
+    #check ∀ x, even x → even (x^2)
+    #check ∀ x, even x ↔ odd (x + 1)
+    #check ∀ x, prime x ∧ x > 2 → odd x
+    #check ∀ x y z, x ∣ y → y ∣ z → x ∣ z
 
 Remember that Lean expects a comma after the universal quantifier, and gives it the *widest* scope possible. For example, ``∀ x, P ∨ Q`` is interpreted as ``∀ x, (P ∨ Q)``, and we would write ``(∀ x, P) ∨ Q`` to limit the scope. If you prefer, you can use the plain ascii expression ``forall`` instead of the unicode ``∀``.
 
@@ -287,10 +287,10 @@ In Lean, then, the pattern for proving a universal statement is rendered as foll
     variable P : U → Prop
 
     example : ∀ x, P x :=
-    take x,
+    assume x,
     show P x, from sorry
 
-Read ``take x`` as "fix and arbitrary value ``x`` of ``U``." Since we are allowed to rename bound variables at will, we can equivalently write either of the following:
+Read ``assume x`` as "fix and arbitrary value ``x`` of ``U``." Since we are allowed to rename bound variables at will, we can equivalently write either of the following:
 
 .. code-block:: lean
 
@@ -298,14 +298,14 @@ Read ``take x`` as "fix and arbitrary value ``x`` of ``U``." Since we are allowe
     variable P : U → Prop
 
     example : ∀ y, P y :=
-    take x,
+    assume x,
     show P x, from sorry
 
     example : ∀ x, P x :=
-    take y,
+    assume y,
     show P y, from sorry
 
-This constitutes the introduction rule for the universal quantifier. It is very similar to the introduction rule for implication: instead of using ``assume`` to temporarily introduce an assumption, we use ``take`` to temporarily introduce a new object, ``y``. (In fact, ``assume`` and ``take`` are both alternate syntax for a single internal construct in Lean, which can also be denoted by ``λ``.)
+This constitutes the introduction rule for the universal quantifier. It is very similar to the introduction rule for implication: instead of using ``assume`` to temporarily introduce an assumption, we use ``assume`` to temporarily introduce a new object, ``y``. (In fact, ``assume`` and ``assume`` are both alternate syntax for a single internal construct in Lean, which can also be denoted by ``λ``.)
 
 The elimination rule is, similarly, implemented as follows:
 
@@ -313,7 +313,7 @@ The elimination rule is, similarly, implemented as follows:
 
     variable U : Type
     variable P : U → Prop
-    premise H : ∀ x, P x
+    variable H : ∀ x, P x
     variable a : U
 
     example : P a :=
@@ -329,7 +329,7 @@ Here is an example of how it is used:
     variables A B : U → Prop
 
     example (H1 : ∀ x, A x → B x) (H2 : ∀ x, A x) : ∀ x, B x :=
-    take y,
+    assume y,
     have H3 : A y, from H2 y,
     have H4 : A y → B y, from H1 y,
     show B y, from H4 H3
@@ -343,7 +343,7 @@ Here is an even shorter version of the same proof, where we avoid using ``have``
 
     -- BEGIN
     example (H1 : ∀ x, A x → B x) (H2 : ∀ x, A x) : ∀ x, B x :=
-    take y,
+    assume y,
     show B y, from H1 y (H2 y)
     -- END
 
@@ -384,7 +384,7 @@ Here is the same proof rendered in Lean:
     example : (∀ x, A x) → (∀ x, B x) → (∀ x, A x ∧ B x) :=
     assume HA : ∀ x, A x,
     assume HB : ∀ x, B x,
-    take y,
+    assume y,
     have Ay : A y, from HA y,
     have By : B y, from HB y,
     show A y ∧ B y, from and.intro Ay By
@@ -399,7 +399,7 @@ Here is an alternative version, using the "anonymous" versions of ``have``:
     example : (∀ x, A x) → (∀ x, B x) → (∀ x, A x ∧ B x) :=
     assume HA : ∀ x, A x,
     assume HB : ∀ x, B x,
-    take y,
+    assume y,
     have A y, from HA y,
     have B y, from HB y,
     show A y ∧ B y, from and.intro `A y` `B y`
@@ -628,9 +628,9 @@ In Lean, reflexivity, symmetry, and transitivity are called ``eq.refl``, ``eq.sy
     have H2 : P x, from sorry,
     show P y, from eq.subst H1 H2
 
-The rule ``eq.refl`` above takes ``x`` as an argument, because there is no hypothesis to infer it from. All the other rules take their premises as arguments.
+The rule ``eq.refl`` above assumes ``x`` as an argument, because there is no hypothesis to infer it from. All the other rules assume their premises as arguments.
 
-It is often the case, however, that Lean can figure out which instance of reflexivity you have in mind from the context, and there is an abbreviation, ``rfl``, which does not take any arguments. Moreover, if you type ``open eq.ops``, there is additional convenient notation you can use for symmetry, transitivity, and substitution:
+It is often the case, however, that Lean can figure out which instance of reflexivity you have in mind from the context, and there is an abbreviation, ``rfl``, which does not assume any arguments. Moreover, if you type ``open eq.ops``, there is additional convenient notation you can use for symmetry, transitivity, and substitution:
 
 .. code-block:: lean
 
@@ -861,7 +861,7 @@ In that case, we can use a single ``rewrite``:
     by rewrite [add.assoc, add.comm y z, add.assoc]
     -- END
 
-If you check the proof before the sequence of ``rewrites`` is sufficient, the error message will display the remaining goal.
+If you #check the proof before the sequence of ``rewrites`` is sufficient, the error message will display the remaining goal.
 
 Here is another example:
 
@@ -904,7 +904,7 @@ Exercises
          variable A : Type
          variable f : A → A
          variable P : A → Prop
-         premise  H : ∀ x, P x → P (f x)
+         variable  H : ∀ x, P x → P (f x)
 
          -- Show the following:
          example : ∀ y, P y → P (f (f y)) :=
@@ -931,9 +931,9 @@ Exercises
          variable U : Type
          variables A B C : U → Prop
 
-         premise H1 : ∀ x, A x ∨ B x
-         premise H2 : ∀ x, A x → C x
-         premise H3 : ∀ x, B x → C x
+         variable H1 : ∀ x, A x ∨ B x
+         variable H2 : ∀ x, A x → C x
+         variable H3 : ∀ x, B x → C x
 
          example : ∀ x, C x :=
          sorry
@@ -955,7 +955,7 @@ Exercises
          variable Person : Type
          variable shaves : Person → Person → Prop
          variable barber : Person
-         premise H : ∀ x, shaves barber x ↔ ¬ shaves x x
+         variable H : ∀ x, shaves barber x ↔ ¬ shaves x x
 
          -- Show the following:
          example : false :=
@@ -982,8 +982,8 @@ Exercises
          variable U : Type
          variables A B : U → Prop
 
-         premise H1 : ∀ x, A x → B x
-         premise H2 : ∃ x, A x
+         variable H1 : ∀ x, A x → B x
+         variable H2 : ∃ x, A x
 
          example : ∃ x, B x :=
          sorry
@@ -1083,19 +1083,19 @@ Exercises
 
        -- these are the axioms for a commutative ring
 
-       check @add.assoc
-       check @add.comm
-       check @add_zero
-       check @zero_add
-       check @mul.assoc
-       check @mul.comm
-       check @mul_one
-       check @one_mul
-       check @left_distrib
-       check @right_distrib
-       check @add.left_inv
-       check @add.right_inv
-       check @sub_eq_add_neg
+       #check @add.assoc
+       #check @add.comm
+       #check @add_zero
+       #check @zero_add
+       #check @mul.assoc
+       #check @mul.comm
+       #check @mul_one
+       #check @one_mul
+       #check @left_distrib
+       #check @right_distrib
+       #check @add.left_inv
+       #check @add.right_inv
+       #check @sub_eq_add_neg
 
        variables x y z : int
 

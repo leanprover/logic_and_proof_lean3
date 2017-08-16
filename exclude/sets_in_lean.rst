@@ -28,13 +28,13 @@ us.
     variables A B C : set U
     variable x : U
 
-    check x ∈ A
-    check A ∪ B
-    check B \ C
-    check C ∩ A
-    check -C
-    check ∅ ⊆ A
-    check B ⊆ univ
+    #check x ∈ A
+    #check A ∪ B
+    #check B \ C
+    #check C ∩ A
+    #check -C
+    #check ∅ ⊆ A
+    #check B ⊆ univ
 
 You can type the symbols ``⊆``, ``∅``, ``∪``, ``∩``, ``\`` as ``\subeq``
 ``\empty``, ``\un``, ``\i``, and ``\\``, respectively. We have made the
@@ -55,7 +55,7 @@ The following pattern can be used to show that ``A`` is a subset of
 
     -- BEGIN
     example : A ⊆ B :=
-    take x,
+    assume x,
     assume H : x ∈ A,
     show x ∈ B, from sorry
     -- END
@@ -74,10 +74,10 @@ equal:
     -- BEGIN
     example : A = B :=
     eq_of_subset_of_subset
-      (take x,
+      (assume x,
         assume H : x ∈ A,
         show x ∈ B, from sorry)
-      (take x,
+      (assume x,
         assume H : x ∈ B,
         show x ∈ A, from sorry)
     -- END
@@ -94,7 +94,7 @@ Alternatively, we can use the following pattern:
 
     -- BEGIN
     example : A = B :=
-    ext (take x, iff.intro
+    ext (assume x, iff.intro
       (assume H : x ∈ A,
         show x ∈ B, from sorry)
       (assume H : x ∈ B,
@@ -134,13 +134,13 @@ features.
 
     -- BEGIN
     example : ∀ x, x ∈ A → x ∈ B → x ∈ A ∩ B :=
-    take x,
+    assume x,
     suppose x ∈ A,
     suppose x ∈ B,
     show x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`
 
     example : ∅ ⊆ A  :=
-    take x,
+    assume x,
     suppose x ∈ ∅,
     show x ∈ A, from false.elim `x ∈ ∅`
     -- END
@@ -162,13 +162,13 @@ examples above as follows:
 
     -- BEGIN
     example : ∀ x, x ∈ A → x ∈ B → x ∈ A ∩ B :=
-    take x,
+    assume x,
     assume H1 : x ∈ A,
     assume H2 : x ∈ B,
     show x ∈ A ∩ B, from and.intro H1 H2
 
     example : ∅ ⊆ A  :=
-    take x,
+    assume x,
     assume H : x ∈ ∅,
     show x ∈ A, from false.elim H
     -- END
@@ -189,12 +189,12 @@ makes it easy to prove inclusions btween sets:
 
     -- BEGIN
     example : A \ B ⊆ A :=
-    take x,
+    assume x,
     suppose x ∈ A \ B,
     show x ∈ A, from and.left this
 
     example : A \ B ⊆ -B :=
-    take x,
+    assume x,
     suppose x ∈ A \ B,
     have x ∉ B, from and.right this,
     show x ∈ -B, from this
@@ -217,7 +217,7 @@ previous chapter:
     -- BEGIN
     example : A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C) :=
     eq_of_subset_of_subset
-      (take x,
+      (assume x,
         assume H : x ∈ A ∩ (B ∪ C),
         have x ∈ A, from and.left H,
         have x ∈ B ∪ C, from and.right H,
@@ -228,7 +228,7 @@ previous chapter:
           (suppose x ∈ C,
             have x ∈ A ∩ C, from and.intro `x ∈ A` `x ∈ C`,
             show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inr this))
-      (take x,
+      (assume x,
         suppose x ∈ (A ∩ B) ∪ (A ∩ C),
         or.elim this
           (assume H : x ∈ A ∩ B,
@@ -259,7 +259,7 @@ mind that you can always write long proofs incrementally, using
 
     -- BEGIN
     proposition inter_union_subset : A ∩ (B ∪ C) ⊆ (A ∩ B) ∪ (A ∩ C) :=
-    take x,
+    assume x,
     assume H : x ∈ A ∩ (B ∪ C),
     have x ∈ A, from and.left H,
     have x ∈ B ∪ C, from and.right H,
@@ -272,7 +272,7 @@ mind that you can always write long proofs incrementally, using
         show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inr this)
 
     proposition inter_union_inter_subset : (A ∩ B) ∪ (A ∩ C) ⊆ A ∩ (B ∪ C) :=
-    take x,
+    assume x,
     suppose x ∈ (A ∩ B) ∪ (A ∩ C),
     or.elim this
       (assume H : x ∈ A ∩ B,
@@ -356,10 +356,10 @@ x ∈ B``.
     variables (A B : set U)
 
     -- BEGIN
-    check powerset A
+    #check powerset A
 
     example : A ∈ powerset (A ∪ B) :=
-    take x,
+    assume x,
     assume `x ∈ A`,
     show x ∈ A ∪ B, from or.inl `x ∈ A`
     -- END
@@ -382,11 +382,11 @@ work with the universal and existential quantifier in Lean, see `Chapter
     variables {I U : Type}
     variables (A : I → set U)
 
-    check ⋃i, A i
-    check ⋂i, A i
+    #check ⋃i, A i
+    #check ⋂i, A i
 
     example (i₀ : I) : (⋂i, A i) ⊆ (⋃i, A i) :=
-    take x,
+    assume x,
     assume H : x ∈ ⋂i, A i,
     have x ∈ A i₀, from H i₀,
     exists.intro i₀ `x ∈ A i₀`
@@ -443,7 +443,7 @@ Exercises
        definition disjoint (A B : set U) : Prop := ∀ ⦃x⦄, x ∈ A → x ∈ B → false
 
        example (A B : set U) (H : ∀ x, ¬ (x ∈ A ∧ x ∈ B)) : disjoint A B :=
-       take x,
+       assume x,
        assume H1 : x ∈ A,
        assume H2 : x ∈ B,
        have H3 : x ∈ A ∧ x ∈ B, from and.intro H1 H2,

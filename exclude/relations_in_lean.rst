@@ -24,14 +24,14 @@ reflexive, transitive, and antisymmetric:
 
     section
       parameters {A : Type} {R : A → A → Prop}
-      hypothesis (reflR : reflexive R)
-      hypothesis (transR : transitive R)
-      hypothesis (antisymmR : ∀ {a b : A}, R a b → R b a → a = b)
+      parameter (reflR : reflexive R)
+      parameter (transR : transitive R)
+      parameter (antisymmR : ∀ {a b : A}, R a b → R b a → a = b)
 
       local infix ≤ := R
     end
 
-The ``parameter`` and ``hypothesis`` commands are similar to the
+The ``parameter`` and ``parameter`` commands are similar to the
 ``variable`` and ``premise`` commands, except that parameters are fixed
 within a section. In other words, if you prove a theorem about ``R`` in
 the section above, you cannot apply that theorem to another relation,
@@ -49,9 +49,9 @@ strict order.
 
     section
       parameters {A : Type} {R : A → A → Prop}
-      hypothesis (reflR : reflexive R)
-      hypothesis (transR : transitive R)
-      hypothesis (antisymmR : ∀ {a b : A}, R a b → R b a → a = b)
+      parameter (reflR : reflexive R)
+      parameter (transR : transitive R)
+      parameter (antisymmR : ∀ {a b : A}, R a b → R b a → a = b)
 
       local infix ≤ := R
 
@@ -97,8 +97,8 @@ integers, and so on defined already.
     open nat
     variables n m : ℕ
 
-    check 0 ≤ n
-    check n < n + 1
+    #check 0 ≤ n
+    #check n < n + 1
 
     example : 0 ≤ n := zero_le n
     example : n < n + 1 := self_lt_succ n
@@ -134,8 +134,8 @@ Exercises
 
        section
          parameters {A : Type} {R : A → A → Prop}
-         hypothesis (irreflR : irreflexive R)
-         hypothesis (transR : transitive R)
+         parameter (irreflR : irreflexive R)
+         parameter (transR : transitive R)
 
          local infix < := R
 
@@ -167,9 +167,9 @@ Exercises
        section
 
          parameters {A : Type} {a b c : A} {R : A → A → Prop}
-         hypothesis (Rab : R a b)
-         hypothesis (Rbc : R b c)
-         hypothesis (nRac : ¬ R a c)
+         parameter (Rab : R a b)
+         parameter (Rbc : R b c)
+         parameter (nRac : ¬ R a c)
 
          -- Prove one of the following two theorems:
 

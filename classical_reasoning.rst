@@ -247,7 +247,7 @@ Here is the same proof, rendered in Lean:
     show B, from
       by_contradiction
         (assume : ¬ B,
-          have A ∧ ¬ B, from and.intro `A` this,
+          have A ∧ ¬ B, from and.intro ‹A› this,
           show false, from h this)
 
 Implication can be rewritten in terms of disjunction and negation:
@@ -330,7 +330,7 @@ Exercises
        lemma step2 (h₁ : ¬ (A ∧ B)) (h₂ : ¬ (¬ A ∨ ¬ B)) : false :=
        have ¬ A, from
          assume : A,
-         have ¬ A ∨ ¬ B, from step1 h₁ `A`,
+         have ¬ A ∨ ¬ B, from step1 h₁ ‹A›,
          show false, from h₂ this,
        show false, from sorry
 

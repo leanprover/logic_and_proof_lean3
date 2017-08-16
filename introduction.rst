@@ -161,13 +161,13 @@ Since the end of the twentieth century, however, the advent of computational pro
 .. code-block:: lean
 
     section
-    variables (p q : Prop)
+    variables (P Q : Prop)
 
-    theorem my_theorem : p ∧ q → q ∧ p :=
-    assume h : p ∧ q,
-    have p, from and.left h,
-    have q, from and.right h,
-    show q ∧ p, from and.intro `q` `p`
+    theorem my_theorem : P ∧ Q → Q ∧ P :=
+    assume h : P ∧ Q,
+    have P, from and.left h,
+    have Q, from and.right h,
+    show Q ∧ P, from and.intro ‹Q› ‹P›
 
     end
 
@@ -179,26 +179,26 @@ Proofs in Lean can access a library of prior mathematical results, all verified 
 
     theorem sqrt_two_irrational {a b : ℕ} (co : coprime a b) : 
       a^2 ≠ 2 * b^2 :=
-    assume H : a^2 = 2 * b^2,
+    assume h : a^2 = 2 * b^2,
     have even (a^2),
-      from even_of_exists (exists.intro _ H),
+      from even_of_exists (exists.intro _ h),
     have even a,
       from even_of_even_pow this,
-    obtain (c : nat) (aeq : a = 2 * c),
-      from exists_of_even this,
+    exists.elim (exists_of_even this) $ 
+    assume (c : nat) (aeq : a = 2 * c),
     have 2 * (2 * c^2) = 2 * b^2,
-      by rewrite [-H, aeq, *pow_two, mul.assoc, mul.left_comm c],
+      by rw [←h, aeq, pow_two, pow_two, mul_assoc, mul_left_comm c],
     have 2 * c^2 = b^2,
       from eq_of_mul_eq_mul_left dec_trivial this,
     have even (b^2),
       from even_of_exists (exists.intro _ (eq.symm this)),
     have even b,
       from even_of_even_pow this,
-    assert 2 ∣ gcd a b,
-      from dvd_gcd (dvd_of_even `even a`) (dvd_of_even `even b`),
+    have 2 ∣ gcd a b,
+      from dvd_gcd (dvd_of_even ‹even a›) (dvd_of_even ‹even b›),
     have 2 ∣ (1 : ℕ),
-      by rewrite [gcd_eq_one_of_coprime co at this]; exact this,
-    show false, from absurd `2 ∣ 1` dec_trivial
+      by rw [gcd_eq_one_of_coprime co] at this; exact this,
+    show false, from absurd ‹2 ∣ 1› dec_trivial
 
 The third goal of this course is to teach you to write elementary proofs in Lean. The facts that we will ask you to prove in Lean will be more elementary than the informal proofs we will ask you to write, but our intent is that formal proofs will model and clarify the informal proof strategies we will teach you.
 

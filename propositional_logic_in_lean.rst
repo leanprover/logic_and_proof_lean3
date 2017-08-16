@@ -113,7 +113,7 @@ The two expressions represent, respectively, these two proofs:
 
 Notice that in this way of representing natural deduction proofs, there are no "free floating" hypotheses. Every hypothesis has a label. In Lean, we will typically use expressions like ``h``, ``h1``, ``h2``, ... to label hypotheses, but you can use any identifier you want.
 
-If ``P₁`` is a proof of ``A`` and ``P₂`` is a proof of ``B``, then ``and.intro P₁ P₂`` is a proof of ``A ∧ B``. So we can continue the example above:
+If ``h1`` is a proof of ``A`` and ``h2`` is a proof of ``B``, then ``and.intro h1 h2`` is a proof of ``A ∧ B``. So we can continue the example above:
 
 .. code-block:: lean
 
@@ -307,10 +307,10 @@ We have already explained that implication introduction is implemented with ``as
     show B, from sorry
 
     section
-      variable P₁ : A → B
-      variable P₂ : A
+      variable h1 : A → B
+      variable h2 : A
 
-      example : B := P₁ P₂
+      example : B := h1 h2
     end
 
 Since every example begins by declaring the necessary propositional variables, we will henceforth suppress that declaration in the text.
@@ -326,16 +326,16 @@ We have already seen that and introduction is implemented with ``and.intro``, an
 
     -- BEGIN
     section 
-      variables (P₁ : A) (P₂ : B)
+      variables (h1 : A) (h2 : B)
 
-      example : A ∧ B := and.intro P₁ P₂
+      example : A ∧ B := and.intro h1 h2
     end
 
     section
-      variable P : A ∧ B
+      variable h : A ∧ B
 
-      example : A := and.left P
-      example : B := and.right P
+      example : A := and.left h
+      example : B := and.right h
     end
     -- END
 
@@ -350,19 +350,19 @@ The or introduction rules are given by ``or.inl`` and ``or.inr``.
 
     -- BEGIN
     section
-      variable P : A
+      variable h : A
 
-      example : A ∨ B := or.inl P
+      example : A ∨ B := or.inl h
     end
 
     section
-      variable P : B
+      variable h : B
 
-      example : A ∨ B := or.inr P
+      example : A ∨ B := or.inr h
     end
     -- END
 
-The elimination rule is the tricky one. To prove ``C`` from ``A ∨ B``, you need three arguments: a proof ``P`` of ``A ∨ B``, a proof ``P₁`` of ``C`` from ``A``, and a proof ``P₂`` of ``C`` from ``B``. Using line breaks and indentation to highlight the structure as a proof by cases, we can write it with the following form:
+The elimination rule is the tricky one. To prove ``C`` from ``A ∨ B``, you need three arguments: a proof ``h`` of ``A ∨ B``, a proof of ``C`` from ``A``, and a proof of ``C`` from ``B``. Using line breaks and indentation to highlight the structure as a proof by cases, we can write it with the following form:
 
 .. code-block:: lean
 
@@ -370,16 +370,18 @@ The elimination rule is the tricky one. To prove ``C`` from ``A ∨ B``, you nee
 
     -- BEGIN
     section
-      variable P : A ∨ B
+      variable h : A ∨ B
 
       example : C :=
-      or.elim P
-        (assume h : A, 
+      or.elim h
+        (assume h1 : A, 
           show C, from sorry)
-        (assume h : B, 
+        (assume h1 : B, 
           show C, from sorry)
     end
     -- END
+
+Notice that we can reuse the label ``h1`` in each branch, since, conceptually, the two branches are disjoint.
 
 Negation
 ~~~~~~~~
@@ -406,10 +408,10 @@ If you have proved a negation ``¬ A``, you can get a contradition by applying i
 
     -- BEGIN
     section
-      variable P₁ : ¬ A
-      variable P₂ : A
+      variable h1 : ¬ A
+      variable h2 : A
 
-      example : false := P₁ P₂
+      example : false := h1 h2
     end
     -- END
 
@@ -424,10 +426,9 @@ The *ex falso* rule is called ``false.elim``:
 
     -- BEGIN
     section
-      variable P : false
+      variable h : false
 
-      example : A := false.elim P
-      example : A := false.elim P
+      example : A := false.elim h
     end
     -- END
 
@@ -465,17 +466,17 @@ The elimination rules are ``iff.elim_left`` and ``iff.elim_right``:
 
     -- BEGIN
     section
-      variable P₁ : A ↔ B
-      variable P₂ : A
+      variable h1 : A ↔ B
+      variable h2 : A
 
-      example : B := iff.elim_left P₁ P₂
+      example : B := iff.elim_left h1 h2
     end
 
     section
-      variable P₁ : A ↔ B
-      variable P₂ : B
+      variable h1 : A ↔ B
+      variable h2 : B
 
-      example : A := iff.elim_right P₁ P₂
+      example : A := iff.elim_right h1 h2
     end
     -- END
 
@@ -789,14 +790,14 @@ What is more interesting right now is that Lean also allows us to name theorems,
 
 .. code-block:: lean
 
-    theorem and_comm (A B : Prop) : A ∧ B → B ∧ A :=
+    theorem and_commute (A B : Prop) : A ∧ B → B ∧ A :=
     assume h, and.intro (and.right h) (and.left h)
 
 Once we have defined it, we can use it freely:
 
 .. code-block:: lean
 
-    theorem and_comm (A B : Prop) : A ∧ B → B ∧ A :=
+    theorem and_commute (A B : Prop) : A ∧ B → B ∧ A :=
     assume h, and.intro (and.right h) (and.left h)
 
     -- BEGIN
@@ -804,21 +805,21 @@ Once we have defined it, we can use it freely:
     variable h1 : C ∧ ¬ D
     variable h2 : ¬ D ∧ C → E
 
-    example : E := h2 (and_comm C (¬ D) h1)
+    example : E := h2 (and_commute C (¬ D) h1)
     -- END
 
-It is annoying in this example that we have to give the arguments ``C`` and ``¬ D`` explicitly, because they are implicit in ``h1``. In fact, Lean allows us to tell this to Lean in the definition of ``and_comm``:
+It is annoying in this example that we have to give the arguments ``C`` and ``¬ D`` explicitly, because they are implicit in ``h1``. In fact, Lean allows us to tell this to Lean in the definition of ``and_commute``:
 
 .. code-block:: lean
 
-    theorem and_comm {A B : Prop} : A ∧ B → B ∧ A :=
+    theorem and_commute {A B : Prop} : A ∧ B → B ∧ A :=
     assume h, and.intro (and.right h) (and.left h)
 
 here the squiggly braces indicate that the arguments ``A`` and ``B`` are *implicit*, which is to say, Lean should infer them from the context when the theorem is used. We can then write the following instead:
 
 .. code-block:: lean
 
-    theorem and_comm {A B : Prop} : A ∧ B → B ∧ A :=
+    theorem and_commute {A B : Prop} : A ∧ B → B ∧ A :=
     assume h, and.intro (and.right h) (and.left h)
 
     -- BEGIN
@@ -826,21 +827,21 @@ here the squiggly braces indicate that the arguments ``A`` and ``B`` are *implic
     variable h1 : C ∧ ¬ D
     variable h2 : ¬ D ∧ C → E
 
-    example : E := h2 (and_comm h1)
+    example : E := h2 (and_commute h1)
     -- END
 
-Indeed, Lean's library has a theorem, ``and.comm``, defined in exactly this way.
+Indeed, Lean's library has a theorem, ``and_comm``, defined in exactly this way.
 
-By the way, we could avoid the ``assume`` step in the proof of ``and.comm`` by making the hypothesis into an argument:
+By the way, we could avoid the ``assume`` step in the proof of ``and_comm`` by making the hypothesis into an argument:
 
 .. code-block:: lean
 
-    theorem and_comm {A B : Prop} (h : A ∧ B) : B ∧ A :=
+    theorem and_commute {A B : Prop} (h : A ∧ B) : B ∧ A :=
     and.intro (and.right h) (and.left h)
 
 The two definitions yield the same result.
 
-Definitions and theorems are important in mathematics; they allow us to build up complex theories from fundamental principles. Instead of the word ``theorem``, you can (equivalently) use ``lemma``, ``proposition``, or ``corollary``.
+Definitions and theorems are important in mathematics; they allow us to build up complex theories from fundamental principles. Lean also accepts the word ``lemma`` instead of ``theorem``. 
 
 What is interesting is that in interactive theorem proving, we can even define familiar patterns of inference. For example, all of the following inferences were mentioned in the last chapter:
 
@@ -869,9 +870,14 @@ In fact, Lean's library defines ``or.resolve_left``, ``or.resolve_right``, and `
 
 When we ask you to prove basic facts from propositional logic in Lean, as with propositional logic, our goal is to have you learn how to use Lean's primitives. As a result, for those exercises, you should not use facts from the library. As we move towards real mathematics, however, you can use facts from the library more freely.
 
-Let us now describe a few bells and whistles that make proofs look prettier. for one thing, you can use subscripted numbers with a backslash. For example, you can write ``h₁`` by typing ``h\1``. The labels are irrelevant to Lean, so the difference is only cosmetic.
+Additional Syntax
+-----------------
 
-Another feature is that you can use ``assume :`` instead of ``assume`` and omit the label. You can then refer back to the last anonymous assumption using the keyword ``this``:
+In this section, we describe some extra syntactic features of Lean, for power users. The syntactic gadgets are often convenient, and sometimes make proofs look prettier. 
+
+For one thing, you can use subscripted numbers with a backslash. For example, you can write ``h₁`` by typing ``h\1``. The labels are irrelevant to Lean, so the difference is only cosmetic.
+
+Another feature is that you can omit the label in an ``assume`` statement, providing an "anonymous" hypothesis. You can then refer back to the last anonymous assumption using the keyword ``this``:
 
 .. code-block:: lean
 
@@ -883,9 +889,9 @@ Another feature is that you can use ``assume :`` instead of ``assume`` and omit 
     show A ∨ B, from or.inl this
     -- END
 
-Alternatively, you can refer back to unlabeled assumptions by putting them in backticks:
+Alternatively, you can refer back to unlabeled assumptions by putting them in French quotes:
 
-.. code-block:: lean
+.. code-block:: text
 
     variables A B : Prop
 
@@ -893,25 +899,12 @@ Alternatively, you can refer back to unlabeled assumptions by putting them in ba
     example : A → B → A ∧ B :=
     assume : A,
     assume : B, 
-    show A ∧ B, from and.intro `A` `B`
+    show A ∧ B, from and.intro ‹A› ‹B›
     -- END
 
-In that case, if you prefer to use the word ``assume``, you can avoid the labels by using backticks there too:
+You can also use the word ``have`` without giving a label, and refer back to them using the same conventions. Here is an example that uses these features:
 
-.. code-block:: lean
-
-    variables A B : Prop
-
-    -- BEGIN
-    example : A → B → A ∧ B :=
-    assume `A`,
-    assume `B`, 
-    show A ∧ B, from and.intro `A` `B`
-    -- END
-
-You can also use the word ``have`` without giving a label, and refer back to them using the same conventions. here is an example that uses these features:
-
-.. code-block:: lean
+.. code-block:: text
 
     theorem my_theorem {A B C : Prop} : 
       A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) :=
@@ -919,13 +912,54 @@ You can also use the word ``have`` without giving a label, and refer back to the
     have A, from and.left h,
     have B ∨ C, from and.right h,
     show (A ∧ B) ∨ (A ∧ C), from
-      or.elim `B ∨ C`
+      or.elim ‹B ∨ C›
         (assume : B,
-          have A ∧ B, from and.intro `A` `B`,
+          have A ∧ B, from and.intro ‹A› ‹B›,
           show (A ∧ B) ∨ (A ∧ C), from or.inl this)
         (assume : C,
-          have A ∧ C, from and.intro `A` `C`,
+          have A ∧ C, from and.intro ‹A› ‹C›,
           show (A ∧ B) ∨ (A ∧ C), from or.inr this)
+
+Another trick is that you can write ``h.left`` and ``h.right`` instead of ``and.left h`` and ``and.right h`` whenever ``h`` is a conjunction, and you can write ``⟨h1, h2⟩`` instead of ``and.intro h1 h2`` whenever Lean can figure out that a conjunction is what you are trying to prove. With these conventions, you can write the fowlling:
+
+.. code-block:: lean
+
+    example (A B : Prop) : A ∧ B → B ∧ A :=
+    assume h : A ∧ B,
+    show B ∧ A, from ⟨h.right, h.left⟩
+
+This is nothing more than shorthand for the following:
+
+.. code-block:: lean
+
+    example (A B : Prop) : A ∧ B → B ∧ A :=
+    assume h : A ∧ B,
+    show B ∧ A, from and.intro (and.right h) (and.left h) 
+
+Even more concisely, you can write this:
+
+.. code-block:: lean
+
+    example (A B : Prop) : A ∧ B → B ∧ A :=
+    assume h, ⟨h.right, h.left⟩ 
+
+You can even take apart a conjunction with an ``assume``, so that this works:
+
+.. code-block:: lean
+
+    example (A B : Prop) : A ∧ B → B ∧ A :=
+    assume ⟨h₁, h₂⟩, ⟨h₂, h₁⟩ 
+
+Similarly, if ``h`` is a biconditional, you can write ``h.mp`` and ``h.mpr`` instead of ``iff.mp h`` and ``iff.mpr h``, and you can write ``⟨h1, h2⟩`` instead of ``iff.intro h1 h2``. As a result, Lean understands these proofs:
+
+.. code-block:: lean
+
+    example (A B : Prop) : B ∧ (A ↔ B) → A :=
+    assume ⟨hB, hAB⟩,
+    hAB.mpr hB
+
+    example (A B : Prop) : A ∧ B ↔ B ∧ A :=
+    ⟨assume ⟨h₁, h₂⟩, ⟨h₂, h₁⟩, assume ⟨h₁, h₂⟩, ⟨h₂, h₁⟩⟩
 
 Finally, you can add comments to your proofs in two ways. First, any text after a double-dash ``--`` until the end of a line is ignored by the Lean processor. Second, any text between ``/-`` and ``-/`` denotes a block comment, and is also ignored. You can nest block comments.
 
@@ -935,7 +969,7 @@ Finally, you can add comments to your proofs in two ways. First, any text after 
        It can fill multiple lines. -/
 
     example (A : Prop) : A → A :=
-    assume : A,         -- assume the antecedent
+    assume : A,        -- assume the antecedent
     show A, from this  -- use it to establish the conclusion 
 
 Exercises

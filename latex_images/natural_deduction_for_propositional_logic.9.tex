@@ -1,0 +1,21 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{quote}
+   \AXM{A}
+   \AXM{B}
+   \RLM{\mathord{\wedge}\mathrm{I}}
+   \BIM{A \wedge B}
+   \DP
+   \quad\quad
+   \AXM{A \wedge B}
+   \RLM{\mathord{\wedge}\mathrm{E_l}}
+   \UIM{A}
+   \DP
+   \quad\quad
+   \AXM{A \wedge B}
+   \RLM{\mathord{\wedge}\mathrm{E_r}}
+   \UIM{B}
+   \DP
+   \end{quote}
+\end{document}

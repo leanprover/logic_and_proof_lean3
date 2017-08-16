@@ -1,0 +1,17 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{center}
+   \AXM{A \liff B}
+   \AXM{A}
+   \RLM{\liff \mathrm{E}_l}
+   \BIM{B}
+   \DP
+   \quad
+   \AXM{A \liff B}
+   \AXM{B}
+   \RLM{\liff \mathrm{E}_r}
+   \BIM{A}
+   \DP
+   \end{center}
+\end{document}

@@ -1,0 +1,33 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{center}
+   \AXM{}
+   \RLM{\mathrm{refl}}
+   \UIM{t = t}
+   \DP
+   \quad
+   \AXM{s = t}
+   \RLM{\mathrm{symm}}
+   \UIM{t = s}
+   \DP
+   \quad
+   \AXM{r = s}
+   \AXM{s = t}
+   \RLM{\mathrm{trans}}
+   \BIM{r = t}
+   \DP
+   \\
+   \ \\
+   \AXM{s = t}
+   \RLM{\mathrm{subst}}
+   \UIM{r(s) = r(t)}
+   \DP
+   \quad
+   \AXM{s = t}
+   \RLM{\mathrm{subst}}
+   \AXM{P(s)}
+   \BIM{P(t)}
+   \DP
+   \end{center}
+\end{document}

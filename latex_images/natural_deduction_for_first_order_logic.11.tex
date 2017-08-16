@@ -1,0 +1,20 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \AXM{}
+   \RLM{1}
+   \UIM{\ex x P}
+   \AXM{}
+   \RLM{2}
+   \UIM{P}
+   \RLM{2}
+   \BIM{P}
+   \AXM{}
+   \RLM{1}
+   \UIM{P}
+   \UIM{\ex x P}
+   \RLM{1}
+   \BIM{\ex x P \leftrightarrow P}
+   \end{prooftree}
+\end{document}

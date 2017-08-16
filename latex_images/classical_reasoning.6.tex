@@ -1,0 +1,24 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{center}
+   \AXM{}
+   \RLM{3}
+   \UIM{\neg (A \wedge \neg B)}
+   \AXM{}
+   \RLM{2}
+   \UIM{A}
+   \AXM{}
+   \RLM{1}
+   \UIM{\neg B}
+   \BIM{A \wedge \neg B}
+   \BIM{\bot}
+   \RLM{1}
+   \UIM{B}
+   \RLM{2}
+   \UIM{A \to B}
+   \RLM{3}
+   \UIM{\neg (A \wedge \neg B) \to (A \to B)}
+   \DP
+   \end{center}
+\end{document}

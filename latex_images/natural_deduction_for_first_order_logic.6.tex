@@ -1,0 +1,23 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \AXM{}
+   \UIM{\even(n) \vee \neg \even(n)}
+   \AXM{}
+   \RLM{1}
+   \UIM{\even(n)}
+   \UIM{\even(n) \vee \odd(n)}
+   \AXM{}
+   \UIM{\fa n \neg \even(n) \to \odd(n)}
+   \UIM{\neg \even (n) \to \odd(n)}
+   \AXM{}
+   \RLM{1}
+   \UIM{\neg \even(n)}
+   \BIM{\odd(n)}
+   \UIM{\even(n) \vee \odd(n)}
+   \RLM{1}
+   \TIM{\even(n) \vee \odd(n)}
+   \UIM{\fa n (\even (n) \vee \odd(n))}
+   \end{prooftree}
+\end{document}

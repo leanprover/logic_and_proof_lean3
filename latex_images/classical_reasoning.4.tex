@@ -1,0 +1,27 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{center}
+   \AXM{}
+   \RLM{2}
+   \UIM{\neg \neg A}
+   \AXM{}
+   \RLM{1}
+   \UIM{\neg A}
+   \BIM{\bot}
+   \RLM{1}
+   \UIM{A}
+   \AXM{}
+   \RLM{1}
+   \UIM{\neg A}
+   \AXM{}
+   \RLM{2}
+   \UIM{A}
+   \BIM{\bot}
+   \RLM{1}
+   \UIM{\neg \neg A}
+   \RLM{2}
+   \BIM{\neg \neg A \liff A}
+   \DP
+   \end{center}
+\end{document}

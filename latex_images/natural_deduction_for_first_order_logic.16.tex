@@ -1,0 +1,40 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \AXM{}
+   \RLM{1}
+   \UIM{\neg\fa x A(x)}
+   \AXM{}
+   \RLM{4}
+   \UIM{\neg(\ex x \neg A(x))}
+   \AXM{}
+   \RLM{5}
+   \UIM{\neg A(x)}
+   \UIM{\ex x \neg A(x)}
+   \BIM{\bot}
+   \RLM{5}
+   \UIM{A(x)}
+   \UIM{\fa x A(x)}
+   \BIM{\bot}
+   \RLM{4}
+   \UIM{\ex x \neg A(x)}
+   \AXM{}
+   \RLM{1}
+   \UIM{\ex x \neg A(x)}
+   \AXM{}
+   \RLM{3}
+   \UIM{\neg A(y)}
+   \AXM{}
+   \RLM{2}
+   \UIM{\fa x A(x)}
+   \UIM{A(y)}
+   \BIM{\bot}
+   \RLM{3}
+   \BIM{\bot}
+   \RLM{2}
+   \UIM{\neg\fa x A(x)}
+   \RLM{1}
+   \BIM{\neg\fa x A(x) \leftrightarrow \ex x \neg A(x)}
+   \end{prooftree}
+\end{document}

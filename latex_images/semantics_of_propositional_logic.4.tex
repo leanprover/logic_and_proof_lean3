@@ -1,0 +1,32 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{center}
+   \begin{tabular} {|c|c||c|}
+   \hline
+   $A$      & $B$      & $A \wedge B$ \\ \hline
+   $\mathbf{T}$  & $\mathbf{T}$  & $\mathbf{T}$      \\ \hline
+   $\mathbf{T}$  & $\mathbf{F}$ & $\mathbf{F}$     \\ \hline
+   $\mathbf{F}$ & $\mathbf{T}$  & $\mathbf{F}$     \\ \hline
+   $\mathbf{F}$ & $\mathbf{F}$ & $\mathbf{F}$     \\ \hline
+   \end{tabular}
+   \quad
+   \begin{tabular} {|c|c||c|}
+   \hline
+   $A$      & $B$      & $A \vee B$ \\ \hline
+   $\mathbf{T}$  & $\mathbf{T}$  & $\mathbf{T}$      \\ \hline
+   $\mathbf{T}$  & $\mathbf{F}$ & $\mathbf{T}$      \\ \hline
+   $\mathbf{F}$ & $\mathbf{T}$  & $\mathbf{T}$      \\ \hline
+   $\mathbf{F}$ & $\mathbf{F}$ & $\mathbf{F}$     \\ \hline
+   \end{tabular}
+   \quad
+   \begin{tabular} {|c|c||c|}
+   \hline
+   $A$      & $B$      & $A \to B$ \\ \hline
+   $\mathbf{T}$  & $\mathbf{T}$  & $\mathbf{T}$      \\ \hline
+   $\mathbf{T}$  & $\mathbf{F}$ & $\mathbf{F}$     \\ \hline
+   $\mathbf{F}$ & $\mathbf{T}$  & $\mathbf{T}$      \\ \hline
+   $\mathbf{F}$ & $\mathbf{F}$ & $\mathbf{T}$      \\ \hline
+   \end{tabular}
+   \end{center}
+\end{document}

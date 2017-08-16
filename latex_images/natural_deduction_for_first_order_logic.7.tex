@@ -1,0 +1,21 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \AXM{}
+   \UIM{\odd(n) \to \neg \even(n)}
+   \AXM{}
+   \RLM{H}
+   \UIM{\even(n) \wedge \odd(n)}
+   \UIM{\odd(n)}
+   \BIM{\neg \even(n)}
+   \AXM{}
+   \RLM{H}
+   \UIM{\even(n) \wedge \odd(n)}
+   \UIM{\even(n)}
+   \BIM{\bot}
+   \RLM{H}
+   \UIM{\neg (\even(n) \wedge \odd(n))}
+   \UIM{\fa n \neg (\even(n) \wedge \odd(n))}
+   \end{prooftree}
+\end{document}

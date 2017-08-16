@@ -1,0 +1,16 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \AXM{\exists x A(x)}
+   \AXM{}
+   \RLM{1}
+   \UIM{A(y)}
+   \noLine
+   \UIM{\vdots}
+   \noLine
+   \UIM{B}
+   \RLM{1}
+   \BIM{B}
+   \end{prooftree}
+\end{document}

@@ -1,0 +1,10 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic,amsmath}
+\begin{document}
+   \begin{align*}
+     \neg (\neg A \wedge B \to C) 
+       & \leftrightarrow \neg (\neg (\neg A \wedge B) \vee C) \\
+       & \leftrightarrow \neg \neg (\neg A \wedge B) \wedge \neg C \\
+       & \leftrightarrow \neg A \wedge B \wedge \neg C
+   \end{align*}
+\end{document}

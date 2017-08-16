@@ -1,0 +1,18 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \AXM{}
+   \RLM{1}
+   \UIM{\exists  x (A(x) \wedge B(x))}
+   \AXM{}
+   \RLM{2}
+   \UIM{A(y) \wedge B(y)}
+   \UIM{A(y)}
+   \UIM{\exists  x A(x)}
+   \RLM{2}
+   \BIM{\exists  x A(x)}
+   \RLM{1}
+   \UIM{\exists  x (A(x) \wedge B(x)) \to \exists  x A(x)}
+   \end{prooftree}
+\end{document}

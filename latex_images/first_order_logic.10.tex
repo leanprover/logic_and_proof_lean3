@@ -1,0 +1,28 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{center}
+   \AXM{}
+   \UIM{t = t}
+   \DP
+   \quad
+   \AXM{s = t}
+   \UIM{t = s}
+   \DP
+   \quad
+   \AXM{r = s}
+   \AXM{s = t}
+   \BIM{r = t}
+   \DP
+   \\
+   \ \\
+   \AXM{s = t}
+   \UIM{r(s) = r(t)}
+   \DP
+   \quad
+   \AXM{s = t}
+   \AXM{P(s)}
+   \BIM{P(t)}
+   \DP
+   \end{center}
+\end{document}

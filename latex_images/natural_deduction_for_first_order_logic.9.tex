@@ -1,0 +1,28 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \AXM{}
+   \RLM{1}
+   \UIM{\ex x (A(x) \vee B(x))}
+   \AXM{}
+   \RLM{2}
+   \UIM{A(y) \vee B(y)}
+   \AXM{}
+   \RLM{3}
+   \UIM{A(y)}
+   \UIM{\ex x A(x)}
+   \UIM{\ex x A(x) \vee \ex x B(x)}
+   \AXM{}
+   \RLM{3}
+   \UIM{B(y)}
+   \UIM{\ex x B(x)}
+   \UIM{\ex x A(x) \vee \ex x B(x)}
+   \RLM{3}
+   \TIM{\ex x A(x) \vee \ex x B(x)}
+   \RLM{2}
+   \BIM{\ex x A(x) \vee \ex x B(x)}
+   \RLM{1}
+   \UIM{\ex x (A(x) \vee B(x)) \to \ex x A(x) \vee \ex x B(x))}
+   \end{prooftree}
+\end{document}

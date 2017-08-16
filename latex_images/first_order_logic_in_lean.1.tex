@@ -1,0 +1,20 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \AXM{}
+   \RLM{1}
+   \UIM{\fa x A(x)}
+   \UIM{A(y)}
+   \AXM{}
+   \RLM{2}
+   \UIM{\fa x B(x)}
+   \UIM{B(y)}
+   \BIM{A(y) \wedge B(y)}
+   \UIM{\fa y (A(y) \wedge B(y))}
+   \RLM{2}
+   \UIM{\fa x B(x) \to \fa y (A(y) \wedge B(y))}
+   \RLM{1}
+   \UIM{\fa x A(x) \to (\fa x B(x) \to \fa y (A(y) \wedge B(y)))}
+   \end{prooftree}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{quote}
+   \AXM{A(t)}
+   \RLM{\mathord{\exists}\mathrm{I}}
+   \UIM{\ex x A(x)}
+   \DP
+   \quad\quad
+   \AXM{\ex x A(x)}
+   \AXM{}
+   \RLM{1}
+   \UIM{A(y)}
+   \noLine
+   \UIM{\vdots}
+   \noLine
+   \UIM{B}
+   \RLM{1 \;\; \mathord{\exists}\mathrm{E}}
+   \BIM{B}
+   \DP
+   \end{quote}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{center}
+   \AXM{A \vee B}
+   \AXM{}
+   \RLM{1}
+   \UIM{A}
+   \noLine
+   \UIM{\vdots}
+   \noLine
+   \UIM{C}
+   \AXM{}
+   \RLM{1}
+   \UIM{B}
+   \noLine
+   \UIM{\vdots}
+   \noLine
+   \UIM{C}
+   \RLM{1 \; \; \mathord{\vee}\mathrm{E}}
+   \TIM{C}
+   \DP
+   \end{center}
+\end{document}

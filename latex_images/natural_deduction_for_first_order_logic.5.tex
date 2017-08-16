@@ -1,0 +1,14 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \AXM{}
+   \RLM{1}
+   \UIM{\fa x A(x)}
+   \UIM{A(y)}
+   \UIM{A(y) \vee B(y)}
+   \UIM{\fa x (A(x) \vee B(x))}
+   \RLM{1}
+   \UIM{\fa x A(x) \to \fa x (A(x) \vee B(x))}
+   \end{prooftree}
+\end{document}

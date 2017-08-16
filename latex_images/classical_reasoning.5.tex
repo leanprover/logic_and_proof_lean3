@@ -1,0 +1,20 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{center}
+   \AXM{\neg B \to \neg A}
+   \AXM{}
+   \RLM{1}
+   \UIM{\neg B}
+   \BIM{\neg A}
+   \AXM{}
+   \RLM{2}
+   \UIM{A}
+   \BIM{\bot}
+   \RLM{1}
+   \UIM{B}
+   \RLM{2}
+   \UIM{A \to B}
+   \DP
+   \end{center}
+\end{document}

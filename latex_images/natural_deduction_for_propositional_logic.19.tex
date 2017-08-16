@@ -1,0 +1,30 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{center}
+   \AXM{}
+   \RLM{3}
+   \UIM{\neg (A \vee B)}
+   \AXM{}
+   \RLM{1}
+   \UIM{A}
+   \UIM{A \vee B}
+   \BIM{\bot}
+   \RLM{1}
+   \UIM{\neg A}
+   \AXM{}
+   \RLM{3}
+   \UIM{\neg (A \vee B)}
+   \AXM{}
+   \RLM{2}
+   \UIM{B}
+   \UIM{A \vee B}
+   \BIM{\bot}
+   \RLM{2}
+   \UIM{\neg B}
+   \BIM{\neg A \wedge \neg B}
+   \RLM{3}
+   \UIM{\neg (A \vee B) \to \neg A \wedge \neg B}
+   \DP
+   \end{center}
+\end{document}

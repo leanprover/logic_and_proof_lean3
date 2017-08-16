@@ -1,0 +1,29 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \AXM{}
+   \RLM{2}
+   \UIM{\ex x (A(x) \wedge B(x))}
+   \AXM{}
+   \RLM{1}
+   \UIM{\fa x (A(x) \to \neg B(x))}
+   \UIM{A(x) \to \neg B(x)}
+   \AXM{}
+   \RLM{3}
+   \UIM{A(x) \wedge B(x)}
+   \UIM{A(x)}
+   \BIM{\neg B(x)}
+   \AXM{}
+   \RLM{3}
+   \UIM{A(x) \wedge B(x)}
+   \UIM{B(x)}
+   \BIM{\bot}
+   \RLM{3}
+   \BIM{\bot}
+   \RLM{2}
+   \UIM{\neg\ex x(A(x) \wedge B(x))}
+   \RLM{1}
+   \UIM{\fa x (A(x) \to \neg B(x)) \to \neg \ex x (A(x) \wedge B(x))}
+   \end{prooftree}
+\end{document}

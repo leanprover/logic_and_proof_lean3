@@ -1,0 +1,13 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \AXM{\neg A}
+   \AXM{}
+   \RLM{1}
+   \UIM{A}
+   \BIM{\bot}
+   \RLM{1}
+   \UIM{A \to B}
+   \end{prooftree}
+\end{document}

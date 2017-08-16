@@ -1,0 +1,34 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{quote}
+   \AXM{}
+   \RLM{1}
+   \UIM{A}
+   \noLine
+   \UIM{\vdots}
+   \noLine
+   \UIM{B}
+   \AXM{}
+   \RLM{1}
+   \UIM{B}
+   \noLine
+   \UIM{\vdots}
+   \noLine
+   \UIM{A}
+   \RLM{1 \;\; \mathord{\liff}\mathrm{I}}
+   \BIM{A \liff B}
+   \DP
+   \AXM{A \liff B}
+   \AXM{A}
+   \RLM{\mathord{\liff}\mathrm{E}_l}
+   \BIM{B}
+   \DP
+   \quad\quad
+   \AXM{A \liff B}
+   \AXM{B}
+   \RLM{\mathord{\liff}\mathrm{E}_r}
+   \BIM{A}
+   \DP
+   \end{quote}
+\end{document}

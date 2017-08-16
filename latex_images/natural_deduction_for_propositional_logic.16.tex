@@ -1,0 +1,24 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{center}
+   \AXM{1}
+   \RLM{}
+   \UIM{A}
+   \AXM{}
+   \RLM{2}
+   \UIM{(A \to B) \wedge (B \to C)}
+   \UIM{A \to B}
+   \BIM{B}
+   \AXM{}
+   \RLM{2}
+   \UIM{(A \to B) \wedge (B \to C)}
+   \UIM{B \to C}
+   \BIM{C}
+   \RLM{1}
+   \UIM{A \to C}
+   \RLM{2}
+   \UIM{(A \to B) \wedge (B \to C) \to (A \to C)}
+   \DP
+   \end{center}
+\end{document}

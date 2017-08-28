@@ -41,6 +41,9 @@ def process_lean_nodes(app, doctree, fromdocname):
             node['language'] = 'lean'
         new_node += node
 
+        if app.builder.name.startswith('epub'):
+            new_node.replace_self([node])
+
 def html_visit_lean_code_goodies(self, node):
     self.body.append(self.starttag(node, 'div', style='position: relative'))
     self.body.append("<div style='position: absolute; right: 0; top: 0; padding: 1ex'>")

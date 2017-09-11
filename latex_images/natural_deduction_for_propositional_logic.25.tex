@@ -1,0 +1,22 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+    \begin{center}
+    \AXM{A \vee B}
+    \AXM{A \to C}
+    \AXM{}
+    \RLM{1}
+    \UIM{A}
+    \BIM{C}
+    \UIM{C \vee D}
+    \AXM{B \to D}
+    \AXM{}
+    \RLM{1}
+    \UIM{B}
+    \BIM{D}
+    \UIM{C \vee D}
+    \RLM{1}
+    \TIM{C \vee D}
+    \DP
+    \end{center}
+\end{document}

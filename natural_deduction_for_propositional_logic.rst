@@ -1,6 +1,10 @@
 Natural Deduction for Propositional Logic
 =========================================
 
+Reflecting on the arguments in the previous chapter, we see that, intuitively speaking, some inferences are *valid* and some or not. For example, if, in a chain of reasoning, we had established ":math:`A` and :math:`B`," it would seem perfectly reasonable to conclude :math:`B`. If we had established :math:`A`, :math:`B`, and "If :math:`A` and :math:`B` then :math:`C`," it would be reasonable to conclude :math:`C`. On the other hand, if we had established ":math:`A` or :math:`B`," we would not be justified concluding :math:`B` without further information.
+
+The task of symbolic logic is to develop a precise mathematical theory that explains which inferences are valid and why. There are two general approaches to spelling out the notion of validity. In this chapter, we will consider the *deductive* approach: an inference is valid if it can be justified by fundamental rules of reasoning that reflect the meaning of the logical terms involved. In :numref:`Chapter %s <semantics_of_propositional_logic>` we will consider the "semantic" approach: an inference is valid if it is an instance of a pattern that always yields a true conclusion from true hypotheses.
+
 .. _derivations_in_natural_deduction:
 
 Derivations in Natural Deduction
@@ -679,6 +683,67 @@ on.
 Another confusing feature of natural deduction proofs is that every hypothesis has a *scope*, which is to say, there are only certain points in the proof where an assumption is available for use. Of course, this is also a feature of informal mathematical arguments. Suppose a paragraph begins "Let :math:`x` be any number less than 100," argues that :math:`x` has at most five prime factors, and concludes "thus we have shown that every number less than 100 has at most five factors." The reference ":math:`x`", and the assumption that it is less than 100, is only active within the scope of the paragraph. If the next paragraph begins with the phrase "Now suppose :math:`x` is any number greater than 100," then, of course, the assumption that :math:`x` is less than 100 no longer applies.
 
 In natural deduction, a hypothesis is available from the point where it is assumed until the point where it is canceled. We will see that interactive theorem proving languages also have mechanisms to determine the scope of references and hypotheses, and that these, too, shed light on scoping issues in informal mathematics.
+
+Reasoning by Cases
+------------------
+
+The rule for eliminating a disjunction is confusing, but we can make sense of it with an example. Consider the following informal argument:
+
+----
+
+George is either at home or on campus.
+
+If he is at home, he is studying.
+
+If he is on campus, he is with his friends.
+
+Therefore, George is either studying or with his friends.
+
+----
+
+Let :math:`A` be the statement that George is at home, let :math:`B` be the statement that George is on campus, let :math:`C` be the statement that George is studying, and let :math:`D` be the statement the George is with his friends. Then the argument above has the following pattern: from :math:`A \vee B`, :math:`A \to C`, and :math:`B \to D`, conclude :math:`C \vee D`. In natural deduction, we can not get away with drawing this conclusion in a single step, but it does not take too much work to flesh it out into a proper proof. Informally, we have to argue as follows.
+
+----
+
+Georges is either at home or on campus.
+
+    Case 1: Suppose he is at home. We know that if he is at home, then he is studying. So, in this case, he is studying. Thefore, in this case, he is either studying or with his friends.
+
+    Case 2: Suppose he is on campus. We know that if he is on campus, then he is with his friends. So, in this case, he is with his friends. Therefore, in this case, he is either studying or with his friends.
+
+Either way, George is either studying or with his friends.
+
+----
+
+The natural deduction proof looks as follows:
+
+.. raw:: html
+
+   <img src="_static/natural_deduction_for_propositional_logic.25.png">
+
+.. raw:: latex
+
+   \begin{center}
+   \AXM{A \vee B}
+   \AXM{A \to C}
+   \AXM{}
+   \RLM{1}
+   \UIM{A}
+   \BIM{C}
+   \UIM{C \vee D}
+   \AXM{B \to D}
+   \AXM{}
+   \RLM{1}
+   \UIM{B}
+   \BIM{D}
+   \UIM{C \vee D}
+   \RLM{1}
+   \TIM{C \vee D}
+   \DP
+   \end{center}
+
+You should think about how the structure of this proof reflects the informal case-based argument above it.
+
 
 Some Logical Identities
 -----------------------

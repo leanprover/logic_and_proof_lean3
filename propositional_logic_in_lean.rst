@@ -891,7 +891,7 @@ Another feature is that you can omit the label in an ``assume`` statement, provi
 
 Alternatively, you can refer back to unlabeled assumptions by putting them in French quotes:
 
-.. code-block:: text
+.. code-block:: lean
 
     variables A B : Prop
 
@@ -904,7 +904,7 @@ Alternatively, you can refer back to unlabeled assumptions by putting them in Fr
 
 You can also use the word ``have`` without giving a label, and refer back to them using the same conventions. Here is an example that uses these features:
 
-.. code-block:: text
+.. code-block:: lean
 
     theorem my_theorem {A B C : Prop} : 
       A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) :=

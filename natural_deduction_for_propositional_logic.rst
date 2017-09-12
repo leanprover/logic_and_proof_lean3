@@ -462,46 +462,6 @@ The next proof shows that if a conclusion, :math:`C`, follows from :math:`A` and
    \DP
    \end{center}
 
-Using the or-elimination rule can be tricky. If you are trying to prove :math:`C` and you have :math:`A \vee B` at your disposal, the strategy is to split on cases: in one branch, show that :math:`C` follows from :math:`A`, and in the other, show that :math:`C` follows from :math:`B`. In the execution of the rule, :math:`C` therefore follows from three subproofs: the proof of :math:`A \vee B`, then proof of :math:`C` from :math:`A`, and the proof of :math:`C` from :math:`B`. Here, :math:`A` is a temporary assumption in the second component and :math:`B` is a temporary assumption in the third. After the rule is applied, both assumptions are canceled.
-
-For instance, here is a proof of :math:`A \wedge (B \vee C) \to (A \wedge B) \vee (A \wedge C)`:
-
-.. raw:: html
-
-   <img src="_static/natural_deduction_for_propositional_logic.18.png">
-
-.. raw:: latex
-
-   \begin{center}
-   \AXM{}
-   \RLM{2}
-   \UIM{A \wedge (B \vee C)}
-   \UIM{B \vee C}
-   \AXM{}
-   \RLM{2}
-   \UIM{A \wedge (B \vee C)}
-   \UIM{A}
-   \AXM{}
-   \RLM{1}
-   \UIM{B}
-   \BIM{A \wedge B}
-   \UIM{(A \wedge B) \vee (A \wedge C)}
-   \AXM{}
-   \RLM{2}
-   \UIM{A \wedge (B \vee C)}
-   \UIM{A}
-   \AXM{}
-   \RLM{1}
-   \UIM{C}
-   \BIM{A \wedge C}
-   \UIM{(A \wedge B) \vee (A \wedge C)}
-   \RLM{1}
-   \TIM{(A \wedge B) \vee (A \wedge C)}
-   \RLM{2}
-   \UIM{(A \wedge (B \vee C)) \to ((A \wedge B) \vee (A \wedge C))}
-   \DP
-   \end{center}
-
 The conclusion of the next proof can be interpreted as saying that if it is not the case that one of :math:`A` or :math:`B` is true, then they are both false. It illustrates the use of the rules for negation.
 
 .. raw:: html
@@ -743,6 +703,44 @@ The natural deduction proof looks as follows:
    \end{center}
 
 You should think about how the structure of this proof reflects the informal case-based argument above it.
+
+For another example, here is a proof of :math:`A \wedge (B \vee C) \to (A \wedge B) \vee (A \wedge C)`:
+
+.. raw:: html
+
+   <img src="_static/natural_deduction_for_propositional_logic.18.png">
+
+.. raw:: latex
+
+   \begin{center}
+   \AXM{}
+   \RLM{2}
+   \UIM{A \wedge (B \vee C)}
+   \UIM{B \vee C}
+   \AXM{}
+   \RLM{2}
+   \UIM{A \wedge (B \vee C)}
+   \UIM{A}
+   \AXM{}
+   \RLM{1}
+   \UIM{B}
+   \BIM{A \wedge B}
+   \UIM{(A \wedge B) \vee (A \wedge C)}
+   \AXM{}
+   \RLM{2}
+   \UIM{A \wedge (B \vee C)}
+   \UIM{A}
+   \AXM{}
+   \RLM{1}
+   \UIM{C}
+   \BIM{A \wedge C}
+   \UIM{(A \wedge B) \vee (A \wedge C)}
+   \RLM{1}
+   \TIM{(A \wedge B) \vee (A \wedge C)}
+   \RLM{2}
+   \UIM{(A \wedge (B \vee C)) \to ((A \wedge B) \vee (A \wedge C))}
+   \DP
+   \end{center}
 
 
 Some Logical Identities

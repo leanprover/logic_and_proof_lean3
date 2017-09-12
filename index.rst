@@ -15,9 +15,9 @@ Logic and Proof
     natural_deduction_for_first_order_logic
     first_order_logic_in_lean
     semantics_of_first_order_logic
-..  sets
-    set_in_lean
-    relations
+    sets
+    sets_in_lean
+..  relations
     relations_in_lean
     functions
     functions_in_lean

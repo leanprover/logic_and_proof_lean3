@@ -759,6 +759,9 @@ Here is a ``have``-structured presentation of an example from the previous secti
           have h5 : A ∧ C, from and.intro h2 h4,
           show (A ∧ B) ∨ (A ∧ C), from or.inr h5)
 
+
+.. _definitions_and_theorems:
+
 Definitions and Theorems
 ------------------------
 

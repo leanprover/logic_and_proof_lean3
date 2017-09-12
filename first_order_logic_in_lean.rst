@@ -1,3 +1,5 @@
+.. _first_order_logic_in_lean:
+
 First Order Logic in Lean
 =========================
 

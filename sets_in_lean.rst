@@ -1,27 +1,16 @@
 Sets in Lean
 ============
 
-In the last chapter, we noted that although in axiomatic set theory one
-consider sets of disparate objects, it is more common in mathematics to
-consider subsets of some fixed domain, :math:`\mathcal
-U`. This is the way sets are handled in Lean. For any data type ``U``,
-Lean gives us a new data type, ``set U``, consisting of the sets of
-elements of ``U``. Thus, for example, we can reason about sets of
-natural numbers, or sets of integers, or sets of pairs of natural
-numbers.
+In the last chapter, we noted that although in axiomatic set theory one consider sets of disparate objects, it is more common in mathematics to consider subsets of some fixed domain, :math:`\mathcal U`. This is the way sets are handled in Lean. For any data type ``U``, Lean gives us a new data type, ``set U``, consisting of the sets of elements of ``U``. Thus, for example, we can reason about sets of natural numbers, or sets of integers, or sets of pairs of natural numbers.
 
 Basics
 ------
 
-Given ``A : set U`` and ``x : U``, we can write ``x ∈ A`` to state that
-``x`` is a member of the set ``A``. The character ``∈`` can be typed
-using ``\in``. We need to import the library file ``data.set`` and open
-the "namespace" set to have the notions and notations made available to
-us.
+Given ``A : set U`` and ``x : U``, we can write ``x ∈ A`` to state that ``x`` is a member of the set ``A``. The character ``∈`` can be typed using ``\in``. We need to import the library file ``data.set`` and open the "namespace" set to have the notions and notations made available to us.
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     variable {U : Type}
@@ -36,18 +25,13 @@ us.
     #check ∅ ⊆ A
     #check B ⊆ univ
 
-You can type the symbols ``⊆``, ``∅``, ``∪``, ``∩``, ``\`` as ``\subeq``
-``\empty``, ``\un``, ``\i``, and ``\\``, respectively. We have made the
-type variable ``U`` implicit, because it can typically be inferred from
-context. The universal set is denoted ``univ``, and set complementation
-is denoted with a negation symbol.
+You can type the symbols ``⊆``, ``∅``, ``∪``, ``∩``, ``\`` as ``\subeq`` ``\empty``, ``\un``, ``\i``, and ``\\``, respectively. We have made the type variable ``U`` implicit, because it can typically be inferred from context. The universal set is denoted ``univ``, and set complementation is denoted with a negation symbol.
 
-The following pattern can be used to show that ``A`` is a subset of
-``B``:
+The following pattern can be used to show that ``A`` is a subset of ``B``:
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     variable {U : Type}
@@ -60,12 +44,11 @@ The following pattern can be used to show that ``A`` is a subset of
     show x ∈ B, from sorry
     -- END
 
-And the following pattern be used to show that ``A`` and ``B`` are
-equal:
+And the following pattern be used to show that ``A`` and ``B`` are equal:
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     variable {U : Type}
@@ -84,9 +67,9 @@ equal:
 
 Alternatively, we can use the following pattern:
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     variable {U : Type}
@@ -101,32 +84,19 @@ Alternatively, we can use the following pattern:
         show x ∈ A, from sorry))
     -- END
 
-Here, ``ext`` is short for "extensionality." In symbolic terms, it is
-the following fact:
+Here, ``ext`` is short for "extensionality." In symbolic terms, it is the following fact:
 
 .. math::
 
-    \fa x (x \in A \liff x \in B) \to A = B.  
+    \forall x \; (x \in A \leftrightarrow x \in B) \to A = B.  
 
- This reduces proving :math:`A = B` to proving
-:math:`\fa x (x \in A \liff x \in
-B)`, which we can do using :math:`\forall` and :math:`\liff`
-introduction.
+This reduces proving :math:`A = B` to proving :math:`\forall x \; (x \in A \leftrightarrow x \in B)`, which we can do using :math:`\forall` and :math:`\leftrightarrow` introduction.
 
-Moreover, Lean supports the following nifty feature: the defining rules
-for union, intersection and other operations on sets are considered to
-hold "definitionally." This means that the expressions ``x ∈ A ∩ B`` and
-``x ∈ A ∧ x ∈ B`` mean the same thing to Lean. This is the same for the
-other constructions on sets; for example ``x ∈ A \ B`` and
-``x ∈ A ∧ ¬(x ∈ B)`` mean the same thing to Lean. You can also write
-``x ∉ B`` for ``¬(x ∈ B)``, where ``∉`` is written using ``\notin``. For
-the other set constructions, the defining equivalences in the last
-chapter hold definitionally. The following example illustrates these
-features.
+Moreover, Lean supports the following nifty feature: the defining rules for union, intersection and other operations on sets are considered to hold "definitionally." This means that the expressions ``x ∈ A ∩ B`` and ``x ∈ A ∧ x ∈ B`` mean the same thing to Lean. This is the same for the other constructions on sets; for example ``x ∈ A \ B`` and ``x ∈ A ∧ ¬(x ∈ B)`` mean the same thing to Lean. You can also write ``x ∉ B`` for ``¬(x ∈ B)``, where ``∉`` is written using ``\notin``. For the other set constructions, the defining equivalences in the last chapter hold definitionally. The following example illustrates these features.
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     variable {U : Type}
@@ -137,24 +107,19 @@ features.
     assume x,
     assume : x ∈ A,
     assume : x ∈ B,
-    show x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`
+    show x ∈ A ∩ B, from and.intro ‹x ∈ A› ‹x ∈ B›
 
     example : ∅ ⊆ A  :=
     assume x,
     assume : x ∈ ∅,
-    show x ∈ A, from false.elim `x ∈ ∅`
+    show x ∈ A, from false.elim ‹x ∈ ∅›
     -- END
 
-Remember from `Section
-4.5 <04_Propositional_Logic_in_Lean.org::#Definitions_and_Theorems>`__
-that we can use ``suppose`` instead of ``assume`` without a label, and
-refer back to hypotheses using backticks. We have used this feature in
-the previous example. Without that feature, we could have written the
-examples above as follows:
+Remember from :numref:`definitions_and_theorems` that we can use ``assume`` without a label, and refer back to hypotheses using French quotes. We have used this feature in the previous example. Without that feature, we could have written the examples above as follows:
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     variable {U : Type}
@@ -173,15 +138,13 @@ examples above as follows:
     show x ∈ A, from false.elim H
     -- END
 
-Below, and in the chapters that follow, we will begin to use ``suppose``
-more often, as well as the ``have`` command without labels.
+Below, and in the chapters that follow, we will begin to use ``assume`` and ``have`` command without labels.
 
-The fact that Lean can identify sets with their logical definitions
-makes it easy to prove inclusions btween sets:
+The fact that Lean can identify sets with their logical definitions makes it easy to prove inclusions btween sets:
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     variable {U : Type}
@@ -203,12 +166,11 @@ makes it easy to prove inclusions btween sets:
 Some Identities
 ---------------
 
-Here is the proof of the first identity that we proved informally in the
-previous chapter:
+Here is the proof of the first identity that we proved informally in the previous chapter:
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     variable {U : Type}
@@ -221,12 +183,12 @@ previous chapter:
         assume H : x ∈ A ∩ (B ∪ C),
         have x ∈ A, from and.left H,
         have x ∈ B ∪ C, from and.right H,
-        or.elim (`x ∈ B ∪ C`)
+        or.elim (‹x ∈ B ∪ C›)
           (assume : x ∈ B,
-            have x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`,
+            have x ∈ A ∩ B, from and.intro ‹x ∈ A› ‹x ∈ B›,
             show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inl this)
           (assume : x ∈ C,
-            have x ∈ A ∩ C, from and.intro `x ∈ A` `x ∈ C`,
+            have x ∈ A ∩ C, from and.intro ‹x ∈ A› ‹x ∈ C›,
             show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inr this))
       (assume x,
         assume : x ∈ (A ∩ B) ∪ (A ∩ C),
@@ -235,43 +197,39 @@ previous chapter:
             have x ∈ A, from and.left H,
             have x ∈ B, from and.right H,
             have x ∈ B ∪ C, from or.inl this,
-            show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this)
+            show x ∈ A ∩ (B ∪ C), from and.intro ‹x ∈ A› this)
           (assume H : x ∈ A ∩ C,
             have x ∈ A, from and.left H,
             have x ∈ C, from and.right H,
             have x ∈ B ∪ C, from or.inr this,
-            show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this))
+            show x ∈ A ∩ (B ∪ C), from and.intro ‹x ∈ A› this))
     -- END
 
-Notice that it is considerably longer than the informal proof in the
-last chapter, because we have spelled out every last detail.
-Unfortunately, this does not necessarily make it more readable. Keep in
-mind that you can always write long proofs incrementally, using
-``sorry``. You can also break up long proofs into smaller pieces:
+Notice that it is considerably longer than the informal proof in the last chapter, because we have spelled out every last detail. Unfortunately, this does not necessarily make it more readable. Keep in mind that you can always write long proofs incrementally, using ``sorry``. You can also break up long proofs into smaller pieces:
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     variable {U : Type}
     variables A B C : set U
 
     -- BEGIN
-    proposition inter_union_subset : A ∩ (B ∪ C) ⊆ (A ∩ B) ∪ (A ∩ C) :=
+    theorem inter_union_subset : A ∩ (B ∪ C) ⊆ (A ∩ B) ∪ (A ∩ C) :=
     assume x,
     assume H : x ∈ A ∩ (B ∪ C),
     have x ∈ A, from and.left H,
     have x ∈ B ∪ C, from and.right H,
-    or.elim (`x ∈ B ∪ C`)
+    or.elim (‹x ∈ B ∪ C›)
       (assume : x ∈ B,
-        have x ∈ A ∩ B, from and.intro `x ∈ A` `x ∈ B`,
+        have x ∈ A ∩ B, from and.intro ‹x ∈ A› ‹x ∈ B›,
         show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inl this)
       (assume : x ∈ C,
-        have x ∈ A ∩ C, from and.intro `x ∈ A` `x ∈ C`,
+        have x ∈ A ∩ C, from and.intro ‹x ∈ A› ‹x ∈ C›,
         show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inr this)
 
-    proposition inter_union_inter_subset : (A ∩ B) ∪ (A ∩ C) ⊆ A ∩ (B ∪ C) :=
+    theorem inter_union_inter_subset : (A ∩ B) ∪ (A ∩ C) ⊆ A ∩ (B ∪ C) :=
     assume x,
     assume : x ∈ (A ∩ B) ∪ (A ∩ C),
     or.elim this
@@ -279,12 +237,12 @@ mind that you can always write long proofs incrementally, using
         have x ∈ A, from and.left H,
         have x ∈ B, from and.right H,
         have x ∈ B ∪ C, from or.inl this,
-        show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this)
+        show x ∈ A ∩ (B ∪ C), from and.intro ‹x ∈ A› this)
       (assume H : x ∈ A ∩ C,
         have x ∈ A, from and.left H,
         have x ∈ C, from and.right H,
         have x ∈ B ∪ C, from or.inr this,
-        show x ∈ A ∩ (B ∪ C), from and.intro `x ∈ A` this)
+        show x ∈ A ∩ (B ∪ C), from and.intro ‹x ∈ A› this)
 
     example : A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C) :=
     eq_of_subset_of_subset
@@ -292,17 +250,13 @@ mind that you can always write long proofs incrementally, using
       (inter_union_inter_subset A B C)
     -- END
 
-Notice that the two propositions depend on the variables ``A``, ``B``,
-and ``C``, which have to be supplied as arguments when they are applied.
-They also depend on the underlying type, ``U``, but because the variable
-``U`` was marked implicit, Lean figures it out from the context.
+Notice that the two theorems depend on the variables ``A``, ``B``, and ``C``, which have to be supplied as arguments when they are applied. They also depend on the underlying type, ``U``, but because the variable ``U`` was marked implicit, Lean figures it out from the context.
 
-In the last chapter we showed :math:`(A \cap \overline B) \cup B = B`.
-Here is the corresponding proof in Lean:
+In the last chapter we showed :math:`(A \cap \overline B) \cup B = B`. Here is the corresponding proof in Lean:
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     variable  U : Type
@@ -316,15 +270,11 @@ Here is the corresponding proof in Lean:
                ... = A ∪ B              : by rewrite inter_univ
     -- END
 
-Translated to propositions, the theorem above states that for every pair
-of elements :math:`A` and :math:`B` in a Boolean algebra,
-:math:`(A \wedge \neg B)
-\vee B = B`. Lean allows us to do calculations on propositions as though
-they are elements of a Boolean algebra, with equality replaced by ``↔``.
+Translated to propositions, the theorem above states that for every pair of elements :math:`A` and :math:`B` in a Boolean algebra, :math:`(A \wedge \neg B) \vee B = B`. Lean allows us to do calculations on propositions as though they are elements of a Boolean algebra, with equality replaced by ``↔``.
 
-.. code:: lean
+.. code-block:: lean
 
-    import logic
+    -- import logic
     open classical
 
     -- BEGIN
@@ -340,16 +290,11 @@ they are elements of a Boolean algebra, with equality replaced by ``↔``.
 Power Sets and Indexed Families
 -------------------------------
 
-We can also work with power sets and indexed unions and intersections in
-Lean. If ``A : set U``, then ``powerset A`` is a subset of ``set U``,
-that is, we have ``powerset A : set (set X)``. For Lean, ``A ∈ powerset
-B`` means the same thing as ``A ⊆ B``, which, in turn, means
-``∀x, x ∈ A →
-x ∈ B``.
+We can also work with power sets and indexed unions and intersections in Lean. If ``A : set U``, then ``powerset A`` is a subset of ``set U``, that is, we have ``powerset A : set (set X)``. For Lean, ``A ∈ powerset B`` means the same thing as ``A ⊆ B``, which, in turn, means ``∀x, x ∈ A → x ∈ B``.
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     variable  {U : Type}
@@ -360,22 +305,15 @@ x ∈ B``.
 
     example : A ∈ powerset (A ∪ B) :=
     assume x,
-    assume `x ∈ A`,
-    show x ∈ A ∪ B, from or.inl `x ∈ A`
+    assume : x ∈ A,
+    show x ∈ A ∪ B, from or.inl ‹x ∈ A›
     -- END
 
-A family of sets in Lean is written as ``A : I → set U`` where ``I`` is
-a ``Type``. Then the intersection and union of the family of sets ``A``
-is written ``⋂i, A i`` ``⋃i, A i``. These characters can be typed with
-``\I`` and ``\Un``. For Lean, ``x ∈ ⋂i, A i`` means ``∀i : I, x ∈ A i``
-and ``x ∈
-⋃i, A i`` means ``∃i : I, x ∈ A i``. To refresh your memory at to how to
-work with the universal and existential quantifier in Lean, see `Chapter
-9 <09_First_Order_Logic_in_Lean.org::#First_Order_Logic_in_Lean>`__.
+A family of sets in Lean is written as ``A : I → set U`` where ``I`` is a ``Type``. Then the intersection and union of the family of sets ``A`` is written ``⋂i, A i`` ``⋃i, A i``. These characters can be typed with ``\I`` and ``\Un``. For Lean, ``x ∈ ⋂i, A i`` means ``∀i : I, x ∈ A i`` and ``x ∈ ⋃i, A i`` means ``∃i : I, x ∈ A i``. To refresh your memory at to how to work with the universal and existential quantifier in Lean, see :numref:`Chapters %s <first_order_logic_in_lean>`.
 
-.. code:: lean
+.. code-block:: lean
 
-    import data.set
+    -- import data.set
     open set
 
     -- BEGIN
@@ -389,7 +327,7 @@ work with the universal and existential quantifier in Lean, see `Chapter
     assume x,
     assume H : x ∈ ⋂i, A i,
     have x ∈ A i₀, from H i₀,
-    exists.intro i₀ `x ∈ A i₀`
+    exists.intro i₀ ‹x ∈ A i₀›
     -- END
 
 Exercises
@@ -397,9 +335,9 @@ Exercises
 
 #. Fill in the ``sorry``'s.
 
-   .. code:: lean
+   .. code-block:: lean
 
-       import data.set
+       -- import data.set
        open set
 
        section
@@ -430,10 +368,9 @@ Exercises
 
 #. Fill in the ``sorry``.
 
-   .. code:: lean
+   .. code-block:: lean
 
-       import logic data.set
-       open eq.ops   -- this allows you to use notation for the equality rules if you want
+       -- import logic data.set
        open set
 
        variable {U : Type}
@@ -465,9 +402,9 @@ Exercises
 
 #. Prove the following facts about indexed unions and intersections.
 
-   .. code:: lean
+   .. code-block:: lean
 
-       import data.set
+       -- import data.set
        open set
 
        variables {I J U : Type}
@@ -476,9 +413,9 @@ Exercises
        example : (⋃i, ⋂j, A i j) ⊆ (⋂j, ⋃i, A i j) :=
        sorry
 
-   .. code:: lean
+   .. code-block:: lean
 
-       import data.set
+       -- import data.set
        open classical set
 
        variables {I U : Type}
@@ -491,12 +428,11 @@ Exercises
        example : B ∪ (⋂i, A i) = ⋂i, B ∪ A i :=
        sorry
 
-#. Prove the following fact about power sets. You can use the theorems
-   ``subset.trans`` and ``subset.refl``
+#. Prove the following fact about power sets. You can use the theorems ``subset.trans`` and ``subset.refl``
 
-   .. code:: lean
+   .. code-block:: lean
 
-       import data.set
+       -- import data.set
        open set
 
        variables {U : Type}

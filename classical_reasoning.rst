@@ -295,7 +295,7 @@ In fact, using distributivity laws, one can go on to ensure that all the disjunc
 Exercises
 ---------
 
-#. Show how to derive the proof-by-contradiction rule from the law of the excluded middle, using the other rules of natural deduction.
+#. Show how to derive the proof-by-contradiction rule from the law of the excluded middle, using the other rules of natural deduction. In other words, assume you have a proof of :math:`\bot` from :math:`\neg A`. Using :math:`A \vee \neg A` as a hypothesis, but *without* using the rule RAA, show how you can go on to derive :math:`A`.
 
 #. Give a natural deduction proof of :math:`\neg (A \wedge B)` from :math:`\neg A \vee \neg B`. (You do not need to use proof by contradiction.)
 

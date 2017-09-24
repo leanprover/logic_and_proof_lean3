@@ -64,12 +64,12 @@ The second one, for example, asserts that either :math:`(x + yz)^2` is not equal
 The Universal Quantifier
 ------------------------
 
-What makes first-order logic powerful is that it allows us to make general assertions using *quantifiers*. The universal quantifier :math:`\forall ` followed by a variable :math:`x` is meant to represent the phrase "for every :math:`x`." In other words, it asserts that every value of :math:`x` has the property that follows it. Using the universal quantifier, the examples with which we began this previous section can be expressed as follows:
+What makes first-order logic powerful is that it allows us to make general assertions using *quantifiers*. The universal quantifier :math:`\forall` followed by a variable :math:`x` is meant to represent the phrase "for every :math:`x`." In other words, it asserts that every value of :math:`x` has the property that follows it. Using the universal quantifier, the examples with which we began this previous section can be expressed as follows:
 
 - :math:`\forall x \; ((\mathit{even}(x) \vee \mathit{odd}(x)) \wedge \neg (\mathit{even}(x) \wedge \neg \mathit{odd}(x)))`
 - :math:`\forall x \; (\mathit{even}(x) \leftrightarrow 2 \mid x)`
 - :math:`\forall x \; (\mathit{even}(x) \to \mathit{even}(x^2))`
-- :math:`\forall x \; (\mathit{even}(x) \leftrightarrow 2 \mathit{odd}{x+1})`
+- :math:`\forall x \; (\mathit{even}(x) \leftrightarrow 2 \mathit{odd}(x+1))`
 - :math:`\forall x \; (\mathit{prime}(x) \wedge x > 2 \to \mathit{odd}(x))`
 - :math:`\forall x \; \forall y \; \forall z (x \mid y \wedge y \mid z \to x \mid z)`
 
@@ -179,7 +179,7 @@ These statements can be expressed in first-order logic using the existential qua
 -  :math:`\forall n \; (n > 1 \to \exists p \; (\mathit{prime}(p) \wedge p \mid n))`
 -  :math:`\forall n \; ((\exists p \; (p \mid n \wedge \mathit{prime}(p) \wedge p < n)) \to \mathit{composite}(n))`
 
-After we write :math:`\exists \; n`, the variable :math:`n` is bound in the formula, just as for the universal quantifier. So the formulas :math:`\exists n \; \mathit{composite}(n)` and :math:`\exists m \; \mathit{composite}(m)` are considered the same.
+After we write :math:`\exists n`, the variable :math:`n` is bound in the formula, just as for the universal quantifier. So the formulas :math:`\exists n \; \mathit{composite}(n)` and :math:`\exists m \; \mathit{composite}(m)` are considered the same.
 
 How do we prove such existential statements? Suppose we want to prove that there exists an odd composite number. To do this, we just present a candidate, and show that the candidate satisfies the required properties. For example, we could choose 15, and then show that 15 is odd and that 15 is prime. Of course, there's nothing special about 15, and we could have proven it also using a different number, like 9 or 35. The choice of candidate does not matter, as long as it has the required property.
 
@@ -261,7 +261,7 @@ You should keep in mind that, at this stage, :math:`\mathit{loves}` is just a sy
 
 .. math::
 
-   \forall {x, y, z} \; (\mathit{loves}(x, y) \wedge \mathit{loves}(y, z) \to \mathit{loves}(x, z)
+   \forall {x, y, z} \; (\mathit{loves}(x, y) \wedge \mathit{loves}(y, z) \to \mathit{loves}(x, z))
 
 is true, though in the original interpretation it makes an implausible claim about the nature of love triangles. In :numref:`Chapter %s <semantics_of_first_order_logic>`, we will spell out the notion that the deductive rules of first-order logic enable us to determine the statements that are true in *all* interpretations, just as the rules of propositional logic enable us to determine the statements that are true under all truth assignments.
 

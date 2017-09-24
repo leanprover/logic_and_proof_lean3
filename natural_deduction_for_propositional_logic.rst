@@ -667,7 +667,7 @@ Let :math:`A` be the statement that George is at home, let :math:`B` be the stat
 
 Georges is either at home or on campus.
 
-    Case 1: Suppose he is at home. We know that if he is at home, then he is studying. So, in this case, he is studying. Thefore, in this case, he is either studying or with his friends.
+    Case 1: Suppose he is at home. We know that if he is at home, then he is studying. So, in this case, he is studying. Therefore, in this case, he is either studying or with his friends.
 
     Case 2: Suppose he is on campus. We know that if he is on campus, then he is with his friends. So, in this case, he is with his friends. Therefore, in this case, he is either studying or with his friends.
 
@@ -746,7 +746,7 @@ For another example, here is a proof of :math:`A \wedge (B \vee C) \to (A \wedge
 Some Logical Identities
 -----------------------
 
-Two propositional formulas, :math:`A` and :math:`B`, are said to be *logically equivalent* if :math:`A \leftrightarrow B` is provable. Logical equivalences are similar to identities like :math:`x + y = y + x` that occur in algebra. In particular, one can show that if two formulas are equivalent, then one can substitute one for the other in any formula, and the results will also be equivalent. (Some proof systems take this to be a basic rule, and interactive theorem provers can accomodate it, but we will *not* take it to be a fundamental rule of natural deduction.)
+Two propositional formulas, :math:`A` and :math:`B`, are said to be *logically equivalent* if :math:`A \leftrightarrow B` is provable. Logical equivalences are similar to identities like :math:`x + y = y + x` that occur in algebra. In particular, one can show that if two formulas are equivalent, then one can substitute one for the other in any formula, and the results will also be equivalent. (Some proof systems take this to be a basic rule, and interactive theorem provers can accommodate it, but we will *not* take it to be a fundamental rule of natural deduction.)
 
 For reference, the following list contains some commonly used propositional equivalences, along with some noteworthy formulas. Think about why, intuitively, these formulas should be true.
 

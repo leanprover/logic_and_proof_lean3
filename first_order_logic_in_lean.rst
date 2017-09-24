@@ -589,7 +589,7 @@ In Lean, reflexivity, symmetry, and transitivity are called ``eq.refl``, ``eq.sy
     have h2 : P x, from sorry,
     show P y, from eq.subst h1 h2
 
-The rule ``eq.refl`` above assumes ``x`` as an argument, because there is no hypothesis to infer it from. All the other rules assume their premises as arguments. Here is an example of equational raesoning:
+The rule ``eq.refl`` above assumes ``x`` as an argument, because there is no hypothesis to infer it from. All the other rules assume their premises as arguments. Here is an example of equational reasoning:
 
 .. code-block:: lean
 

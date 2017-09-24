@@ -318,7 +318,7 @@ Since every example begins by declaring the necessary propositional variables, w
 Conjunction
 ~~~~~~~~~~~
 
-We have already seen that and introduction is implemented with ``and.intro``, and the elmination rules are ``and.left`` and ``and.right``.
+We have already seen that and introduction is implemented with ``and.intro``, and the elimination rules are ``and.left`` and ``and.right``.
 
 .. code-block:: lean
 
@@ -400,7 +400,7 @@ Internally, negation ``¬ A`` is defined by ``A → false``, which you can think
     end
     -- END
 
-If you have proved a negation ``¬ A``, you can get a contradition by applying it to a proof of ``A``.
+If you have proved a negation ``¬ A``, you can get a contradiction by applying it to a proof of ``A``.
 
 .. code-block:: lean
 
@@ -483,7 +483,7 @@ The elimination rules are ``iff.elim_left`` and ``iff.elim_right``:
 Reductio ad absurdum (proof by contradiction)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Finally, there is the rule for proof by contradition, which we will discuss in greater detail in :numref:`Chapter %s <classical_reasoning>`. It is included for completeness here.
+Finally, there is the rule for proof by contradiction, which we will discuss in greater detail in :numref:`Chapter %s <classical_reasoning>`. It is included for completeness here.
 
 The rule is called ``by_contradiction``. It has one argument, which is a proof of ``false`` from ``¬ A``. To use the rule, you have to ask Lean to allow classical reasoning, by writing ``open classical``. You can do this at the beginning of the file, or any time before using it. It you say ``open classical`` in a section, it will remain in scope for that section.
 
@@ -920,7 +920,7 @@ You can also use the word ``have`` without giving a label, and refer back to the
           have A ∧ C, from and.intro ‹A› ‹C›,
           show (A ∧ B) ∨ (A ∧ C), from or.inr this)
 
-Another trick is that you can write ``h.left`` and ``h.right`` instead of ``and.left h`` and ``and.right h`` whenever ``h`` is a conjunction, and you can write ``⟨h1, h2⟩`` instead of ``and.intro h1 h2`` whenever Lean can figure out that a conjunction is what you are trying to prove. With these conventions, you can write the fowlling:
+Another trick is that you can write ``h.left`` and ``h.right`` instead of ``and.left h`` and ``and.right h`` whenever ``h`` is a conjunction, and you can write ``⟨h1, h2⟩`` instead of ``and.intro h1 h2`` whenever Lean can figure out that a conjunction is what you are trying to prove. With these conventions, you can write the following:
 
 .. code-block:: lean
 

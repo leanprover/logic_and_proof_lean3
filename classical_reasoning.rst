@@ -234,13 +234,21 @@ Here is another example. Intuitively, asserting "if A then B" is equivalent to s
    \DP
    \end{center}
 
-Here is the same proof, rendered in Lean:
+Here are the same proofs, rendered in Lean:
 
 .. code-block:: lean
 
     open classical
 
     variables (A B : Prop)
+
+    example (h : ¬ B → ¬ A) : A → B :=
+    assume h1 : A,
+    show B, from
+      by_contradiction
+        (assume h2 : ¬ B,
+          have h3 : ¬ A, from h h2,
+          show false, from h3 h1)
 
     example (h : ¬ (A ∧ ¬ B)) : A → B :=
     assume : A,
@@ -250,11 +258,69 @@ Here is the same proof, rendered in Lean:
           have A ∧ ¬ B, from and.intro ‹A› this,
           show false, from h this)
 
-Implication can be rewritten in terms of disjunction and negation:
+Notice that in the second example, we used an anonymous ``assume`` and an anonymous ``have``. We used the brackets ``\f<`` and ``\f>`` to write ``‹A›``, referring back to the first assumption. The first use of the word ``this`` refers back to the assumption ``¬ B``, while the second one refers back to the ``have``.
+
+Knowing that we can prove the law of the excluded middle, it is convenient to use it in classical proofs. Here is an example, with a proof of :math:`(A \to B) \vee (B \to A)`:
+
+.. raw:: html
+
+   <img src="_static/classical_reasoning.6bis.png">
+
+.. raw:: latex
+
+   \begin{center}
+   \AXM{}
+   \UIM{B \vee \neg B}
+   \AXM{}
+   \RLM{1}
+   \UIM{B}
+   \UIM{A \to B}
+   \UIM{(A \to B) \vee (B \to A)}
+   \AXM{}
+   \RLM{1}
+   \UIM{\neg B}
+   \AXM{}
+   \RLM{2}
+   \UIM{B}
+   \BIM{\bot}
+   \UIM{A}
+   \RLM{2}
+   \UIM{B \to A}
+   \UIM{(A \to B) \vee (B \to A)}
+   \RLM{1}
+   \TIM{(A \to B) \vee (B \to A)}
+   \DP
+   \end{center}
+
+Here is the corresponding proof in Lean:
+
+.. code-block:: lean
+
+    open classical
+
+    variables (A B : Prop)
+
+    example : (A → B) ∨ (B → A) :=
+    or.elim (em B)
+      (assume h : B,
+        have A → B, from
+          assume : A,
+          show B, from h,
+        show (A → B) ∨ (B → A), 
+          from or.inl this)
+      (assume h : ¬ B,
+        have B → A, from
+          assume : B,
+          have false, from h this,
+          show A, from false.elim this,
+        show (A → B) ∨ (B → A), 
+          from or.inr this)
+
+Using classical reasoning, implication can be rewritten in terms of disjunction and negation:
 
 .. math::
 
-   A \to B \leftrightarrow \neg A \vee B
+   (A \to B) \leftrightarrow \neg A \vee B
 
 The forward direction requires classical reasoning.
 

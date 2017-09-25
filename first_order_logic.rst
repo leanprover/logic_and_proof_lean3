@@ -69,7 +69,7 @@ What makes first-order logic powerful is that it allows us to make general asser
 - :math:`\forall x \; ((\mathit{even}(x) \vee \mathit{odd}(x)) \wedge \neg (\mathit{even}(x) \wedge \neg \mathit{odd}(x)))`
 - :math:`\forall x \; (\mathit{even}(x) \leftrightarrow 2 \mid x)`
 - :math:`\forall x \; (\mathit{even}(x) \to \mathit{even}(x^2))`
-- :math:`\forall x \; (\mathit{even}(x) \leftrightarrow 2 \mathit{odd}(x+1))`
+- :math:`\forall x \; (\mathit{even}(x) \leftrightarrow \mathit{odd}(x+1))`
 - :math:`\forall x \; (\mathit{prime}(x) \wedge x > 2 \to \mathit{odd}(x))`
 - :math:`\forall x \; \forall y \; \forall z (x \mid y \wedge y \mid z \to x \mid z)`
 

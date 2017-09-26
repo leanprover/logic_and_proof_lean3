@@ -183,7 +183,7 @@ Then we can go on to derive :math:`\forall n \; (\mathit{even}(n) \vee \mathit{o
    \UIM{\mathit{even}(n)}
    \UIM{\mathit{even}(n) \vee \mathit{odd}(n)}
    \AXM{}
-   \UIM{\fa n \neg \mathit{even}(n) \to \mathit{odd}(n)}
+   \UIM{\fa n (\neg \mathit{even}(n) \to \mathit{odd}(n))}
    \UIM{\neg \mathit{even} (n) \to \mathit{odd}(n)}
    \AXM{}
    \RLM{1}

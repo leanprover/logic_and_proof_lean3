@@ -1,0 +1,27 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{center}
+   \AXM{}
+   \UIM{B \vee \neg B}
+   \AXM{}
+   \RLM{1}
+   \UIM{B}
+   \UIM{A \to B}
+   \UIM{(A \to B) \vee (B \to A)}
+   \AXM{}
+   \RLM{1}
+   \UIM{\neg B}
+   \AXM{}
+   \RLM{2}
+   \UIM{B}
+   \BIM{\bot}
+   \UIM{A}
+   \RLM{2}
+   \UIM{B \to A}
+   \UIM{(A \to B) \vee (B \to A)}
+   \RLM{1}
+   \TIM{(A \to B) \vee (B \to A)}
+   \DP
+   \end{center}
+\end{document}

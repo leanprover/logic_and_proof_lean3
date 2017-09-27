@@ -587,7 +587,7 @@ Exercises
 
 #. From hypotheses :math:`\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))` and :math:`\forall x \; (\mathit{odd}(x) \to \mathit{even}(s(x)))` give a natural deduction proof :math:`\forall x \; (\mathit{even}(x) \vee \mathit{even}(s(x)))`. (It might help to think of :math:`s(x)` as the function defined by :math:`s(x) = x + 1`.)
 
-#. Give a natural deduction proof of :math:`\exists x \; (A(x) \vee B(x)) \to \exists x \; A(x) \vee \exists x \; B(x)`.
+#. Give a natural deduction proof of :math:`\exists x \; A(x) \vee \exists x \; B(x) \to \exists x \; (A(x) \vee B(x))`.
 
 #. Give a natural deduction proof of :math:`\exists x \; (A(x) \wedge C(x))` from the assumptions :math:`\exists x \; (A(x) \wedge B(x))` and :math:`\forall x \; (A(x) \wedge B(x) \to C(x))`.
 

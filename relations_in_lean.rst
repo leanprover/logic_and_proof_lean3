@@ -8,15 +8,15 @@ As in informal mathematics, we often wish to use infix notation for relations. W
 Order Relations
 ---------------
 
-We can reason about partial orders in Lean by fixing a type, ``α``, and a binary relation, ``R``, and working under the hypotheses that ``α`` is reflexive, transitive, and antisymmetric:
+We can reason about partial orders in Lean by fixing a type, ``A``, and a binary relation, ``R``, and working under the hypotheses that ``A`` is reflexive, transitive, and antisymmetric:
 
 .. code-block:: lean
 
     section
-      parameters {α : Type} {R : α → α → Prop}
+      parameters {A : Type} {R : A → A → Prop}
       parameter (reflR : reflexive R)
       parameter (transR : transitive R)
-      parameter (antisymmR : ∀ {a b : α}, R a b → R b a → a = b)
+      parameter (antisymmR : ∀ {a b : A}, R a b → R b a → a = b)
 
       local infix ≤ := R
     end
@@ -28,24 +28,24 @@ In the example below, having fixed a partial order, ``R``, we define the corresp
 .. code-block:: lean
 
     section
-    parameters {α : Type} {R : α → α → Prop}
+    parameters {A : Type} {R : A → A → Prop}
     parameter (reflR : reflexive R)
     parameter (transR : transitive R)
-    parameter (antisymmR : ∀ {a b : α}, R a b → R b a → a = b)
+    parameter (antisymmR : ∀ {a b : A}, R a b → R b a → a = b)
 
     local infix ≤ := R
 
-    definition R' (a b : α) : Prop := a ≤ b ∧ a ≠ b
+    definition R' (a b : A) : Prop := a ≤ b ∧ a ≠ b
 
     local infix < := R'
 
-    theorem irrefl (a : α) : ¬ a < a :=
+    theorem irrefl (a : A) : ¬ a < a :=
     assume : a < a,
     have a ≠ a, from and.right this,
     have a = a, from rfl,
     show false, from ‹a ≠ a› ‹a = a›
 
-    theorem trans {a b c : α} (h₁ : a < b) (h₂ : b < c) : a < c :=
+    theorem trans {a b c : A} (h₁ : a < b) (h₂ : b < c) : a < c :=
     have a ≤ b, from and.left h₁,
     have a ≠ b, from and.right h₁,
     have b ≤ c, from and.left h₂,
@@ -89,8 +89,8 @@ There are many theorems in Lean that are useful for proving facts about inequali
 
 .. code-block:: lean
 
-    variables (α : Type) [partial_order α]
-    variables a b c : α
+    variables (A : Type) [partial_order A]
+    variables a b c : A
 
     #check (le_trans : a ≤ b → b ≤ c → a ≤ c)
     #check (lt_trans : a < b → b < c → a < c)
@@ -98,7 +98,7 @@ There are many theorems in Lean that are useful for proving facts about inequali
     #check (lt_of_le_of_lt : a ≤ b → b < c → a < c)
     #check (le_of_lt : a < b → a ≤ b)
 
-Here the declaration at the top says that ``α`` has the structure of a partial order. There are also properties that are specific to some domains, like the natural numbers:
+Here the declaration at the top says that ``A`` has the structure of a partial order. There are also properties that are specific to some domains, like the natural numbers:
 
 .. code-block:: lean
 
@@ -116,18 +116,18 @@ Exercises
    .. code-block:: lean
 
         section
-        parameters {α : Type} {R : α → α → Prop}
+        parameters {A : Type} {R : A → A → Prop}
         parameter (irreflR : irreflexive R)
         parameter (transR : transitive R)
 
         local infix < := R
 
-        definition R' (a b : α) : Prop := R a b ∨ a = b
+        definition R' (a b : A) : Prop := R a b ∨ a = b
         local infix ≤ := R'
 
-        theorem reflR' (a : α) : a ≤ a := sorry
-        theorem transR' {a b c : α} (h1 : a ≤ b) (h2 : b ≤ c): a ≤ c := sorry
-        theorem antisymmR' {a b : α} (h1 : a ≤ b) (h2 : b ≤ a) : a = b := sorry
+        theorem reflR' (a : A) : a ≤ a := sorry
+        theorem transR' {a b c : A} (h1 : a ≤ b) (h2 : b ≤ c): a ≤ c := sorry
+        theorem antisymmR' {a b : A} (h1 : a ≤ b) (h2 : b ≤ a) : a = b := sorry
         end
 
 #. Complete the following proof. Note: we write ``(1 : ℕ)`` instead of just ``1`` so that Lean does not confuse the natural number ``1`` with the integer, rational, or so on.

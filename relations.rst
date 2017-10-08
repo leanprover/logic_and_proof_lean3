@@ -174,8 +174,8 @@ In ordinary mathematical language, an *equivalence relation* is defined as follo
 
 We leave it to you to think about how you could write these statements in first-order logic. (Note the similarity to the rules for a partial order.) We will also leave you with an exercise: by a careful choice of how to instantiate the quantifiers, you can actually prove the three properties above from the following two:
 
--  :math:`\fa a (a \equiv a)`
--  :math:`\fa {a, b, c} (a \equiv b \wedge c \equiv b \to a \equiv c)`
+-  :math:`\forall a \; (a \equiv a)`
+-  :math:`\forall {a, b, c} \; (a \equiv b \wedge c \equiv b \to a \equiv c)`
 
 Try to verify this using natural deduction or Lean.
 
@@ -195,7 +195,7 @@ Here, we say that :math:`x` is congruent to :math:`y` modulo :math:`m` if they l
 
 Consider the equivalence relation on citizens of the United States, given by ":math:`x` and :math:`y` have the same age." There are some properties that respect that equivalence. For example, suppose I tell you that John and Susan have the same age, and I also tell you that John is old enough to vote. Then you can rightly infer that Susan is old enough to vote. On the other hand, if I tell you nothing more than the facts that John and Susan have the same age and John lives in South Dakota, you cannot infer that Susan lives in South Dakota. This little example illustrates what is special about the *equality* relation: if two things are equal, then they have exactly the same properties.
 
-An important related notion is that of an *equivalence class*. Let :math:`\equiv` be an equivalence relation on a set :math:`A`. For every element :math:`a` in :math:`A`, let :math:`[a]` be the set of elements :math:`\{ c \st c \equiv a \}`, that is, the set of elements of :math:`A` that are equivalent to :math:`a`. We call :math:`[a]` the equivalence class of :math:`A`, under the equivalence relation :math:`\equiv`.
+An important related notion is that of an *equivalence class*. Let :math:`\equiv` be an equivalence relation on a set :math:`A`. For every element :math:`a` in :math:`A`, let :math:`[a]` be the set of elements :math:`\{ c \mid c \equiv a \}`, that is, the set of elements of :math:`A` that are equivalent to :math:`a`. We call :math:`[a]` the equivalence class of :math:`A`, under the equivalence relation :math:`\equiv`.
 
 Equivalence tries to capture a "weak" notion of equality: if two elements of :math:`A` are equivalent, they are not necessarily the same, but they are "similar" in some way. Equivalence classes collect similar objects together. If we define :math:`A' = \{ [a] : a \in A \}`, the set of equivalence classes of elements in :math:`A`, we get a version of the set :math:`A` where sets of similar elements have been "compressed" into single elements. This is illustrated in an exercise below.
 
@@ -219,7 +219,7 @@ Exercises
 
    On an arbitrary graph, is :math:`\leq` a partial order, a strict partial order, a total order, a strict total order, or none of the above? If possible, give examples of graphs where :math:`\leq` fails to have these properties.
 
-#. Let :math:`\equiv` be an equivalence relation on a set :math:`A`. For every element :math:`a` in :math:`A`, let :math:`[a]` be the equivalence class of :math:`a`: that is, the set of elements :math:`\{ c \st c \equiv a \}`. Show that for every :math:`a` and :math:`b`, :math:`[a] = [b]` if and only if :math:`a \equiv b`.
+#. Let :math:`\equiv` be an equivalence relation on a set :math:`A`. For every element :math:`a` in :math:`A`, let :math:`[a]` be the equivalence class of :math:`a`: that is, the set of elements :math:`\{ c \mid c \equiv a \}`. Show that for every :math:`a` and :math:`b`, :math:`[a] = [b]` if and only if :math:`a \equiv b`.
 
    (Hints and notes:
 
@@ -227,9 +227,9 @@ Exercises
    -  Since that :math:`[a]` and :math:`[b]` are sets, :math:`[a] = [b]` means that for every element :math:`c`, :math:`c` is in :math:`[a]` if and only if :math:`c` is in :math:`[b]`.
    -  By definition, an element :math:`c` is in :math:`[a]` if and only if :math:`c \equiv a`. In particular, :math:`a` is in :math:`[a]`.)
 
-#. Let the relation :math:`\sim` on the natural numbers :math:`\NN` be defined as follows: if :math:`n` is even, then :math:`n \sim n+1`, and if :math:`n` is odd, then :math:`n \sim n-1`. Furthermore, for every :math:`n`, :math:`n \sim n`. Show that :math:`\sim` is an equivalence relation. What is the equivalence class of the number 5? Describe the set of equivalence classes :math:`\{ [n] \st n \in \NN \}`.
+#. Let the relation :math:`\sim` on the natural numbers :math:`\mathbb{B}` be defined as follows: if :math:`n` is even, then :math:`n \sim n+1`, and if :math:`n` is odd, then :math:`n \sim n-1`. Furthermore, for every :math:`n`, :math:`n \sim n`. Show that :math:`\sim` is an equivalence relation. What is the equivalence class of the number 5? Describe the set of equivalence classes :math:`\{ [n] \mid n \in \mathbb{N} \}`.
 
-#. Show that the relation on lines in the plane, given by ":math:`l_1` and :math:`l_2` are parallel," is an equivalence relation. What is the equivalence class of the x-axis? Describe the set of equivalence classes :math:`\{ [l] \st l\text{ is a line in the plane} \}`.
+#. Show that the relation on lines in the plane, given by ":math:`l_1` and :math:`l_2` are parallel," is an equivalence relation. What is the equivalence class of the x-axis? Describe the set of equivalence classes :math:`\{ [l] \mid l\text{ is a line in the plane} \}`.
 
 #. A binary relation :math:`\leq` on a domain :math:`A` is said to be a *preorder* it is is reflexive and transitive. This is weaker than saying it is a partial order; we have removed the requirement that the relation is asymmetric. An example is the ordering on people currently alive on the planet defined by setting :math:`x \leq y` if and only if :math:`x` 's birth date is earlier than :math:`y` 's. Asymmetry fails, because different people can be born on the same day. But, prove that the following theorem holds:
 

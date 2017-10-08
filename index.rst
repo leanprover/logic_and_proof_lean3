@@ -17,9 +17,9 @@ Logic and Proof
     semantics_of_first_order_logic
     sets
     sets_in_lean
-..  relations
+    relations
     relations_in_lean
-    functions
+..  functions
     functions_in_lean
     the_natural_numbers_and_induction
     the_natural_numbers_and_induction_in_lean

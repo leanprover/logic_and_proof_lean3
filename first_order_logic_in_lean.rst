@@ -296,7 +296,7 @@ In the last chapter, we considered the following proof in natural deduction:
 
 .. raw:: html
 
-   <img src="first_order_logic_in_lean.1.png">
+   <img src="_static/first_order_logic_in_lean.1.png">
 
 .. raw:: latex
 
@@ -392,7 +392,7 @@ The following example uses both the introduction and the elimination rules for t
 
 Notice the parentheses in the hypothesis; if we left them out, everything after the first ``∃ x`` would be included in the scope of that quantifier. From the hypothesis, we obtain a ``y`` that satisfies ``A y ∧ B y``, and hence ``A y`` in particular. So ``y`` is enough to witness the conclusion.
 
-It is sometimes annoying to enclose the proof after an ``exists.elim`` in parenthesis, as we did here with the ``assume ... show`` block. To avoid that, we can use a bit of syntax from the programming world, and use a dollar sign instead. In Lean, an expression ``f $ t`` means the same thing as $f (t)``, with the advantage that we do not have to remember to close the parenthesis. With this gadget, we can write the proof above as follows:
+It is sometimes annoying to enclose the proof after an ``exists.elim`` in parenthesis, as we did here with the ``assume ... show`` block. To avoid that, we can use a bit of syntax from the programming world, and use a dollar sign instead. In Lean, an expression ``f $ t`` means the same thing as ``f (t)``, with the advantage that we do not have to remember to close the parenthesis. With this gadget, we can write the proof above as follows:
 
 .. code-block:: lean
 
@@ -683,14 +683,12 @@ And when you reduce a proof to a single tactic, you can use ``by`` instead of ``
 
 We will see in the coming chapters that in ordinary mathematical proofs, one commonly carries out calculations in a format like this:
 
-.. raw:: latex
+.. math::
 
-   \begin{align*}
     t_1 &= t_2 \\
      \ldots & = t_3 \\
      \ldots &= t_4 \\
      \ldots &= t_5
-   \end{align*}
 
 Lean has a mechanism to model calculational proofs like this. Whenever a proof of an equation is expected, you can provide a proof using the identifier ``calc``, following by a chain of equalities and justification, in the following form:
 
@@ -934,7 +932,7 @@ Exercises
 
 .. comment (TODO: restore this)
 
-    #. Do the following.
+#. Do the following.
 
     .. code-block:: lean
 

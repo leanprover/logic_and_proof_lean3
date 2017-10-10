@@ -208,7 +208,7 @@ function or with iterated pairing :math:`(a_1, (a_2, a_3))`.
     I} A_i| = \sum_{i \in I} | A_i |`.
 -  :math:`| \prod_{i \in I} A_i | = \prod_{i \in I} | A_i |`.
 
-\*Proof.\* By induction on :math:`|I|`, using the previous counting
+**Proof.** By induction on :math:`|I|`, using the previous counting
 principles.
 
 ----

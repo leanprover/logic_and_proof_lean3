@@ -19,7 +19,7 @@ On a broad construal, *any* collection can be a set; for example, we can conside
 
 In practice, mathematicians are not so freewheeling in their use of sets. Typically, one fixes a domain such as the natural numbers, and consider subsets of that domain. In other words, we consider sets of numbers, sets of points, sets of lines, and so on, rather than arbitrary "sets." In this text, we will adopt this convention: when we talk about sets, we are always implicitly talking about sets of elements of some domain.
 
-Given a set :math:`A` of objects in some domain and an object :math:`x`, we write :math:`x \in A` to say that :math:`x` is an element of :math:`A`. Cantor's characterization suggests that whenever we have some property, :math:`P`, of a domain, we can form the set of elements that have that property. This is denoted using "set-builder notation" as :math:`\{ x \; | \; P(x) \}`. For example, we can consider all the following sets of natural numbers:
+Given a set :math:`A` of objects in some domain and an object :math:`x`, we write :math:`x \in A` to say that :math:`x` is an element of :math:`A`. Cantor's characterization suggests that whenever we have some property, :math:`P`, of a domain, we can form the set of elements that have that property. This is denoted using "set-builder notation" as :math:`\{ x \mid P(x) \}`. For example, we can consider all the following sets of natural numbers:
 
 -  :math:`\{n \mid \mbox{$n$ is even} \}`
 -  :math:`\{n \mid \mbox{$n$ is prime} \}`
@@ -27,7 +27,7 @@ Given a set :math:`A` of objects in some domain and an object :math:`x`, we writ
 -  :math:`\{n \mid \mbox{$n$ can be written as a sum of squares} \}`
 -  :math:`\{n \mid \mbox{$n$ is equal to 1, 2, or 3}\}`
 
-This last set is written more simply :math:`\{1, 2, 3\}`. If the domain is not clear from the context, we can specify it by writing it explicitly, for example, in the expression :math:`\{n\in \mathbb{N} \mid \text{$n$ is even} \}`.
+This last set is written more simply :math:`\{1, 2, 3\}`. If the domain is not clear from the context, we can specify it by writing it explicitly, for example, in the expression :math:`\{n \in \mathbb{N} \mid \text{$n$ is even} \}`.
 
 Using set-builder notation, we can define a number of common sets and operations. The *empty set*, :math:`\emptyset`, is the set with no elements:
 

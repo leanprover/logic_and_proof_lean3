@@ -19,9 +19,9 @@ Logic and Proof
     sets_in_lean
     relations
     relations_in_lean
-..  functions
+    functions
     functions_in_lean
-    the_natural_numbers_and_induction
+..  the_natural_numbers_and_induction
     the_natural_numbers_and_induction_in_lean
     elementary_number_theory
     elementary_number_theory_in_lean

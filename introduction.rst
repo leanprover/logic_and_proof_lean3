@@ -177,27 +177,30 @@ Proofs in Lean can access a library of prior mathematical results, all verified 
 
 .. code-block:: lean
 
-    theorem sqrt_two_irrational {a b : ℕ} (co : coprime a b) : 
+    import data.nat.prime
+    open nat
+
+    theorem sqrt_two_irrational {a b : ℕ} (co : gcd a b = 1) : 
       a^2 ≠ 2 * b^2 :=
     assume h : a^2 = 2 * b^2,
-    have even (a^2),
-      from even_of_exists (exists.intro _ h),
-    have even a,
-      from even_of_even_pow this,
-    exists.elim (exists_of_even this) $ 
+    have 2 ∣ a^2,
+      by simp [h],
+    have 2 ∣ a,
+      from dvd_of_prime_of_dvd_pow prime_two this,
+    exists.elim this $ 
     assume (c : nat) (aeq : a = 2 * c),
     have 2 * (2 * c^2) = 2 * b^2,
-      by rw [←h, aeq, pow_two, pow_two, mul_assoc, mul_left_comm c],
+      by simp [eq.symm h, aeq]; simp [pow_succ],
     have 2 * c^2 = b^2,
       from eq_of_mul_eq_mul_left dec_trivial this,
-    have even (b^2),
-      from even_of_exists (exists.intro _ (eq.symm this)),
-    have even b,
-      from even_of_even_pow this,
+    have 2 ∣ b^2,
+      by simp [eq.symm this],
+    have 2 ∣ b,
+      from dvd_of_prime_of_dvd_pow prime_two this,
     have 2 ∣ gcd a b,
-      from dvd_gcd (dvd_of_even ‹even a›) (dvd_of_even ‹even b›),
+      from dvd_gcd ‹2 ∣ a› ‹2 ∣ b›,
     have 2 ∣ (1 : ℕ),
-      by rw [gcd_eq_one_of_coprime co] at this; exact this,
+      by simp * at *,
     show false, from absurd ‹2 ∣ 1› dec_trivial
 
 The third goal of this course is to teach you to write elementary proofs in Lean. The facts that we will ask you to prove in Lean will be more elementary than the informal proofs we will ask you to write, but our intent is that formal proofs will model and clarify the informal proof strategies we will teach you.

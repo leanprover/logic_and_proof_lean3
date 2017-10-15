@@ -1,9 +1,13 @@
+.. _relations:
+
 Relations
 =========
 
 In :numref:`Chapter %s <first_order_logic>` we discussed the notion of a *relation symbol* in first-order logic, and in :numref:`Chapter %s <semantics_of_first_order_logic>` we saw how to interpret such a symbol in a model. In mathematics, we are generally interested in different sorts of relationships between mathematical objects, and so the notion of a relation is ubiquitous. In this chapter, we will consider some common kinds of relations.
 
 In some axiomatic foundations, the notion of a relation is taken to be primitive, but in axiomatic set theory, a relation is taken to be a set of tuples of the corresponding arity. For example, we can take a binary relation on :math:`A` to be a subset of :math:`A \times A`, where :math:`R(a, b)` means that :math:`(a, b) \in R`. The foundational definition is generally irrelevant to everyday mathematical practice; what is important is simply that we can write expressions like :math:`R(a, b)`, and that they are true or false, depending on the values of :math:`a` and :math:`b`. In mathematics, we often use *infix* notation, writing :math:`a R b` instead of :math:`R(a, b)`.
+
+.. _order_relations:
 
 Order Relations
 ---------------

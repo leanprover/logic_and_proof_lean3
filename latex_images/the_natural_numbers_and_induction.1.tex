@@ -1,0 +1,15 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+\begin{prooftree}
+    \AXM{P(0)}
+    \AXM{}
+    \RLM{1}
+    \UIM{P(n)}
+    \noLine
+    \UIM{\vdots}
+    \noLine
+    \UIM{P(n+1)}
+    \BIM{\forall n \; P(n)}
+\end{prooftree}
+\end{document}

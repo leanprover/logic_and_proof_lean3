@@ -23,9 +23,9 @@ Logic and Proof
     functions_in_lean
     the_natural_numbers_and_induction
     the_natural_numbers_and_induction_in_lean
-..  elementary_number_theory
+    elementary_number_theory
     elementary_number_theory_in_lean
-    combinatorics
+..  combinatorics
     combinatorics_in_lean
     probability
     probability_in_lean

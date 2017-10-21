@@ -161,6 +161,8 @@ The assertion that there exists a domain :math:`A`, and a partial order :math:`\
 
 We can consider other properties of orders. An order is said to be *dense* if between any two distinct elements, there is another element. More precisely, an order is dense if, whenever :math:`x < y`, there is an element :math:`z` satisfying :math:`x < z` and :math:`z < y`. For example, the rational numbers are dense with the usual :math:`\leq` ordering, but not the integers. Saying that an order is dense is another example of an implicit use of existential quantification.
 
+.. _equivalence_relations_and_equality:
+
 Equivalence Relations and Equality
 ----------------------------------
 

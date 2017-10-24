@@ -91,17 +91,17 @@ Notice also that some formulas, like :math:`\forall x, y \; (x \le y \vee y \le 
 
 In :numref:`Chapter %s <introduction>` we proved that the square root of two is irrational. One way to construe the statement is as follows:
 
-    For every pair of natural numbers, :math:`a` and :math:`b`, it is not the case that :math:`a^2 = 2 b^2`.
+    For every pair of integers, :math:`a` and :math:`b`, if :math:`b \ne 0`, it is not the case that :math:`a^2 = 2 b^2`.
 
-The advantage of this formulation is that we can restrict our attention to the natural numbers, without having to consider the larger domain of rationals. In symbolic logic, assuming our intended domain of discourse is the natural numbers, we would express this theorem using the universal quantifier:
+The advantage of this formulation is that we can restrict our attention to the integers, without having to consider the larger domain of rationals. In symbolic logic, assuming our intended domain of discourse is the integers, we would express this theorem using the universal quantifier:
 
 .. math::
 
-   \forall  a, b \; \neg (a^2 = 2 b^2). 
+   \forall  a, b \; b \ne 0 \to \neg (a^2 = 2 b^2). 
 
 How do we prove such a theorem? Informally, we would use such a pattern:
 
-    Let :math:`a` and :math:`b` be arbitrary integers, and suppose :math:`a^2 = 2 b^2`.
+    Let :math:`a` and :math:`b` be arbitrary integers, suppose :math:`b \ne 0`, and suppose :math:`a^2 = 2 b^2`.
 
     ...
 
@@ -118,17 +118,26 @@ What we are really doing is proving that the universal statement holds, by showi
    \begin{center}
    \AXM{}
    \RLM{1}
-   \UIM{a^2 = 2 \times b^2}
+   \UIM{b \ne 0}
+   \noLine
    \UIM{\vdots}
-   \UIM{\bot}
-   \RLM{1}
+   \AXM{}
+   \RLM{2}
+   \UIM{a^2 = 2 \times b^2}
+   \noLine
+   \UIM{\vdots}
+   \noLine
+   \BIM{\bot}
+   \RLM{2}
    \UIM{\neg (a^2 = 2 \times b^2)}
-   \UIM{\forall b \neg (a^2 = 2 \times b^2)}
-   \UIM{\forall a \; \forall b \; \neg (a^2 = 2 \times b^2)}
+   \RLM{1}
+   \UIM{b \ne 0 \to \neg (a^2 = 2 \times b^2)}
+   \UIM{\forall b \; (b \ne 0 \to \neg (a^2 = 2 \times b^2))}
+   \UIM{\forall a \; \forall b \; (b \ne 0 \to \neg (a^2 = 2 \times b^2))}
    \DP
    \end{center}
 
-Notice that after the hypothesis is canceled, we have proved :math:`\neg (a^2 = 2 \times b^2)` without making any assumptions about :math:`a` and :math:`b`; at this stage in the proof, they are "arbitrary," justifying the application of the universal quantifiers in the next two rules.
+Notice that after the hypotheses are canceled, we have proved :math:`b \ne 0 \to \neg (a^2 = 2 \times b^2)` without making any assumptions about :math:`a` and :math:`b`; at this stage in the proof, they are "arbitrary," justifying the application of the universal quantifiers in the next two rules.
 
 This example motivates the following rule in natural deduction:
 
@@ -181,7 +190,7 @@ These statements can be expressed in first-order logic using the existential qua
 
 After we write :math:`\exists n`, the variable :math:`n` is bound in the formula, just as for the universal quantifier. So the formulas :math:`\exists n \; \mathit{composite}(n)` and :math:`\exists m \; \mathit{composite}(m)` are considered the same.
 
-How do we prove such existential statements? Suppose we want to prove that there exists an odd composite number. To do this, we just present a candidate, and show that the candidate satisfies the required properties. For example, we could choose 15, and then show that 15 is odd and that 15 is prime. Of course, there's nothing special about 15, and we could have proven it also using a different number, like 9 or 35. The choice of candidate does not matter, as long as it has the required property.
+How do we prove such existential statements? Suppose we want to prove that there exists an odd composite number. To do this, we just present a candidate, and show that the candidate satisfies the required properties. For example, we could choose 15, and then show that 15 is odd and that 15 is composite. Of course, there's nothing special about 15, and we could have proven it also using a different number, like 9 or 35. The choice of candidate does not matter, as long as it has the required property.
 
 In a natural deduction proof this would look like this:
 
@@ -274,9 +283,9 @@ These are instances of *relativization*. The universal quantifier ranges over al
 
 .. math::
 
-   \forall x \; (\mathit{prime}(x) \wedge x \ge 2 \to \mathit{odd}(x)).
+   \forall x \; (\mathit{prime}(x) \wedge x > 2 \to \mathit{odd}(x)).
 
-We could also read this more literally as saying "for every number :math:`x`, if :math:`x` is prime and :math:`x` is greater than or equal to 2, then :math:`x` is odd," but it is natural to read it as a restricted quantifier.
+We could also read this more literally as saying "for every number :math:`x`, if :math:`x` is prime and :math:`x` is greater than to 2, then :math:`x` is odd," but it is natural to read it as a restricted quantifier.
 
 It is also possible to relativize the existential quantifier to say things like "some woman is strong" and "some man is good-looking." These are expressed as follows:
 

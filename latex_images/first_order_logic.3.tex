@@ -2,15 +2,24 @@
 \usepackage{bussproofs,mylogic}
 \begin{document}
    \begin{center}
-   \AXM{}
-   \RLM{1}
-   \UIM{a^2 = 2 \times b^2}
-   \UIM{\vdots}
-   \UIM{\bot}
-   \RLM{1}
-   \UIM{\neg (a^2 = 2 \times b^2)}
-   \UIM{\fa b \neg (a^2 = 2 \times b^2)}
-   \UIM{\fa a \fa b \neg (a^2 = 2 \times b^2)}
-   \DP
+    \AXM{}
+    \RLM{1}
+    \UIM{b \ne 0}
+    \noLine
+    \UIM{\vdots}
+    \AXM{}
+    \RLM{2}
+    \UIM{a^2 = 2 \times b^2}
+    \noLine
+    \UIM{\vdots}
+    \noLine
+    \BIM{\bot}
+    \RLM{2}
+    \UIM{\neg (a^2 = 2 \times b^2)}
+    \RLM{1}
+    \UIM{b \ne 0 \to \neg (a^2 = 2 \times b^2)}
+    \UIM{\forall b \; (b \ne 0 \to \neg (a^2 = 2 \times b^2))}
+    \UIM{\forall a \; \forall b \; (b \ne 0 \to \neg (a^2 = 2 \times b^2))}
+    \DP
    \end{center}
 \end{document}

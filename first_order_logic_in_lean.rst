@@ -233,7 +233,7 @@ In Lean, then, the pattern for proving a universal statement is rendered as foll
     assume x,
     show P x, from sorry
 
-Read ``assume x`` as "fix and arbitrary value ``x`` of ``U``." Since we are allowed to rename bound variables at will, we can equivalently write either of the following:
+Read ``assume x`` as "fix an arbitrary value ``x`` of ``U``." Since we are allowed to rename bound variables at will, we can equivalently write either of the following:
 
 .. code-block:: lean
 

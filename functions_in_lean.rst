@@ -26,7 +26,7 @@ The function :math:`f` is injective if it satisfies
 
    \forall x_1, x_2 : X \; (f(x_1) = f(x_2) \to x_1 = x_2),
 
- and :math:`f` is surjective if
+and :math:`f` is surjective if
 
 .. math::
 

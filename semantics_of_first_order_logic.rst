@@ -5,7 +5,7 @@ Semantics of First Order Logic
 
 In :numref:`Chapter %s <semantics_of_propositional_logic>`, we emphasized a distinction between the *syntax* and the *semantics* of propositional logic. Syntactic questions have to do with the formal structure of formulas and the conditions under which different types of formulas can be derived. Semantic questions, on the other hand, concern the *truth* of a formula relative to some truth assignment.
 
-As you might expect, we can make a similar distinction in the setting of first order logic. The previous two chapters have focused mainly on syntax, but some semantic ideas have slipped in. Recall the running example with domain of interest :math:`{\mathbb N}`, constant symbols 0, 1, 2, 3, function symbols :math:`\mathit{add}` and :math:`\mathit{mul}`, and predicate symbols :math:`\mathit{even}, \mathit{prime}, \mathit{equals}, \mathit{lt}`, etc. We know that the sentence :math:`\forall y \; \mathit{lt}(0, y)` is true in this example, if :math:`\mathit{lt}` is interpreted as the less-than relation on the natural numbers. But if we consider the domain :math:`{\mathbb Z}` instead of :math:`{\mathbb N}`, that same formula becomes false. The sentence :math:`\forall y \; \mathit{lt}(0,y)` is also false if we consider the domain :math:`{\mathbb N}`, but (somewhat perversely) interpret the predicate :math:`\mathit{lt}(x, y)` as the relation ":math:`x` is greater than :math:`y`" on the natural numbers.
+As you might expect, we can make a similar distinction in the setting of first order logic. The previous two chapters have focused on syntax, but some semantic ideas have slipped in. Recall the running example with domain of interest :math:`{\mathbb N}`, constant symbols 0, 1, 2, 3, function symbols :math:`\mathit{add}` and :math:`\mathit{mul}`, and predicate symbols :math:`\mathit{even}, \mathit{prime}, \mathit{equals}, \mathit{lt}`, etc. We know that the sentence :math:`\forall y \; \mathit{lt}(0, y)` is true in this example, if :math:`\mathit{lt}` is interpreted as the less-than relation on the natural numbers. But if we consider the domain :math:`{\mathbb Z}` instead of :math:`{\mathbb N}`, that same formula becomes false. The sentence :math:`\forall y \; \mathit{lt}(0,y)` is also false if we consider the domain :math:`{\mathbb N}`, but (somewhat perversely) interpret the predicate :math:`\mathit{lt}(x, y)` as the relation ":math:`x` is greater than :math:`y`" on the natural numbers.
 
 This indicates that the truth or falsity or a first order sentence can depend on how we interpret the quantifiers and basic relations of the language. But some formulas are true under any interpretation: for instance, :math:`\forall y \; (\mathit{lt}(0, y) \to \mathit{lt}(0, y))` is true of under all the interpretations considered in the last paragraph, and, indeed, under any interpretation we choose. A sentence like this is said to be *valid*; this is the analogue of a tautology in propositional logic, which is true under every possible truth assignment.
 
@@ -14,17 +14,17 @@ We can broaden the analogy: a "model" in first order logic is the analogue of a 
 Interpretations
 ---------------
 
-The symbols of the language in our running example -- 0, 1, :math:`\mathit{add}`, :math:`\mathit{prime}`, and so on -- have very indicative names. When we interpret sentences of this language over the domain :math:`{\mathbb N}`, for example, it is clear for which elements of the domain :math:`\mathit{prime}` "should" be true, and for which it "should" be false. But let us consider a first order language that has only two unary predicate symbols :math:`\mathit{fancy}` and :math:`\mathit{tall}`. If we take our domain to be :math:`{\mathbb N}`, is the sentence :math:`\forall x \; (\mathit{fancy}(x) \to \mathit{tall}(x))` true or false?
+The symbols of the language in our running example -- 0, 1, :math:`\mathit{add}`, :math:`\mathit{prime}`, and so on -- have very suggestive names. When we interpret sentences of this language over the domain :math:`{\mathbb N}`, for example, it is clear for which elements of the domain :math:`\mathit{prime}` "should" be true, and for which it "should" be false. But let us consider a first order language that has only two unary predicate symbols :math:`\mathit{fancy}` and :math:`\mathit{tall}`. If we take our domain to be :math:`{\mathbb N}`, is the sentence :math:`\forall x \; (\mathit{fancy}(x) \to \mathit{tall}(x))` true or false?
 
-The answer, of course, is that we don't have enough information to say. There's no "obvious" meaning to the predicates :math:`\mathit{fancy}` or :math:`\mathit{tall}`, at least not when we apply them to natural numbers. To make sense of the sentence, we need to know which numbers are fancy and which ones are tall. Perhaps multiples of 10 are fancy, and even numbers are tall; in this case, the formula is true, since every multiple of 10 is even. Perhaps prime numbers are fancy and odd numbers are tall; then the formula is false, since 2 is fancy but not tall.
+The answer, of course, is that we don't have enough information to say. There's no obvious meaning to the predicates :math:`\mathit{fancy}` or :math:`\mathit{tall}`, at least not when we apply them to natural numbers. To make sense of the sentence, we need to know which numbers are fancy and which ones are tall. Perhaps multiples of 10 are fancy, and even numbers are tall; in this case, the formula is true, since every multiple of 10 is even. Perhaps prime numbers are fancy and odd numbers are tall; then the formula is false, since 2 is fancy but not tall.
 
-We call each of these descriptions an *interpretation* of the predicate symbols :math:`\mathit{fancy}` and :math:`\mathit{tall}` in the domain :math:`{\mathbb N}`. Formally, an interpretation of a unary predicate :math:`P` in a domain :math:`D` is the set of elements of :math:`D` for which :math:`P` is true. For an example, the "standard" interpretation of :math:`\mathit{prime}` in :math:`{\mathbb N}` that we used above was just the set of prime natural numbers.
+We call each of these descriptions an *interpretation* of the predicate symbols :math:`\mathit{fancy}` and :math:`\mathit{tall}` in the domain :math:`{\mathbb N}`. Formally, an interpretation of a unary predicate :math:`P` in a domain :math:`D` is the set of elements of :math:`D` for which :math:`P` is true. For an example, the standard interpretation of :math:`\mathit{prime}` in :math:`{\mathbb N}` that we used above was just the set of prime natural numbers.
 
 We can interpret constant, function, and relation symbols in a similar way. An interpretation of constant symbol :math:`c` in domain :math:`D` is an element of :math:`D`. An interpretation of a function symbol :math:`f` with arity :math:`n` is a function that maps :math:`n` elements of :math:`D` to another element of :math:`D`. An interpretation of a relation symbol :math:`R` with arity :math:`n` is the set of :math:`n` tuples of elements of :math:`D` for which :math:`R` is true.
 
 It is important to emphasize the difference between a syntactic predicate symbol (or function symbol, or constant symbol) and the semantic predicate (or function, or object) to which it is interpreted. The former is a symbol, relates to other symbols, and has no meaning on its own until we specify an interpretation. Strictly speaking, it makes no sense to write :math:`\mathit{prime}(3)`, where :math:`\mathit{prime}` is a predicate symbol and 3 is a natural number, since the argument to :math:`\mathit{prime}` is supposed to be a syntactic term. Sometimes we may obscure this distinction, as above when we specified a language with constant symbols 0, 1, and 2. But there is still a fundamental distinction between the objects of the domain and the symbols we use to represent them.
 
-Sometimes, when we interpret a language in a particular domain, it is useful to implicitly introduce new constant symbols into the language to denote elements of this domain. Specifically, for each element :math:`a` of the domain, we introduce a constant symbol :math:`\bar a`, which is interpreted as :math:`a`. Then, the expression :math:`\mathit{prime}(\bar 3)` *does* make sense. Interpreting the predicate symbol :math:`\mathit{prime}` in the natural way, this expression will evaluate to true. We think of :math:`\bar 3` as a linguistic "name" that represents the natural number 3, in the same way that the word "Madonna" is a name that represents the flesh-and-blood pop singer.
+Sometimes, when we interpret a language in a particular domain, it is useful to implicitly introduce new constant symbols into the language to denote elements of this domain. Specifically, for each element :math:`a` of the domain, we introduce a constant symbol :math:`\bar a`, which is interpreted as :math:`a`. Then the expression :math:`\mathit{prime}(\bar 3)` does make sense. Interpreting the predicate symbol :math:`\mathit{prime}` in the natural way, this expression will evaluate to true. We think of :math:`\bar 3` as a linguistic "name" that represents the natural number 3, in the same way that the phrase "Bob Dylan" is a name that represents the flesh-and-blood folk singer.
 
 Truth in a Model
 ----------------
@@ -80,14 +80,14 @@ Consider the following sentences:
 
 #. :math:`\forall x \; (\mathit{green}(x) \vee \mathit{blue}(x))`
 #. :math:`\exists x, y \;  (\mathit{adj}(x, y) \wedge \mathit{green}(x) \wedge \mathit{green}(y))`
-#. :math:`\exists x \; ((\exists z \mathit{right{\mathord{\mbox{-}}}of}(z, x)) \wedge (\forall y (\mathit{left{\mathord{\mbox{-}}}of}(x, y) \to \mathit{blue}(y) \vee \mathit{small}(y))))`
-#. :math:`\forall x \; (\mathit{large}(x) \to \exists y (\mathit{small}(y) \wedge \mathit{adj}(x, y)))`
-#. :math:`\forall x \; (\mathit{green}(x) \to \exists y (\mathit{same{\mathord{\mbox{-}}}row}(x, y) \wedge \mathit{blue}(y)))`
+#. :math:`\exists x \; ((\exists z \; \mathit{right{\mathord{\mbox{-}}}of}(z, x)) \wedge (\forall y \; (\mathit{left{\mathord{\mbox{-}}}of}(x, y) \to \mathit{blue}(y) \vee \mathit{small}(y))))`
+#. :math:`\forall x \; (\mathit{large}(x) \to \exists y \; (\mathit{small}(y) \wedge \mathit{adj}(x, y)))`
+#. :math:`\forall x \; (\mathit{green}(x) \to \exists y \; (\mathit{same{\mathord{\mbox{-}}}row}(x, y) \wedge \mathit{blue}(y)))`
 #. :math:`\forall x, y \; (\mathit{same{\mathord{\mbox{-}}}row}(x, y) \wedge \mathit{same{\mathord{\mbox{-}}}column}(x, y) \to x = y)`
 #. :math:`\exists x \; \forall y \; (\mathit{adj}(x, y) \to \neg \mathit{same{\mathord{\mbox{-}}}size}(x, y))`
 #. :math:`\forall x \; \exists y \; (\mathit{adj}(x, y) \wedge \mathit{same{\mathord{\mbox{-}}}color}(x, y))`
 #. :math:`\exists y \; \forall x \; (\mathit{adj}(x, y) \wedge \mathit{same{\mathord{\mbox{-}}}color}(x, y))`
-#. :math:`\exists x \; (\mathit{blue}(x) \wedge \exists y (\mathit{green}(y) \wedge \mathit{above}(x, y)))`
+#. :math:`\exists x \; (\mathit{blue}(x) \wedge \exists y \; (\mathit{green}(y) \wedge \mathit{above}(x, y)))`
 
 We can evaluate them in this particular model:
 
@@ -103,7 +103,7 @@ There they have the following truth values:
 
 #. false
 #. true
-#. false
+#. true
 #. false
 #. true
 #. true
@@ -150,11 +150,11 @@ Compared to the version for propositional logic, the first order completeness th
 
 From this theorem, it is easy to deduce the completeness theorem. Suppose there is no proof of :math:`A` from :math:`\Gamma`. Then the set :math:`\Gamma \cup \{ \neg A \}` is consistent. (If we could prove :math:`\bot` from :math:`\Gamma \cup \{ \neg A \}`, then by the *reductio ad absurdum* rule we could prove :math:`A` from :math:`\Gamma`.) By the model existence theorem, that means that there is a model :math:`{\mathcal M}` of :math:`\Gamma \cup \{ \neg A \}`. But this is a model of :math:`\Gamma` that is not a model of :math:`A`, which means that :math:`A` is not a logical consequence of :math:`\Gamma`.
 
-The proof of the model existence theorem is intricate. Somehow, from a consistent set of sentences, one has to "build" a model. The strategy is to build the model out of syntactic entities, in other words, to use terms in an expanded language as the elements of the domain.
+The proof of the model existence theorem is intricate. Somehow, from a consistent set of sentences, one has to build a model. The strategy is to build the model out of syntactic entities, in other words, to use terms in an expanded language as the elements of the domain.
 
 The moral here is much the same as it was for propositional logic. Because we have developed our syntactic rules with a certain semantics in mind, the two exhibit different sides of the same coin: the provable sentences are exactly the ones that are true in all models, and the sentences that are provable from a set of hypotheses are exactly the ones that are true in all models of those hypotheses.
 
-We therefore have another way to answer the question posed in the previous section. To show that a sentence is a tautology, there is no need to check its proof in every possible model. Rather, it suffices to produce a proof.
+We therefore have another way to answer the question posed in the previous section. To show that a sentence is valid, there is no need to check its truth in every possible model. Rather, it suffices to produce a proof.
 
 Exercises
 ---------

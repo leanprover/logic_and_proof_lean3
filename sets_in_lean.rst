@@ -349,9 +349,9 @@ In the last chapter we showed :math:`(A \cap \overline B) \cup B = B`. Here is t
     -- BEGIN
     example : (A ∩ -B) ∪ B = A ∪ B :=
     calc
-      (A ∩ -B) ∪ B = (A ∪ B) ∩ (-B ∪ B) : by rewrite union_distrib_right
-               ... = (A ∪ B) ∩ univ     : by rewrite compl_union_self
-               ... = A ∪ B              : by rewrite inter_univ
+      (A ∩ -B) ∪ B = (A ∪ B) ∩ (-B ∪ B) : by rw union_distrib_right
+               ... = (A ∪ B) ∩ univ     : by rw compl_union_self
+               ... = A ∪ B              : by rw inter_univ
     -- END
 
 Translated to propositions, the theorem above states that for every pair of elements :math:`A` and :math:`B` in a Boolean algebra, :math:`(A \wedge \neg B) \vee B = B`. Lean allows us to do calculations on propositions as though they are elements of a Boolean algebra, with equality replaced by ``↔``.

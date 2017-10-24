@@ -33,37 +33,37 @@ Using set-builder notation, we can define a number of common sets and operations
 
 .. math::
 
-   \emptyset = \{ x \; \mid \; \mbox{false} \}
+   \emptyset = \{ x \mid \mbox{false} \}
 
 Dually, we can define the *universal set*, :math:`\mathcal U`, to be the set consisting of every element of the domain:
 
 .. math::
 
-   \mathcal U = \{ x \; \mid \; \mbox{true} \}
+   \mathcal U = \{ x \mid \mbox{true} \}
 
 Given two sets :math:`A` and :math:`B`, we define their *union* to be the set of elements in either one:
 
 .. math::
 
-   A \cup B = \{ x \; \mid \; \mbox{$x \in A$ or $x \in B$} \}
+   A \cup B = \{ x \mid \mbox{$x \in A$ or $x \in B$} \}
 
 And we define their *intersection* to be the set of elements of both:
 
 .. math::
 
-   A \cap B = \{ x \; \mid \; \mbox{$x \in A$ and $x \in B$} \}
+   A \cap B = \{ x \mid \mbox{$x \in A$ and $x \in B$} \}
 
 We define the *complement* of a set of :math:`A` to be the set of elements that are not in :math:`A`:
 
 .. math::
 
-   \overline A = \{ x \; \mid \; \mbox{$x \notin A$} \}
+   \overline A = \{ x \mid \mbox{$x \notin A$} \}
 
 We define the *set difference* of two sets :math:`A` and :math:`B` to be the set of elements in :math:`A` but not :math:`B`:
 
 .. math::
 
-   A \setminus B = \{ x \; \mid \; \mbox{$x \in A$ and $x \notin B$} \}
+   A \setminus B = \{ x \mid \mbox{$x \in A$ and $x \notin B$} \}
 
 Two sets are said to be equal if they have exactly the same elements. If :math:`A` and :math:`B` are sets, :math:`A` is said to be a *subset* of :math:`B`, written :math:`A \subseteq B`, if every element of :math:`A` is an element of :math:`B`. Notice that :math:`A` is equal to :math:`B` if and only if :math:`A` is a subset of :math:`B` and :math:`B` is a subset of :math:`A`.
 
@@ -380,19 +380,19 @@ of sets indexed by the natural numbers. The concept is best illustrated by some 
 
 -  For every real number :math:`r` we can define :math:`B_r` to be the set of positive real numbers larger than :math:`r`, so :math:`B_r = \{x\in \mathbb{R} \mid x > r \text{ and } x > 0\}`. Then :math:`(B_r)_{r\in\mathbb{R}}` is a family of sets indexed by the real numbers.
 
--  For every natural number :math:`n` we can define :math:`C_n=\{k\in\mathbb{N}\mid k \text{ is a divisor of } n\}` as the set of divisors of :math:`n`.
+-  For every natural number :math:`n` we can define :math:`C_n=\{k\in\mathbb{N} \mid k \text{ is a divisor of } n\}` as the set of divisors of :math:`n`.
 
 Given a family :math:`(A_i)_{i\in I}` of sets indexed by :math:`I`, we can form its *union*:
 
 .. math::
 
-   \bigcup_{i \in I} A_i = \{ x \; \mid \; x \in A_i \text{ for some $i \in I$} \}
+   \bigcup_{i \in I} A_i = \{ x \mid x \in A_i \text{ for some $i \in I$} \}
 
 We can also form the *intersection* of a family of sets:
 
 .. math::
 
-   \bigcap_{i \in I} A_i = \{ x \; \mid \; x \in A_i \text{ for every $i \in I$} \}
+   \bigcap_{i \in I} A_i = \{ x \mid x \in A_i \text{ for every $i \in I$} \}
 
 So an element :math:`x` is in :math:`\bigcup_{i \in I} A_i` if and only if :math:`x` is in :math:`A_i` for *some* :math:`i` in :math:`I`, and :math:`x` is in :math:`\bigcap_{i \in I} A_i` if and only if :math:`x` is in :math:`A_i` for every :math:`i` in :math:`I`. These operations are represented in symbolic logic by the existential and the universal quantifiers. We have:
 
@@ -442,6 +442,14 @@ Cartesian Product and Power Set
 
 The *ordered pair* of two objects :math:`a` and :math:`b` is denoted :math:`(a, b)`. We say that :math:`a` is the *first component* and :math:`b` is the *second component* of the pair. Two pairs are only equal if the first component are equal and the second components are equal. In symbols, :math:`(a, b) = (c, d)` if and only if :math:`a = c` and :math:`b = d`.
 
+Given two sets :math:`A` and :math:`B`, we define the *cartesian product* :math:`A \times B` of these two sets as the set of all pairs where the first component is an element in :math:`A` and the second component is an element in :math:`B`. In set-builder notation this means
+
+.. math::
+
+   A \times B = \{(a, b) \; \mid a \; \in A \text{ and } b \in B\}.
+
+Note that if :math:`A` and :math:`B` are subsets of a particular domain :math:`\mathcal U`, the set :math:`A \times B` need not be a subset of the same domain. However, it will be a subset of :math:`\mathcal U \times \mathcal U`.
+
 Some axiomatic foundations take the notion of a pair to be primitive. In axiomatic set theory, it is common to *define* an ordered pair to be a particular set, namely
 
 .. math::
@@ -475,14 +483,6 @@ Hence in both cases we conclude that :math:`a = c` and :math:`b = d`, proving th
 ----
 
 Using ordered pairs we can define the *ordered triple* :math:`(a, b, c)` to be :math:`(a, (b, c))`. Then we can prove that :math:`(a, b, c) = (d, e, f)` if and only if :math:`a = d`, :math:`b = e` and :math:`c = f`, which you are asked to do in the exercises. We can also define ordered :math:`n`-tuples, which are sequence of :math:`n` objects, in a similar way.
-
-Given two sets :math:`A` and :math:`B`, we define the *cartesian product* :math:`A \times B` of these two sets as the set of all pairs where the first component is an element in :math:`A` and the second component is an element in :math:`B`. In set-builder notation this means
-
-.. math::
-
-   A \times B = \{(a, b) \; \mid a \; \in A \text{ and } b \in B\}.
-
-Note that if :math:`A` and :math:`B` are subsets of a particular domain :math:`\mathcal U`, the set :math:`A \times B` need not be a subset of the same domain. However, it will be a subset of :math:`\mathcal U \times \mathcal U`.
 
 Given a set :math:`A` we can define the *power set* :math:`\mathcal P(A)` to be the set of all subsets of :math:`A`. In set-builder notation we can write this as
 

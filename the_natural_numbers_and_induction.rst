@@ -317,7 +317,7 @@ Indeed, summation notation
 
    \sum_{i < n} f (i) = f(0) + f(1) + \ldots + f(n-1)
 
- and product notation
+and product notation
 
 .. math::
 

@@ -1,7 +1,16 @@
 \documentclass[preview]{standalone}
-\usepackage{bussproofs,mylogic,amsmath}
+\usepackage{bussproofs,mylogic}
 \begin{document}
-   \begin{equation*}
-   (B \wedge C) \vee (B \wedge \neg C) \vee (\neg B \wedge C) \vee (\neg B \wedge \neg C),
-   \end{equation*}
+\begin{center}
+\AXM{}
+\RLM{1}
+\UIM{A}
+\noLine
+\UIM{\vdots}
+\noLine
+\UIM{\bot}
+\RLM{1 \; \; \neg \mathrm{I}}
+\UIM{\neg A}
+\DP
+\end{center}
 \end{document}

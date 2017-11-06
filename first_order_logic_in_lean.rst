@@ -930,28 +930,6 @@ Exercises
        example : (∃ x, ∀ y, R x y) → ∀ y, ∃ x, R x y :=
        sorry
 
-    .. comment (TODO: restore this)
-
-#. Do the following.
-
-    .. code-block:: lean
-
-        import data.nat
-        open nat
-
-        -- You can use the facts "odd_succ_of_even" and "odd_mul_of_odd_of_odd".
-        -- Their use is illustrated in the next two examples.
-
-        example (x : ℕ) (h1 : even x) : odd (x + 1) :=
-        odd_succ_of_even h1
-
-        example (x y : ℕ) (h1 : odd x) (h2 : odd y) : odd (x * y) :=
-        odd_mul_of_odd_of_odd h1 h2
-
-        -- Show the following:
-        example : ∀ x y z : ℕ, odd x → odd y → even z → odd ((x * y) * (z + 1)) :=
-        sorry
-
 #. The following exercise shows that in the presence of reflexivity, the rules for symmetry and transitivity are equivalent to a single rule.
 
    .. code-block:: lean
@@ -1059,3 +1037,18 @@ Exercises
     x + x = 1 * x + 1 * x : by rw one_mul
         ... = (1 + 1) * x   : sorry
         ... = 2 * x         : rfl
+
+.. comment (TODO: restore this)
+    #. Do the following.
+    .. code-block:: lean
+        import data.nat
+        open nat
+        -- You can use the facts "odd_succ_of_even" and "odd_mul_of_odd_of_odd".
+        -- Their use is illustrated in the next two examples.
+        example (x : ℕ) (h1 : even x) : odd (x + 1) :=
+        odd_succ_of_even h1
+        example (x y : ℕ) (h1 : odd x) (h2 : odd y) : odd (x * y) :=
+        odd_mul_of_odd_of_odd h1 h2
+        -- Show the following:
+        example : ∀ x y z : ℕ, odd x → odd y → even z → odd ((x * y) * (z + 1)) :=
+        sorry

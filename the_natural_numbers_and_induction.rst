@@ -12,11 +12,11 @@ The Principle of Induction
 
 The set of natural numbers is the set
 
-.. raw:: math
+.. math::
 
    \mathbb{N} = \{ 0, 1, 2, 3, \ldots \}.
 
-In the past, opinions have differed as to whether the set of natural numbers should start with 0 or 1, but these days most mathematicians take them to start with 0. Logicians often call the function :math:`s(n) = n + 1` the *successor* function, since it maps each natural number, :math:`n`, to the one that follows it. What makes the natural numbers special is that they are *generated* by the number zero and the successor function, which is to say, the only way to "construct" a natural number is to start with :math:`0` and apply the successor function finitely many times. From a foundational standpoint, we are in danger of running into a circularity here, because it is not clear how we can explain what it means to apply a function "finitely many times" without talking about the natural numbers themselves. But the following principle, known as the *principle of induction*, describes this essential property of the natural numbers in a non-circular way.
+In the past, opinions have differed as to whether the set of natural numbers should start with 0 or 1, but these days most mathematicians take them to start with 0. Logicians often call the function :math:`s(n) = n + 1` the *successor* function, since it maps each natural number, :math:`n`, to the one that follows it. What makes the natural numbers special is that they are *generated* by the number zero and the successor function, which is to say, the only way to construct a natural number is to start with :math:`0` and apply the successor function finitely many times. From a foundational standpoint, we are in danger of running into a circularity here, because it is not clear how we can explain what it means to apply a function "finitely many times" without talking about the natural numbers themselves. But the following principle, known as the *principle of induction*, describes this essential property of the natural numbers in a non-circular way.
 
 ----
 
@@ -219,7 +219,7 @@ Finally, we will consider another formulation of induction, known as the least e
 
 ----
 
-In fact, using classical reasoning, this is equivalent to the principle of complete induction. To see this, consider the contrapositive of the statement above: "if there is no smallest value for which :math:`P` holds, then :math:`P` doesn't hold of any natural number." Let :math:`Q(n)` be the property :math:`P` does *not* hold of :math:`n`. Saying that there is no smallest value for which :math:`P` holds means that, for every :math:`n`, if :math:`P` holds at :math:`n`, then it holds of some number smaller than :math:`n`; and this is equivalent to saying that, for every :math:`n`, if :math:`Q` doesn't hold at :math:`n`, then there is a smaller value for which :math:`Q` doesn't hold. And *that* is equivalent to saying that if :math:`Q` holds for every number less than :math:`n`, it holds for :math:`n` as well. Similarly, saying that :math:`P` doesn't hold of any natural number is equivalent to saying that :math:`Q` holds of every natural number. In other words, replacing the least element principle by its contrapositive, and replacing :math:`P` by "not :math:`Q`," we have the principle of complete induction. Since every statement is equivalent to its contrapositive, and every predicate as its negated version, the two principles are the same.
+In fact, using classical reasoning, this is equivalent to the principle of complete induction. To see this, consider the contrapositive of the statement above: "if there is no smallest value for which :math:`P` holds, then :math:`P` doesn't hold of any natural number." Let :math:`Q(n)` be the property :math:`P` does *not* hold of :math:`n`. Saying that there is no smallest value for which :math:`P` holds means that, for every :math:`n`, if :math:`P` holds at :math:`n`, then it holds of some number smaller than :math:`n`; and this is equivalent to saying that, for every :math:`n`, if :math:`Q` doesn't hold at :math:`n`, then there is a smaller value for which :math:`Q` doesn't hold. And *that* is equivalent to saying that if :math:`Q` holds for every number less than :math:`n`, it holds for :math:`n` as well. Similarly, saying that :math:`P` doesn't hold of any natural number is equivalent to saying that :math:`Q` holds of every natural number. In other words, replacing the least element principle by its contrapositive, and replacing :math:`P` by "not :math:`Q`," we have the principle of complete induction. Since every statement is equivalent to its contrapositive, and every predicate has its negated version, the two principles are the same.
 
 It is not surprising, then, that the least element principle can be used in much the same way as the principle of complete induction. Here, for example, is a formulation of the previous proof in these terms. Notice that it is phrased as a proof by contradiction.
 
@@ -350,7 +350,7 @@ In the inductive step, we have
 
 ----
 
-There are just as many variations on the principle of recursive definition as there are on the principle of induction. For example, in analogy to the principle of complete induction, we can specify a value of :math:`f(n)` in terms of the values that :math:`f` takes at all inputs smaller than :math:`n`. When :math:`n \geq 2`, for example, the following definition specifies that value of a function :math:`\mathrm{fib}(n)` in terms of its two predecessors:
+There are just as many variations on the principle of recursive definition as there are on the principle of induction. For example, in analogy to the principle of complete induction, we can specify a value of :math:`f(n)` in terms of the values that :math:`f` takes at all inputs smaller than :math:`n`. When :math:`n \geq 2`, for example, the following definition specifies the value of a function :math:`\mathrm{fib}(n)` in terms of its two predecessors:
 
 .. math::
 
@@ -372,12 +372,128 @@ Here, after the second number, each successive number is the sum of the two valu
 
 But you can now recognize such a specification as an implicit appeal to the principle of definition by recursion. We ask you to prove some facts about the Fibonacci sequence in the exercises below.
 
+.. _defining_arithmetic_operations:
+
+Defining Arithmetic Operations
+------------------------------
+
+In fact, we can even use the principle of recursive definition to define the most basic operations on the natural numbers and show that they have the properties we expect them to have. From a foundational standpoint, we can characterize the natural numbers as a set, :math:`\mathbb{N}`, with a distinguished element :math:`0` and a function, :math:`\mathrm{succ}(m)`, which, for every natural number `m`, returns its *successor*. These satisfy the following:
+
+-  :math:`0 \neq \mathrm{succ}(m)` for any :math:`m` in :math:`\mathbb{N}`.
+-  For every :math:`m` and :math:`n` in :math:`\mathbb{N}`, if :math:`m \neq n`, then :math:`\mathrm{succ}(m) \neq \mathrm{succ}(n)`. In other words, :math:`\mathrm{succ}` is *injective*.
+-  If :math:`A` is any subset of :math:`\mathbb{N}` with the property that :math:`0` is in :math:`A` and whenever :math:`n` is in :math:`A` then :math:`\mathrm{succ}(n)` is in :math:`A`, then :math:`A = \mathbb{N}`.
+
+The last clause can be reformulated as the principle of induction:
+
+    Suppose :math:`P(n)` is any property of natural numbers, such that :math:`P` holds of :math:`0`, and for every :math:`n`, :math:`P(n)` implies :math:`P(\mathrm{succ}(n))`. Then every :math:`P` holds of every natural number.
+
+Remember that this principle can be used to justify the principle of definition by recursion:
+
+    Let :math:`A` be any set, :math:`a` be any element of :math:`A`, and let :math:`g(n,m)` be any function from :math:`\mathbb{N} \times A` to :math:`A`. Then there is a unique function :math:`f: \mathbb{N} \to A` satisfying the following two clauses:
+
+    -  :math:`f(0) = a`
+    -  :math:`f(\mathrm{succ}(n)) = g(n,f(n))` for every :math:`n` in :math:`N`.
+
+We can use the principle of recursive definition to define addition with the following two clauses:
+
+.. math::
+
+   m + 0 & = m \\
+   m + \mathrm{succ}(n) & = \mathrm{succ}(m + n)
+
+Note that we are fixing :math:`m`, and viewing this as a function of :math:`n`. If we write :math:`1 = \mathrm{succ}(0)`, :math:`2 = \mathrm{succ}(1)`, and so on, it is easy to prove :math:`n + 1 = \mathrm{succ}(n)` from the definition of addition.
+
+We can proceed to define multiplication using the following two clauses:
+
+.. math::
+
+   m \cdot 0 & = 0 \\
+   m \cdot \mathrm{succ}(n) & = m \cdot n + m
+
+We can also define a predecessor function by
+
+.. math::
+
+   \mathrm{pred}(0) & = 0 \\
+   \mathrm{pred}(\mathrm{succ}(n)) & = n,
+
+and *truncated subtraction* by
+
+.. math::
+
+   m \dot - 0 & = 0 \\
+   m \dot - (\mathrm{succ}(n)) & = \mathrm{pred}(m \dot - n).
+
+With these definitions and the induction principle, one can prove all the following identities:
+
+-  :math:`n \neq 0` implies :math:`\mathrm{succ}(\mathrm{pred}(n)) = n`
+-  :math:`0 + n = n`
+-  :math:`\mathrm{succ}(m) + n = \mathrm{succ}(m + n)`
+-  :math:`(m + n) + k = m + (n + k)`
+-  :math:`m + n = n + m`
+-  :math:`m(n + k) = mn + mk`
+-  :math:`0 \cdot n = 0`
+-  :math:`1 \cdot n = x`
+-  :math:`(mn)k = m(nk)`
+-  :math:`mn = nm`
+
+We will do the first five here, and leave the remaining ones as exercises.
+
+----
+
+**Proposition.** For every natural number :math:`n`, if :math:`n \neq 0` then :math:`\mathrm{succ}(\mathrm{pred}(n)) = n`.
+
+**Proof.** By induction on :math:`n`. We have ruled out the case where :math:`n` is :math:`0`, so we only need to show that the claim holds for :math:`\mathrm{succ}(n)`. But in that case, we have :math:`\mathrm{succ}(\mathrm{pred}(\mathrm{succ}(n)) = \mathrm{succ}(n)` by the second defining clause of the predecessor function.
+
+**Proposition.** For every :math:`n`, :math:`0 + n = n`.
+
+**Proof.** By induction on :math:`n`. We have :math:`0 + 0 = 0` by the first defining clause for addition. And assuming :math:`0 + n = n`, we have :math:`0 + \mathrm{succ}(n) = \mathrm{succ}(0 + n) = n`, using the second defining clause for addition.
+
+**Proposition.** For every :math:`m` and :math:`n`, :math:`\mathrm{succ}(m) + n = \mathrm{succ}(m + n)`.
+
+**Proof.** Fix :math:`m` and use induction on :math:`n`. Then :math:`n = 0`, we have :math:`\mathrm{succ}(m) + 0 = \mathrm{succ}(m) = \mathrm{succ}(m + 0)`, using the first defining clause for addition. Assuming the claim holds for :math:`n`, we have
+
+.. math::
+
+   \mathrm{succ}(m) + \mathrm{succ}(n) & = \mathrm{succ}(\mathrm{succ}(m) + n) \\
+   & = \mathrm{succ} (\mathrm{succ} (m + n)) \\
+   & = \mathrm{succ} (m + \mathrm{succ}(n)),
+
+using the inductive hypothesis and the second defining clause for addition.
+
+**Proposition.** For every :math:`m`, :math:`n`, and :math:`k`, :math:`(m + n) + k = m + (n + k)`.
+
+**Proof.** By induction on :math:`k`. The case where :math:`k = 0` is easy, and in the induction step we have
+
+.. math::
+
+   (m + n) + \mathrm{succ}(k) & = \mathrm{succ} ((m + n) + k) \\
+   & = \mathrm{succ} (m + (n + k)) \\
+   & = m + \mathrm{succ} (n + k) \\
+   & = m + (n + \mathrm{succ} (k)))
+
+using the inductive hypothesis and the definition of addition.
+
+**Proposition.** For every pair of natural numbers :math:`m` and :math:`n`, :math:`m + n = n + m`.
+
+**Proof.** By induction on :math:`n`. The base case is easy using the second proposition above. In the inductive step, we have
+
+.. math::
+
+   m + \mathrm{succ}(n) & = \mathrm{succ}(m + n) \\
+   & = \mathrm{succ} (n + m) \\
+   & = \mathrm{succ}(n) + m
+
+using the third proposition above.
+
+----
+
 .. _arithmetic_on_the_natural_numbers:
 
 Arithmetic on the Natural Numbers
 ---------------------------------
 
-In the next chapter, we will see that it is even possible to define addition and multiplication recursively, and to establish most of their basic properties using the principle of recursion. This is important from a foundational perspective, in which, as much as possible, we want to ground our reasoning on a small number of fundamental principles. Just as the foundations of a building are below ground, however, the foundations of mathematics should only be visible when we choose to go down to the basement and look around. In this section, we summarize the basic properties of natural numbers that play a role in day-to-day mathematics. In an ordinary mathematical argument or calculation, they can be used without explicit justification.
+Continuing as in the last section, we can establish all the basic properties of the natural numbers that play a role in day-to-day mathematics. We summarize the main ones here:
 
 .. math::
 
@@ -390,7 +506,7 @@ In the next chapter, we will see that it is even possible to define addition and
    n \cdot (m + k) &= n \cdot m + n \cdot k \quad \text{(distributivity)}\\
    n \cdot 0 &= 0 \quad \text{($0$ is an absorbing element for multiplication)}
 
-We also have the following properties:
+In an ordinary mathematical argument or calculation, they can be used without explicit justification. We also have the following properties:
 
 -  :math:`n + 1 \neq 0`;
 -  if :math:`n + k = m + k` then :math:`n = m`;
@@ -403,21 +519,32 @@ We can define :math:`m \le n`, ":math:`m` is less than or equal to :math:`n`," t
 -  if :math:`n \le m` and :math:`m \le n` then :math:`n = m` (*antisymmetry*);
 -  for all :math:`n` and :math:`m`, either :math:`n \le m` or :math:`m \le n` is true (*totality*);
 -  if :math:`n \le m` then :math:`n + k \le m + k`;
+-  if :math:`n + k \le m + k` then :math:`n \le m`;
 -  if :math:`n \le m` then :math:`nk \le mk`;
 -  if :math:`m \ge n` then :math:`m = n` or :math:`m \ge n + 1`;
 -  :math:`0 \le n`.
 
 Remember from :numref:`Chapter %s <relations>` that the first four items assert that :math:`\le` is a linear order. Note that when we write :math:`m \ge n`, we mean :math:`n \le m`.
 
-We can then define :math:`m < n`, ":math:`m` is less than :math:`n`," to mean :math:`m + 1 \le n`. The following proposition then justifies the terminology.
+As usual, then, we can define :math:`m < n` to mean that :math:`m \le n` and :math:`m \ne n`. In that case, we have that :math:`m \le n` holds if and only if :math:`m < n` or :math:`m = n`.
 
 ----
 
-**Proposition.** With the definitions above, for every :math:`m` and :math:`n`, :math:`m \le n` if and only if :math:`m < n` or :math:`m = n`.
+**Proposition.** For every :math:`m`, :math:`m + 1 \not\le 0`. 
 
-**Proof.** First, suppose :math:`m \le n`, and let us show :math:`m < n` or :math:`m = n`. Since :math:`m \le n`, then :math:`m + k = n`. If :math:`k = 0`, we have :math:`m = n`. Otherwise, :math:`k \ge 1`, and we have :math:`m + 1 \le m + k = n`, which mean :math:`m < n`.
+**Proof.** Otherwise, we would have :math:`(m + 1) + k = (m + k) + 1 = 0` for some :math:`k`. 
 
-Conversely, suppose :math:`m < n` or :math:`m = n`. If :math:`m < n`, then we have :math:`m \le m + 1 \le n`, so :math:`m \le n`. And if :math:`m = n`, we also have :math:`m \le n`, as required.
+----
+
+In particular, taking :math:`m = 0`, we have :math:`1 \not\le 0`.
+
+----
+
+**Proposition.** We have :math:`m < n` iff and only if :math:`m + 1 \le n`.
+
+**Proof.** Suppose :math:`m < n`. Then :math:`m \le n` and :math:`m \ne n`. So there is a :math:`k` such that :math:`m + k = n`, and since :math:`m \ne n`, we have :math:`k \ne 0`. Then :math:`k = u + 1` for some :math:`u`, which means we have :math:`m + (u + 1) = m + 1 + u = n`, so :math:`m \le n`, as required.
+
+In the other direction, suppose :math:`m + 1 \le n`. Then :math:`m \le n`. We also have :math:`m \ne n`, since if :math:`m = n`, we would have :math:`m + 1 \le m + 0` and hence :math:`1 \le 0`, a contradiction.
 
 ----
 
@@ -435,7 +562,7 @@ The first three items mean that :math:`<` is a strict linear order, and the prop
 
 ----
 
-**Proof**. We will prove some of these properties.
+**Proof**. We will prove some of these properties using the previous characterization of the less-than relation.
 
 The first property is straightforward: we know :math:`n \le n + 1`, and if we had :math:`n + 1 \le n`, we should have :math:`n = n + 1`, a contradiction.
 
@@ -527,6 +654,14 @@ Exercises
    -  if :math:`x \in V`, then every multiple of :math:`x` is an element of :math:`V`
 
    Prove that there is some :math:`d \in V`, such that :math:`V` is equal to the set of multiples of :math:`d`. Hint: use the least element principle.
+
+#. Give an informal but detailed proof that for every natural number :math:`n`, :math:`1 \cdot n = n`.
+
+#. Prove the multiplication is associative and commutative, in the same way.
+
+#. Prove that multiplication distributes over addition: for every natural numbers :math:`m`, :math:`n`, and :math:`k`, :math:`m (n + k) = m n + m k`.
+
+#. Prove :math:`(m^n)^k = m^{nk}`.   
 
 #. Following the example in :numref:`arithmetic_on_the_natural_numbers`, prove that if :math:`n` is a natural number and :math:`n < 5`, then :math:`n` is one of the values :math:`0, 1, 2, 3`, or :math:`4`.
 

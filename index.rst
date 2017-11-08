@@ -24,10 +24,10 @@ Logic and Proof
     the_natural_numbers_and_induction
     the_natural_numbers_and_induction_in_lean
     elementary_number_theory
-    elementary_number_theory_in_lean
     combinatorics
+..  elementary_number_theory_in_lean
     combinatorics_in_lean
-..  probability
+    probability
     probability_in_lean
     algebraic_structures
     algebraic_structures_in_lean

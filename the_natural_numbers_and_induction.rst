@@ -655,21 +655,23 @@ Exercises
 
    Prove that there is some :math:`d \in V`, such that :math:`V` is equal to the set of multiples of :math:`d`. Hint: use the least element principle.
 
-#. Give an informal but detailed proof that for every natural number :math:`n`, :math:`1 \cdot n = n`.
+#. Give an informal but detailed proof that for every natural number :math:`n`, :math:`1 \cdot n = n`, using a proof by induction, the definition of multiplication, and the theorems proved in :numref:`defining_arithmetic_operations`.
 
-#. Prove the multiplication is associative and commutative, in the same way.
+#. Show that multiplication distributes over addition. In other words, prove that for natural numbers :math:`m`, :math:`n`, and :math:`k`, :math:`m (n + k) = m n + m k`. You should use the definitions of addition and multiplication and facts proved in :numref:`defining_arithmetic_operations` (but nothing more). 
 
-#. Prove that multiplication distributes over addition: for every natural numbers :math:`m`, :math:`n`, and :math:`k`, :math:`m (n + k) = m n + m k`.
+#. Prove the multiplication is associative, in the same way. You can use any of the facts proved in :numref:`defining_arithmetic_operations` and the previous exercise.
+
+#. Prove that multiplication is commutative.
 
 #. Prove :math:`(m^n)^k = m^{nk}`.   
 
 #. Following the example in :numref:`arithmetic_on_the_natural_numbers`, prove that if :math:`n` is a natural number and :math:`n < 5`, then :math:`n` is one of the values :math:`0, 1, 2, 3`, or :math:`4`.
 
-#. Prove that if :math:`n` and :math:`m` are natural numbers and :math:`n m = 1`, then :math:`n = m = 1`.
+#. Prove that if :math:`n` and :math:`m` are natural numbers and :math:`n m = 1`, then :math:`n = m = 1`, using only properties listed in :numref:`arithmetic_on_the_natural_numbers`.
 
    This is tricky. First show that :math:`n` and :math:`m` are greater than :math:`0`, and hence greater than or equal to :math:`1`. Then show that if either one of them is greater than :math:`1`, then :math:`n m > 1`.
 
-#. Prove all the claims in :numref:`arithmetic_on_the_natural_numbers` that were stated without proof.
+#. Prove any of the other claims in :numref:`arithmetic_on_the_natural_numbers` that were stated without proof.
 
 #. Prove the following properties of negation and subtraction on the integers, using only the properties of negation and subtraction given in :numref:`the_integers`.
 

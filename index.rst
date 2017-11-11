@@ -25,13 +25,13 @@ Logic and Proof
     the_natural_numbers_and_induction_in_lean
     elementary_number_theory
     combinatorics
+    the_real_numbers
 ..  elementary_number_theory_in_lean
     combinatorics_in_lean
     probability
     probability_in_lean
     algebraic_structures
     algebraic_structures_in_lean
-    real_numbers_and_analysis
     real_numbers_and_analysis_in_lean
     the_infinite
     the_infinite_in_lean

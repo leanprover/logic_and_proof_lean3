@@ -242,6 +242,8 @@ Now we have :math:`p_1\times \cdots \times p_{k-1} = q_1 \times \cdots \times q_
 
 ----
 
+.. _modular_arithmetic:
+
 Modular Arithmetic
 ------------------
 

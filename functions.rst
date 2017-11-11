@@ -201,7 +201,7 @@ Notice that if :math:`f` is a function from :math:`X` to :math:`Y`, then :math:`
 
 Suppose :math:`f` is a function from :math:`X` to :math:`Y`, and :math:`A` is a subset of :math:`X`. We can *view* :math:`f` as a function from :math:`A` to :math:`Y`, by simply ignoring the behavior of :math:`f` on elements outside of :math:`A`. Properly speaking, this is another function, denoted :math:`f \upharpoonright A` and called "the restriction of :math:`f` to :math:`A`." In other words, given :math:`f : X \to Y` and :math:`A \subseteq X`, :math:`f \upharpoonright A : A \to Y` is the function defined by :math:`(f \upharpoonright A)(x) = x` for every :math:`x` in :math:`A`. Notice that now ":math:`f` is injective on :math:`A`" means simply that the restriction of :math:`f` to :math:`A` is injective.
 
-There is another important operation on functions, known as the *preimage*. If :math:`f : X \to Y` and :math:`B \subseteq Y`, then the *preimage of* :math:`B` *under* :math:f:, denoted :math:`f^{-1}[B]`, is defined by
+There is another important operation on functions, known as the *preimage*. If :math:`f : X \to Y` and :math:`B \subseteq Y`, then the *preimage of* :math:`B` *under* :math:`f`, denoted :math:`f^{-1}[B]`, is defined by
 
 .. math::
 

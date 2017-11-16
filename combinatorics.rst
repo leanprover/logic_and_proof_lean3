@@ -17,7 +17,7 @@ It will be helpful, for every natural number :math:`n`, to have a canonical set 
 
 We used the same notation, :math:`[n]`, to describe equivalence classes with respect to an equivalence relation, but hopefully our intended meaning will always be clear from the context.
 
-A set :math:`A` of elements is said to be *finite* if there is a bijection from :math:`A` to :math:`[n]` for some :math:`n`. In that case, we would like to say that :math:`A` *has :math:`n` elements*, or that the set :math:`A` *has cardinality* :math:`n`, and write :math:`|A| = n`. But to do so, we need to know that when :math:`A` is finite, there is a *unique* :math:`n` with the property above.
+A set :math:`A` of elements is said to be *finite* if there is a bijection from :math:`A` to :math:`[n]` for some :math:`n`. In that case, we would like to say that :math:`A` *has* :math:`n` *elements*, or that the set :math:`A` *has cardinality* :math:`n`, and write :math:`|A| = n`. But to do so, we need to know that when :math:`A` is finite, there is a *unique* :math:`n` with the property above.
 
 Suppose there are bijections from :math:`A` to :math:`[m]` and :math:`[n]`. Composing the inverse of the first bijection with the second, we get a bijection from :math:`[m]` to :math:`[n]`. It seems intuitively clear that this implies :math:`m = n`, but our goal is to prove this from the fundamental properties of sets, functions, and the natural numbers.
 
@@ -375,7 +375,7 @@ You are invited to try proving this as an exercise, if you are ambitious. The fo
 Exercises
 ---------
 
-#. Suppose that, at a party, every two people either know each other or don't. In other words, ":math:`x` knows :math:`y`" is symmetric. Also, let us ignore the complex question of whether we always know ourselves by restricting attention to the relation between distinct people; in other words, for this problem, take ":math:`x` knows :math:`y`" to be antisymmetric as well.
+#. Suppose that, at a party, every two people either know each other or don't. In other words, ":math:`x` knows :math:`y`" is symmetric. Also, let us ignore the complex question of whether we always know ourselves by restricting attention to the relation between distinct people; in other words, for this problem, take ":math:`x` knows :math:`y`" to be irreflexive as well.
 
    Use the pigeonhole principle (and an additional insight) to show that there must be two people who know exactly the same number of people.
 

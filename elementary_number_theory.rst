@@ -187,7 +187,7 @@ Of special interest are pairs of integers which have no divisors in common, exce
 
 ----
 
-**Proposition.** Let :math:`n`, :math:`m` and :math:`k` be integers such that :math:`n` and :math:`k` are coprime. If :math:`k \mid nm` then :math:`k \mid m`
+**Proposition.** Let :math:`n`, :math:`m` and :math:`k` be integers such that :math:`n` and :math:`k` are coprime. If :math:`k \mid nm` then :math:`k \mid m`.
 
 **Proof.** By B‎ézout's Lemma, there are :math:`a` and :math:`b` such that :math:`an+bk = 1`. Multiplying by :math:`m` gives :math:`anm + bkm = m` Since :math:`k` divides :math:`nm`, :math:`k` divides the left-hand side of the equation, hence :math:`k \mid m`.
 
@@ -222,7 +222,7 @@ We now prove some other properties about prime numbers.
 
 **Proposition.** If :math:`n` and :math:`m` are integers and :math:`p` is a prime number such that :math:`p \mid nm` then either :math:`p \mid n` or :math:`p \mid m`.
 
-**Proof.** Suppose that :math:`p \nmid n`. By the previous Lemma, this means that :math:`p` and :math:`n` are coprime. From this we can conclude that :math:`p \mid m`.
+**Proof.** Suppose that :math:`p \nmid n`. By the previous lemma, this means that :math:`p` and :math:`n` are coprime. From this we can conclude that :math:`p \mid m`.
 
 ----
 
@@ -343,7 +343,7 @@ Recall that we warned you about dividing in modular arithmetic. This doesn't alw
 
 ----
 
-**Definition.** Let :math:`n` and :math:`a` be integers. A *multiplicative inverse of :math:`a` modulo $n$* is an integer :math:`b` such that :math:`ab \equiv 1\pmod{n}`.
+**Definition.** Let :math:`n` and :math:`a` be integers. A *multiplicative inverse of* :math:`a` *modulo* :math:`n` is an integer :math:`b` such that :math:`ab \equiv 1\pmod{n}`.
 
 ----
 

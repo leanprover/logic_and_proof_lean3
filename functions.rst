@@ -215,7 +215,9 @@ that is, the set of elements of :math:`X` that get mapped into :math:`B`. Notice
 
 .. math::
 
-   (g \circ f)^{-1}[C] = g^{-1}[f^{-1}[A]].
+   (g \circ f)^{-1}[C] = f^{-1}[g^{-1}[C]].
+
+**Proof.** For any :math:`y` in :math:`C`, :math:`y` is in :math:`(g \circ f)^{-1}[C]` if and only if :math:`g(f(y))` is in :math:`C`. This, in turn, happens if and only if :math:`f(y)` is in :math:`g^{-1}[C]`, which in turn happens if and only if :math:`y` is in :math:`f^{-1}[g^{-1}[C]]`.
 
 ----
 

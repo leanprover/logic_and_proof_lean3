@@ -66,7 +66,7 @@ A binary relation :math:`R` on :math:`X` and :math:`Y` is functional if it satis
 
    \forall x \; \exists! y \; R(x,y).
 
-In that case, a logician might use "iota notation,"
+In that case, a logician might use *iota notation*,
 
 .. math::
 
@@ -78,7 +78,7 @@ to define :math:`f(x)` to be equal to the unique :math:`y` satisfying :math:`R(x
 
    \forall x \; \exists y \; R(x,y),
 
-a logician might use "the Hilbert epsilon" to define a function
+a logician might use the *Hilbert epsilon* to define a function
 
 .. math::
 
@@ -149,8 +149,6 @@ In Lean's library, composition and identity are defined as follows:
     x
     -- END
     end hide
-
-Ordinarily, to use these definitions the notation, you use the command ``open function``.
 
 Ordinarily, we use ``funext`` (for "function extensionality") to prove that two functions are equal.
 

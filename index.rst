@@ -26,6 +26,7 @@ Logic and Proof
     elementary_number_theory
     combinatorics
     the_real_numbers
+    the_infinite
 ..  elementary_number_theory_in_lean
     combinatorics_in_lean
     probability
@@ -33,7 +34,6 @@ Logic and Proof
     algebraic_structures
     algebraic_structures_in_lean
     real_numbers_and_analysis_in_lean
-    the_infinite
     the_infinite_in_lean
 
 .. Indices and tables

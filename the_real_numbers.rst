@@ -1,3 +1,5 @@
+.. _the_real_numbers:
+
 The Real Numbers
 ================
 

@@ -7,6 +7,8 @@ We have come to a turning point in this textbook. We will henceforth abandon nat
 
 In this chapter, we consider a notion that has come to play a fundamental role in mathematical reasoning, namely, that of a "set."
 
+.. _elementary_set_theory:
+
 Elementary Set Theory
 ---------------------
 
@@ -438,6 +440,8 @@ Let's prove the first identity. Notice how the logical forms of the assertions :
 Conversely, suppose :math:`x` is in :math:`\bigcup_{i \in I} (A \cap B_i)`. Then, for some :math:`j` in :math:`I`, :math:`x` is in :math:`A \cap B_j`. Hence :math:`x` is in :math:`A`, and since :math:`x` is in :math:`B_j`, it is in :math:`\bigcup_{i \in I} B_i`. Hence :math:`x` is in :math:`A \cap \bigcup_{i \in I} B_i`, as required.
 
 ----
+
+.. _cartesian_product_and_power_set:
 
 Cartesian Product and Power Set
 -------------------------------

@@ -13,7 +13,8 @@ The integers satisfy all of the following properties:
 -  Addition is associative and commutative.
 -  There is an additive identity, :math:`0`, and every element :math:`x` has an additive inverse, :math:`-x`.
 -  Multiplication is associative and commutative.
--  There is a multiplicative identity, :math:`1`. -  Multiplication distributes over addition: for every :math:`x`, :math:`y`, and :math:`z`, we have :math:`x (y + z) = x y + x z`.
+-  There is a multiplicative identity, :math:`1`. 
+-  Multiplication distributes over addition: for every :math:`x`, :math:`y`, and :math:`z`, we have :math:`x (y + z) = x y + x z`.
 -  The ordering :math:`\leq` is a total order.
 -  For any elements :math:`x`, :math:`y`, and :math:`z`, if :math:`x \leq y` then :math:`x + z \leq y + z`.
 -  For any elements :math:`x` and :math:`y`, if :math:`0 \leq x` and :math:`0 \leq y` then :math:`0 \leq x y`.
@@ -45,7 +46,7 @@ Quotient Constructions
 
 Let :math:`A` be any set, and let :math:`\equiv` be any equivalence relation on :math:`A`. Recall from :numref:`equivalence_relations_and_equality` that we can assign to every element :math:`a` of :math:`A` the equivalence class :math:`[a]`, where :math:`b \in [a]` means :math:`b \equiv a`. This assignment has the property that for every :math:`a` and :math:`b`, :math:`a \equiv b` if and only if :math:`[a] = [b]`.
 
-Given any set :math:`A` and equivalence relation :math:`\equiv`, define :math:`A / \mathord{\equiv} ` to be the set :math:`\{ [ a ] \mid a \in A \}` of *equivalence classes* of :math:`A` modulo :math:`\equiv`. This set is called ":math:`A` modulo :math:`\mathord{\equiv}`," or the *quotient* of :math:`A` by :math:`\equiv`. You can think of this as the set :math:`A` where equivalent elements are "glued together" to make a coarser set.
+Given any set :math:`A` and equivalence relation :math:`\equiv`, define :math:`A / \mathord{\equiv}` to be the set :math:`\{ [ a ] \mid a \in A \}` of *equivalence classes* of :math:`A` modulo :math:`\equiv`. This set is called ":math:`A` modulo :math:`\mathord{\equiv}`," or the *quotient* of :math:`A` by :math:`\equiv`. You can think of this as the set :math:`A` where equivalent elements are "glued together" to make a coarser set.
 
 For example, if we consider the integers :math:`\mathbb{Z}` with :math:`\equiv` denoting equivalence modulo 5 (as in :numref:`modular_arithmetic`), then :math:`\mathbb{Z} / \mathord{\equiv}` is just :math:`\{ [0], [1], [2], [3], [4] \}`. We can define addition on :math:`\mathbb{Z} / \mathord{\equiv}` by :math:`[a] + [b] = [a + b]`. For this definition to make sense, it is important to know that the right-hand side does not depend on which representatives of :math:`[a]` and :math:`[b]` we choose. In other words, we need to know that whenever :math:`[a] = [a']` and :math:`[b] = [b']`, then :math:`[a + b] = [a' + b']`. This, in turn, is equivalent to saying that if :math:`a \equiv a'` and :math:`b \equiv b'`, then :math:`a + b \equiv a' + b'`. In other words, we require that the operation of addition *respects* the equivalence relation, and we saw in :numref:`modular_arithmetic` that this is in fact the case.
 

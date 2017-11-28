@@ -17,9 +17,9 @@ It will be helpful, for every natural number :math:`n`, to have a canonical set 
 
 We used the same notation, :math:`[n]`, to describe equivalence classes with respect to an equivalence relation, but hopefully our intended meaning will always be clear from the context.
 
-A set :math:`A` of elements is said to be *finite* if there is a bijection from :math:`A` to :math:`[n]` for some :math:`n`. In that case, we would like to say that :math:`A` *has* :math:`n` *elements*, or that the set :math:`A` *has cardinality* :math:`n`, and write :math:`|A| = n`. But to do so, we need to know that when :math:`A` is finite, there is a *unique* :math:`n` with the property above.
+A set :math:`A` of elements is said to be *finite* if there is a bijection from :math:`[n]` to :math:`A` for some :math:`n`. In that case, we would like to say that :math:`A` *has* :math:`n` *elements*, or that the set :math:`A` *has cardinality* :math:`n`, and write :math:`|A| = n`. But to do so, we need to know that when :math:`A` is finite, there is a *unique* :math:`n` with the property above.
 
-Suppose there are bijections from :math:`A` to :math:`[m]` and :math:`[n]`. Composing the inverse of the first bijection with the second, we get a bijection from :math:`[m]` to :math:`[n]`. It seems intuitively clear that this implies :math:`m = n`, but our goal is to prove this from the fundamental properties of sets, functions, and the natural numbers.
+Suppose there are bijections from both :math:`[m]` and :math:`[n]` to :math:`A`. Composing the first bijection with the inverse of the second, we get a bijection from :math:`[m]` to :math:`[n]`. It seems intuitively clear that this implies :math:`m = n`, but our goal is to prove this from the fundamental properties of sets, functions, and the natural numbers.
 
 So suppose, for the sake of contradiction, :math:`m \neq n`. Without loss of generality, we can assume :math:`m > n` (why?). In particular, there is an injective function :math:`f` from :math:`[m]` to :math:`[n]`. Since :math:`m > n`, :math:`m \geq n+1`, and so we can restrict :math:`f` to get an injective function from :math:`[n+1]` to :math:`[n]`. The next theorem shows that this cannot happen.
 
@@ -195,7 +195,7 @@ Suppose now we want to calculate the number of ways that a museum can choose thr
 
 The problem is that each set of three paintings will be counted multiple times. In fact, each one will be counted six times: there are :math:`3! = 6` permutations of the set :math:`\{a, b, c\}`, for example. So to count the number of outcomes we simply need to divide by 6. In other words, the number we want is :math:`\frac{26!}{3! \cdot 23!}`.
 
-There is nothing special about the numbers :math:`26` and :math:`3`. The same formula holds for what we will call *unordered selections of :math:`k` elements from a set of :math:`n` elements*, or *:math:`k`-combinations from an :math:`n`-element set*. Our goal is once again to describe the situation in precise mathematical terms, at which point we will be able to state the formula as a theorem.
+There is nothing special about the numbers :math:`26` and :math:`3`. The same formula holds for what we will call *unordered selections of* :math:`k` *elements from a set of* :math:`n` *elements*, or :math:`k`-*combinations from an* :math:`n`-*element set*. Our goal is once again to describe the situation in precise mathematical terms, at which point we will be able to state the formula as a theorem.
 
 In fact, describing the situation in more mathematical terms is quite easy to do. If :math:`S` is a set of :math:`n` elements, an unordered selection of :math:`k` elements from :math:`S` is just a subset of :math:`S` that has cardinality :math:`k`.
 
@@ -203,7 +203,7 @@ In fact, describing the situation in more mathematical terms is quite easy to do
 
 **Theorem.** Let :math:`S` be any set with cardinality :math:`n`, and let :math:`k \leq n`. Then the number of subsets of :math:`S` of cardinality :math:`k` is :math:`\frac{n!}{k!(n-k)!}`.
 
-**Proof.** Let :math:`U` be the set of unordered selections of :math:`k` elements from :math:`S`, let :math:`V` be the set of permutations of :math:`[k]`, and let :math:`W` be the set of *ordered* selections of :math:`k` elements from :math:`S`. There is a bijection between :math:`U \times V` and :math:`W`: given any :math:`k`-element subset :math:`\{ a_0, \ldots, a_{k-1} \}` of :math:`S`, each permutation gives a different ordered selection.
+**Proof.** Let :math:`U` be the set of unordered selections of :math:`k` elements from :math:`S`, let :math:`V` be the set of permutations of :math:`[k]`, and let :math:`W` be the set of *ordered* selections of :math:`k` elements from :math:`S`. There is a bijection between :math:`U \times V` and :math:`W`, as follows. Suppose we assign to every :math:`k`-element subset :math:`\{ a_0, \ldots, a_{k-1} \}` of :math:`S` some way of listing the elements, as shown. Then given any such set and any permutation :math:`f` of :math:`[k]`, we get an ordered the ordered selection :math:`(a_{f(0)}, a_{f(1)}, \ldots, a_{f(k-1)})`. Any ordered selection arises from such a subset and a suitable permutation, so the mapping is surjective. And a different set or a different permutation results in a different ordered selection, so the mapping is injective. 
 
 By the counting principles, we have
 

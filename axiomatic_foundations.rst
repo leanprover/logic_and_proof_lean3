@@ -168,25 +168,153 @@ Conversely, suppose :math:`y` is in :math:`x`. Then :math:`y` is in :math:`\bigc
 
 With that, we are off and running. Although we will not present the details here, using the principle of induction we can justify the principle of recursive definition. We can then go on to define the basic operations of arithmetic and derive their properties, as done in :numref:`Chapter %s <the_natural_numbers_and_induction>`. We can go on to define the integers, the rational numbers, and the real numbers, as described in Chapter :numref:`Chapter %s <the_real_numbers>`, and to develop subjects like number theory and combinatorics, as described in Chapters :numref:`Chapter %s <elementary_number_theory>` and :numref:`Chapter %s <combinatorics>`. In fact, it seems that any reasonable branch of mathematics can be developed formally on the basis of axiomatic set theory. There are pitfalls, for example, having to do with large collections: for example, just as it is inconsistent to postulate the existence of a set of all sets, in the same way, there is no collection of all partial orders, or all groups. So when interpreting some mathematical claims, care has to be taken in some cases to restrict to sufficiently large collections of such objects. But this rarely amounts to more than careful bookkeeping, and it is a remarkable fact that, for the most part, the axioms of set theory are flexible and powerful enough to justify most ordinary mathematical constructions.
 
-..
-    The Remaining Axioms
-    --------------------
+.. _the_remaining_axioms:
 
-    The Axioms 
+The Remaining Axioms
+--------------------
 
-    The notation :math:`x \subseteq y` abbreviates :math:`\forall z (z \in x \rightarrow z \in y)`.
+The seven axioms we have seen are quite powerful, and suffice to represent large portions of mathematics. We discuss the remaining axioms of Zermelo-Fraenkel set theory here.
 
-    #. Extensionality: :math:`\forall x, y \; (x = y \leftrightarrow \forall z (z \in x \leftrightarrow z \in y))`
-    #. Empty set: :math:`\exists x \; \forall y \; y \notin x`
-    #. Pairing: :math:`\forall x, y \; \exists z \; \forall w \; (w \in z \leftrightarrow w = x \vee w = y)`
-    #. Union: :math:`\forall x \; \exists y \; \forall z \; (z \in y \leftrightarrow \exists w \; (w \in x \wedge z \in w))`
-    #. Power set: :math:`\forall x \; \exists y \; \forall z \; (z \in y \leftrightarrow z \subseteq y`.
-    #. Separation: :math:`\forall x_1, x_2, \ldots, x_n, y \; \exists z \; \forall w \; (w \in z \leftrightarrow w \in y \wedge A(w,x_1, x_2, \ldots, x_n))`.
+So far, none of the axioms we have seen rule out the possibility that a set :math:`x` can be an element of itself, that is, that we can have :math:`x \in x`. The following axiom precludes that:
 
-    #. Infinity: :math:`\exists x \; (\emptyset \in x \wedge \forall y \; (y \in x \rightarrow y \cup \{ y \} \in x)`
+.. math::
 
-    Type Theory
-    -----------
+    \text{Foundation} \;\; \forall x \; (\exists y \; y \in x \to \exists y \; (y \in x \wedge \neg \exists z \; (z \in x \wedge z \in y)))
+
+The axiom says that if :math:`x` is a nonempty set, there is an element :math:`y` of :math:`x` with the property that no element of :math:`y` is again an element of :math:`x`. This implies we cannot have a descending chain of sets, each one an element of the one before:
+
+.. math::
+
+    x_1 \ni x_2 \ni x_3 \ni \ldots
+
+If we apply the axiom of foundation to the set :math:`\{x_1, x_2, x_3, \ldots\}`, we find that some element :math:`x_i` does not contain any others, which is only possible if the sequence has terminated with :math:`x_i`. In other words, the axiom implies (and is in fact equivalent to) the statement that the elementhood relation is *well founded*, which explains the name.
+
+The axioms listed in the previous section tell a story of how sets come to be: we start with the empty set, and keep applying constructions like power set, union, and separation, to build more sets. Set theorists often imagine the hierarchy of sets as forming a big V, with the empty set at the bottom and a set at any higher level comprising, as its elements, sets that appear in levels below. In a precise sense (which we will not spell out here), the axiom of foundation says that every set arises in such a way.
+
+Now consider the following sequence of sets:
+
+.. math::
+
+    \emptyset, \;\; \mathcal P(\emptyset), \;\; \mathcal P(\mathcal P(\emptyset)), \;\; \mathcal P (\mathcal P (\mathcal P (\emptyset))), \;\; \ldots
+
+It is consistent with all the axioms we have seen so far that every set in the mathematical universe is an element of one of these. That still gives us a lot of sets, but, since we have described that sequence, we can just as well imagine a set that contains all of them:
+
+.. math::
+
+    \{ \emptyset, \;\; \mathcal P(\emptyset), \;\; \mathcal P(\mathcal P(\emptyset)), \;\; \mathcal P (\mathcal P (\mathcal P (\emptyset))), \;\; \ldots \}
+
+The following axiom implies the existence of such a set. 
+
+.. math::
+
+    \text{Regularity:} \;\; \forall x, y_1, \ldots, y_n \;\; (\forall z \in x \; \exists ! w \; A(z, w, y_1, \ldots, y_n) \rightarrow \\
+    \exists u \; \forall z \; \exists w \; (w \in u \wedge A(z, w, y_1, \ldots, y_n)))
+
+Like the axiom of separation, this axiom is really a schema, which is to say, a separate axiom for each formula :math:`A`. Here, too, the variables :math:`y_1, y_2, \ldots, y_n` are free variables that can occur in :math:`A`. To understand the axiom, it is easiest to think of them as parameters that are fixed in the background, and then ignore them. The axioms says that if, for every :math:`z` in :math:`x`, there is a unique :math:`w` satisfying :math:`A(z,w)`, then there is a single set, :math:`u`, that is big enough to contain a :math:`w` for every such :math:`z`. In other words, if you think of :math:`A` as a function whose domain is :math:`x`, the axiom asserts that there is a set big enough to include its range. In the example above, :math:`x` is the natural numbers, and :math:`A(z, w)` says that :math:`w` is the :math:`z`-fold iterate of the power set of the empty set.
+
+The nine axioms we have listed so far comprise what is known as *Zermelo-Fraenkel Set Theory*. There is on additional axiom, the axiom of choice, which is usually listed separately for historical reasons: it was once considered controversial, and in the early days, mathematicians considered it important to keep track of whether the axiom was actually used in a proof. There are many equivalent formulations, but this one is one of the most straightforward:
+
+.. math::
+
+    \text{Choice:} \;\; \forall x \; (\emptyset \notin x \rightarrow \exists f : x \to \bigcup x \; \forall y \in x \; f(y) \in y)
+
+The axiom says that for any collection :math:`x` of nonempty sets, there is a function :math:`f` that selects an element from each one. We used this axiom, informally, in :numref:`injective_surjective_and_bijective_functions` to show that every surjective function has a right inverse. In fact, this last statement can be shown to be equivalent to the axiom of choice on the basis of the other axioms. 
+
+To summarize, then, the axioms of Zermelo-Fraenkel Set Theory with the axiom of choice are as follows:
+
+#. Extensionality: 
+
+    .. math:: 
+    
+        \forall x, y \; (x = y \leftrightarrow \forall z (z \in x \leftrightarrow z \in y))
+
+#. Empty set: 
+
+    .. math::
+    
+        \exists x \; \forall y \; y \notin x
+
+#. Pairing:
+
+    .. math::
+    
+        \forall x, y \; \exists z \; \forall w \; (w \in z \leftrightarrow w = x \vee w = y)
+
+#. Union:
+
+    .. math:: 
+    
+        \forall x \; \exists y \; \forall z \; (z \in y \leftrightarrow \exists w \; (w \in x \wedge z \in w))
+
+#. Power set: 
+
+    .. math::
+    
+        \forall x \; \exists y \; \forall z \; (z \in y \leftrightarrow z \subseteq y
+
+#. Separation:
+
+    .. math::
+    
+        \forall x_1, x_2, \ldots, x_n, y \; \exists z \; \forall w \; (w \in z \leftrightarrow w \in y \wedge A(w,x_1, x_2, \ldots, x_n))
+
+#. Infinity:
+
+    .. math::
+    
+        \exists x \; (\emptyset \in x \wedge \forall y \; (y \in x \rightarrow y \cup \{ y \} \in x)
+
+#. Foundation:
+
+    .. math::
+    
+        \forall x \; (\exists y \; y \in x \to \exists y \; (y \in x \wedge \neg \exists z \; (z \in x \wedge z \in y)))
+
+#. Regularity: 
+
+    .. math::
+    
+        \forall x, y_1, \ldots, y_n \;\; (\forall z \in x \; \exists ! w \; A(z, w, y_1, \ldots, y_n) \rightarrow \\ 
+        \exists u \; \forall z \; \exists w \; (w \in u \wedge A(z, w, y_1, \ldots, y_n)))
+
+#. Choice:
+
+    .. math::
+    
+        \forall x \; (\emptyset \notin x \rightarrow \exists f : x \to \bigcup x \; \forall y \in x \; f(y) \in y)
+
+Type Theory
+-----------
+
+As a foundation for mathematics, Zermelo-Fraenkel set theory is appealing. The underlying logic, first-order logic, provides the basic logical framework for quantifiers and the logical connectives. On top of that, the theory describes a single, intuitively natural concept, that of a set of elements. The axioms are plausible eminently reasonable. It is remarkable that virtually all of modern mathematics can be reduced to such simple terms.
+
+There are other foundations on offer, however. These tend to be largely inter-interpretable with set theory. After all, set-theoretic language is now ubiquitous in everyday mathematics, so any reasonable foundation should be able to make sense of such language. On the other hand, we have already noted that set-theory is remarkably expressive and robust, and so it should not be surprising that other foundational approaches can often be understood in set-theoretic terms.
+
+This is, in particular, true of *dependent type theory*, which is the basis of the Lean theorem prover. The syntax of type theory is more complicated than that of set theory. In set theory, there is only one kind of object; officially, everything is a set. In contrast, in type theory, every well-formed expression in Lean has a *type*, and there is a rich vocabulary of defining types. 
+
+In fact, Lean is based on a version of an axiomatic framework known as the *Calculus of Inductive Constructions*, which provides all of the following:
+
+- A hierarchy of *type universes*, ``Type 0``, ``Type 1``, ``Type 2``, ... and a special type ``Prop``. The expression ``Type`` abbreviates ``Type 0``, and saying ``T : Type`` can be interpreted as saying that ``T`` is a datatype. The type ``Prop`` is the type of propositions.
+
+- *Dependent function types* ``Π x : A, B x``. An element ``f`` of this type is a function which maps any element ``a`` of type ``A`` to and element ``f a`` of type ``B a``. The fact that the type of the output depends on the type of the input is what makes the function "dependent". In the case where the output type does not depend on the input, we have the usual function type ``A → B``.
+
+- *Inductive types*, like the natural numbers, specified by its *constructors*, like zero and successor. Each such type comes with principles of induction and recursion.
+
+These constructions account for both the underlying logic of assertions (that is, the propositions) as well as the objects of the universe, which are elements of the ordinary types.
+
+It is straightforward to interpret type theory in set theory, since we can view each type as a set. The type universes are simply large collections of sets, and dependent function types and inductive types can be explained in terms of set-theoretic constructions. We can view ``Prop`` as the set :math:`\{ \top, \bot \}` of truth values, just as we did when we described truth-table semantics for propositional logic.
+
+Given this last fact, why not just use set theory instead of type theory for interactive theorem proving? Some interactive theorem provers do just that. But type theory has some advantages:
+
+- The fact that the rules for forming expressions are so rigid makes it easier for the system to recognize typographical errors and provide useful feedback. In type theory, if ``f`` has type ``ℕ → ℕ`` it can be applied only to a natural number, and a theorem prover can flag an error if the argument has the wrong type. In set theory, anything can be applied to anything, whether or not doing so really makes sense.
+
+- Again, because the rules for forming expressions are so rigid, the system can infer useful information from the components of an expression, whereas set theory would require us to make such information explicit. For example, with ``f`` as above, a theorem prover can infer that a variable ``x`` in ``f x`` should have type ``ℕ``, and that the resulting expression again has type ``ℕ``. In set theory, :math:`x \in \mathbb{N}` has to be stated as an explicit hypothesis, and :math:`f(x) \in \mathbb{N}` is then a theorem.
+
+- By encoding propositions as certain kinds of types, we can use the same language for defining mathematical objects and writing mathematical proofs. For example, we can apply a function to an argument in the same way we apply a theorem to some hypotheses.
+
+- Expressions in a sufficiently pure part of dependent type theory have a computational interpretation, so, for example, the logical framework tells us how to evaluate the factorial function, given its definition. In set theory, the computational interpretation is specified independently, after the fact.
+
+These facts hark back to the separation of concerns that we raised in :numref:`Chapter %s <introduction>`: different axiomatic foundations provide different idealized descriptions of mathematical activity, and can be designed to serve different purposes. If you want a clean, simple theory that accounts for the vast majority of mathematical proof, set theory is hard to beat. If you are looking for a foundation that makes computation central or takes the notion of a function rather than a set as basic, various flavors of type theory have their charms. For interactive theorem proving, pragmatic issues regarding implementation and usability come into play. What is important to recognize is that what all these idealized descriptions have in common is that they are all designed to model important aspects of mathematical language and proof. Our goal here has been to help you reflect on those features of mathematical language and proof that give mathematics its special character, and to help you better understand how they work.
 
 
 

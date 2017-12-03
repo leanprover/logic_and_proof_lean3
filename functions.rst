@@ -100,6 +100,8 @@ When :math:`f` has an inverse, :math:`g`, this justifies calling :math:`g` *the*
 
 ----
 
+.. _injective_surjective_and_bijective_functions:
+
 Injective, Surjective, and Bijective Functions
 ----------------------------------------------
 
@@ -143,7 +145,7 @@ For the second claim, because :math:`f` is surjective, we know that for every :m
 
 ----
 
-Notice that the definition of :math:`g` in the first part of the proof requires the function to "decide" whether there is an :math:`x` in :math:`X` such that :math:`f(x) = y`. There is nothing mathematically dubious about this definition, but in many situations, this cannot be done *algorithmically*; in other words, :math:`g` might not be computable from the data. More interestingly, the definition of :math:`h` in the second part of the proof requires the function to "choose" a suitable value of :math:`x` from among potentially many candidates. We will see later that this is a version of the *axiom of choice*. In the early twentieth century, the use of the axiom of choice in mathematics was hotly debated, but today it is commonplace.
+Notice that the definition of :math:`g` in the first part of the proof requires the function to "decide" whether there is an :math:`x` in :math:`X` such that :math:`f(x) = y`. There is nothing mathematically dubious about this definition, but in many situations, this cannot be done *algorithmically*; in other words, :math:`g` might not be computable from the data. More interestingly, the definition of :math:`h` in the second part of the proof requires the function to "choose" a suitable value of :math:`x` from among potentially many candidates. We will see in :numref:`the_remaining_axioms` that this is a version of the *axiom of choice*. In the early twentieth century, the use of the axiom of choice in mathematics was hotly debated, but today it is commonplace.
 
 Using these equivalences and the results in the previous section, we can prove the following:
 

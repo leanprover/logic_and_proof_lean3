@@ -103,7 +103,7 @@ In a manner similar to the way we proved that the integers are countable, we can
 
    h(n) = \begin{cases}
             f(n/2) & \mbox{if $n$ is even} \\
-            f((n-1)/2) & \mbox{if $n$ is odd}
+            g((n-1)/2) & \mbox{if $n$ is odd}
           \end{cases}
 
 It is not hard to show that :math:`h` is surjective.
@@ -177,7 +177,7 @@ Since every element of :math:`\mathbb{Q}` can be written as :math:`i / j` for so
 
 **Theorem.** Let :math:`(A_i)_{i \in \mathbb{N}}` be a family of sets indexed by the natural numbers, and suppose that each :math:`A_i` is countable. Then :math:`\bigcup_i A_i` is countable.
 
-**Proof.** Suppose for each :math:`i`, :math:`f_i` is a surjective function from :math:`\mathbb{N}` to :math:`A_i`. Then the function :math:`g(i, j) = f_i(j)` is a surjective function from :math:`\mathbb{N}` to :math:`\bigcup_i A_i`.
+**Proof.** Suppose for each :math:`i`, :math:`f_i` is a surjective function from :math:`\mathbb{N}` to :math:`A_i`. Then the function :math:`g(i, j) = f_i(j)` is a surjective function from :math:`\mathbb{N} \times \mathbb{N}` to :math:`\bigcup_i A_i`.
 
 **Theorem.** Suppose that :math:`A` is countable. Then the set of finite sequences of elements of :math:`A` is countable.
 
@@ -200,17 +200,17 @@ A set :math:`A` is *uncountable* if it is not countable. Our goal is to prove th
 
 **Proof.** Remember that :math:`[0,1]` denotes the closed interval :math:`\{ r \in \mathbb{R} \mid 0 \leq r \leq 1\}`. It suffices to show that there is no surjective function :math:`f : \mathbb{N} \to [0,1]`, since if :math:`\mathbb{R}` were countable, :math:`[0,1]` would be countable too.
 
-Recall that every real number :math:`r \in [0,1]` has a decimal expansion of the form :math:`r = 0.r_1 r_2 r_3 r_4 \ldots`, where each :math:`r_i` is a digit in :math:`\{0, 1, \ldots, 9\}`. More formally, we can write :math:`r = \sum_{i = 1}^\infty \frac{r_i}{10^{-i}}` for each :math:`r \in \mathbb{R}` with :math:`0 \leq r \leq 1`.
+Recall that every real number :math:`r \in [0,1]` has a decimal expansion of the form :math:`r = 0.r_0 r_1 r_2 r_3 r_4 \ldots`, where each :math:`r_i` is a digit in :math:`\{0, 1, \ldots, 9\}`. More formally, we can write :math:`r = \sum_{i = 0}^\infty \frac{r_i}{10^{i}}` for each :math:`r \in \mathbb{R}` with :math:`0 \leq r \leq 1`.
 
 (Notice that :math:`1` can be written :math:`0.9999\ldots`. In general every other rational number in :math:`[0,1]` will have two representations of this form; for example, :math:`0.5 = 0.5000\ldots = 0.49999\ldots`. For concreteness, for these numbers we can choose the representation that ends with zeros.)
 
 As a result, we can write
 
--  :math:`f(0) = r^0_0 r^0_1 r^0_2 r^0_3 r^0_4 \ldots`
--  :math:`f(1) = r^1_0 r^1_1 r^1_2 r^1_3 r^1_4 \ldots`
--  :math:`f(2) = r^2_0 r^2_1 r^2_2 r^2_3 r^2_4 \ldots`
--  :math:`f(3) = r^3_0 r^3_1 r^3_2 r^3_3 r^3_4 \ldots`
--  :math:`f(4) = r^4_0 r^4_1 r^4_2 r^4_3 r^4_4 \ldots`
+-  :math:`f(0) = 0.r^0_0 r^0_1 r^0_2 r^0_3 r^0_4 \ldots`
+-  :math:`f(1) = 0.r^1_0 r^1_1 r^1_2 r^1_3 r^1_4 \ldots`
+-  :math:`f(2) = 0.r^2_0 r^2_1 r^2_2 r^2_3 r^2_4 \ldots`
+-  :math:`f(3) = 0.r^3_0 r^3_1 r^3_2 r^3_3 r^3_4 \ldots`
+-  :math:`f(4) = 0.r^4_0 r^4_1 r^4_2 r^4_3 r^4_4 \ldots`
 -  ...
 
 (We use superscripts, :math:`r^i`, to denote the digits of :math:`f(i)`. The superscripts do not mean the ":math:`i`\ th power.")
@@ -242,7 +242,7 @@ The following provides another example of an uncountable set.
 
 .. math::
 
-   S = \{ n \in \mathbb{N} \mid n \notin f(i) \}
+   S = \{ n \in \mathbb{N} \mid n \notin f(n) \}
 
 In words, for every natural number, :math:`n`, :math:`n` is in :math:`S` if and only if it is not in :math:`f(n)`. Then clearly for every :math:`n`, :math:`f(n) \neq S`. So :math:`f` is not surjective.
 

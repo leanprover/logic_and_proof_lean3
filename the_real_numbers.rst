@@ -235,6 +235,6 @@ Exercises
 
    a. Show that if :math:`p, p', q` are Cauchy sequences and :math:`p \equiv p'`, then :math:`p + q \equiv p' + q`.
 
-   b. Argue, using exercise 1 and the first part of this problem, that if :math:`p, p', q, q'` are Cauchy sequences, :math:`p \equiv p'`, and :math:`q \equiv q'`, then :math:`p + q \equiv p' + q'`.
+   b. Using the first part of this problem, show that if :math:`p, p', q, q'` are Cauchy sequences, :math:`p \equiv p'`, and :math:`q \equiv q'`, then :math:`p + q \equiv p' + q'`. You can use the fact that addition on the real numbers is commutative.
 
 #. Show that if :math:`(A_1, B_1)` and :math:`(A_2, B_2)` are Dedekind cuts, then :math:`(A_1, B_1) + (A_2, B_2)` is also a Dedekind cut.

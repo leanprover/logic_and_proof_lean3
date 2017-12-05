@@ -5,7 +5,7 @@ Axiomatic Foundations
 
 In this final chapter, our story comes full circle. We started our journey with symbolic logic, using the propositional connectives to model logical terms like "and," "or," "not," and "implies." To that we added the quantifiers and function and relation symbols of first-order logic. From there, we moved to sets, functions, and relations, which are ubiquitous in modern mathematics; the natural numbers and induction; and then topics such as number theory, combinatorics, the real numbers, and the infinite. Here we return to symbolic logic, and see how it can be used to provide a formal foundation for all of mathematics.
 
-Specifically, we will consider an axiomatic framework known as *Zermelo-Fraenkel set theory*, which was introduced early in the 20th century. In the set-theoretic view of mathematics, every mathematical object is a set. The axioms assert the existence of sets with various properties. From the collection of all sets, we carve out the usual inhabitants of the mathematical universe, not just the various number systems we have considered, but also pairs, finite sequences, relations, functions, and so on. This provides us with an idealized foundation for everything we have done since :numref:`Chapter %s <sets>`.
+Specifically, we will consider an axiomatic framework known as *Zermelo-Fraenkel set theory*, which was introduced early in the twentieth century. In the set-theoretic view of mathematics, every mathematical object is a set. The axioms assert the existence of sets with various properties. From the collection of all sets, we carve out the usual inhabitants of the mathematical universe, not just the various number systems we have considered, but also pairs, finite sequences, relations, functions, and so on. This provides us with an idealized foundation for everything we have done since :numref:`Chapter %s <sets>`.
 
 At the end of this chapter, we will briefly describe another axiomatic framework, *dependent type theory*, which is the one used by Lean. We will see that it provides an alternative perspective on mathematical objects and constructions, but one which is nonetheless inter-interpretable with the set-theoretic point of view.
 
@@ -296,7 +296,7 @@ In fact, Lean is based on a version of an axiomatic framework known as the *Calc
 
 - A hierarchy of *type universes*, ``Type 0``, ``Type 1``, ``Type 2``, ... and a special type ``Prop``. The expression ``Type`` abbreviates ``Type 0``, and saying ``T : Type`` can be interpreted as saying that ``T`` is a datatype. The type ``Prop`` is the type of propositions.
 
-- *Dependent function types* ``Π x : A, B x``. An element ``f`` of this type is a function which maps any element ``a`` of type ``A`` to and element ``f a`` of type ``B a``. The fact that the type of the output depends on the type of the input is what makes the function "dependent". In the case where the output type does not depend on the input, we have the usual function type ``A → B``.
+- *Dependent function types* ``Π x : A, B x``. An element ``f`` of this type is a function which maps any element ``a`` of type ``A`` to and element ``f a`` of type ``B a``. The fact that the type of the output depends on the type of the input is what makes the function "dependent." In the case where the output type does not depend on the input, we have the usual function type ``A → B``.
 
 - *Inductive types*, like the natural numbers, specified by its *constructors*, like zero and successor. Each such type comes with principles of induction and recursion.
 

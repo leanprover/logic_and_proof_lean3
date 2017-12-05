@@ -17,7 +17,7 @@ It will be helpful, for every natural number :math:`n`, to have a canonical set 
 
 We used the same notation, :math:`[n]`, to describe equivalence classes with respect to an equivalence relation, but hopefully our intended meaning will always be clear from the context.
 
-A set :math:`A` of elements is said to be *finite* if there is a bijection from :math:`[n]` to :math:`A` for some :math:`n`. In that case, we would like to say that :math:`A` *has* :math:`n` *elements*, or that the set :math:`A` *has cardinality* :math:`n`, and write :math:`|A| = n`. But to do so, we need to know that when :math:`A` is finite, there is a *unique* :math:`n` with the property above.
+A set :math:`A` of elements is said to be *finite* if there is a bijection from :math:`[n]` to :math:`A` for some :math:`n`. In that case, we would like to say that :math:`A` *has* :math:`n` *elements*, or that the set :math:`A` *has cardinality* :math:`n`, and write :math:`|A| = n`. But to do so, we need to know that when :math:`A` is finite, there is a unique :math:`n` with the property above.
 
 Suppose there are bijections from both :math:`[m]` and :math:`[n]` to :math:`A`. Composing the first bijection with the inverse of the second, we get a bijection from :math:`[m]` to :math:`[n]`. It seems intuitively clear that this implies :math:`m = n`, but our goal is to prove this from the fundamental properties of sets, functions, and the natural numbers.
 

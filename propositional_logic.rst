@@ -40,7 +40,7 @@ From (1), (2), and (3), the roles of the five people were as follows: Man and Wo
 
 Then, from (4), either Alice's husband was in the bar and Alice was on the beach, or Alice was in the bar and Alice's husband was on the beach.
 
-If Alice's husband was in the bar, the woman he was with was his daughter, the child who was alone was his son, and Alice and her brother were on the beach. Then either Alice or her brother was the victim; so the other was the killer. But, from (5), the victim had a twin, and this twin was innocent. Since by Alice and her brother could only be twins to each other, this situation is impossible. Therefore Alice's husband was not in the bar.
+If Alice's husband was in the bar, the woman he was with was his daughter, the child who was alone was his son, and Alice and her brother were on the beach. Then either Alice or her brother was the victim; so the other was the killer. But, from (5), the victim had a twin, and this twin was innocent. Since Alice and her brother could only be twins to each other, this situation is impossible. Therefore Alice's husband was not in the bar.
 
 So Alice was in the bar. If Alice was in the bar, she was with her brother or her son.
 
@@ -195,7 +195,7 @@ Or:
 
 Alice's husband was in the bar and Alice was on the beach.
 
-So Alice's was on the beach.
+So Alice was on the beach.
 
 ----
 
@@ -625,7 +625,7 @@ The language of propositional logic starts with symbols :math:`A`, :math:`B`, :m
 
 is an example of a propositional formula.
 
-When writing expressions in symbolic logic, we will adopt the an order of operations which allow us to drop superfluous parentheses. When parsing an expression:
+When writing expressions in symbolic logic, we will adopt an order of operations which allows us to drop superfluous parentheses. When parsing an expression:
 
 -  negation binds most tightly
 -  then conjunctions and disjunctions, from right to left
@@ -654,7 +654,7 @@ Consider, for example, a statement like "Alice was with her son on the beach, bu
 -  :math:`B`: Alice's son was on the beach
 -  :math:`C`: Alice's husband was alone
 
-In that case, we might represent the statement in symbols as :math:`A \wedge B \wedge C`. Using the word "with" may seem to connote more that the fact that Alice and her son were both on the beach; for example, it seems to connote that they aware of each others' presence, interacting, etc. Similarly, although we have translated the word "but" and "and," the word "but" also convey information; in this case, it seems to emphasize a contrast, while in other situations, it can be used to assert a fact that is contrary to expectations. In both cases, then, the logical rendering models certain features of the original sentence while abstracting others.
+In that case, we might represent the statement in symbols as :math:`A \wedge B \wedge C`. Using the word "with" may seem to connote more than the fact that Alice and her son were both on the beach; for example, it seems to connote that they aware of each others' presence, interacting, etc. Similarly, although we have translated the word "but" and "and," the word "but" also convey information; in this case, it seems to emphasize a contrast, while in other situations, it can be used to assert a fact that is contrary to expectations. In both cases, then, the logical rendering models certain features of the original sentence while abstracting others.
 
 Exercises
 ---------

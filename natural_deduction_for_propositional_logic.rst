@@ -1,7 +1,7 @@
 Natural Deduction for Propositional Logic
 =========================================
 
-Reflecting on the arguments in the previous chapter, we see that, intuitively speaking, some inferences are *valid* and some or not. For example, if, in a chain of reasoning, we had established ":math:`A` and :math:`B`," it would seem perfectly reasonable to conclude :math:`B`. If we had established :math:`A`, :math:`B`, and "If :math:`A` and :math:`B` then :math:`C`," it would be reasonable to conclude :math:`C`. On the other hand, if we had established ":math:`A` or :math:`B`," we would not be justified concluding :math:`B` without further information.
+Reflecting on the arguments in the previous chapter, we see that, intuitively speaking, some inferences are *valid* and some are not. For example, if, in a chain of reasoning, we had established ":math:`A` and :math:`B`," it would seem perfectly reasonable to conclude :math:`B`. If we had established :math:`A`, :math:`B`, and "If :math:`A` and :math:`B` then :math:`C`," it would be reasonable to conclude :math:`C`. On the other hand, if we had established ":math:`A` or :math:`B`," we would not be justified concluding :math:`B` without further information.
 
 The task of symbolic logic is to develop a precise mathematical theory that explains which inferences are valid and why. There are two general approaches to spelling out the notion of validity. In this chapter, we will consider the *deductive* approach: an inference is valid if it can be justified by fundamental rules of reasoning that reflect the meaning of the logical terms involved. In :numref:`Chapter %s <semantics_of_propositional_logic>` we will consider the "semantic" approach: an inference is valid if it is an instance of a pattern that always yields a true conclusion from true hypotheses.
 
@@ -151,7 +151,7 @@ Notice that in the second step, we canceled two "copies" of the hypothesis :math
    \DP
    \end{center}
 
-In this proof, "zero" copies of :math:`A` have are canceled.
+In this proof, zero copies of :math:`A` are canceled.
 
 Also notice that although we are using letters like :math:`A`, :math:`B`, and :math:`C` as propositional variables, in the proofs above we can replace them by any propositional formula. For example, we can replace :math:`A` by the formula :math:`(D \vee E)` everywhere, and still have correct proofs. In some presentations of logic, different letters are used for to stand for propositional variables and arbitrary propositional formulas, but we will continue to blur the distinction. You can think of :math:`A`, :math:`B`, and :math:`C` as standing for propositional variables or formulas, as you prefer. If you think of them as propositional variables, just keep in mind that in any rule or proof, you can replace every variable by a different formula, and still have a valid rule or proof.
 

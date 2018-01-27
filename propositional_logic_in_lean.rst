@@ -35,7 +35,7 @@ The logical connectives are rendered in unicode. The following chart shows you h
 +-----------+-------------------+---------------------------------+
 | ∨         | \/                | ``\or``                         |
 +-----------+-------------------+---------------------------------+
-| →         | ->                | ``\to``, ``\r``, ``\implies``   |
+| →         | ->                | ``\to``, ``\r``, ``\imp``       |
 +-----------+-------------------+---------------------------------+
 | ↔         | <->               | ``\iff``, ``\lr``               |
 +-----------+-------------------+---------------------------------+
@@ -123,6 +123,10 @@ If ``h1`` is a proof of ``A`` and ``h2`` is a proof of ``B``, then ``and.intro h
     #check and.intro (and.right h) (and.left h) 
 
 This corresponds to the following proof:
+
+.. raw:: html
+
+   <img src="_static/propositional_logic_in_lean.2b.png">
 
 .. raw:: latex
 
@@ -266,7 +270,7 @@ There are notational variants. Rather than declare variables and premises before
     assume h : A ∧ ¬ B, 
     show ¬ B ∧ A, from and.intro (and.right h) (and.left h)
 
-There are two more tricks that can help you write proofs in Lean. The first is using ``sorry``, which is a magical term in Lean which provides a proof of anything at all. It is also known as "cheating." But cheating can help you construct legitimate proofs incrementally: if Lean accepts a proof with ``sorry``'s, you know that you are on the right track so far. All you need to do is replace each ``sorry`` with a real proof to finish the task.
+There are two more tricks that can help you write proofs in Lean. The first is using ``sorry``, which is a magical term in Lean which provides a proof of anything at all. It is also known as "cheating." But cheating can help you construct legitimate proofs incrementally: if Lean accepts a proof with ``sorry``'s, the parts of the proof you have written so far have passed Lean's checks for correctness. All you need to do is replace each ``sorry`` with a real proof to complete the task.
 
 .. code-block:: lean
 
@@ -386,7 +390,7 @@ Notice that we can reuse the label ``h1`` in each branch, since, conceptually, t
 Negation
 ~~~~~~~~
 
-Internally, negation ``¬ A`` is defined by ``A → false``, which you can think of as saying that ``A`` implies something impossible. The rules for negation are therefore similar to the rules for implication. To prove ``¬ A``, assuming ``A`` and derive a contradiction.
+Internally, negation ``¬ A`` is defined by ``A → false``, which you can think of as saying that ``A`` implies something impossible. The rules for negation are therefore similar to the rules for implication. To prove ``¬ A``, assume ``A`` and derive a contradiction.
 
 .. code-block:: lean
 
@@ -516,8 +520,8 @@ In the last chapter, we constructed the following proof :math:`A \to C` from :ma
 .. raw:: latex
 
    \begin{center}
-   \AXM{1}
-   \RLM{}
+   \AXM{}
+   \RLM{1}
    \UIM{A}
    \AXM{A \to B}
    \BIM{B}
@@ -541,7 +545,7 @@ We can model this in Lean as follows:
     assume h : A, 
     show C, from h2 (h1 h)
 
-Notice that we simply declare the uncanceled hypotheses as variables.
+Notice that the hypotheses in the natural deduction proof that are not canceled are declared as variables in the Lean version.
 
 We also constructed the following proof:
 

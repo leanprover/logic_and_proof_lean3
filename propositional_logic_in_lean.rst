@@ -16,7 +16,7 @@ At its core, Lean is what is known as a *type checker*. This means that we can w
 
     #check A ∧ ¬ B → C
 
-In the online version of this text, you can press the "try it!" button to copy the example to the editor window, press the "play" button, and then hover over the markers on the left to read the messages.
+In the online version of this text, you can press the "try it!" button to copy the example to an editor window, and then hover over the markers on the text to read the messages.
 
 In the example, we declare three variables ranging over propositions, and ask Lean to check the expression ``A ∧ ¬ B → C``. The output of the ``#check`` command is ``A ∧ ¬ B → C : Prop``, which asserts that ``A ∧ ¬ B → C`` is of type ``Prop``. In Lean, every well-formed expression has a type.
 
@@ -258,7 +258,7 @@ We could even annotate the smaller expressions ``and.right h`` and ``and.left h`
       (show ¬ B, from and.right h) 
       (show A, from and.left h) 
 
-This is a good place to mention that Lean generally ignores whitespace, like indentation and returns. We could have written the entire example on a single line. In general, we will adopt conventions for line breaks and indentation that shows the structure of a proof and makes it easier to read.
+This is a good place to mention that Lean generally ignores whitespace, like indentation and returns. We could have written the entire example on a single line. In general, we will adopt conventions for indentation and line breaks that show the structure of proofs and make them easier to read.
 
 Although in the examples above the ``show`` commands were not necessary, there are a number of good reasons to use it. First, and perhaps most importantly, it makes the proofs easier for us humans to read. Second, it makes the proofs easier to *write*: if you make a mistake in a proof, it is easier for Lean to figure out where you went wrong and provide a meaningful error message if you make your intentions clear. Finally, proving information in the ``show`` clause often makes it possible for you to omit information in other places, since Lean can infer that information from your stated intentions.
 
@@ -824,7 +824,7 @@ It is annoying in this example that we have to give the arguments ``C`` and ``¬
     theorem and_commute {A B : Prop} : A ∧ B → B ∧ A :=
     assume h, and.intro (and.right h) (and.left h)
 
-here the squiggly braces indicate that the arguments ``A`` and ``B`` are *implicit*, which is to say, Lean should infer them from the context when the theorem is used. We can then write the following instead:
+Here the squiggly braces indicate that the arguments ``A`` and ``B`` are *implicit*, which is to say, Lean should infer them from the context when the theorem is used. We can then write the following instead:
 
 .. code-block:: lean
 

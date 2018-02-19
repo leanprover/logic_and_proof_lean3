@@ -23,15 +23,15 @@ These statements are true, but we generally do not think of them as *logically v
 
 Rather than fix a single language once and for all, first-order logic allows us to specify the symbols we wish to use for any given domain of interest. In this section, we will use the following running example:
 
--  the domain of interest is the natural numbers, :math:`\mathbb{N}`.
--  there are objects, :math:`0`, :math:`1`, :math:`2`, :math:`3`, ....
--  there are functions, addition and multiplication, as well as the square function, on this domain.
--  there are predicates on this domain, "even," "odd," and "prime."
--  there are relations between elements of this domain, "equal," "less than", and "divides."
+-  The domain of interest is the natural numbers, :math:`\mathbb{N}`.
+-  There are objects, :math:`0`, :math:`1`, :math:`2`, :math:`3`, ....
+-  There are functions, addition and multiplication, as well as the square function, on this domain.
+-  There are predicates on this domain, "even," "odd," and "prime."
+-  There are relations between elements of this domain, "equal," "less than", and "divides."
 
 For our logical language, we will choose symbols 1, 2, 3, :math:`\mathit{add}`, :math:`\mathit{mul}`, :math:`\mathit{square}`, :math:`\mathit{even}`, :math:`\mathit{odd}`, :math:`\mathit{prime}`, :math:`\mathit{lt}`, and so on, to denote these things. We will also have variables :math:`x`, :math:`y`, and :math:`z` ranging over the natural numbers. Note all of the following.
 
--  Functions can take any number of arguments: if :math:`x` and :math:`y` are natural numbers, it makes sense to write :math:`\mathit{mul}(x, y)` and :math:`\mathit{square}(x)`. so :math:`\mathit{mul}` takes two arguments, and :math:`\mathit{square}` takes only one.
+-  Functions can take different numbers of arguments: if :math:`x` and :math:`y` are natural numbers, it makes sense to write :math:`\mathit{mul}(x, y)` and :math:`\mathit{square}(x)`. So :math:`\mathit{mul}` takes two arguments, and :math:`\mathit{square}` takes only one.
 -  Predicates and relations can also be understood in these terms. The predicates :math:`\mathit{even}(x)` and :math:`\mathit{prime}(x)` take one argument, while the binary relations :math:`\mathit{divides}(x, y)` and :math:`\mathit{lt}(x,y)` take two arguments.
 -  Functions are different from predicates! A function takes one or more arguments, and returns a *value*. A predicate takes one or more arguments, and is either true or false. We can think of predicates as returning propositions, rather than values.
 -  In fact, we can think of the constant symbols :math:`1, 2, 3, \ldots` as special sorts of function symbols that take zero arguments. Analogously, we can consider the predicates that take zero arguments to be the constant logical values, :math:`\top` and :math:`\bot`.
@@ -81,7 +81,7 @@ Here are some notes on syntax:
 
 - Be careful, however. In other contexts, especially in computer science, people often give quantifiers the *widest* scope possible. This is the case with Lean. For example, ``∀ x, P ∨ Q`` is interpreted as ``∀ x, (P ∨ Q)``, and we would write ``(∀ x, P) ∨ Q`` to limit the scope.
 
-- After the quantifier :math:`\forall  x`, the variable :math:`x` is *bound*. For example, the expression :math:`\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))` is expresses that every number is even or odd. Notice that the variable :math:`x` does not appear anywhere in the informal statement. The statement is not about :math:`x` at all; rather :math:`x` is a dummy variable, a placeholder that stands for the "thing" referred to within a phrase that beings with the words "every thing." We think of the expression :math:`\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))` as being the same as the expression :math:`\forall y \; (\mathit{even}(y) \vee \mathit{odd}(y))`. Lean treats these expressions as the same as well.
+- After the quantifier :math:`\forall  x`, the variable :math:`x` is *bound*. For example, the expression :math:`\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))` is expresses that every number is even or odd. Notice that the variable :math:`x` does not appear anywhere in the informal statement. The statement is not about :math:`x` at all; rather :math:`x` is a dummy variable, a placeholder that stands for the "thing" referred to within a phrase that beings with the words "every thing." We think of the expression :math:`\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))` as being the same as the expression :math:`\forall y \; (\mathit{even}(y) \vee \mathit{odd}(y))`. Lean also treats these expressions as the same.
 
 - In Lean, the expression ``∀ x y z, x ∣ y → y ∣ z → x ∣ z`` is interpreted as ``∀ x y z, x ∣ y → (y ∣ z → x ∣ z)``, with parentheses associated to the *right*. The part of the expression after the universal quantifier can therefore be interpreted as saying "given that ``x`` divides ``y`` and that ``y`` divides ``z``, ``x`` divides ``z``." The expression is logically equivalent to ``∀ x y z, x ∣ y ∧ y ∣ z → x ∣ z``, but we will see that, in Lean, it is often convenient to express facts like this as an iterated implication.
 

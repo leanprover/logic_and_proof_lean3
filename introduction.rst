@@ -171,7 +171,7 @@ Since the end of the twentieth century, however, the advent of computational pro
 
     end
 
-If you are reading the present text in online form, you will find a button underneath the formal "proof script" that says "try it!" Pressing the button copies the proof to an editor window at right, and runs a version of Lean inside your browser to process the proof, turn it into an axiomatic derivation, and verify its correctness. You can experiment by varying the text in the editor and pressing the "play" button to see the result.
+If you are reading the present text in online form, you will find a button above the formal "proof script" that says "try it!" Pressing the button copies opens the proof in an editor window and runs a version of Lean inside your browser to process the proof, turn it into an axiomatic derivation, and verify its correctness. You can experiment by varying the text in the editor; any errors will be noted in the window to the right.
 
 Proofs in Lean can access a library of prior mathematical results, all verified down to axiomatic foundations. A goal of the field of interactive theorem proving is to reach the point where any contemporary theorem can be verified in this way. For example, here is a formal proof that the square root of two is irrational, following the model of the informal proof presented above:
 
@@ -212,21 +212,21 @@ As we have presented the subject here, the goal of symbolic logic is to specify 
 
 One can adopt another view of logic, however, as a system where some symbols have a fixed meaning, such as the symbols for "and," "or," and "not," and others have a meaning that is taken to vary. For example, the expression :math:`P \wedge (Q \vee R)`, read ":math:`P` and either :math:`Q` or :math:`R`," may be true or false *depending on the basic assertions that* :math:`P`, :math:`Q`, *and* :math:`R` *stand for*. More precisely, the truth of the compound expression depends only on whether the component symbols denote expressions that are true or false. For example, if :math:`P`, :math:`Q`, and :math:`R` stand for "seven is prime," "seven is even," and "seven is odd," respectively, then the expression is true. If we replace "seven" by "six," the statement is false. More generally, the expression comes out true whenever :math:`P` is true and at least one of :math:`Q` and :math:`R` is true, and false otherwise.
 
-From this perspective, logic is not so much a language for asserting truth, but a language for describing possible states of affairs. In other words, logic provides a specification language, with expressions that can be true or false depending on how we interpret the symbols that are allowed to vary. For example, if we fix the meaning of the basic predicates, the statement "there is a red block between two blue blocks" may be true or false of a given "world" of blocks, and we can take the expression to describe the set of worlds in which it is true. Such a view of logic is important in computer science, where we use logical expressions to select entries from a database matching certain criteria, to specify properties of hardware and software systems, or to specify constraints that we would like a constraint solver to satisfy.
+From this perspective, logic is not so much a language for asserting truth, but a language for describing possible states of affairs. In other words, logic provides a specification language, with expressions that can be true or false depending on how we interpret the symbols that are allowed to vary. For example, if we fix the meaning of the basic predicates, the statement "there is a red block between two blue blocks" may be true or false of a given "world" of blocks, and we can take the expression to describe the set of worlds in which it is true. Such a view of logic is important in computer science, where we use logical expressions to select entries from a database matching certain criteria, to specify properties of hardware and software systems, or to assert constraints that we would like a constraint solver to satisfy.
 
 There are important connections between the syntactic / deductive point of view on the one hand, and the semantic / model-theoretic point of view on the other. We will explore some of these along the way. For example, we will see that it is possible to view the "valid" assertions as those that are true under all possible interpretations of the non-fixed symbols, and the "valid" inferences as those that maintain truth in all possible states and affairs. From this point of view, a deductive system should only allow us to derive valid assertions and entailments, a property known as *soundness*. If a deductive system is strong enough to allow us to verify *all* valid assertions and entailments, it is said to be *complete*.
 
-The fourth goal of course is to convey the semantic view of logic, and understand how logical expressions can be used to specify states of affairs.
+The fourth goal of this course is to convey the semantic view of logic, and to lead you to understand how logical expressions can be used to specify states of affairs.
 
 Goals Summarized
 ----------------
 
 To summarize, these are the goals of this course:
 
--  to teach you to write clear, "literate," mathematical proofs
--  to introduce you to symbolic logic and the formal modeling of deductive proof
--  to introduce you to interactive theorem proving
--  to teach you to understand how to use logic as a precise language for making claims about systems of objects and the relationships between them, and specifying certain states of affairs.
+-  To teach you to write clear, "literate," mathematical proofs.
+-  To introduce you to symbolic logic and the formal modeling of deductive proof.
+-  To introduce you to interactive theorem proving.
+-  To teach you to understand how to use logic as a precise language for making claims about systems of objects and the relationships between them, and specifying certain states of affairs.
 
 Let us take a moment to consider the relationship between some of these goals. It is important not to confuse the first three. We are dealing with three kinds of mathematical language: ordinary mathematical language, the symbolic representations of mathematical logic, and computational implementations in interactive proof assistants. These are very different things!
 

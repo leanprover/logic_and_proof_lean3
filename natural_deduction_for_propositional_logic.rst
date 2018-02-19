@@ -10,7 +10,7 @@ The task of symbolic logic is to develop a precise mathematical theory that expl
 Derivations in Natural Deduction
 --------------------------------
 
-We have seen that the language of propositional logic allows us to build up expressions from propositional variables :math:`A, B, C, \ldots` using propositional connectives like :math:`\to`, :math:`\wedge`, :math:`\vee`, and :math:`\neg`. We will now consider a formal deductive system that we can use to *prove* propositional formulas. There are a number of such systems on offer; the one will use is called *natural deduction*, designed by Gerhard Gentzen in the 1930's.
+We have seen that the language of propositional logic allows us to build up expressions from propositional variables :math:`A, B, C, \ldots` using propositional connectives like :math:`\to`, :math:`\wedge`, :math:`\vee`, and :math:`\neg`. We will now consider a formal deductive system that we can use to *prove* propositional formulas. There are a number of such systems on offer; the one will use is called *natural deduction*, designed by Gerhard Gentzen in the 1930s.
 
 In natural deduction, every proof is a proof from *hypotheses*. In other words, in any proof, there is a finite set of hypotheses :math:`\{ B, C, \ldots \}` and a conclusion :math:`A`, and what the proof shows is that :math:`A` follows from :math:`B, C, \ldots`.
 
@@ -412,8 +412,8 @@ Intuitively, the formula
 .. raw:: latex
 
    \begin{center}
-   \AXM{1}
-   \RLM{}
+   \AXM{}
+   \RLM{1}
    \UIM{A}
    \AXM{}
    \RLM{2}
@@ -631,7 +631,7 @@ There is thus a general heuristic for proving theorems in natural deduction:
 
 #. Start by working backwards from the conclusion, using the introduction rules. For example, if you are trying to prove a statement of the form :math:`A \to B`, add :math:`A` to your list of hypotheses and try to derive :math:`B`. If you are trying to prove a statement of the form :math:`A \wedge B`, use the and-introduction rule to reduce your task to proving :math:`A`, and then proving :math:`B`.
 
-#. When you have run out things to do in the first step, use elimination rules to work forwards. If you have hypotheses :math:`A \to B` and :math:`A`, apply modus ponens to derive :math:`B`. If you have a hypothesis :math:`A \vee B`, use-or elimination to split on cases, considering :math:`A` in one case and :math:`B` in the other.
+#. When you have run out things to do in the first step, use elimination rules to work forwards. If you have hypotheses :math:`A \to B` and :math:`A`, apply modus ponens to derive :math:`B`. If you have a hypothesis :math:`A \vee B`, use or-elimination to split on cases, considering :math:`A` in one case and :math:`B` in the other.
 
 In :numref:`Chapter %s <classical_reasoning>` we will add one more element to this list: if all else fails, try a proof by contradiction.
 

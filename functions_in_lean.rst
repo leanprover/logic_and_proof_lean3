@@ -10,7 +10,7 @@ Let us now consider functions in formal terms. Even though we have avoided the u
 
    \forall x \in X \; (f(x) = g(x)) \leftrightarrow f = g 
 
-This principle is a known as *function extensionality*, analogous to the principle of extensionality for sets, discussed in :numref:`sets_in_lean_basics`. Recall that the notation :math:`\forall x \in X \; P(x)` abbreviates :math:`\forall x \; (x \in X \to P(x))`, and :math:`\exists x \in X \; P(x)` abbreviates :math:`\exists x \; (x \in X \wedge P(x))`, thereby relativizing the quantifiers to :math:`A`.
+This principle is a known as *function extensionality*, analogous to the principle of extensionality for sets, discussed in :numref:`sets_in_lean_basics`. Recall that the notation :math:`\forall x \in X \; P(x)` abbreviates :math:`\forall x \; (x \in X \to P(x))`, and :math:`\exists x \in X \; P(x)` abbreviates :math:`\exists x \; (x \in X \wedge P(x))`, thereby relativizing the quantifiers to :math:`X`.
 
 We can avoid set-theoretic notation if we assume we are working in a logical formalism with basic types for :math:`X` and :math:`Y`, so that we can specify that :math:`x` ranges over :math:`X`. In that case, we will write instead
 
@@ -103,9 +103,9 @@ The theorem that asserts that if any function :math:`f` from :math:`X` to :math:
 
 Similarly, saying that two sets :math:`X` and :math:`Y` have a one-to-one correspondence asserts the existence of a function :math:`f : X \to Y` as well as an inverse to :math:`f`. For another example, in :numref:`functions_and_relations` we asserted that every functional relation gives rise to a corresponding function, and vice-versa.
 
-What makes these statements interesting is that they involve quantification, both existential and universal, over functions and relations. This takes us outside the realm of first-order logic. One option is to develop a theory in the language of first-order logic in which the universe contains functions, and relations as objects; we will see later that this is what axiomatic set theory does. An alternative is to extend first-order logic to involve new kinds of quantifiers and variables, to range over functions and relations. This is what higher-order logic does.
+What makes these statements interesting is that they involve quantification, both existential and universal, over functions and relations. This takes us outside the realm of first-order logic. One option is to develop a theory in the language of first-order logic in which the universe contains functions and relations as objects; we will see later that this is what axiomatic set theory does. An alternative is to extend first-order logic to involve new kinds of quantifiers and variables, to range over functions and relations. This is what higher-order logic does.
 
-There are various ways to go about this. In view of the relationship between functions and relations described above, one can take relations as basic, and define functions in terms of them, or vice-versa. The following formulation of higher-order logic, due to the logician Alonzo Church, follows the latter approach. It is sometimes known as *simple type theory*.
+There are various ways to go about this. In view of the relationship between functions and relations described earlier, one can take relations as basic, and define functions in terms of them, or vice-versa. The following formulation of higher-order logic, due to the logician Alonzo Church, follows the latter approach. It is sometimes known as *simple type theory*.
 
 Start with some basic types, :math:`X, Y, Z, \ldots` and a special type, :math:`\mathrm{Prop}`, of propositions. Add the following two rules to build new types:
 
@@ -114,14 +114,14 @@ Start with some basic types, :math:`X, Y, Z, \ldots` and a special type, :math:`
 
 The first intended to denote the type of ordered pairs :math:`(u, v)`, where :math:`u` is in :math:`U` and :math:`v` is in :math:`V`. The second is intended to denote the type of functions from :math:`U` to :math:`V`. Simple type theory now adds the following means of forming expressions:
 
--  If :math:`u` is of type :math:`U` and :math:`v` is of type :math:`V`, :math:`(u, v)` is of type :math:`v`.
+-  If :math:`u` is of type :math:`U` and :math:`v` is of type :math:`V`, :math:`(u, v)` is of type :math:`U \times V`.
 -  If :math:`p` is of type :math:`U \times V`, then :math:`(p)_1` is of type :math:`U` and :math:`(p)_2` if of type :math:`V`. (These are intended to denote the first and second element of the pair :math:`p`.)
 -  If :math:`x` is a variable of type :math:`U`, and :math:`v` is any expression of type :math:`V`, then :math:`\lambda x \; v` is of type :math:`U \to V`.
 -  If :math:`f` is of type :math:`U \to V` and :math:`u` is of type :math:`U`, :math:`f(u)` is of type :math:`V`.
 
 In addition, simple type theory provides all the means we have in first-order logic --- boolean connectives, quantifiers, and equality --- to build propositions.
 
-A function :math:`f(x, y)` which takes elements of :math:`X` and :math:`Y` to a type :math:`Z` is viewed as an object of type :math:`X \times Y \to Z`. Similarly, a binary relation :math:`R(x,y)` on :math:`X` and :math:`Y` is viewed as an object of type :math:`X \times Y \to \mathrm{Prop}`. What makes higher-order logic "higher order" is that we can iterate the function type operation indefinitely. For example, if :math:`\mathbb{N}` is the type of natural numbers, :math:`\mathbb{N} \to \mathbb{N}` denotes the type of functions from the natural numbers to the natural numbers, and :math:`(\mathbb{N} \to \mathbb{N}) \to \mathbb{N}` denotes the type of functions :math:`F(f)` which take a function as argument, and returns a natural number.
+A function :math:`f(x, y)` which takes elements of :math:`X` and :math:`Y` to a type :math:`Z` is viewed as an object of type :math:`X \times Y \to Z`. Similarly, a binary relation :math:`R(x,y)` on :math:`X` and :math:`Y` is viewed as an object of type :math:`X \times Y \to \mathrm{Prop}`. What makes higher-order logic "higher order" is that we can iterate the function type operation indefinitely. For example, if :math:`\mathbb{N}` is the type of natural numbers, :math:`\mathbb{N} \to \mathbb{N}` denotes the type of functions from the natural numbers to the natural numbers, and :math:`(\mathbb{N} \to \mathbb{N}) \to \mathbb{N}` denotes the type of functions :math:`F(f)` which take a function as argument, and return a natural number.
 
 We have not specified the syntax and rules of higher-order logic very carefully. This is done in a number of more advanced logic textbooks. The fragment of higher-order logic which allows only functions and relations on the basic types (without iterating these constructions) is known as second-order logic.
 

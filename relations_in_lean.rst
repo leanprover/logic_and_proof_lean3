@@ -114,7 +114,7 @@ But typing underscores is annoying, too. The best solution is to declare the arg
     
     end hide
 
-In fact, the notions ``reflexive``, ``symmetric``, ``transitive``, and ``antisymmetric`` are defined in Lean's core library in exactly this way, so we are free to use them without defining them. (That is why we put our temporary definitions of in a namespace ``hide``; that means that the full name of our version of ``reflexive`` is ``hide.reflexive``, which, therefore, doesn't conflict with the one defined in the library.``
+In fact, the notions ``reflexive``, ``symmetric``, ``transitive``, and ``antisymmetric`` are defined in Lean's core library in exactly this way, so we are free to use them without defining them. (That is why we put our temporary definitions of in a namespace ``hide``; that means that the full name of our version of ``reflexive`` is ``hide.reflexive``, which, therefore, doesn't conflict with the one defined in the library.)
 
 In :numref:`order_relations` we showed that a strict partial order --- that is, a binary relation that is transitive and irreflexive --- is also asymmetric. Here is a proof of that fact in Lean.
 
@@ -191,9 +191,7 @@ In the example below, having fixed a partial order, ``R``, we define the corresp
     show a < c, from and.intro ‹a ≤ c› ‹a ≠ c›
     end
 
-Notice that we have used suggestive names ``reflR``, ``transR``, ``antisymmR`` instead of ``h1``, ``h2``, ``h3`` to help remember which hypothesis is which. The proof also uses anonymous ``have`` and ``assume``, referring back to them with the French quotes, ``\f<`` anf ``\f>``. Remember also that ``eq.subst ‹a = c› ‹a ≤ b›`` is a proof of the fact that amounts for substituting ``c`` for ``a`` in ``a ≤ b``. You can also use the equivalent notation 
-
-Notice that we have used the command ``open eq.ops`` to avail ourselves of the extra notation for equality proofs, so that the expression ``‹a = c› ▸ ‹a ≤ b›``, where the triangle is written ``\t``.
+Notice that we have used suggestive names ``reflR``, ``transR``, ``antisymmR`` instead of ``h1``, ``h2``, ``h3`` to help remember which hypothesis is which. The proof also uses anonymous ``have`` and ``assume``, referring back to them with the French quotes, ``\f<`` anf ``\f>``. Remember also that ``eq.subst ‹a = c› ‹a ≤ b›`` is a proof of the fact that amounts for substituting ``c`` for ``a`` in ``a ≤ b``. You can also use the equivalent notation ``‹a = c› ▸ ‹a ≤ b›``, where the triangle is written ``\t``.
 
 In Section :numref:`order_relations`, we also noted that you can define a (weak) partial order from a strict one. We ask you to do this formally in the exercises below.
 

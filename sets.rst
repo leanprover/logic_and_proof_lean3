@@ -19,7 +19,7 @@ characterization of the notion of a *set* (or *Menge*, in his terminology):
 
 Since then, the notion of a set has been used to unify a wide range of abstractions and constructions. Axiomatic set theory, which we will discuss in a later chapter, provides a foundation for mathematics in which everything can be viewed as a set.
 
-On a broad construal, *any* collection can be a set; for example, we can consider the set whose elements are Ringo Star, the number 7, and the set whose only member is the Empire State Building. With such a broad notion of set we have to be careful: Russell's paradox has us consider the set :math:`S` of all sets that are not elements of themselves, which leads to a contradiction when we ask whether :math:`S` is an element of itself. (Try it!) The axioms of set theory tell us what sets exist, and have been carefully designed to avoid paradoxical sets like that of the Russell paradox.
+On a broad construal, *any* collection can be a set; for example, we can consider the set whose elements are Ringo Star, the number 7, and the set whose only member is the Empire State Building. With such a broad notion of set we have to be careful: Russell's paradox has us consider the set :math:`S` of all sets that are not elements of themselves, which leads to a contradiction when we ask whether :math:`S` is an element of itself. (Try it!) The axioms of set theory tell us which sets exist, and have been carefully designed to avoid paradoxical sets like that of the Russell paradox.
 
 In practice, mathematicians are not so freewheeling in their use of sets. Typically, one fixes a domain such as the natural numbers, and consider subsets of that domain. In other words, we consider sets of numbers, sets of points, sets of lines, and so on, rather than arbitrary "sets." In this text, we will adopt this convention: when we talk about sets, we are always implicitly talking about sets of elements of some domain.
 
@@ -88,7 +88,7 @@ Logicians sometimes describe ordinary mathematical proofs as *informal*, in cont
 
 ----
 
-**Theorem.** Let :math:`A`, :math:`B`, and :math:`C` denote sets of elements of some domain, :math:`\mathcal U`. Then :math:`A \cap (B \cup C) = (A \cap B) \cup (A \cap C)`.
+**Theorem.** Let :math:`A`, :math:`B`, and :math:`C` denote sets of elements of some domain. Then :math:`A \cap (B \cup C) = (A \cap B) \cup (A \cap C)`.
 
 **Proof.** Let :math:`x` be arbitrary, and suppose :math:`x` is in :math:`A \cap (B \cup C)`. Then :math:`x` is in :math:`A`, and either :math:`x` is in :math:`B` or :math:`x` is in :math:`C`. In the first case, :math:`x` is in :math:`A` and :math:`B`, and hence in :math:`A \cap B`. In the second case, :math:`x` is in :math:`A` and :math:`C`, and hence :math:`A \cap C`. Either way, we have that :math:`x` is in :math:`(A \cap B) \cup (A \cap C)`.
 
@@ -352,7 +352,7 @@ Classically, you may have noticed that propositions, under logical equivalence, 
 -  :math:`A \wedge (A \vee B) = A`
 -  :math:`A \vee (A \wedge B) = A`
 
-Translated to propositions, the first theorem above is as follows:
+Translated to the language of boolean algebras, the first theorem above is as follows:
 
 ----
 
@@ -496,7 +496,7 @@ Given a set :math:`A` we can define the *power set* :math:`\mathcal P(A)` to be 
 
    \mathcal P(A) = \{B \mid B \subseteq A\}.
 
-If :math:`A` is a subset of :math:`\mathcal U`, :math:`\mathcal P(A)` may not be a subset :math:`\mathcal U`, but it is always a subset of :math:`\mathcal P(\mathcal U)`.
+If :math:`A` is a subset of :math:`\mathcal U`, :math:`\mathcal P(A)` may not be a subset of :math:`\mathcal U`, but it is always a subset of :math:`\mathcal P(\mathcal U)`.
 
 Exercises
 ---------

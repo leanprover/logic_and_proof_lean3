@@ -46,7 +46,7 @@ The following pattern can be used to show that ``A`` is a subset of ``B``:
     show x ∈ B, from sorry
     -- END
 
-And the following pattern be used to show that ``A`` and ``B`` are equal:
+And the following pattern can be used to show that ``A`` and ``B`` are equal:
 
 .. code-block:: lean
 
@@ -146,8 +146,8 @@ Remember from :numref:`definitions_and_theorems` that we can use ``assume`` with
 
     example : ∅ ⊆ A  :=
     assume x,
-    assume : x ∈ ∅,
-    show x ∈ A, from false.elim ‹x ∈ (∅ : set U)›
+    assume h : x ∈ ∅,
+    show x ∈ A, from false.elim h
     -- END
 
 Below, and in the chapters that follow, we will begin to use ``assume`` and ``have`` command without labels, but you should feel free to adopt whatever style you prefer.
@@ -199,7 +199,7 @@ Remember that ``absurd`` can be used to prove any fact from two contradictory hy
     #check @not_mem_empty
     -- END
 
-Here, the ``@`` symbol in Lean prevents it from trying to fill in implicit arguments automatically, and instead display the full statement of the theorem.
+Here, the ``@`` symbol in Lean prevents it from trying to fill in implicit arguments automatically, forcing it to display the full statement of the theorem.
 
 The fact that Lean can identify sets with their logical definitions makes it easy to prove inclusions between sets:
 
@@ -247,7 +247,7 @@ Once again, we can use versions of the theorems designed specifically for sets:
     show x ∈ -B, from this
     -- END
 
-Once again, the fact that Lean has to unfold definitions means that it can be confused at times. For example, in the proof below, if you replace the last line by ``sorry``, Lean has trouble figuring out that you want it to unfold the subset symbol:
+The fact that Lean has to unfold definitions means that it can be confused at times. For example, in the proof below, if you replace the last line by ``sorry``, Lean has trouble figuring out that you want it to unfold the subset symbol:
 
 .. code-block:: lean
 

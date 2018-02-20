@@ -219,7 +219,7 @@ Finally, we will consider another formulation of induction, known as the least e
 
 ----
 
-In fact, using classical reasoning, this is equivalent to the principle of complete induction. To see this, consider the contrapositive of the statement above: "if there is no smallest value for which :math:`P` holds, then :math:`P` doesn't hold of any natural number." Let :math:`Q(n)` be the property :math:`P` does *not* hold of :math:`n`. Saying that there is no smallest value for which :math:`P` holds means that, for every :math:`n`, if :math:`P` holds at :math:`n`, then it holds of some number smaller than :math:`n`; and this is equivalent to saying that, for every :math:`n`, if :math:`Q` doesn't hold at :math:`n`, then there is a smaller value for which :math:`Q` doesn't hold. And *that* is equivalent to saying that if :math:`Q` holds for every number less than :math:`n`, it holds for :math:`n` as well. Similarly, saying that :math:`P` doesn't hold of any natural number is equivalent to saying that :math:`Q` holds of every natural number. In other words, replacing the least element principle by its contrapositive, and replacing :math:`P` by "not :math:`Q`," we have the principle of complete induction. Since every statement is equivalent to its contrapositive, and every predicate has its negated version, the two principles are the same.
+In fact, using classical reasoning, this is equivalent to the principle of complete induction. To see this, consider the contrapositive of the statement above: "if there is no smallest value for which :math:`P` holds, then :math:`P` doesn't hold of any natural number." Let :math:`Q(n)` be the property ":math:`P` does *not* hold of :math:`n`." Saying that there is no smallest value for which :math:`P` holds means that, for every :math:`n`, if :math:`P` holds at :math:`n`, then it holds of some number smaller than :math:`n`; and this is equivalent to saying that, for every :math:`n`, if :math:`Q` doesn't hold at :math:`n`, then there is a smaller value for which :math:`Q` doesn't hold. And *that* is equivalent to saying that if :math:`Q` holds for every number less than :math:`n`, it holds for :math:`n` as well. Similarly, saying that :math:`P` doesn't hold of any natural number is equivalent to saying that :math:`Q` holds of every natural number. In other words, replacing the least element principle by its contrapositive, and replacing :math:`P` by "not :math:`Q`," we have the principle of complete induction. Since every statement is equivalent to its contrapositive, and every predicate has its negated version, the two principles are the same.
 
 It is not surprising, then, that the least element principle can be used in much the same way as the principle of complete induction. Here, for example, is a formulation of the previous proof in these terms. Notice that it is phrased as a proof by contradiction.
 
@@ -227,7 +227,7 @@ It is not surprising, then, that the least element principle can be used in much
 
 **Theorem.** Every natural number greater than equal to 2 can be written as a product of primes.
 
-**Proof.** Suppose, to the contrary, there some natural number greater than or equal to 2 cannot be written as a product of primes. By the least element principle, there is a smallest such element; call it :math:`n`. Then :math:`n` is not prime, and since it is greater than or equal to 2, it must be composite. Hence we can write :math:`n = m \cdot k` where :math:`m` and :math:`k` are smaller than :math:`n` and greater than 1. By the assumption on :math:`n`, each of :math:`m` and :math:`k` can be written as a product of primes, say
+**Proof.** Suppose, to the contrary, some natural number greater than or equal to 2 cannot be written as a product of primes. By the least element principle, there is a smallest such element; call it :math:`n`. Then :math:`n` is not prime, and since it is greater than or equal to 2, it must be composite. Hence we can write :math:`n = m \cdot k` where :math:`m` and :math:`k` are smaller than :math:`n` and greater than 1. By the assumption on :math:`n`, each of :math:`m` and :math:`k` can be written as a product of primes, say
 
 .. math::
 
@@ -377,7 +377,7 @@ But you can now recognize such a specification as an implicit appeal to the prin
 Defining Arithmetic Operations
 ------------------------------
 
-In fact, we can even use the principle of recursive definition to define the most basic operations on the natural numbers and show that they have the properties we expect them to have. From a foundational standpoint, we can characterize the natural numbers as a set, :math:`\mathbb{N}`, with a distinguished element :math:`0` and a function, :math:`\mathrm{succ}(m)`, which, for every natural number `m`, returns its *successor*. These satisfy the following:
+In fact, we can even use the principle of recursive definition to define the most basic operations on the natural numbers and show that they have the properties we expect them to have. From a foundational standpoint, we can characterize the natural numbers as a set, :math:`\mathbb{N}`, with a distinguished element :math:`0` and a function, :math:`\mathrm{succ}(m)`, which, for every natural number :math:`m`, returns its *successor*. These satisfy the following:
 
 -  :math:`0 \neq \mathrm{succ}(m)` for any :math:`m` in :math:`\mathbb{N}`.
 -  For every :math:`m` and :math:`n` in :math:`\mathbb{N}`, if :math:`m \neq n`, then :math:`\mathrm{succ}(m) \neq \mathrm{succ}(n)`. In other words, :math:`\mathrm{succ}` is *injective*.
@@ -624,7 +624,7 @@ Most of the properties of the natural numbers that were enumerated in the last s
 
 The key property that the integers enjoy, which sets them apart from the natural numbers, is that for every integer :math:`n` there is a value :math:`-n` with the property that :math:`n + (-n) = 0`. The value :math:`-n` is called the *negation* of :math:`n`. We define subtraction :math:`n - m` to be :math:`n + (-m)`. For any integer :math:`n`, we also define the *absolute value* of :math:`n`, written :math:`|n|`, to be :math:`n` if :math:`n \geq 0`, and :math:`-n` otherwise.
 
-We can no longer use proof by induction on the integers, because induction does not cover the negative numbers. But we can use induction to show that a property holds of every nonnegative integer, for example. Moreover, we know that every negative integer is the negation of a positive one.As a result, proofs involving the integers often break down into two cases, where one case covers the nonnegative integers, and the other case covers the negative ones.
+We can no longer use proof by induction on the integers, because induction does not cover the negative numbers. But we can use induction to show that a property holds of every nonnegative integer, for example. Moreover, we know that every negative integer is the negation of a positive one. As a result, proofs involving the integers often break down into two cases, where one case covers the nonnegative integers, and the other case covers the negative ones.
 
 Exercises
 ---------

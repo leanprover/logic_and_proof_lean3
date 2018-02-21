@@ -14,9 +14,9 @@ If :math:`A` and :math:`B` are two finite sets, then they have the same cardinal
 
 ----
 
-At this stage, saying that :math:`A` and :math:`B` have the same cardinality may sound strange, because it is not clear that there is any object, "the cardinality of :math:`A`," that they both "have." It turns out that, in set-theoretic foundations, there are certain objects --- generalizations of the natural numbers --- that one can use to measure the size of an infinite set. There are known as the "cardinal numbers" or "cardinals." But they are irrelevant to our purposes here: for the rest of this chapter, when we say that :math:`A` and :math:`B` have the same cardinality, we mean neither more nor less than the fact that there is a bijection between them.
+At this stage, saying that :math:`A` and :math:`B` have the same cardinality may sound strange, because it is not clear that there is any object, "the cardinality of :math:`A`," that they both "have." It turns out that, in set-theoretic foundations, there are certain objects --- generalizations of the natural numbers --- that one can use to measure the size of an infinite set. There are known as the "cardinal numbers" or "cardinals." But they are irrelevant to our purposes here. For the rest of this chapter, when we say that :math:`A` and :math:`B` have the same cardinality, we mean neither more nor less than the fact that there is a bijection between them.
 
-The following theorem says, essentially, the equinumerosity is an equivalence relation. (The caveat is that so far we have spoke only of relations between sets, and the collection of all sets is not itself a set.)
+The following theorem says, essentially, that equinumerosity is an equivalence relation. (The caveat is that so far we have spoke only of relations between sets, and the collection of all sets is not itself a set.)
 
 ----
 
@@ -37,7 +37,7 @@ The set of natural numbers, :math:`\mathbb{N}`, is a prototypical example of an 
 
 ----
 
-**Definition.** A set :math:`A` is said to be *countably infinite* if it is equinumerous with :math:`\mathbb{N}`. A set :math:`A` is said to be *countable* if it is finite or countably infinite.
+**Definition.** A set is said to be *countably infinite* if it is equinumerous with :math:`\mathbb{N}`. A set is said to be *countable* if it is finite or countably infinite.
 
 ----
 
@@ -224,13 +224,13 @@ Our goal is to show that :math:`f` is not surjective. To that end, define a new 
            3 & \mbox{otherwise.}
          \end{cases}
 
-The define the real number :math:`r = 0.r_0 r_1 r_2 r_3 \ldots`. Then, for each :math:`i`, :math:`r` differs from :math:`f(i)` in the :math:`i`\ th digit. But this means that for every :math:`i`, :math:`f(i) \neq r`. Since :math:`r` is not in the range of :math:`f`, and hence :math:`f` is not surjective. Since :math:`f` was arbitrary, there is no surjective function from :math:`\mathbb{N}` to :math:`[0,1]`.
+The define the real number :math:`r = 0.r_0 r_1 r_2 r_3 \ldots`. Then, for each :math:`i`, :math:`r` differs from :math:`f(i)` in the :math:`i`\ th digit. But this means that for every :math:`i`, :math:`f(i) \neq r`. Since :math:`r` is not in the range of :math:`f`, we see that :math:`f` is not surjective. Since :math:`f` was arbitrary, there is no surjective function from :math:`\mathbb{N}` to :math:`[0,1]`.
 
 (We chose the digits :math:`3` and :math:`7` only to avoid :math:`0` and :math:`9`, to avoid the case where, for example, :math:`f(0) = 0.5000\ldots` and :math:`r = 0.4999\ldots`. Since there are no zeros or nines in :math:`r`, since the :math:`i`\ th digit of :math:`r` differs from :math:`f(i)`, it really is a different real number.)
 
 ----
 
-This remarkable proof is known as a "diagonalization argument." We are trying to construct a real number with a certain property, namely, that it is not in the range of :math:`f`. We make a table of digits, in which the rows represent infinitely many constraints we have to satisfy (namely, that for each :math:`i`, :math:`f(i) \neq r`), and the columns represent opportunities to satisfy that constraint (namely, by choosing the :math:`i`\ th digit of :math:`r` appropriately). The complete the construction by stepping along the diagonal, using the :math:`i`\ th opportunity to satisfy the :math:`i`\ th constraint. This technique is used often in logic and computability theory.
+This remarkable proof is known as a "diagonalization argument." We are trying to construct a real number with a certain property, namely, that it is not in the range of :math:`f`. We make a table of digits, in which the rows represent infinitely many constraints we have to satisfy (namely, that for each :math:`i`, :math:`f(i) \neq r`), and the columns represent opportunities to satisfy that constraint (namely, by choosing the :math:`i`\ th digit of :math:`r` appropriately). Then we complete the construction by stepping along the diagonal, using the :math:`i`\ th opportunity to satisfy the :math:`i`\ th constraint. This technique is used often in logic and computability theory.
 
 The following provides another example of an uncountable set.
 
@@ -286,7 +286,7 @@ Suppose, on the other hand, that :math:`A` is infinite. We need to show that the
 The Cantor-Bernstein Theorem
 ----------------------------
 
-Saying that :math:`A` and :math:`B` are equinumerous means, intuitively, that :math:`A` and :math:`B` have the same side. There is also a natural way of saying that :math:`A` is not larger than :math:`B`:
+Saying that :math:`A` and :math:`B` are equinumerous means, intuitively, that :math:`A` and :math:`B` have the same size. There is also a natural way of saying that :math:`A` is not larger than :math:`B`:
 
 ----
 

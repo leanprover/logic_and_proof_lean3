@@ -6,7 +6,7 @@ The Real Numbers
 The Number Systems
 ------------------
 
-We have already come across some of the fundamental number systems: the natural numbers, :math:`\mathbb{N}`, the integers, :math:`\mathbb{Z}`, and the rationals, :math:`\mathbb{Q}`. In a sense, each subsequent element of the list was designed to remedy defects in the previous system: we can subtract any integer from any other integer and end up with another integer, and we can divide any rational number by a nonzero rational number and end up with a rational number.
+We have already come across some of the fundamental number systems: the natural numbers, :math:`\mathbb{N}`, the integers, :math:`\mathbb{Z}`, and the rationals, :math:`\mathbb{Q}`. In a sense, each subsequent element of the list was designed to remedy defects in the previous system. We can subtract any integer from any other integer and end up with another integer, and we can divide any rational number by a nonzero rational number and end up with a rational number.
 
 The integers satisfy all of the following properties:
 
@@ -27,7 +27,7 @@ This makes them an instance of an *ordered field*.
 
 It is worth knowing that once we have the natural numbers, it is possible to *construct* the integers and rational numbers, using set-theoretic constructions you have already seen. For example, we can take an integer to be a pair :math:`(i, n)` of natural numbers where :math:`i` is either 0 or 1, with the intention that :math:`(0, n)` represents the positive integer :math:`n`, and :math:`(1, n)` represents the negative integer :math:`-(n+1)`. (We use :math:`-(n+1)` instead of :math:`-n` to avoid having two representations of :math:`0`.) With this definition, the integers are simply :math:`\{0, 1\} \times \mathbb{N}`. We can then go on to define the operations of addition and multiplication, the additive inverse, and the order relation, and prove they have the desired properties.
 
-This construction has the side effect that the natural numbers themselves are not integers; for example, we have to distinguish between the natural number :math:`2`, and the integer :math:`2`. In Lean, for example, this is the case. In ordinary mathematics, it is common to think of the natural numbers as a subset of the integers. Once we construct the integers, however, we can throw away the old version of the natural numbers, and afterwards identify the natural numbers as nonnegative integers.
+This construction has the side effect that the natural numbers themselves are not integers; for example, we have to distinguish between the natural number :math:`2` and the integer :math:`2`. This is the case in Lean. In ordinary mathematics, it is common to think of the natural numbers as a subset of the integers. Once we construct the integers, however, we can throw away the old version of the natural numbers, and afterwards identify the natural numbers as nonnegative integers.
 
 We can do the same for the rationals, defining them to be the set of pairs :math:`(a, b)` in :math:`\mathbb{Z} \times \mathbb{N}`, where either :math:`a = 0` and :math:`b = 1`, or :math:`b > 0` and :math:`a` and :math:`b` have no common divisor (other than :math:`1` and :math:`-1`). The idea is that :math:`(a, b)` represents :math:`a / b`. With this definition, the rationals are really a subset of :math:`\mathbb{Z} \times \mathbb{N}`, and we can then define all the operations accordingly.
 
@@ -80,7 +80,7 @@ For transitivity, suppose :math:`(m, n) \equiv (m', n')`, and :math:`(m', n') = 
 
    m + n' + m' + n'' = m' + n + n' + m''.
 
-Subtracting :math:`m' + n'` from both sides, we get :math:`m + n'' = n + m''`, which is equivalent to :math:`(m', n') = (m'', n'')`, as required.
+Subtracting :math:`m' + n'` from both sides, we get :math:`m + n'' = n + m''`, which is equivalent to :math:`(m, n) = (m'', n'')`, as required.
 
 ----
 
@@ -115,7 +115,7 @@ Cauchy sequences can be used to describe these gaps in the rationals, but, as no
 
 ----
 
-**Definition.** Two Cauchy sequences :math:`p = (p_i)_{i \in \mathbb{N}}` and :math:`q = (q_i)_{i \in \mathbb{N}}` are *equivalent* if for every rational number :math:`\varepsilon > 0`, there is some natural number :math:`N \in \mathbb{N}` such that for all :math:`i \geq N`, we have that :math:`|p_i - q_i| < \varepsilon`. We will write :math:`p \equiv q` to express that :math:`p` is equivalent to\ :math:`q`.
+**Definition.** Two Cauchy sequences :math:`p = (p_i)_{i \in \mathbb{N}}` and :math:`q = (q_i)_{i \in \mathbb{N}}` are *equivalent* if for every rational number :math:`\varepsilon > 0`, there is some natural number :math:`N \in \mathbb{N}` such that for all :math:`i \geq N`, we have that :math:`|p_i - q_i| < \varepsilon`. We will write :math:`p \equiv q` to express that :math:`p` is equivalent to :math:`q`.
 
 **Proposition.** :math:`\equiv` is an equivalence relation on Cauchy sequences.
 

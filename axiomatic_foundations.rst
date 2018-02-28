@@ -98,7 +98,7 @@ With the axioms we have so far, we can form lots of finite sets, starting with :
 
     \emptyset, \{ \emptyset \}, \{ \{ \emptyset \} \}, \{ \emptyset, \{ \emptyset \} \}, \{ \{ \{ \emptyset \} \} \}, \ldots
 
-But the axioms so far do not allow us to define sets that are much "richer" than these. In particular, none of the axioms gives us an infinite set. So we need a further axiom to tell us that such a set exists.
+But the axioms so far do not allow us to define sets that are more interesting than these. In particular, none of the axioms gives us an infinite set. So we need a further axiom to tell us that such a set exists.
 
 Remember that in :numref:`Chapter %s <the_natural_numbers_and_induction>` we characterized the natural numbers as a set with a distinguished element, :math:`0`, and an injective operation :math:`\mathit{succ}`, satisfying the principles of induction and recursive definition. In set theory, everything is a set, so if we want to represent the natural numbers in that framework, we need to identify them with particular sets. There is a natural choice for :math:`0`, namely, the empty set, :math:`\emptyset`. For a successor operation, we will use the function :math:`\mathit{succ}` defined by :math:`\mathit{succ}(x) = x \cup \{ x \}`. The choice is a bit of a hack; the best justification for the definition is that it works. With this definition, the first few natural numbers are as follows:
 
@@ -134,7 +134,7 @@ Let :math:`x` be any inductive set, as asserted to exist by the axiom of infinit
 
     y = \bigcap \{ z \subseteq x \mid \mbox{$z$ is inductive} \}
 
-Here :math:`z \subseteq x` can also be written :math:`z \in \mathcal P(x)`, so the inside set exists using the separation axiom. According to this definition, :math:`y` is the intersection of every inductive subset of :math:`x`, so an element :math:`w` is in :math:`y` if and only if :math:`w` is in every inductive subset of :math:`x`. We claim that :math:`y` itself is inductive. First, we have :math:`\emptyset \in y`, since the empty set is an element of every inductive set. Next, suppose :math:`w` is in :math:`y`. Then :math:`w` is in every inductive subset of :math:`x`. But since every inductive set is closed under successor, :math:`\mathit{succ}(w)` is in every inductive subset of :math:`x`. So :math:`\mathit{succ}(w)` is in the intersection of all inductive subsets of :math:`x` --- which is :math:`y`!
+Here :math:`z \subseteq x` can also be written :math:`z \in \mathcal P(x)`, so the inside set exists by the separation axiom. According to this definition, :math:`y` is the intersection of every inductive subset of :math:`x`, so an element :math:`w` is in :math:`y` if and only if :math:`w` is in every inductive subset of :math:`x`. We claim that :math:`y` itself is inductive. First, we have :math:`\emptyset \in y`, since the empty set is an element of every inductive set. Next, suppose :math:`w` is in :math:`y`. Then :math:`w` is in every inductive subset of :math:`x`. But since every inductive set is closed under successor, :math:`\mathit{succ}(w)` is in every inductive subset of :math:`x`. So :math:`\mathit{succ}(w)` is in the intersection of all inductive subsets of :math:`x` --- which is :math:`y`!
 
 It quickly follows that :math:`y` is a subset of *every* inductive set. To see this, suppose that :math:`z` is inductive. You can check that :math:`z \cap x` is inductive, and thus :math:`y \subseteq z \cap x \subseteq z`.
 

@@ -133,7 +133,7 @@ Using the existential quantifier, we could render the second statement more fait
 
 Notice that this more faithful statement is equivalent to the original, using deMorgan's laws for quantifiers.
 
-Are the two statements above equivalent? Say an element :math:`y` is *minimum* for a partial order if it is less than or equal to any other element: that is, if it takes the place of 0 in the first statement. Say that an element :math:`y` is *minimal* for a partial order if no element is less than it; that is, if it takes the place of 0 in the second statement. Two facts are immediate.
+Are the two statements above equivalent? Say an element :math:`y` is *minimum* for a partial order if it is less than or equal to any other element, that is, if it takes the place of 0 in the first statement. Say that an element :math:`y` is *minimal* for a partial order if no element is less than it, that is, if it takes the place of 0 in the second statement. Two facts are immediate.
 
 ----
 

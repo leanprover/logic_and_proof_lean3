@@ -618,14 +618,13 @@ Also, Susan is tall.
 
 So John is happy and Susan is tall.
 
-Therefore we have shown that if Susan is tall and John is happy, then
-John is happy and Susan is tall.
+Therefore we have shown that if Susan is tall and John is happy, then John is happy and Susan is tall.
 
 ----
 
 However, when we *read* natural deduction proofs, we often read them backwards. First, we look at the bottom to see what is being proved. Then we consider the rule that is used to prove it, and see what premises the rule demands. Then we look to see how those claims are proved, and so on. Similarly, when we *construct* a natural deduction proof, we typically work backwards as well: we start with the claim we are trying to prove, put that at the bottom, and look for rules to apply.
 
-At times that process breaks down. Suppose we are left with a goal that is a single propositional variable, :math:`A`. There are no introduction rules that can be applied, so, unless :math:`A` is a hypothesis, it has to come from an elimination rule. But that underspecifies the problem: perhaps the :math:`A` comes from applying the and elimination rule to :math:`A \wedge B`, or from applying the or elimination rule to :math:`C` and :math:`C \to A`. At that point, we look to the hypotheses, and start working forwards. If, for example, our hypotheses are :math:`C` and :math:`C \to A \wedge B`, we would then work forward to obtain :math:`A \wedge B` and :math:`A`.
+At times that process breaks down. Suppose we are left with a goal that is a single propositional variable, :math:`A`. There are no introduction rules that can be applied, so, unless :math:`A` is a hypothesis, it has to come from an elimination rule. But that underspecifies the problem: perhaps the :math:`A` comes from applying the and-elimination rule to :math:`A \wedge B`, or from applying the or-elimination rule to :math:`C` and :math:`C \to A`. At that point, we look to the hypotheses, and start working forwards. If, for example, our hypotheses are :math:`C` and :math:`C \to A \wedge B`, we would then work forward to obtain :math:`A \wedge B` and :math:`A`.
 
 There is thus a general heuristic for proving theorems in natural deduction:
 

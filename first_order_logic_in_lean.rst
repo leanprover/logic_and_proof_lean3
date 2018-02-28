@@ -347,7 +347,7 @@ Here is an alternative version, using the "anonymous" versions of ``have``:
     have B y, from hB y,
     show A y ∧ B y, from and.intro ‹A y› ‹B y› 
 
-The exercises below ask you to prove the barber paradox, which was discussed in the last chapter. You can do that using only propositional reasoning and the rules for the universal quantifer that we have just discussed.
+The exercises below ask you to prove the barber paradox, which was discussed in the last chapter. You can do that using only propositional reasoning and the rules for the universal quantifier that we have just discussed.
 
 Using the Existential Quantifier
 --------------------------------
@@ -433,7 +433,7 @@ In the last chapter, we considered the following natural deduction proof:
 
 .. raw:: html
 
-   <img src="first_order_logic_in_lean.2.png">
+   <img src="_static/first_order_logic_in_lean.2.png">
 
 .. raw:: latex
 

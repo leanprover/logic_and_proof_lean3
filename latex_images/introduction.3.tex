@@ -3,10 +3,14 @@
 \begin{document}
 
 \begin{prooftree}
-\def\fCenter{\ \vdash\ }
-\Axiom$\Gamma \fCenter A$
-\Axiom$\Delta \fCenter B$
-\BinaryInf$\Gamma, \Delta \fCenter A \wedge B$
+    \AxiomC{}
+    \UnaryInfC{$\neg \mathit{even}(b)$}
+    \AxiomC{$\forall x \; (\neg \mathit{even}(x) \to \neg \mathit{even}(x^2))$}
+    \UnaryInfC{$\neg \mathit{even}(b) \to \neg \mathit{even}(b^2))$}
+    \BinaryInfC{$\neg \mathit{even}(b^2)$}
+    \AxiomC{$\mathit{even}(b^2)$}
+    \BinaryInfC{$\bot$}
+    \UnaryInfC{$\mathit{even}(b)$}
 \end{prooftree}
 
 \end{document}

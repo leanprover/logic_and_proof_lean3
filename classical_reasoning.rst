@@ -36,10 +36,6 @@ The assumption :math:`\neg A` is canceled at the final inference.
 
 In Lean, the inference is named ``by_contradiction``, and since it is a classical rule, we have to use the command ``open classical`` before it is available. Once we do so, the pattern of inference is expressed as follows:
 
-.. raw:: html
-
-   <img src="_static/classical_reasoning.2.png">
-
 .. code-block:: lean
 
     open classical
@@ -377,7 +373,7 @@ Exercises
 
 #. Give a natural deduction proof of :math:`\neg A \vee B` from :math:`A \to B`. You may use the law of the excluded middle.
 
-#. Put :math:`(A \vee B) \wedge (C \vee D) \wedge (E \vee F)` in disjunctive normal form, that is, write it as a big "or" of "and"'s.
+#. Put :math:`(A \vee B) \wedge (C \vee D) \wedge (E \vee F)` in disjunctive normal form, that is, write it as a big "or" of "and" expressions.
 
 #. Prove ``¬ (A ∧ B) → ¬ A ∨ ¬ B`` by replacing the sorry's below by proofs.
 

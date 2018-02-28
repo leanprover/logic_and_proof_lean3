@@ -640,7 +640,7 @@ For example, suppose we assign the following variables:
 -  :math:`C`: Alice was in the bar
 -  :math:`D`: Alice's husband was on the beach
 
-Then the statement "either Alice's husband was in the bar and Alice was on the beach, or Alice was in the bar and Alice's husband was on the beach would be rendered as
+Then the statement "either Alice's husband was in the bar and Alice was on the beach, or Alice was in the bar and Alice's husband was on the beach" would be rendered as
 
 .. math::
 

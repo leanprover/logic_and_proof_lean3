@@ -181,7 +181,7 @@ So far, none of the axioms we have seen rule out the possibility that a set :mat
 
 .. math::
 
-    \text{Foundation} \;\; \forall x \; (\exists y \; y \in x \to \exists y \; (y \in x \wedge \neg \exists z \; (z \in x \wedge z \in y)))
+    \text{Foundation} \;\; \forall x \; (\exists y \; y \in x \to \exists y \in x \; \forall z \in x \; z \notin y)))
 
 The axiom says that if :math:`x` is a nonempty set, there is an element :math:`y` of :math:`x` with the property that no element of :math:`y` is again an element of :math:`x`. This implies we cannot have a descending chain of sets, each one an element of the one before:
 
@@ -197,22 +197,22 @@ Now consider the following sequence of sets:
 
 .. math::
 
-    \emptyset, \;\; \mathcal P(\emptyset), \;\; \mathcal P(\mathcal P(\emptyset)), \;\; \mathcal P (\mathcal P (\mathcal P (\emptyset))), \;\; \ldots
+    \mathbb{N}, \;\; \mathcal P(\mathbb{N}), \;\; \mathcal P(\mathcal P(\mathbb{N}), \;\; \mathcal P (\mathcal P (\mathcal P (\mathbb{N}))), \;\; \ldots
 
 It is consistent with all the axioms we have seen so far that every set in the mathematical universe is an element of one of these. That still gives us a lot of sets, but, since we have described that sequence, we can just as well imagine a set that contains all of them:
 
 .. math::
 
-    \{ \emptyset, \;\; \mathcal P(\emptyset), \;\; \mathcal P(\mathcal P(\emptyset)), \;\; \mathcal P (\mathcal P (\mathcal P (\emptyset))), \;\; \ldots \}
+    \{ \mathbb{N}, \;\; \mathcal P(\mathbb{N}), \;\; \mathcal P(\mathcal P(\mathbb{N}), \;\; \mathcal P (\mathcal P (\mathcal P (\mathbb{N}))), \;\; \ldots \}
 
 The following axiom implies the existence of such a set. 
 
 .. math::
 
-    \text{Regularity:} \;\; \forall x, y_1, \ldots, y_n \;\; (\forall z \in x \; \exists ! w \; A(z, w, y_1, \ldots, y_n) \rightarrow \\
-    \exists u \; \forall z \; \exists w \; (w \in u \wedge A(z, w, y_1, \ldots, y_n)))
+    \text{Replacement:} \;\; \forall x, y_1, \ldots, y_n \;\; (\forall z \in x \; \exists ! w \; A(z, w, y_1, \ldots, y_n) \rightarrow \\
+    \exists u \; \forall w \; (w \in u \leftrightarrow \exists z \in x \; A(z, w, y_1, \ldots, y_n)))
 
-Like the axiom of separation, this axiom is really a schema, which is to say, a separate axiom for each formula :math:`A`. Here, too, the variables :math:`y_1, y_2, \ldots, y_n` are free variables that can occur in :math:`A`. To understand the axiom, it is easiest to think of them as parameters that are fixed in the background, and then ignore them. The axioms says that if, for every :math:`z` in :math:`x`, there is a unique :math:`w` satisfying :math:`A(z,w)`, then there is a single set, :math:`u`, that is big enough to contain a :math:`w` for every such :math:`z`. In other words, if you think of :math:`A` as a function whose domain is :math:`x`, the axiom asserts that there is a set big enough to include its range. In the example above, :math:`x` is the natural numbers, and :math:`A(z, w)` says that :math:`w` is the :math:`z`-fold iterate of the power set of the empty set.
+Like the axiom of separation, this axiom is really a schema, which is to say, a separate axiom for each formula :math:`A`. Here, too, the variables :math:`y_1, y_2, \ldots, y_n` are free variables that can occur in :math:`A`. To understand the axiom, it is easiest to think of them as parameters that are fixed in the background, and then ignore them. The axioms says that if, for every :math:`z` in :math:`x` there is a unique :math:`w` satisfying :math:`A(z,w)`, then there is a single set, :math:`u`, that consists of the :math:`w` values corresponding to every such :math:`z`. In other words, if you think of :math:`A` as a function whose domain is :math:`x`, the axiom asserts that the range of that function exists. In the example above, :math:`x` is the natural numbers, and :math:`A(z, w)` says that :math:`w` is the :math:`z`-fold iterate of the power set of the natural numbers.
 
 The nine axioms we have listed so far comprise what is known as *Zermelo-Fraenkel Set Theory*. There is on additional axiom, the axiom of choice, which is usually listed separately for historical reasons: it was once considered controversial, and in the early days, mathematicians considered it important to keep track of whether the axiom was actually used in a proof. There are many equivalent formulations, but this one is one of the most straightforward:
 
@@ -252,7 +252,7 @@ To summarize, then, the axioms of Zermelo-Fraenkel Set Theory with the axiom of 
 
     .. math::
     
-        \forall x \; \exists y \; \forall z \; (z \in y \leftrightarrow z \subseteq y
+        \forall x \; \exists y \; \forall z \; (z \in y \leftrightarrow z \subseteq y)
 
 #. Separation:
 
@@ -270,14 +270,14 @@ To summarize, then, the axioms of Zermelo-Fraenkel Set Theory with the axiom of 
 
     .. math::
     
-        \forall x \; (\exists y \; y \in x \to \exists y \; (y \in x \wedge \neg \exists z \; (z \in x \wedge z \in y)))
+        \forall x \; (\exists y \; y \in x \to \exists y \in x \; \forall z \in x \; z \notin y)))
 
-#. Regularity: 
+#. Replacement: 
 
     .. math::
     
-        \forall x, y_1, \ldots, y_n \;\; (\forall z \in x \; \exists ! w \; A(z, w, y_1, \ldots, y_n) \rightarrow \\ 
-        \exists u \; \forall z \; \exists w \; (w \in u \wedge A(z, w, y_1, \ldots, y_n)))
+        \forall x, y_1, \ldots, y_n \;\; (\forall z \in x \; \exists ! w \; A(z, w, y_1, \ldots, y_n) \rightarrow \\
+        \exists u \; \forall w \; (w \in u \leftrightarrow \exists z \in x \; A(z, w, y_1, \ldots, y_n)))
 
 #. Choice:
 
@@ -325,7 +325,7 @@ Exercises
 
 #. Use an argument similar Russell's paradox to show that there is no "set of all sets," that is, there is no set that contains every other set as an element.
 
-#. Suppose :math:`x` is a nonempty set, say, containing an element :math:`y`. Use the axiom of separation to show that the set :math:`\bigcap y` exists. (Remember that something is an element of :math:`\bigcap y` if it is an element of every element of :math:`y`.
+#. Suppose :math:`x` is a nonempty set, say, containing an element :math:`y`. Use the axiom of separation to show that the set :math:`\bigcap x` exists. (Remember that something is an element of :math:`\bigcap x` if it is an element of every element of :math:`x`.)
 
 #. Justify the claim in :numref:`basic_axioms_for_sets` that every element of :math:`x \times y` is an element of :math:`\mathcal P (\mathcal P (x \cup y))`.
 

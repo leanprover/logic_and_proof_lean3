@@ -14,7 +14,7 @@ The set of natural numbers is the set
 
 .. math::
 
-   \mathbb{N} = \{ 0, 1, 2, 3, \ldots \}.
+   \mathbb{N} = \{ 0, 1, 2, 3, \ldots \}
 
 In the past, opinions have differed as to whether the set of natural numbers should start with 0 or 1, but these days most mathematicians take them to start with 0. Logicians often call the function :math:`s(n) = n + 1` the *successor* function, since it maps each natural number, :math:`n`, to the one that follows it. What makes the natural numbers special is that they are *generated* by the number zero and the successor function, which is to say, the only way to construct a natural number is to start with :math:`0` and apply the successor function finitely many times. From a foundational standpoint, we are in danger of running into a circularity here, because it is not clear how we can explain what it means to apply a function "finitely many times" without talking about the natural numbers themselves. But the following principle, known as the *principle of induction*, describes this essential property of the natural numbers in a non-circular way.
 
@@ -38,24 +38,24 @@ Here is an example of a proof by induction.
 
 .. math::
 
-   1 + 2 + \ldots + 2^n = 2^{n+1} - 1.
+   1 + 2 + \ldots + 2^n = 2^{n+1} - 1
 
 **Proof.** We prove this by induction on :math:`n`. In the base case, when :math:`n = 0`, we have :math:`1 = 2^{0+1} - 1`, as required.
 
-For the induction step, fix :math:`n`, and assume
+For the induction step, fix :math:`n`, and assume the *induction hypothesis*
 
 .. math::
 
    1 + 2 + \ldots + 2^n = 2^{n+1} - 1
 
-(the induction hypothesis). We need to show that this same claim holds with :math:`n` replaced by :math:`n + 1`. But this is just a calculation:
+We need to show that this same claim holds with :math:`n` replaced by :math:`n + 1`. But this is just a calculation:
 
 .. math::
 
    1 + 2 + \ldots + 2^{n+1} & = (1 + 2 + \ldots + 2^n) + 2^{n+1} \\
    & = 2^{n+1} - 1 + 2^{n+1} \\
    & = 2 \cdot 2^{n+1} - 1 \\
-   & = 2^{n+2} - 1.
+   & = 2^{n+2} - 1
 
 ----
 
@@ -63,13 +63,13 @@ In the notation of first-order logic, if we write :math:`P(n)` to mean that :mat
 
 .. math::
 
-   P(0) \wedge \forall n \; (P(n) \to P(n + 1)) \to \forall n \; P(n).
+   P(0) \wedge \forall n \; (P(n) \to P(n + 1)) \to \forall n \; P(n)
 
 But notice that the principle of induction says that the axiom holds *for every property* :math:`P`, which means that we should properly use a universal quantifier for that, too:
 
 .. math::
 
-   \forall P \; (P(0) \wedge \forall n \; (P(n) \to P(n + 1)) \to \forall n \; P(n)).
+   \forall P \; (P(0) \wedge \forall n \; (P(n) \to P(n + 1)) \to \forall n \; P(n))
 
 Quantifying over properties takes us out of the realm of first-order logic; induction is therefore a second-order principle.
 
@@ -153,7 +153,7 @@ For the induction step, suppose :math:`n \ge 5` and :math:`2^n > n^2`. Since :ma
     (n+1)^2 &= n^2 + 2n + 1 \\
      & \leq n^2 + n^2 \\
      & < 2^n + 2^n \\
-     & = 2^{n+1}.
+     & = 2^{n+1}
 
 ----
 
@@ -187,17 +187,12 @@ To use the principle of complete induction we merely have to let :math:`n` be an
 
 **Theorem.** Every natural number greater than or equal to 2 can be written as a product of primes.
 
-**Proof.** We proceed by induction on :math:`n`. Let :math:`n` be any natural number greater than 2. If :math:`n` is prime, we are done; we can consider :math:`n` itself as a product with one factor. Otherwise, :math:`n` is composite, and we can write :math:`n = m \cdot k` where :math:`m` and :math:`k` are smaller than :math:`n` and greater than 1. By the inductive hypothesis, each of :math:`m` and :math:`k` can be written as a product of primes, say
+**Proof.** We proceed by induction on :math:`n`. Let :math:`n` be any natural number greater than 2. If :math:`n` is prime, we are done; we can consider :math:`n` itself as a product with one factor. Otherwise, :math:`n` is composite, and we can write :math:`n = m \cdot k` where :math:`m` and :math:`k` are smaller than :math:`n` and greater than 1. By the inductive hypothesis, each of :math:`m` and :math:`k` can be written as a product of primes:
 
 .. math::
 
    m = p_1 \cdot p_2 \cdot \ldots \cdot p_u
-
-and
-
-.. math::
-
-   k = q_1 \cdot q_2 \cdot \ldots \cdot q_v.
+   k = q_1 \cdot q_2 \cdot \ldots \cdot q_v
 
 But then we have
 
@@ -205,9 +200,9 @@ But then we have
 
 
    n = m \cdot k = p_1 \cdot p_2 \cdot \ldots \cdot p_u \cdot q_1 \cdot
-   q_2 \cdot \ldots \cdot q_v,
+   q_2 \cdot \ldots \cdot q_v
 
-a product of primes, as required.
+We see that :math:`n` is a product of primes, as required.
 
 ----
 
@@ -227,17 +222,12 @@ It is not surprising, then, that the least element principle can be used in much
 
 **Theorem.** Every natural number greater than equal to 2 can be written as a product of primes.
 
-**Proof.** Suppose, to the contrary, some natural number greater than or equal to 2 cannot be written as a product of primes. By the least element principle, there is a smallest such element; call it :math:`n`. Then :math:`n` is not prime, and since it is greater than or equal to 2, it must be composite. Hence we can write :math:`n = m \cdot k` where :math:`m` and :math:`k` are smaller than :math:`n` and greater than 1. By the assumption on :math:`n`, each of :math:`m` and :math:`k` can be written as a product of primes, say
+**Proof.** Suppose, to the contrary, some natural number greater than or equal to 2 cannot be written as a product of primes. By the least element principle, there is a smallest such element; call it :math:`n`. Then :math:`n` is not prime, and since it is greater than or equal to 2, it must be composite. Hence we can write :math:`n = m \cdot k` where :math:`m` and :math:`k` are smaller than :math:`n` and greater than 1. By the assumption on :math:`n`, each of :math:`m` and :math:`k` can be written as a product of primes:
 
 .. math::
 
    m = p_1 \cdot p_2 \cdot \ldots \cdot p_u
-
-and
-
-.. math::
-
-   k = q_1 \cdot q_2 \cdot \ldots \cdot q_v.
+   k = q_1 \cdot q_2 \cdot \ldots \cdot q_v
 
 But then we have
 
@@ -245,9 +235,9 @@ But then we have
 
 
    n = m \cdot k = p_1 \cdot p_2 \cdot \ldots \cdot p_u \cdot q_1 \cdot
-   q_2 \cdot \ldots \cdot q_v,
+   q_2 \cdot \ldots \cdot q_v
 
-a product of primes, contradicting the fact that :math:`n` cannot be
+We see that :math:`n` is a product of primes, contradicting the fact that :math:`n` cannot be
 written as a product of primes.
 
 ----
@@ -346,7 +336,7 @@ In the inductive step, we have
    & = n (n + 1) / 2 + n + 1 \\
    & = \frac{n^2 +n}{2} + \frac{2n + 2}{2} \\
    & = \frac{n^2 + 3n + 2}{2} \\
-   & = \frac{(n+1)(n+2)}{2}.
+   & = \frac{(n+1)(n+2)}{2}
 
 ----
 
@@ -356,7 +346,7 @@ There are just as many variations on the principle of recursive definition as th
 
      \mathrm{fib}(0) & = 0 \\
      \mathrm{fib}(1) & = 1 \\
-     \mathrm{fib}(n+2) & = \mathrm{fib}(n + 1) + \mathrm{fib}(n).
+     \mathrm{fib}(n+2) & = \mathrm{fib}(n + 1) + \mathrm{fib}(n)
 
 Calculating the values of :math:`\mathrm{fib}` on :math:`0, 1, 2, \ldots` we obtain
 
@@ -392,7 +382,7 @@ Remember that this principle can be used to justify the principle of definition 
     Let :math:`A` be any set, :math:`a` be any element of :math:`A`, and let :math:`g(n,m)` be any function from :math:`\mathbb{N} \times A` to :math:`A`. Then there is a unique function :math:`f: \mathbb{N} \to A` satisfying the following two clauses:
 
     -  :math:`f(0) = a`
-    -  :math:`f(\mathrm{succ}(n)) = g(n,f(n))` for every :math:`n` in :math:`N`.
+    -  :math:`f(\mathrm{succ}(n)) = g(n,f(n))` for every :math:`n` in :math:`N`
 
 We can use the principle of recursive definition to define addition with the following two clauses:
 
@@ -415,14 +405,14 @@ We can also define a predecessor function by
 .. math::
 
    \mathrm{pred}(0) & = 0 \\
-   \mathrm{pred}(\mathrm{succ}(n)) & = n,
+   \mathrm{pred}(\mathrm{succ}(n)) & = n
 
-and *truncated subtraction* by
+We can define *truncated subtraction* by
 
 .. math::
 
    m \dot - 0 & = 0 \\
-   m \dot - (\mathrm{succ}(n)) & = \mathrm{pred}(m \dot - n).
+   m \dot - (\mathrm{succ}(n)) & = \mathrm{pred}(m \dot - n)
 
 With these definitions and the induction principle, one can prove all the following identities:
 
@@ -457,7 +447,7 @@ We will do the first five here, and leave the remaining ones as exercises.
 
    \mathrm{succ}(m) + \mathrm{succ}(n) & = \mathrm{succ}(\mathrm{succ}(m) + n) \\
    & = \mathrm{succ} (\mathrm{succ} (m + n)) \\
-   & = \mathrm{succ} (m + \mathrm{succ}(n)),
+   & = \mathrm{succ} (m + \mathrm{succ}(n))
 
 using the inductive hypothesis and the second defining clause for addition.
 
@@ -508,21 +498,21 @@ Continuing as in the last section, we can establish all the basic properties of 
 
 In an ordinary mathematical argument or calculation, they can be used without explicit justification. We also have the following properties:
 
--  :math:`n + 1 \neq 0`;
--  if :math:`n + k = m + k` then :math:`n = m`;
--  if :math:`n \cdot k = m \cdot k` and :math:`k \neq 0` then :math:`n = m`.
+-  :math:`n + 1 \neq 0`
+-  if :math:`n + k = m + k` then :math:`n = m`
+-  if :math:`n \cdot k = m \cdot k` and :math:`k \neq 0` then :math:`n = m`
 
 We can define :math:`m \le n`, ":math:`m` is less than or equal to :math:`n`," to mean that there exists a :math:`k` such that :math:`m + k = n`. If we do that, it is not hard to show that the less-than-or-equal-to relation satisfies all the following properties, for every :math:`n`, :math:`m`, and :math:`k`:
 
--  :math:`n \le n` (*reflexivity*);
--  if :math:`n \le m` and :math:`m \le k` then :math:`n \le k` (*transitivity*);
--  if :math:`n \le m` and :math:`m \le n` then :math:`n = m` (*antisymmetry*);
--  for all :math:`n` and :math:`m`, either :math:`n \le m` or :math:`m \le n` is true (*totality*);
--  if :math:`n \le m` then :math:`n + k \le m + k`;
--  if :math:`n + k \le m + k` then :math:`n \le m`;
--  if :math:`n \le m` then :math:`nk \le mk`;
--  if :math:`m \ge n` then :math:`m = n` or :math:`m \ge n + 1`;
--  :math:`0 \le n`.
+-  :math:`n \le n` (*reflexivity*)
+-  if :math:`n \le m` and :math:`m \le k` then :math:`n \le k` (*transitivity*)
+-  if :math:`n \le m` and :math:`m \le n` then :math:`n = m` (*antisymmetry*)
+-  for all :math:`n` and :math:`m`, either :math:`n \le m` or :math:`m \le n` is true (*totality*)
+-  if :math:`n \le m` then :math:`n + k \le m + k`
+-  if :math:`n + k \le m + k` then :math:`n \le m`
+-  if :math:`n \le m` then :math:`nk \le mk`
+-  if :math:`m \ge n` then :math:`m = n` or :math:`m \ge n + 1`
+-  :math:`0 \le n`
 
 Remember from :numref:`Chapter %s <relations>` that the first four items assert that :math:`\le` is a linear order. Note that when we write :math:`m \ge n`, we mean :math:`n \le m`.
 
@@ -550,13 +540,13 @@ In the other direction, suppose :math:`m + 1 \le n`. Then :math:`m \le n`. We al
 
 In a similar way, we can show that :math:`m < n` if and only if :math:`m \le n` and :math:`m \ne n`. In fact, we can demonstrate all of the following from these properties and the properties of :math:`\le`:
 
--  :math:`n < n` is never true (*irreflexivity*);
--  if :math:`n < m` and :math:`m < k` then :math:`n < k` (*transitivity*);
--  for all :math:`n` and :math:`m`, either :math:`n < m`, :math:`n = m` or :math:`m < n` is true (*trichotomy*);
--  if :math:`n < m` then :math:`n + k < m + k`;
--  if :math:`k > 0` and :math:`n < m` then :math:`nk < mk`;
--  if :math:`m > n` then :math:`m = n + 1` or :math:`m > n + 1`;
--  for all :math:`n`, :math:`n = 0` or :math:`n > 0`.
+-  :math:`n < n` is never true (*irreflexivity*)
+-  if :math:`n < m` and :math:`m < k` then :math:`n < k` (*transitivity*)
+-  for all :math:`n` and :math:`m`, either :math:`n < m`, :math:`n = m` or :math:`m < n` is true (*trichotomy*)
+-  if :math:`n < m` then :math:`n + k < m + k`
+-  if :math:`k > 0` and :math:`n < m` then :math:`nk < mk`
+-  if :math:`m > n` then :math:`m = n + 1` or :math:`m > n + 1`
+-  for all :math:`n`, :math:`n = 0` or :math:`n > 0`
 
 The first three items mean that :math:`<` is a strict linear order, and the properties above means that :math:`\le` is the associated linear order, in the sense described in :numref:`order_relations`.
 
@@ -580,14 +570,14 @@ The rest of the remaining proofs are left as an exercise to the reader.
 
 Here are some additional properties of :math:`<` and :math:`\le`:
 
--  :math:`n < m` and :math:`m < n` cannot both hold (*asymmetry*);
--  :math:`n + 1 > n`;
--  if :math:`n < m` and :math:`m \le k` then :math:`n < k`;
--  if :math:`n \le m` and :math:`m < k` then :math:`n < k`;
--  if :math:`m > n` then :math:`m \ge n + 1`;
--  if :math:`m \ge n` then :math:`m + 1 > n`;
--  if :math:`n + k < m + k` then :math:`n < m`;
--  if :math:`nk < mk` then :math:`k > 0` and :math:`n < m`.
+-  :math:`n < m` and :math:`m < n` cannot both hold (*asymmetry*)
+-  :math:`n + 1 > n`
+-  if :math:`n < m` and :math:`m \le k` then :math:`n < k`
+-  if :math:`n \le m` and :math:`m < k` then :math:`n < k`
+-  if :math:`m > n` then :math:`m \ge n + 1`
+-  if :math:`m \ge n` then :math:`m + 1 > n`
+-  if :math:`n + k < m + k` then :math:`n < m`
+-  if :math:`nk < mk` then :math:`k > 0` and :math:`n < m`
 
 These can be proved from the ones above. Moreover, the collection of principles we have just seen can be used to justify basic facts about the natural numbers, which are again typically taken for granted in informal mathematical arguments.
 
@@ -675,16 +665,16 @@ Exercises
 
 #. Prove the following properties of negation and subtraction on the integers, using only the properties of negation and subtraction given in :numref:`the_integers`.
 
-   -  If :math:`n + m = 0` then :math:`m = -n`;
-   -  :math:`-0 = 0`;
-   -  If :math:`-n = -m` then :math:`n = m`;
-   -  :math:`m + (n - m) = n`;
-   -  :math:`-(n + m) = -n - m`;
-   -  If :math:`m < n` then :math:`n - m > 0`;
-   -  If :math:`m < n` then :math:`-m > -n`;
-   -  :math:`n \cdot (-m) = -nm`;
-   -  :math:`n(m - k) = nm - nk`;
-   -  If :math:`n < m` then :math:`n - k < m - k`.
+   -  If :math:`n + m = 0` then :math:`m = -n`
+   -  :math:`-0 = 0`
+   -  If :math:`-n = -m` then :math:`n = m`
+   -  :math:`m + (n - m) = n`
+   -  :math:`-(n + m) = -n - m`
+   -  If :math:`m < n` then :math:`n - m > 0`
+   -  If :math:`m < n` then :math:`-m > -n`
+   -  :math:`n \cdot (-m) = -nm`
+   -  :math:`n(m - k) = nm - nk`
+   -  If :math:`n < m` then :math:`n - k < m - k`
 
 #. Suppose you have an infinite chessboard with a natural number written in each square. The value in each square is the average of the values of the four neighboring squares. Prove that all the values on the chessboard are equal.
 

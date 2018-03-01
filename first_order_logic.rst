@@ -318,7 +318,7 @@ Talk of "equality" or "identity" raises messy philosophical questions, however. 
 
 -  *reflexivity*: :math:`t = t`, for any term :math:`t`
 -  *symmetry*: if :math:`s = t`, then :math:`t = s`
--  *transitivity*: if :math:`r = s` and :math:`s = t`, then :math:`r = t`.
+-  *transitivity*: if :math:`r = s` and :math:`s = t`, then :math:`r = t`
 
 These properties are not enough to characterize equality, however. If two expressions denote the same thing, then we should be able to substitute one for any other in any expression. It is convenient to adopt the following convention: if :math:`r` is any term, we may write :math:`r(x)` to indicate that the variable :math:`x` may occur in :math:`r`. Then, if :math:`s` is another term, we can thereafter write :math:`r(s)` to denote the result of replacing :math:`s` for :math:`x` in :math:`r`. The substitution rule for terms thus reads as follows: if :math:`s = t`, then :math:`r(s) = r(t)`.
 

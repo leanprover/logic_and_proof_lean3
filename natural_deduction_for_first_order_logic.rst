@@ -535,7 +535,7 @@ In :numref:`Chapter %s <first_order_logic>` we saw examples of how to use relati
 
 As an exercise you can prove the above results about negations of quantifiers also for relativized quantifiers. Specifically, prove the following statements:
 
--  :math:`\neg \exists x \; (A(x) \wedge B(x)) \leftrightarrow \forall x \; ( A(x) \to \neg B(x))`;
+-  :math:`\neg \exists x \; (A(x) \wedge B(x)) \leftrightarrow \forall x \; ( A(x) \to \neg B(x))`
 -  :math:`\neg \forall x \; (A(x) \to B(x)) \leftrightarrow \exists x (A(x) \wedge \neg B(x))`
 
 For reference, here is a list of valid sentences involving quantifiers:

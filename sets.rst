@@ -233,7 +233,7 @@ But this last equation is clearly true.
 
 ----
 
-The narrative doesn't flow well, however. Sometimes there are good reasons to work backwards in a proof, but in this case it is easy to present the proof in a more forward-directed manner. Here is one example:
+The narrative doesn't flow well, however. Sometimes there are good reasons to work backward in a proof, but in this case it is easy to present the proof in a more forward-directed manner. Here is one example:
 
 ----
 

@@ -165,8 +165,8 @@ And here is the corresponding proof in Lean:
 
 In the next section, we will derive a number of classical rules and equivalences. These are tricky to prove. In general, to use classical reasoning in natural deduction, we need to extend the general heuristic presented in :numref:`forward_and_backward_reasoning` as follows:
 
-#. First, work backwards from the conclusion, using the introduction rules.
-#. When you have run out things to do in the first step, use elimination rules to work forwards.
+#. First, work backward from the conclusion, using the introduction rules.
+#. When you have run out things to do in the first step, use elimination rules to work forward.
 #. If all else fails, use a proof by contradiction.
 
 Sometimes a proof by contradiction is necessary, but when it isn't, it can be less informative than a direct proof. Suppose, for example, we want to prove :math:`A \wedge B \wedge C \to D`. In a direct proof, we assume :math:`A`, :math:`B`, and :math:`C`, and work towards :math:`D`. Along the way, we will derive other consequences of :math:`A`, :math:`B`, and :math:`C`, and these may be useful in other contexts. If we use proof by contradiction, on the other hand, we assume :math:`A`, :math:`B`, :math:`C`, and :math:`\neg D`, and try to prove :math:`\bot`. In that case, we are working in an inconsistent context; any auxiliary results we may obtain that way are subsumed by the fact that ultimately :math:`\bot` is a consequence of the hypotheses.

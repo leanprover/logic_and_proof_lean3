@@ -279,7 +279,7 @@ Proving completeness is harder. It suffices to show that if :math:`A` is any tau
    
 with one disjunct for each line of the truth table. Then, we should be able to use each disjunct to "evaluate" each expression occurring in :math:`A`, proving it true or false in accordance with its valuation, until we have a proof of :math:`A` itself.
 
-A nicer way to proceed is to express the rules of natural deduction in a way that allows us to work backwards from :math:`A` in search of a proof. In other words, first, we give a procedure for constructing a derivation of :math:`A` by working backwards from :math:`A`. Then we argue that if the procedure fails, then, at the point where it fails, we can find a truth assignment that makes :math:`A` false. As a result, if every truth assignment makes :math:`A` true, the procedure returns a proof of :math:`A`.
+A nicer way to proceed is to express the rules of natural deduction in a way that allows us to work backward from :math:`A` in search of a proof. In other words, first, we give a procedure for constructing a derivation of :math:`A` by working backward from :math:`A`. Then we argue that if the procedure fails, then, at the point where it fails, we can find a truth assignment that makes :math:`A` false. As a result, if every truth assignment makes :math:`A` true, the procedure returns a proof of :math:`A`.
 
 Exercises
 ---------

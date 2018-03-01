@@ -644,7 +644,7 @@ Exercises
    -  :math:`F_{2n+1} = F^2_{n+1} + F^2_n`
    -  :math:`F_{2n+2} = F^2_{n+2} - F^2_n`
 
-   Hint: use induction on :math:`n`, and prove them both at once. In the induction step, expand :math:`F_{2n+3} = F_{2n+2} + F_{2n+1}`, and similarly for :math:`F_{2n+4}`. Proving the second equation is especially tricky. Use the inductive hypothesis and the first identity to simplify the left-hand side, and repeatedly unfold the Fibonacci number with the highest index and simplify the equation you need to prove. (When you have worked out a solution, write a clear equational proof, calculating in the \`\`forwards'' direction.)
+   Hint: use induction on :math:`n`, and prove them both at once. In the induction step, expand :math:`F_{2n+3} = F_{2n+2} + F_{2n+1}`, and similarly for :math:`F_{2n+4}`. Proving the second equation is especially tricky. Use the inductive hypothesis and the first identity to simplify the left-hand side, and repeatedly unfold the Fibonacci number with the highest index and simplify the equation you need to prove. (When you have worked out a solution, write a clear equational proof, calculating in the \`\`forward'' direction.)
 
 #. Prove that every natural number can be written as a sum of *distinct* powers of 2. For this problem, :math:`1 = 2^0` is counted as power of 2.
 

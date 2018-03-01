@@ -1,0 +1,18 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+\begin{center}
+    \begin{tabular} {|c|c|c||c|c||c|}
+    \hline 
+    $A$          & $B$          & $C$          & $A \to B$  & $B \to C$      & $(A \to B) \vee (B \to C)$ \\ \hline
+    $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$   \\ \hline
+    $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{F}$ & $\mathbf{T}$ & $\mathbf{F}$ & $\mathbf{T}$   \\ \hline
+    $\mathbf{T}$ & $\mathbf{F}$ & $\mathbf{T}$ & $\mathbf{F}$ & $\mathbf{T}$ & $\mathbf{T}$   \\ \hline
+    $\mathbf{T}$ & $\mathbf{F}$ & $\mathbf{F}$ & $\mathbf{F}$ & $\mathbf{T}$ & $\mathbf{T}$   \\ \hline
+    $\mathbf{F}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$   \\ \hline
+    $\mathbf{F}$ & $\mathbf{T}$ & $\mathbf{F}$ & $\mathbf{T}$ & $\mathbf{F}$ & $\mathbf{T}$   \\ \hline
+    $\mathbf{F}$ & $\mathbf{F}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$   \\ \hline
+    $\mathbf{F}$ & $\mathbf{F}$ & $\mathbf{F}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$   \\ \hline
+    \end{tabular}
+\end{center}
+\end{document}

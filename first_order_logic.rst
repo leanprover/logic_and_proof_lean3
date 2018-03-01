@@ -64,9 +64,9 @@ The second one, for example, asserts that either :math:`(x + yz)^2` is not equal
 The Universal Quantifier
 ------------------------
 
-What makes first-order logic powerful is that it allows us to make general assertions using *quantifiers*. The universal quantifier :math:`\forall` followed by a variable :math:`x` is meant to represent the phrase "for every :math:`x`." In other words, it asserts that every value of :math:`x` has the property that follows it. Using the universal quantifier, the examples with which we began this previous section can be expressed as follows:
+What makes first-order logic powerful is that it allows us to make general assertions using *quantifiers*. The universal quantifier :math:`\forall` followed by a variable :math:`x` is meant to represent the phrase "for every :math:`x`." In other words, it asserts that every value of :math:`x` has the property that follows it. Using the universal quantifier, the examples with which we began the previous section can be expressed as follows:
 
-- :math:`\forall x \; ((\mathit{even}(x) \vee \mathit{odd}(x)) \wedge \neg (\mathit{even}(x) \wedge \neg \mathit{odd}(x)))`
+- :math:`\forall x \; ((\mathit{even}(x) \vee \mathit{odd}(x)) \wedge \neg (\mathit{even}(x) \wedge \mathit{odd}(x)))`
 - :math:`\forall x \; (\mathit{even}(x) \leftrightarrow 2 \mid x)`
 - :math:`\forall x \; (\mathit{even}(x) \to \mathit{even}(x^2))`
 - :math:`\forall x \; (\mathit{even}(x) \leftrightarrow \mathit{odd}(x+1))`
@@ -99,7 +99,7 @@ The advantage of this formulation is that we can restrict our attention to the i
 
    \forall  a, b \; b \ne 0 \to \neg (a^2 = 2 b^2). 
 
-How do we prove such a theorem? Informally, we would use such a pattern:
+Notice that we have kept the conventional mathematical notation :math:`b \ne 0` to say that :math:`b` is not equal to 0, but we can think of this as an abbreviation for :math:`\neg (b = 0)`.  How do we prove such a theorem? Informally, we would use such a pattern:
 
     Let :math:`a` and :math:`b` be arbitrary integers, suppose :math:`b \ne 0`, and suppose :math:`a^2 = 2 b^2`.
 
@@ -152,7 +152,7 @@ This example motivates the following rule in natural deduction:
    \UIM{\forall x \; A(x)}
    \end{prooftree}
 
-provided :math:`x` is not free in any uncanceled hypothesis. Here :math:`A(x)` stands for any formula that (potentially) mentions :math:`x`. Also remember that if :math:`y` is any "fresh" variable that does not occur in :math:`A`, we are thinking of :math:`\forall x \;vA(x)` as being the same as :math:`\forall y \; A(y)`.
+provided :math:`x` is not free in any uncanceled hypothesis. Here :math:`A(x)` stands for any formula that (potentially) mentions :math:`x`. Also remember that if :math:`y` is any "fresh" variable that does not occur in :math:`A`, we are thinking of :math:`\forall x \; A(x)` as being the same as :math:`\forall y \; A(y)`.
 
 What about the elimination rule? Suppose we know that every number is even or odd. Then, in an ordinary proof, we are free to assert ":math:`a` is even or :math:`a` is odd," or ":math:`a^2` is even or :math:`a^2` is odd." In terms of symbolic logic, this amounts to the following inference: from :math:`\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))`, we can conclude :math:`\mathit{even}(t) \vee \mathit{odd}(t)` for any term :math:`t`. This motivates the elimination rule for the universal quantifier:
 

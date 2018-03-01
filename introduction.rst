@@ -223,10 +223,10 @@ Goals Summarized
 
 To summarize, these are the goals of this course:
 
--  to teach you to write clear, "literate," mathematical proofs
--  to introduce you to symbolic logic and the formal modeling of deductive proof
--  to introduce you to interactive theorem proving
--  to teach you to understand how to use logic as a precise language for making claims about systems of objects and the relationships between them, and specifying certain states of affairs
+-  You should learn to write clear, "literate," mathematical proofs.
+-  You should become comfortable with symbolic logic and the formal modeling of deductive proof.
+-  You should learn how to use an interactive proof assistant.
+-  You should understand how to use logic as a precise language for making claims about systems of objects and the relationships between them, and specifying certain states of affairs.
 
 Let us take a moment to consider the relationship between some of these goals. It is important not to confuse the first three. We are dealing with three kinds of mathematical language: ordinary mathematical language, the symbolic representations of mathematical logic, and computational implementations in interactive proof assistants. These are very different things!
 

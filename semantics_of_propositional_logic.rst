@@ -47,8 +47,8 @@ In the world described by the solution to the puzzle, the first and third statem
 
 Once we have a truth assignment :math:`v` to a set of propositional variables, we can extend it to a *valuation function* :math:`\bar v`, which assigns a value of true or false to every propositional formula that depends only on these variables. The function :math:`\bar v` is defined recursively, which is to say, formulas are evaluated from the bottom up, so that value assigned to a compound formula is determined by the values assigned to its components. Formally, the function is defined as follows:
 
--  :math:`\bar v(\top) = \mathbf{T}`
--  :math:`\bar v(\bot) = \mathbf{F}`
+-  :math:`\bar v(\top) = \mathbf{T}`.
+-  :math:`\bar v(\bot) = \mathbf{F}`.
 -  :math:`\bar v(\ell) = v(\ell)`, where :math:`\ell` is any propositional variable.
 -  :math:`\bar v(\neg A) = \mathbf{T}` if :math:`\bar v(A)` is :math:`\mathbf{F}`, and vice versa.
 -  :math:`\bar v(A \wedge B) = \mathbf{T}` if :math:`\bar v(A)` and :math:`\bar v(B)` are both :math:`\mathbf{T}`, and :math:`\mathbf{F}` otherwise.

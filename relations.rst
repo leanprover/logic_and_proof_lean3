@@ -20,7 +20,7 @@ We will start with a class of important binary relations in mathematics, namely,
 
 - *reflexivity*: :math:`a \leq a`, for every :math:`a` in :math:`A`
 - *transitivity*: if :math:`a \leq b` and :math:`b \leq c`, then :math:`a \leq c`, for every :math:`a`, :math:`b`, and :math:`c` in :math:`A`
-- *antisymmetry*: if :math:`a \leq b` and :math:`b \leq a` then :math:`a = b`, for every :math:`a` and :math:`b` in :math:`A`.
+- *antisymmetry*: if :math:`a \leq b` and :math:`b \leq a` then :math:`a = b`, for every :math:`a` and :math:`b` in :math:`A`
 
 ----
 
@@ -54,7 +54,7 @@ These are not fully representative of the class of partial orders, in that they 
 
 **Definition.** A partial order :math:`\leq` on a domain :math:`A` is a *total order* (also called a *linear order*) if it also has the following property:
 
--  for every :math:`a` and :math:`b` in :math:`A`, either :math:`a \leq b` or :math:`b \leq a`.
+-  for every :math:`a` and :math:`b` in :math:`A`, either :math:`a \leq b` or :math:`b \leq a`
 
 ----
 
@@ -69,12 +69,12 @@ On the integers, we also have the strict order relation, :math:`<`, which is not
 
 **Definition.** A binary relation :math:`<` on a domain :math:`A` is a *strict partial order* if it satisfies the following:
 
--  *irreflexivity*: :math:`a \nless a` for every :math:`a` in :math:`A`.
--  *transitivity*: :math:`a < b` and :math:`b < c` implies :math:`a < c`, for every :math:`a`, :math:`b`, and :math:`c` in :math:`A`.
+-  *irreflexivity*: :math:`a \nless a` for every :math:`a` in :math:`A`
+-  *transitivity*: :math:`a < b` and :math:`b < c` implies :math:`a < c`, for every :math:`a`, :math:`b`, and :math:`c` in :math:`A`
 
 A strict partial order is a *strict total order* (or *strict linear order*) if, in addition, we have the following property:
 
--  *trichotomy*: :math:`a < b`, :math:`a = b`, or :math:`a > b` for every :math:`a` and :math:`b` in :math:`A`.
+-  *trichotomy*: :math:`a < b`, :math:`a = b`, or :math:`a > b` for every :math:`a` and :math:`b` in :math:`A`
 
 ----
 
@@ -155,7 +155,7 @@ Notice that the statement "a minimal element of a partial order is not necessari
 
 .. math::
 
-   \exists x \; (\forall y \; (y \nless x) \wedge \forall y \; (x \leq y)).
+   \exists x \; (\forall y \; (y \nless x) \wedge \forall y \; (x \leq y))
 
 The assertion that there exists a domain :math:`A`, and a partial order :math:`\leq` on that domain :math:`A`, is more dramatic: it is a "higher order" existential assertion. But symbolic logic provides us with the means to make assertions like these as well, as we will see later on.
 
@@ -172,9 +172,9 @@ In ordinary mathematical language, an *equivalence relation* is defined as follo
 
 **Definition**. A binary relation :math:`\equiv` on some domain :math:`A` is said to be an *equivalence relation* if it is reflexive, symmetric, and transitive. In other words, :math:`\equiv` is an equivalent relation if it satisfies these three properties:
 
--  *reflexivity*: :math:`a \equiv a`, for every :math:`a` in :math:`A`.
--  *symmetry*: if :math:`a \equiv b`, then :math:`b \equiv a`, for every :math:`a` and :math:`b` in :math:`A`.
--  *transitivity*: if :math:`a \equiv b` and :math:`b \equiv c`, then :math:`a \equiv c`, for every :math:`a`, :math:`b`, and :math:`c` in :math:`A`.
+-  *reflexivity*: :math:`a \equiv a`, for every :math:`a` in :math:`A`
+-  *symmetry*: if :math:`a \equiv b`, then :math:`b \equiv a`, for every :math:`a` and :math:`b` in :math:`A`
+-  *transitivity*: if :math:`a \equiv b` and :math:`b \equiv c`, then :math:`a \equiv c`, for every :math:`a`, :math:`b`, and :math:`c` in :math:`A`
 
 ----
 
@@ -195,7 +195,7 @@ These three properties alone are not strong enough to characterize equality. You
 Here are two common mathematical examples:
 
 -  the relation on lines in a plane, given by ":math:`x` and :math:`y` are parallel"
--  for any fixed natural number :math:`m \geq 0`, the relation on natural numbers, given by ":math:`x` is congruent to :math:`y` modulo :math:`m`" (see :numref:`Chapter %s <elementary_number_theory>`). 
+-  for any fixed natural number :math:`m \geq 0`, the relation on natural numbers, given by ":math:`x` is congruent to :math:`y` modulo :math:`m`" (see :numref:`Chapter %s <elementary_number_theory>`) 
 
 Here, we say that :math:`x` is congruent to :math:`y` modulo :math:`m` if they leave the same remainder when divided by :math:`m`. Soon, you will be able to prove rigorously that this is equivalent to saying that :math:`x - y` is divisible by :math:`m`.
 

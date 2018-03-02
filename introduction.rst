@@ -87,12 +87,12 @@ If you consider the examples of proofs in the last section, you will notice that
 
 To that end, we will introduce symbols for key logical notions, including the following:
 
--  :math:`A \to B`, "if :math:`A` then :math:`B` "
--  :math:`A \wedge B`, ":math:`A` and :math:`B` "
--  :math:`A \vee B`, ":math:`A` or :math:`B` "
--  :math:`\neg A`, "not :math:`A`"
--  :math:`\forall x \; A`, "for every :math:`x`, :math:`A` "
--  :math:`\exists x \; A`, "for some :math:`x`, :math:`A` "
+-  :math:`A \to B`, ":math:`\mbox{if $A$ then $B$}`"
+-  :math:`A \wedge B`, ":math:`\mbox{$A$ and $B$}`"
+-  :math:`A \vee B`, ":math:`\mbox{$A$ or $B$}`"
+-  :math:`\neg A`, ":math:`\mbox{not $A$}`"
+-  :math:`\forall x \; A`, ":math:`\mbox{for every $x$, $A$}`"
+-  :math:`\exists x \; A`, ":math:`\mbox{for some $x$, $A$}`"
 
 We will then provide a formal proof system that will let us establish, deductively, that certain entailments between such statements are valid.
 

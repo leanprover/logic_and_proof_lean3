@@ -57,7 +57,7 @@ With this definition in hand, it is natural to wonder which of our favorite sets
 
    f(n) = \begin{cases}
             n / 2 & \mbox{if $n$ is even} \\
-            -(n + 1) / 2 & \mbox{if $n$ is odd}
+            -(n + 1) / 2 & \mbox{if $n$ is odd.}
           \end{cases}    
 
 We claim that :math:`f` is a bijection. To see that it is injective, suppose :math:`f(m) = f(n)`. If :math:`f(m)` (and hence also :math:`f(n)`) is nonnegative, then :math:`m` and :math:`n` are even, in which case :math:`m / 2 = n / 2` implies :math:`m = n`. Otherwise, :math:`m` and :math:`n` are odd, and again :math:`-(m+1) / 2 = -(n+1)/ 2` implies :math:`m = n`.
@@ -78,7 +78,7 @@ We will now build up an arsenal of theorems that we can use to show that various
 
    g(i) = \begin{cases}
             f(i) & \mbox{if $i < n$} \\
-            f(0) & \mbox{otherwise}
+            f(0) & \mbox{otherwise.}
           \end{cases}
 
 In other words, :math:`g` enumerates the elements of :math:`A` by using :math:`f` first, and then repeating the element :math:`f(0)`. Clearly :math:`f` is surjective, as required.
@@ -103,7 +103,7 @@ In a manner similar to the way we proved that the integers are countable, we can
 
    h(n) = \begin{cases}
             f(n/2) & \mbox{if $n$ is even} \\
-            g((n-1)/2) & \mbox{if $n$ is odd}
+            g((n-1)/2) & \mbox{if $n$ is odd.}
           \end{cases}
 
 It is not hard to show that :math:`h` is surjective.
@@ -166,7 +166,7 @@ The previous theorem has a number of interesting consequences.
 
      f(i,j) = \begin{cases}
                 i / j & \mbox{if $j \neq 0$} \\
-                0 & \mbox{otherwise}
+                0 & \mbox{otherwise.}
               \end{cases}
 
 Since every element of :math:`\mathbb{Q}` can be written as :math:`i / j` for some :math:`i` and :math:`j` in :math:`\mathbb{Z}`, :math:`f` is surjective.
@@ -242,7 +242,7 @@ The following provides another example of an uncountable set.
 
 .. math::
 
-   S = \{ n \in \mathbb{N} \mid n \notin f(n) \}
+   S = \{ n \in \mathbb{N} \mid n \notin f(n) \}.
 
 In words, for every natural number, :math:`n`, :math:`n` is in :math:`S` if and only if it is not in :math:`f(n)`. Then clearly for every :math:`n`, :math:`f(n) \neq S`. So :math:`f` is not surjective.
 

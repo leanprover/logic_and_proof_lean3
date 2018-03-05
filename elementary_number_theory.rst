@@ -167,7 +167,7 @@ Here is an important result about greatest common divisors. It is only called a 
 
 .. math::
 
-   r_{k+2} = (a_k-qa_{k+1})s + (b_k-qb_{k+1})t
+   r_{k+2} = (a_k-qa_{k+1})s + (b_k-qb_{k+1})t.
 
 This completes the induction. In particular, :math:`r_{n-1} = a_{n-1}s+b_{n-1}t`, and since :math:`\gcd(s,t)=\pm r_{n-1}` we can write :math:`\gcd(s,t)` as :math:`as+bt` for some :math:`a` and :math:`b`.
 
@@ -333,7 +333,7 @@ Recall the quotient-remainder theorem: if :math:`n > 0`, then any integer :math:
    0^2&\equiv 0\pmod{4}\\
    1^2&\equiv 1\pmod{4}\\
    2^2&\equiv 0\pmod{4}\\
-   3^2&\equiv 1\pmod{4}
+   3^2&\equiv 1\pmod{4}.
 
 Since every number is congruent to 0, 1, 2 or 3 modulo 4, we know that every square is congruent to 0 or 1 modulo 4. This means that there are only four possibilities for :math:`a^2+b^2\pmod{4}`. It can be congruent to :math:`0+0`, :math:`1+0`, :math:`0+1` or :math:`0+0`. In all those cases, :math:`a^2+b^2\not\equiv 3\pmod{4}` Hence :math:`4\nmid a^2+b^2-3`, proving the proposition.
 
@@ -416,12 +416,12 @@ Exercises
 
 #. Prove the following properties about divisibility (for any integers :math:`a`, :math:`b` and :math:`c`):
 
-   -  if :math:`a \mid b` and :math:`a \mid c` then :math:`a \mid b + c` and :math:`a \mid b - c`;
-   -  if :math:`a \mid b` then :math:`a \mid bc`;
+   -  If :math:`a \mid b` and :math:`a \mid c` then :math:`a \mid b + c` and :math:`a \mid b - c`.
+   -  If :math:`a \mid b` then :math:`a \mid bc`.
    -  :math:`a \mid 0`;
-   -  if :math:`0 \mid a` then :math:`a = 0`;
-   -  if :math:`a \neq 0` then the statements :math:`b \mid c` and :math:`ab \mid ac` are equivalent;
-   -  if :math:`a \mid b` and :math:`b \neq 0` then :math:`|a| \leq |b|`.
+   -  If :math:`0 \mid a` then :math:`a = 0`.
+   -  If :math:`a \neq 0` then the statements :math:`b \mid c` and :math:`ab \mid ac` are equivalent.
+   -  If :math:`a \mid b` and :math:`b \neq 0` then :math:`|a| \leq |b|`.
 
 #. Prove that for any integer :math:`n`, :math:`n^2` leaves a remainder of 0 or 1 when you divide it by 4. Conclude that :math:`n^2 + 2` is never divisible by 4.
 
@@ -447,10 +447,10 @@ Exercises
 
 #. Check whether the following multiplicative inverses exist, and if so, find them.
 
-   -  The multiplicative inverse of 5 modulo 7;
-   -  The multiplicative inverse of 17 modulo 21;
-   -  The multiplicative inverse of 4 modulo 14;
-   -  The multiplicative inverse of :math:`-2` modulo 9.
+   -  the multiplicative inverse of 5 modulo 7
+   -  the multiplicative inverse of 17 modulo 21
+   -  the multiplicative inverse of 4 modulo 14
+   -  the multiplicative inverse of :math:`-2` modulo 9
 
 #. Find all integers :math:`x` such that :math:`75x \equiv 45 \pmod{8}`.
 

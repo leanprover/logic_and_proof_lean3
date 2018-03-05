@@ -627,9 +627,9 @@ is an example of a propositional formula.
 
 When writing expressions in symbolic logic, we will adopt an order of operations which allows us to drop superfluous parentheses. When parsing an expression:
 
--  negation binds most tightly
--  then conjunctions and disjunctions, from right to left
--  and finally implications and bi-implications.
+-  Negation binds most tightly.
+-  Then, conjunctions and disjunctions bind from right to left.
+-  Finally, implications and bi-implications bind from right to left.
 
 So, for example, the expression :math:`\neg A \vee B \to C \wedge D` is understood as :math:`((\neg A) \vee B) \to (C \wedge D)`
 

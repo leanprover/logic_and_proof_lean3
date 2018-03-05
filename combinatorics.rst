@@ -69,7 +69,7 @@ Here is a basic counting principle.
    h(i) =
      \begin{cases}
        f(i) & \mbox{if $i < m$} \\
-       g(i - m) & \mbox{if $m \leq i < m + n$}    
+       g(i - m) & \mbox{if $m \leq i < m + n$.}    
      \end{cases}
 
 To see that :math:`h` is surjective, note that every :math:`k` in :math:`A \cup B` can be written as either :math:`k = f(i)` for some :math:`i \in [m]` or :math:`k = g(j)` for some :math:`j \in [n]`. In the first case, :math:`k = f(i) = h(i)`, and in the second case, :math:`k = g(j) = h(m + j)`.
@@ -254,7 +254,7 @@ The theorem can also be proved by direct calculation. We can express the left-ha
 
 .. math::
 
-   \binom{n+1}{k+1} & = \frac{(n + 1)!}{(k+1)!((n+1)-(k+1))!} \\ & = \frac{(n + 1)!}{(k+1)!(n - k)!}
+   \binom{n+1}{k+1} & = \frac{(n + 1)!}{(k+1)!((n+1)-(k+1))!} \\ & = \frac{(n + 1)!}{(k+1)!(n - k)!}.
 
 Similarly, we can simplify the right-hand side:
 
@@ -265,7 +265,7 @@ Similarly, we can simplify the right-hand side:
    & = \frac{n!(n-k)}{(k+1)!(n-k)!} + \frac{(k+1)n!}{(k+1)!(n-k)!} \\
    & = \frac{n!(n-k + k + 1)}{(k+1)!(n-k)!} \\
    & = \frac{n!(n + 1)}{(k+1)!(n-k)!} \\
-   & = \frac{(n + 1)!}{(k+1)!(n-k)!}
+   & = \frac{(n + 1)!}{(k+1)!(n-k)!}.
 
 Thus the left-hand side and the right-hand side are equal.
 
@@ -356,7 +356,7 @@ This generalizes to any number of sets. To state the general result, suppose the
 
 .. math::
 
-   \left| \bigcup_{i < n} A_i \right| = \sum_{\emptyset \ne I \subseteq [n]} (-1)^{|I|} \left| \bigcap_{i \in I} A_i \right| 
+   \left| \bigcup_{i < n} A_i \right| = \sum_{\emptyset \ne I \subseteq [n]} (-1)^{|I|} \left| \bigcap_{i \in I} A_i \right| .
 
 You are invited to try proving this as an exercise, if you are ambitious. The following example illustrates its use:
 

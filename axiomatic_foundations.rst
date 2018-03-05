@@ -14,25 +14,21 @@ At the end of this chapter, we will briefly describe another axiomatic framework
 Basic Axioms for Sets
 ---------------------
 
-The axioms of set theory are expressed in first-order logic, for a language with a single binary relation symbol, :math:`\mathord{\in}`. We think of the entire mathematical universe as consisting of nothing but sets; if :math:`x` and :math:`y` are sets, we can express that :math:`x` is an element of :math:`y` by writing :math:`x \in y`. The first axiom says that two sets are equal if and only if they have the same elements:
+The axioms of set theory are expressed in first-order logic, for a language with a single binary relation symbol, :math:`\mathord{\in}`. We think of the entire mathematical universe as consisting of nothing but sets; if :math:`x` and :math:`y` are sets, we can express that :math:`x` is an element of :math:`y` by writing :math:`x \in y`. The first axiom says that two sets are equal if and only if they have the same elements.
 
 .. math::
 
     \text{Extensionality:} \;\; \forall x, y \; (x = y \leftrightarrow \forall z (z \in x \leftrightarrow z \in y))
 
-The next axiom tells us that there is at least one interesting set in the universe, namely, the set with no element:
+The next axiom tells us that there is at least one interesting set in the universe, namely, the set with no element.
 
 .. math::
 
     \text{Empty set:} \;\; \exists x \; \forall y \; y \notin x
 
-Here, if course, :math:`x \notin y` abbreviates :math:`\neg (x \in y)`. By the axiom of extensionality, the set asserted to exist by this axiom is unique: in other words, if :math:`x_1` and :math:`x_2` each have no elements, then, vacuously, any element is in one if and only if it is in the other, so :math:`x_1 = x_2`. This justifies using the word *the* in the phrase *the empty set*. Given this fact, it should seem harmless to introduce a new symbol, :math:`\emptyset`, to denote the set matching that description. Indeed, one can show that this is case: in a precise sense, such expansions to a first-order language can be viewed as nothing more than a convenient manner of expression, and statements in the bigger language can be translated to the original language in a way that justifies all the expected inferences. We will not go into the details here, and, rather, take this fact for granted. Using the new symbol, the empty set axiom tells us the empty set satisfies the following property:
+Here, if course, :math:`x \notin y` abbreviates :math:`\neg (x \in y)`. By the axiom of extensionality, the set asserted to exist by this axiom is unique: in other words, if :math:`x_1` and :math:`x_2` each have no elements, then, vacuously, any element is in one if and only if it is in the other, so :math:`x_1 = x_2`. This justifies using the word *the* in the phrase *the empty set*. Given this fact, it should seem harmless to introduce a new symbol, :math:`\emptyset`, to denote the set matching that description. Indeed, one can show that this is case: in a precise sense, such expansions to a first-order language can be viewed as nothing more than a convenient manner of expression, and statements in the bigger language can be translated to the original language in a way that justifies all the expected inferences. We will not go into the details here, and, rather, take this fact for granted. Using the new symbol, the empty set axiom tells us the empty set satisfies the property :math:`\forall y \; y \notin \emptyset`.
 
-.. math::
-
-    \forall y \; y \notin \emptyset
-
-The third axiom tells us that given two sets :math:`x` and :math:`y`, we can form a new set :math:`z` whose elements are exactly :math:`x` and :math:`y`:
+The third axiom tells us that given two sets :math:`x` and :math:`y`, we can form a new set :math:`z` whose elements are exactly :math:`x` and :math:`y`.
 
 .. math::
 
@@ -44,7 +40,7 @@ There is a stealth usage of this axiom lurking nearby. The axiom does not requir
 
     \emptyset, \;\; \{ \emptyset \}, \; \; \{ \{ \emptyset \} \}, \;\; \{ \emptyset, \{ \emptyset \} \}, \;\; \{ \{ \{ \emptyset \} \} \}, \;\; \ldots
 
-Still, we can never form a set with more than two elements in this way. To that end, it would be reasonable to add an axiom that asserts for every :math:`x` and :math:`y`, the set :math:`x \cup y` exists. But we can do better. Remember that if :math:`x` is any set, :math:`\bigcup x` denotes the union of all the sets in :math:`x`. In other words, for any set :math:`z`, :math:`z` is an element of :math:`\bigcup x` if and only if :math:`z` is in :math:`w` for some set :math:`w` in :math:`x`. The following axiom asserts that this set exists:
+Still, we can never form a set with more than two elements in this way. To that end, it would be reasonable to add an axiom that asserts for every :math:`x` and :math:`y`, the set :math:`x \cup y` exists. But we can do better. Remember that if :math:`x` is any set, :math:`\bigcup x` denotes the union of all the sets in :math:`x`. In other words, for any set :math:`z`, :math:`z` is an element of :math:`\bigcup x` if and only if :math:`z` is in :math:`w` for some set :math:`w` in :math:`x`. The following axiom asserts that this set exists.
 
 .. math::
 
@@ -132,7 +128,7 @@ Let :math:`x` be any inductive set, as asserted to exist by the axiom of infinit
 
 .. math::
 
-    y = \bigcap \{ z \subseteq x \mid \mbox{$z$ is inductive} \}
+    y = \bigcap \{ z \subseteq x \mid \mbox{$z$ is inductive} \}.
 
 Here :math:`z \subseteq x` can also be written :math:`z \in \mathcal P(x)`, so the inside set exists by the separation axiom. According to this definition, :math:`y` is the intersection of every inductive subset of :math:`x`, so an element :math:`w` is in :math:`y` if and only if :math:`w` is in every inductive subset of :math:`x`. We claim that :math:`y` itself is inductive. First, we have :math:`\emptyset \in y`, since the empty set is an element of every inductive set. Next, suppose :math:`w` is in :math:`y`. Then :math:`w` is in every inductive subset of :math:`x`. But since every inductive set is closed under successor, :math:`\mathit{succ}(w)` is in every inductive subset of :math:`x`. So :math:`\mathit{succ}(w)` is in the intersection of all inductive subsets of :math:`x` --- which is :math:`y`!
 
@@ -146,9 +142,9 @@ There is only one piece of the puzzle missing. It is clear from the definition t
 
 ----
 
-*Lemma.* Every natural number is transitive.
+**Lemma.** Every natural number is transitive.
 
-*Proof.* By induction on the natural numbers. Clearly, :math:`\emptyset` is transitive. Suppose :math:`x` is transitive, and suppose :math:`y \in \mathit{succ}(x)` and :math:`z \in y`. Since :math:`\mathit{succ}(x) = x \cup \{ x \}`, we have :math:`y \in x` or :math:`y \in \{x\}`. If :math:`y \in x`, then by the inductive hypothesis, we have :math:`z \in x`, and hence :math:`z \in \mathit{succ}(x)`. Otherwise, we have :math:`y \in \{ x \}`, and so :math:`y = x`. In that case, again we have :math:`z \in x`, and hence :math:`z \in \mathit{succ}(x)`.
+**Proof.** By induction on the natural numbers. Clearly, :math:`\emptyset` is transitive. Suppose :math:`x` is transitive, and suppose :math:`y \in \mathit{succ}(x)` and :math:`z \in y`. Since :math:`\mathit{succ}(x) = x \cup \{ x \}`, we have :math:`y \in x` or :math:`y \in \{x\}`. If :math:`y \in x`, then by the inductive hypothesis, we have :math:`z \in x`, and hence :math:`z \in \mathit{succ}(x)`. Otherwise, we have :math:`y \in \{ x \}`, and so :math:`y = x`. In that case, again we have :math:`z \in x`, and hence :math:`z \in \mathit{succ}(x)`.
 
 ----
 
@@ -156,15 +152,15 @@ The next lemma shows that, on transitive sets, union acts like the predecessor o
 
 ----
 
-*Lemma.* If :math:`x` is transitive, then :math:`\bigcup \mathit{succ}(x) = x`.
+**Lemma.** If :math:`x` is transitive, then :math:`\bigcup \mathit{succ}(x) = x`.
 
-*Proof*. Suppose :math:`y` is in :math:`\bigcup \mathit{succ}(x) = \bigcup (x \cup \{ x \})`. Then either :math:`y \in z` for some :math:`z \in x`, or :math:`y \in x`. In the first case, also have :math:`y \in x`, since :math:`x` is transitive.
+**Proof**. Suppose :math:`y` is in :math:`\bigcup \mathit{succ}(x) = \bigcup (x \cup \{ x \})`. Then either :math:`y \in z` for some :math:`z \in x`, or :math:`y \in x`. In the first case, also have :math:`y \in x`, since :math:`x` is transitive.
 
 Conversely, suppose :math:`y` is in :math:`x`. Then :math:`y` is in :math:`\bigcup \mathit{succ}(x)`, since we have :math:`x \in \mathit{succ}(x)`.
 
-*Theorem.* :math:`\mathit{succ}` is injective on :math:`\mathbb{N}`.
+**Theorem.** :math:`\mathit{succ}` is injective on :math:`\mathbb{N}`.
 
-*Proof.* Suppose :math:`x` and :math:`y` are in :math:`\mathbb{N}`, and :math:`\mathit{succ}(x) = \mathit{succ}(y)`. Then :math:`x` and :math:`y` are both transitive, and we have :math:`x = \bigcup \mathit{succ}(x) = \bigcup \mathit{succ}(y) = y`.
+**Proof.** Suppose :math:`x` and :math:`y` are in :math:`\mathbb{N}`, and :math:`\mathit{succ}(x) = \mathit{succ}(y)`. Then :math:`x` and :math:`y` are both transitive, and we have :math:`x = \bigcup \mathit{succ}(x) = \bigcup \mathit{succ}(y) = y`.
 
 ----
 
@@ -177,7 +173,7 @@ The Remaining Axioms
 
 The seven axioms we have seen are quite powerful, and suffice to represent large portions of mathematics. We discuss the remaining axioms of Zermelo-Fraenkel set theory here.
 
-So far, none of the axioms we have seen rule out the possibility that a set :math:`x` can be an element of itself, that is, that we can have :math:`x \in x`. The following axiom precludes that:
+So far, none of the axioms we have seen rule out the possibility that a set :math:`x` can be an element of itself, that is, that we can have :math:`x \in x`. The following axiom precludes that.
 
 .. math::
 
@@ -203,7 +199,7 @@ It is consistent with all the axioms we have seen so far that every set in the m
 
 .. math::
 
-    \{ \mathbb{N}, \;\; \mathcal P(\mathbb{N}), \;\; \mathcal P(\mathcal P(\mathbb{N}), \;\; \mathcal P (\mathcal P (\mathcal P (\mathbb{N}))), \;\; \ldots \}
+    \{ \mathbb{N}, \;\; \mathcal P(\mathbb{N}), \;\; \mathcal P(\mathcal P(\mathbb{N}), \;\; \mathcal P (\mathcal P (\mathcal P (\mathbb{N}))), \;\; \ldots \}.
 
 The following axiom implies the existence of such a set. 
 
@@ -214,7 +210,7 @@ The following axiom implies the existence of such a set.
 
 Like the axiom of separation, this axiom is really a schema, which is to say, a separate axiom for each formula :math:`A`. Here, too, the variables :math:`y_1, y_2, \ldots, y_n` are free variables that can occur in :math:`A`. To understand the axiom, it is easiest to think of them as parameters that are fixed in the background, and then ignore them. The axioms says that if, for every :math:`z` in :math:`x` there is a unique :math:`w` satisfying :math:`A(z,w)`, then there is a single set, :math:`u`, that consists of the :math:`w` values corresponding to every such :math:`z`. In other words, if you think of :math:`A` as a function whose domain is :math:`x`, the axiom asserts that the range of that function exists. In the example above, :math:`x` is the natural numbers, and :math:`A(z, w)` says that :math:`w` is the :math:`z`-fold iterate of the power set of the natural numbers.
 
-The nine axioms we have listed so far comprise what is known as *Zermelo-Fraenkel Set Theory*. There is on additional axiom, the axiom of choice, which is usually listed separately for historical reasons: it was once considered controversial, and in the early days, mathematicians considered it important to keep track of whether the axiom was actually used in a proof. There are many equivalent formulations, but this one is one of the most straightforward:
+The nine axioms we have listed so far comprise what is known as *Zermelo-Fraenkel Set Theory*. There is on additional axiom, the axiom of choice, which is usually listed separately for historical reasons: it was once considered controversial, and in the early days, mathematicians considered it important to keep track of whether the axiom was actually used in a proof. There are many equivalent formulations, but this one is one of the most straightforward.
 
 .. math::
 

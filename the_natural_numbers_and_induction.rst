@@ -640,8 +640,8 @@ Exercises
 
 #. Let :math:`V` be a non-empty set of integers such that the following two properties hold:
 
-   -  if :math:`x, y \in V`, then :math:`x - y \in V`
-   -  if :math:`x \in V`, then every multiple of :math:`x` is an element of :math:`V`
+   -  If :math:`x, y \in V`, then :math:`x - y \in V`.
+   -  If :math:`x \in V`, then every multiple of :math:`x` is an element of :math:`V`.
 
    Prove that there is some :math:`d \in V`, such that :math:`V` is equal to the set of multiples of :math:`d`. Hint: use the least element principle.
 
@@ -665,16 +665,16 @@ Exercises
 
 #. Prove the following properties of negation and subtraction on the integers, using only the properties of negation and subtraction given in :numref:`the_integers`.
 
-   -  If :math:`n + m = 0` then :math:`m = -n`
-   -  :math:`-0 = 0`
-   -  If :math:`-n = -m` then :math:`n = m`
-   -  :math:`m + (n - m) = n`
-   -  :math:`-(n + m) = -n - m`
-   -  If :math:`m < n` then :math:`n - m > 0`
-   -  If :math:`m < n` then :math:`-m > -n`
-   -  :math:`n \cdot (-m) = -nm`
-   -  :math:`n(m - k) = nm - nk`
-   -  If :math:`n < m` then :math:`n - k < m - k`
+   -  If :math:`n + m = 0` then :math:`m = -n`.
+   -  :math:`-0 = 0`.
+   -  If :math:`-n = -m` then :math:`n = m`.
+   -  :math:`m + (n - m) = n`.
+   -  :math:`-(n + m) = -n - m`.
+   -  If :math:`m < n` then :math:`n - m > 0`.
+   -  If :math:`m < n` then :math:`-m > -n`.
+   -  :math:`n \cdot (-m) = -nm`.
+   -  :math:`n(m - k) = nm - nk`.
+   -  If :math:`n < m` then :math:`n - k < m - k`.
 
 #. Suppose you have an infinite chessboard with a natural number written in each square. The value in each square is the average of the values of the four neighboring squares. Prove that all the values on the chessboard are equal.
 

@@ -26,7 +26,7 @@ In the next example, we focus on the natural numbers,
 
 .. math::
 
-   \mathbb{N} = \{ 0, 1, 2, \ldots \} 
+   \mathbb{N} = \{ 0, 1, 2, \ldots \}.
 
 A natural number :math:`n` greater than or equal to 2 is said to be *composite* if it can be written as a product :math:`n = m \cdot k` where neither :math:`m` nor :math:`k` is equal to :math:`1`, and *prime* otherwise. Notice that if :math:`n = m \cdot k` witnesses the fact that :math:`n` is composite, then :math:`m` and :math:`k` are both smaller than :math:`n`. Notice also that, by convention, 0 and 1 are considered neither prime nor composite.
 
@@ -110,7 +110,7 @@ symbol can be expressed as follows:
    \Axiom$\Gamma \fCenter A$
    \Axiom$\Delta \fCenter B$
    \BinaryInf$\Gamma, \Delta \fCenter A \wedge B$
-   \end{prooftree}
+   \end{prooftree}.
 
 This should be interpreted as saying: assuming :math:`A` follows from the hypotheses :math:`\Gamma`, and :math:`B` follows from the hypotheses :math:`\Delta`, :math:`A \wedge B` follows from the hypotheses in both :math:`\Gamma` and :math:`\Delta`.
 

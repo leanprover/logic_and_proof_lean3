@@ -14,7 +14,7 @@ If :math:`A` and :math:`B` are two finite sets, then they have the same cardinal
 
 ----
 
-At this stage, saying that :math:`A` and :math:`B` have the same cardinality may sound strange, because it is not clear that there is any object, "the cardinality of :math:`A`," that they both "have." It turns out that, in set-theoretic foundations, there are certain objects --- generalizations of the natural numbers --- that one can use to measure the size of an infinite set. There are known as the "cardinal numbers" or "cardinals." But they are irrelevant to our purposes here. For the rest of this chapter, when we say that :math:`A` and :math:`B` have the same cardinality, we mean neither more nor less than the fact that there is a bijection between them.
+At this stage, saying that :math:`A` and :math:`B` have the same cardinality may sound strange, because it is not clear that there is any object, "the cardinality of :math:`A`," that they both "have." It turns out that, in set-theoretic foundations, there are certain objects---generalizations of the natural numbers---that one can use to measure the size of an infinite set. There are known as the "cardinal numbers" or "cardinals." But they are irrelevant to our purposes here. For the rest of this chapter, when we say that :math:`A` and :math:`B` have the same cardinality, we mean neither more nor less than the fact that there is a bijection between them.
 
 The following theorem says, essentially, that equinumerosity is an equivalence relation. (The caveat is that so far we have spoke only of relations between sets, and the collection of all sets is not itself a set.)
 

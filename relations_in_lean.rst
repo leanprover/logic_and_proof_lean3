@@ -116,7 +116,7 @@ But typing underscores is annoying, too. The best solution is to declare the arg
 
 In fact, the notions ``reflexive``, ``symmetric``, ``transitive``, and ``antisymmetric`` are defined in Lean's core library in exactly this way, so we are free to use them without defining them. (That is why we put our temporary definitions of in a namespace ``hide``; that means that the full name of our version of ``reflexive`` is ``hide.reflexive``, which, therefore, doesn't conflict with the one defined in the library.)
 
-In :numref:`order_relations` we showed that a strict partial order --- that is, a binary relation that is transitive and irreflexive --- is also asymmetric. Here is a proof of that fact in Lean.
+In :numref:`order_relations` we showed that a strict partial order---that is, a binary relation that is transitive and irreflexive---is also asymmetric. Here is a proof of that fact in Lean.
 
 .. code-block:: lean
 

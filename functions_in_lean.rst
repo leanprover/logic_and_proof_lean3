@@ -119,7 +119,7 @@ The first intended to denote the type of ordered pairs :math:`(u, v)`, where :ma
 -  If :math:`x` is a variable of type :math:`U`, and :math:`v` is any expression of type :math:`V`, then :math:`\lambda x \; v` is of type :math:`U \to V`.
 -  If :math:`f` is of type :math:`U \to V` and :math:`u` is of type :math:`U`, :math:`f(u)` is of type :math:`V`.
 
-In addition, simple type theory provides all the means we have in first-order logic --- boolean connectives, quantifiers, and equality --- to build propositions.
+In addition, simple type theory provides all the means we have in first-order logic---boolean connectives, quantifiers, and equality---to build propositions.
 
 A function :math:`f(x, y)` which takes elements of :math:`X` and :math:`Y` to a type :math:`Z` is viewed as an object of type :math:`X \times Y \to Z`. Similarly, a binary relation :math:`R(x,y)` on :math:`X` and :math:`Y` is viewed as an object of type :math:`X \times Y \to \mathrm{Prop}`. What makes higher-order logic "higher order" is that we can iterate the function type operation indefinitely. For example, if :math:`\mathbb{N}` is the type of natural numbers, :math:`\mathbb{N} \to \mathbb{N}` denotes the type of functions from the natural numbers to the natural numbers, and :math:`(\mathbb{N} \to \mathbb{N}) \to \mathbb{N}` denotes the type of functions :math:`F(f)` which take a function as argument, and return a natural number.
 

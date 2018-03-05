@@ -29,7 +29,7 @@ Sometimes, when we interpret a language in a particular domain, it is useful to 
 Truth in a Model
 ----------------
 
-Fix a first-order language. Suppose we have chosen a domain :math:`D` to interpret the language, along with an interpretation in :math:`D` of each of the symbols of that language. We will call this structure --- the domain :math:`D`, paired with the interpretation --- a *model* for the language. A model for a first-order language is directly analogous to a truth assignment for propositional logic, because it provides all the information we need to determine the truth value of each sentence in the language.
+Fix a first-order language. Suppose we have chosen a domain :math:`D` to interpret the language, along with an interpretation in :math:`D` of each of the symbols of that language. We will call this structure---the domain :math:`D`, paired with the interpretation---a *model* for the language. A model for a first-order language is directly analogous to a truth assignment for propositional logic, because it provides all the information we need to determine the truth value of each sentence in the language.
 
 The procedure for evaluating the truth of a sentence based on a model works the way you think it should, but the formal description is subtle. Recall the difference between *terms* and *assertions* that we made earlier in Chapter 4. Terms, like :math:`a`, :math:`x + y`, or :math:`f(c)`, are meant to represent objects. A term does not have a truth value, since (for example) it makes no sense to ask whether 3 is true or false. Assertions, like :math:`P(a)`, :math:`R(x, f(y))`, or :math:`a + b > a \wedge \mathit{prime}(c)`, apply predicate or relation symbols to terms to produce statements that could be true or false.
 
@@ -128,9 +128,9 @@ As was the case with propositional logic, we can extend the notion of validity t
 Soundness and Completeness
 --------------------------
 
-In propositional logic, we saw a close connection between the provable formulas and the tautologies --- specifically, a formula is provable if and only if it is a tautology. More generally, we say that a formula :math:`A` is a logical consequence of a set of hypotheses, :math:`\Gamma`, if and only if there is a natural deduction proof of :math:`A` from :math:`\Gamma`. It turns out that the analogous statements hold for first order logic.
+In propositional logic, we saw a close connection between the provable formulas and the tautologies---specifically, a formula is provable if and only if it is a tautology. More generally, we say that a formula :math:`A` is a logical consequence of a set of hypotheses, :math:`\Gamma`, if and only if there is a natural deduction proof of :math:`A` from :math:`\Gamma`. It turns out that the analogous statements hold for first order logic.
 
-The "soundness" direction --- the fact that if :math:`A` is provable from :math:`\Gamma` then :math:`A` is true in any model of :math:`\Gamma` --- holds for reasons that are similar to the reasons it holds in the propositional case. Specifically, the proof proceeds by showing that each rule of natural deduction preserves the truth in a model.
+The "soundness" direction---the fact that if :math:`A` is provable from :math:`\Gamma` then :math:`A` is true in any model of :math:`\Gamma`---holds for reasons that are similar to the reasons it holds in the propositional case. Specifically, the proof proceeds by showing that each rule of natural deduction preserves the truth in a model.
 
 The completeness theorem for first order logic was first proved by Kurt Gödel in his 1929 dissertation. Another, simpler proof was later provided by Leon Henkin.
 

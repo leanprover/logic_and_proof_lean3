@@ -961,7 +961,7 @@ Exercises
          sorry
        end
 
-#. Replace each "sorry" below by the correct axiom from the list.
+#. Replace each `sorry` below by the correct axiom from the list.
 
    .. code-block:: lean
 

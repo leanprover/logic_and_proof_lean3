@@ -196,7 +196,7 @@ We can define :math:`\mathbb{R}` to be the set of Dedekind cuts. A Dedekind cut 
 
 .. math::
 
-    (A_1, B_1) + (A_2, B_2) = ( \{a_1 + a_2 \mid a_1 \in A_1, a_2 \in A_2 \}, \{b_1 + b_2 \mid b_1 \in B_1, b_2 \in B_2 \} )
+    (A_1, B_1) + (A_2, B_2) = ( \{a_1 + a_2 \mid a_1 \in A_1, a_2 \in A_2 \}, \{b_1 + b_2 \mid b_1 \in B_1, b_2 \in B_2 \} ).
 
 Some authors prefer this construction to the Cauchy sequence construction because it avoids taking the quotient of a set, and thus removes the complication of showing that arithmetic operations respect equivalence. Others prefer Cauchy sequences since they provide a clearer notion of approximation: if a real number :math:`r` is given by a Cauchy sequence :math:`(q_i)_{i \in \mathbb{N}}`, then an arbitrarily close rational approximation of :math:`r` is given by :math:`q_N` for a sufficiently large :math:`N`.
 
@@ -208,7 +208,7 @@ For most mathematicians most of the time, though, the difference is immaterial. 
 -  :math:`f(x \cdot y)=f(x) \cdot f(y)`
 -  :math:`f(-x)=-f(x)`
 -  :math:`f(x^{-1})=f(x)^{-1}`
--  :math:`f(x) \leq f(y) \iff x \leq y`.
+-  :math:`f(x) \leq f(y) \iff x \leq y`
 
 We say that the two constructions are *isomorphic*, and that the function :math:`f` is an *isomorphism*. Since we often only care about the real numbers in regard to their status as a complete ordered field, and the two constructions are indistinguishable as ordered fields, it makes no difference which construction is used.
 

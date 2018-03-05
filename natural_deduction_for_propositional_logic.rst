@@ -14,7 +14,7 @@ We have seen that the language of propositional logic allows us to build up expr
 
 In natural deduction, every proof is a proof from *hypotheses*. In other words, in any proof, there is a finite set of hypotheses :math:`\{ B, C, \ldots \}` and a conclusion :math:`A`, and what the proof shows is that :math:`A` follows from :math:`B, C, \ldots`.
 
-Like formulas, proofs are built by putting together smaller proofs, according to the rules. For instance, the way to read the and-introduction rule,
+Like formulas, proofs are built by putting together smaller proofs, according to the rules. For instance, the way to read the and-introduction rule
 
 .. raw:: html
 

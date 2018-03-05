@@ -316,22 +316,14 @@ Using classical reasoning, implication can be rewritten in terms of disjunction 
 
 .. math::
 
-   (A \to B) \leftrightarrow \neg A \vee B
+   (A \to B) \leftrightarrow \neg A \vee B.
 
 The forward direction requires classical reasoning.
 
 The following equivalences are known as De Morgan's laws:
 
-.. raw:: html
-
-   <img src="_static/classical_reasoning.7.png">
-
-.. raw:: latex
- 
-   \begin{align*}
-     \neg (A \vee B) & \leftrightarrow \neg A \wedge \neg B \\
-     \neg (A \wedge B) & \leftrightarrow \neg A \vee \neg B 
-   \end{align*}
+- :math:`\neg (A \vee B) \leftrightarrow \neg A \wedge \neg B`
+- :math:`\neg (A \wedge B) \leftrightarrow \neg A \vee \neg B`
 
 The forward direction of the second of these requires classical reasoning.
 
@@ -347,7 +339,7 @@ Using these identities, we can always push negations down to propositional varia
      \neg (\neg A \wedge B \to C) 
        & \leftrightarrow \neg (\neg (\neg A \wedge B) \vee C) \\
        & \leftrightarrow \neg \neg (\neg A \wedge B) \wedge \neg C \\
-       & \leftrightarrow \neg A \wedge B \wedge \neg C
+       & \leftrightarrow \neg A \wedge B \wedge \neg C.
    \end{align*}
 
 A formula built up from :math:`\wedge`, :math:`\vee`, and :math:`\neg` in which negations only occur at variables is said to be in *negation normal form*.

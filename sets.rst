@@ -37,50 +37,48 @@ Using set-builder notation, we can define a number of common sets and operations
 
 .. math::
 
-   \emptyset = \{ x \mid \mbox{false} \}
+   \emptyset = \{ x \mid \mbox{false} \}.
 
 Dually, we can define the *universal set*, :math:`\mathcal U`, to be the set consisting of every element of the domain:
 
 .. math::
 
-   \mathcal U = \{ x \mid \mbox{true} \}
+   \mathcal U = \{ x \mid \mbox{true} \}.
 
 Given two sets :math:`A` and :math:`B`, we define their *union* to be the set of elements in either one:
 
 .. math::
 
-   A \cup B = \{ x \mid \mbox{$x \in A$ or $x \in B$} \}
+   A \cup B = \{ x \mid \mbox{$x \in A$ or $x \in B$} \}.
 
 And we define their *intersection* to be the set of elements of both:
 
 .. math::
 
-   A \cap B = \{ x \mid \mbox{$x \in A$ and $x \in B$} \}
+   A \cap B = \{ x \mid \mbox{$x \in A$ and $x \in B$} \}.
 
 We define the *complement* of a set of :math:`A` to be the set of elements that are not in :math:`A`:
 
 .. math::
 
-   \overline A = \{ x \mid \mbox{$x \notin A$} \}
+   \overline A = \{ x \mid \mbox{$x \notin A$} \}.
 
 We define the *set difference* of two sets :math:`A` and :math:`B` to be the set of elements in :math:`A` but not :math:`B`:
 
 .. math::
 
-   A \setminus B = \{ x \mid \mbox{$x \in A$ and $x \notin B$} \}
+   A \setminus B = \{ x \mid \mbox{$x \in A$ and $x \notin B$} \}.
 
 Two sets are said to be equal if they have exactly the same elements. If :math:`A` and :math:`B` are sets, :math:`A` is said to be a *subset* of :math:`B`, written :math:`A \subseteq B`, if every element of :math:`A` is an element of :math:`B`. Notice that :math:`A` is equal to :math:`B` if and only if :math:`A` is a subset of :math:`B` and :math:`B` is a subset of :math:`A`.
 
 Notice also that just everything we have said about sets so far is readily representable in symbolic logic. We can render the defining properties of the basic sets and constructors as follows:
 
-.. math::
-
-   & \forall x \; (x \in \emptyset \leftrightarrow \bot) \\
-   & \forall x \; (x \in \mathcal U \leftrightarrow \top) \\
-   & \forall x \; (x \in A \cup B \leftrightarrow x \in A \vee x \in B) \\
-   & \forall x \; (x \in A \cap B \leftrightarrow x \in A \wedge x \in B) \\
-   & \forall x \; (x \in \overline A \leftrightarrow x \notin A) \\
-   & \forall x \; (x \in A \setminus B \leftrightarrow  x \in A \wedge x \notin B)
+- :math:`\forall x \; (x \in \emptyset \leftrightarrow \bot)`
+- :math:`\forall x \; (x \in \mathcal U \leftrightarrow \top)`
+- :math:`\forall x \; (x \in A \cup B \leftrightarrow x \in A \vee x \in B)`
+- :math:`\forall x \; (x \in A \cap B \leftrightarrow x \in A \wedge x \in B)`
+- :math:`\forall x \; (x \in \overline A \leftrightarrow x \notin A)`
+- :math:`\forall x \; (x \in A \setminus B \leftrightarrow  x \in A \wedge x \notin B)`
 
 The assertion that :math:`A` is a subset of :math:`B` can be written :math:`\forall x \; (x \in A \to x \in B)`, and the assertion that :math:`A` is equal to be can be written :math:`\forall x \; (x \in A \leftrightarrow  x \in B)`. These are all *universal* statements, that is, statements with universal quantifiers in front, followed by basic assertions and propositional connectives. What this means is that reasoning about sets formally often amounts to using nothing more than the rules for the universal quantifier together with the rules for propositional logic.
 
@@ -203,7 +201,7 @@ In some places, students are asked to write proofs like this:
     \frac{n(n+1)}{2} + (n + 1) & =? \frac{(n+1)(n+2)}{2} \\
     \frac{n^2+n}{2} + \frac{2n + 2}{2} & =? \frac{n^2 + 3n + 2}{2} \\
     \frac{n^2+n + 2n + 2}{2} & =? \frac{n^2 + 3n + 2}{2} \\
-    \frac{n^2+3n + 2}{2} & = \frac{n^2 + 3n + 2}{2} \\
+    \frac{n^2+3n + 2}{2} & = \frac{n^2 + 3n + 2}{2}. \\
 
 ----
 
@@ -326,7 +324,7 @@ Here is another example.
    & = ((A \cup B) \cap (\overline B \cup B)) \cap ((A \cup \overline A) \cap (\overline B \cup \overline A)) \\
    & = ((A \cup B) \cap \mathcal U) \cap (\mathcal U \cap \overline{B \cap A}) \\
    & = (A \cup B) \cap (\overline{A \cap B}) \\
-   & = (A \cup B) \setminus (A \cap B)
+   & = (A \cup B) \setminus (A \cap B).
 
 ----
 
@@ -390,13 +388,13 @@ Given a family :math:`(A_i)_{i\in I}` of sets indexed by :math:`I`, we can form 
 
 .. math::
 
-   \bigcup_{i \in I} A_i = \{ x \mid x \in A_i \text{ for some $i \in I$} \}
+   \bigcup_{i \in I} A_i = \{ x \mid x \in A_i \text{ for some $i \in I$} \}.
 
 We can also form the *intersection* of a family of sets:
 
 .. math::
 
-   \bigcap_{i \in I} A_i = \{ x \mid x \in A_i \text{ for every $i \in I$} \}
+   \bigcap_{i \in I} A_i = \{ x \mid x \in A_i \text{ for every $i \in I$} \}.
 
 So an element :math:`x` is in :math:`\bigcup_{i \in I} A_i` if and only if :math:`x` is in :math:`A_i` for *some* :math:`i` in :math:`I`, and :math:`x` is in :math:`\bigcap_{i \in I} A_i` if and only if :math:`x` is in :math:`A_i` for every :math:`i` in :math:`I`. These operations are represented in symbolic logic by the existential and the universal quantifiers. We have:
 
@@ -433,7 +431,7 @@ Let's prove the first identity. Notice how the logical forms of the assertions :
 
 .. math::
 
-   A \cap \bigcup_{i \in I} B_i = \bigcup_{i \in I} (A \cap B_i)
+   A \cap \bigcup_{i \in I} B_i = \bigcup_{i \in I} (A \cap B_i).
 
 **Proof.** Suppose :math:`x` is in :math:`A \cap \bigcup_{i \in I} B_i`. Then :math:`x` is in :math:`A` and :math:`x` is in :math:`B_j` for some :math:`j \in I`. So :math:`x` is in :math:`A \cap B_j`, and hence in :math:`\bigcup_{i \in I} (A \cap B_i)`.
 

@@ -688,7 +688,7 @@ We will see in the coming chapters that in ordinary mathematical proofs, one com
     t_1 &= t_2 \\
      \ldots & = t_3 \\
      \ldots &= t_4 \\
-     \ldots &= t_5
+     \ldots &= t_5.
 
 Lean has a mechanism to model calculational proofs like this. Whenever a proof of an equation is expected, you can provide a proof using the identifier ``calc``, following by a chain of equalities and justification, in the following form:
 
@@ -961,7 +961,7 @@ Exercises
          sorry
        end
 
-#. Replace each `sorry` below by the correct axiom from the list.
+#. Replace each ``sorry`` below by the correct axiom from the list.
 
    .. code-block:: lean
 

@@ -155,7 +155,7 @@ Notice that the statement "a minimal element of a partial order is not necessari
 
 .. math::
 
-   \exists x \; (\forall y \; (y \nless x) \wedge \forall y \; (x \leq y))
+   \exists x \; (\forall y \; (y \nless x) \wedge \forall y \; (x \leq y)).
 
 The assertion that there exists a domain :math:`A`, and a partial order :math:`\leq` on that domain :math:`A`, is more dramatic: it is a "higher order" existential assertion. But symbolic logic provides us with the means to make assertions like these as well, as we will see later on.
 

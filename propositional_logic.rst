@@ -644,7 +644,7 @@ Then the statement "either Alice's husband was in the bar and Alice was on the b
 
 .. math::
 
-   (A \wedge B) \vee (C \wedge D)
+   (A \wedge B) \vee (C \wedge D).
 
 Sometimes the appropriate translation is not so straightforward, however. Because natural language is more flexible and nuanced, a degree of abstraction and regimentation is needed to carry out the translation. Sometimes different translations are arguably reasonable. In happy situations, alternative translations will be logically equivalent, in the sense that one can derive each from the other using purely logical rules. In less happy situations, the translations will not be equivalent, in which case the original statement is simply ambiguous, from a logical point of view. In cases like that, choosing a symbolic representation helps clarify the intended meaning.
 

@@ -14,7 +14,7 @@ The set of natural numbers is the set
 
 .. math::
 
-   \mathbb{N} = \{ 0, 1, 2, 3, \ldots \}
+   \mathbb{N} = \{ 0, 1, 2, 3, \ldots \}.
 
 In the past, opinions have differed as to whether the set of natural numbers should start with 0 or 1, but these days most mathematicians take them to start with 0. Logicians often call the function :math:`s(n) = n + 1` the *successor* function, since it maps each natural number, :math:`n`, to the one that follows it. What makes the natural numbers special is that they are *generated* by the number zero and the successor function, which is to say, the only way to construct a natural number is to start with :math:`0` and apply the successor function finitely many times. From a foundational standpoint, we are in danger of running into a circularity here, because it is not clear how we can explain what it means to apply a function "finitely many times" without talking about the natural numbers themselves. But the following principle, known as the *principle of induction*, describes this essential property of the natural numbers in a non-circular way.
 
@@ -38,7 +38,7 @@ Here is an example of a proof by induction.
 
 .. math::
 
-   1 + 2 + \ldots + 2^n = 2^{n+1} - 1
+   1 + 2 + \ldots + 2^n = 2^{n+1} - 1.
 
 **Proof.** We prove this by induction on :math:`n`. In the base case, when :math:`n = 0`, we have :math:`1 = 2^{0+1} - 1`, as required.
 
@@ -46,7 +46,7 @@ For the induction step, fix :math:`n`, and assume the *induction hypothesis*
 
 .. math::
 
-   1 + 2 + \ldots + 2^n = 2^{n+1} - 1
+   1 + 2 + \ldots + 2^n = 2^{n+1} - 1.
 
 We need to show that this same claim holds with :math:`n` replaced by :math:`n + 1`. But this is just a calculation:
 
@@ -55,7 +55,7 @@ We need to show that this same claim holds with :math:`n` replaced by :math:`n +
    1 + 2 + \ldots + 2^{n+1} & = (1 + 2 + \ldots + 2^n) + 2^{n+1} \\
    & = 2^{n+1} - 1 + 2^{n+1} \\
    & = 2 \cdot 2^{n+1} - 1 \\
-   & = 2^{n+2} - 1
+   & = 2^{n+2} - 1.
 
 ----
 
@@ -63,13 +63,13 @@ In the notation of first-order logic, if we write :math:`P(n)` to mean that :mat
 
 .. math::
 
-   P(0) \wedge \forall n \; (P(n) \to P(n + 1)) \to \forall n \; P(n)
+   P(0) \wedge \forall n \; (P(n) \to P(n + 1)) \to \forall n \; P(n).
 
 But notice that the principle of induction says that the axiom holds *for every property* :math:`P`, which means that we should properly use a universal quantifier for that, too:
 
 .. math::
 
-   \forall P \; (P(0) \wedge \forall n \; (P(n) \to P(n + 1)) \to \forall n \; P(n))
+   \forall P \; (P(0) \wedge \forall n \; (P(n) \to P(n + 1)) \to \forall n \; P(n)).
 
 Quantifying over properties takes us out of the realm of first-order logic; induction is therefore a second-order principle.
 
@@ -153,7 +153,7 @@ For the induction step, suppose :math:`n \ge 5` and :math:`2^n > n^2`. Since :ma
     (n+1)^2 &= n^2 + 2n + 1 \\
      & \leq n^2 + n^2 \\
      & < 2^n + 2^n \\
-     & = 2^{n+1}
+     & = 2^{n+1}.
 
 ----
 
@@ -191,8 +191,8 @@ To use the principle of complete induction we merely have to let :math:`n` be an
 
 .. math::
 
-   m = p_1 \cdot p_2 \cdot \ldots \cdot p_u
-   k = q_1 \cdot q_2 \cdot \ldots \cdot q_v
+   m = p_1 \cdot p_2 \cdot \ldots \cdot p_u \\
+   k = q_1 \cdot q_2 \cdot \ldots \cdot q_v.
 
 But then we have
 
@@ -200,7 +200,7 @@ But then we have
 
 
    n = m \cdot k = p_1 \cdot p_2 \cdot \ldots \cdot p_u \cdot q_1 \cdot
-   q_2 \cdot \ldots \cdot q_v
+   q_2 \cdot \ldots \cdot q_v.
 
 We see that :math:`n` is a product of primes, as required.
 
@@ -226,8 +226,8 @@ It is not surprising, then, that the least element principle can be used in much
 
 .. math::
 
-   m = p_1 \cdot p_2 \cdot \ldots \cdot p_u
-   k = q_1 \cdot q_2 \cdot \ldots \cdot q_v
+   m = p_1 \cdot p_2 \cdot \ldots \cdot p_u \\
+   k = q_1 \cdot q_2 \cdot \ldots \cdot q_v.
 
 But then we have
 
@@ -235,7 +235,7 @@ But then we have
 
 
    n = m \cdot k = p_1 \cdot p_2 \cdot \ldots \cdot p_u \cdot q_1 \cdot
-   q_2 \cdot \ldots \cdot q_v
+   q_2 \cdot \ldots \cdot q_v.
 
 We see that :math:`n` is a product of primes, contradicting the fact that :math:`n` cannot be
 written as a product of primes.
@@ -336,7 +336,7 @@ In the inductive step, we have
    & = n (n + 1) / 2 + n + 1 \\
    & = \frac{n^2 +n}{2} + \frac{2n + 2}{2} \\
    & = \frac{n^2 + 3n + 2}{2} \\
-   & = \frac{(n+1)(n+2)}{2}
+   & = \frac{(n+1)(n+2)}{2}.
 
 ----
 
@@ -604,7 +604,7 @@ The natural numbers are designed for counting discrete quantities, but they suff
 
 .. math::
 
-   \mathbb{Z} = \{ \ldots, -3, -2, -1, 0, 1, 2, 3, \ldots \}
+   \mathbb{Z} = \{ \ldots, -3, -2, -1, 0, 1, 2, 3, \ldots \}.
 
 We will see in a later chapter that the integers can be extended to the *rational numbers*, the *real numbers*, and the *complex numbers*, each of which serves useful purposes. For dealing with discrete quantities, however, the integers will get us pretty far.
 

@@ -40,18 +40,18 @@ For our logical language, we will choose symbols 1, 2, 3, :math:`\mathit{add}`, 
 
 First-order logic allows us to build complex expressions out of the basic ones. Starting with the variables and constants, we can use the function symbols to build up compound expressions like these:
 
-.. math::
-
-   x + y + z, \quad (x + 1) \times y \times y, \quad \mathit{square} (x + y \times z)
+-  :math:`x + y + z`
+-  :math:`(x + 1) \times y \times y`
+-  :math:`\mathit{square} (x + y \times z)`
 
 Such expressions are called "terms." Intuitively, they name objects in the intended domain of discourse.
 
 Now, using the predicates and relation symbols, we can make assertions about these expressions:
 
-.. math::
-
-   \mathit{even}(x + y + z), \quad \mathit{prime}((x + 1) \times y \times y), \quad
-   \mathit{square} (x + y \times z) = w, \quad x + y < z
+-  :math:`\mathit{even}(x + y + z)`
+-  :math:`\mathit{prime}((x + 1) \times y \times y)`
+-  :math:`\mathit{square} (x + y \times z) = w)`
+-  :math:`x + y < z`
 
 Even more interestingly, we can use propositional connectives to build compound expressions like these:
 
@@ -301,13 +301,13 @@ Now, suppose we are studying geometry, and we want to express the fact that give
    \forall {p, q, L, M} (\mathit{point}(p) \wedge \mathit{point}(q) \wedge
    \mathit{line}(L) \wedge \mathit{line}(M) \\
    \wedge \mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge
-   \mathit{on}(q,M) \to L = M)
+   \mathit{on}(q,M) \to L = M).
 
 But dealing with such predicates is tedious, and there is a mild extension of first-order logic, called *many-sorted first-order logic*, which builds in some of the bookkeeping. In many-sorted logic, one can have different sorts of objects---such as points and lines---and a separate stock of variables and quantifiers ranging over each. Moreover, the specification of function symbols and predicate symbols indicates what sorts of arguments they expect, and, in the case of function symbols, what sort of argument they return. For example, we might choose to have a sort with variables :math:`p, q, r, \ldots` ranging over points, a sort with variables :math:`L, M, N, \ldots` ranging over lines, and a relation :math:`\mathit{on}(p, L)` relating the two. Then the assertion above is rendered more simply as follows:
 
 .. math::
 
-   \forall {p, q, L, M} \; (\mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge \mathit{on}(q,M) \to L = M)
+   \forall {p, q, L, M} \; (\mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge \mathit{on}(q,M) \to L = M).
 
 Equality
 --------
@@ -371,13 +371,13 @@ In logic, the expression :math:`\exists!x \; A(x)` is used to express the fact t
 
 .. math::
 
-   \exists x \; A(x) \wedge \forall y \; \forall {y'} \; (A(y) \wedge A(y') \to y = y')
+   \exists x \; A(x) \wedge \forall y \; \forall {y'} \; (A(y) \wedge A(y') \to y = y').
 
 The first conjunct says that there is at least one object satisfying :math:`A`, and the second conjunct says that there is at most one. The same thing can be expressed more concisely as follows:
 
 .. math::
 
-   \exists x \; (A(x) \wedge \forall y \; (A(y) \to y = x))
+   \exists x \; (A(x) \wedge \forall y \; (A(y) \to y = x)).
 
 You should think about why this second expression works. In the next chapter we will see that, using the rules of natural deduction, we can prove that these two expressions are equivalent.
 

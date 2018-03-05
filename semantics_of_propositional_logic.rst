@@ -74,7 +74,7 @@ Why do we evaluate material implication in this way? Once again, let us consider
 
 The first sentence on this list is a lot like our "two heads" example, since both the hypothesis and the conclusion are false. But since it is an instance of a statement that is true in general, we are committed to assigning it the value :math:`\mathbf{T}`. The second sentence is a different: the hypothesis is still false, but here the conclusion is true. Together, these tell us that whenever the hypothesis is false, the conditional statement should be true. The fourth sentence has a true hypothesis and a true conclusion. So from the second and fourth sentences, we see that whenever the conclusion is true, the conditional should be true as well. Finally, it seems clear that the sentence "if 3 is prime and greater than 2, then 3 is even" should *not* be true. This pattern, where the hypothesis is true and the conclusion is false, is the only one for which the conditional will be false.
 
-Let us motivate the semantics for material implication another way, using the deductive rules described in the last chapter. Notice that, if :math:`B` is true, we can prove :math:`A \to B` without any assumptions about :math:`A`.
+Let us motivate the semantics for material implication another way, using the deductive rules described in the last chapter. Notice that, if :math:`B` is true, we can prove :math:`A \to B` without any assumptions about :math:`A`:
 
 .. raw:: html
 

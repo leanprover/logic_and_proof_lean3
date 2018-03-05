@@ -8,7 +8,7 @@ Let us now consider functions in formal terms. Even though we have avoided the u
 
 .. math::
 
-   \forall x \in X \; (f(x) = g(x)) \leftrightarrow f = g 
+   \forall x \in X \; (f(x) = g(x)) \leftrightarrow f = g .
 
 This principle is a known as *function extensionality*, analogous to the principle of extensionality for sets, discussed in :numref:`sets_in_lean_basics`. Recall that the notation :math:`\forall x \in X \; P(x)` abbreviates :math:`\forall x \; (x \in X \to P(x))`, and :math:`\exists x \in X \; P(x)` abbreviates :math:`\exists x \; (x \in X \wedge P(x))`, thereby relativizing the quantifiers to :math:`X`.
 

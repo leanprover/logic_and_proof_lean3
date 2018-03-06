@@ -110,7 +110,7 @@ symbol can be expressed as follows:
    \Axiom$\Gamma \fCenter A$
    \Axiom$\Delta \fCenter B$
    \BinaryInf$\Gamma, \Delta \fCenter A \wedge B$
-   \end{prooftree}.
+   \end{prooftree}
 
 This should be interpreted as saying: assuming :math:`A` follows from the hypotheses :math:`\Gamma`, and :math:`B` follows from the hypotheses :math:`\Delta`, :math:`A \wedge B` follows from the hypotheses in both :math:`\Gamma` and :math:`\Delta`.
 

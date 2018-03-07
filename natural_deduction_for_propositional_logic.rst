@@ -1,7 +1,7 @@
 Natural Deduction for Propositional Logic
 =========================================
 
-Reflecting on the arguments in the previous chapter, we see that, intuitively speaking, some inferences are *valid* and some are not. For example, if, in a chain of reasoning, we had established ":math:`A` and :math:`B`," it would seem perfectly reasonable to conclude :math:`B`. If we had established :math:`A`, :math:`B`, and "If :math:`A` and :math:`B` then :math:`C`," it would be reasonable to conclude :math:`C`. On the other hand, if we had established ":math:`A` or :math:`B`," we would not be justified concluding :math:`B` without further information.
+Reflecting on the arguments in the previous chapter, we see that, intuitively speaking, some inferences are *valid* and some are not. For example, if, in a chain of reasoning, we had established ":math:`A` and :math:`B`," it would seem perfectly reasonable to conclude :math:`B`. If we had established :math:`A`, :math:`B`, and "If :math:`A` and :math:`B` then :math:`C`," it would be reasonable to conclude :math:`C`. On the other hand, if we had established ":math:`A` or :math:`B`," we would not be justified in concluding :math:`B` without further information.
 
 The task of symbolic logic is to develop a precise mathematical theory that explains which inferences are valid and why. There are two general approaches to spelling out the notion of validity. In this chapter, we will consider the *deductive* approach: an inference is valid if it can be justified by fundamental rules of reasoning that reflect the meaning of the logical terms involved. In :numref:`Chapter %s <semantics_of_propositional_logic>` we will consider the "semantic" approach: an inference is valid if it is an instance of a pattern that always yields a true conclusion from true hypotheses.
 
@@ -660,7 +660,7 @@ Therefore, George is either studying or with his friends.
 
 ----
 
-Let :math:`A` be the statement that George is at home, let :math:`B` be the statement that George is on campus, let :math:`C` be the statement that George is studying, and let :math:`D` be the statement the George is with his friends. Then the argument above has the following pattern: from :math:`A \vee B`, :math:`A \to C`, and :math:`B \to D`, conclude :math:`C \vee D`. In natural deduction, we can not get away with drawing this conclusion in a single step, but it does not take too much work to flesh it out into a proper proof. Informally, we have to argue as follows.
+Let :math:`A` be the statement that George is at home, let :math:`B` be the statement that George is on campus, let :math:`C` be the statement that George is studying, and let :math:`D` be the statement the George is with his friends. Then the argument above has the following pattern: from :math:`A \vee B`, :math:`A \to C`, and :math:`B \to D`, conclude :math:`C \vee D`. In natural deduction, we cannot get away with drawing this conclusion in a single step, but it does not take too much work to flesh it out into a proper proof. Informally, we have to argue as follows.
 
 ----
 

@@ -631,7 +631,7 @@ When writing expressions in symbolic logic, we will adopt an order of operations
 -  Then, conjunctions and disjunctions bind from right to left.
 -  Finally, implications and bi-implications bind from right to left.
 
-So, for example, the expression :math:`\neg A \vee B \to C \wedge D` is understood as :math:`((\neg A) \vee B) \to (C \wedge D)`
+So, for example, the expression :math:`\neg A \vee B \to C \wedge D` is understood as :math:`((\neg A) \vee B) \to (C \wedge D)`.
 
 For example, suppose we assign the following variables:
 
@@ -676,7 +676,7 @@ Exercises
 
 #. Using the mnemonic :math:`F` (Father), :math:`M` (Mother), :math:`D` (Daughter), :math:`S` (Son), :math:`\mathord{Mu}` (Murderer), :math:`V` (Victim), :math:`W` (Witness), :math:`A` (Accessory), :math:`O` (Oldest), :math:`Y` (Youngest), we can define propositional variables like :math:`FM` (Father is the Murderer), :math:`DV` (Daughter is the Victim), :math:`FO` (Father is Oldest), :math:`VY` (Victim is Youngest), etc. Notice that only the son or daughter can be the youngest, and only the mother or father can be the oldest.
 
-   With these conventions, the first clue can be represented
+   With these conventions, the first clue can be represented as
 
    .. math::
 

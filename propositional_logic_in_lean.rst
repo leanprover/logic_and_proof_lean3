@@ -222,7 +222,7 @@ Let us introduce a new Lean command, ``example``. This command tells Lean that y
     assume h : A ∧ ¬ B, 
     and.intro (and.right h) (and.left h)
 
-When given this command, Lean checks the expression after the ``:=`` and makes sure it has the right type. If so, it accepts the expression as a valid proof. If not, it raises and error.
+When given this command, Lean checks the expression after the ``:=`` and makes sure it has the right type. If so, it accepts the expression as a valid proof. If not, it raises an error.
 
 Because the ``example`` command provides information as to the type of the expression that follows (in this case, the proposition being proved), it sometimes enables us to omit other information. For example, we can leave off the type of the assumption:
 
@@ -260,7 +260,7 @@ We could even annotate the smaller expressions ``and.right h`` and ``and.left h`
 
 This is a good place to mention that Lean generally ignores whitespace, like indentation and returns. We could have written the entire example on a single line. In general, we will adopt conventions for indentation and line breaks that show the structure of proofs and make them easier to read.
 
-Although in the examples above the ``show`` commands were not necessary, there are a number of good reasons to use it. First, and perhaps most importantly, it makes the proofs easier for us humans to read. Second, it makes the proofs easier to *write*: if you make a mistake in a proof, it is easier for Lean to figure out where you went wrong and provide a meaningful error message if you make your intentions clear. Finally, proving information in the ``show`` clause often makes it possible for you to omit information in other places, since Lean can infer that information from your stated intentions.
+Although in the examples above the ``show`` commands were not necessary, there are a number of good reasons to use this style. First, and perhaps most importantly, it makes the proofs easier for us humans to read. Second, it makes the proofs easier to *write*: if you make a mistake in a proof, it is easier for Lean to figure out where you went wrong and provide a meaningful error message if you make your intentions clear. Finally, proving information in the ``show`` clause often makes it possible for you to omit information in other places, since Lean can infer that information from your stated intentions.
 
 There are notational variants. Rather than declare variables and premises beforehand, you can also present them as "arguments" to the example, followed by a colon:
 
@@ -511,7 +511,7 @@ The rule is called ``by_contradiction``. It has one argument, which is a proof o
 Examples
 ~~~~~~~~
 
-In the last chapter, we constructed the following proof :math:`A \to C` from :math:`A \to B` and :math:`B \to C`:
+In the last chapter, we constructed the following proof of :math:`A \to C` from :math:`A \to B` and :math:`B \to C`:
 
 .. raw:: html
 

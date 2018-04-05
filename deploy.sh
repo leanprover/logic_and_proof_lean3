@@ -6,7 +6,7 @@ if [ "$#" -ne 2 ]; then
 fi
 
 # Build
-make clean html latexpdf
+make clean images html latexpdf
 
 # 3. Deploy
 rm -rf deploy

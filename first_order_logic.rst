@@ -402,7 +402,7 @@ Exercises
 
    By the way, we do not know whether the last two statements are true. They are open questions.
 
-#. Using a language with variables ranging over people, and predicates :math:`\mathit{trusts}(x,y)`, :math:`\mathit{politician}(x)`, :math:`\mathit{knows}(x, y)`, and :math:`\mathit{related\mathord{\mbox{-}}to}(x, y)`, and :math:`\mathit{rich}(x)`, write down first-order sentences asserting the following:
+#. Using a language with variables ranging over people, and predicates :math:`\mathit{trusts}(x,y)`, :math:`\mathit{politician}(x)`, :math:`\mathit{crazy(x)}`, :math:`\mathit{knows}(x, y)`, and :math:`\mathit{related\mathord{\mbox{-}}to}(x, y)`, and :math:`\mathit{rich}(x)`, write down first-order sentences asserting the following:
 
    a. Nobody trusts a politician.
 

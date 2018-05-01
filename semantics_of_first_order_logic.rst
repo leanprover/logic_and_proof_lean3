@@ -110,7 +110,7 @@ There they have the following truth values:
 #. false
 #. true
 #. false
-#. false
+#. true
 
 For each sentence, see if you can find a model that makes the sentence true, and another that makes it false. For an extra challenge, try to make all of the sentences true simultaneously. Notice that you can use any number of rows and any number of columns.
 

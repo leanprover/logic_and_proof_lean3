@@ -10,16 +10,16 @@ Internally, in Lean, the natural numbers are defined as a type generated inducti
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
 
     -- BEGIN
     inductive nat : Type
     | zero : nat
     | succ : nat → nat
     -- END
-    end hide
+    end hidden
 
-If you click the button that copies this text into the editor in the online version of this textbook, you will see that we wrap it with the phrases ``namespace hide`` and ``end hide``. This puts the definition into a new "namespace," so that the identifiers that are defined are ``hide.nat``, ``hide.nat.zero`` and ``hide.nat.succ``, to avoid conflicting with the one that is in the Lean library. Below, we will do that in a number of places where our examples duplicate objects defined in the library. The unicode symbol ``ℕ``, entered with ``\N`` or ``\nat``, is a synonym for ``nat``.
+If you click the button that copies this text into the editor in the online version of this textbook, you will see that we wrap it with the phrases ``namespace hidden`` and ``end hidden``. This puts the definition into a new "namespace," so that the identifiers that are defined are ``hidden.nat``, ``hidden.nat.zero`` and ``hidden.nat.succ``, to avoid conflicting with the one that is in the Lean library. Below, we will do that in a number of places where our examples duplicate objects defined in the library. The unicode symbol ``ℕ``, entered with ``\N`` or ``\nat``, is a synonym for ``nat``.
 
 Declaring ``nat`` as an inductively defined type means that we can define functions by recursion, and prove theorems by induction. For example, these are the first two recursive definitions presented in the last chapter:
 
@@ -53,7 +53,9 @@ If we wanted to define the function ``m^n``, we would do that by fixing ``m``, a
 
     def pow : ℕ → ℕ → ℕ 
     | m 0        := 1
-    | m (n + 1)  := m * pow m n
+    | m (n + 1)  := pow m n * m
+
+In fact, this is how the power function on the natural numbers, ``nat.pow``, is defined in Lean's library.
 
 Lean is also smart enough to interpret more complicated forms of recursion, like this one:
 
@@ -68,145 +70,94 @@ In addition to defining functions by recursion, we can prove theorems by inducti
 
 .. code-block:: lean
 
-    def pow : ℕ → ℕ → ℕ 
-    | m 0        := 1
-    | m (n + 1)  := m * pow m n
+    open nat
 
-    -- BEGIN
     theorem pow_zero (n : ℕ) : pow n 0 = 1 := rfl
-    theorem pow_succ (m n : ℕ) : pow m (n+1) = m * pow m n := rfl
-    -- END
+    theorem pow_succ (m n : ℕ) : pow m (n+1) = pow m n * m := rfl
 
-Notice that we could alternatively have used ``(pow m n) * m`` in the second clause of the definition of ``pow``. Of course, we can prove that the two definitions are equivalent using the commutativity of multiplication, but, using a proof by induction, we can also prove it using only the associativity of multiplication, and the properties ``1 * m = m`` and ``m * 1 = m``. This is useful, because the power function is also often used in situations where multiplication is not commutative, such as with matrix multiplication. The theorem can be proved in Lean as follows:
+Lean defines the usual notation for exponentiation:
 
 .. code-block:: lean
 
     open nat
 
-    namespace hide
+    theorem pow_zero (n : ℕ) : n^0 = 1 := rfl
+    theorem pow_succ (m n : ℕ) : m^(n+1) = m^n * m := rfl
 
-    definition pow : ℕ → ℕ → ℕ 
-    | m 0        := 1
-    | m (n + 1)  := m * (pow m n)
-
-    theorem pow_zero (n : ℕ) : pow n 0 = 1 := rfl
-    theorem pow_succ (m n : ℕ) : pow m (succ n) = m * (pow m n) := rfl
-
-    -- BEGIN
-    theorem pow_succ' (m n : ℕ) : pow m (succ n) = (pow m n) * m :=
-    nat.rec_on n
-      (show pow m (succ 0) = pow m 0 * m, from calc
-        pow m (succ 0) = m * pow m 0 : by rw pow_succ
-                   ... = m * 1       : by rw pow_zero
-                   ... = m           : by rw mul_one
-                   ... = 1 * m       : by rw one_mul
-                   ... = pow m 0 * m : by rw pow_zero)
-      (assume n,
-        assume ih : pow m (succ n) = pow m n * m,
-        show pow m (succ (succ n)) = pow m (succ n) * m, from calc
-          pow m (succ (succ n)) = m * (pow m (succ n)) : by rw pow_succ
-                            ... = m * (pow m n * m)    : by rw ih
-                            ... = (m * pow m n) * m    : by rw mul_assoc
-                            ... = pow m (succ n) * m   : by rw pow_succ)
-    -- END
-    end hide
-
-This is a typical proof by induction in Lean. It begins with the phrase ``nat.induction_on n``, and is followed by the base case and the inductive hypothesis. The proof can be shortened using ``rewrite`` and ``simp``:
+Notice that we could alternatively have used ``m * pow m n`` in the second clause of the definition of ``pow``. Of course, we can prove that the two definitions are equivalent using the commutativity of multiplication, but, using a proof by induction, we can also prove it using only the associativity of multiplication, and the properties ``1 * m = m`` and ``m * 1 = m``. This is useful, because the power function is also often used in situations where multiplication is not commutative, such as with matrix multiplication. The theorem can be proved in Lean as follows:
 
 .. code-block:: lean
 
-    open nat
+  open nat
 
-    namespace hide
+  theorem pow_succ' (m n : ℕ) : m^(succ n) = m * m^n :=
+  nat.rec_on n
+    (show m^(succ 0) = m * m^0, from calc
+      m^(succ 0) = m^0 * m : by rw pow_succ
+             ... = 1 * m   : by rw pow_zero
+             ... = m       : by rw one_mul
+             ... = m * 1   : by rw mul_one
+             ... = m * m^0 : by rw pow_zero)
+    (assume n,
+      assume ih : m^(succ n) = m * m^n,
+      show m^(succ (succ n)) = m * m^(succ n), from calc
+        m^(succ (succ n)) = m^(succ n) * m   : by rw pow_succ
+                      ... = (m * m^n) * m    : by rw ih
+                      ... = m * (m^n * m)    : by rw mul_assoc
+                      ... = m * m^(succ n)   : by rw pow_succ)
 
-    definition pow : ℕ → ℕ → ℕ 
-    | m 0        := 1
-    | m (n + 1)  := m * (pow m n)
+This is a typical proof by induction in Lean. It begins with the phrase ``nat.rec_on n``, and is followed by the base case and the inductive hypothesis. (The phrase ``open nat`` allows us to write ``pow`` instead of ``nat.pow``. The proof can be shortened using ``rewrite``:
 
-    theorem pow_zero (n : ℕ) : pow n 0 = 1 := rfl
-    theorem pow_succ (m n : ℕ) : pow m (succ n) = m * (pow m n) := rfl
+.. code-block:: lean
 
-    -- BEGIN
-    theorem pow_succ' (m n : ℕ) : pow m (succ n) = (pow m n) * m :=
-    nat.rec_on n
-      (show pow m (succ 0) = pow m 0 * m, 
-        by rw [pow_succ, pow_zero, mul_one, one_mul])
-      (assume n,
-        assume ih : pow m (succ n) = pow m n * m,
-        show pow m (succ (succ n)) = pow m (succ n) * m, 
-          by simp [pow_succ, ih])
-    -- END
-    end hide
+  open nat
+
+  theorem pow_succ' (m n : ℕ) : m^(succ n) = m * (m^n) :=
+  nat.rec_on n
+    (show m^(succ 0) = m * m^0,
+      by rw [pow_succ, pow_zero, mul_one, one_mul])
+    (assume n,
+      assume ih : m^(succ n) = m * m^n,
+      show m^(succ (succ n)) = m * m^(succ n),
+        by rw [pow_succ, ih, mul_assoc, mul_comm (m^n)])
 
 Remember that you can write a ``rewrite`` proof incrementally, checking the error messages to make sure things are working so far, and to see how far Lean got.
-
-In any case, the power function is already defined in the Lean library as ``pow_nat``. (It is defined generically for any type that has a multiplication; the ``nat`` in ``pow_nat`` refers to the fact that the exponent is a natural number.) The definition is essentially the one above, and the theorems above are also there:
-
-.. code-block:: lean
-
-    import algebra.group_power
-    local infix ` ^ ` := pow_nat
-
-    #check @pow_nat
-    #check @pow_zero
-    #check @pow_succ
-    #check @pow_succ'
-
-    variables m n : ℕ
-
-    #check m^n
-
-.. TODO(Jeremy): the `import` and `local infix` are workarounds for the fact that the notation `^` is badly defined in the core library.
 
 As another example of a proof by induction, here is a proof of the identity ``m^(n + k) = m^n * m^k``.
 
 .. code-block:: lean
 
-    import algebra.group_power
-    local infix `^` := pow_nat
+  open nat
 
-    namespace hide
-    export nat (succ)
-
-    -- BEGIN
-    theorem pow_add (m n k : ℕ) : m^(n + k) = m^n * m^k :=
-    nat.rec_on k
-      (show m^(n + 0) = m^n * m^0, from calc
-        m^(n + 0) = m^n       : by rw add_zero
-              ... = m^n * 1   : by rw mul_one
-              ... = m^n * m^0 : by rw pow_zero)
-      (assume k,
-        assume ih : m^(n + k) = m^n * m^k,
-        show m^(n + succ k) = m^n * m^(succ k), from calc
-          m^(n + succ k) = m^(succ (n + k)) : by rw nat.add_succ
-                     ... = m^(n + k) * m    : by rw pow_succ'
-                     ... = m^n * m^k * m    : by rw ih
-                     ... = m^n * (m^k * m)  : by rw mul_assoc
-                     ... = m^n * m^(succ k) : by rw pow_succ')
-    -- END
-    end hide
+  theorem pow_add (m n k : ℕ) : m^(n + k) = m^n * m^k :=
+  nat.rec_on k
+    (show m^(n + 0) = m^n * m^0, from calc
+      m^(n + 0) = m^n       : by rw add_zero
+            ... = m^n * 1   : by rw mul_one
+            ... = m^n * m^0 : by rw pow_zero)
+    (assume k,
+      assume ih : m^(n + k) = m^n * m^k,
+      show m^(n + succ k) = m^n * m^(succ k), from calc
+        m^(n + succ k) = m^(succ (n + k)) : by rw nat.add_succ
+                  ... = m^(n + k) * m    : by rw pow_succ
+                  ... = m^n * m^k * m    : by rw ih
+                  ... = m^n * (m^k * m)  : by rw mul_assoc
+                  ... = m^n * m^(succ k) : by rw pow_succ)
 
 Notice the same pattern. This time, we do induction on ``k``, and the base case and inductive step are routine. Once again, with a bit of cleverness, we can shorten the proof with ``rewrite``:
 
 .. code-block:: lean
 
-    import algebra.group_power
-    local infix `^` := pow_nat
+  open nat
 
-    namespace hide
-    export nat (succ)
-
-    -- BEGIN
-    theorem pow_add (m n k : ℕ) : m^(n + k) = m^n * m^k :=
-    nat.rec_on k
-      (show m^(n + 0) = m^n * m^0, 
-        by rewrite [add_zero, pow_zero, mul_one]) 
-      (assume k,
-        assume ih : m^(n + k) = m^n * m^k,
-        show m^(n + succ k) = m^n * m^(succ k),
-         by rewrite [nat.add_succ, pow_succ', ih, mul_assoc, pow_succ'])
-    -- END
-    end hide
+  theorem pow_add (m n k : ℕ) : m^(n + k) = m^n * m^k :=
+  nat.rec_on k
+    (show m^(n + 0) = m^n * m^0,
+      by rw [add_zero, pow_zero, mul_one])
+    (assume k,
+      assume ih : m^(n + k) = m^n * m^k,
+      show m^(n + succ k) = m^n * m^(succ k),
+      by rw [nat.add_succ, pow_succ, ih, mul_assoc, pow_succ])
 
 You should not hesitate to use ``calc``, however, to make the proofs more explicit. Remember that you can also use ``calc`` and ``rewrite`` together, using ``calc`` to structure the calculational proof, and using ``rewrite`` to fill in each justification step.
 
@@ -242,7 +193,7 @@ Here are the five propositions proved in :numref:`defining_arithmetic_operations
 
     open nat
 
-    namespace hide
+    namespace hidden
 
     -- BEGIN
     theorem succ_pred (n : ℕ) : n ≠ 0 → succ (pred n) = n :=
@@ -297,7 +248,7 @@ Here are the five propositions proved in :numref:`defining_arithmetic_operations
                  ... = succ n + m   : by rw succ_add)
 
     -- END
-    end hide
+    end hidden
 
 Exercises
 ---------

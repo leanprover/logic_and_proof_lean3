@@ -92,7 +92,7 @@ Using this built-in type, we can model the language of arithmetic, as described 
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
 
     constant mul : ℕ → ℕ → ℕ
     constant add : ℕ → ℕ → ℕ
@@ -105,13 +105,13 @@ Using this built-in type, we can model the language of arithmetic, as described 
     constant zero : ℕ
     constant one : ℕ
 
-    end hide
+    end hidden
 
 We have used the ``namespace`` command to avoid conflicts with identifiers that are already declared in the Lean library. We can again use the ``#check`` command to try them out:
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
 
     constant mul : ℕ → ℕ → ℕ
     constant add : ℕ → ℕ → ℕ
@@ -127,7 +127,7 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
     #check even x
     -- END
 
-    end hide
+    end hidden
 
 .. comment (TODO: restore this)
 
@@ -137,7 +137,7 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
 
    .. code-block:: lean
 
-      namespace hide
+      namespace hidden
 
       -- BEGIN
       #check even (x + y + z) ∧ prime ((x + one) * y * y)
@@ -145,7 +145,7 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
       #check x < y ∧ even x ∧ even y → x + one < y
       -- END
 
-      end hide
+      end hidden
 
 In fact, all of the functions, predicates, and relations discussed here, except for the "square" function and "prime," are defined in the core Lean library. They become available to us when we put the commands ``import data.nat`` and ``open nat`` at the top of a file in Lean.
 

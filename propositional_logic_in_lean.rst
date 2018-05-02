@@ -856,7 +856,7 @@ What is interesting is that in interactive theorem proving, we can even define f
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
 
     variables {A B : Prop}
 
@@ -873,7 +873,7 @@ What is interesting is that in interactive theorem proving, we can even define f
     theorem absurd (h1 : ¬ A) (h2 : A) : B :=
     false.elim (h1 h2)
 
-    end hide
+    end hidden
 
 In fact, Lean's library defines ``or.resolve_left``, ``or.resolve_right``, and ``absurd``. We used the ``namespace`` command to avoid naming conflicts, which would have raised an error.
 

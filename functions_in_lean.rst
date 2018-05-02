@@ -136,7 +136,7 @@ In Lean's library, composition and identity are defined as follows:
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
     -- BEGIN
     variables {X Y Z : Type}
 
@@ -148,7 +148,7 @@ In Lean's library, composition and identity are defined as follows:
     def id (x : X) : X :=
     x
     -- END
-    end hide
+    end hidden
 
 Ordinarily, we use ``funext`` (for "function extensionality") to prove that two functions are equal.
 
@@ -203,7 +203,7 @@ We can then prove that the identity function is bijective:
 
     open function
 
-    namespace hide
+    namespace hidden
     variables {X Y Z : Type}
 
 
@@ -221,7 +221,7 @@ We can then prove that the identity function is bijective:
     and.intro injective_id surjective_id
     -- END
 
-    end hide
+    end hidden
 
 More interestingly, we can prove that the composition of injective functions is injective, and so on.
 
@@ -229,7 +229,7 @@ More interestingly, we can prove that the composition of injective functions is 
 
     open function
 
-    namespace hide
+    namespace hidden
     variables {X Y Z : Type}
 
     -- BEGIN
@@ -263,7 +263,7 @@ More interestingly, we can prove that the composition of injective functions is 
       (surjective_comp gsurj fsurj)
     -- END
 
-    end hide
+    end hidden
 
 The notions of left and right inverse are defined in the expected way.
 
@@ -271,7 +271,7 @@ The notions of left and right inverse are defined in the expected way.
 
     variables {X Y : Type}
 
-    namespace hide
+    namespace hidden
 
     -- BEGIN
     -- g is a left inverse to f
@@ -281,7 +281,7 @@ The notions of left and right inverse are defined in the expected way.
     def right_inverse (g : Y → X) (f : X → Y) : Prop := left_inverse f g
     -- END
 
-    end hide
+    end hidden
 
 In particular, composing with a left or right inverse yields the identity.
 
@@ -507,12 +507,7 @@ In that case, we can leave out some arguments:
     h h1 h2 h3
     -- END
 
-In the examples below, we'll use the versions with implicit arguments.
-
-
-
-
-The expression ``surj_on f A B`` asserts that, viewed as a function defined on elements of ``A``, the function ``f`` is surjective onto the set ``B``:
+In the examples below, we'll use the versions with implicit arguments. The expression ``surj_on f A B`` asserts that, viewed as a function defined on elements of ``A``, the function ``f`` is surjective onto the set ``B``.
 
 With these notions in hand, we can prove that the composition of injective functions is injective. The proof is similar to the one above, though now we have to be more careful to relativize claims to ``A`` and ``B``:
 
@@ -581,40 +576,42 @@ The following shows that the image of a union is the union of images:
 
 .. code-block:: lean
 
-    import data.set
-    open set function
+  import data.set
+  open set function
 
-    variables {X Y : Type}
+  variables {X Y : Type}
 
-    variables (A₁ A₂ : set X)
-    variable (f : X → Y)
+  variables (A₁ A₂ : set X)
+  variable (f : X → Y)
 
-    -- BEGIN
-    theorem image_union : f '' (A₁ ∪ A₂) =f '' A₁ ∪ f '' A₂ :=
-    ext (assume y, iff.intro
-      (assume h : y ∈ image f (A₁ ∪ A₂),
-        exists.elim h $ 
-        assume x h1, 
-        have xA₁A₂ : x ∈ A₁ ∪ A₂, from h1.left,
-        have fxy : f x = y, from h1.right,
-        or.elim xA₁A₂
-          (assume xA₁, or.inl (mem_image xA₁ fxy))
-          (assume xA₂, or.inr (mem_image xA₂ fxy)))
-      (assume h : y ∈ image f A₁ ∪ image f A₂,
-        or.elim h
-          (assume yifA₁ : y ∈ image f A₁,
-            exists.elim yifA₁ $
-            assume x h1,
-            have xA₁ : x ∈ A₁, from h1.left, 
-            have fxy : f x = y, from h1.right,
-            mem_image (or.inl xA₁) fxy)
-          (assume yifA₂ : y ∈ image f A₂,
-            exists.elim yifA₂ $
-            assume x h1,
-            have xA₂ : x ∈ A₂, from h1.left, 
-            have fxy : f x = y, from h1.right,
-            mem_image (or.inr xA₂) fxy)))
-    -- END
+  -- BEGIN
+  theorem image_union : f '' (A₁ ∪ A₂) =f '' A₁ ∪ f '' A₂ :=
+  ext (assume y, iff.intro
+    (assume h : y ∈ image f (A₁ ∪ A₂),
+      exists.elim h $
+      assume x h1,
+      have xA₁A₂ : x ∈ A₁ ∪ A₂, from h1.left,
+      have fxy : f x = y, from h1.right,
+      or.elim xA₁A₂
+        (assume xA₁, or.inl ⟨x, xA₁, fxy⟩)
+        (assume xA₂, or.inr ⟨x, xA₂, fxy⟩))
+    (assume h : y ∈ image f A₁ ∪ image f A₂,
+      or.elim h
+        (assume yifA₁ : y ∈ image f A₁,
+          exists.elim yifA₁ $
+          assume x h1,
+          have xA₁ : x ∈ A₁, from h1.left,
+          have fxy : f x = y, from h1.right,
+          ⟨x, or.inl xA₁, fxy⟩)
+        (assume yifA₂ : y ∈ image f A₂,
+          exists.elim yifA₂ $
+          assume x h1,
+          have xA₂ : x ∈ A₂, from h1.left,
+          have fxy : f x = y, from h1.right,
+          ⟨x, (or.inr xA₂), fxy⟩)))
+  -- END
+
+Note that the expression ``y ∈ image f A₁`` expands to ``∃ x, x ∈ A₁ ∧ f x = y``. We therefore need to provide three pieces of information: a value of ``x``, a proof that ``x ∈ A₁``, and a proof that ``f x = y``. On the eighth line of this proof, after ``or.inl``, we could justify the necessary information by writing ``exists.intro x (and.intro xA₁ fxy)`` in parentheses. But in this case Lean's "anonymous constructor" notation, that is, the corner brackets entered with ``\<`` and ``\>``, allow us to use the more compact expression ``⟨x, xA₁, fxy⟩``.
 
 Exercises
 ---------
@@ -692,10 +689,10 @@ Exercises
            have h3 : f x = y, from h.right,
            or.elim h2
              (assume h4 : x ∈ A,
-               have h5 : y ∈ f '' A, from mem_image h4 h3,
+               have h5 : y ∈ f '' A, from ⟨x, h4, h3⟩,
                show y ∈ f '' A ∪ f '' B, from or.inl h5)
              (assume h4 : x ∈ B,
-               have h5 : y ∈ f ''  B, from mem_image h4 h3,
+               have h5 : y ∈ f ''  B, from ⟨x, h4, h3⟩,
                show y ∈ f '' A ∪ f '' B, from or.inr h5))
          (assume y,
            assume h2 : y ∈ f '' A ∪ f '' B,
@@ -706,14 +703,14 @@ Exercises
                have h4 : x ∈ A, from h.left, 
                have h5 : f x = y, from h.right,
                have h6 : x ∈ A ∪ B, from or.inl h4,
-               show y ∈ f '' (A ∪ B), from mem_image h6 h5)
+               show y ∈ f '' (A ∪ B), from ⟨x, h6, h5⟩)
              (assume h3 : y ∈ f '' B,
                exists.elim h3 $
                assume x h,
                have h4 : x ∈ B, from h.left,
                have h5 : f x = y, from h.right,
                have h6 : x ∈ A ∪ B, from or.inr h4,
-               show y ∈ f '' (A ∪ B), from mem_image h6 h5))
+               show y ∈ f '' (A ∪ B), from ⟨x, h6, h5⟩))
 
        -- remember, x ∈ A ∩ B is the same as x ∈ A ∧ x ∈ B
        example (x : X) (h1 : x ∈ A) (h2 : x ∈ B) : x ∈ A ∩ B :=

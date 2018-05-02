@@ -11,7 +11,7 @@ With first-order logic, we can say what it means for a relation to be reflexive,
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
 
     variable {A : Type}
 
@@ -27,13 +27,13 @@ With first-order logic, we can say what it means for a relation to be reflexive,
     def antisymmetric (R : A → A → Prop) : Prop := 
     ∀ x y, R x y → R y x → x = y
 
-    end hide
+    end hidden
 
 We can then use the notions freely. Notice that Lean will unfold the definitions when necessary, for example, treating ``reflexive R`` as ``∀ x, R x x``.
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
 
     variable {A : Type}
 
@@ -67,7 +67,7 @@ We can then use the notions freely. Notice that Lean will unfold the definitions
     h x y h1 h2
     -- END
     
-    end hide
+    end hidden
 
 In the command ``variable {A : Type}``, we put curly braces around ``A`` to indicate that it is an *implicit* argument, which is to say, you do not have to write it explicitly; Lean can infer it from the argument ``R``. That is why we can write ``reflexive R`` rather than ``reflexive A R``: Lean knows that ``R`` is a binary relation on ``A``, so it can infer that we mean reflexivity for binary relations on ``A``. 
 
@@ -75,7 +75,7 @@ Given ``h : transitive R``, ``h1 : R x y``, and ``h2 : R y z``, it is annoying t
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
 
     variable {A : Type}
 
@@ -91,13 +91,13 @@ Given ``h : transitive R``, ``h1 : R x y``, and ``h2 : R y z``, it is annoying t
     h _ _ _ h1 h2
     -- END
     
-    end hide
+    end hidden
 
 But typing underscores is annoying, too. The best solution is to declare the arguments ``x y z`` to a transitivity hypothesis to be implicit as well:
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
 
     -- BEGIN
     variable {A : Type}
@@ -112,9 +112,9 @@ But typing underscores is annoying, too. The best solution is to declare the arg
     h h1 h2
     -- END
     
-    end hide
+    end hidden
 
-In fact, the notions ``reflexive``, ``symmetric``, ``transitive``, and ``antisymmetric`` are defined in Lean's core library in exactly this way, so we are free to use them without defining them. (That is why we put our temporary definitions of in a namespace ``hide``; that means that the full name of our version of ``reflexive`` is ``hide.reflexive``, which, therefore, doesn't conflict with the one defined in the library.)
+In fact, the notions ``reflexive``, ``symmetric``, ``transitive``, and ``antisymmetric`` are defined in Lean's core library in exactly this way, so we are free to use them without defining them. (That is why we put our temporary definitions of in a namespace ``hidden``; that means that the full name of our version of ``reflexive`` is ``hidden.reflexive``, which, therefore, doesn't conflict with the one defined in the library.)
 
 In :numref:`order_relations` we showed that a strict partial order---that is, a binary relation that is transitive and irreflexive---is also asymmetric. Here is a proof of that fact in Lean.
 
@@ -171,13 +171,13 @@ In the example below, having fixed a partial order, ``R``, we define the corresp
 
     local infix < := R'
 
-    theorem irrefl (a : A) : ¬ a < a :=
+    theorem irreflR (a : A) : ¬ a < a :=
     assume : a < a,
     have a ≠ a, from and.right this,
     have a = a, from rfl,
     show false, from ‹a ≠ a› ‹a = a›
 
-    theorem trans {a b c : A} (h₁ : a < b) (h₂ : b < c) : a < c :=
+    theorem transR {a b c : A} (h₁ : a < b) (h₂ : b < c) : a < c :=
     have a ≤ b, from and.left h₁,
     have a ≠ b, from and.right h₁,
     have b ≤ c, from and.left h₂,

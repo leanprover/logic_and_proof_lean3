@@ -146,7 +146,7 @@ Remember from :numref:`definitions_and_theorems` that we can use ``assume`` with
 
     example : ∅ ⊆ A  :=
     assume x,
-    assume h : x ∈ ∅,
+    assume h : x ∈ (∅ : set U),
     show x ∈ A, from false.elim h
     -- END
 

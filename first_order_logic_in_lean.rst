@@ -690,7 +690,7 @@ We will see in the coming chapters that in ordinary mathematical proofs, one com
      \ldots &= t_4 \\
      \ldots &= t_5.
 
-Lean has a mechanism to model calculational proofs like this. Whenever a proof of an equation is expected, you can provide a proof using the identifier ``calc``, following by a chain of equalities and justification, in the following form:
+Lean has a mechanism to model such calculational proofs. Whenever a proof of an equation is expected, you can provide a proof using the identifier ``calc``, following by a chain of equalities and justification, in the following form:
 
 .. code-block:: text
 

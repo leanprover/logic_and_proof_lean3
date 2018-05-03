@@ -55,7 +55,7 @@ In the introduction rule, :math:`x` should not be free in any uncanceled hypothe
    \DP
    \end{quote}
 
-In the introduction rule, :math:`t` cant be any term that does not clash with any of the bound variables in :math:`A`. In the elimination rule, :math:`y` should not be free in :math:`B` or any uncanceled hypothesis.
+In the introduction rule, :math:`t` can be any term that does not clash with any of the bound variables in :math:`A`. In the elimination rule, :math:`y` should not be free in :math:`B` or any uncanceled hypothesis.
 
 *Equality:*
 

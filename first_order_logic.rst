@@ -355,7 +355,7 @@ We already adopted a similar convention for formulas: if we introduce a formula 
    \DP
    \end{center}
 
-Here, the first substitution rule governs terms, and the second substitution rule governs formulas. In the next chapter, you will learn how to use them.
+Here, the first substitution rule governs terms and the second substitution rule governs formulas. In the next chapter, you will learn how to use them.
 
 Using equality, we can define even more quantifiers.
 

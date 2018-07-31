@@ -48,6 +48,8 @@ is as follows: if you have a proof :math:`P_1` of :math:`A` from some hypotheses
    \DP
    \end{center}
 
+In some presentations of natural deduction, a proof is written as a sequence of lines in which each line can refer to any previous lines for justification. But here we will adopt a rigid two-dimensional diagrammatic format in which the premises of each inference appear immediately above the conclusion. This makes it easy to look over a proof and check that it is correct: each inference should be the result of instantiating the letters in one of the rules with particular formulas.
+
 One thing that makes natural deduction confusing is that when you put together proofs in this way, hypotheses can be eliminated, or, as we will say, *canceled*. For example, we can apply the implies-introduction rule to the last proof, and obtain the following proof of :math:`B \to (A \wedge B) \wedge (A \wedge C)` from only *two* hypotheses, :math:`A` and :math:`C`:
 
 .. raw:: html

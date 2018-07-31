@@ -365,7 +365,7 @@ Exercises
 
 #. Give a natural deduction proof of :math:`\neg A \vee B` from :math:`A \to B`. You may use the law of the excluded middle.
 
-#. Put :math:`(A \vee B) \wedge (C \vee D) \wedge (E \vee F)` in disjunctive normal form, that is, write it as a big "or" of "and" expressions.
+#. Put :math:`(A \vee B) \wedge (C \vee D) \wedge (E \vee F)` in disjunctive normal form, that is, write it as a big "or" of multiple "and" expressions.
 
 #. Prove ``¬ (A ∧ B) → ¬ A ∨ ¬ B`` by replacing the sorry's below by proofs.
 

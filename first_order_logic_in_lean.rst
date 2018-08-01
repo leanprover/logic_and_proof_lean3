@@ -188,7 +188,8 @@ We can then express that two distinct points determine a line as follows:
 
     -- BEGIN
     #check ∀ (p q : Point) (L M : Line),
-            p ≠ q → lies_on p L → lies_on q L → lies_on p M → lies_on q M → L = M
+            p ≠ q → lies_on p L → lies_on q L → lies_on p M → 
+              lies_on q M → L = M
     -- END
 
 Notice that we have followed the convention of using iterated implication rather than conjunction in the antecedent. In fact, Lean is smart enough to infer what sorts of objects ``p``, ``q``, ``L``, and ``M`` are from the fact that they are used with the relation ``on``, so we could have written, more simply, this:
@@ -199,7 +200,8 @@ Notice that we have followed the convention of using iterated implication rather
     variable  lies_on : Point → Line → Prop
 
     -- BEGIN
-    #check ∀ p q L M, p ≠ q → lies_on p L → lies_on q L → lies_on p M → lies_on q M → L = M
+    #check ∀ p q L M, p ≠ q → lies_on p L → lies_on q L → 
+      lies_on p M → lies_on q M → L = M
     -- END
 
 Using the Universal Quantifier
@@ -375,6 +377,19 @@ The elimination rule for the existential quantifier is given by ``exists.elim``.
       (assume (y : U) (h : P y),
         have h3 : P y → Q, from h2 y,
         show Q, from h3 h)
+
+As usual, we can leave off the information as to the data type of ``y`` and the hypothesis ``h`` after the ``assume``, since Lean can figure them out from the context. Deleting the ``show`` and replacing ``h3`` by its proof, ``h2 y``, yields a short (though virtually unreadable) proof of the conclusion.
+
+.. code-block:: lean
+
+    variable U : Type
+    variable P : U → Prop
+    variable Q : Prop
+
+    -- BEGIN
+    example (h1 : ∃ x, P x) (h2 : ∀ x, P x → Q) : Q :=
+    exists.elim h1 (assume y h, h2 y h)
+    -- END
 
 The following example uses both the introduction and the elimination rules for the existential quantifier.
 
@@ -614,7 +629,7 @@ This proof can be written more concisely:
     assume h1 h2, eq.trans (eq.symm h1) h2
     -- END
 
-Because calculation is so important in mathematics, however, Lean provides more efficient ways of carrying them out. One is the ``rewrite`` tactic. Typing ``begin`` and ``end`` in a Lean proof puts Lean into "tactic mode," which means that Lean then expects a list of instructions. The command ``rewrite`` then uses identities to change the goal. For example, the previous proof could be written as follows:
+Because calculations are so important in mathematics, however, Lean provides more efficient ways of carrying them out. One method is to use the ``rewrite`` tactic. Typing ``begin`` and ``end`` anywhere a proof is expected puts Lean into *tactic mode*, which provides an alternative way of writing a proof: rather than writing it directly, you provide Lean with a list of instructions that show Lean how to construct a proof of the statement in question. The statement to be proved is called the *goal*, and many instructions make progress by transforming the goal into something that is easier to prove. The ``rewrite`` command, which carries out a substitution on the goal, is a good example. The previous example can be proved as follows:
 
 .. code-block:: lean
 
@@ -631,9 +646,7 @@ Because calculation is so important in mathematics, however, Lean provides more 
       end
     -- END
 
-The ``rewrite`` tactic can be abbreviated ``rw``.
-
-The first command changes the goal ``x = z`` to ``y = z``; the minus sign before ``h1`` tells Lean to use the equation in the reverse direction. After that, we can finish the goal by applying ``h2``.
+If you put the cursor after the word ``begin``, Lean will tell you that the goal at that point is to prove ``x = y``. The first command changes the goal ``x = z`` to ``y = z``; the left-facing arrow before ``h1`` (which you can enter as ``\<-``) tells Lean to use the equation in the reverse direction. If you put the cursor after the comma, Lean shows you the new goal, ``y = z``. The ``apply`` command uses ``h2`` to complete the proof. 
 
 An alternative is to rewrite the goal using ``h1`` and ``h2``, which reduces the goal to ``x = x``. When that happens, ``rewrite`` automatically applies reflexivity.
 
@@ -681,6 +694,8 @@ And when you reduce a proof to a single tactic, you can use ``by`` instead of ``
     show x = z, by rw [←h1, h2]
     -- END
 
+If you put the cursor after the ``←h1``, Lean shows you the goal at that point.
+
 We will see in the coming chapters that in ordinary mathematical proofs, one commonly carries out calculations in a format like this:
 
 .. math::
@@ -700,7 +715,7 @@ Lean has a mechanism to model such calculational proofs. Whenever a proof of an 
         ... = e4 : justification 3
         ... = e5 : justification 4
 
-The chain can go on as long as needed. Each justification is the name of the assumption or theorem that is used. For example, the previous proof could be written as follows:
+The chain can go on as long as needed, and in this example the result is a proof of ``e1 = e5``. Each justification is the name of the assumption or theorem that is used. For example, the previous proof could be written as follows:
 
 .. code-block:: lean
 

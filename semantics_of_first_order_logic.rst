@@ -198,6 +198,6 @@ Exercises
 
    -  :math:`\exists x \; (\mathit{blue}(x) \wedge \exists y \; (\mathit{green}(y) \wedge \mathit{above}(x, y)))`
 
-#. Fix a first-order language :math:`L`, and let :math:`A` and :math:`B` be any two sentences in :math:`L`. Remember that :math:`\vDash A` means that :math:`A` is valid. Unpacking the definition, show that if :math:`\vDash A \wedge B`, then :math:`\vDash A` and :math:`\vDash B`.
+#. Fix a first-order language :math:`L`, and let :math:`A` and :math:`B` be any two sentences in :math:`L`. Remember that :math:`\vDash A` means that :math:`A` is valid. Unpacking the definitions, show that if :math:`\vDash A \wedge B`, then :math:`\vDash A` and :math:`\vDash B`.
 
 #. Give a concrete example to show that :math:`\vDash A \vee B` does not necessarily imply :math:`\vDash A` or :math:`\vDash B`. In other words, pick a language :math:`L` and choose particular sentences :math:`A` and :math:`B` such that :math:`A \vee B` is valid but neither :math:`A` nor :math:`B` is valid.

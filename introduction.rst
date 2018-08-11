@@ -171,7 +171,7 @@ Since the end of the twentieth century, however, the advent of computational pro
 
     end
 
-If you are reading the present text in online form, you will find a button above the formal "proof script" that says "try it!" Pressing the button copies opens the proof in an editor window and runs a version of Lean inside your browser to process the proof, turn it into an axiomatic derivation, and verify its correctness. You can experiment by varying the text in the editor; any errors will be noted in the window to the right.
+If you are reading the present text in online form, you will find a button above the formal "proof script" that says "try it!" Pressing the button opens the proof in an editor window and runs a version of Lean inside your browser to process the proof, turn it into an axiomatic derivation, and verify its correctness. You can experiment by varying the text in the editor; any errors will be noted in the window to the right.
 
 Proofs in Lean can access a library of prior mathematical results, all verified down to axiomatic foundations. A goal of the field of interactive theorem proving is to reach the point where any contemporary theorem can be verified in this way. For example, here is a formal proof that the square root of two is irrational, following the model of the informal proof presented above:
 

@@ -375,13 +375,13 @@ The elimination rule is the tricky one. To prove ``C`` from ``A ∨ B``, you nee
     -- BEGIN
     section
       variable h : A ∨ B
-
+      variables (ha : A → C) (hb : B → C)  
       example : C :=
       or.elim h
         (assume h1 : A, 
-          show C, from sorry)
+          show C, from ha h1)
         (assume h1 : B, 
-          show C, from sorry)
+          show C, from hb h1)
     end
     -- END
 

@@ -1,7 +1,7 @@
 Logic and Proof
 ---------------
 
-Built using Sphinx and restructured text.
+Built using Sphinx and restructured text. Also requires `convert` (https://imagemagick.org) for image conversion.
 
 # How to build
 

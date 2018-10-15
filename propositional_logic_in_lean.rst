@@ -484,7 +484,7 @@ The elimination rules are ``iff.elim_left`` and ``iff.elim_right``:
     end
     -- END
 
-Lean recognizes the abbreviation ``iff.mp`` for ``iff.and_elim_left``, where "mp" stands for "modus ponens". Similarly, you can use ``iff.mpr``, for "modus ponens reverse", instead of ``iff.and_elim_right``.
+Lean recognizes the abbreviation ``iff.mp`` for ``iff.elim_left``, where "mp" stands for "modus ponens". Similarly, you can use ``iff.mpr``, for "modus ponens reverse", instead of ``iff.elim_right``.
 
 Reductio ad absurdum (proof by contradiction)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

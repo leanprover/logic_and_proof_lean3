@@ -107,7 +107,7 @@ Using this built-in type, we can model the language of arithmetic, as described 
 
     end hidden
 
-We have used the ``namespace`` command to avoid conflicts with identifiers that are already declared in the Lean library. We can again use the ``#check`` command to try them out:
+We have used the ``namespace`` command to avoid conflicts with identifiers that are already declared in the Lean library. (Outside the namespace, the constant ``mul`` we just declared is named ``hidden.mul``.) We can again use the ``#check`` command to try them out:
 
 .. code-block:: lean
 
@@ -117,6 +117,12 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
     constant add : ℕ → ℕ → ℕ
     constant square : ℕ → ℕ
     constant even : ℕ → Prop
+    constant odd : ℕ → Prop
+    constant prime : ℕ → Prop
+    constant divides : ℕ → ℕ → Prop
+    constant lt : ℕ → ℕ → Prop
+    constant zero : ℕ
+    constant one : ℕ
 
     -- BEGIN
     variables w x y z : ℕ
@@ -129,15 +135,65 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
 
     end hidden
 
-.. comment (TODO: restore this)
+   We can even declare infix notation of binary operations and relations:
 
-   We can even declare infix notation of binary operations and relations.
+   .. code-block:: lean
+
+    namespace hide
+
+    constant mul : ℕ → ℕ → ℕ
+    constant add : ℕ → ℕ → ℕ
+    constant square : ℕ → ℕ
+    constant even : ℕ → Prop
+    constant odd : ℕ → Prop
+    constant prime : ℕ → Prop
+    constant divides : ℕ → ℕ → Prop
+    constant lt : ℕ → ℕ → Prop
+    constant zero : ℕ
+    constant one : ℕ
+
+    variables w x y z : ℕ
+
+    #check mul x y
+    #check add x y
+    #check square x
+    #check even x 
+
+    -- BEGIN
+    infix + := add
+    infix * := mul
+    infix < := lt
+    -- END
+
+    end hide
 
    (Getting notation for numerals ``1``, ``2``, ``3``, ... is trickier.) With all this in place, the examples above can be rendered as follows:
 
    .. code-block:: lean
 
-      namespace hidden
+     namespace hide
+
+    constant mul : ℕ → ℕ → ℕ
+    constant add : ℕ → ℕ → ℕ
+    constant square : ℕ → ℕ
+    constant even : ℕ → Prop
+    constant odd : ℕ → Prop
+    constant prime : ℕ → Prop
+    constant divides : ℕ → ℕ → Prop
+    constant lt : ℕ → ℕ → Prop
+    constant zero : ℕ
+    constant one : ℕ
+
+    variables w x y z : ℕ
+
+    #check mul x y
+    #check add x y
+    #check square x
+    #check even x 
+
+    infix + := add
+    infix * := mul
+    infix < := lt
 
       -- BEGIN
       #check even (x + y + z) ∧ prime ((x + one) * y * y)
@@ -145,11 +201,14 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
       #check x < y ∧ even x ∧ even y → x + one < y
       -- END
 
-      end hidden
+      end hide
 
 In fact, all of the functions, predicates, and relations discussed here, except for the "square" function and "prime," are defined in the core Lean library. They become available to us when we put the commands ``import data.nat`` and ``open nat`` at the top of a file in Lean.
 
 .. code-block:: lean
+
+    import data.nat
+    open nat
 
     constant square : ℕ → ℕ
     constant prime : ℕ → Prop
@@ -192,7 +251,7 @@ We can then express that two distinct points determine a line as follows:
               lies_on q M → L = M
     -- END
 
-Notice that we have followed the convention of using iterated implication rather than conjunction in the antecedent. In fact, Lean is smart enough to infer what sorts of objects ``p``, ``q``, ``L``, and ``M`` are from the fact that they are used with the relation ``on``, so we could have written, more simply, this:
+Notice that we have followed the convention of using iterated implication rather than conjunction in the antecedent. In fact, Lean is smart enough to infer what sorts of objects ``p``, ``q``, ``L``, and ``M`` are from the fact that they are used with the relation ``lies_on``, so we could have written, more simply, this:
 
 .. code-block:: lean
 
@@ -210,6 +269,9 @@ Using the Universal Quantifier
 In Lean, you can enter the universal quantifier by writing ``\all``. The motivating examples from :numref:`functions_predicates_and_relations` are rendered as follows:
 
 .. code-block:: lean
+
+    import data.nat
+    open nat
 
     constant prime : ℕ → Prop
     constant even : ℕ → Prop
@@ -298,7 +360,7 @@ In the last chapter, we considered the following proof in natural deduction:
 
 .. raw:: html
 
-   <img src="_static/first_order_logic_in_lean.1.png">
+   <img src="first_order_logic_in_lean.1.png">
 
 .. raw:: latex
 
@@ -431,7 +493,7 @@ The following example is more involved:
     -- BEGIN
     example : (∃ x, A x ∨ B x) → (∃ x, A x) ∨ (∃ x, B x) :=
     assume h1 : ∃ x, A x ∨ B x,
-    exists.elim h1 $ 
+    exists.elim h1 $
     assume y (h2 : A y ∨ B y),
     or.elim h2
       (assume h3 : A y, 

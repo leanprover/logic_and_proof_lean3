@@ -71,7 +71,7 @@ We define the *set difference* of two sets :math:`A` and :math:`B` to be the set
 
 Two sets are said to be equal if they have exactly the same elements. If :math:`A` and :math:`B` are sets, :math:`A` is said to be a *subset* of :math:`B`, written :math:`A \subseteq B`, if every element of :math:`A` is an element of :math:`B`. Notice that :math:`A` is equal to :math:`B` if and only if :math:`A` is a subset of :math:`B` and :math:`B` is a subset of :math:`A`.
 
-Notice also that just everything we have said about sets so far is readily representable in symbolic logic. We can render the defining properties of the basic sets and constructors as follows:
+Notice also that everything we have said about sets so far is readily representable in symbolic logic. We can render the defining properties of the basic sets and constructors as follows:
 
 - :math:`\forall x \; (x \in \emptyset \leftrightarrow \bot)`
 - :math:`\forall x \; (x \in \mathcal U \leftrightarrow \top)`
@@ -268,7 +268,7 @@ Mathematicians often use the abbreviations "LHS" and "RHS" for "left-hand side" 
 
 ----
 
-Such a proof is clear, compact, and easy to read. The main challenge to the reader is to figure out what justifies each subsequent step. Mathematicians sometimes annotate such a calculation with additional information, or add a few words of explanation in the text before and/or after. But the ideal situation is to carry out the calculation is small enough steps so that each step is straightforward, and needs to no explanation. (And, once again, what counts as "straightforward" will vary depending on who is reading the proof.)
+Such a proof is clear, compact, and easy to read. The main challenge to the reader is to figure out what justifies each subsequent step. Mathematicians sometimes annotate such a calculation with additional information, or add a few words of explanation in the text before and/or after. But the ideal situation is to carry out the calculation is small enough steps so that each step is straightforward, and needs no explanation. (And, once again, what counts as "straightforward" will vary depending on who is reading the proof.)
 
 We have said that two sets are equal if they have the same elements. In the previous section, we proved that two sets are equal by reasoning about the elements of each, but we can often be more efficient. Assuming :math:`A`, :math:`B`, and :math:`C` are subsets of some domain :math:`\mathcal U`, the following identities hold:
 

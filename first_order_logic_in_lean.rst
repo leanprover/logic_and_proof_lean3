@@ -360,7 +360,7 @@ In the last chapter, we considered the following proof in natural deduction:
 
 .. raw:: html
 
-   <img src="first_order_logic_in_lean.1.png">
+   <img src="_static/first_order_logic_in_lean.1.png">
 
 .. raw:: latex
 
@@ -1033,7 +1033,7 @@ Exercises
          theorem my_symm (h : b = a) : a = b :=
          sorry
 
-         -- now use foo, rfl, and my_symm to prove transitivity
+         -- now use foo and my_symm to prove transitivity
          theorem my_trans (h1 : a = b) (h2 : b = c) : a = c :=
          sorry
        end

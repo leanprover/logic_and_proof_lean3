@@ -47,7 +47,7 @@ In Lean, the inference is named ``by_contradiction``, and since it is a classica
       (assume h : ¬ A,
         show false, from sorry)
 
-One of the most important consequences of this rule is a classical principle that we mentioned above, namely, the *law of the excluded middle*, which asserts that the following holds for all :math:`A`: :math:`A \vee \neg A`.  We sometimes (especiall in Lean) denote this law by ``em``.  In mathematical arguments, one often splits a proof into two cases, assuming first :math:`A` and then :math:`\neg A`. Using the elimination rule for disjunction, this is equivalent to using :math:`A \vee \neg A`, which is the excluded middle principle for this particular :math:`A`. 
+One of the most important consequences of this rule is a classical principle that we mentioned above, namely, the *law of the excluded middle*, which asserts that the following holds for all :math:`A`: :math:`A \vee \neg A`.  In Lean we denote this law by ``em``.  In mathematical arguments, one often splits a proof into two cases, assuming first :math:`A` and then :math:`\neg A`. Using the elimination rule for disjunction, this is equivalent to using :math:`A \vee \neg A`, which is the excluded middle principle for this particular :math:`A`. 
 
 Here is a proof of ``em``, in natural deduction, using proof by contradiction:
 

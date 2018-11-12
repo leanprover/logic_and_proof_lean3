@@ -268,7 +268,7 @@ Mathematicians often use the abbreviations "LHS" and "RHS" for "left-hand side" 
 
 ----
 
-Such a proof is clear, compact, and easy to read. The main challenge to the reader is to figure out what justifies each subsequent step. Mathematicians sometimes annotate such a calculation with additional information, or add a few words of explanation in the text before and/or after. But the ideal situation is to carry out the calculation is small enough steps so that each step is straightforward, and needs no explanation. (And, once again, what counts as "straightforward" will vary depending on who is reading the proof.)
+Such a proof is clear, compact, and easy to read. The main challenge to the reader is to figure out what justifies each subsequent step. Mathematicians sometimes annotate such a calculation with additional information, or add a few words of explanation in the text before and/or after. But the ideal situation is to carry out the calculation in small enough steps so that each step is straightforward, and needs no explanation. (And, once again, what counts as "straightforward" will vary depending on who is reading the proof.)
 
 We have said that two sets are equal if they have the same elements. In the previous section, we proved that two sets are equal by reasoning about the elements of each, but we can often be more efficient. Assuming :math:`A`, :math:`B`, and :math:`C` are subsets of some domain :math:`\mathcal U`, the following identities hold:
 

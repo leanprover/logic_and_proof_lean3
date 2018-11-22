@@ -300,14 +300,14 @@ Now, suppose we are studying geometry, and we want to express the fact that give
 
    \forall {p, q, L, M} (\mathit{point}(p) \wedge \mathit{point}(q) \wedge
    \mathit{line}(L) \wedge \mathit{line}(M) \\
-   \wedge \mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge
+   \wedge q \neq p \wedge \mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge
    \mathit{on}(q,M) \to L = M).
 
 But dealing with such predicates is tedious, and there is a mild extension of first-order logic, called *many-sorted first-order logic*, which builds in some of the bookkeeping. In many-sorted logic, one can have different sorts of objects---such as points and lines---and a separate stock of variables and quantifiers ranging over each. Moreover, the specification of function symbols and predicate symbols indicates what sorts of arguments they expect, and, in the case of function symbols, what sort of argument they return. For example, we might choose to have a sort with variables :math:`p, q, r, \ldots` ranging over points, a sort with variables :math:`L, M, N, \ldots` ranging over lines, and a relation :math:`\mathit{on}(p, L)` relating the two. Then the assertion above is rendered more simply as follows:
 
 .. math::
 
-   \forall {p, q, L, M} \; (\mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge \mathit{on}(q,M) \to L = M).
+   \forall {p, q, L, M} \; (p \neq q \wedge \mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge \mathit{on}(q,M) \to L = M).
 
 Equality
 --------

@@ -124,20 +124,18 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
     constant zero : ℕ
     constant one : ℕ
 
-    -- BEGIN
     variables w x y z : ℕ
 
     #check mul x y
     #check add x y
     #check square x
     #check even x
-    -- END
 
     end hidden
 
-   We can even declare infix notation of binary operations and relations:
+We can even declare infix notation of binary operations and relations:
 
-   .. code-block:: lean
+.. code-block:: lean
 
     namespace hide
 
@@ -157,7 +155,7 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
     #check mul x y
     #check add x y
     #check square x
-    #check even x 
+    #check even x
 
     -- BEGIN
     infix + := add
@@ -167,11 +165,11 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
 
     end hide
 
-   (Getting notation for numerals ``1``, ``2``, ``3``, ... is trickier.) With all this in place, the examples above can be rendered as follows:
+(Getting notation for numerals ``1``, ``2``, ``3``, ... is trickier.) With all this in place, the examples above can be rendered as follows:
 
-   .. code-block:: lean
+.. code-block:: lean
 
-     namespace hide
+    namespace hide
 
     constant mul : ℕ → ℕ → ℕ
     constant add : ℕ → ℕ → ℕ
@@ -189,19 +187,19 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
     #check mul x y
     #check add x y
     #check square x
-    #check even x 
+    #check even x
 
     infix + := add
     infix * := mul
     infix < := lt
 
-      -- BEGIN
-      #check even (x + y + z) ∧ prime ((x + one) * y * y)
-      #check ¬ (square (x + y * z) = w) ∨ x + y < z
-      #check x < y ∧ even x ∧ even y → x + one < y
-      -- END
+    -- BEGIN
+    #check even (x + y + z) ∧ prime ((x + one) * y * y)
+    #check ¬ (square (x + y * z) = w) ∨ x + y < z
+    #check x < y ∧ even x ∧ even y → x + one < y
+    -- END
 
-      end hide
+    end hide
 
 In fact, all of the functions, predicates, and relations discussed here, except for the "square" function and "prime," are defined in the core Lean library. They become available to us when we put the commands ``import data.nat`` and ``open nat`` at the top of a file in Lean.
 

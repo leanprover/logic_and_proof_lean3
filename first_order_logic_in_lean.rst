@@ -52,7 +52,7 @@ Note all the following:
 
 -  A unary function is represented as an object of type ``U → U`` and a binary function is represented as an object of type ``U → U → U``, using the same notation as for implication between propositions.
 -  We write, for example, ``f x`` to denote the result of applying ``f`` to ``x``, and ``g x y`` to denote the result of applying ``g`` to ``x`` and ``y``, again just as we did when using modus ponens for first-order logic. Parentheses are needed in the expression ``g x (f c)`` to ensure that ``f c`` is parsed as a single argument. 
--  A unary predicate is presented as an object of type ``U → Prop`` and a binary function is represented as an object of type ``U → U → Prop``. You can think of a binary relation ``R`` as being a function that assumes two arguments in the universe, ``U``, and returns a proposition.
+-  A unary predicate is presented as an object of type ``U → Prop`` and a binary predicate is represented as an object of type ``U → U → Prop``. You can think of a binary relation ``R`` as being a function that assumes two arguments in the universe, ``U``, and returns a proposition.
 -  We write ``P x`` to denote the assertion that ``P`` holds of ``x``, and ``R x y`` to denote that ``R`` holds of ``x`` and ``y``.
 
 You may reasonably wonder what difference there is between a constant and a variable in Lean. The following declarations also work:
@@ -706,7 +706,7 @@ Because calculations are so important in mathematics, however, Lean provides mor
       end
     -- END
 
-If you put the cursor after the word ``begin``, Lean will tell you that the goal at that point is to prove ``x = y``. The first command changes the goal ``x = z`` to ``y = z``; the left-facing arrow before ``h1`` (which you can enter as ``\<-``) tells Lean to use the equation in the reverse direction. If you put the cursor after the comma, Lean shows you the new goal, ``y = z``. The ``apply`` command uses ``h2`` to complete the proof. 
+If you put the cursor after the word ``begin``, Lean will tell you that the goal at that point is to prove ``x = z``. The first command changes the goal ``x = z`` to ``y = z``; the left-facing arrow before ``h1`` (which you can enter as ``\<-``) tells Lean to use the equation in the reverse direction. If you put the cursor after the comma, Lean shows you the new goal, ``y = z``. The ``apply`` command uses ``h2`` to complete the proof. 
 
 An alternative is to rewrite the goal using ``h1`` and ``h2``, which reduces the goal to ``x = x``. When that happens, ``rewrite`` automatically applies reflexivity.
 

@@ -296,7 +296,7 @@ We will see such relations in Lean in a moment, but first let's define another k
     end hidden
 
 
-Now that we have the definition of preorder in hand, we can describe a partial order as an "antisymmetric preorder" and an equivalence relation is a "symmetric preorder."
+Now that we have the definition of preorder in hand, we can describe a partial order as an "antisymmetric preorder" and an equivalence relation as a "symmetric preorder."
 
 .. code-block:: lean
 

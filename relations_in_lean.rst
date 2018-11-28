@@ -359,7 +359,7 @@ define ``transym`` to be the second of the two properties above.)
       have h₄ : ∀ a b c, a ≈ b ∧ b ≈ c → a ≈ c, from 
         assume a b c (h: a ≈ b ∧ b ≈ c),
         have c ≈ b, from h₂ (and.intro h₁ h.right),
-        have a ≈ b ∧ c ≈ b, from and.intro h.left ‹ c ≈ b ›, 
+        have a ≈ b ∧ c ≈ b, from and.intro h.left ‹c ≈ b›, 
         show a ≈ c, from h₂ this,
       and.intro h₃ h₄ 
       -- END

@@ -80,7 +80,7 @@ Notice also that everything we have said about sets so far is readily representa
 - :math:`\forall x \; (x \in \overline A \leftrightarrow x \notin A)`
 - :math:`\forall x \; (x \in A \setminus B \leftrightarrow  x \in A \wedge x \notin B)`
 
-The assertion that :math:`A` is a subset of :math:`B` can be written :math:`\forall x \; (x \in A \to x \in B)`, and the assertion that :math:`A` is equal to be can be written :math:`\forall x \; (x \in A \leftrightarrow  x \in B)`. These are all *universal* statements, that is, statements with universal quantifiers in front, followed by basic assertions and propositional connectives. What this means is that reasoning about sets formally often amounts to using nothing more than the rules for the universal quantifier together with the rules for propositional logic.
+The assertion that :math:`A` is a subset of :math:`B` can be written :math:`\forall x \; (x \in A \to x \in B)`, and the assertion that :math:`A` is equal to :math:`B` can be written :math:`\forall x \; (x \in A \leftrightarrow  x \in B)`. These are all *universal* statements, that is, statements with universal quantifiers in front, followed by basic assertions and propositional connectives. What this means is that reasoning about sets formally often amounts to using nothing more than the rules for the universal quantifier together with the rules for propositional logic.
 
 Logicians sometimes describe ordinary mathematical proofs as *informal*, in contrast to the *formal proofs* in natural deduction. When writing informal proofs, the focus is on readability. Here is an example.
 
@@ -169,7 +169,7 @@ Conversely, suppose :math:`x` is in :math:`A \setminus (B \cup C)`. Then :math:`
 
 ----
 
-Perhaps the biggest difference between informal proofs and formal proofs is the level of detail. Informal proofs will often skip over details that are taken to be "straightforward" or "obvious," devoting more effort to spelling out inferences that are novel of unexpected.
+Perhaps the biggest difference between informal proofs and formal proofs is the level of detail. Informal proofs will often skip over details that are taken to be "straightforward" or "obvious," devoting more effort to spelling out inferences that are novel or unexpected.
 
 Writing a good proof is like writing a good essay. To convince your readers that the conclusion is correct, you have to get them to understand the argument, without overwhelming them with unnecessary details. It helps to have a specific audience in mind. Try speaking the argument aloud to friends, roommates, and family members; if their eyes glaze over, it is unreasonable to expect anonymous readers to do better.
 

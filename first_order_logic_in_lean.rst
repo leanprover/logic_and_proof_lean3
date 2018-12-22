@@ -52,7 +52,7 @@ Note all the following:
 
 -  A unary function is represented as an object of type ``U → U`` and a binary function is represented as an object of type ``U → U → U``, using the same notation as for implication between propositions.
 -  We write, for example, ``f x`` to denote the result of applying ``f`` to ``x``, and ``g x y`` to denote the result of applying ``g`` to ``x`` and ``y``, again just as we did when using modus ponens for first-order logic. Parentheses are needed in the expression ``g x (f c)`` to ensure that ``f c`` is parsed as a single argument. 
--  A unary predicate is presented as an object of type ``U → Prop`` and a binary function is represented as an object of type ``U → U → Prop``. You can think of a binary relation ``R`` as being a function that assumes two arguments in the universe, ``U``, and returns a proposition.
+-  A unary predicate is presented as an object of type ``U → Prop`` and a binary predicate is represented as an object of type ``U → U → Prop``. You can think of a binary relation ``R`` as being a function that assumes two arguments in the universe, ``U``, and returns a proposition.
 -  We write ``P x`` to denote the assertion that ``P`` holds of ``x``, and ``R x y`` to denote that ``R`` holds of ``x`` and ``y``.
 
 You may reasonably wonder what difference there is between a constant and a variable in Lean. The following declarations also work:
@@ -124,20 +124,18 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
     constant zero : ℕ
     constant one : ℕ
 
-    -- BEGIN
     variables w x y z : ℕ
 
     #check mul x y
     #check add x y
     #check square x
     #check even x
-    -- END
 
     end hidden
 
-   We can even declare infix notation of binary operations and relations:
+We can even declare infix notation of binary operations and relations:
 
-   .. code-block:: lean
+.. code-block:: lean
 
     namespace hide
 
@@ -157,7 +155,7 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
     #check mul x y
     #check add x y
     #check square x
-    #check even x 
+    #check even x
 
     -- BEGIN
     infix + := add
@@ -167,11 +165,11 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
 
     end hide
 
-   (Getting notation for numerals ``1``, ``2``, ``3``, ... is trickier.) With all this in place, the examples above can be rendered as follows:
+(Getting notation for numerals ``1``, ``2``, ``3``, ... is trickier.) With all this in place, the examples above can be rendered as follows:
 
-   .. code-block:: lean
+.. code-block:: lean
 
-     namespace hide
+    namespace hide
 
     constant mul : ℕ → ℕ → ℕ
     constant add : ℕ → ℕ → ℕ
@@ -189,19 +187,19 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
     #check mul x y
     #check add x y
     #check square x
-    #check even x 
+    #check even x
 
     infix + := add
     infix * := mul
     infix < := lt
 
-      -- BEGIN
-      #check even (x + y + z) ∧ prime ((x + one) * y * y)
-      #check ¬ (square (x + y * z) = w) ∨ x + y < z
-      #check x < y ∧ even x ∧ even y → x + one < y
-      -- END
+    -- BEGIN
+    #check even (x + y + z) ∧ prime ((x + one) * y * y)
+    #check ¬ (square (x + y * z) = w) ∨ x + y < z
+    #check x < y ∧ even x ∧ even y → x + one < y
+    -- END
 
-      end hide
+    end hide
 
 In fact, all of the functions, predicates, and relations discussed here, except for the "square" function and "prime," are defined in the core Lean library. They become available to us when we put the commands ``import data.nat`` and ``open nat`` at the top of a file in Lean.
 
@@ -708,7 +706,7 @@ Because calculations are so important in mathematics, however, Lean provides mor
       end
     -- END
 
-If you put the cursor after the word ``begin``, Lean will tell you that the goal at that point is to prove ``x = y``. The first command changes the goal ``x = z`` to ``y = z``; the left-facing arrow before ``h1`` (which you can enter as ``\<-``) tells Lean to use the equation in the reverse direction. If you put the cursor after the comma, Lean shows you the new goal, ``y = z``. The ``apply`` command uses ``h2`` to complete the proof. 
+If you put the cursor after the word ``begin``, Lean will tell you that the goal at that point is to prove ``x = z``. The first command changes the goal ``x = z`` to ``y = z``; the left-facing arrow before ``h1`` (which you can enter as ``\<-``) tells Lean to use the equation in the reverse direction. If you put the cursor after the comma, Lean shows you the new goal, ``y = z``. The ``apply`` command uses ``h2`` to complete the proof. 
 
 An alternative is to rewrite the goal using ``h1`` and ``h2``, which reduces the goal to ``x = x``. When that happens, ``rewrite`` automatically applies reflexivity.
 

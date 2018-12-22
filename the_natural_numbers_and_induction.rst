@@ -411,7 +411,7 @@ We can define *truncated subtraction* by
 
 .. math::
 
-   m \dot - 0 & = 0 \\
+   m \dot - 0 & = m \\
    m \dot - (\mathrm{succ}(n)) & = \mathrm{pred}(m \dot - n)
 
 With these definitions and the induction principle, one can prove all the following identities:
@@ -423,7 +423,7 @@ With these definitions and the induction principle, one can prove all the follow
 -  :math:`m + n = n + m`
 -  :math:`m(n + k) = mn + mk`
 -  :math:`0 \cdot n = 0`
--  :math:`1 \cdot n = x`
+-  :math:`1 \cdot n = n`
 -  :math:`(mn)k = m(nk)`
 -  :math:`mn = nm`
 

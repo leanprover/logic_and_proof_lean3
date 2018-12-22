@@ -66,7 +66,7 @@ We can then use the notions freely. Notice that Lean will unfold the definitions
       x = y :=
     h x y h1 h2
     -- END
-    
+
     end hidden
 
 In the command ``variable {A : Type}``, we put curly braces around ``A`` to indicate that it is an *implicit* argument, which is to say, you do not have to write it explicitly; Lean can infer it from the argument ``R``. That is why we can write ``reflexive R`` rather than ``reflexive A R``: Lean knows that ``R`` is a binary relation on ``A``, so it can infer that we mean reflexivity for binary relations on ``A``. 
@@ -90,7 +90,7 @@ Given ``h : transitive R``, ``h1 : R x y``, and ``h2 : R y z``, it is annoying t
       R x z :=
     h _ _ _ h1 h2
     -- END
-    
+
     end hidden
 
 But typing underscores is annoying, too. The best solution is to declare the arguments ``x y z`` to a transitivity hypothesis to be implicit as well:
@@ -103,13 +103,12 @@ But typing underscores is annoying, too. The best solution is to declare the arg
     variable {A : Type}
 
     def transitive (R : A → A → Prop) : Prop := 
-    ∀ {x y z}, R x y → R y z → R x z
+      ∀ {x y z}, R x y → R y z → R x z
 
     variable R : A → A → Prop
 
     example (h : transitive R) (x y z : A) (h1 : R x y) (h2 : R y z) : 
-    R x z :=
-    h h1 h2
+    R x z := h h1 h2
     -- END
     
     end hidden
@@ -277,97 +276,115 @@ Here the declaration at the top says that ``A`` has the structure of a partial o
 Equivalence Relations
 ---------------------
 
-In :numref:`equivalence_relations_and_equality` we saw that an *equivalence relation* is a binary relation on some domain :math:`A` that is reflexive, symmetric, and transitive.
-We will see such relations in Lean in a moment, but first let's define another kind of relation called a *preorder*, which is a binary relation that is reflexive and transitive.
+In :numref:`equivalence_relations_and_equality` we saw that an *equivalence relation* is a binary relation on some domain :math:`A` that is reflexive, symmetric, and transitive. We will see such relations in Lean in a moment, but first let's define another kind of relation called a *preorder*, which is a binary relation that is reflexive and transitive.
 
 .. code-block:: lean
 
     namespace hidden
 
-      variable {A : Type} 
+    variable {A : Type}
 
-      def refl (R : A → A → Prop) : Prop := ∀ {a}, R a a
-
-      def trans (R : A → A → Prop) : Prop := ∀ {a b c}, 
-      R a b → R b c → R a c
-
-      def preorder (R : A → A → Prop) : Prop := refl R ∧ trans R
+    def preorder (R : A → A → Prop) : Prop := 
+    reflexive R ∧ transitive R
 
     end hidden
 
-
-Now that we have the definition of preorder in hand, we can describe a partial order as an "antisymmetric preorder" and an equivalence relation as a "symmetric preorder."
+Lean's library provides a different formulation of preorders, so, in order to use the same name, we have to put it in the ``hidden`` namespace. Lean's library defines other properties of relations, such as these:
 
 .. code-block:: lean
 
     namespace hidden
-      variable {A : Type}
-      def refl (r : A → A → Prop) : Prop := ∀ {a}, r a a
-      def trans (r : A → A → Prop) : Prop := ∀ {a b c}, r a b → r b c → r a c
-      def preorder (r : A → A → Prop) : Prop := refl r ∧ trans r
+     
+    variables {A : Type} (R : A → A → Prop)
 
-      -- BEGIN
-      def antisymm (R : A → A → Prop) : Prop := ∀ {a b}, 
-      R a b → R b a → a = b
+    def equivalence := reflexive R ∧ symmetric R ∧ transitive R
 
-      def partial_order (R : A → A → Prop) : Prop := 
-      preorder R ∧ antisymm R
+    def total := ∀ x y, R x y ∨ R y x
 
-      def symm (R : A → A → Prop) : Prop := ∀ {a b}, 
-      R a b → R b a
+    def irreflexive := ∀ x, ¬ R x x
 
-      def equiv (R : A → A → Prop) : Prop := preorder R ∧ symm R
-      -- END
+    def antisymmetric := ∀ ⦃x y⦄, R x y → R y x → x = y
+
     end hidden
 
+You can ask Lean to print their definitions:
 
+.. code-block:: lean
+
+    #print equivalence
+    #print total
+    #print irreflexive
+    #print anti_symmetric
+
+Building on our previous definition of a preorder, we can describe a partial order as an antisymmetric preorder, and show that an equivalence relation as a symmetric preorder.
+
+.. code-block:: lean
+
+    namespace hidden
+     
+    variable {A : Type}
+
+    def preorder (R : A → A → Prop) : Prop := 
+    reflexive R ∧ transitive R
+
+    def partial_order (R : A → A → Prop) : Prop := 
+    preorder R ∧ anti_symmetric R
+
+    example (R : A → A → Prop): 
+      equivalence R ↔ preorder R ∧ symmetric R :=
+    iff.intro
+      (assume h1 : equivalence R,
+        have h2 : reflexive R, from and.left h1,
+        have h3 : symmetric R, from and.left (and.right h1),
+        have h4 : transitive R, from and.right (and.right h1),
+        show preorder R ∧ symmetric R, 
+          from and.intro (and.intro h2 h4) h3)
+      (assume h1 : preorder R ∧ symmetric R,
+        have h2 : preorder R, from and.left h1,
+        show equivalence R, 
+          from and.intro (and.left h2) 
+                 (and.intro (and.right h1) (and.right h2)))
+
+    end hidden
 
 In :numref:`equivalence_relations_and_equality` we claimed that there is yet another way to define an equivalence relation, namely, as a binary relation satisfying the following two properties:
 
 -  :math:`\forall a \; (a \equiv a)`
 -  :math:`\forall {a, b, c} \; (a \equiv b \wedge c \equiv b \to a \equiv c)`
 
-Let's prove this in Lean.  (We will use the (infix) notation ``≈`` for our relation, and we'll
-define ``transym`` to be the second of the two properties above.)
+Let's prove this in Lean. Remember that the ``parameters`` and ``local infix`` commands serve to fix a relation ``R`` and introduce the notation ``≈`` to denote it. (You can type ``≈`` as ``\~~``.) In the assumptions ``reflexive (≈)`` and ``symmetric (≈)``, the notation ``(≈)`` denotes ``R``.
 
 .. code-block:: lean
 
     namespace hidden
-    section
-      def refl {α : Type} (r : α → α → Prop) : Prop := ∀ {a}, r a a
-      def trans {α : Type} (r : α → α → Prop) : Prop := ∀ {a b c}, r a b → r b c → r a c
-      def preorder {α : Type} (r : α → α → Prop) : Prop := refl r ∧ trans r
-      def antisymm {α : Type} (r : α → α → Prop) : Prop := ∀ {a b}, r a b → r b a → a = b
-      def symm {α : Type} (r : α → α → Prop) : Prop := ∀ {a b}, r a b → r b a
-      def equiv {α : Type} (r : α → α → Prop) : Prop := preorder r ∧ symm r
 
-      -- BEGIN
-      parameters {A : Type}
-      parameter R : A → A → Prop
+    def preorder {A : Type} (R : A → A → Prop) : Prop := 
+    reflexive R ∧ transitive R
 
-      local infix ≈ := R
+    -- BEGIN
+    section 
+    parameters {A : Type} (R : A → A → Prop)
+    local infix ≈ := R
 
-      def transymm (R: A → A → Prop) : Prop := 
-      ∀ {a b c}, a ≈ b ∧ c ≈ b → a ≈ c
+    variable (h1 : reflexive (≈)) 
+    variable (h2 : ∀ {a b c}, a ≈ b ∧ c ≈ b → a ≈ c)
 
-      example (h₁ : refl R) (h₂ : transymm R) :
-      (∀ a b, a ≈ b → b ≈ a) ∧ (∀ a b c, a ≈ b ∧ b ≈ c → a ≈ c) :=
-      have h₃ : ∀ a b, a ≈ b → b ≈ a, from 
-        assume a b (h: a ≈ b), 
-        have b ≈ b ∧ a ≈ b, from and.intro h₁ h,
-        show b ≈ a, from h₂ ‹b ≈ b ∧ a ≈ b›,
-      have h₄ : ∀ a b c, a ≈ b ∧ b ≈ c → a ≈ c, from 
-        assume a b c (h: a ≈ b ∧ b ≈ c),
-        have c ≈ b, from h₂ (and.intro h₁ h.right),
-        have a ≈ b ∧ c ≈ b, from and.intro h.left ‹c ≈ b›, 
-        show a ≈ c, from h₂ this,
-      and.intro h₃ h₄ 
-      -- END
+    example : symmetric (≈) :=
+    assume a b (h : a ≈ b), 
+    have b ≈ b ∧ a ≈ b, from and.intro (h1 b) h,
+    show b ≈ a, from h2 this 
+
+    example : transitive (≈) :=
+    assume a b c (h3 : a ≈ b) (h4 : b ≈ c),
+    have c ≈ b, from h2 (and.intro (h1 c) h4),
+    have a ≈ b ∧ c ≈ b, from and.intro h3 this, 
+    show a ≈ c, from h2 this
+ 
     end
+    -- END
+
     end hidden
 
-
-   
 Exercises
 ---------
 

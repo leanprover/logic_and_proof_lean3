@@ -296,7 +296,7 @@ We will see such relations in Lean in a moment, but first let's define another k
     end hidden
 
 
-Now that we have the definition of preorder in hand, we can describe a partial order as an "antisymmetric preorder" and an equivalence relation is a "symmetric preorder."
+Now that we have the definition of preorder in hand, we can describe a partial order as an "antisymmetric preorder" and an equivalence relation as a "symmetric preorder."
 
 .. code-block:: lean
 
@@ -322,7 +322,7 @@ Now that we have the definition of preorder in hand, we can describe a partial o
 
 
 
-In :numref:`equivalence_relations_and_equality` we claimed that there is yet another way to  define an equivalence relation---namely, as a binary relation satisfying following two properties:
+In :numref:`equivalence_relations_and_equality` we claimed that there is yet another way to define a partial order relation, namely, as a binary relation satisfying following two properties:
 
 -  :math:`\forall a \; (a \equiv a)`
 -  :math:`\forall {a, b, c} \; (a \equiv b \wedge c \equiv b \to a \equiv c)`
@@ -359,7 +359,7 @@ define ``transym`` to be the second of the two properties above.)
       have h₄ : ∀ a b c, a ≈ b ∧ b ≈ c → a ≈ c, from 
         assume a b c (h: a ≈ b ∧ b ≈ c),
         have c ≈ b, from h₂ (and.intro h₁ h.right),
-        have a ≈ b ∧ c ≈ b, from and.intro h.left ‹ c ≈ b ›, 
+        have a ≈ b ∧ c ≈ b, from and.intro h.left ‹c ≈ b›, 
         show a ≈ c, from h₂ this,
       and.intro h₃ h₄ 
       -- END

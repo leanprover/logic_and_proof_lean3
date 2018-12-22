@@ -253,4 +253,41 @@ Here are the five propositions proved in :numref:`defining_arithmetic_operations
 Exercises
 ---------
 
-#. Consider the theorems in :numref:`defining_arithmetic_operations` and :numref:`arithmetic_on_the_natural_numbers`. Formalize as many of them as you can in Lean.
+#. Formalize as many of the identities from :numref:`defining_arithmetic_operations` as you can by replacing each `sorry` with a proof.
+
+.. code-block:: lean
+  --1.a.
+  example : ∀ m n k : nat, m * (n + k) = m * n + m * k := sorry
+
+  --1.b.
+  example : ∀ n : nat, 0 * n = 0 := sorry
+
+  --1.c.
+  example : ∀ n : nat, 1 * n = n := sorry
+
+  --1.d.
+  example : ∀ m n k : nat, (m * n) * k = m * (n * k) := sorry
+
+  --1.e.
+  example : ∀ m n : nat, m * n= n * m := sorry
+
+
+#. Formalize as many of the identities from :numref:`arithmetic_on_the_natural_numbers` as you can by replacing each `sorry` with a proof.
+
+.. code-block:: lean
+  --2.a.
+  example : ∀ m n k : nat, n ≤ m → n + k ≤ m  + k := sorry
+
+  --2.b.
+  example : ∀ m n k : nat, n + k ≤ m + k → n ≤ m := sorry
+
+  --2.c.
+  example : ∀ m n k : nat, n ≤ m → n * k ≤ m * k := sorry
+
+  --2.d.
+  example : ∀ m n k : nat, m ≥ n → m = n ∨ m ≥ n+1 := sorry
+
+  --2.e.
+  example : ∀ n : nat, 0 ≤ n := sorry
+
+

@@ -285,7 +285,7 @@ Exercises
   example : ∀ m n k : nat, n ≤ m → n * k ≤ m * k := sorry
 
   --2.d.
-  example : ∀ m n k : nat, m ≥ n → m = n ∨ m ≥ n+1 := sorry
+  example : ∀ m n : nat, m ≥ n → m = n ∨ m ≥ n+1 := sorry
 
   --2.e.
   example : ∀ n : nat, 0 ≤ n := sorry

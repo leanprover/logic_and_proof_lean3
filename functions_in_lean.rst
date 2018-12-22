@@ -42,7 +42,7 @@ Notice that this is a universal statement, and it is equivalent to the statement
 
 Remember that in logic it is common to use lambda notation to define functions. We can denote the identity function by :math:`\lambda x \; x`, or perhaps :math:`\lambda x : X \; x` to emphasize that the domain of the function is :math:`X`. If :math:`f : X \to Y` and :math:`g : Y \to Z`, we can define the composition :math:`g \circ f` by :math:`g \circ f = \lambda x : X \; g(f(x))`.
 
-Also remember that if :math:`P(x)` is any predicate, then in first order logic we can assert that there exists a unique :math:`x` satisfying :math:`P(x)`, written :math:`\exists! x \; P(x)`, with the conjunction of the following two statements:
+Also remember that if :math:`P(x)` is any predicate, then in first-order logic we can assert that there exists a unique :math:`x` satisfying :math:`P(x)`, written :math:`\exists! x \; P(x)`, with the conjunction of the following two statements:
 
 -  :math:`\exists x \; P(x)`
 -  :math:`\forall x_1, x_2 \; (P(x_1) \wedge P(x_2) \to x_1 = y_1)`
@@ -188,7 +188,8 @@ We can define what it means for :math:`f` to be injective, surjective, or biject
     variables {X Y Z : Type}
 
     -- BEGIN
-    def injective (f : X → Y) : Prop := ∀ ⦃x₁ x₂⦄, f x₁ = f x₂ → x₁ = x₂
+    def injective (f : X → Y) : Prop := 
+    ∀ ⦃x₁ x₂⦄, f x₁ = f x₂ → x₁ = x₂
 
     def surjective (f : X → Y) : Prop := ∀ y, ∃ x, f x = y
 
@@ -275,10 +276,12 @@ The notions of left and right inverse are defined in the expected way.
 
     -- BEGIN
     -- g is a left inverse to f
-    def left_inverse (g : Y → X) (f : X → Y) : Prop := ∀ x, g (f x) = x
+    def left_inverse (g : Y → X) (f : X → Y) : Prop := 
+    ∀ x, g (f x) = x
 
     -- g is a right inverse to f
-    def right_inverse (g : Y → X) (f : X → Y) : Prop := left_inverse f g
+    def right_inverse (g : Y → X) (f : X → Y) : Prop := 
+    left_inverse f g
     -- END
 
     end hidden
@@ -291,10 +294,12 @@ In particular, composing with a left or right inverse yields the identity.
     variables {X Y Z : Type}
 
     -- BEGIN
-    def id_of_left_inverse {g : Y → X} {f : X → Y} : left_inverse g f → g ∘ f = id :=
+    def id_of_left_inverse {g : Y → X} {f : X → Y} : 
+    left_inverse g f → g ∘ f = id :=
     assume H, funext H
 
-    def id_of_right_inverse {g : Y → X} {f : X → Y} : right_inverse g f → f ∘ g = id :=
+    def id_of_right_inverse {g : Y → X} {f : X → Y} : 
+    right_inverse g f → f ∘ g = id :=
     assume H, funext H
     -- END
 
@@ -371,7 +376,7 @@ The axiom of choice tells us that if, for every ``x : X``, there is a ``y : Y`` 
     noncomputable def inverse (f : X → Y) (default : X) : Y → X :=
     λ y, if h : ∃ x, f x = y then some h else default
 
-Lean requires us to acknowledge that the definition is not computational, since, first, it may not be algorithmically possible to decide whether or not condition ``H`` holds, and even if it does, it may not be algorithmically possible to find a suitable value of ``x``.
+Lean requires us to acknowledge that the definition is not computational, since, first, it may not be algorithmically possible to decide whether or not condition ``h`` holds, and even if it does, it may not be algorithmically possible to find a suitable value of ``x``.
 
 Below, the proposition ``inverse_of_exists`` asserts that ``inverse`` meets its specification, and the subsequent theorem shows that if ``f`` is injective, then the ``inverse`` function really is a left inverse.
 

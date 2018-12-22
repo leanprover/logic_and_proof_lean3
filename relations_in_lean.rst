@@ -322,7 +322,7 @@ Now that we have the definition of preorder in hand, we can describe a partial o
 
 
 
-In :numref:`equivalence_relations_and_equality` we claimed that there is yet another way to define a partial order relation, namely, as a binary relation satisfying following two properties:
+In :numref:`equivalence_relations_and_equality` we claimed that there is yet another way to define an equivalence relation, namely, as a binary relation satisfying the following two properties:
 
 -  :math:`\forall a \; (a \equiv a)`
 -  :math:`\forall {a, b, c} \; (a \equiv b \wedge c \equiv b \to a \equiv c)`

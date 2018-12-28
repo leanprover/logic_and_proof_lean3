@@ -249,7 +249,7 @@ Remember that the intuition behind the elimination rule for the existential quan
    \UIM{\exists  x (A(x) \wedge B(x)) \to \exists  x A(x)}
    \end{prooftree}
 
-The following proof shows that if there is something satsifying either :math:`A` or :math:`B`, then either there is something satisfying :math:`A`, or there is something satisfying :math:`B`.
+The following proof shows that if there is something satisfying either :math:`A` or :math:`B`, then either there is something satisfying :math:`A`, or there is something satisfying :math:`B`.
 
 .. raw:: html
 
@@ -343,7 +343,7 @@ Another example is that if :math:`x` does not occur in :math:`P`, then :math:`\e
    \BIM{\ex x P \leftrightarrow P}
    \end{prooftree}
 
-This short but tricky, so let us go through it carefully. On the left, we assume :math:`\exists x \; P` to conclude :math:`P`. We assume :math:`P`, and now we can immediately cancel this assumption by existential elimination, since :math:`x` does not occur in :math:`P`, so it doesn't occur freely in any assumption or in the conclusion. On the right we use existential introduction to conclude :math:`\exists x \; P` from :math:`P`.
+This is short but tricky, so let us go through it carefully. On the left, we assume :math:`\exists x \; P` to conclude :math:`P`. We assume :math:`P`, and now we can immediately cancel this assumption by existential elimination, since :math:`x` does not occur in :math:`P`, so it doesn't occur freely in any assumption or in the conclusion. On the right we use existential introduction to conclude :math:`\exists x \; P` from :math:`P`.
 
 .. _equality:
 

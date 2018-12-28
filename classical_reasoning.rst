@@ -5,7 +5,7 @@ Classical Reasoning
 
 If we take all the rules of propositional logic we have seen so far and exclude *reductio ad absurdum*, or proof by contradiction, we have what is known as *intuitionistic logic*. In intuitionistic logic, it is possible to view proofs in computational terms: a proof of :math:`A \wedge B` is a proof of :math:`A` paired with a proof of :math:`B`, a proof of :math:`A \to B` is a procedure which transforms evidence for :math:`A` into evidence for :math:`B`, and a proof of :math:`A \vee B` is a proof of one or the other, tagged so that we know which is the case. The *ex falso* rule makes sense only because we expect that there is no proof of falsity; it is like the empty data type.
 
-Proof by contradiction does not fit it well with this world view: from a proof of a contradiction from :math:`\neg A`, we are supposed to magically produce a proof of :math:`A`. We will see that with proof by contradiction, we can prove the law of the excluded middle, :math:`A \vee \neg A`. From a computational perspective, this would say that we can ways decide whether or not :math:`A` is true.
+Proof by contradiction does not fit in well with this world view: from a proof of a contradiction from :math:`\neg A`, we are supposed to magically produce a proof of :math:`A`. We will see that with proof by contradiction, we can prove the following law, known as the *law of the excluded middle*: :math:`\forall A, A \vee \neg A`. From a computational perspective, this says that for every :math:`A` we can decide whether or not :math:`A` is true.
 
 Classical reasoning does introduce a number of principles into logic, however, that can be used to simplify reasoning. In this chapter, we will consider these principles, and see how they follow from the basic rules.
 
@@ -47,7 +47,9 @@ In Lean, the inference is named ``by_contradiction``, and since it is a classica
       (assume h : ¬ A,
         show false, from sorry)
 
-One of them most important consequences of this rule is the law of the excluded middle. In mathematical arguments, one often splits a proof into two cases, assuming first :math:`A` and then :math:`\neg A`. Using the elimination rule for disjunction, this is equivalent to using :math:`A \vee \neg A`, a classical principle known as the law of the excluded middle. Here is a proof of this, in natural deduction, using a proof by contradiction:
+One of the most important consequences of this rule is a classical principle that we mentioned above, namely, the *law of the excluded middle*, which asserts that the following holds for all :math:`A`: :math:`A \vee \neg A`.  In Lean we denote this law by ``em``.  In mathematical arguments, one often splits a proof into two cases, assuming first :math:`A` and then :math:`\neg A`. Using the elimination rule for disjunction, this is equivalent to using :math:`A \vee \neg A`, which is the excluded middle principle for this particular :math:`A`. 
+
+Here is a proof of ``em``, in natural deduction, using proof by contradiction:
 
 .. raw:: html
 
@@ -365,7 +367,7 @@ Exercises
 
 #. Give a natural deduction proof of :math:`\neg A \vee B` from :math:`A \to B`. You may use the law of the excluded middle.
 
-#. Put :math:`(A \vee B) \wedge (C \vee D) \wedge (E \vee F)` in disjunctive normal form, that is, write it as a big "or" of "and" expressions.
+#. Put :math:`(A \vee B) \wedge (C \vee D) \wedge (E \vee F)` in disjunctive normal form, that is, write it as a big "or" of multiple "and" expressions.
 
 #. Prove ``¬ (A ∧ B) → ¬ A ∨ ¬ B`` by replacing the sorry's below by proofs.
 

@@ -311,8 +311,8 @@ This theorem is useful for carrying out computations modulo :math:`n`. Here are 
 
 *Warning.* You cannot do all computations you might expect with modular arithmetic:
 
--  You are not allowed to divide congruent numbers in modular arithmetic. For example :math:`12 \equiv 16 \pmod{4}`, but we are not allowed to divide both sides of the equation by 2, because :math:`6 \not\equiv 8 \pmod{4}`.
--  You are not allowed to compute in exponents with modular arithmetic. For example :math:`8 \equiv 3 \pmod{5}`, but :math:`2^8 \not\equiv 2^3 \pmod{5}`. To see this: :math:`2^8 = 256 \equiv 1 \pmod{5}`, but :math:`2^3 = 8 \equiv 3 \pmod{5}`.
+-  Modular arithmetic does not respect division. For example :math:`12 \equiv 16 \pmod{4}`, but we cannot divide both sides of the equation by 2, because :math:`6 \not\equiv 8 \pmod{4}`.
+-  Exponents also do not respect modular arithmetic. For example :math:`8 \equiv 3 \pmod{5}`, but :math:`2^8 \not\equiv 2^3 \pmod{5}`. To see this: :math:`2^8 = 256 \equiv 1 \pmod{5}`, but :math:`2^3 = 8 \equiv 3 \pmod{5}`.
 
 Recall the quotient-remainder theorem: if :math:`n > 0`, then any integer :math:`a` can be expressed as :math:`a = n q + r`, where :math:`0 \le r < n`. In the language of modular arithmetic this means that :math:`a \equiv r \pmod{n}`. So if :math:`n > 0`, then every integer is congruent to a number between 0 and :math:`n-1` (inclusive). So there "are only :math:`n` different numbers" when working modulo :math:`n`. This can be used to prove many statements about the natural numbers.
 

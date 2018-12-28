@@ -3,7 +3,7 @@
 First Order Logic
 =================
 
-Propositional logic provides a good start at describing the general principles of logical reasoning, but it does not go far enough. Some of the limitations are apparent even in the "Malice and Alice" example from :numref:`Chapter %s <propositional_logic>`. Propositional logic does not give us the means to express a general principle that tells us that if Alice is with her son on the beach, then her son is with Alice; the general fact that no child is younger than his or her parent; or the general fact that if someone is alone, they are not with someone else. To express principles like these, we need a way to talk about objects and individuals, as well as their properties and the relationships between them. These are exactly what is provided by a more expressive logical framework known as *first-order logic*, which will be the topic of the next few chapters.
+Propositional logic provides a good start at describing the general principles of logical reasoning, but it does not go far enough. Some of the limitations are apparent even in the "Malice and Alice" example from :numref:`Chapter %s <propositional_logic>`. Propositional logic does not give us the means to express a general principle that tells us that if Alice is with her son on the beach, then her son is with Alice; the general fact that no child is older than his or her parent; or the general fact that if someone is alone, they are not with someone else. To express principles like these, we need a way to talk about objects and individuals, as well as their properties and the relationships between them. These are exactly what is provided by a more expressive logical framework known as *first-order logic*, which will be the topic of the next few chapters.
 
 .. _functions_predicates_and_relations:
 
@@ -300,14 +300,14 @@ Now, suppose we are studying geometry, and we want to express the fact that give
 
    \forall {p, q, L, M} (\mathit{point}(p) \wedge \mathit{point}(q) \wedge
    \mathit{line}(L) \wedge \mathit{line}(M) \\
-   \wedge \mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge
+   \wedge q \neq p \wedge \mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge
    \mathit{on}(q,M) \to L = M).
 
 But dealing with such predicates is tedious, and there is a mild extension of first-order logic, called *many-sorted first-order logic*, which builds in some of the bookkeeping. In many-sorted logic, one can have different sorts of objects---such as points and lines---and a separate stock of variables and quantifiers ranging over each. Moreover, the specification of function symbols and predicate symbols indicates what sorts of arguments they expect, and, in the case of function symbols, what sort of argument they return. For example, we might choose to have a sort with variables :math:`p, q, r, \ldots` ranging over points, a sort with variables :math:`L, M, N, \ldots` ranging over lines, and a relation :math:`\mathit{on}(p, L)` relating the two. Then the assertion above is rendered more simply as follows:
 
 .. math::
 
-   \forall {p, q, L, M} \; (\mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge \mathit{on}(q,M) \to L = M).
+   \forall {p, q, L, M} \; (p \neq q \wedge \mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge \mathit{on}(q,M) \to L = M).
 
 Equality
 --------
@@ -355,7 +355,7 @@ We already adopted a similar convention for formulas: if we introduce a formula 
    \DP
    \end{center}
 
-In the next chapter, you will learn how to use them.
+Here, the first substitution rule governs terms and the second substitution rule governs formulas. In the next chapter, you will learn how to use them.
 
 Using equality, we can define even more quantifiers.
 
@@ -402,7 +402,7 @@ Exercises
 
    By the way, we do not know whether the last two statements are true. They are open questions.
 
-#. Using a language with variables ranging over people, and predicates :math:`\mathit{trusts}(x,y)`, :math:`\mathit{politician}(x)`, :math:`\mathit{knows}(x, y)`, and :math:`\mathit{related\mathord{\mbox{-}}to}(x, y)`, and :math:`\mathit{rich}(x)`, write down first-order sentences asserting the following:
+#. Using a language with variables ranging over people, and predicates :math:`\mathit{trusts}(x,y)`, :math:`\mathit{politician}(x)`, :math:`\mathit{crazy(x)}`, :math:`\mathit{knows}(x, y)`, and :math:`\mathit{related\mathord{\mbox{-}}to}(x, y)`, and :math:`\mathit{rich}(x)`, write down first-order sentences asserting the following:
 
    a. Nobody trusts a politician.
 

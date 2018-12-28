@@ -52,7 +52,7 @@ Note all the following:
 
 -  A unary function is represented as an object of type ``U → U`` and a binary function is represented as an object of type ``U → U → U``, using the same notation as for implication between propositions.
 -  We write, for example, ``f x`` to denote the result of applying ``f`` to ``x``, and ``g x y`` to denote the result of applying ``g`` to ``x`` and ``y``, again just as we did when using modus ponens for first-order logic. Parentheses are needed in the expression ``g x (f c)`` to ensure that ``f c`` is parsed as a single argument. 
--  A unary predicate is presented as an object of type ``U → Prop`` and a binary function is represented as an object of type ``U → U → Prop``. You can think of a binary relation ``R`` as being a function that assumes two arguments in the universe, ``U``, and returns a proposition.
+-  A unary predicate is presented as an object of type ``U → Prop`` and a binary predicate is represented as an object of type ``U → U → Prop``. You can think of a binary relation ``R`` as being a function that assumes two arguments in the universe, ``U``, and returns a proposition.
 -  We write ``P x`` to denote the assertion that ``P`` holds of ``x``, and ``R x y`` to denote that ``R`` holds of ``x`` and ``y``.
 
 You may reasonably wonder what difference there is between a constant and a variable in Lean. The following declarations also work:
@@ -92,6 +92,51 @@ Using this built-in type, we can model the language of arithmetic, as described 
 
 .. code-block:: lean
 
+    namespace hidden
+
+    constant mul : ℕ → ℕ → ℕ
+    constant add : ℕ → ℕ → ℕ
+    constant square : ℕ → ℕ
+    constant even : ℕ → Prop
+    constant odd : ℕ → Prop
+    constant prime : ℕ → Prop
+    constant divides : ℕ → ℕ → Prop
+    constant lt : ℕ → ℕ → Prop
+    constant zero : ℕ
+    constant one : ℕ
+
+    end hidden
+
+We have used the ``namespace`` command to avoid conflicts with identifiers that are already declared in the Lean library. (Outside the namespace, the constant ``mul`` we just declared is named ``hidden.mul``.) We can again use the ``#check`` command to try them out:
+
+.. code-block:: lean
+
+    namespace hidden
+
+    constant mul : ℕ → ℕ → ℕ
+    constant add : ℕ → ℕ → ℕ
+    constant square : ℕ → ℕ
+    constant even : ℕ → Prop
+    constant odd : ℕ → Prop
+    constant prime : ℕ → Prop
+    constant divides : ℕ → ℕ → Prop
+    constant lt : ℕ → ℕ → Prop
+    constant zero : ℕ
+    constant one : ℕ
+
+    variables w x y z : ℕ
+
+    #check mul x y
+    #check add x y
+    #check square x
+    #check even x
+
+    end hidden
+
+We can even declare infix notation of binary operations and relations:
+
+.. code-block:: lean
+
     namespace hide
 
     constant mul : ℕ → ℕ → ℕ
@@ -105,9 +150,22 @@ Using this built-in type, we can model the language of arithmetic, as described 
     constant zero : ℕ
     constant one : ℕ
 
+    variables w x y z : ℕ
+
+    #check mul x y
+    #check add x y
+    #check square x
+    #check even x
+
+    -- BEGIN
+    infix + := add
+    infix * := mul
+    infix < := lt
+    -- END
+
     end hide
 
-We have used the ``namespace`` command to avoid conflicts with identifiers that are already declared in the Lean library. We can again use the ``#check`` command to try them out:
+(Getting notation for numerals ``1``, ``2``, ``3``, ... is trickier.) With all this in place, the examples above can be rendered as follows:
 
 .. code-block:: lean
 
@@ -117,39 +175,38 @@ We have used the ``namespace`` command to avoid conflicts with identifiers that 
     constant add : ℕ → ℕ → ℕ
     constant square : ℕ → ℕ
     constant even : ℕ → Prop
+    constant odd : ℕ → Prop
+    constant prime : ℕ → Prop
+    constant divides : ℕ → ℕ → Prop
+    constant lt : ℕ → ℕ → Prop
+    constant zero : ℕ
+    constant one : ℕ
 
-    -- BEGIN
     variables w x y z : ℕ
 
     #check mul x y
     #check add x y
     #check square x
     #check even x
+
+    infix + := add
+    infix * := mul
+    infix < := lt
+
+    -- BEGIN
+    #check even (x + y + z) ∧ prime ((x + one) * y * y)
+    #check ¬ (square (x + y * z) = w) ∨ x + y < z
+    #check x < y ∧ even x ∧ even y → x + one < y
     -- END
 
     end hide
 
-.. comment (TODO: restore this)
-
-   We can even declare infix notation of binary operations and relations.
-
-   (Getting notation for numerals ``1``, ``2``, ``3``, ... is trickier.) With all this in place, the examples above can be rendered as follows:
-
-   .. code-block:: lean
-
-      namespace hide
-
-      -- BEGIN
-      #check even (x + y + z) ∧ prime ((x + one) * y * y)
-      #check ¬ (square (x + y * z) = w) ∨ x + y < z
-      #check x < y ∧ even x ∧ even y → x + one < y
-      -- END
-
-      end hide
-
 In fact, all of the functions, predicates, and relations discussed here, except for the "square" function and "prime," are defined in the core Lean library. They become available to us when we put the commands ``import data.nat`` and ``open nat`` at the top of a file in Lean.
 
 .. code-block:: lean
+
+    import data.nat
+    open nat
 
     constant square : ℕ → ℕ
     constant prime : ℕ → Prop
@@ -188,10 +245,11 @@ We can then express that two distinct points determine a line as follows:
 
     -- BEGIN
     #check ∀ (p q : Point) (L M : Line),
-            p ≠ q → lies_on p L → lies_on q L → lies_on p M → lies_on q M → L = M
+            p ≠ q → lies_on p L → lies_on q L → lies_on p M → 
+              lies_on q M → L = M
     -- END
 
-Notice that we have followed the convention of using iterated implication rather than conjunction in the antecedent. In fact, Lean is smart enough to infer what sorts of objects ``p``, ``q``, ``L``, and ``M`` are from the fact that they are used with the relation ``on``, so we could have written, more simply, this:
+Notice that we have followed the convention of using iterated implication rather than conjunction in the antecedent. In fact, Lean is smart enough to infer what sorts of objects ``p``, ``q``, ``L``, and ``M`` are from the fact that they are used with the relation ``lies_on``, so we could have written, more simply, this:
 
 .. code-block:: lean
 
@@ -199,7 +257,8 @@ Notice that we have followed the convention of using iterated implication rather
     variable  lies_on : Point → Line → Prop
 
     -- BEGIN
-    #check ∀ p q L M, p ≠ q → lies_on p L → lies_on q L → lies_on p M → lies_on q M → L = M
+    #check ∀ p q L M, p ≠ q → lies_on p L → lies_on q L → 
+      lies_on p M → lies_on q M → L = M
     -- END
 
 Using the Universal Quantifier
@@ -208,6 +267,9 @@ Using the Universal Quantifier
 In Lean, you can enter the universal quantifier by writing ``\all``. The motivating examples from :numref:`functions_predicates_and_relations` are rendered as follows:
 
 .. code-block:: lean
+
+    import data.nat
+    open nat
 
     constant prime : ℕ → Prop
     constant even : ℕ → Prop
@@ -376,6 +438,19 @@ The elimination rule for the existential quantifier is given by ``exists.elim``.
         have h3 : P y → Q, from h2 y,
         show Q, from h3 h)
 
+As usual, we can leave off the information as to the data type of ``y`` and the hypothesis ``h`` after the ``assume``, since Lean can figure them out from the context. Deleting the ``show`` and replacing ``h3`` by its proof, ``h2 y``, yields a short (though virtually unreadable) proof of the conclusion.
+
+.. code-block:: lean
+
+    variable U : Type
+    variable P : U → Prop
+    variable Q : Prop
+
+    -- BEGIN
+    example (h1 : ∃ x, P x) (h2 : ∀ x, P x → Q) : Q :=
+    exists.elim h1 (assume y h, h2 y h)
+    -- END
+
 The following example uses both the introduction and the elimination rules for the existential quantifier.
 
 .. code-block:: lean
@@ -416,7 +491,7 @@ The following example is more involved:
     -- BEGIN
     example : (∃ x, A x ∨ B x) → (∃ x, A x) ∨ (∃ x, B x) :=
     assume h1 : ∃ x, A x ∨ B x,
-    exists.elim h1 $ 
+    exists.elim h1 $
     assume y (h2 : A y ∨ B y),
     or.elim h2
       (assume h3 : A y, 
@@ -614,7 +689,7 @@ This proof can be written more concisely:
     assume h1 h2, eq.trans (eq.symm h1) h2
     -- END
 
-Because calculation is so important in mathematics, however, Lean provides more efficient ways of carrying them out. One is the ``rewrite`` tactic. Typing ``begin`` and ``end`` in a Lean proof puts Lean into "tactic mode," which means that Lean then expects a list of instructions. The command ``rewrite`` then uses identities to change the goal. For example, the previous proof could be written as follows:
+Because calculations are so important in mathematics, however, Lean provides more efficient ways of carrying them out. One method is to use the ``rewrite`` tactic. Typing ``begin`` and ``end`` anywhere a proof is expected puts Lean into *tactic mode*, which provides an alternative way of writing a proof: rather than writing it directly, you provide Lean with a list of instructions that show Lean how to construct a proof of the statement in question. The statement to be proved is called the *goal*, and many instructions make progress by transforming the goal into something that is easier to prove. The ``rewrite`` command, which carries out a substitution on the goal, is a good example. The previous example can be proved as follows:
 
 .. code-block:: lean
 
@@ -631,9 +706,7 @@ Because calculation is so important in mathematics, however, Lean provides more 
       end
     -- END
 
-The ``rewrite`` tactic can be abbreviated ``rw``.
-
-The first command changes the goal ``x = z`` to ``y = z``; the minus sign before ``h1`` tells Lean to use the equation in the reverse direction. After that, we can finish the goal by applying ``h2``.
+If you put the cursor after the word ``begin``, Lean will tell you that the goal at that point is to prove ``x = z``. The first command changes the goal ``x = z`` to ``y = z``; the left-facing arrow before ``h1`` (which you can enter as ``\<-``) tells Lean to use the equation in the reverse direction. If you put the cursor after the comma, Lean shows you the new goal, ``y = z``. The ``apply`` command uses ``h2`` to complete the proof. 
 
 An alternative is to rewrite the goal using ``h1`` and ``h2``, which reduces the goal to ``x = x``. When that happens, ``rewrite`` automatically applies reflexivity.
 
@@ -681,6 +754,8 @@ And when you reduce a proof to a single tactic, you can use ``by`` instead of ``
     show x = z, by rw [←h1, h2]
     -- END
 
+If you put the cursor after the ``←h1``, Lean shows you the goal at that point.
+
 We will see in the coming chapters that in ordinary mathematical proofs, one commonly carries out calculations in a format like this:
 
 .. math::
@@ -690,7 +765,7 @@ We will see in the coming chapters that in ordinary mathematical proofs, one com
      \ldots &= t_4 \\
      \ldots &= t_5.
 
-Lean has a mechanism to model calculational proofs like this. Whenever a proof of an equation is expected, you can provide a proof using the identifier ``calc``, following by a chain of equalities and justification, in the following form:
+Lean has a mechanism to model such calculational proofs. Whenever a proof of an equation is expected, you can provide a proof using the identifier ``calc``, following by a chain of equalities and justification, in the following form:
 
 .. code-block:: text
 
@@ -700,7 +775,7 @@ Lean has a mechanism to model calculational proofs like this. Whenever a proof o
         ... = e4 : justification 3
         ... = e5 : justification 4
 
-The chain can go on as long as needed. Each justification is the name of the assumption or theorem that is used. For example, the previous proof could be written as follows:
+The chain can go on as long as needed, and in this example the result is a proof of ``e1 = e5``. Each justification is the name of the assumption or theorem that is used. For example, the previous proof could be written as follows:
 
 .. code-block:: lean
 
@@ -956,7 +1031,7 @@ Exercises
          theorem my_symm (h : b = a) : a = b :=
          sorry
 
-         -- now use foo, rfl, and my_symm to prove transitivity
+         -- now use foo and my_symm to prove transitivity
          theorem my_trans (h1 : a = b) (h2 : b = c) : a = c :=
          sorry
        end

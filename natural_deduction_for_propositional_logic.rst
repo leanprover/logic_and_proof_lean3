@@ -48,6 +48,8 @@ is as follows: if you have a proof :math:`P_1` of :math:`A` from some hypotheses
    \DP
    \end{center}
 
+In some presentations of natural deduction, a proof is written as a sequence of lines in which each line can refer to any previous lines for justification. But here we will adopt a rigid two-dimensional diagrammatic format in which the premises of each inference appear immediately above the conclusion. This makes it easy to look over a proof and check that it is correct: each inference should be the result of instantiating the letters in one of the rules with particular formulas.
+
 One thing that makes natural deduction confusing is that when you put together proofs in this way, hypotheses can be eliminated, or, as we will say, *canceled*. For example, we can apply the implies-introduction rule to the last proof, and obtain the following proof of :math:`B \to (A \wedge B) \wedge (A \wedge C)` from only *two* hypotheses, :math:`A` and :math:`C`:
 
 .. raw:: html
@@ -153,7 +155,7 @@ Notice that in the second step, we canceled two "copies" of the hypothesis :math
 
 In this proof, zero copies of :math:`A` are canceled.
 
-Also notice that although we are using letters like :math:`A`, :math:`B`, and :math:`C` as propositional variables, in the proofs above we can replace them by any propositional formula. For example, we can replace :math:`A` by the formula :math:`(D \vee E)` everywhere, and still have correct proofs. In some presentations of logic, different letters are used for to stand for propositional variables and arbitrary propositional formulas, but we will continue to blur the distinction. You can think of :math:`A`, :math:`B`, and :math:`C` as standing for propositional variables or formulas, as you prefer. If you think of them as propositional variables, just keep in mind that in any rule or proof, you can replace every variable by a different formula, and still have a valid rule or proof.
+Also notice that although we are using letters like :math:`A`, :math:`B`, and :math:`C` as propositional variables, in the proofs above we can replace them by any propositional formula. For example, we can replace :math:`A` by the formula :math:`(D \vee E)` everywhere, and still have correct proofs. In some presentations of logic, different letters are used for propositional variables and arbitrary propositional formulas, but we will continue to blur the distinction. You can think of :math:`A`, :math:`B`, and :math:`C` as standing for propositional variables or formulas, as you prefer. If you think of them as propositional variables, just keep in mind that in any rule or proof, you can replace every variable by a different formula, and still have a valid rule or proof.
 
 Finally, notice also that in these examples, we have assumed a special rule as the starting point for building proofs. It is called the assumption rule, and it looks like this:
 

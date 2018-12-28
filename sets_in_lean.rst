@@ -1,7 +1,7 @@
 Sets in Lean
 ============
 
-In the last chapter, we noted that although in axiomatic set theory one consider sets of disparate objects, it is more common in mathematics to consider subsets of some fixed domain, :math:`\mathcal U`. This is the way sets are handled in Lean. For any data type ``U``, Lean gives us a new data type, ``set U``, consisting of the sets of elements of ``U``. Thus, for example, we can reason about sets of natural numbers, or sets of integers, or sets of pairs of natural numbers.
+In the last chapter, we noted that although in axiomatic set theory one considers sets of disparate objects, it is more common in mathematics to consider subsets of some fixed domain, :math:`\mathcal U`. This is the way sets are handled in Lean. For any data type ``U``, Lean gives us a new data type, ``set U``, consisting of the sets of elements of ``U``. Thus, for example, we can reason about sets of natural numbers, or sets of integers, or sets of pairs of natural numbers.
 
 .. _sets_in_lean_basics:
 
@@ -27,7 +27,7 @@ Given ``A : set U`` and ``x : U``, we can write ``x ∈ A`` to state that ``x`` 
     #check ∅ ⊆ A
     #check B ⊆ univ
 
-You can type the symbols ``⊆``, ``∅``, ``∪``, ``∩``, ``\`` as ``\subeq`` ``\empty``, ``\un``, ``\i``, and ``\\``, respectively. We have made the type variable ``U`` implicit, because it can typically be inferred from context. The universal set is denoted ``univ``, and set complementation is denoted with a negation symbol. Basic set-theoretic notions like these are defined in Lean's core library, but additional theorems and notation are available in an auxiliary library that we have loaded with the command ``import data.set``, which has to appear at the beginning of a file. The command ``open set`` lets us refer to a theorem named ``set.mem_union`` as ``mem_union``.
+You can type the symbols ``⊆``, ``∅``, ``∪``, ``∩``, ``\`` as ``\subeq`` ``\empty``, ``\un``, ``\i``, and ``\``, respectively. We have made the type variable ``U`` implicit, because it can typically be inferred from context. The universal set is denoted ``univ``, and set complementation is denoted with a negation symbol. Basic set-theoretic notions like these are defined in Lean's core library, but additional theorems and notation are available in an auxiliary library that we have loaded with the command ``import data.set``, which has to appear at the beginning of a file. The command ``open set`` lets us refer to a theorem named ``set.mem_union`` as ``mem_union``.
 
 The following pattern can be used to show that ``A`` is a subset of ``B``:
 
@@ -146,7 +146,7 @@ Remember from :numref:`definitions_and_theorems` that we can use ``assume`` with
 
     example : ∅ ⊆ A  :=
     assume x,
-    assume h : x ∈ ∅,
+    assume h : x ∈ (∅ : set U),
     show x ∈ A, from false.elim h
     -- END
 
@@ -810,12 +810,6 @@ Exercises
 
     section
     variable {U : Type}
-
-    example (A B C : set U) : ∀ x, x ∈ A ∩ C → x ∈ A ∪ B :=
-    sorry
-
-    example (A B : set U) : ∀ x, x ∈ -(A ∪ B) → x ∈ -A :=
-    sorry
 
     /- defining "disjoint" -/
 

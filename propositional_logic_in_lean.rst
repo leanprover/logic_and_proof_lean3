@@ -59,7 +59,7 @@ In addition to declaring variables, if ``P`` is any expression of type ``Prop``,
 
     #check h
 
-Formally, what is going on is that any proposition can be viewed as a type, namely, the type of proofs of that proposition. A hypothesis, or premise, is just a variable of that type. Building proofs is then a matter of writing down expressions of the write type. For example, if ``P`` is any expression of type ``A ∧ B``, then ``and.left P`` is an expression of type ``A``, and ``and.right P`` is an expression of type ``B``. In other words, if ``P`` is a proof of ``A ∧ B``, and ``and.left P`` is a name for the proof you get by applying the left elimination rule for and:
+Formally, what is going on is that any proposition can be viewed as a type, namely, the type of proofs of that proposition. A hypothesis, or premise, is just a variable of that type. Building proofs is then a matter of writing down expressions of the correct type. For example, if ``P`` is any expression of type ``A ∧ B``, then ``and.left P`` is an expression of type ``A``, and ``and.right P`` is an expression of type ``B``. In other words, if ``P`` is a proof of ``A ∧ B``, and ``and.left P`` is a name for the proof you get by applying the left elimination rule for and:
 
 .. raw:: html
 
@@ -322,7 +322,7 @@ Since every example begins by declaring the necessary propositional variables, w
 Conjunction
 ~~~~~~~~~~~
 
-We have already seen that and introduction is implemented with ``and.intro``, and the elimination rules are ``and.left`` and ``and.right``.
+We have already seen that and-introduction is implemented with ``and.intro``, and the elimination rules are ``and.left`` and ``and.right``.
 
 .. code-block:: lean
 
@@ -346,7 +346,7 @@ We have already seen that and introduction is implemented with ``and.intro``, an
 Disjunction
 ~~~~~~~~~~~
 
-The or introduction rules are given by ``or.inl`` and ``or.inr``.
+The or-introduction rules are given by ``or.inl`` and ``or.inr``.
 
 .. code-block:: lean
 
@@ -375,13 +375,13 @@ The elimination rule is the tricky one. To prove ``C`` from ``A ∨ B``, you nee
     -- BEGIN
     section
       variable h : A ∨ B
-
+      variables (ha : A → C) (hb : B → C)  
       example : C :=
       or.elim h
         (assume h1 : A, 
-          show C, from sorry)
+          show C, from ha h1)
         (assume h1 : B, 
-          show C, from sorry)
+          show C, from hb h1)
     end
     -- END
 
@@ -484,7 +484,7 @@ The elimination rules are ``iff.elim_left`` and ``iff.elim_right``:
     end
     -- END
 
-Lean recognizes the abbreviation ``iff.mp`` for ``iff.and_elim_left``, where "mp" stands for "modus ponens". Similarly, you can use ``iff.mpr``, for "modus ponens reverse", instead of ``iff.and_elim_right``.
+Lean recognizes the abbreviation ``iff.mp`` for ``iff.elim_left``, where "mp" stands for "modus ponens". Similarly, you can use ``iff.mpr``, for "modus ponens reverse", instead of ``iff.elim_right``.
 
 Reductio ad absurdum (proof by contradiction)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -856,7 +856,7 @@ What is interesting is that in interactive theorem proving, we can even define f
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
 
     variables {A B : Prop}
 
@@ -873,7 +873,7 @@ What is interesting is that in interactive theorem proving, we can even define f
     theorem absurd (h1 : ¬ A) (h2 : A) : B :=
     false.elim (h1 h2)
 
-    end hide
+    end hidden
 
 In fact, Lean's library defines ``or.resolve_left``, ``or.resolve_right``, and ``absurd``. We used the ``namespace`` command to avoid naming conflicts, which would have raised an error.
 

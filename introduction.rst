@@ -171,37 +171,38 @@ Since the end of the twentieth century, however, the advent of computational pro
 
     end
 
-If you are reading the present text in online form, you will find a button above the formal "proof script" that says "try it!" Pressing the button copies opens the proof in an editor window and runs a version of Lean inside your browser to process the proof, turn it into an axiomatic derivation, and verify its correctness. You can experiment by varying the text in the editor; any errors will be noted in the window to the right.
+If you are reading the present text in online form, you will find a button above the formal "proof script" that says "try it!" Pressing the button opens the proof in an editor window and runs a version of Lean inside your browser to process the proof, turn it into an axiomatic derivation, and verify its correctness. You can experiment by varying the text in the editor; any errors will be noted in the window to the right.
 
 Proofs in Lean can access a library of prior mathematical results, all verified down to axiomatic foundations. A goal of the field of interactive theorem proving is to reach the point where any contemporary theorem can be verified in this way. For example, here is a formal proof that the square root of two is irrational, following the model of the informal proof presented above:
 
 .. code-block:: lean
 
-    import data.nat.prime
-    open nat
+  import data.nat.prime
+  open nat
 
-    theorem sqrt_two_irrational {a b : ℕ} (co : gcd a b = 1) : 
-      a^2 ≠ 2 * b^2 :=
-    assume h : a^2 = 2 * b^2,
-    have 2 ∣ a^2,
-      by simp [h],
-    have 2 ∣ a,
-      from dvd_of_prime_of_dvd_pow prime_two this,
-    exists.elim this $ 
-    assume (c : nat) (aeq : a = 2 * c),
-    have 2 * (2 * c^2) = 2 * b^2,
-      by simp [eq.symm h, aeq]; simp [pow_succ],
-    have 2 * c^2 = b^2,
-      from eq_of_mul_eq_mul_left dec_trivial this,
-    have 2 ∣ b^2,
-      by simp [eq.symm this],
-    have 2 ∣ b,
-      from dvd_of_prime_of_dvd_pow prime_two this,
-    have 2 ∣ gcd a b,
-      from dvd_gcd ‹2 ∣ a› ‹2 ∣ b›,
-    have 2 ∣ (1 : ℕ),
-      by simp * at *,
-    show false, from absurd ‹2 ∣ 1› dec_trivial
+  theorem sqrt_two_irrational {a b : ℕ} (co : gcd a b = 1) :
+    a^2 ≠ 2 * b^2 :=
+  assume h : a^2 = 2 * b^2,
+  have 2 ∣ a^2,
+    by simp [h],
+  have 2 ∣ a,
+    from prime.dvd_of_dvd_pow prime_two this,
+  exists.elim this $
+  assume (c : nat) (aeq : a = 2 * c),
+  have 2 * (2 * c^2) = 2 * b^2,
+    by simp [eq.symm h, aeq]; 
+      simp [pow_succ, mul_comm, mul_assoc, mul_left_comm],
+  have 2 * c^2 = b^2,
+    from eq_of_mul_eq_mul_left dec_trivial this,
+  have 2 ∣ b^2,
+    by simp [eq.symm this],
+  have 2 ∣ b,
+    from prime.dvd_of_dvd_pow prime_two this,
+  have 2 ∣ gcd a b,
+    from dvd_gcd ‹2 ∣ a› ‹2 ∣ b›,
+  have 2 ∣ (1 : ℕ),
+    by simp * at *,
+  show false, from absurd ‹2 ∣ 1› dec_trivial
 
 The third goal of this course is to teach you to write elementary proofs in Lean. The facts that we will ask you to prove in Lean will be more elementary than the informal proofs we will ask you to write, but our intent is that formal proofs will model and clarify the informal proof strategies we will teach you.
 

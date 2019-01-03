@@ -299,7 +299,7 @@ Moreover, if :math:`a\equiv b \pmod{n}` then :math:`a^k\equiv b^k \pmod{n}` for 
 
 For the second statement, we want to show that :math:`n \mid a\cdot c - b\cdot d`. We can factor :math:`a\cdot c - b\cdot d = (a - b)\cdot c + b\cdot(c-d)`. Now :math:`n` divides both summands on the right, hence :math:`n` divides :math:`a\cdot c - b\cdot d`, which means that :math:`a\cdot c\equiv b\cdot d\pmod{n}`.
 
-The last statement follows by induction on :math:`k`. If :math:`k = 0`, then :math:`1\equiv 1 \pmod{n}`, and for the induction step, suppose that :math:`a^k\equiv b^k\pmod{n}`, then we have :math:`a^{k+1}= a\cdot a^k \equiv b \cdot b^k = b^{k+1} \pmod{n}`
+The last statement follows by induction on :math:`k`. If :math:`k = 0`, then :math:`1\equiv 1 \pmod{n}`, and for the induction step, suppose that :math:`a^k\equiv b^k\pmod{n}`, then we have :math:`a^{k+1}= a\cdot a^k \equiv b \cdot b^k = b^{k+1} \pmod{n}`.
 
 ----
 
@@ -335,7 +335,7 @@ Recall the quotient-remainder theorem: if :math:`n > 0`, then any integer :math:
    2^2&\equiv 0\pmod{4}\\
    3^2&\equiv 1\pmod{4}.
 
-Since every number is congruent to 0, 1, 2 or 3 modulo 4, we know that every square is congruent to 0 or 1 modulo 4. This means that there are only four possibilities for :math:`a^2+b^2\pmod{4}`. It can be congruent to :math:`0+0`, :math:`1+0`, :math:`0+1` or :math:`0+0`. In all those cases, :math:`a^2+b^2\not\equiv 3\pmod{4}` Hence :math:`4\nmid a^2+b^2-3`, proving the proposition.
+Since every number is congruent to 0, 1, 2 or 3 modulo 4, we know that every square is congruent to 0 or 1 modulo 4. This means that there are only four possibilities for :math:`a^2+b^2\pmod{4}`. It can be congruent to :math:`0+0`, :math:`1+0`, :math:`0+1` or :math:`1+1`. In all those cases, :math:`a^2+b^2\not\equiv 3\pmod{4}` Hence :math:`4\nmid a^2+b^2-3`, proving the proposition.
 
 ----
 
@@ -357,7 +357,7 @@ For example, 3 is a multiplicative inverse of 5 modulo 7, since :math:`3\times 5
 
 **Proposition.** Let :math:`n` and :math:`a` be integers. :math:`a` has a multiplicative inverse modulo :math:`n` if and only if :math:`n` and :math:`a` are coprime.
 
-**Proof.** Suppose :math:`b` is a multiplicative inverse of :math:`a` modulo :math:`n`. Then :math:`n \mid ab - 1`. Let :math:`d = \gcd(a, b)`. Since :math:`d \mid n` we have :math:`d \mid ab-1`. But since :math:`d` is a divisor of :math:`ab`, we have :math:`d \mid ab - (ab-1) = 1`. Since :math:`d\geq0` we have :math:`d=1`. Hence :math:`n` and :math:`a` are coprime.
+**Proof.** Suppose :math:`b` is a multiplicative inverse of :math:`a` modulo :math:`n`. Then :math:`n \mid ab - 1`. Let :math:`d = \gcd(a, n)`. Since :math:`d \mid n` we have :math:`d \mid ab-1`. But since :math:`d` is a divisor of :math:`ab`, we have :math:`d \mid ab - (ab-1) = 1`. Since :math:`d\geq0` we have :math:`d=1`. Hence :math:`n` and :math:`a` are coprime.
 
 On the other hand, suppose that :math:`n` and :math:`a` are coprime. By B‎ézout's Lemma we know that there are integers :math:`b` and :math:`c` such that :math:`cn+ba=\gcd(n,a)=1`. We can rewrite this to :math:`ab - 1 = (-c)n`, hence :math:`n \mid ab - 1`, which means by definition :math:`ab \equiv 1 \pmod{n}`. This means that :math:`b` is a multiplicative inverse of :math:`a` modulo :math:`n`.
 

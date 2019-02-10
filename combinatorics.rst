@@ -356,7 +356,7 @@ This generalizes to any number of sets. To state the general result, suppose the
 
 .. math::
 
-   \left| \bigcup_{i < n} A_i \right| = \sum_{\emptyset \ne I \subseteq [n]} (-1)^{|I|} \left| \bigcap_{i \in I} A_i \right| .
+   \left| \bigcup_{i < n} A_i \right| = \sum_{\emptyset \ne I \subseteq [n]} (-1)^{|I|-1} \left| \bigcap_{i \in I} A_i \right| .
 
 You are invited to try proving this as an exercise, if you are ambitious. The following example illustrates its use:
 
@@ -401,7 +401,7 @@ Exercises
 
    d. if the president cannot hold another office, but the vice president and secretary may or may not be the same person?
 
-#. How many 7 digit phone numbers are there, if any 7 digits can be used? How many are there is the first digit cannot be 0?
+#. How many 7 digit phone numbers are there, if any 7 digits can be used? How many are there if the first digit cannot be 0?
 
 #. In a class of 20 kindergarten students, two are twins. How many ways are there of lining up the students, so that the twins are standing together?
 
@@ -425,12 +425,12 @@ Exercises
 
 #. How many distinct arrangements are there of the letters in the word MISSISSIPPI?
 
-   (Hint: this is tricky. First, suppose all the S's, I's, and P's were painted different colors. Then determine how many distinct arrangements of the letters there would be. In the absence of distinguishing colors, determine how many times each configuration appeared in the first count, and divide by that number.
+   (Hint: this is tricky. First, suppose all the S's, I's, and P's were painted different colors. Then determine how many distinct arrangements of the letters there would be. In the absence of distinguishing colors, determine how many times each configuration appeared in the first count, and divide by that number.)
 
-#. Prove the inclusion exclusion principle.
+#. Prove the inclusion-exclusion principle.
 
-#. Use the inclusion exclusion principle to determine the number of integers less than 100 that are divisible by 2, 3, or 5.
+#. Use the inclusion-exclusion principle to determine the number of integers less than 100 that are divisible by 2, 3, or 5.
 
 #. Show that the number of *unordered* selections of :math:`k` elements from an :math:`n`-element set is :math:`\binom{n + k - 1}{k}`.
 
-   Hint: consider :math:`[n]`. We need to choose some number :math:`i_0` of 0's, some number :math:`i_1` of 1's, and so on, so that :math:`i_0 + i_1 + \ldots + i_{n-1} = k`. Suppose we assign to each such tuple a the following binary sequence: we write down :math:`i_0` 0's, then a 1, then :math:`i_1` :math:`0's`, then a 1, then :math:`i_2` 0's, and so on. The result is a binary sequence of length :math:`n + k - 1` with exactly :math:`k` 1's, and such binary sequence arises from a unique tuple in this way.
+   Hint: consider :math:`[n]`. We need to choose some number :math:`i_0` of 0's, some number :math:`i_1` of 1's, and so on, so that :math:`i_0 + i_1 + \ldots + i_{n-1} = k`. Suppose we assign to each such tuple a the following binary sequence: we write down :math:`i_0` 0's, then a 1, then :math:`i_1` 0's, then a 1, then :math:`i_2` 0's, and so on. The result is a binary sequence of length :math:`n + k - 1` with exactly :math:`k` 0's, and such a binary sequence arises from a unique tuple in this way.

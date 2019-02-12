@@ -50,7 +50,7 @@ Now, using the predicates and relation symbols, we can make assertions about the
 
 -  :math:`\mathit{even}(x + y + z)`
 -  :math:`\mathit{prime}((x + 1) \times y \times y)`
--  :math:`\mathit{square} (x + y \times z) = w)`
+-  :math:`\mathit{square}(x + y \times z) = w`
 -  :math:`x + y < z`
 
 Even more interestingly, we can use propositional connectives to build compound expressions like these:

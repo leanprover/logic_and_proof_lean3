@@ -782,7 +782,13 @@ Exercises
 When constructing proofs in natural deduction, use *only* the list of
 rules given in :numref:`derivations_in_natural_deduction`.
 
+#. Give a natural deduction proof of :math:`A \wedge B` from hypothesis :math:`B \wedge A`.
+
+#. Give a natural deduction proof of :math:`(Q \to R) \to R` from hypothesis :math:`Q`.
+
 #. Give a natural deduction proof of :math:`\neg (A \wedge B) \to (A \to \neg B)`.
+
+#. Give a natural deduction proof of :math:`Q \wedge S` from hypotheses :math:`(P \wedge Q) \wedge R` and :math:`S \wedge T`.
 
 #. Give a natural deduction proof of :math:`(A \to C) \wedge (B \to \neg C) \to \neg (A \wedge B)`.
 
@@ -799,3 +805,7 @@ rules given in :numref:`derivations_in_natural_deduction`.
 #. Give a natural deduction proof of :math:`\neg (A \leftrightarrow \neg A)`.
 
 #. Give a natural deduction proof of :math:`(\neg A \leftrightarrow \neg B)` from hypothesis :math:`A \leftrightarrow B`.
+
+#. Give a natural deduction proof of :math:`P \to R` from hypothesis :math:`(P \vee Q) \to R`. How does this differ from a proof of :math:`((P \vee Q) \to R) \to (P \to R)`?
+
+#. Give a natural deduction proof of :math:`C \to (A \vee B) \wedge C` from hypothesis :math:`A \vee B`.

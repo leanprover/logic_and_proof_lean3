@@ -47,7 +47,7 @@ In Lean, the inference is named ``by_contradiction``, and since it is a classica
       (assume h : ¬ A,
         show false, from sorry)
 
-One of the most important consequences of this rule is a classical principle that we mentioned above, namely, the *law of the excluded middle*, which asserts that the following holds for all :math:`A`: :math:`A \vee \neg A`.  In Lean we denote this law by ``em``.  In mathematical arguments, one often splits a proof into two cases, assuming first :math:`A` and then :math:`\neg A`. Using the elimination rule for disjunction, this is equivalent to using :math:`A \vee \neg A`, which is the excluded middle principle for this particular :math:`A`. 
+One of the most important consequences of this rule is a classical principle that we mentioned above, namely, the *law of the excluded middle*, which asserts that the following holds for all :math:`A`: :math:`A \vee \neg A`.  In Lean we denote this law by ``em``.  In mathematical arguments, one often splits a proof into two cases, assuming first :math:`A` and then :math:`\neg A`. Using the elimination rule for disjunction, this is equivalent to using :math:`A \vee \neg A`, which is the excluded middle principle for this particular :math:`A`.
 
 Here is a proof of ``em``, in natural deduction, using proof by contradiction:
 
@@ -70,10 +70,10 @@ Here is a proof of ``em``, in natural deduction, using proof by contradiction:
    \UIM{\neg A}
    \UIM{A \vee \neg A}
    \AXM{}
-   \RLM{1}
+   \RLM{2}
    \UIM{\neg (A \vee \neg A)}
    \BIM{\bot}
-   \RLM{1}
+   \RLM{2}
    \UIM{A \vee \neg A}
    \DP
    \end{center}
@@ -160,7 +160,7 @@ And here is the corresponding proof in Lean:
     iff.intro
       (assume h1 : ¬ ¬ A,
         show A, from by_contradiction
-          (assume h2 : ¬ A, 
+          (assume h2 : ¬ A,
             show false, from h1 h2))
       (assume h1 : A,
         show ¬ ¬ A, from assume h2 : ¬ A, h2 h1)
@@ -304,14 +304,14 @@ Here is the corresponding proof in Lean:
         have A → B, from
           assume : A,
           show B, from h,
-        show (A → B) ∨ (B → A), 
+        show (A → B) ∨ (B → A),
           from or.inl this)
       (assume h : ¬ B,
         have B → A, from
           assume : B,
           have false, from h this,
           show A, from false.elim this,
-        show (A → B) ∨ (B → A), 
+        show (A → B) ∨ (B → A),
           from or.inr this)
 
 Using classical reasoning, implication can be rewritten in terms of disjunction and negation:
@@ -338,7 +338,7 @@ Using these identities, we can always push negations down to propositional varia
 .. raw:: latex
 
    \begin{align*}
-     \neg (\neg A \wedge B \to C) 
+     \neg (\neg A \wedge B \to C)
        & \leftrightarrow \neg (\neg (\neg A \wedge B) \vee C) \\
        & \leftrightarrow \neg \neg (\neg A \wedge B) \wedge \neg C \\
        & \leftrightarrow \neg A \wedge B \wedge \neg C.
@@ -365,7 +365,11 @@ Exercises
 
    #. Using proof by contradiction, this gives you a proof of :math:`\neg A \vee \neg B` from :math:`\neg (A \wedge B)`.
 
+#. Give a natural deduction proof of :math:`P` from :math:`\neg P \to (Q \vee R)`, :math:`\neg Q`, and :math:`\neg R`.
+
 #. Give a natural deduction proof of :math:`\neg A \vee B` from :math:`A \to B`. You may use the law of the excluded middle.
+
+#. Give a natural deduction proof of :math:`A \to ((A \wedge B) \vee (A \wedge \neg B))`. You may use the law of the excluded middle.
 
 #. Put :math:`(A \vee B) \wedge (C \vee D) \wedge (E \vee F)` in disjunctive normal form, that is, write it as a big "or" of multiple "and" expressions.
 
@@ -376,7 +380,7 @@ Exercises
        open classical
        variables {A B C : Prop}
 
-       -- Prove ¬ (A ∧ B) → ¬ A ∨ ¬ B by replacing the sorry's below 
+       -- Prove ¬ (A ∧ B) → ¬ A ∨ ¬ B by replacing the sorry's below
        -- by proofs.
 
        lemma step1 (h₁ : ¬ (A ∧ B)) (h₂ : A) : ¬ A ∨ ¬ B :=

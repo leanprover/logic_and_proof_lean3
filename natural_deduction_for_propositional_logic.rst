@@ -809,3 +809,7 @@ rules given in :numref:`derivations_in_natural_deduction`.
 #. Give a natural deduction proof of :math:`P \to R` from hypothesis :math:`(P \vee Q) \to R`. How does this differ from a proof of :math:`((P \vee Q) \to R) \to (P \to R)`?
 
 #. Give a natural deduction proof of :math:`C \to (A \vee B) \wedge C` from hypothesis :math:`A \vee B`.
+
+#. Give a natural deduction proof of :math:`W \vee Y \to X \vee Z` from hypotheses :math:`W \to X` and :math:`Y \to Z`.
+
+#. Give a natural deduction proof of :math:`(A \vee (B \wedge A)) \to A`.

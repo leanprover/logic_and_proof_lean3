@@ -95,7 +95,7 @@ This follows from the proper reading of the implication introduction rule: given
     variable hB : B
 
     example : A → B :=
-    assume hA : A, 
+    assume hA : A,
       show B, from hB
 
 Similarly, if :math:`A` is false, we can prove :math:`A \to B` without any assumptions about :math:`B`:
@@ -124,7 +124,7 @@ In Lean:
     variable hnA : ¬ A
 
     example : A → B :=
-    assume hA : A, 
+    assume hA : A,
       show B, from false.elim (hnA hA)
 
 Finally, if :math:`A` is true and :math:`B` is false, we can prove :math:`\neg (A \to B)`:
@@ -173,7 +173,7 @@ We can also go in the other direction: given a formula, we can attempt to find a
     def D := tt
     def E := ff
 
-    def test (p : Prop) [decidable p] : string := 
+    def test (p : Prop) [decidable p] : string :=
     if p then "true" else "false"
 
     #eval test ((A ∧ B) ∨ ¬ C)
@@ -241,7 +241,7 @@ For compound formulas, the style is much the same. Sometimes it can be helpful t
 
    \begin{center}
    \begin{tabular} {|c|c|c||c|c||c|}
-   \hline 
+   \hline
    $A$          & $B$          & $C$          & $A \to B$  & $B \to C$      & $(A \to B) \vee (B \to C)$ \\ \hline
    $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{T}$   \\ \hline
    $\mathbf{T}$ & $\mathbf{T}$ & $\mathbf{F}$ & $\mathbf{T}$ & $\mathbf{F}$ & $\mathbf{T}$   \\ \hline
@@ -280,7 +280,7 @@ Proving completeness is harder. It suffices to show that if :math:`A` is any tau
 .. math::
 
    (B \wedge C) \vee (B \wedge \neg C) \vee (\neg B \wedge C) \vee (\neg B \wedge \neg C),
-   
+
 with one disjunct for each line of the truth table. Then, we should be able to use each disjunct to "evaluate" each expression occurring in :math:`A`, proving it true or false in accordance with its valuation, until we have a proof of :math:`A` itself.
 
 A nicer way to proceed is to express the rules of natural deduction in a way that allows us to work backward from :math:`A` in search of a proof. In other words, first, we give a procedure for constructing a derivation of :math:`A` by working backward from :math:`A`. Then we argue that if the procedure fails, then, at the point where it fails, we can find a truth assignment that makes :math:`A` false. As a result, if every truth assignment makes :math:`A` true, the procedure returns a proof of :math:`A`.
@@ -299,6 +299,13 @@ Exercises
 
    .. math::
 
-       \{ A \to B \vee C, \neg B \to \neg C \} \models A \to B 
-       
+       \{ A \to B \vee C, \neg B \to \neg C \} \models A \to B
+
    Justify your answer by writing out the truth table (sorry, it is long). Indicate clearly the rows where both hypotheses come out true.
+
+#. Are the following formulas derivable? Justify your answer with either a derivation or a counterexample.
+
+   * :math:`\neg (\neg A \vee B) \to A`
+   * :math:`(\neg A \to \neg B) \to (A \to B)`
+   * :math:`((P \wedge Q) \to R) \to (R \vee \neg P)`
+   * :math:`(\neg P \wedge \neg Q) \to \neg (Q \vee P)`

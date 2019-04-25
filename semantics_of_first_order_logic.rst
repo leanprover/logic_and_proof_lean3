@@ -201,3 +201,13 @@ Exercises
 #. Fix a first-order language :math:`L`, and let :math:`A` and :math:`B` be any two sentences in :math:`L`. Remember that :math:`\vDash A` means that :math:`A` is valid. Unpacking the definitions, show that if :math:`\vDash A \wedge B`, then :math:`\vDash A` and :math:`\vDash B`.
 
 #. Give a concrete example to show that :math:`\vDash A \vee B` does not necessarily imply :math:`\vDash A` or :math:`\vDash B`. In other words, pick a language :math:`L` and choose particular sentences :math:`A` and :math:`B` such that :math:`A \vee B` is valid but neither :math:`A` nor :math:`B` is valid.
+
+#. Consider the three formulas :math:`\forall x \; R(x, x)`, :math:`\forall x\; \forall y \; (R (x, y) \to R (y, x)`, and :math:`\forall x \; \forall y \; \forall z \; (R(x, y) \wedge R(y, z) \to R(x, z))`.
+   These sentences say that :math:`R` is reflexive, symmetric, and trainsitive.
+   For each pair of sentences, find a model that makes those two sentences true and the third false.
+   This shows that these sentences are logically independent: no one is entailed by the others.
+
+#. Show that if a set of formulas :math:`\{\psi_1, \ldots, \psi_n\}` is semantically inconsistent, then it entails every formula :math:`\phi`.
+   Does the converse also hold?
+
+#. Give a formula :math:`\psi` such that the set :math:`\{P(c), \neg P(D), \psi \}` is consistent, and so is the set :math:`\{P(c), \neg P(D), \neg \psi \}`.

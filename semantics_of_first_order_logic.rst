@@ -211,3 +211,9 @@ Exercises
    Does the converse also hold?
 
 #. Give a formula :math:`\psi` such that the set :math:`\{P(c), \neg P(D), \psi \}` is consistent, and so is the set :math:`\{P(c), \neg P(D), \neg \psi \}`.
+
+#. For each the following formulas, show whether the formula is valid, satisfiable, or unsatisfiable.
+
+   - :math:`\exists x \; \forall y \; R (y, x) \wedge R (x, y)`
+   - :math:`(\exists x \; \forall y \; R (x, y)) \to (\exists x \; \exists y \; R (x, y))`
+   - :math:`(\exists x\; P (x)) \wedge (\exists x \; \neg P(x))`

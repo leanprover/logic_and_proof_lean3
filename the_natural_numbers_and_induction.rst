@@ -1,4 +1,4 @@
-.. _the_natural_numbers_and_induction:
+﻿.. _the_natural_numbers_and_induction:
 
 The Natural Numbers and Induction
 =================================
@@ -621,7 +621,7 @@ Exercises
 
 #. Write the principle of complete induction using the notation of symbolic logic. Also write the least element principle this way, and use logical manipulations to show that the two are equivalent.
 
-#. Show that for every :math:`n`, :math:`0^2 + 1^2 + 2^2 + \ldots n^2= \frac{1}{6}n(n+1)(n+2)`.
+#. Show that for every :math:`n`, :math:`0^2 + 1^2 + 2^2 + \ldots n^2= \frac{1}{6}n(1+n)(1+2n)`.
 
 #. Show that for every :math:`n`, :math:`0^3 + 1^3 + \ldots + n^3 = \frac{1}{4} n^2 (n+1)^2`.
 

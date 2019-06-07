@@ -43,6 +43,7 @@ source_suffix = '.rst'
 
 # The master toctree document.
 master_doc = 'index'
+quickref_doc = 'quickref'
 
 # General information about the project.
 project = u'Logic and Proof'
@@ -173,6 +174,8 @@ latex_elements = {
 latex_documents = [
     (master_doc, 'logic_and_proof.tex', u'Logic and Proof',
      u'Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn', 'manual'),
+    (quickref_doc, 'logic_and_proof_quickref.tex', u'Logic and Proof',
+     u'Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn', 'howto'),
 ]
 
 

@@ -238,4 +238,6 @@ The proof languages used by interactive theorem provers lie somewhere between th
 About this Textbook
 -------------------
 
-Both this online textbook and the *Lean* theorem prover it invokes are new and ongoing projects, and in places they are still rough. Please bear with us! Your feedback will be quite helpful.
+Both this online textbook and the *Lean* theorem prover it invokes are new and ongoing projects, and in places they are still rough. Please bear with us! You can learn more about Lean from its `project page <http://leanprover.github.io/>`_ and the online textbook, `Theorem Proving in Lean <leanprover.github.io/theorem_proving_in_lean/>`_.
+
+We are grateful for feedback and corrections from a number of people, including Bruce Cuconato, William DeMeo, Tobias Grosser, Lyle Kopnicky, Alexandre Rademaker, and Matt Rice. 

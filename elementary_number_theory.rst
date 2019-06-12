@@ -431,7 +431,7 @@ Exercises
 
 #. Say that two integers "have the same parity" if they are both even or both odd. Prove that if :math:`m` and :math:`n` are any two integers, then :math:`m + n` and :math:`m - n` have the same parity.
 
-#. Write 11160 as product of primes.
+#. Write 11160 as a product of primes.
 
 #. List all the divisors of 42 and 198, and find the greatest common divisor by looking at the largest number in both lists. Also compute the greatest common divisor of the numbers by the Euclidean Algorithm.
 
@@ -462,4 +462,4 @@ Exercises
 
 #. Let :math:`n`, :math:`m` and :math:`c` be given integers. Use B‎ézout's Lemma to prove that the equation :math:`an+bm=c` has a solution for integers :math:`a` and :math:`b` if and only if :math:`\gcd(n, m) \mid c`.
 
-#. Suppose that :math:`a \mid n` and :math:`a \mid n` and let :math:`d = \gcd(n,m)`. Prove that :math:`\gcd(\frac na, \frac ma) =\frac da`. Conclude that for any two integers :math:`n` and :math:`m` with greatest common divisor :math:`d` the numbers :math:`\frac nd` and :math:`\frac md` are coprime.
+#. Suppose that :math:`a \mid n` and :math:`a \mid m` and let :math:`d = \gcd(n,m)`. Prove that :math:`\gcd(\frac na, \frac ma) =\frac da`. Conclude that for any two integers :math:`n` and :math:`m` with greatest common divisor :math:`d` the numbers :math:`\frac nd` and :math:`\frac md` are coprime.

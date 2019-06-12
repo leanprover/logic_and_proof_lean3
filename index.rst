@@ -28,6 +28,7 @@ Logic and Proof
     the_real_numbers
     the_infinite
     axiomatic_foundations
+    nd_quickref
 ..  elementary_number_theory_in_lean
     combinatorics_in_lean
     probability

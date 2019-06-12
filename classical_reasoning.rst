@@ -62,6 +62,9 @@ Here is a proof of ``em``, in natural deduction, using proof by contradiction:
    \RLM{2}
    \UIM{\neg (A \vee \neg A)}
    \AXM{}
+   \RLM{2}
+   \UIM{\neg (A \vee \neg A)}
+   \AXM{}
    \RLM{1}
    \UIM{A}
    \UIM{A \vee \neg A}
@@ -69,9 +72,6 @@ Here is a proof of ``em``, in natural deduction, using proof by contradiction:
    \RLM{1}
    \UIM{\neg A}
    \UIM{A \vee \neg A}
-   \AXM{}
-   \RLM{2}
-   \UIM{\neg (A \vee \neg A)}
    \BIM{\bot}
    \RLM{2}
    \UIM{A \vee \neg A}

@@ -13,7 +13,7 @@ Functions, Predicates, and Relations
 Consider some ordinary statements about the natural numbers:
 
 -  Every natural number is even or odd, but not both.
--  A natural number is even if and only if it is divisible by two. 
+-  A natural number is even if and only if it is divisible by two.
 -  If some natural number, :math:`x`, is even, then so is :math:`x^2`.
 -  A natural number :math:`x` is even if and only if :math:`x + 1` is odd.
 -  Any prime number that is greater than 2 is odd.
@@ -50,7 +50,7 @@ Now, using the predicates and relation symbols, we can make assertions about the
 
 -  :math:`\mathit{even}(x + y + z)`
 -  :math:`\mathit{prime}((x + 1) \times y \times y)`
--  :math:`\mathit{square} (x + y \times z) = w)`
+-  :math:`\mathit{square}(x + y \times z) = w`
 -  :math:`x + y < z`
 
 Even more interestingly, we can use propositional connectives to build compound expressions like these:
@@ -97,7 +97,7 @@ The advantage of this formulation is that we can restrict our attention to the i
 
 .. math::
 
-   \forall  a, b \; b \ne 0 \to \neg (a^2 = 2 b^2). 
+   \forall  a, b \; b \ne 0 \to \neg (a^2 = 2 b^2).
 
 Notice that we have kept the conventional mathematical notation :math:`b \ne 0` to say that :math:`b` is not equal to 0, but we can think of this as an abbreviation for :math:`\neg (b = 0)`.  How do we prove such a theorem? Informally, we would use such a pattern:
 

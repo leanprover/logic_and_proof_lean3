@@ -929,7 +929,7 @@ You can also use the word ``have`` without giving a label, and refer back to the
           have A ∧ C, from and.intro ‹A› ‹C›,
           show (A ∧ B) ∨ (A ∧ C), from or.inr this)
 
-Another trick is that you can write ``h.left`` and ``h.right`` instead of ``and.left h`` and ``and.right h`` whenever ``h`` is a conjunction, and you can write ``⟨h1, h2⟩`` instead of ``and.intro h1 h2`` whenever Lean can figure out that a conjunction is what you are trying to prove. With these conventions, you can write the following:
+Another trick is that you can write ``h.left`` and ``h.right`` instead of ``and.left h`` and ``and.right h`` whenever ``h`` is a conjunction, and you can write ``⟨h1, h2⟩`` (using ``\<`` and ``\>``) instead of ``and.intro h1 h2`` whenever Lean can figure out that a conjunction is what you are trying to prove. With these conventions, you can write the following:
 
 .. code-block:: lean
 

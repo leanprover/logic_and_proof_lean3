@@ -205,7 +205,7 @@ In fact, all of the functions, predicates, and relations discussed here, except 
 
 .. code-block:: lean
 
-    import data.nat
+    import init.data.nat
     open nat
 
     constant square : ℕ → ℕ

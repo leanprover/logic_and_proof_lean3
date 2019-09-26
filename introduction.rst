@@ -177,7 +177,7 @@ Proofs in Lean can access a library of prior mathematical results, all verified 
 
 .. code-block:: lean
 
-  import data.nat.prime
+  import init.data.nat
   open nat
 
   theorem sqrt_two_irrational {a b : ℕ} (co : gcd a b = 1) :

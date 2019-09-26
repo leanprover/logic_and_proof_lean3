@@ -414,7 +414,7 @@ The exercises below ask you to prove the barber paradox, which was discussed in 
 Using the Existential Quantifier
 --------------------------------
 
-In Lean, you can type the existential quantifier, ``∃``, by writing ``\ex``. If you prefer you can use the ascii equivalent, ``exists``. The introduction rule is ``exists.intro`` and requires two arguments: a term, and a proof that that term satisfies the required property.
+In Lean, you can type the existential quantifier, ``∃``, by writing ``\ex``. If you prefer you can use the ascii equivalent, ``exists``. The introduction rule is ``exists.intro`` and requires two arguments: a term, and a proof that term satisfies the required property.
 
 .. code-block:: lean
 

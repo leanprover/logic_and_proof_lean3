@@ -154,7 +154,7 @@ Below, and in the chapters that follow, we will begin to use ``assume`` and ``ha
 
 Notice also that in the last example, we had to annotate the empty set by writing ``(∅ : set U)`` to tell Lean which empty set we mean. Lean can often infer information like this from the context (for example, from the fact that we are trying to show ``x ∈ A``, where ``A`` has type ``set U``), but in this case, it needs a bit more help.
 
-Alternatively, we can use versions theorems in the Lean library that are designed specifically for use with sets:
+Alternatively, we can use versions of the theorems in the Lean library that are designed specifically for use with sets:
 
 .. code-block:: lean
 

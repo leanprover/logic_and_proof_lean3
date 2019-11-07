@@ -36,7 +36,7 @@ If :math:`f : X \to Y` and :math:`g: Y \to X`, :math:`g` is a left inverse to :m
 
 .. math::
 
-   \forall x : X \; g(f(x)) = a.
+   \forall x : X \; g(f(x)) = x.
 
 Notice that this is a universal statement, and it is equivalent to the statement that :math:`f` is a right inverse to :math:`g`.
 
@@ -45,7 +45,7 @@ Remember that in logic it is common to use lambda notation to define functions. 
 Also remember that if :math:`P(x)` is any predicate, then in first-order logic we can assert that there exists a unique :math:`x` satisfying :math:`P(x)`, written :math:`\exists! x \; P(x)`, with the conjunction of the following two statements:
 
 -  :math:`\exists x \; P(x)`
--  :math:`\forall x_1, x_2 \; (P(x_1) \wedge P(x_2) \to x_1 = y_1)`
+-  :math:`\forall x_1, x_2 \; (P(x_1) \wedge P(x_2) \to x_1 = x_2)`
 
 Equivalently, we can write
 

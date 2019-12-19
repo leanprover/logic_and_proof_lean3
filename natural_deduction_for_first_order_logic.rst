@@ -325,7 +325,7 @@ The second axiom on that line is similar, except now :math:`P(x)` stands for any
 
 Notice that we have written the reflexivity axiom, :math:`t = t`, as a rule with no premises. If you use it in a proof, it does not count as a hypothesis; it is built into the logic.
 
-In fact, we can think of the first inference on the second line as a special case of the first. Consider, for example, the formula :math:`((u + v) + y) \times (z + 0) = (x + y) \times (z + 0)`. If we plug :math:`u + v` in for :math:`x`, we get an instance of reflexivity. If we plug in :math:`0`, we get the conclusion of the first example above. The following is therefore a derivation of the first inference, using only reflexivity and the second substitution rule above:
+In fact, we can think of the first inference on the second line as a special case of the second one. Consider, for example, the formula :math:`((u + v) + y) \times (z + 0) = (x + y) \times (z + 0)`. If we plug :math:`u + v` in for :math:`x`, we get an instance of reflexivity. If we plug in :math:`0`, we get the conclusion of the first example above. The following is therefore a derivation of the first inference, using only reflexivity and the second substitution rule above:
 
 .. raw:: html
 

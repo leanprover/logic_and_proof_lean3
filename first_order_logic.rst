@@ -167,7 +167,7 @@ What about the elimination rule? Suppose we know that every number is even or od
    \UIM{A(t)}
    \end{prooftree}
 
-where :math:`t` is an arbitrary term.
+where :math:`t` is an arbitrary term, subject to the restriction described at the end of the next section.
 
 In a sense, this feels like the elimination rule for implication; we might read the hypothesis as saying "if :math:`x` is any thing, then :math:`x` is even or odd." The conclusion is obtained by applying it to the fact that :math:`n` is a thing. Note that, in general, we could replace :math:`n` by any *term* in the language, like :math:`n (m + 5) +2`. Similarly, the introduction rule feels like the introduction rule for implication. If we want to show that everything has a certain property, we temporarily let :math:`x` denote an arbitrary thing, and then show that it has the relevant property.
 
@@ -222,7 +222,7 @@ This illustrates the introduction rule for the existential quantifier:
    \DP
    \end{center}
 
-where :math:`t` is any term. So to prove an existential formula, we just have to give one particular term for which we can prove that formula. Such term is called a *witness* for the formula.
+where :math:`t` is any term, subject to the restriction described below. So to prove an existential formula, we just have to give one particular term for which we can prove that formula. Such term is called a *witness* for the formula.
 
 What about the elimination rule? Suppose that we know that :math:`n` is some natural number and we know that there exists a prime :math:`p` such that :math:`p < n` and :math:`p \mid n`. How can we use this to prove that :math:`n` is composite? We can reason as follows:
 
@@ -258,6 +258,10 @@ In natural deduction, the elimination rule is expressed as follows:
 Here we require that :math:`y` is not free in :math:`B`, and that the only uncanceled hypotheses where :math:`y` occurs freely are the hypotheses :math:`A(y)` that are canceled when you apply this rule. Formally, this is what it means to say that :math:`y` is "arbitrary." As was the case for or elimination and implication introduction, you can use the hypothesis :math:`A(y)` multiple times in the proof of :math:`B`, and cancel all of them at once.
 
 Intuitively, the rule says that you can prove :math:`B` from the assumption :math:`\exists x A(x)` by assuming :math:`A(y)` for a fresh variable :math:`y`, and concluding, in any number of steps, that :math:`B` follows. You should compare this rule to the rule for or elimination, which is somewhat analogous. In the following example, we show that if :math:`A(x)` always implies :math:`\neg B(x)`, then there cannot be an :math:`x` for which both :math:`A(x)` and :math:`B(x)` holds.
+
+There is a restriction on the term :math:`t` that appears in the elimination rule for the universal quantifier and the introduction rule for the existential quantifier, namely, that no variable that appears in :math:`t` becomes bound when you plug it in for :math:`x`. To see what can go wrong if you violate this restriction, consider the sentence :math:`\forall x \; \exists y \; y > x`. If we interpret this as a statement about the natural numbers, it says that for every number :math:`x`, there is a bigger number :math:`y`. This is a true statement, and so it should hold whatever we substitute for :math:`x`. But what happens if we substitute :math:`y + 1`? We get the statement :math:`\exists y \; y > y + 1`, which is false. The problem is that before the substitution the variable :math:`y` in :math:`y + 1` refers to an arbitrary number, but after the substitution, it refers to the number that is asserted to exist by the existential quantifier, and that is not what we want.
+
+Violating the restriction in the introduction rule for the existential quantifier causes similar problems. For example, it allows us to derive :math:`\exists x \; \forall y \; y = x`, which says that there is exactly one number, from the hypothesis :math:`\forall y \; y = y`. The good news is that if you rely on your intuition, you are unlikely to make mistakes like these. But it is an important fact that the rules of natural deduction can be given a precise specification that rules out these invalid inferences.
 
 .. _relativization_and_sorts:
 

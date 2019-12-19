@@ -41,12 +41,7 @@ The use of the symbol :math:`\leq` is meant to be suggestive, and, indeed, the f
 -  :math:`\leq` on the rational numbers
 -  :math:`\leq` on the real numbers
 
-But keep in mind that :math:`\leq` is only a symbol; it can have unexpected interpretations as well. For example, all of the following are also partial orders:
-
--  :math:`\geq` on the natural numbers
--  :math:`\geq` on the integers
--  :math:`\geq` on the rational numbers
--  :math:`\geq` on the real numbers
+But keep in mind that :math:`\leq` is only a symbol; it can have unexpected interpretations as well. For example, the :math:`\geq`relation on any of these domains is also a partial order, and can interpret the :math:`\leq` symbol just as well.
 
 These are not fully representative of the class of partial orders, in that they all have an additional property:
 
@@ -195,7 +190,7 @@ These three properties alone are not strong enough to characterize equality. You
 Here are two common mathematical examples:
 
 -  the relation on lines in a plane, given by ":math:`x` and :math:`y` are parallel"
--  for any fixed natural number :math:`m \geq 0`, the relation on natural numbers, given by ":math:`x` is congruent to :math:`y` modulo :math:`m`" (see :numref:`Chapter %s <elementary_number_theory>`) 
+-  for any fixed natural number :math:`m \geq 0`, the relation on natural numbers, given by ":math:`x` is congruent to :math:`y` modulo :math:`m`" (see :numref:`Chapter %s <elementary_number_theory>`)
 
 Here, we say that :math:`x` is congruent to :math:`y` modulo :math:`m` if they leave the same remainder when divided by :math:`m`. Soon, you will be able to prove rigorously that this is equivalent to saying that :math:`x - y` is divisible by :math:`m`.
 
@@ -242,6 +237,3 @@ Exercises
    .. TODO: set off
 
    **Theorem.** Let :math:`\leq` be a preorder on a domain :math:`A`. Define the relation :math:`\equiv`, where :math:`x \equiv y` holds if and only if :math:`x \leq y` and :math:`y \leq x`. Then :math:`\equiv` is an equivalence relation on :math:`A`.
-
-
-

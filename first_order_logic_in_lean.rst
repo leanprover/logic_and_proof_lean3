@@ -51,7 +51,7 @@ The ``#check`` command tells us that the first four expressions have type ``U``,
 Note all the following:
 
 -  A unary function is represented as an object of type ``U → U`` and a binary function is represented as an object of type ``U → U → U``, using the same notation as for implication between propositions.
--  We write, for example, ``f x`` to denote the result of applying ``f`` to ``x``, and ``g x y`` to denote the result of applying ``g`` to ``x`` and ``y``, again just as we did when using modus ponens for first-order logic. Parentheses are needed in the expression ``g x (f c)`` to ensure that ``f c`` is parsed as a single argument. 
+-  We write, for example, ``f x`` to denote the result of applying ``f`` to ``x``, and ``g x y`` to denote the result of applying ``g`` to ``x`` and ``y``, again just as we did when using modus ponens for first-order logic. Parentheses are needed in the expression ``g x (f c)`` to ensure that ``f c`` is parsed as a single argument.
 -  A unary predicate is presented as an object of type ``U → Prop`` and a binary predicate is represented as an object of type ``U → U → Prop``. You can think of a binary relation ``R`` as being a function that assumes two arguments in the universe, ``U``, and returns a proposition.
 -  We write ``P x`` to denote the assertion that ``P`` holds of ``x``, and ``R x y`` to denote that ``R`` holds of ``x`` and ``y``.
 
@@ -245,7 +245,7 @@ We can then express that two distinct points determine a line as follows:
 
     -- BEGIN
     #check ∀ (p q : Point) (L M : Line),
-            p ≠ q → lies_on p L → lies_on q L → lies_on p M → 
+            p ≠ q → lies_on p L → lies_on q L → lies_on p M →
               lies_on q M → L = M
     -- END
 
@@ -257,7 +257,7 @@ Notice that we have followed the convention of using iterated implication rather
     variable  lies_on : Point → Line → Prop
 
     -- BEGIN
-    #check ∀ p q L M, p ≠ q → lies_on p L → lies_on q L → 
+    #check ∀ p q L M, p ≠ q → lies_on p L → lies_on q L →
       lies_on p M → lies_on q M → L = M
     -- END
 
@@ -407,7 +407,7 @@ Here is an alternative version, using the "anonymous" versions of ``have``:
     assume y,
     have A y, from hA y,
     have B y, from hB y,
-    show A y ∧ B y, from and.intro ‹A y› ‹B y› 
+    show A y ∧ B y, from and.intro ‹A y› ‹B y›
 
 The exercises below ask you to prove the barber paradox, which was discussed in the last chapter. You can do that using only propositional reasoning and the rules for the universal quantifier that we have just discussed.
 
@@ -460,7 +460,7 @@ The following example uses both the introduction and the elimination rules for t
 
     example : (∃ x, A x ∧ B x) → ∃ x, A x :=
     assume h1 : ∃ x, A x ∧ B x,
-    exists.elim h1 
+    exists.elim h1
       (assume y (h2 : A y ∧ B y),
         have h3 : A y, from and.left h2,
         show ∃ x, A x, from exists.intro y h3)
@@ -494,10 +494,10 @@ The following example is more involved:
     exists.elim h1 $
     assume y (h2 : A y ∨ B y),
     or.elim h2
-      (assume h3 : A y, 
+      (assume h3 : A y,
         have h4 : ∃ x, A x, from exists.intro y h3,
         show (∃ x, A x) ∨ (∃ x, B x), from or.inl h4)
-      (assume h3 : B y, 
+      (assume h3 : B y,
         have h4 : ∃ x, B x, from exists.intro y h3,
         show (∃ x, A x) ∨ (∃ x, B x), from or.inr h4)
     -- END
@@ -584,14 +584,14 @@ Here is another example of the exists-elimination rule:
 
     example : (∃x : U, P) ↔ P :=
     iff.intro
-      (assume h1 : ∃x, P, 
+      (assume h1 : ∃x, P,
         exists.elim h1 $
         assume x (h2 : P),
         h2)
-      (assume h1 : P, 
+      (assume h1 : P,
         exists.intro u h1)
 
-It is subtle: the proof does not go through if we do not declare a variable ``u`` of type ``U``, even though ``u`` does not appear in the statement of the theorem. The semantics of first-order logic, discussed in the next chapter, presuppose that the universe is nonempty. In Lean, however, it is possible for a type to be empty, and so the proof above depends on the fact that there is an element ``u`` in ``U``.
+This is subtle: the proof does not go through if we do not declare a variable ``u`` of type ``U``, even though ``u`` does not appear in the statement of the theorem. This highlights a difference between first-order logic and the logic implemented in Lean. In natural deduction, we can prove :math:`\forall x \; P(x) \to \exists x \; P(x)`, which shows that our proof system implicitly assumes that the universe has at least one object. In contrast, the statement ``(∀ x : U, P x) → ∃ x : U, P x`` is not provable in Lean. In other words, in Lean, it is possible for a type to be empty, and so the proof above requires an explicit assumption that there is an element ``u`` in ``U``.
 
 .. comments (TODO: restore this with pattern matching)
 
@@ -633,7 +633,7 @@ These features are all illustrated in the following example:
     variables P R : U → Prop
     variable Q : Prop
 
-    example (h1 : ∃x, P x ∧ R x) (h2 : ∀x, P x → R x → Q) : Q :=
+    example (h1 : ∃ x, P x ∧ R x) (h2 : ∀ x, P x → R x → Q) : Q :=
     let ⟨y, hPy, hRy⟩ := h1 in
     show Q, from h2 y hPy hRy
 
@@ -699,14 +699,14 @@ Because calculations are so important in mathematics, however, Lean provides mor
     example : y = x → y = z → x = z :=
     assume h1 : y = x,
     assume h2 : y = z,
-    show x = z, 
+    show x = z,
       begin
         rewrite ←h1,
         apply h2
       end
     -- END
 
-If you put the cursor after the word ``begin``, Lean will tell you that the goal at that point is to prove ``x = z``. The first command changes the goal ``x = z`` to ``y = z``; the left-facing arrow before ``h1`` (which you can enter as ``\<-``) tells Lean to use the equation in the reverse direction. If you put the cursor after the comma, Lean shows you the new goal, ``y = z``. The ``apply`` command uses ``h2`` to complete the proof. 
+If you put the cursor after the word ``begin``, Lean will tell you that the goal at that point is to prove ``x = z``. The first command changes the goal ``x = z`` to ``y = z``; the left-facing arrow before ``h1`` (which you can enter as ``\<-``) tells Lean to use the equation in the reverse direction. If you put the cursor after the comma, Lean shows you the new goal, ``y = z``. The ``apply`` command uses ``h2`` to complete the proof.
 
 An alternative is to rewrite the goal using ``h1`` and ``h2``, which reduces the goal to ``x = x``. When that happens, ``rewrite`` automatically applies reflexivity.
 
@@ -718,7 +718,7 @@ An alternative is to rewrite the goal using ``h1`` and ``h2``, which reduces the
     example : y = x → y = z → x = z :=
     assume h1 : y = x,
     assume h2 : y = z,
-    show x = z, 
+    show x = z,
       begin
         rw ←h1,
         rw h2
@@ -735,7 +735,7 @@ In fact, a sequence of rewrites can be combined, using square brackets:
     example : y = x → y = z → x = z :=
     assume h1 : y = x,
     assume h2 : y = z,
-    show x = z, 
+    show x = z,
       begin
         rw [←h1, h2]
       end
@@ -787,7 +787,7 @@ The chain can go on as long as needed, and in this example the result is a proof
     assume h2 : y = z,
     calc
         x = y : eq.symm h1
-      ... = z : h2 
+      ... = z : h2
     -- END
 
 As usual, the syntax is finicky; notice that there are no commas in the ``calc`` expression, and the colons and dots need to be entered exactly in that form. All that varies are the expressions ``e1, e2, e3, ...`` and the justifications themselves.
@@ -828,7 +828,7 @@ You can also write the type of integers as ``ℤ``, entered with either ``\Z`` o
 
    example (x y z : int) : (x + y) + z = (x + z) + y :=
    calc
-      (x + y) + z = x + (y + z) : add_assoc x y z 
+      (x + y) + z = x + (y + z) : add_assoc x y z
               ... = x + (z + y) : eq.subst (add_comm y z) rfl
               ... = (x + z) + y : eq.symm (add_assoc x z y)
 

@@ -59,7 +59,7 @@ Here is another example:
 
 As an exercise, try proving the following:
 
-.. math:: 
+.. math::
 
    \forall x \; (A(x) \to B(x)) \to (\forall x \; A(x) \to \forall x \; B(x)).
 

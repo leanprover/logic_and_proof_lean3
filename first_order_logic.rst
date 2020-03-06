@@ -111,7 +111,7 @@ What we are really doing is proving that the universal statement holds, by showi
 
 .. raw:: html
 
-   <img src="_static/first_order_logic.3.png">
+   <img src="_static/first_order_logic.3.png"/>
 
 .. raw:: latex
 
@@ -143,7 +143,7 @@ This example motivates the following rule in natural deduction:
 
 .. raw:: html
 
-   <img src="_static/first_order_logic.4.png">
+   <img src="_static/first_order_logic.4.png"/>
 
 .. raw:: latex
 
@@ -158,7 +158,7 @@ What about the elimination rule? Suppose we know that every number is even or od
 
 .. raw:: html
 
-   <img src="_static/first_order_logic.5.png">
+   <img src="_static/first_order_logic.5.png"/>
 
 .. raw:: latex
 
@@ -196,7 +196,7 @@ In a natural deduction proof this would look like this:
 
 .. raw:: html
 
-   <img src="_static/first_order_logic.6.png">
+   <img src="_static/first_order_logic.6.png"/>
 
 .. raw:: latex
 
@@ -212,7 +212,7 @@ This illustrates the introduction rule for the existential quantifier:
 
 .. raw:: html
 
-   <img src="_static/first_order_logic.7.png">
+   <img src="_static/first_order_logic.7.png"/>
 
 .. raw:: latex
 
@@ -238,7 +238,7 @@ In natural deduction, the elimination rule is expressed as follows:
 
 .. raw:: html
 
-   <img src="_static/first_order_logic.8.png">
+   <img src="_static/first_order_logic.8.png"/>
 
 .. raw:: latex
 
@@ -330,7 +330,7 @@ We already adopted a similar convention for formulas: if we introduce a formula 
 
 .. raw:: html
 
-   <img src="_static/first_order_logic.10.png">
+   <img src="_static/first_order_logic.10.png"/>
 
 .. raw:: latex
 

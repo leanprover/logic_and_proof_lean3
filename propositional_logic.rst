@@ -58,7 +58,7 @@ Our goal is to give an account of the patterns of inference that govern the use 
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.1.png">
+   <img src="_static/propositional_logic.1.png"/>
 
 .. raw:: latex
 
@@ -93,7 +93,7 @@ This rule is sometimes known as *modus ponens*, or "implication elimination," si
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.2.png">
+   <img src="_static/propositional_logic.2.png"/>
 
 .. raw:: latex
 
@@ -127,7 +127,7 @@ This is a form of *hypothetical reasoning*. On the supposition that :math:`A` ho
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.3.png">
+   <img src="_static/propositional_logic.3.png"/>
 
 .. raw:: latex
 
@@ -167,7 +167,7 @@ The inference seems almost too obvious to state explicitly, since the word "and"
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.4.png">
+   <img src="_static/propositional_logic.4.png"/>
 
 .. raw:: latex
 
@@ -203,7 +203,7 @@ In symbols, these patterns are rendered as follows:
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.5.png">
+   <img src="_static/propositional_logic.5.png"/>
 
 .. raw:: latex
 
@@ -242,7 +242,7 @@ This is another form of hypothetical reasoning, similar to that used in establis
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.6.png">
+   <img src="_static/propositional_logic.6.png"/>
 
 .. raw:: latex
 
@@ -277,7 +277,7 @@ In symbolic logic, the rule of inference is expressed as follows:
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.7.png">
+   <img src="_static/propositional_logic.7.png"/>
 
 .. raw:: latex
 
@@ -295,7 +295,7 @@ What are the rules governing :math:`\bot`? In the proof system we will introduce
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.8.png">
+   <img src="_static/propositional_logic.8.png"/>
 
 .. raw:: latex
 
@@ -333,7 +333,7 @@ Having introduced a symbol for "false," it is only fair to introduce a symbol fo
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.8b.png">
+   <img src="_static/propositional_logic.8b.png"/>
 
 .. raw:: latex
 
@@ -361,7 +361,7 @@ In symbolic terms, the two introduction rules are as follows:
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.9.png">
+   <img src="_static/propositional_logic.9.png"/>
 
 .. raw:: latex
 
@@ -397,7 +397,7 @@ In symbols, this pattern is expressed as follows:
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.10.png">
+   <img src="_static/propositional_logic.10.png"/>
 
 .. raw:: latex
 
@@ -441,7 +441,7 @@ In symbols, we would render this rule as follows:
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.11.png">
+   <img src="_static/propositional_logic.11.png"/>
 
 .. raw:: latex
 
@@ -485,7 +485,7 @@ The introduction is modeled in natural deduction as follows:
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.12.png">
+   <img src="_static/propositional_logic.12.png"/>
 
 .. raw:: latex
 
@@ -537,7 +537,7 @@ Rendered in natural deduction, the rules are as follows:
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.13.png">
+   <img src="_static/propositional_logic.13.png"/>
 
 .. raw:: latex
 
@@ -596,7 +596,7 @@ In natural deduction, proof by contradiction is expressed by the following patte
 
 .. raw:: html
 
-   <img src="_static/propositional_logic.14.png">
+   <img src="_static/propositional_logic.14.png"/>
 
 .. raw:: latex
 

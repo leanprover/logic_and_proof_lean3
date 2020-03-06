@@ -15,7 +15,7 @@ The following example of a proof in natural deduction shows that if, for every :
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.4.png">
+   <img src="_static/natural_deduction_for_first_order_logic.4.png"/>
 
 .. raw:: latex
 
@@ -42,7 +42,7 @@ Here is another example:
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.5.png">
+   <img src="_static/natural_deduction_for_first_order_logic.5.png"/>
 
 .. raw:: latex
 
@@ -82,7 +82,7 @@ Then we can go on to derive :math:`\forall n \; (\mathit{even}(n) \vee \mathit{o
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.6.png">
+   <img src="_static/natural_deduction_for_first_order_logic.6.png"/>
 
 .. raw:: latex
 
@@ -110,7 +110,7 @@ We can also prove and :math:`\forall n \; \neg (\mathit{even}(n) \wedge \mathit{
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.7.png">
+   <img src="_static/natural_deduction_for_first_order_logic.7.png"/>
 
 .. raw:: latex
 
@@ -141,7 +141,7 @@ Remember that the intuition behind the elimination rule for the existential quan
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.8.png">
+   <img src="_static/natural_deduction_for_first_order_logic.8.png"/>
 
 .. raw:: latex
 
@@ -164,7 +164,7 @@ The following proof shows that if there is something satisfying either :math:`A`
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.9.png">
+   <img src="_static/natural_deduction_for_first_order_logic.9.png"/>
 
 .. raw:: latex
 
@@ -197,7 +197,7 @@ The following example is more involved:
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.10.png">
+   <img src="_static/natural_deduction_for_first_order_logic.10.png"/>
 
 .. raw:: latex
 
@@ -233,7 +233,7 @@ Another example is that if :math:`x` does not occur in :math:`P`, then :math:`\e
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.11.png">
+   <img src="_static/natural_deduction_for_first_order_logic.11.png"/>
 
 .. raw:: latex
 
@@ -265,7 +265,7 @@ Recall the natural deduction rules for equality:
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.12.png">
+   <img src="_static/natural_deduction_for_first_order_logic.12.png"/>
 
 .. raw:: latex
 
@@ -298,7 +298,7 @@ Keep in mind that we have implicitly fixed some first-order language, and :math:
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.13.png">
+   <img src="_static/natural_deduction_for_first_order_logic.13.png"/>
 
 .. raw:: latex
 
@@ -312,7 +312,7 @@ The second axiom on that line is similar, except now :math:`P(x)` stands for any
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.13a.png">
+   <img src="_static/natural_deduction_for_first_order_logic.13a.png"/>
 
 .. raw:: latex
 
@@ -329,7 +329,7 @@ In fact, we can think of the first inference on the second line as a special cas
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.14.png">
+   <img src="_static/natural_deduction_for_first_order_logic.14.png"/>
 
 .. raw:: latex
 
@@ -361,7 +361,7 @@ The strategy is to use the elimination rule for the universal quantifier to inst
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.15.png">
+   <img src="_static/natural_deduction_for_first_order_logic.15.png"/>
 
 .. raw:: latex
 
@@ -397,7 +397,7 @@ More generally, given a formula :math:`\forall x \; A(x)`, a counterexample is a
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.16.png">
+   <img src="_static/natural_deduction_for_first_order_logic.16.png"/>
 
 .. raw:: latex
 

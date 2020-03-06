@@ -3,7 +3,7 @@
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.1.png">
+   <img src="_static/natural_deduction_for_first_order_logic.1.png"/>
 
 .. raw:: latex
 
@@ -25,7 +25,7 @@ In the introduction rule, :math:`x` should not be free in any uncanceled hypothe
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.2.png">
+   <img src="_static/natural_deduction_for_first_order_logic.2.png"/>
 
 .. raw:: latex
 
@@ -54,7 +54,7 @@ In the introduction rule, :math:`t` can be any term that does not clash with any
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.3.png">
+   <img src="_static/natural_deduction_for_first_order_logic.3.png"/>
 
 .. raw:: latex
 

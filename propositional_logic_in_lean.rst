@@ -63,7 +63,7 @@ Formally, what is going on is that any proposition can be viewed as a type, name
 
 .. raw:: html
 
-   <img src="_static/propositional_logic_in_lean.1.png">
+   <img src="_static/propositional_logic_in_lean.1.png"/>
 
 .. raw:: latex
 
@@ -93,7 +93,7 @@ The two expressions represent, respectively, these two proofs:
 
 .. raw:: html
 
-   <img src="_static/propositional_logic_in_lean.2.png">
+   <img src="_static/propositional_logic_in_lean.2.png"/>
 
 .. raw:: latex
 
@@ -126,7 +126,7 @@ This corresponds to the following proof:
 
 .. raw:: html
 
-   <img src="_static/propositional_logic_in_lean.2b.png">
+   <img src="_static/propositional_logic_in_lean.2b.png"/>
 
 .. raw:: latex
 
@@ -515,7 +515,7 @@ In the last chapter, we constructed the following proof of :math:`A \to C` from 
 
 .. raw:: html
 
-   <img src="_static/propositional_logic_in_lean.3.png">
+   <img src="_static/propositional_logic_in_lean.3.png"/>
 
 .. raw:: latex
 
@@ -551,7 +551,7 @@ We also constructed the following proof:
 
 .. raw:: html
 
-   <img src="_static/propositional_logic_in_lean.4.png">
+   <img src="_static/propositional_logic_in_lean.4.png"/>
 
 .. raw:: latex
 
@@ -591,7 +591,7 @@ Finally, we constructed the following proof of :math:`A \wedge (B \vee C) \to (A
 
 .. raw:: html
 
-   <img src="_static/propositional_logic_in_lean.5.png">
+   <img src="_static/propositional_logic_in_lean.5.png"/>
 
 .. raw:: latex
 

@@ -284,7 +284,7 @@ For every :math:`n`, we know :math:`\binom{n}{0} = \binom{n}{n} = 1`. The previo
 
 .. raw:: html
 
-   <img src="_static/combinatorics.1.png">
+   <img src="_static/combinatorics.1.png"/>
 
 .. raw:: latex
 

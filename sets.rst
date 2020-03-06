@@ -116,7 +116,7 @@ Modulo the unfolding of definition of intersection and union in terms of "and" a
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.1.png">
+   <img src="_static/natural_deduction_for_first_order_logic.1.png"/>
 
 .. raw:: latex
 

@@ -358,7 +358,7 @@ In the last chapter, we considered the following proof in natural deduction:
 
 .. raw:: html
 
-   <img src="_static/first_order_logic_in_lean.1.png">
+   <img src="_static/first_order_logic_in_lean.1.png"/>
 
 .. raw:: latex
 
@@ -508,7 +508,7 @@ In the last chapter, we considered the following natural deduction proof:
 
 .. raw:: html
 
-   <img src="_static/first_order_logic_in_lean.2.png">
+   <img src="_static/first_order_logic_in_lean.2.png"/>
 
 .. raw:: latex
 

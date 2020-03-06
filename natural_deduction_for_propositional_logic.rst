@@ -18,7 +18,7 @@ Like formulas, proofs are built by putting together smaller proofs, according to
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.1.png">
+   <img src="_static/natural_deduction_for_propositional_logic.1.png"/>
 
 .. raw:: latex
 
@@ -33,7 +33,7 @@ is as follows: if you have a proof :math:`P_1` of :math:`A` from some hypotheses
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.2.png">
+   <img src="_static/natural_deduction_for_propositional_logic.2.png"/>
 
 .. raw:: latex
 
@@ -54,7 +54,7 @@ One thing that makes natural deduction confusing is that when you put together p
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.3.png">
+   <img src="_static/natural_deduction_for_propositional_logic.3.png"/>
 
 .. raw:: latex
 
@@ -79,7 +79,7 @@ We can continue to cancel the hypothesis :math:`A`:
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.4.png">
+   <img src="_static/natural_deduction_for_propositional_logic.4.png"/>
 
 .. raw:: latex
 
@@ -108,7 +108,7 @@ The result is a proof using only the hypothesis :math:`C`. We can continue to ca
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.5.png">
+   <img src="_static/natural_deduction_for_propositional_logic.5.png"/>
 
 .. raw:: latex
 
@@ -143,7 +143,7 @@ Notice that in the second step, we canceled two "copies" of the hypothesis :math
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.6.png">
+   <img src="_static/natural_deduction_for_propositional_logic.6.png"/>
 
 .. raw:: latex
 
@@ -161,7 +161,7 @@ Finally, notice also that in these examples, we have assumed a special rule as t
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.7.png">
+   <img src="_static/natural_deduction_for_propositional_logic.7.png"/>
 
 .. raw:: latex
 
@@ -185,7 +185,7 @@ The following is a proof of :math:`A \to C` from :math:`A \to B` and :math:`B \t
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.15.png">
+   <img src="_static/natural_deduction_for_propositional_logic.15.png"/>
 
 .. raw:: latex
 
@@ -212,7 +212,7 @@ Intuitively, the formula
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.16.png">
+   <img src="_static/natural_deduction_for_propositional_logic.16.png"/>
 
 .. raw:: latex
 
@@ -241,7 +241,7 @@ The next proof shows that if a conclusion, :math:`C`, follows from :math:`A` and
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.17.png">
+   <img src="_static/natural_deduction_for_propositional_logic.17.png"/>
 
 .. raw:: latex
 
@@ -271,7 +271,7 @@ The conclusion of the next proof can be interpreted as saying that if it is not 
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.19.png">
+   <img src="_static/natural_deduction_for_propositional_logic.19.png"/>
 
 .. raw:: latex
 
@@ -306,7 +306,7 @@ Finally, the next two examples illustrate the use of the *ex falso* rule. The fi
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.20.png">
+   <img src="_static/natural_deduction_for_propositional_logic.20.png"/>
 
 .. raw:: latex
 
@@ -322,7 +322,7 @@ The second shows that :math:`B` follows from :math:`A` and :math:`\neg A \vee B`
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.21.png">
+   <img src="_static/natural_deduction_for_propositional_logic.21.png"/>
 
 .. raw:: latex
 
@@ -357,7 +357,7 @@ In the "official" description, natural deduction proofs are constructed by putti
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.22.png">
+   <img src="_static/natural_deduction_for_propositional_logic.22.png"/>
 
 .. raw:: latex
 
@@ -375,7 +375,7 @@ Then we use these two proofs to construct the following one:
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.23.png">
+   <img src="_static/natural_deduction_for_propositional_logic.23.png"/>
 
 .. raw:: latex
 
@@ -392,7 +392,7 @@ Finally, we apply the implies-introduction rule to this proof to cancel the hypo
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.24.png">
+   <img src="_static/natural_deduction_for_propositional_logic.24.png"/>
 
 .. raw:: latex
 
@@ -483,7 +483,7 @@ The natural deduction proof looks as follows:
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.25.png">
+   <img src="_static/natural_deduction_for_propositional_logic.25.png"/>
 
 .. raw:: latex
 
@@ -512,7 +512,7 @@ For another example, here is a proof of :math:`A \wedge (B \vee C) \to (A \wedge
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.18.png">
+   <img src="_static/natural_deduction_for_propositional_logic.18.png"/>
 
 .. raw:: latex
 

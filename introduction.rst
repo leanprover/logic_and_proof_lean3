@@ -101,7 +101,7 @@ symbol can be expressed as follows:
 
 .. raw:: html 
 
-   <img src="_static/introduction.1.png">
+   <img src="_static/introduction.1.png"/>
 
 .. raw:: latex
 
@@ -118,7 +118,7 @@ We will see that one can write such proofs more compactly leaving the hypotheses
 
 .. raw:: html 
 
-   <img src="_static/introduction.2.png">
+   <img src="_static/introduction.2.png"/>
 
 .. raw:: latex
 
@@ -132,7 +132,7 @@ In this format, a snippet of the first proof in the previous section might be re
 
 .. raw:: html 
 
-   <img src="_static/introduction.3.png">
+   <img src="_static/introduction.3.png"/>
 
 .. raw:: latex
 

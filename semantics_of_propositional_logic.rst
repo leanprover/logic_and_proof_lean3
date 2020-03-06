@@ -78,7 +78,7 @@ Let us motivate the semantics for material implication another way, using the de
 
 .. raw:: html
 
-   <img src="_static/semantics_of_propositional_logic.1.png">
+   <img src="_static/semantics_of_propositional_logic.1.png"/>
 
 .. raw:: latex
 
@@ -102,7 +102,7 @@ Similarly, if :math:`A` is false, we can prove :math:`A \to B` without any assum
 
 .. raw:: html
 
-   <img src="_static/semantics_of_propositional_logic.2.png">
+   <img src="_static/semantics_of_propositional_logic.2.png"/>
 
 .. raw:: latex
 
@@ -131,7 +131,7 @@ Finally, if :math:`A` is true and :math:`B` is false, we can prove :math:`\neg (
 
 .. raw:: html
 
-   <img src="_static/semantics_of_propositional_logic.3.png">
+   <img src="_static/semantics_of_propositional_logic.3.png"/>
 
 .. raw:: latex
 
@@ -196,7 +196,7 @@ To begin with, truth tables can be used to concisely summarize the semantics of 
 
 .. raw:: html
 
-   <img src="_static/semantics_of_propositional_logic.4.png">
+   <img src="_static/semantics_of_propositional_logic.4.png"/>
 
 .. raw:: latex
 
@@ -235,7 +235,7 @@ For compound formulas, the style is much the same. Sometimes it can be helpful t
 
 .. raw:: html
 
-   <img src="_static/semantics_of_propositional_logic.5.png">
+   <img src="_static/semantics_of_propositional_logic.5.png"/>
 
 .. raw:: latex
 

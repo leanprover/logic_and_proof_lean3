@@ -77,7 +77,7 @@ The pattern for a proof by induction is expressed even more naturally by the fol
 
 .. raw:: html
 
-   <img src="_static/the_natural_numbers_and_induction.1.png">
+   <img src="_static/the_natural_numbers_and_induction.1.png"/>
 
 .. raw:: latex
 

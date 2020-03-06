@@ -16,7 +16,7 @@ Remember that in natural deduction, proof by contradiction is expressed by the f
 
 .. raw:: html
 
-   <img src="_static/classical_reasoning.1.png">
+   <img src="_static/classical_reasoning.1.png"/>
 
 .. raw:: latex
 
@@ -53,7 +53,7 @@ Here is a proof of ``em``, in natural deduction, using proof by contradiction:
 
 .. raw:: html
 
-   <img src="_static/classical_reasoning.3.png">
+   <img src="_static/classical_reasoning.3.png"/>
 
 .. raw:: latex
 
@@ -122,7 +122,7 @@ Proof by contradiction is also equivalent to the principle :math:`¬ ¬ A ↔ A`
 
 .. raw:: html
 
-   <img src="_static/classical_reasoning.4.png">
+   <img src="_static/classical_reasoning.4.png"/>
 
 .. raw:: latex
 
@@ -182,7 +182,7 @@ If :math:`A \to B` is any implication, the assertion :math:`\neg B \to \neg A` i
 
 .. raw:: html
 
-   <img src="_static/classical_reasoning.5.png">
+   <img src="_static/classical_reasoning.5.png"/>
 
 .. raw:: latex
 
@@ -207,7 +207,7 @@ Here is another example. Intuitively, asserting "if A then B" is equivalent to s
 
 .. raw:: html
 
-   <img src="_static/classical_reasoning.6.png">
+   <img src="_static/classical_reasoning.6.png"/>
 
 .. raw:: latex
 
@@ -262,7 +262,7 @@ Knowing that we can prove the law of the excluded middle, it is convenient to us
 
 .. raw:: html
 
-   <img src="_static/classical_reasoning.6bis.png">
+   <img src="_static/classical_reasoning.6bis.png"/>
 
 .. raw:: latex
 
@@ -333,7 +333,7 @@ Using these identities, we can always push negations down to propositional varia
 
 .. raw:: html
 
-   <img src="_static/classical_reasoning.8.png">
+   <img src="_static/classical_reasoning.8.png"/>
 
 .. raw:: latex
 

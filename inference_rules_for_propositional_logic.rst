@@ -3,7 +3,7 @@
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.8.png">
+   <img src="_static/natural_deduction_for_propositional_logic.8.png"/>
 
 .. raw:: latex
 
@@ -30,7 +30,7 @@
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.9.png">
+   <img src="_static/natural_deduction_for_propositional_logic.9.png"/>
 
 .. raw:: latex
 
@@ -56,7 +56,7 @@
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.10.png">
+   <img src="_static/natural_deduction_for_propositional_logic.10.png"/>
 
 .. raw:: latex
 
@@ -83,7 +83,7 @@
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.11.png">
+   <img src="_static/natural_deduction_for_propositional_logic.11.png"/>
 
 .. raw:: latex
 
@@ -122,7 +122,7 @@
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.12.png">
+   <img src="_static/natural_deduction_for_propositional_logic.12.png"/>
 
 .. raw:: latex
 
@@ -142,7 +142,7 @@
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.13.png">
+   <img src="_static/natural_deduction_for_propositional_logic.13.png"/>
 
 .. raw:: latex
 
@@ -181,7 +181,7 @@
 
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_propositional_logic.14.png">
+   <img src="_static/natural_deduction_for_propositional_logic.14.png"/>
 
 .. raw:: latex
 

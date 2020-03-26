@@ -259,6 +259,38 @@ Here we require that :math:`y` is not free in :math:`B`, and that the only uncan
 
 Intuitively, the rule says that you can prove :math:`B` from the assumption :math:`\exists x A(x)` by assuming :math:`A(y)` for a fresh variable :math:`y`, and concluding, in any number of steps, that :math:`B` follows. You should compare this rule to the rule for or elimination, which is somewhat analogous. In the following example, we show that if :math:`A(x)` always implies :math:`\neg B(x)`, then there cannot be an :math:`x` for which both :math:`A(x)` and :math:`B(x)` holds.
 
+.. raw:: html
+
+   <img src="_static/first_order_logic_in_lean.2.png">
+
+.. raw:: latex
+
+   \begin{prooftree}
+   \AXM{}
+   \RLM{2}
+   \UIM{\ex x (A(x) \wedge B(x))}
+   \AXM{}
+   \RLM{1}
+   \UIM{\fa x (A(x) \to \neg B(x))}
+   \UIM{A(x) \to \neg B(x)}
+   \AXM{}
+   \RLM{3}
+   \UIM{A(x) \wedge B(x)}
+   \UIM{A(x)}
+   \BIM{\neg B(x)}
+   \AXM{}
+   \RLM{3}
+   \UIM{A(x) \wedge B(x)}
+   \UIM{B(x)}
+   \BIM{\bot}
+   \RLM{3}
+   \BIM{\bot}
+   \RLM{2}
+   \UIM{\neg\ex x(A(x) \wedge B(x))}
+   \RLM{1}
+   \UIM{\fa x (A(x) \to \neg B(x)) \to \neg \ex x (A(x) \wedge B(x))}
+   \end{prooftree}
+
 There is a restriction on the term :math:`t` that appears in the elimination rule for the universal quantifier and the introduction rule for the existential quantifier, namely, that no variable that appears in :math:`t` becomes bound when you plug it in for :math:`x`. To see what can go wrong if you violate this restriction, consider the sentence :math:`\forall x \; \exists y \; y > x`. If we interpret this as a statement about the natural numbers, it says that for every number :math:`x`, there is a bigger number :math:`y`. This is a true statement, and so it should hold whatever we substitute for :math:`x`. But what happens if we substitute :math:`y + 1`? We get the statement :math:`\exists y \; y > y + 1`, which is false. The problem is that before the substitution the variable :math:`y` in :math:`y + 1` refers to an arbitrary number, but after the substitution, it refers to the number that is asserted to exist by the existential quantifier, and that is not what we want.
 
 Violating the restriction in the introduction rule for the existential quantifier causes similar problems. For example, it allows us to derive :math:`\exists x \; \forall y \; y = x`, which says that there is exactly one number, from the hypothesis :math:`\forall y \; y = y`. The good news is that if you rely on your intuition, you are unlikely to make mistakes like these. But it is an important fact that the rules of natural deduction can be given a precise specification that rules out these invalid inferences.

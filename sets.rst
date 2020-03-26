@@ -112,47 +112,34 @@ and the proof proceeds accordingly. The phrase "let :math:`x` be arbitrary" is c
 
 Modulo the unfolding of definition of intersection and union in terms of "and" and "or," the "only if" direction of the previous proof could be represented in natural deduction like this:
 
-.. TODO: change!
-
 .. raw:: html
 
-   <img src="_static/natural_deduction_for_first_order_logic.1.png">
+   <img src="_static/sets.1.png">
 
 .. raw:: latex
 
    \begin{prooftree}
    \small
-   \AXM{}
-   \RLM{1}
-   \UIM{y \in A \cap (B \cup C)}
+   \AXM{y \in A \cap (B \cup C)}
    \UIM{y \in B \cup C}
 
-   \AXM{}
-   \RLM{1}
-   \UIM{y \in A \cap (B \cup C)}
+   \AXM{y \in A \cap (B \cup C)}
    \UIM{y \in A}
    \AXM{}
-   \RLM{2}
+   \RLM{1}
    \UIM{y \in B}
    \BIM{y \in A \cap B}
    \UIM{y \in (A \cap B) \cup (A \cap C)}
 
-   \AXM{}
-   \RLM{1}
-   \UIM{y \in A \cap (B \cup C)}
+   \AXM{y \in A \cap (B \cup C)}
    \UIM{y \in A}
    \AXM{}
-   \RLM{2}
+   \RLM{1}
    \UIM{y \in C}
    \BIM{y \in A \cap C}
    \UIM{y \in (A \cap B) \cup (A \cap C)}
-   \RLM{2}
-   \TIM{y \in (A \cap B) \cup (A \cap C)}
-
-   \AXM{\vdots}
    \RLM{1}
-   \BIM{y \in A \cap (B \cup C) \leftrightarrow  y \in (A \cap B) \cup (A \cap C)}
-   \UIM{\forall x \; (x \in A \cap (B \cup C) \leftrightarrow x \in (A \cap B) \cup (A \cap C))}
+   \TIM{y \in (A \cap B) \cup (A \cap C)}
    \end{prooftree}
 
 In the next chapter, we will see that this logical structure is made manifest in Lean. But writing long proofs in natural deduction is not the most effective to communicate the mathematical ideas. So our goal here is to teach you to think in terms of natural deduction rules, but express the steps in ordinary English.
@@ -374,7 +361,7 @@ If :math:`I` is a set, we will sometimes wish to consider a *family* :math:`(A_i
 
 .. math::
 
-   A_0, A_1, A_2, \ldots 
+   A_0, A_1, A_2, \ldots
 
 of sets indexed by the natural numbers. The concept is best illustrated by some examples.
 
@@ -458,7 +445,7 @@ Some axiomatic foundations take the notion of a pair to be primitive. In axiomat
 
 .. math::
 
-   (a, b) = \{\{a\}, \{a, b\}\}. 
+   (a, b) = \{\{a\}, \{a, b\}\}.
 
 Notice that if :math:`a = b`, this set has only one element:
 

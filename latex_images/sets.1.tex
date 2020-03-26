@@ -1,0 +1,27 @@
+\documentclass[preview]{standalone}
+\usepackage{bussproofs,mylogic}
+\begin{document}
+   \begin{prooftree}
+   \small
+   \AXM{y \in A \cap (B \cup C)}
+   \UIM{y \in B \cup C}
+
+   \AXM{y \in A \cap (B \cup C)}
+   \UIM{y \in A}
+   \AXM{}
+   \RLM{1}
+   \UIM{y \in B}
+   \BIM{y \in A \cap B}
+   \UIM{y \in (A \cap B) \cup (A \cap C)}
+
+   \AXM{y \in A \cap (B \cup C)}
+   \UIM{y \in A}
+   \AXM{}
+   \RLM{1}
+   \UIM{y \in C}
+   \BIM{y \in A \cap C}
+   \UIM{y \in (A \cap B) \cup (A \cap C)}
+   \RLM{1}
+   \TIM{y \in (A \cap B) \cup (A \cap C)}
+   \end{prooftree}
+\end{document}

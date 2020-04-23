@@ -708,7 +708,7 @@ Because calculations are so important in mathematics, however, Lean provides mor
 
 If you put the cursor after the word ``begin``, Lean will tell you that the goal at that point is to prove ``x = z``. The first command changes the goal ``x = z`` to ``y = z``; the left-facing arrow before ``h1`` (which you can enter as ``\<-``) tells Lean to use the equation in the reverse direction. If you put the cursor after the comma, Lean shows you the new goal, ``y = z``. The ``apply`` command uses ``h2`` to complete the proof.
 
-An alternative is to rewrite the goal using ``h1`` and ``h2``, which reduces the goal to ``x = x``. When that happens, ``rewrite`` automatically applies reflexivity.
+An alternative is to rewrite the goal using ``h1`` and ``h2``, which reduces the goal to ``x = x``. When that happens, ``rewrite`` automatically applies reflexivity. Rewriting is such a common operation in Lean that we can use the shorthand ``rw`` in place of the full ``rewrite``.
 
 .. code-block:: lean
 

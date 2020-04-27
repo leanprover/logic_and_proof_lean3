@@ -41,7 +41,7 @@ The use of the symbol :math:`\leq` is meant to be suggestive, and, indeed, the f
 -  :math:`\leq` on the rational numbers
 -  :math:`\leq` on the real numbers
 
-But keep in mind that :math:`\leq` is only a symbol; it can have unexpected interpretations as well. For example, the :math:`\geq`relation on any of these domains is also a partial order, and can interpret the :math:`\leq` symbol just as well.
+But keep in mind that :math:`\leq` is only a symbol; it can have unexpected interpretations as well. For example, the :math:`\geq` relation on any of these domains is also a partial order, and can interpret the :math:`\leq` symbol just as well.
 
 These are not fully representative of the class of partial orders, in that they all have an additional property:
 

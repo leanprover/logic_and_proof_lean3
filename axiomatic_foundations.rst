@@ -50,7 +50,7 @@ Once again, this justifies the use of the :math:`\bigcup` notation. We get the o
 
 At this stage, it will be useful to invoke some additional notation that was first introduced in our informal presentation of sets. If :math:`A` is any first-order formula in the language of set theory, :math:`\forall x \in y \; A` abbreviates :math:`\forall x \; (x \in y \rightarrow A)` and :math:`\exists x \in y \; A` abbreviates :math:`\exists x \; (x \in y \wedge A)`, relativizing the quantifiers as described in :numref:`relativization_and_sorts`. The expression :math:`x \subseteq y` abbreviates :math:`\forall z \in x \; (z \in y)`, as you would expect.
 
-The next axiom asserts that for every set :math:`x`, the power set, :math:`\mathcal{P}(x)` exists. 
+The next axiom asserts that for every set :math:`x`, the power set, :math:`\mathcal{P}(x)` exists.
 
 .. math::
 
@@ -138,7 +138,7 @@ The more interesting point is that :math:`y` also satisfies the principle of ind
 
 To summarize, then, we have proved the existence of a set that contains :math:`0` and is closed under a successor operation and satisfies the induction axiom. Moreover, there is only one such set: if :math:`y_1` and :math:`y_2` both have this property, then so does :math:`y_1 \cap y_2`, and by the induction principle, this intersection has to be equal to both :math:`y_1` and :math:`y_2`, in which case :math:`y_1` and :math:`y_2` are equal. It then makes sense to call the unique set with these properties the *natural numbers*, and denote it by the symbol :math:`\mathbb{N}`.
 
-There is only one piece of the puzzle missing. It is clear from the definition that :math:`0` is not the successor of any number, but it is not clear that the successor function is injective. We can prove that by first noticing that the natural numbers, as we have defined them, have a peculiar property: if :math:`z` is a natural number, :math:`y` is an element of :math:`z`, and :math:`x` is an element of :math:`y`, then :math:`x` is an element of :math:`z`. This says exactly that the :math:`\in` relation is transitive on natural numbers, which is not surprising, since we have noted that :math:`\in` on the natural numbers, under our representation, coincides with :math:`<`. To prove this claim formally, say that a set :math:`z` is *transitive* if it has the property just mentioned, namely, that every element of an element of :math:`z` is an element of `z`. This is equivalent to saying that for every :math:`y \in z`, we have :math:`y \subseteq z`. 
+There is only one piece of the puzzle missing. It is clear from the definition that :math:`0` is not the successor of any number, but it is not clear that the successor function is injective. We can prove that by first noticing that the natural numbers, as we have defined them, have a peculiar property: if :math:`z` is a natural number, :math:`y` is an element of :math:`z`, and :math:`x` is an element of :math:`y`, then :math:`x` is an element of :math:`z`. This says exactly that the :math:`\in` relation is transitive on natural numbers, which is not surprising, since we have noted that :math:`\in` on the natural numbers, under our representation, coincides with :math:`<`. To prove this claim formally, say that a set :math:`z` is *transitive* if it has the property just mentioned, namely, that every element of an element of :math:`z` is an element of `z`. This is equivalent to saying that for every :math:`y \in z`, we have :math:`y \subseteq z`.
 
 ----
 
@@ -201,7 +201,7 @@ It is consistent with all the axioms we have seen so far that every set in the m
 
     \{ \mathbb{N}, \;\; \mathcal P(\mathbb{N}), \;\; \mathcal P(\mathcal P(\mathbb{N}), \;\; \mathcal P (\mathcal P (\mathcal P (\mathbb{N}))), \;\; \ldots \}.
 
-The following axiom implies the existence of such a set. 
+The following axiom implies the existence of such a set.
 
 .. math::
 
@@ -216,69 +216,69 @@ The nine axioms we have listed so far comprise what is known as *Zermelo-Fraenke
 
     \text{Choice:} \;\; \forall x \; (\emptyset \notin x \rightarrow \exists f : x \to \bigcup x \; \forall y \in x \; f(y) \in y)
 
-The axiom says that for any collection :math:`x` of nonempty sets, there is a function :math:`f` that selects an element from each one. We used this axiom, informally, in :numref:`injective_surjective_and_bijective_functions` to show that every surjective function has a right inverse. In fact, this last statement can be shown to be equivalent to the axiom of choice on the basis of the other axioms. 
+The axiom says that for any collection :math:`x` of nonempty sets, there is a function :math:`f` that selects an element from each one. We used this axiom, informally, in :numref:`injective_surjective_and_bijective_functions` to show that every surjective function has a right inverse. In fact, this last statement can be shown to be equivalent to the axiom of choice on the basis of the other axioms.
 
 To summarize, then, the axioms of Zermelo-Fraenkel Set Theory with the axiom of choice are as follows:
 
-#. Extensionality: 
-
-    .. math:: 
-    
-        \forall x, y \; (x = y \leftrightarrow \forall z (z \in x \leftrightarrow z \in y))
-
-#. Empty set: 
+#. Extensionality:
 
     .. math::
-    
+
+        \forall x, y \; (x = y \leftrightarrow \forall z (z \in x \leftrightarrow z \in y))
+
+#. Empty set:
+
+    .. math::
+
         \exists x \; \forall y \; y \notin x
 
 #. Pairing:
 
     .. math::
-    
+
         \forall x, y \; \exists z \; \forall w \; (w \in z \leftrightarrow w = x \vee w = y)
 
 #. Union:
 
-    .. math:: 
-    
+    .. math::
+
         \forall x \; \exists y \; \forall z \; (z \in y \leftrightarrow \exists w \; (w \in x \wedge z \in w))
 
-#. Power set: 
+#. Power set:
 
     .. math::
-    
+
         \forall x \; \exists y \; \forall z \; (z \in y \leftrightarrow z \subseteq y)
 
 #. Separation:
 
     .. math::
-    
+
         \forall x_1, x_2, \ldots, x_n, y \; \exists z \; \forall w \; (w \in z \leftrightarrow w \in y \wedge A(w,x_1, x_2, \ldots, x_n))
 
 #. Infinity:
 
     .. math::
-    
-        \exists x \; (\emptyset \in x \wedge \forall y \; (y \in x \rightarrow y \cup \{ y \} \in x)
+
+        \exists x \; (\emptyset \in x \wedge \forall y \; (y \in x \rightarrow y \cup \{ y \} \in x))
 
 #. Foundation:
 
     .. math::
-    
+
         \forall x \; (\exists y \; y \in x \to \exists y \in x \; \forall z \in x \; z \notin y)))
 
-#. Replacement: 
+#. Replacement:
 
     .. math::
-    
+
         \forall x, y_1, \ldots, y_n \;\; (\forall z \in x \; \exists ! w \; A(z, w, y_1, \ldots, y_n) \rightarrow \\
         \exists u \; \forall w \; (w \in u \leftrightarrow \exists z \in x \; A(z, w, y_1, \ldots, y_n)))
 
 #. Choice:
 
     .. math::
-    
+
         \forall x \; (\emptyset \notin x \rightarrow \exists f : x \to \bigcup x \; \forall y \in x \; f(y) \in y)
 
 Type Theory
@@ -288,7 +288,7 @@ As a foundation for mathematics, Zermelo-Fraenkel set theory is appealing. The u
 
 There are other foundations on offer, however. These tend to be largely inter-interpretable with set theory. After all, set-theoretic language is now ubiquitous in everyday mathematics, so any reasonable foundation should be able to make sense of such language. On the other hand, we have already noted that set theory is remarkably expressive and robust, and so it should not be surprising that other foundational approaches can often be understood in set-theoretic terms.
 
-This is, in particular, true of *dependent type theory*, which is the basis of the Lean theorem prover. The syntax of type theory is more complicated than that of set theory. In set theory, there is only one kind of object; officially, everything is a set. In contrast, in type theory, every well-formed expression in Lean has a *type*, and there is a rich vocabulary of defining types. 
+This is, in particular, true of *dependent type theory*, which is the basis of the Lean theorem prover. The syntax of type theory is more complicated than that of set theory. In set theory, there is only one kind of object; officially, everything is a set. In contrast, in type theory, every well-formed expression in Lean has a *type*, and there is a rich vocabulary of defining types.
 
 In fact, Lean is based on a version of an axiomatic framework known as the *Calculus of Inductive Constructions*, which provides all of the following:
 
@@ -326,4 +326,3 @@ Exercises
 #. Justify the claim in :numref:`basic_axioms_for_sets` that every element of :math:`x \times y` is an element of :math:`\mathcal P (\mathcal P (x \cup y))`.
 
 #. Given a set :math:`x` and a function :math:`A : x \to y`, use the axioms of set theory to prove the existence of :math:`\bigcup_{i \in x} A(i)`.
-

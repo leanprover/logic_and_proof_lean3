@@ -137,7 +137,7 @@ We can even declare infix notation of binary operations and relations:
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
 
     constant mul : ℕ → ℕ → ℕ
     constant add : ℕ → ℕ → ℕ
@@ -158,18 +158,18 @@ We can even declare infix notation of binary operations and relations:
     #check even x
 
     -- BEGIN
-    infix + := add
-    infix * := mul
-    infix < := lt
+    local infix + := add
+    local infix * := mul
+    local infix < := lt
     -- END
 
-    end hide
+    end hidden
 
 (Getting notation for numerals ``1``, ``2``, ``3``, ... is trickier.) With all this in place, the examples above can be rendered as follows:
 
 .. code-block:: lean
 
-    namespace hide
+    namespace hidden
 
     constant mul : ℕ → ℕ → ℕ
     constant add : ℕ → ℕ → ℕ
@@ -189,9 +189,9 @@ We can even declare infix notation of binary operations and relations:
     #check square x
     #check even x
 
-    infix + := add
-    infix * := mul
-    infix < := lt
+    local infix + := add
+    local infix * := mul
+    local infix < := lt
 
     -- BEGIN
     #check even (x + y + z) ∧ prime ((x + one) * y * y)
@@ -199,13 +199,13 @@ We can even declare infix notation of binary operations and relations:
     #check x < y ∧ even x ∧ even y → x + one < y
     -- END
 
-    end hide
+    end hidden
 
-In fact, all of the functions, predicates, and relations discussed here, except for the "square" function and "prime," are defined in the core Lean library. They become available to us when we put the commands ``import data.nat`` and ``open nat`` at the top of a file in Lean.
+In fact, all of the functions, predicates, and relations discussed here, except for the "square" function, are defined in the core Lean library. They become available to us when we put the commands ``import data.nat.basic`` and ``open nat`` at the top of a file in Lean.
 
 .. code-block:: lean
 
-    import data.nat
+    import data.nat.basic
     open nat
 
     constant square : ℕ → ℕ
@@ -268,7 +268,7 @@ In Lean, you can enter the universal quantifier by writing ``\all``. The motivat
 
 .. code-block:: lean
 
-    import data.nat
+    import data.nat.basic
     open nat
 
     constant prime : ℕ → Prop
@@ -796,6 +796,8 @@ The ``calc`` environment is most powerful when used in conjunction with ``rewrit
 
 .. code-block:: lean
 
+    import data.int.basic
+
     variables x y z : int
 
     example : x + 0 = x :=
@@ -822,32 +824,44 @@ The ``calc`` environment is most powerful when used in conjunction with ``rewrit
     example : (x + y) * z = x * z + y * z :=
     right_distrib x y z
 
-You can also write the type of integers as ``ℤ``, entered with either ``\Z`` or ``\int``. Notice that, for example, ``add_comm`` is the theorem ``∀ x y, x + y = y + x``. So to instantiate it to ``s + t = t + s``, you write ``add_comm s t``. Using these axioms, here is the calculation above rendered in Lean, as a theorem about the integers:
+You can also write the type of integers as ``ℤ``, entered with either ``\Z`` or ``\int`` We have imported the file ``data.int.basic`` to make all the basic properties of the integers available to us. (In later snippets, we will suppress this line in the online and pdf versions of the textbook, to avoid clutter.) Notice that, for example, ``add_comm`` is the theorem ``∀ x y, x + y = y + x``. So to instantiate it to ``s + t = t + s``, you write ``add_comm s t``. Using these axioms, here is the calculation above rendered in Lean, as a theorem about the integers:
 
 .. code-block:: lean
 
+   import data.int.basic
+
+   -- BEGIN
    example (x y z : int) : (x + y) + z = (x + z) + y :=
    calc
       (x + y) + z = x + (y + z) : add_assoc x y z
               ... = x + (z + y) : eq.subst (add_comm y z) rfl
               ... = (x + z) + y : eq.symm (add_assoc x z y)
+   -- END
 
 Using ``rewrite`` is more efficient, though at times we have to provide information to specify where the rules are used:
 
 .. code-block:: lean
 
+    import data.int.basic
+
+    -- BEGIN
     example (x y z : int) : (x + y) + z = (x + z) + y :=
     calc
       (x + y) + z = x + (y + z) : by rw add_assoc
               ... = x + (z + y) : by rw [add_comm y z]
               ... = (x + z) + y : by rw add_assoc
+    -- END
 
 In that case, we can use a single ``rewrite``:
 
 .. code-block:: lean
 
-    example (x y z : int) : (x + y) + z = (x + z) + y :=
-    by rw [add_assoc, add_comm y z, add_assoc]
+   import data.int.basic
+
+   -- BEGIN
+   example (x y z : int) : (x + y) + z = (x + z) + y :=
+   by rw [add_assoc, add_comm y z, add_assoc]
+   -- END
 
 If you #check the proof before the sequence of ``rewrites`` is sufficient, the error message will display the remaining goal.
 
@@ -855,6 +869,9 @@ Here is another example:
 
 .. code-block:: lean
 
+    import data.int.basic
+
+    -- BEGIN
     variables a b d c : int
 
     example : (a + b) * (c + d) = a * c + b * c + a * d + b * d :=
@@ -863,10 +880,13 @@ Here is another example:
         ... = (a * c + b * c) + (a + b) * d         : by rw right_distrib
         ... = (a * c + b * c) + (a * d + b * d)     : by rw right_distrib
         ... = a * c + b * c + a * d + b * d         : by rw ←add_assoc
+    -- END
 
 Once again, we can get by with a shorter proof:
 
 .. code-block:: lean
+
+    import data.int.basic
 
     variables a b d c : int
 
@@ -1040,6 +1060,8 @@ Exercises
 
    .. code-block:: lean
 
+    import data.int.basic
+
     -- these are the axioms for a commutative ring
 
     #check @add_assoc
@@ -1116,7 +1138,7 @@ Exercises
 .. comment (TODO: restore this)
     #. Do the following.
     .. code-block:: lean
-        import data.nat
+        import data.nat.basic
         open nat
         -- You can use the facts "odd_succ_of_even" and "odd_mul_of_odd_of_odd".
         -- Their use is illustrated in the next two examples.

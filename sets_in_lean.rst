@@ -23,11 +23,11 @@ Given ``A : set U`` and ``x : U``, we can write ``x ∈ A`` to state that ``x`` 
     #check A ∪ B
     #check B \ C
     #check C ∩ A
-    #check -C
+    #check Cᶜ
     #check ∅ ⊆ A
     #check B ⊆ univ
 
-You can type the symbols ``⊆``, ``∅``, ``∪``, ``∩``, ``\`` as ``\subeq`` ``\empty``, ``\un``, ``\i``, and ``\``, respectively. We have made the type variable ``U`` implicit, because it can typically be inferred from context. The universal set is denoted ``univ``, and set complementation is denoted with a negation symbol. Basic set-theoretic notions like these are defined in Lean's core library, but additional theorems and notation are available in an auxiliary library that we have loaded with the command ``import data.set``, which has to appear at the beginning of a file. The command ``open set`` lets us refer to a theorem named ``set.mem_union`` as ``mem_union``.
+You can type the symbols ``⊆``, ``∅``, ``∪``, ``∩``, ``\`` as ``\subeq`` ``\empty``, ``\un``, ``\i``, and ``\``, respectively. We have made the type variable ``U`` implicit, because it can typically be inferred from context. The universal set is denoted ``univ``, and set complementation is denoted with the superscripted letter "c," which you can enter as ``\^c`` or ``\compl``. Basic set-theoretic notions like these are defined in Lean's core library, but additional theorems and notation are available in an auxiliary library that we have loaded with the command ``import data.set``, which has to appear at the beginning of a file. The command ``open set`` lets us refer to a theorem named ``set.mem_union`` as ``mem_union``.
 
 The following pattern can be used to show that ``A`` is a subset of ``B``:
 
@@ -90,7 +90,7 @@ Here, ``ext`` is short for "extensionality." In symbolic terms, it is the follow
 
 .. math::
 
-    \forall x \; (x \in A \leftrightarrow x \in B) \to A = B.  
+    \forall x \; (x \in A \leftrightarrow x \in B) \to A = B.
 
 This reduces proving :math:`A = B` to proving :math:`\forall x \; (x \in A \leftrightarrow x \in B)`, which we can do using :math:`\forall` and :math:`\leftrightarrow` introduction.
 
@@ -217,11 +217,11 @@ The fact that Lean can identify sets with their logical definitions makes it eas
     assume : x ∈ A \ B,
     show x ∈ A, from and.left this
 
-    example : A \ B ⊆ -B :=
+    example : A \ B ⊆ Bᶜ :=
     assume x,
     assume : x ∈ A \ B,
     have x ∉ B, from and.right this,
-    show x ∈ -B, from this
+    show x ∈ Bᶜ, from this
     -- END
 
 Once again, we can use versions of the theorems designed specifically for sets:
@@ -240,11 +240,11 @@ Once again, we can use versions of the theorems designed specifically for sets:
     assume : x ∈ A \ B,
     show x ∈ A, from mem_of_mem_diff this
 
-    example : A \ B ⊆ -B :=
+    example : A \ B ⊆ Bᶜ :=
     assume x,
     assume : x ∈ A \ B,
     have x ∉ B, from not_mem_of_mem_diff this,
-    show x ∈ -B, from this
+    show x ∈ Bᶜ, from this
     -- END
 
 The fact that Lean has to unfold definitions means that it can be confused at times. For example, in the proof below, if you replace the last line by ``sorry``, Lean has trouble figuring out that you want it to unfold the subset symbol:
@@ -350,7 +350,7 @@ Notice that it is considerably longer than the informal proof in the last chapte
         have x ∈ A ∩ C, from and.intro ‹x ∈ A› ‹x ∈ C›,
         show x ∈ (A ∩ B) ∪ (A ∩ C), from or.inr this)
 
-    theorem inter_union_inter_subset : 
+    theorem inter_union_inter_subset :
       (A ∩ B) ∪ (A ∩ C) ⊆ A ∩ (B ∪ C) :=
     assume x,
     assume : x ∈ (A ∩ B) ∪ (A ∩ C),
@@ -385,9 +385,9 @@ In the last chapter, we showed :math:`(A \cap \overline B) \cup B = B`. Here is 
     variables A B C : set U
 
     -- BEGIN
-    example : (A ∩ -B) ∪ B = A ∪ B :=
+    example : (A ∩ Bᶜ) ∪ B = A ∪ B :=
     calc
-      (A ∩ -B) ∪ B = (A ∪ B) ∩ (-B ∪ B) : by rw union_distrib_right
+      (A ∩ Bᶜ) ∪ B = (A ∪ B) ∩ (Bᶜ ∪ B) : by rw union_distrib_right
                ... = (A ∪ B) ∩ univ     : by rw compl_union_self
                ... = A ∪ B              : by rw inter_univ
     -- END
@@ -423,7 +423,7 @@ Remember that if :math:`(A_i)_{i \in I}` is a family of sets indexed by :math:`I
 .. code-block:: lean
 
     variables {I U : Type}
-    
+
     def Union (A : I → set U) : set U := { x | ∃ i : I, x ∈ A i }
     def Inter (A : I → set U) : set U := { x | ∀ i : I, x ∈ A i }
 
@@ -439,7 +439,7 @@ The examples show that Lean can unfold the definitions so that ``x ∈ Inter A``
 .. code-block:: lean
 
     variables {I U : Type}
-    
+
     def Union (A : I → set U) : set U := { x | ∃ i : I, x ∈ A i }
     def Inter (A : I → set U) : set U := { x | ∀ i : I, x ∈ A i }
 
@@ -465,19 +465,19 @@ The good news is that Lean's library does define indexed union and intersection,
     variables {I U : Type}
     variables {A B : I → set U}
 
-    theorem exists_of_mem_Union {x : U} (h : x ∈ ⋃ i, A i) : 
-      ∃ i, x ∈ A i := 
+    theorem exists_of_mem_Union {x : U} (h : x ∈ ⋃ i, A i) :
+      ∃ i, x ∈ A i :=
     by simp * at *
 
-    theorem mem_Union_of_exists {x : U} (h : ∃ i, x ∈ A i) : 
+    theorem mem_Union_of_exists {x : U} (h : ∃ i, x ∈ A i) :
       x ∈ ⋃ i, A i :=
     by simp * at *
 
-    theorem forall_of_mem_Inter {x : U} (h : x ∈ ⋂ i, A i) : 
+    theorem forall_of_mem_Inter {x : U} (h : x ∈ ⋂ i, A i) :
       ∀ i, x ∈ A i :=
     by simp * at *
 
-    theorem mem_Inter_of_forall {x : U} (h : ∀ i, x ∈ A i) : 
+    theorem mem_Inter_of_forall {x : U} (h : ∀ i, x ∈ A i) :
       x ∈ ⋂ i, A i :=
     by simp * at *
 
@@ -492,7 +492,7 @@ The command ``simp * at *`` calls upon Lean's automation to carry out the proofs
     variables {I U : Type}
     variables {A B : I → set U}
 
-    theorem exists_of_mem_Union {x : U} (h : x ∈ ⋃ i, A i) : ∃ i, x ∈ A i := 
+    theorem exists_of_mem_Union {x : U} (h : x ∈ ⋃ i, A i) : ∃ i, x ∈ A i :=
     by simp * at *
 
     theorem mem_Union_of_exists {x : U} (h : ∃ i, x ∈ A i) : x ∈ ⋃ i, A i :=
@@ -506,9 +506,9 @@ The command ``simp * at *`` calls upon Lean's automation to carry out the proofs
 
     -- BEGIN
     example : (⋂ i, A i ∩ B i) = (⋂ i, A i) ∩ (⋂ i, B i) :=
-    ext $ 
+    ext $
     assume x : U,
-    iff.intro 
+    iff.intro
     (assume h : x ∈ ⋂ i, A i ∩ B i,
         have h1 : ∀ i, x ∈ A i ∩ B i, from forall_of_mem_Inter h,
         have h2 : ∀ i, x ∈ A i, from assume i, and.left (h1 i),
@@ -517,15 +517,15 @@ The command ``simp * at *`` calls upon Lean's automation to carry out the proofs
         have h5 : x ∈ ⋂ i, B i, from mem_Inter_of_forall h3,
         and.intro h4 h5)
     (assume h : x ∈ (⋂ i, A i) ∩ (⋂ i, B i),
-        have h1 : ∀ i, x ∈ A i, 
+        have h1 : ∀ i, x ∈ A i,
           from forall_of_mem_Inter (and.left h),
-        have h2 : ∀ i, x ∈ B i, 
+        have h2 : ∀ i, x ∈ B i,
           from forall_of_mem_Inter (and.right h),
-        have h3 : ∀ i, x ∈ A i ∩ B i, 
+        have h3 : ∀ i, x ∈ A i ∩ B i,
           from assume i, and.intro (h1 i) (h2 i),
         show x ∈ ⋂ i, A i ∩ B i, from mem_Inter_of_forall h3)
     -- END
-        
+
     end
 
 .. TODO(Jeremy): we can add this later
@@ -550,8 +550,8 @@ Even better, we can prove introduction and elimination rules for intersection an
     @[elab_simple]
     theorem Inter.elim {x : U} (h : x ∈ ⋂ i, A i) (i : I) : x ∈ A i :=
     by simp at h; apply h
-    
-    theorem Union.intro {x : U} (i : I) (h : x ∈ A i) : 
+
+    theorem Union.intro {x : U} (i : I) (h : x ∈ A i) :
       x ∈ ⋃ i, A i :=
     by {simp, existsi i, exact h}
 
@@ -575,8 +575,8 @@ Don't worry about what the proofs mean. What is important is how they can be use
 
     @[elab_simple]
     theorem Inter.elim {x : U} (h : x ∈ ⋂ i, A i) (i : I) : x ∈ A i :=
-    by simp at h; apply h 
-    
+    by simp at h; apply h
+
     theorem Union.intro {x : U} (i : I) (h : x ∈ A i) : x ∈ ⋃ i, A i :=
     by {simp, existsi i, exact h}
 
@@ -621,8 +621,8 @@ Remember that the dollar sign saves us the trouble of having to put parentheses 
 
     @[elab_simple]
     theorem Inter.elim {x : U} (h : x ∈ ⋂ i, A i) (i : I) : x ∈ A i :=
-    by simp at h; apply h 
-    
+    by simp at h; apply h
+
     theorem Union.intro {x : U} (i : I) (h : x ∈ A i) : x ∈ ⋃ i, A i :=
     by {simp, existsi i, exact h}
 
@@ -637,7 +637,7 @@ Remember that the dollar sign saves us the trouble of having to put parentheses 
     variables (A : I → set U) (B : I → set U) (C : set U)
 
     example : (⋂ i, A i ∩ B i) ⊆ (⋂ i, A i) ∩ (⋂ i, B i) :=
-    assume x : U, 
+    assume x : U,
     assume h : x ∈ ⋂ i, A i ∩ B i,
     have h1 : x ∈ ⋂ i, A i, from
         Inter.intro $
@@ -669,8 +669,8 @@ You are asked to prove the other direction in the exercises below. Here is an ex
 
     @[elab_simple]
     theorem Inter.elim {x : U} (h : x ∈ ⋂ i, A i) (i : I) : x ∈ A i :=
-    by simp at h; apply h 
-    
+    by simp at h; apply h
+
     theorem Union.intro {x : U} (i : I) (h : x ∈ A i) : x ∈ ⋃ i, A i :=
     by {simp, existsi i, exact h}
 
@@ -688,7 +688,7 @@ You are asked to prove the other direction in the exercises below. Here is an ex
     assume x,
     assume h : x ∈ ⋃ i, C ∩ A i,
     Union.elim h $
-    assume i, 
+    assume i,
     assume h1 : x ∈ C ∩ A i,
     have h2 : x ∈ C, from and.left h1,
     have h3 : x ∈ A i, from and.right h1,
@@ -699,7 +699,7 @@ You are asked to prove the other direction in the exercises below. Here is an ex
 
 Once again, we ask you to prove the other direction in the exercises below.
 
-Sometimes we want to work with families :math:`(A_{i, j})_{i \in I, j \in J}` indexed by two variables. This is also easy to manage in Lean: if we declare ``A : I → J → set U``, then given ``i : I`` and ``j : J``, we have that ``A i j : set U``. (You should interpret the expression ``I → J → set U`` as ``I → (J → set U)``, so that ``A i`` has type ``J → set U``, and then ``A i j`` has type ``set U``.) Here is an example of a proof involving a such a doubly-indexed family: 
+Sometimes we want to work with families :math:`(A_{i, j})_{i \in I, j \in J}` indexed by two variables. This is also easy to manage in Lean: if we declare ``A : I → J → set U``, then given ``i : I`` and ``j : J``, we have that ``A i j : set U``. (You should interpret the expression ``I → J → set U`` as ``I → (J → set U)``, so that ``A i`` has type ``J → set U``, and then ``A i j`` has type ``set U``.) Here is an example of a proof involving a such a doubly-indexed family:
 
 .. code-block:: lean
 
@@ -715,7 +715,7 @@ Sometimes we want to work with families :math:`(A_{i, j})_{i \in I, j \in J}` in
 
     @[elab_simple]
     theorem Inter.elim {x : U} (h : x ∈ ⋂ i, A i) (i : I) : x ∈ A i :=
-    by simp at h; apply h 
+    by simp at h; apply h
 
     theorem Union.intro {x : U} (i : I) (h : x ∈ A i) : x ∈ ⋃ i, A i :=
     by {simp, existsi i, exact h}
@@ -737,7 +737,7 @@ Sometimes we want to work with families :math:`(A_{i, j})_{i \in I, j \in J}` in
     Union.elim h $
     assume i,
     assume h1 : x ∈ ⋂ j, A i j,
-    show x ∈ ⋂j, ⋃i, A i j, from 
+    show x ∈ ⋂j, ⋃i, A i j, from
         Inter.intro $
         assume j,
         have h2 : x ∈ A i j, from Inter.elim h1 j,
@@ -790,16 +790,19 @@ Exercises
 
    .. code-block:: lean
 
-       section
-         variable U : Type
-         variables A B C : set U
+        import data.set
+        open set
 
-         example : ∀ x, x ∈ A ∩ C → x ∈ A ∪ B :=
-         sorry
+        variable  {U : Type}
+        variables (A B C : set U)
 
-         example : ∀ x, x ∈ -(A ∪ B) → x ∈ -A :=
-         sorry
-       end
+        -- BEGIN
+        example : ∀ x, x ∈ A ∩ C → x ∈ A ∪ B :=
+        sorry
+
+        example : ∀ x, x ∈ (A ∪ B)ᶜ → x ∈ Aᶜ :=
+        sorry
+        -- END
 
 #. Fill in the ``sorry``.
 
@@ -815,7 +818,7 @@ Exercises
 
     def disj (A B : set U) : Prop := ∀ ⦃x⦄, x ∈ A → x ∈ B → false
 
-    example (A B : set U) (h : ∀ x, ¬ (x ∈ A ∧ x ∈ B)) : 
+    example (A B : set U) (h : ∀ x, ¬ (x ∈ A ∧ x ∈ B)) :
       disj A B :=
     assume x,
     assume h1 : x ∈ A,
@@ -823,19 +826,19 @@ Exercises
     have h3 : x ∈ A ∧ x ∈ B, from and.intro h1 h2,
     show false, from h x h3
 
-    -- notice that we do not have to mention x when applying 
+    -- notice that we do not have to mention x when applying
     --   h : disj A B
-    example (A B : set U) (h1 : disj A B) (x : U) 
+    example (A B : set U) (h1 : disj A B) (x : U)
         (h2 : x ∈ A) (h3 : x ∈ B) :
       false :=
     h1 h2 h3
 
     -- the same is true of ⊆
-    example (A B : set U) (x : U) (h : A ⊆ B) (h1 : x ∈ A) : 
+    example (A B : set U) (x : U) (h : A ⊆ B) (h1 : x ∈ A) :
       x ∈ B :=
     h h1
 
-    example (A B C D : set U) (h1 : disj A B) (h2 : C ⊆ A) 
+    example (A B C D : set U) (h1 : disj A B) (h2 : C ⊆ A)
         (h3 : D ⊆ B) :
       disj C D :=
     sorry

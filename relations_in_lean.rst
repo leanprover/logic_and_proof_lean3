@@ -49,8 +49,6 @@ We can then use the notions freely. Notice that Lean will unfold the definitions
     def anti_symmetric (R : A → A → Prop) : Prop :=
     ∀ x y, R x y → R y x → x = y
 
-    variable {A : Type}
-
     -- BEGIN
     variable R : A → A → Prop
 

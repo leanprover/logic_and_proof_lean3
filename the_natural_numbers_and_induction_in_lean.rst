@@ -28,10 +28,10 @@ Declaring ``nat`` as an inductively defined type means that we can define functi
     open nat
 
     def two_pow : ℕ → ℕ
-    | 0        := 1 
+    | 0        := 1
     | (succ n) := 2 * two_pow n
 
-    def fact : ℕ → ℕ 
+    def fact : ℕ → ℕ
     | 0        := 1
     | (succ n) := (succ n) * fact n
 
@@ -40,10 +40,10 @@ Addition and numerals are defined in such a way that Lean recognizes ``succ n`` 
 .. code-block:: lean
 
     def two_pow : ℕ → ℕ
-    | 0       := 1 
+    | 0       := 1
     | (n + 1) := 2 * two_pow n
 
-    def fact : ℕ → ℕ 
+    def fact : ℕ → ℕ
     | 0       := 1
     | (n + 1) := (n + 1) * fact n
 
@@ -51,7 +51,7 @@ If we wanted to define the function ``m^n``, we would do that by fixing ``m``, a
 
 .. code-block:: lean
 
-    def pow : ℕ → ℕ → ℕ 
+    def pow : ℕ → ℕ → ℕ
     | m 0        := 1
     | m (n + 1)  := pow m n * m
 
@@ -88,38 +88,40 @@ Notice that we could alternatively have used ``m * pow m n`` in the second claus
 
 .. code-block:: lean
 
+  import data.nat.basic
   open nat
 
   theorem pow_succ' (m n : ℕ) : m^(succ n) = m * m^n :=
   nat.rec_on n
     (show m^(succ 0) = m * m^0, from calc
-      m^(succ 0) = m^0 * m : by rw pow_succ
-             ... = 1 * m   : by rw pow_zero
+      m^(succ 0) = m^0 * m : by rw nat.pow_succ
+             ... = 1 * m   : by rw nat.pow_zero
              ... = m       : by rw one_mul
              ... = m * 1   : by rw mul_one
-             ... = m * m^0 : by rw pow_zero)
+             ... = m * m^0 : by rw nat.pow_zero)
     (assume n,
       assume ih : m^(succ n) = m * m^n,
       show m^(succ (succ n)) = m * m^(succ n), from calc
-        m^(succ (succ n)) = m^(succ n) * m   : by rw pow_succ
+        m^(succ (succ n)) = m^(succ n) * m   : by rw nat.pow_succ
                       ... = (m * m^n) * m    : by rw ih
                       ... = m * (m^n * m)    : by rw mul_assoc
-                      ... = m * m^(succ n)   : by rw pow_succ)
+                      ... = m * m^(succ n)   : by rw nat.pow_succ)
 
 This is a typical proof by induction in Lean. It begins with the phrase ``nat.rec_on n``, and is followed by the base case and the inductive hypothesis. (The phrase ``open nat`` allows us to write ``pow`` instead of ``nat.pow``. The proof can be shortened using ``rewrite``:
 
 .. code-block:: lean
 
+  import data.nat.basic
   open nat
 
   theorem pow_succ' (m n : ℕ) : m^(succ n) = m * (m^n) :=
   nat.rec_on n
     (show m^(succ 0) = m * m^0,
-      by rw [pow_succ, pow_zero, mul_one, one_mul])
+      by rw [nat.pow_succ, nat.pow_zero, mul_one, one_mul])
     (assume n,
       assume ih : m^(succ n) = m * m^n,
       show m^(succ (succ n)) = m * m^(succ n),
-        by rw [pow_succ, ih, mul_assoc, mul_comm (m^n)])
+        by rw [nat.pow_succ, ih, mul_assoc, mul_comm (m^n)])
 
 Remember that you can write a ``rewrite`` proof incrementally, checking the error messages to make sure things are working so far, and to see how far Lean got.
 
@@ -127,6 +129,7 @@ As another example of a proof by induction, here is a proof of the identity ``m^
 
 .. code-block:: lean
 
+  import data.nat.basic
   open nat
 
   theorem pow_add (m n k : ℕ) : m^(n + k) = m^n * m^k :=
@@ -134,30 +137,31 @@ As another example of a proof by induction, here is a proof of the identity ``m^
     (show m^(n + 0) = m^n * m^0, from calc
       m^(n + 0) = m^n       : by rw add_zero
             ... = m^n * 1   : by rw mul_one
-            ... = m^n * m^0 : by rw pow_zero)
+            ... = m^n * m^0 : by rw nat.pow_zero)
     (assume k,
       assume ih : m^(n + k) = m^n * m^k,
       show m^(n + succ k) = m^n * m^(succ k), from calc
         m^(n + succ k) = m^(succ (n + k)) : by rw nat.add_succ
-                  ... = m^(n + k) * m    : by rw pow_succ
+                  ... = m^(n + k) * m    : by rw nat.pow_succ
                   ... = m^n * m^k * m    : by rw ih
                   ... = m^n * (m^k * m)  : by rw mul_assoc
-                  ... = m^n * m^(succ k) : by rw pow_succ)
+                  ... = m^n * m^(succ k) : by rw nat.pow_succ)
 
 Notice the same pattern. This time, we do induction on ``k``, and the base case and inductive step are routine. Once again, with a bit of cleverness, we can shorten the proof with ``rewrite``:
 
 .. code-block:: lean
 
+  import data.nat.basic
   open nat
 
   theorem pow_add (m n k : ℕ) : m^(n + k) = m^n * m^k :=
   nat.rec_on k
     (show m^(n + 0) = m^n * m^0,
-      by rw [add_zero, pow_zero, mul_one])
+      by rw [add_zero, nat.pow_zero, mul_one])
     (assume k,
       assume ih : m^(n + k) = m^n * m^k,
       show m^(n + succ k) = m^n * m^(succ k),
-      by rw [nat.add_succ, pow_succ, ih, mul_assoc, pow_succ])
+      by rw [nat.add_succ, nat.pow_succ, ih, mul_assoc, nat.pow_succ])
 
 You should not hesitate to use ``calc``, however, to make the proofs more explicit. Remember that you can also use ``calc`` and ``rewrite`` together, using ``calc`` to structure the calculational proof, and using ``rewrite`` to fill in each justification step.
 
@@ -168,6 +172,7 @@ In fact, addition and multiplication are defined in Lean essentially as describe
 
 .. code-block:: lean
 
+    import data.nat.basic
     open nat
 
     variables m n : ℕ
@@ -180,6 +185,7 @@ and multiplication:
 
 .. code-block:: lean
 
+    import data.nat.basic
     open nat
 
     #check @pred_zero
@@ -191,6 +197,7 @@ Here are the five propositions proved in :numref:`defining_arithmetic_operations
 
 .. code-block:: lean
 
+    import data.nat.basic
     open nat
 
     namespace hidden
@@ -203,7 +210,7 @@ Here are the five propositions proved in :numref:`defining_arithmetic_operations
       (assume n,
         assume ih,
         assume H : succ n ≠ 0,
-        show succ (pred (succ n)) = succ n, 
+        show succ (pred (succ n)) = succ n,
           by rewrite pred_succ)
 
     theorem zero_add (n : nat) : 0 + n = n :=
@@ -230,7 +237,7 @@ Here are the five propositions proved in :numref:`defining_arithmetic_operations
     theorem add_assoc (m n k : nat) : m + n + k = m + (n + k) :=
     nat.rec_on k
       (show m + n + 0 = m + (n + 0), by rw [add_zero, add_zero])
-      (assume k, 
+      (assume k,
         assume ih : m + n + k = m + (n + k),
         show m + n + succ k = m + (n + (succ k)), from calc
           m + n + succ k = succ (m + n + k)   : by rw add_succ
@@ -257,6 +264,9 @@ Exercises
 
    .. code-block:: lean
 
+       import data.nat.basic
+       open nat
+
        --1.a.
        example : ∀ m n k : nat, m * (n + k) = m * n + m * k := sorry
 
@@ -275,6 +285,9 @@ Exercises
 #. Formalize as many of the identities from :numref:`arithmetic_on_the_natural_numbers` as you can by replacing each `sorry` with a proof.
 
    .. code-block:: lean
+
+      import data.nat.basic
+      open nat
 
       --2.a.
       example : ∀ m n k : nat, n ≤ m → n + k ≤ m  + k := sorry

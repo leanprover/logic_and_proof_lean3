@@ -157,7 +157,7 @@ Ordinarily, we use ``funext`` (for "function extensionality") to prove that two 
     variables {X Y : Type}
 
     -- BEGIN
-    example (f g : X → Y) (h : ∀ x, f x = g x) : f = g := 
+    example (f g : X → Y) (h : ∀ x, f x = g x) : f = g :=
     funext h
     -- END
 
@@ -173,7 +173,7 @@ But Lean can prove some basic identities by simply unfolding definitions and sim
 
     lemma right_id (f : X → Y) : f ∘ id = f := rfl
 
-    theorem comp.assoc (f : Z → W) (g : Y → Z) (h : X → Y) : 
+    theorem comp.assoc (f : Z → W) (g : Y → Z) (h : X → Y) :
       (f ∘ g) ∘ h = f ∘ (g ∘ h) := rfl
 
     theorem comp.left_id (f : X → Y) : id ∘ f = f := rfl
@@ -188,10 +188,10 @@ We can define what it means for :math:`f` to be injective, surjective, or biject
     variables {X Y Z : Type}
 
     -- BEGIN
-    def injective (f : X → Y) : Prop := 
+    def injective (f : X → Y) : Prop :=
     ∀ ⦃x₁ x₂⦄, f x₁ = f x₂ → x₁ = x₂
 
-    def surjective (f : X → Y) : Prop := 
+    def surjective (f : X → Y) : Prop :=
     ∀ y, ∃ x, f x = y
 
     def bijective (f : X → Y) := injective f ∧ surjective f
@@ -209,16 +209,16 @@ We can then prove that the identity function is bijective:
     variables {X Y Z : Type}
 
     -- BEGIN
-    theorem injective_id : injective (@id X) := 
-    assume x₁ x₂, 
-    assume H : id x₁ = id x₂, 
+    theorem injective_id : injective (@id X) :=
+    assume x₁ x₂,
+    assume H : id x₁ = id x₂,
     show x₁ = x₂, from H
 
-    theorem surjective_id : surjective (@id X) := 
-    assume y, 
+    theorem surjective_id : surjective (@id X) :=
+    assume y,
     show ∃ x, id x = y, from exists.intro y rfl
 
-    theorem bijective_id : bijective (@id X) := 
+    theorem bijective_id : bijective (@id X) :=
     and.intro injective_id surjective_id
     -- END
 
@@ -276,11 +276,11 @@ The notions of left and right inverse are defined in the expected way.
 
     -- BEGIN
     -- g is a left inverse to f
-    def left_inverse (g : Y → X) (f : X → Y) : Prop := 
+    def left_inverse (g : Y → X) (f : X → Y) : Prop :=
     ∀ x, g (f x) = x
 
     -- g is a right inverse to f
-    def right_inverse (g : Y → X) (f : X → Y) : Prop := 
+    def right_inverse (g : Y → X) (f : X → Y) : Prop :=
     left_inverse f g
     -- END
 
@@ -294,11 +294,11 @@ In particular, composing with a left or right inverse yields the identity.
     variables {X Y Z : Type}
 
     -- BEGIN
-    def id_of_left_inverse {g : Y → X} {f : X → Y} : 
+    def id_of_left_inverse {g : Y → X} {f : X → Y} :
       left_inverse g f → g ∘ f = id :=
     assume H, funext H
 
-    def id_of_right_inverse {g : Y → X} {f : X → Y} : 
+    def id_of_right_inverse {g : Y → X} {f : X → Y} :
       right_inverse g f → f ∘ g = id :=
     assume H, funext H
     -- END
@@ -313,14 +313,14 @@ The following shows that if a function has a left inverse, then it is injective,
     variables {X Y : Type}
 
     -- BEGIN
-    theorem injective_of_left_inverse {g : Y → X} {f : X → Y} : 
+    theorem injective_of_left_inverse {g : Y → X} {f : X → Y} :
       left_inverse g f → injective f :=
     assume h, assume x₁ x₂, assume feq,
     calc x₁ = g (f x₁) : by rw h
         ... = g (f x₂) : by rw feq
         ... = x₂       : by rw h
 
-    theorem surjective_of_right_inverse {g : Y  → X} {f : X → Y} : 
+    theorem surjective_of_right_inverse {g : Y  → X} {f : X → Y} :
       right_inverse g f → surjective f :=
     assume h, assume y,
     let  x : X := g y in
@@ -391,14 +391,14 @@ Below, the proposition ``inverse_of_exists`` asserts that ``inverse`` meets its 
     λ y, if h : ∃ x, f x = y then some h else default
 
     -- BEGIN
-    theorem inverse_of_exists (f : X → Y) (default : X) (y : Y) 
+    theorem inverse_of_exists (f : X → Y) (default : X) (y : Y)
       (h : ∃ x, f x = y) :
     f (inverse f default y) = y :=
     have h1 : inverse f default y = some h, from dif_pos h,
     have h2 : f (some h) = y, from some_spec h,
     eq.subst (eq.symm h1) h2
 
-    theorem is_left_inverse_of_injective (f : X → Y) (default : X) 
+    theorem is_left_inverse_of_injective (f : X → Y) (default : X)
       (injf : injective f) :
     left_inverse (inverse f default) f :=
     let finv := (inverse f default) in
@@ -442,9 +442,11 @@ Using bounded quantifiers, we can talk about the behavior of functions on partic
     variables {X Y : Type}
     variables (A  : set X) (B : set Y)
 
-    def maps_to (f : X → Y) (A : set X) (B : set Y) := ∀ x ∈ A, f x ∈ B
+    def maps_to (f : X → Y) (A : set X) (B : set Y) :=
+      ∀ {x}, x ∈ A → f x ∈ B
 
-    def inj_on (f : X → Y) (A : set X) := ∀ (x₁ ∈ A) (x₂ ∈ A), f x₁ = f x₂ → x₁ = x₂
+    def inj_on (f : X → Y) (A : set X) :=
+      ∀ {x₁ x₂}, x₁ ∈ A → x₂ ∈ A → f x₁ = f x₂ → x₁ = x₂
 
     def surj_on (f : X → Y) (A : set X) (B : set Y) := B ⊆ f '' A
 
@@ -457,57 +459,12 @@ The expression ``maps_to f A B`` asserts that ``f`` maps elements of the set ``A
 
     variables {X Y : Type}
 
-    def maps_to (f : X → Y) (A : set X) (B : set Y) := ∀ x ∈ A, f x ∈ B
-    def inj_on (f : X → Y) (A : set X) := ∀ (x₁ ∈ A) (x₂ ∈ A), f x₁ = f x₂ → x₁ = x₂
-    def surj_on (f : X → Y) (A : set X) (B : set Y) := B ⊆ f '' A
-
     -- BEGIN
-    variables (f : X → Y) (A : set X) (B : set Y) 
-
-    example (h : maps_to f A B) (x : X) (h1 : x ∈ A) : f x ∈ B := h x h1
-
-    example (h : inj_on f A) (x₁ x₂ : X) (h1 : x₁ ∈ A) (h2 : x₂ ∈ A) 
-        (h3 : f x₁ = f x₂) : x₁ = x₂ :=
-    h x₁ h1 x₂ h2 h3
-
-    example (h : surj_on f A B) (y : Y) (h1 : y ∈ B) : ∃ x, x ∈ A ∧ f x = y :=
-    h h1
-    -- END
-
-Actually, it is slightly more convenient to mark the variables in ``maps_to`` and ``inj_on`` as implicit:
-
-.. code-block:: lean
-
-    import data.set
-    open set function
-
-    variables {X Y : Type}
-
-    -- BEGIN
-    def maps_to (f : X → Y) (A : set X) (B : set Y) := ∀ {x}, x ∈ A → f x ∈ B
-
-    def inj_on (f : X → Y) (A : set X) := ∀ {x₁ x₂}, x₁ ∈ A → x₂ ∈ A → f x₁ = f x₂ → x₁ = x₂
-    -- END
-
-In that case, we can leave out some arguments:
-
-.. code-block:: lean
-
-    import data.set
-    open set function
-
-    variables {X Y : Type}
-
-    def maps_to (f : X → Y) (A : set X) (B : set Y) := ∀ {x}, x ∈ A → f x ∈ B
-    def inj_on (f : X → Y) (A : set X) := ∀ {x₁ x₂}, x₁ ∈ A → x₂ ∈ A → f x₁ = f x₂ → x₁ = x₂
-    def surj_on (f : X → Y) (A : set X) (B : set Y) := B ⊆ f '' A
-
-    -- BEGIN
-    variables (f : X → Y) (A : set X) (B : set Y) 
+    variables (f : X → Y) (A : set X) (B : set Y)
 
     example (h : maps_to f A B) (x : X) (h1 : x ∈ A) : f x ∈ B := h h1
 
-    example (h : inj_on f A) (x₁ x₂ : X) (h1 : x₁ ∈ A) (h2 : x₂ ∈ A) 
+    example (h : inj_on f A) (x₁ x₂ : X) (h1 : x₁ ∈ A) (h2 : x₂ ∈ A)
         (h3 : f x₁ = f x₂) : x₁ = x₂ :=
     h h1 h2 h3
     -- END
@@ -522,19 +479,15 @@ With these notions in hand, we can prove that the composition of injective funct
     open set function
 
     variables {X Y Z : Type}
-
-    def maps_to (f : X → Y) (A : set X) (B : set Y) := ∀ {x}, x ∈ A → f x ∈ B
-    def inj_on (f : X → Y) (A : set X) := ∀ {x₁ x₂}, x₁ ∈ A → x₂ ∈ A → f x₁ = f x₂ → x₁ = x₂
-    def surj_on (f : X → Y) (A : set X) (B : set Y) := B ⊆ f '' A
-
     variables (A : set X) (B : set Y)
     variables (f : X → Y) (g : Y → Z)
 
     -- BEGIN
     theorem inj_on_comp (fAB : maps_to f A B) (hg : inj_on g B) (hf: inj_on f A) :
       inj_on (g ∘ f) A :=
-    assume x1 x2 : X,
+    assume x1 : X,
     assume x1A : x1 ∈ A,
+    assume x2 : X,
     assume x2A : x2 ∈ A,
     have fx1B : f x1 ∈ B, from fAB x1A,
     have fx2B : f x2 ∈ B, from fAB x2A,
@@ -551,11 +504,6 @@ We can similarly prove that the composition of surjective functions is surjectiv
     open set function
 
     variables {X Y Z : Type}
-
-    def maps_to (f : X → Y) (A : set X) (B : set Y) := ∀ {x}, x ∈ A → f x ∈ B
-    def inj_on (f : X → Y) (A : set X) := ∀ {x₁ x₂}, x₁ ∈ A → x₂ ∈ A → f x₁ = f x₂ → x₁ = x₂
-    def surj_on (f : X → Y) (A : set X) (B : set Y) := B ⊆ f '' A
-
     variables (A : set X) (B : set Y) (C : set Z)
     variables (f : X → Y) (g : Y → Z)
 
@@ -585,7 +533,6 @@ The following shows that the image of a union is the union of images:
   open set function
 
   variables {X Y : Type}
-
   variables (A₁ A₂ : set X)
   variable (f : X → Y)
 
@@ -625,6 +572,7 @@ Exercises
 
    .. code-block:: lean
 
+       import data.set data.int.basic
        open function int algebra
 
        def f (x : ℤ) : ℤ := x + 3
@@ -634,7 +582,7 @@ Exercises
        example : injective f :=
        assume x1 x2,
        assume h1 : x1 + 3 = x2 + 3,   -- Lean knows this is the same as f x1 = f x2
-       show x1 = x2, from eq_of_add_eq_add_right h1
+       show x1 = x2, from add_right_cancel h1
 
        example : surjective f :=
        assume y,
@@ -645,7 +593,7 @@ Exercises
 
        example (x y : ℤ) (h : 2 * x = 2 * y) : x = y :=
        have h1 : 2 ≠ (0 : ℤ), from dec_trivial,  -- this tells Lean to figure it out itself
-       show x = y, from eq_of_mul_eq_mul_left h1 h
+       show x = y, from mul_left_cancel' h1 h
 
        example (x : ℤ) : -(-x) = x := neg_neg x
 
@@ -688,7 +636,7 @@ Exercises
        eq_of_subset_of_subset
          (assume y,
            assume h1 : y ∈ f '' (A ∪ B),
-           exists.elim h1 $ 
+           exists.elim h1 $
            assume x h,
            have h2 : x ∈ A ∪ B, from h.left,
            have h3 : f x = y, from h.right,
@@ -705,7 +653,7 @@ Exercises
              (assume h3 : y ∈ f '' A,
                exists.elim h3 $
                assume x h,
-               have h4 : x ∈ A, from h.left, 
+               have h4 : x ∈ A, from h.left,
                have h5 : f x = y, from h.right,
                have h6 : x ∈ A ∪ B, from or.inl h4,
                show y ∈ f '' (A ∪ B), from ⟨x, h6, h5⟩)

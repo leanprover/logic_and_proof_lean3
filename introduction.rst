@@ -99,7 +99,7 @@ We will then provide a formal proof system that will let us establish, deductive
 The proof system we will use is a version of *natural deduction*, a type of proof system introduced by Gerhard Gentzen in the 1930s to model informal styles of argument. In this system, the fundamental unit of judgment is the assertion that a statement, :math:`A`, follows from a finite set of hypotheses, :math:`\Gamma`. This is written as :math:`\Gamma \vdash A`. If :math:`\Gamma` and :math:`\Delta` are two finite sets of hypotheses, we will write :math:`\Gamma, \Delta` for the *union* of these two sets, that is, the set consisting of all the hypotheses in each. With these conventions, the rule for the conjunction
 symbol can be expressed as follows:
 
-.. raw:: html 
+.. raw:: html
 
    <img src="_static/introduction.1.png">
 
@@ -116,7 +116,7 @@ This should be interpreted as saying: assuming :math:`A` follows from the hypoth
 
 We will see that one can write such proofs more compactly leaving the hypotheses implicit, so that the rule above is expressed as follows:
 
-.. raw:: html 
+.. raw:: html
 
    <img src="_static/introduction.2.png">
 
@@ -130,7 +130,7 @@ We will see that one can write such proofs more compactly leaving the hypotheses
 
 In this format, a snippet of the first proof in the previous section might be rendered as follows:
 
-.. raw:: html 
+.. raw:: html
 
    <img src="_static/introduction.3.png">
 
@@ -147,7 +147,7 @@ In this format, a snippet of the first proof in the previous section might be re
    \UnaryInfC{$\mathit{even}(b)$}
    \end{prooftree}
 
-The complexity of such proofs can quickly grow out of hand, and complete proofs of even elementary mathematical facts can become quite long. Such systems are not designed for writing serious mathematics. Rather, they provide idealized models of mathematical inference, and insofar as they capture something of the structure of an informal proof, they enable us to study the properties of mathematical reasoning. 
+The complexity of such proofs can quickly grow out of hand, and complete proofs of even elementary mathematical facts can become quite long. Such systems are not designed for writing serious mathematics. Rather, they provide idealized models of mathematical inference, and insofar as they capture something of the structure of an informal proof, they enable us to study the properties of mathematical reasoning.
 
 The second goal of this course is to help you understand natural deduction, as an example of a formal deductive system.
 
@@ -190,8 +190,8 @@ Proofs in Lean can access a library of prior mathematical results, all verified 
   exists.elim this $
   assume (c : nat) (aeq : a = 2 * c),
   have 2 * (2 * c^2) = 2 * b^2,
-    by simp [eq.symm h, aeq]; 
-      simp [pow_succ, mul_comm, mul_assoc, mul_left_comm],
+    by simp [eq.symm h, aeq];
+      simp [nat.pow_succ, mul_comm, mul_assoc, mul_left_comm],
   have 2 * c^2 = b^2,
     from eq_of_mul_eq_mul_left dec_trivial this,
   have 2 ∣ b^2,
@@ -240,4 +240,4 @@ About this Textbook
 
 Both this online textbook and the *Lean* theorem prover it invokes are new and ongoing projects, and in places they are still rough. Please bear with us! You can learn more about Lean from its `project page <http://leanprover.github.io/>`_ and the online textbook, `Theorem Proving in Lean <leanprover.github.io/theorem_proving_in_lean/>`_.
 
-We are grateful for feedback and corrections from a number of people, including Bruce Cuconato, William DeMeo, Tobias Grosser, Lyle Kopnicky, Alexandre Rademaker, and Matt Rice. 
+We are grateful for feedback and corrections from a number of people, including Bruce Cuconato, William DeMeo, Tobias Grosser, Lyle Kopnicky, Alexandre Rademaker, and Matt Rice.

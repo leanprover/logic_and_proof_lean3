@@ -235,8 +235,8 @@ Here we give a long list of facts properties of images and preimages. Here, :mat
 -  :math:`f^{-1}[B_1 \cup B_2] = f^{-1}[B_1] \cup f^{-1}[B_2]`.
 -  :math:`f[A_1 \cap A_2] \subseteq f[A_1] \cap f[A_2]`, and if :math:`f` is injective, :math:`f[A_1 \cap A_2] = f[A_1] \cap f[A_2]`.
 -  :math:`f^{-1}[B_1 \cap B_2] = f^{-1}[B_1] \cap f^{-1}[B_2]`.
--  :math:`f[A] \setminus f[B] \subseteq f[A \setminus B]`.
--  :math:`f^{-1}[A] \setminus f^{-1}[B] \subseteq f[A \setminus B]`.
+-  :math:`f[A_1] \setminus f[A_2] \subseteq f[A_1 \setminus A_2]`.
+-  :math:`f^{-1}[B_1] \setminus f^{-1}[B_2] \subseteq f^{-1}[B_1 \setminus B_2]`.
 -  :math:`f[A] \cap B = f[A \cap f^{-1}[B]]`.
 -  :math:`f[A] \cup B \supseteq f[A \cup f^{-1}[B]]`.
 -  :math:`A \cap f^{-1}[B] \subseteq f^{-1}[f[A] \cap B]`.

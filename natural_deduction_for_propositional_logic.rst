@@ -597,7 +597,7 @@ rules given in :numref:`derivations_in_natural_deduction`.
 
 #. Give a natural deduction proof of :math:`(A \wedge B) \to ((A \to C) \to \neg (B \to \neg C))`.
 
-#. Take another look at Exercise 3 in the last chapter. Using propositional variables :math:`A`, :math:`B`, and :math:`C` for "Alan likes kangaroos," "Betty likes frogs" and "Carl likes hamsters," respectively, express the three hypotheses in the previous problem as symbolic formulas, and then derive a contradiction from them in natural deduction.
+#. Take another look at Exercise 3 in the last chapter. Using propositional variables :math:`A`, :math:`B`, and :math:`C` for "Alan likes kangaroos," "Betty likes frogs" and "Carl likes hamsters," respectively, express the three hypotheses as symbolic formulas, and then derive a contradiction from them in natural deduction.
 
 #. Give a natural deduction proof of :math:`A \vee B \to B \vee A`.
 

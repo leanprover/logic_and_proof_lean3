@@ -621,7 +621,7 @@ The language of propositional logic starts with symbols :math:`A`, :math:`B`, :m
 
 .. math::
 
-   ((A \wedge \neg B) \to \neg (C \vee D))
+   ((A \wedge (\neg B)) \to \neg (C \vee D))
 
 is an example of a propositional formula.
 

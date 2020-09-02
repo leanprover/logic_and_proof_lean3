@@ -228,7 +228,7 @@ Exercises
    -  Since that :math:`[a]` and :math:`[b]` are sets, :math:`[a] = [b]` means that for every element :math:`c`, :math:`c` is in :math:`[a]` if and only if :math:`c` is in :math:`[b]`.
    -  By definition, an element :math:`c` is in :math:`[a]` if and only if :math:`c \equiv a`. In particular, :math:`a` is in :math:`[a]`.)
 
-#. Let the relation :math:`\sim` on the natural numbers :math:`\mathbb{B}` be defined as follows: if :math:`n` is even, then :math:`n \sim n+1`, and if :math:`n` is odd, then :math:`n \sim n-1`. Furthermore, for every :math:`n`, :math:`n \sim n`. Show that :math:`\sim` is an equivalence relation. What is the equivalence class of the number 5? Describe the set of equivalence classes :math:`\{ [n] \mid n \in \mathbb{N} \}`.
+#. Let the relation :math:`\sim` on the natural numbers :math:`\mathbb{N}` be defined as follows: if :math:`n` is even, then :math:`n \sim n+1`, and if :math:`n` is odd, then :math:`n \sim n-1`. Furthermore, for every :math:`n`, :math:`n \sim n`. Show that :math:`\sim` is an equivalence relation. What is the equivalence class of the number 5? Describe the set of equivalence classes :math:`\{ [n] \mid n \in \mathbb{N} \}`.
 
 #. Show that the relation on lines in the plane, given by ":math:`l_1` and :math:`l_2` are parallel," is an equivalence relation. What is the equivalence class of the x-axis? Describe the set of equivalence classes :math:`\{ [l] \mid l\text{ is a line in the plane} \}`.
 

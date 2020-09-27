@@ -391,7 +391,7 @@ Consider the statement:
 
     Every prime number is odd.
 
-In first-order logic, we could formulate this as :math:`\forall p \; (\mathit{prime}(p) \to \mathit{odd}(p))`. This statement is false, because there is a prime number which is even, namely the number 2. This is called a *counterexample* to the statement.
+In first-order logic, we could formulate this as :math:`\forall p \; (\mathit{prime}(p) \to \mathit{odd}(p))`. This statement is false, because there is a prime number that is even, namely the number 2. This is called a *counterexample* to the statement.
 
 More generally, given a formula :math:`\forall x \; A(x)`, a counterexample is a value :math:`t` such that :math:`\neg A(t)` holds. Such a counterexample shows that the original formula is false, because we have the following equivalence: :math:`\neg \forall x \; A(x) \leftrightarrow \exists x \; \neg A(x)`. So if we find a value :math:`t` such that :math:`\neg A(t)` holds, then by the existential introduction rule we can conclude that :math:`\exists x \; \neg A(x)`, and then by the above equivalence we have :math:`\neg \forall x \; A(x)`. Here is a proof of the equivalence:
 

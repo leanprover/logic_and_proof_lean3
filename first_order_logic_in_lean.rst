@@ -625,17 +625,18 @@ This is subtle: the proof does not go through if we do not declare a variable ``
 
    You can also introduce an anonymous hypothesis using backticks, and then refer to it later on using backticks again, just as with the anonymous ``have`` expression. However, we cannot use the keyword ``this`` for variables introduced by ``obtain``.
 
-These features are all illustrated in the following example:
+   These features are all illustrated in the following example:
 
-.. code-block:: lean
+   .. code-block:: lean
 
-    variable U : Type
-    variables P R : U → Prop
-    variable Q : Prop
+       variable U : Type
+       variables P R : U → Prop
+       variable Q : Prop
 
-    example (h1 : ∃ x, P x ∧ R x) (h2 : ∀ x, P x → R x → Q) : Q :=
-    let ⟨y, hPy, hRy⟩ := h1 in
-    show Q, from h2 y hPy hRy
+       example (h1 : ∃ x, P x ∧ R x) (h2 : ∀ x, P x → R x → Q) : Q :=
+       let ⟨y, hPy, hRy⟩ := h1 in
+       show Q, from h2 y hPy hRy
+
 
 Equality and calculational proofs
 ---------------------------------

@@ -118,7 +118,7 @@ Or even more simply:
 
 In fact, we can go in the other direction, and use the law of the excluded middle to justify proof by contradiction. You are asked to do this in the exercises.
 
-Proof by contradiction is also equivalent to the principle :math:`¬ ¬ A ↔ A`. The implication from right to left holds intuitionistically; the other implication is classical, and is known as *double-negation elimination*. Here is a proof in natural deduction:
+Proof by contradiction is also equivalent to the principle :math:`\neg \neg A \leftrightarrow A`. The implication from right to left holds intuitionistically; the other implication is classical, and is known as *double-negation elimination*. Here is a proof in natural deduction:
 
 .. raw:: html
 

@@ -42,7 +42,7 @@ Here is an example of a proof by induction.
 
 **Proof.** We prove this by induction on :math:`n`. In the base case, when :math:`n = 0`, we have :math:`1 = 2^{0+1} - 1`, as required.
 
-For the induction step, fix :math:`n`, and assume the *induction hypothesis*
+For the induction step, fix :math:`n`, and assume the *inductive hypothesis*
 
 .. math::
 

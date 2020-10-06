@@ -27,7 +27,7 @@ Given ``A : set U`` and ``x : U``, we can write ``x ∈ A`` to state that ``x`` 
     #check ∅ ⊆ A
     #check B ⊆ univ
 
-You can type the symbols ``⊆``, ``∅``, ``∪``, ``∩``, ``\`` as ``\subeq`` ``\empty``, ``\un``, ``\i``, and ``\``, respectively. We have made the type variable ``U`` implicit, because it can typically be inferred from context. The universal set is denoted ``univ``, and set complementation is denoted with the superscripted letter "c," which you can enter as ``\^c`` or ``\compl``. Basic set-theoretic notions like these are defined in Lean's core library, but additional theorems and notation are available in an auxiliary library that we have loaded with the command ``import data.set``, which has to appear at the beginning of a file. The command ``open set`` lets us refer to a theorem named ``set.mem_union`` as ``mem_union``.
+You can type the symbols ``⊆``, ``∅``, ``∪``, ``∩``, ``\`` as ``\subeq`` ``\empty``, ``\un``, ``\i``, and ``\\``, respectively. We have made the type variable ``U`` implicit, because it can typically be inferred from context. The universal set is denoted ``univ``, and set complementation is denoted with the superscripted letter "c," which you can enter as ``\^c`` or ``\compl``. Basic set-theoretic notions like these are defined in Lean's core library, but additional theorems and notation are available in an auxiliary library that we have loaded with the command ``import data.set``, which has to appear at the beginning of a file. The command ``open set`` lets us refer to a theorem named ``set.mem_union`` as ``mem_union``.
 
 The following pattern can be used to show that ``A`` is a subset of ``B``:
 
@@ -224,7 +224,7 @@ The fact that Lean can identify sets with their logical definitions makes it eas
     show x ∈ Bᶜ, from this
     -- END
 
-Once again, we can use versions of the theorems designed specifically for sets:
+Once again, we can use the theorems designed specifically for sets:
 
 .. code-block:: lean
 

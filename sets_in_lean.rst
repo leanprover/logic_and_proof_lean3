@@ -261,7 +261,7 @@ The fact that Lean has to unfold definitions means that it can be confused at ti
     have h2 : x ∈ B, from and.right h,
     and.intro h2 h1
 
-One workaround is to use the ``show`` command; in general, providing Lean with such additional information is often helpful. Another is to workaround is to give the theorem a name, which prompts Lean to use a slightly different method of processing the proof, fixing the problem as a lucky side effect.
+One workaround is to use the ``show`` command; in general, providing Lean with such additional information is often helpful. Another workaround is to give the theorem a name, which prompts Lean to use a slightly different method of processing the proof, fixing the problem as a lucky side effect.
 
 .. code-block:: lean
 

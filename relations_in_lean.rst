@@ -133,15 +133,15 @@ In mathematics, it is common to use infix notation and a symbol like ``≤`` to 
     parameter A : Type
     parameter R : A → A → Prop
 
-    local infix ≤ := R
+    local infix < := R
 
     example (h1 : irreflexive R) (h2 : transitive R) :
-      ∀ x y, x ≤ y → ¬ y ≤ x :=
+      ∀ x y, x < y → ¬ y < x :=
     assume x y,
-    assume h3 : x ≤ y,
-    assume h4 : y ≤ x,
-    have h5 : x ≤ x, from h2 h3 h4,
-    have h6 : ¬ x ≤ x, from h1 x,
+    assume h3 : x < y,
+    assume h4 : y < x,
+    have h5 : x < x, from h2 h3 h4,
+    have h6 : ¬ x < x, from h1 x,
     show false, from h6 h5
 
     end

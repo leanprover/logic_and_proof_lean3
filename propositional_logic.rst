@@ -327,7 +327,7 @@ If 2 is prime and greater than 2, then 2 is odd.
 In this conditional statement, both the antecedent and succedent are false. The fact that we are committed to saying that this statement is true shows that we should be able to prove, one way or another, that the statement 2 is odd follows from the false statement that 2 is prime and greater than 2. The *ex falso* neatly encapsulates this sort of
 inference.
 
-Notice that if we define :math:`\neg A` to be :math:`A \to \bot`, then the rules for negation introduction and elimination are nothing more than implication introduction and elimination, respectively. We can think of :math:`\neg A` expressed colorfully by saying "if :math:`A` is true, then pigs have wings," where "pigs have wings" is stands for :math:`\bot`.
+Notice that if we define :math:`\neg A` to be :math:`A \to \bot`, then the rules for negation introduction and elimination are nothing more than implication introduction and elimination, respectively. We can think of :math:`\neg A` expressed colorfully by saying "if :math:`A` is true, then pigs have wings," where "pigs have wings" stands for :math:`\bot`.
 
 Having introduced a symbol for "false," it is only fair to introduce a symbol for "true." In contrast to "false," "true" has no elimination rule, only an introduction rule:
 

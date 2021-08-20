@@ -435,6 +435,8 @@ Exercises
    -  If :math:`a \neq 0` then the statements :math:`b \mid c` and :math:`ab \mid ac` are equivalent.
    -  If :math:`a \mid b` and :math:`b \neq 0` then :math:`|a| \leq |b|`.
 
+#. Prove that if :math:`k \ne 0`, :math:`k \mid m`, and :math:`k \mid n`, then :math:`\gcd(m / k, n / k) = \gcd(m, n) / k`. (Hint: it helps to show that whenever :math:`a \ne 0`, :math:`a \mid b`, and :math:`b \mid c`, then :math:`b / a \mid c / a`.)
+
 #. Prove that for any integer :math:`n`, :math:`n^2` leaves a remainder of 0 or 1 when you divide it by 4. Conclude that :math:`n^2 + 2` is never divisible by 4.
 
 #. Prove that if :math:`n` is odd, :math:`n^2 - 1` is divisible by 8.

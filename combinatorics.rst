@@ -51,6 +51,8 @@ In other words, we map :math:`m` to the value that :math:`n+1` was mapped to. Si
 
 This theorem is known as the "pigeonhole principle." It implies that if :math:`n + 1` pigeons inhabit :math:`n` holes, then at least one hole has more than one pigeon. The principle implies that for every finite set :math:`A`, there is a unique :math:`n` such that there is a bijection from :math:`[n]` to :math:`A`, and we can define the cardinality of :math:`A` to be that :math:`n`.
 
+We now introduce the notation :math:`\sum_{i \in A} f(i)` and :math:`\prod_{i \in A} f(i)` for sums and products over finite sets. If :math:`A = \{ a_0, \ldots, a_{n-1} \}`, then :math:`\sum_{i \in A} f(i)` is defined to be :math:`f(a_0) + \cdots + f(a_{n-1})`, and similarly for products. Formally, what we are doing is choosing a bijection :math:`g : [n] \to A` and defining :math:`\sum_{i \in A} f(i)` to be :math:`\sum_{j < n} f(g(j))`. It takes some work to show that this makes sense, which is to say, the answer we get doesn't depend on which bijection we choose. We will just take this fact for granted here.
+
 .. _counting_principles:
 
 Counting Principles

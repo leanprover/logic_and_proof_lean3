@@ -623,6 +623,8 @@ Exercises
 
 #. Show that for every :math:`n`, :math:`0^3 + 1^3 + \ldots + n^3 = \frac{1}{4} n^2 (n+1)^2`.
 
+#. Show that for every :math:`n`, :math:`\sum_{i \le n} \frac{i}{(i + 1)!} = \frac{n! - 1}{n}`.
+
 #. Given the definition of the Fibonacci numbers in :numref:`recursive_definitions`, prove Cassini's identity: for every :math:`n`, :math:`F^2_{n+1} - F_{n+2} F_n = (-1)^n`. Hint: in the induction step, write :math:`F_{n+2}^2` as :math:`F_{n+2}(F_{n+1} + F_n)`.
 
 #. Prove :math:`\sum_{i < n} F_{2i+1} = F_{2n}`.

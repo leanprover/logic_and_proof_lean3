@@ -27,7 +27,7 @@ Given ``A : set U`` and ``x : U``, we can write ``x ∈ A`` to state that ``x`` 
     #check ∅ ⊆ A
     #check B ⊆ univ
 
-You can type the symbols ``⊆``, ``∅``, ``∪``, ``∩``, ``\`` as ``\subeq`` ``\empty``, ``\un``, ``\i``, and ``\``, respectively. We have made the type variable ``U`` implicit, because it can typically be inferred from context. The universal set is denoted ``univ``, and set complementation is denoted with the superscripted letter "c," which you can enter as ``\^c`` or ``\compl``. Basic set-theoretic notions like these are defined in Lean's core library, but additional theorems and notation are available in an auxiliary library that we have loaded with the command ``import data.set``, which has to appear at the beginning of a file. The command ``open set`` lets us refer to a theorem named ``set.mem_union`` as ``mem_union``.
+You can type the symbols ``⊆``, ``∅``, ``∪``, ``∩``, ``\`` as ``\subeq`` ``\empty``, ``\un``, ``\i``, and ``\\``, respectively. We have made the type variable ``U`` implicit, because it can typically be inferred from context. The universal set is denoted ``univ``, and set complementation is denoted with the superscripted letter "c," which you can enter as ``\^c`` or ``\compl``. Basic set-theoretic notions like these are defined in Lean's core library, but additional theorems and notation are available in an auxiliary library that we have loaded with the command ``import data.set``, which has to appear at the beginning of a file. The command ``open set`` lets us refer to a theorem named ``set.mem_union`` as ``mem_union``.
 
 The following pattern can be used to show that ``A`` is a subset of ``B``:
 
@@ -154,7 +154,7 @@ Below, and in the chapters that follow, we will begin to use ``assume`` and ``ha
 
 Notice also that in the last example, we had to annotate the empty set by writing ``(∅ : set U)`` to tell Lean which empty set we mean. Lean can often infer information like this from the context (for example, from the fact that we are trying to show ``x ∈ A``, where ``A`` has type ``set U``), but in this case, it needs a bit more help.
 
-Alternatively, we can use versions theorems in the Lean library that are designed specifically for use with sets:
+Alternatively, we can use theorems in the Lean library that are designed specifically for use with sets:
 
 .. code-block:: lean
 
@@ -224,7 +224,7 @@ The fact that Lean can identify sets with their logical definitions makes it eas
     show x ∈ Bᶜ, from this
     -- END
 
-Once again, we can use versions of the theorems designed specifically for sets:
+Once again, we can use the theorems designed specifically for sets:
 
 .. code-block:: lean
 
@@ -261,7 +261,7 @@ The fact that Lean has to unfold definitions means that it can be confused at ti
     have h2 : x ∈ B, from and.right h,
     and.intro h2 h1
 
-One workaround is to use the ``show`` command; in general, providing Lean with such additional information is often helpful. Another is to workaround is to give the theorem a name, which prompts Lean to use a slightly different method of processing the proof, fixing the problem as a lucky side effect.
+One workaround is to use the ``show`` command; in general, providing Lean with such additional information is often helpful. Another workaround is to give the theorem a name, which prompts Lean to use a slightly different method of processing the proof, fixing the problem as a lucky side effect.
 
 .. code-block:: lean
 

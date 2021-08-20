@@ -491,7 +491,7 @@ Reductio ad absurdum (proof by contradiction)
 
 Finally, there is the rule for proof by contradiction, which we will discuss in greater detail in :numref:`Chapter %s <classical_reasoning>`. It is included for completeness here.
 
-The rule is called ``by_contradiction``. It has one argument, which is a proof of ``false`` from ``¬ A``. To use the rule, you have to ask Lean to allow classical reasoning, by writing ``open classical``. You can do this at the beginning of the file, or any time before using it. It you say ``open classical`` in a section, it will remain in scope for that section.
+The rule is called ``by_contradiction``. It has one argument, which is a proof of ``false`` from ``¬ A``. To use the rule, you have to ask Lean to allow classical reasoning, by writing ``open classical``. You can do this at the beginning of the file, or any time before using it. If you say ``open classical`` in a section, it will remain in scope for that section.
 
 .. code-block:: lean
 

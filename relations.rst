@@ -101,7 +101,7 @@ We will prove the first here, and leave the second as an exercise. This proof is
 
 To show transitivity, suppose :math:`a < b` and :math:`b < c`. Then we have :math:`a \leq b`, :math:`b \leq c`, :math:`a \neq b`, and :math:`b \neq c`. By the transitivity of :math:`\leq`, we have :math:`a \leq c`. To show :math:`a < c`, we only have to show :math:`a \neq c`. So suppose :math:`a = c`. then, from the hypotheses, we have :math:`c < b` and :math:`b < c`. From the definition of :math:`<`, we have :math:`c \leq b`, :math:`b \leq c`, and :math:`c \neq b`. But the first two imply :math:`c = b`, a contradiction. So :math:`a \neq c`, as required.
 
-To establish the last claim in the theorem, suppose :math:`\leq` is total, and let :math:`a` and :math:`b` be any elements of :math:`A`. We need to show that :math:`a < b`, :math:`a = b`, or :math:`a > b`. If :math:`a = b`, we are done, so we can assume :math:`a \neq b`. Since :math:`\leq` is total, we have :math:`a \leq b` or :math:`a \leq b`. Since :math:`a \neq b`, in the first case we have :math:`a < b`, and in the second case, we have :math:`a > b`.
+To establish the last claim in the theorem, suppose :math:`\leq` is total, and let :math:`a` and :math:`b` be any elements of :math:`A`. We need to show that :math:`a < b`, :math:`a = b`, or :math:`a > b`. If :math:`a = b`, we are done, so we can assume :math:`a \neq b`. Since :math:`\leq` is total, we have :math:`a \leq b` or :math:`b \leq a`. Since :math:`a \neq b`, in the first case we have :math:`a < b`, and in the second case, we have :math:`a > b`.
 
 ----
 
@@ -144,13 +144,13 @@ Are the two statements above equivalent? Say an element :math:`y` is *minimum* f
 
 Notice that we have interpreted the second theorem as the statement that if :math:`x_1` and :math:`x_2` are both minimum, then :math:`x_1 = x_2`. Indeed, this is exactly what we mean when we say that something is "unique." When a partial order has a minimum element :math:`x`, uniqueness is what justifies calling :math:`x` *the* minimum element. Such an :math:`x` is also called the *least* element or the *smallest* element, and the terms are generally interchangeable.
 
-The converse to the second theorem -- that is, the statement that every minimal element is minimum -- is false. As an example, consider the nonempty subsets of the set :math:`\{ 1, 2 \}` with the subset relation. In other words, consider the collection of sets :math:`\{ 1 \}`, :math:`\{ 2 \}`, and :math:`\{1, 2\}`, where :math:`\{ 1 \} \subseteq \{1, 2\}`, :math:`\{ 2 \} \subseteq \{1, 2\}`, and, of course, every element is a subset of itself. Then you can check that :math:`\{1\}` and :math:`\{2\}` are each minimal, but neither is minimum. (One can also exhibit such a partial order by drawing a diagram, with dots labeled :math:`a`, :math:`b`, :math:`c`, etc., and upwards edges between elements to indicate that one is less than or equal to the other.)
+The converse to the first theorem -- that is, the statement that every minimal element is minimum -- is false. As an example, consider the nonempty subsets of the set :math:`\{ 1, 2 \}` with the subset relation. In other words, consider the collection of sets :math:`\{ 1 \}`, :math:`\{ 2 \}`, and :math:`\{1, 2\}`, where :math:`\{ 1 \} \subseteq \{1, 2\}`, :math:`\{ 2 \} \subseteq \{1, 2\}`, and, of course, every element is a subset of itself. Then you can check that :math:`\{1\}` and :math:`\{2\}` are each minimal, but neither is minimum. (One can also exhibit such a partial order by drawing a diagram, with dots labeled :math:`a`, :math:`b`, :math:`c`, etc., and upwards edges between elements to indicate that one is less than or equal to the other.)
 
 Notice that the statement "a minimal element of a partial order is not necessarily minimum" makes an "existential" assertion: it says that there is a partial order :math:`\leq`, and an element :math:`x` of the domain, such that :math:`x` is minimal but not minimum. For a fixed partial order :math:`\leq`, we can express the assertion that such an :math:`x` exists as follows:
 
 .. math::
 
-   \exists x \; (\forall y \; (y \nless x) \wedge \forall y \; (x \leq y)).
+   \exists x \; (\forall y \; (y \nless x) \wedge \neg \forall y \; (x \leq y)).
 
 The assertion that there exists a domain :math:`A`, and a partial order :math:`\leq` on that domain :math:`A`, is more dramatic: it is a "higher order" existential assertion. But symbolic logic provides us with the means to make assertions like these as well, as we will see later on.
 

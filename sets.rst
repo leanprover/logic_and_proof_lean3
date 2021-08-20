@@ -330,8 +330,8 @@ Classically, you may have noticed that propositions, under logical equivalence, 
 -  :math:`A \wedge B = B \wedge A`
 -  :math:`(A \vee B) \vee C = A \vee (B \vee C)`
 -  :math:`(A \wedge B) \wedge C = A \wedge (B \wedge C)`
--  :math:`\neg{A \wedge B} = \neg A \vee \neg B`
--  :math:`\neg{A \vee B} = \neg A \wedge \neg B`
+-  :math:`\neg(A \wedge B) = \neg A \vee \neg B`
+-  :math:`\neg(A \vee B) = \neg A \wedge \neg B`
 -  :math:`A \wedge (B \vee C) = (A \wedge B) \vee (A \wedge C)`
 -  :math:`A \vee (B \wedge C) = (A \vee B) \wedge (A \vee C)`
 -  :math:`A \wedge (A \vee B) = A`

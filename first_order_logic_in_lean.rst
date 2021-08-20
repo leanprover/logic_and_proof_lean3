@@ -201,16 +201,14 @@ We can even declare infix notation of binary operations and relations:
 
     end hidden
 
-In fact, all of the functions, predicates, and relations discussed here, except for the "square" function, are defined in the core Lean library. They become available to us when we put the commands ``import data.nat.basic`` and ``open nat`` at the top of a file in Lean.
+In fact, all of the functions, predicates, and relations discussed here, except for the "square" function, are defined in the Lean library. They become available to us when we put the commands ``import data.nat.prime`` and ``open nat`` at the top of a file in Lean.
 
 .. code-block:: lean
 
-    import data.nat.basic
+    import data.nat.prime
     open nat
 
     constant square : ℕ → ℕ
-    constant prime : ℕ → Prop
-    constant even : ℕ → Prop
 
     variables w x y z : ℕ
 
@@ -268,12 +266,8 @@ In Lean, you can enter the universal quantifier by writing ``\all``. The motivat
 
 .. code-block:: lean
 
-    import data.nat.basic
+    import data.nat.prime
     open nat
-
-    constant prime : ℕ → Prop
-    constant even : ℕ → Prop
-    constant odd : ℕ → Prop
 
     #check ∀ x, (even x ∨ odd x) ∧ ¬ (even x ∧ odd x)
     #check ∀ x, even x ↔ 2 ∣ x

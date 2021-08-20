@@ -191,9 +191,9 @@ Proofs in Lean can access a library of prior mathematical results, all verified 
   assume (c : nat) (aeq : a = 2 * c),
   have 2 * (2 * c^2) = 2 * b^2,
     by simp [eq.symm h, aeq];
-      simp [nat.pow_succ, mul_comm, mul_assoc, mul_left_comm],
+      simp [pow_succ', mul_comm, mul_assoc, mul_left_comm],
   have 2 * c^2 = b^2,
-    from eq_of_mul_eq_mul_left dec_trivial this,
+    from mul_left_cancel' dec_trivial this,
   have 2 ∣ b^2,
     by simp [eq.symm this],
   have 2 ∣ b,

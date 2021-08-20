@@ -573,7 +573,7 @@ Exercises
    .. code-block:: lean
 
        import data.set data.int.basic
-       open function int algebra
+       open function int
 
        def f (x : ℤ) : ℤ := x + 3
        def g (x : ℤ) : ℤ := -x

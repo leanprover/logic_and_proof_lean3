@@ -400,7 +400,6 @@ Translated to propositions, the theorem above states that for every pair of elem
 .. code-block:: lean
 
     import logic.basic
-    open classical
 
     theorem not_or_self (P : Prop) : (¬ P ∨ P) ↔ true :=
     iff.intro (λ h, trivial) (λ h, or.symm (em P))

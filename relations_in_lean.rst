@@ -232,14 +232,14 @@ Conveniently, Lean has the normal orderings on the natural numbers, integers, an
     #check 0 ≤ n
     #check n < n + 1
 
-    example : 0 ≤ n := zero_le n
+    example : 0 ≤ n := nat.zero_le n
     example : n < n + 1 := lt_succ_self n
 
     example (h : n + 1 ≤ m) : n < m + 1 :=
     have h1 : n < n + 1, from lt_succ_self n,
     have h2 : n < m, from lt_of_lt_of_le h1 h,
     have h3 : m < m + 1, from lt_succ_self m,
-    show n < m + 1, from lt.trans h2 h3
+    show n < m + 1, from lt_trans h2 h3
 
 There are many theorems in Lean that are useful for proving facts about inequality relations. We list some common ones here.
 

@@ -13,7 +13,7 @@ The integers satisfy all of the following properties:
 -  Addition is associative and commutative.
 -  There is an additive identity, :math:`0`, and every element :math:`x` has an additive inverse, :math:`-x`.
 -  Multiplication is associative and commutative.
--  There is a multiplicative identity, :math:`1`. 
+-  There is a multiplicative identity, :math:`1`.
 -  Multiplication distributes over addition: for every :math:`x`, :math:`y`, and :math:`z`, we have :math:`x (y + z) = x y + x z`.
 -  The ordering :math:`\leq` is a total order.
 -  For any elements :math:`x`, :math:`y`, and :math:`z`, if :math:`x \leq y` then :math:`x + z \leq y + z`.
@@ -119,7 +119,7 @@ Cauchy sequences can be used to describe these gaps in the rationals, but, as no
 
 **Proposition.** :math:`\equiv` is an equivalence relation on Cauchy sequences.
 
-**Proof.** Reflexivity and symmetry are easy, so let us prove transitivity. Suppose :math:`(p_i) \equiv (q_i)` and :math:`(q_i) \equiv (r_i)`. We want to show that the sequence :math:`(q_i)` is equivalent to :math:`(r_i)`. So, given any :math:`\varepsilon > 0`, choose :math:`N_0` large enough such that for every :math:`i \ge N_0`, :math:`|p_i - q_i| < \varepsilon / 2`. Choose another number, :math:`N_1`, so that for every :math:`i \geq N_1`, :math:`|q_i - r_i| < \varepsilon / 2`. Let :math:`N = \max(N_0, N_1)`. Then for every :math:`i \geq N`, we have
+**Proof.** Reflexivity and symmetry are easy, so let us prove transitivity. Suppose :math:`(p_i) \equiv (q_i)` and :math:`(q_i) \equiv (r_i)`. We want to show that the sequence :math:`(p_i)` is equivalent to :math:`(r_i)`. So, given any :math:`\varepsilon > 0`, choose :math:`N_0` large enough such that for every :math:`i \ge N_0`, :math:`|p_i - q_i| < \varepsilon / 2`. Choose another number, :math:`N_1`, so that for every :math:`i \geq N_1`, :math:`|q_i - r_i| < \varepsilon / 2`. Let :math:`N = \max(N_0, N_1)`. Then for every :math:`i \geq N`, we have
 
 .. math::
 

@@ -236,7 +236,7 @@ The last result in this section captures that the primes are the "building block
 
 **Proof.** We have already seen that every number can be written as the product of primes, so we only need to prove the uniqueness up to reordering. Suppose this is not true, and by the least element principle, let :math:`n` be the smallest positive integers such that :math:`n` can be written as the product of primes in two ways: :math:`n = p_1\times \cdots \times p_k = q_1 \times \cdots \times q_\ell`.
 
-Since 1 can be written as product of primes *only* as empty product, we have :math:`n > 1`, hence :math:`k \geq 1`. Since :math:`p_k` is prime, we must have :math:`p_k \mid q_j` for some :math:`j \leq \ell`. By swapping :math:`q_j` and :math:`q_\ell`, we may assume that :math:`j = \ell`. Since :math:`q_\ell` is also prime, we have :math:`p_k = q_\ell`.
+Since 1 can be written as product of primes only as an empty product, we have :math:`n > 1`, hence :math:`k \geq 1`. Since :math:`p_k` is prime, we must have :math:`p_k \mid q_j` for some :math:`j \leq \ell`. By swapping :math:`q_j` and :math:`q_\ell`, we may assume that :math:`j = \ell`. Since :math:`q_\ell` is also prime, we have :math:`p_k = q_\ell`.
 
 Now we have :math:`p_1\times \cdots \times p_{k-1} = q_1 \times \cdots \times q_{\ell-1}`. This product is smaller than :math:`n`, but can be written as product of primes in two different ways. But we assumed :math:`n` was the smallest such number. Contradiction!
 

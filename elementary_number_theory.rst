@@ -411,6 +411,8 @@ Up to the order of summands, the two right-hand sides are the same.
 
 ----
 
+Consider the prime numbers, :math:`2, 3, 5, 7, 11, 13, \ldots`. Which ones can be written as sums of two squares? We have :math:`2 = 1^2 + 1^2`, :math:`5 = 2^2 + 1^2`, and :math:`13 + 3^2 + 2^2`. Trying all possibilities shows that 3, 7, and 11 cannot be written as sums of two squares. Notice that any odd prime is congruent to either 1 or 3 modulo 4. A lovely theorem by Fermat, which we will not prove here, shows that an odd prime can be written as a sum of squares if and only if it is congruent to 1 modulo 4.
+
 We will now prove that :math:`\sqrt{2}` is not a fraction of two integers.
 
 ----

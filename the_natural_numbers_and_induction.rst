@@ -520,9 +520,9 @@ As usual, then, we can define :math:`m < n` to mean that :math:`m \le n` and :ma
 
 ----
 
-**Proposition.** For every :math:`m`, :math:`m + 1 \not\le 0`. 
+**Proposition.** For every :math:`m`, :math:`m + 1 \not\le 0`.
 
-**Proof.** Otherwise, we would have :math:`(m + 1) + k = (m + k) + 1 = 0` for some :math:`k`. 
+**Proof.** Otherwise, we would have :math:`(m + 1) + k = (m + k) + 1 = 0` for some :math:`k`.
 
 ----
 
@@ -583,11 +583,9 @@ These can be proved from the ones above. Moreover, the collection of principles 
 
 ----
 
-**Proposition.** If :math:`n` and :math:`m` are natural numbers such that :math:`n + m = 0`, then :math:`n = m = 0`.
+**Proposition.** If :math:`m` and :math:`n` are natural numbers such that :math:`m + n = 0`, then :math:`m = n = 0`.
 
-**Proof.** We first prove that :math:`m = 0`. We know that :math:`m = 0` or :math:`m > 0`. Suppose that :math:`m > 0`. Then :math:`n + m > n + 0 = n`. Since :math:`n \ge 0`, we conclude that :math:`n + m > 0`, which contradicts the fact that :math:`n + m = 0`. Since :math:`m > 0` leads to a contradiction, we must have :math:`m = 0`.
-
-Now we can easily conclude that :math:`n = 0`, since :math:`n = n + 0 = n + m = 0`. Hence :math:`n = m = 0`.
+**Proof.** If :math:`m + n = 0`, then :math:`m \le 0`, so :math:`m = 0` and :math:`n = 0 + n = m + n = 0`.
 
 **Proposition.** If :math:`n` is a natural number such that :math:`n < 3`, then :math:`n = 0`, :math:`n = 1` or :math:`n = 2`.
 
@@ -647,13 +645,13 @@ Exercises
 
 #. Give an informal but detailed proof that for every natural number :math:`n`, :math:`1 \cdot n = n`, using a proof by induction, the definition of multiplication, and the theorems proved in :numref:`defining_arithmetic_operations`.
 
-#. Show that multiplication distributes over addition. In other words, prove that for natural numbers :math:`m`, :math:`n`, and :math:`k`, :math:`m (n + k) = m n + m k`. You should use the definitions of addition and multiplication and facts proved in :numref:`defining_arithmetic_operations` (but nothing more). 
+#. Show that multiplication distributes over addition. In other words, prove that for natural numbers :math:`m`, :math:`n`, and :math:`k`, :math:`m (n + k) = m n + m k`. You should use the definitions of addition and multiplication and facts proved in :numref:`defining_arithmetic_operations` (but nothing more).
 
 #. Prove the multiplication is associative, in the same way. You can use any of the facts proved in :numref:`defining_arithmetic_operations` and the previous exercise.
 
 #. Prove that multiplication is commutative.
 
-#. Prove :math:`(m^n)^k = m^{nk}`.   
+#. Prove :math:`(m^n)^k = m^{nk}`.
 
 #. Following the example in :numref:`arithmetic_on_the_natural_numbers`, prove that if :math:`n` is a natural number and :math:`n < 5`, then :math:`n` is one of the values :math:`0, 1, 2, 3`, or :math:`4`.
 

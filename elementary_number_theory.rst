@@ -89,7 +89,7 @@ Note that this means that if :math:`n` and :math:`m` are both natural numbers, t
 
 ----
 
-See Exercise 1 for some basic properties of divisibility.
+See Exercise 1 for some basic properties of divisibility. For example, we have that for every :math:`a`, :math:`b`, and :math:`c`, if :math:`a \mid b` and :math:`a \mid c` then :math:`a \mid b + c`, and for every :math:`a`, :math:`b`, and :math:`c`, if :math:`a \mid b` then :math:`a \mid bc`. Also, if :math:`a \mid b` and :math:`b \ne 0`, then `|a| \le |b|`. We will use properties like these repeatedly.
 
 An integer is *even* if it is divisible by :math:`2`, in other words, :math:`n` is even if :math:`2 \mid n`. An integer is *odd* if it is not even. Of course, odd numbers are of the form :math:`2k+1` for some :math:`k`, and we can prove this now.
 
@@ -105,7 +105,7 @@ An integer is *even* if it is divisible by :math:`2`, in other words, :math:`n` 
 
 ----
 
-**Definition.** Given two integers :math:`m` and :math:`n` such that either :math:`m \neq 0` or :math:`n \neq 0`, we define the *greatest common divisor* :math:`\gcd(m,n)` of :math:`m` and :math:`n` to be the largest integer :math:`d` which is both a divisor of :math:`m` and :math:`n`, that is :math:`d \mid m` and :math:`d \mid n`.
+**Definition.** Given two integers :math:`m` and :math:`n` such that either :math:`m \neq 0` or :math:`n \neq 0`, we define the *greatest common divisor* :math:`\gcd(m,n)` of :math:`m` and :math:`n` to be the largest integer :math:`d` which is both a divisor of :math:`m` and :math:`n`, that is, :math:`d \mid m` and :math:`d \mid n`.
 
 This largest integer exists, because there is at least one common divisor, but only finitely many. There is at least one, since 1 is a common divisor of any two integers, and there are finitely many, since a nonzero number has only finitely many divisors.
 
@@ -119,13 +119,13 @@ However, computing the greatest common divisor of two numbers by listing all the
 
 ----
 
-**Lemma.** For all integers :math:`n`, :math:`m` and :math:`k` we have :math:`\gcd(n,m)=\gcd(m,n-km)`.
+**Lemma.** For all integers :math:`m`, :math:`n` and :math:`k` we have :math:`\gcd(m,n)=\gcd(n,m-kn)`.
 
-**Proof.** Let :math:`d = \gcd(n,m)` and :math:`r = n-km`. If :math:`n = m = 0`, then :math:`d = 0 = \gcd(m,r)`, and we're done.
+**Proof.** Let :math:`d = \gcd(m,n)` and :math:`r = m-kn`. If :math:`m = n = 0`, then :math:`d = 0 = \gcd(n,r)`, and we're done.
 
-In the other case we first show that the set of common divisors of :math:`n` and :math:`m` is the same as the set of the common divisors of :math:`m` and :math:`r`. To see this, let :math:`d' \mid m` and :math:`d' \mid n`. Then also :math:`d' \mid n - km` by Exercise 1 below. Hence :math:`d'` is a common divisor of :math:`m` and :math:`r`. On the other hand, if :math:`d'` is a divisor of :math:`m` and :math:`r`, then :math:`d' \mid r + km`, hence :math:`d' \mid n`, hence :math:`d'` is a common divisor of :math:`n` and :math:`m`.
+In the other case we first show that the set of common divisors of :math:`m` and :math:`n` is the same as the set of the common divisors of :math:`n` and :math:`r`. To see this, let :math:`d' \mid m` and :math:`d' \mid n`. Then also :math:`d' \mid m - kn` by Exercise 1. Hence :math:`d'` is a common divisor of :math:`n` and :math:`r`. On the other hand, if :math:`d'` is a divisor of :math:`n` and :math:`r`, then :math:`d' \mid r + kn`, hence :math:`d' \mid m`, hence :math:`d'` is a common divisor of :math:`m` and :math:`n`.
 
-Since the sets of common divisors are the same, the largest element in each set is also the same, hence :math:`\gcd(n,m)=\gcd(m,n-km)`.
+Since the sets of common divisors are the same, the largest element in each set is also the same, hence :math:`\gcd(m,n)=\gcd(n,m-kn)`.
 
 **Lemma.** For all integers :math:`n` we have :math:`\gcd(n,0)=|n|`.
 
@@ -133,17 +133,17 @@ Since the sets of common divisors are the same, the largest element in each set 
 
 ----
 
-These two lemmas give us a quick way to compute the greatest common divisor of two numbers. This is called the *Euclidean Algorithm*. Suppose we want to compute :math:`\gcd(a, b)`.
+These two lemmas give us a quick way to compute the greatest common divisor of two numbers. This is called the *Euclidean Algorithm*. Suppose we want to compute :math:`\gcd(m, n)`.
 
--  We let :math:`r_0 = a` and :math:`r_1 = b`.
--  Given :math:`r_n` and :math:`r_{n+1}` we compute :math:`r_{n+2}` as the remainder of of :math:`r_n` when divided by :math:`r_{n+1}`.
--  Once :math:`r_n = 0`, we stop, and :math:`\gcd(a, b) = |r_{n-1}|`.
+-  We let :math:`r_0 = m` and :math:`r_1 = n`.
+-  Given :math:`r_i` and :math:`r_{i+1}` we compute :math:`r_{i+2}` as the remainder of of :math:`r_i` when divided by :math:`r_{i+1}`.
+-  Once :math:`r_i = 0`, we stop, and :math:`\gcd(m, n) = |r_{i-1}|`.
 
-This works, because by the lemmas above, we have :math:`\gcd(r_k,r_{k+1}) = \gcd(r_{k+1}, r_{k+2})`, since :math:`r_{k+2} = r_k - qr_{k+1}` for some :math:`q`. Hence if :math:`r_n=0` we have
+This works, because by the lemmas above, we have :math:`\gcd(r_k,r_{k+1}) = \gcd(r_{k+1}, r_{k+2})`, since :math:`r_{k+2} = r_k - qr_{k+1}` for some :math:`q`. Hence if :math:`r_i=0` we have
 
 .. math::
 
-   \gcd(a,b)=\gcd(r_0,r_1)=\gcd(r_{n-1},r_n)=\gcd(r_{n-1},0)=|r_{n-1}|.
+   \gcd(m,n)=\gcd(r_0,r_1)=\gcd(r_{i-1},r_i)=\gcd(r_{i-1},0)=|r_{i-1}|.
 
 For example, suppose we want to compute the greatest common divisor of 1311 and 5757. We compute the following remainders:
 
@@ -161,21 +161,33 @@ Here is an important result about greatest common divisors. It is only called a 
 
 ----
 
-**Theorem** (B‎ézout's Lemma). Let :math:`s` and :math:`t` be integers. Then there are integers :math:`a` and :math:`b` such that :math:`as+bt=\gcd(s,t)`.
+**Theorem** (B‎ézout's Lemma). Let :math:`m` and :math:`n` be integers. Then there are integers :math:`a` and :math:`b` such that :math:`am+bn=\gcd(m,n)`.
 
-**Proof.** We compute :math:`\gcd(s,t)` by the Euclidean Algorithm given above, and during the algorithm we get the intermediate values :math:`r_0, r_1, \ldots, r_n` where :math:`r_n = 0`. Now by induction on :math:`k` we prove that we can write :math:`r_k = a_ks+b_kt` for some integers :math:`a_k` and :math:`b_k`. Indeed: :math:`r_0 = 1\cdot s + 0\cdot t` and :math:`r_1 = 0\cdot s + 1\cdot t`. Now if we assume that :math:`r_k = a_ks+b_kt` and :math:`r_{k+1} = a_{k+1}s+b_{k+1}t`, we know that :math:`r_{k+2} = r_k - q\cdot r_{k+1}`, where :math:`q` is the quotient of :math:`r_k` when divided by :math:`r_{k+1}`. These equations together give
+**Proof.** We compute :math:`\gcd(m,n)` by the Euclidean Algorithm given above, and during the algorithm we get the intermediate values :math:`r_0, r_1, \ldots, r_k` where :math:`r_k = 0`. Now by induction on :math:`i` we prove that we can write :math:`r_i = a_i m+b_i n` for some integers :math:`a_i` and :math:`b_i`. Indeed: :math:`r_0 = 1\cdot m + 0\cdot n` and :math:`r_1 = 0\cdot m + 1\cdot n`. Now if we assume that :math:`r_i = a_i m+b_i n` and :math:`r_{i+1} = a_{i+1}m+b_{i+1}n`, we know that :math:`r_{i+2} = r_i - q\cdot r_{i+1}`, where :math:`q` is the quotient of :math:`r_i` when divided by :math:`r_{i+1}`. These equations together give
 
 .. math::
 
-   r_{k+2} = (a_k-qa_{k+1})s + (b_k-qb_{k+1})t.
+   r_{i+2} = (a_i-qa_{i+1})m + (b_i-qb_{i+1})n.
 
-This completes the induction. In particular, :math:`r_{n-1} = a_{n-1}s+b_{n-1}t`, and since :math:`\gcd(s,t)=\pm r_{n-1}` we can write :math:`\gcd(s,t)` as :math:`as+bt` for some :math:`a` and :math:`b`.
+This completes the induction. In particular, :math:`r_{k-1} = a_{k-1}m+b_{k-1}n`, and since :math:`\gcd(m,n)=\pm r_{k-1}` we can write :math:`\gcd(m,n)` as :math:`am+bn` for some :math:`a` and :math:`b`.
+
+**Alternative proof.** We can assume :math:`m` and :math:`n` are positive, since :math:`\gcd(m, n) = \gcd(|m|, |n|)`. Let :math:`d` be the least positive number of the form :math:`a m + b n`, that is, the smallest element of the set :math:`\{ a m + b n \mid a, b\in \mathbb N \}`. We claim :math:`d = \gcd(m, n)`.
+
+Let :math:`a` and :math:`b` be such that :math:`d = a m + b n`. Clearly, if :math:`c \mid m` and :math:`c \mid n`, then :math:`c \mid d`. So it suffices to show :math:`d \mid m` and :math:`d \mid n`. We'll show that :math:`d \mid m`, since the other case is symmetric. Write :math:`m = d q + r`, with :math:`0 \le r < d`. We need to show :math:`r = 0`.
+
+We have
+
+.. math::
+
+   r = m - dq = m - q (a m + b n) = (1 - aq)m + (- q b) n,
+
+with :math:`r \ge 0` and :math:`r < d`.  Since :math:`d` is the smallest positive number that can be written in that form, we have :math:`r = 0`. Hence :math:`m = dq`, so :math:`d \mid m`.
 
 ----
 
-**Corollary.** If :math:`c` is any common divisor of :math:`n` and :math:`m`, then :math:`c \mid \gcd(n, m)`.
+**Corollary.** If :math:`c` is any common divisor of :math:`m` and :math:`n`, then :math:`c \mid \gcd(m, n)`.
 
-**Proof.** By B‎ézout's Lemma, there are :math:`a` and :math:`b` such that :math:`\gcd(n,m)=an+bm`. Since :math:`c` divides both :math:`n` and :math:`m`, :math:`c` divides :math:`an+bm` by Exercise 1 below, and hence also :math:`\gcd(n,m)`.
+**Proof.** By B‎ézout's Lemma, there are :math:`a` and :math:`b` such that :math:`\gcd(m,n)=am+bn`. Since :math:`c` divides both :math:`m` and :math:`n`, :math:`c` divides :math:`am+bn` by Exercise 1 below, and hence also :math:`\gcd(m,n)`.
 
 ----
 
@@ -183,13 +195,13 @@ Of special interest are pairs of integers which have no divisors in common, exce
 
 ----
 
-**Definition.** Two integers :math:`n` and :math:`m` are *coprime* if :math:`\gcd(n,m) = 1`.
+**Definition.** Two integers :math:`m` and :math:`n` are *coprime* if :math:`\gcd(m,n) = 1`.
 
 ----
 
-**Proposition.** Let :math:`n`, :math:`m` and :math:`k` be integers such that :math:`n` and :math:`k` are coprime. If :math:`k \mid nm` then :math:`k \mid m`.
+**Proposition.** Let :math:`m`, :math:`n` and :math:`k` be integers such that :math:`m` and :math:`k` are coprime. If :math:`k \mid mn` then :math:`k \mid n`.
 
-**Proof.** By B‎ézout's Lemma, there are :math:`a` and :math:`b` such that :math:`an+bk = 1`. Multiplying by :math:`m` gives :math:`anm + bkm = m` Since :math:`k` divides :math:`nm`, :math:`k` divides the left-hand side of the equation, hence :math:`k \mid m`.
+**Proof.** By B‎ézout's Lemma, there are :math:`a` and :math:`b` such that :math:`am+bk = 1`. Multiplying by :math:`n` gives :math:`amn + bkn = n` Since :math:`k` divides :math:`mn`, :math:`k` divides the left-hand side of the equation, hence :math:`k \mid n`.
 
 ----
 

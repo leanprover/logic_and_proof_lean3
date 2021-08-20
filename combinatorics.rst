@@ -409,7 +409,7 @@ Exercises
 
 #. A woman has 8 murder mysteries sitting on her shelf, and wants to take three of them on a vacation. How many ways can she do this?
 
-#. In poker, a "full house" is a hand with three of one rank and two of another (for example, three kings and two fives). Determine the number of full houses in poker.
+#. In poker, a "full house" is a hand with three of one rank and two of another (for example, three kings and two fives). Determine the number of full houses that can be formed from an ordinary deck of 52 cards.
 
 #. We saw in :numref:`combinations_and_binomial_coefficients` that
 

@@ -367,16 +367,21 @@ The strategy is to use the elimination rule for the universal quantifier to inst
 
    \begin{center}
    \AXM{}
-   \UIM{\mathsf{assoc}}
+   \UIM{\mathsf{assoc}\strut}
+   \UIM{(x + y) + z = x + (y + z)}
+
+   \AXM{}
+   \UIM{\mathsf{comm}\strut}
+   \UIM{y + z = z + y}
+   \UIM{x + (y + z) = x + (z + y)}
+
+   \AXM{}
+   \UIM{\mathsf{assoc}\strut}
    \UIM{(x + z) + y = x + (z + y)}
    \UIM{x + (z + y) = (x + z) + y}
-   \AXM{}
-   \UIM{\mathsf{comm}}
-   \UIM{y + z = z + y}
-   \AXM{}
-   \UIM{\mathsf{assoc}}
-   \UIM{(x + y) + z = x + (y + z)}
-   \BIM{(x + y) + z = x + (z + y)}
+
+   \BIM{x + (y + z) = (x + z) + y}
+
    \BIM{(x + y) + z = (x + z) + y}
    \UIM{\fa {x, y, z} ((x + y) + z = (x + z) + y)}
    \DP

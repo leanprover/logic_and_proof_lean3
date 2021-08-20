@@ -235,9 +235,11 @@ Symbolic logic is not meant to replace ordinary mathematical language, and you s
 
 The proof languages used by interactive theorem provers lie somewhere between the two extremes. On the one hand, they have to be specified with enough precision for a computer to process them and act appropriately; on the other hand, they aim to capture some of the higher-level nuances and features of informal language in a way that enables us to write more complex arguments and proofs. Rooted in symbolic logic and designed with ordinary mathematical language in mind, they aim to bridge the gap between the two.
 
+This book also aims to show you how mathematics is built up from fundamental concepts. Logic provides the rules of the game, and then we work our way up from properties of sets, relations, functions, and the natural numbers to elementary number theory, combinatorics, and properties of the real numbers. The last chapter rounds out the story with a discussion of axiomatic foundations.
+
 About this Textbook
 -------------------
 
-Both this online textbook and the *Lean* theorem prover it invokes are new and ongoing projects, and in places they are still rough. Please bear with us! You can learn more about Lean from its `project page <http://leanprover.github.io/>`_ and the online textbook, `Theorem Proving in Lean <http://leanprover.github.io/theorem_proving_in_lean/>`_.
+Both this online textbook and the *Lean* theorem prover are new and ongoing projects. You can learn more about Lean from its `project page <http://leanprover.github.io/>`_, the Leann `community pages <http://leanprover-community.github.io/>`_, and the online textbook, `Theorem Proving in Lean <http://leanprover.github.io/theorem_proving_in_lean/>`_.
 
 We are grateful for feedback and corrections from a number of people, including Bruno Cuconato, William DeMeo, Tobias Grosser, Lyle Kopnicky, Alexandre Rademaker, Matt Rice, and Jason Siefken.

@@ -123,7 +123,7 @@ Cauchy sequences can be used to describe these gaps in the rationals, but, as no
 
 .. math::
 
-    |p_i - r_i | = |(p_i - q_i) + (q_i - r_i)| < |p_i - q_i| + |q_i - r_i| \leq \varepsilon / 2 + \varepsilon / 2 = \varepsilon,
+    |p_i - r_i | = |(p_i - q_i) + (q_i - r_i)| \leq |p_i - q_i| + |q_i - r_i| < \varepsilon / 2 + \varepsilon / 2 = \varepsilon,
 
 as required.
 

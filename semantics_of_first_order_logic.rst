@@ -203,7 +203,7 @@ Exercises
 #. Give a concrete example to show that :math:`\vDash A \vee B` does not necessarily imply :math:`\vDash A` or :math:`\vDash B`. In other words, pick a language :math:`L` and choose particular sentences :math:`A` and :math:`B` such that :math:`A \vee B` is valid but neither :math:`A` nor :math:`B` is valid.
 
 #. Consider the three formulas :math:`\forall x \; R(x, x)`, :math:`\forall x\; \forall y \; (R (x, y) \to R (y, x))`, and :math:`\forall x \; \forall y \; \forall z \; (R(x, y) \wedge R(y, z) \to R(x, z))`.
-   These sentences say that :math:`R` is reflexive, symmetric, and trainsitive.
+   These sentences say that :math:`R` is reflexive, symmetric, and transitive.
    For each pair of sentences, find a model that makes those two sentences true and the third false.
    This shows that these sentences are logically independent: no one is entailed by the others.
 

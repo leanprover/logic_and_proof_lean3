@@ -240,6 +240,6 @@ This book also aims to show you how mathematics is built up from fundamental con
 About this Textbook
 -------------------
 
-Both this online textbook and the *Lean* theorem prover are new and ongoing projects. You can learn more about Lean from its `project page <http://leanprover.github.io/>`_, the Leann `community pages <http://leanprover-community.github.io/>`_, and the online textbook, `Theorem Proving in Lean <http://leanprover.github.io/theorem_proving_in_lean/>`_.
+Both this online textbook and the *Lean* theorem prover are new and ongoing projects. You can learn more about Lean from its `project page <http://leanprover.github.io/>`_, the Lean `community pages <http://leanprover-community.github.io/>`_, and the online textbook, `Theorem Proving in Lean <http://leanprover.github.io/theorem_proving_in_lean/>`_.
 
 We are grateful for feedback and corrections from a number of people, including Bruno Cuconato, William DeMeo, Tobias Grosser, Lyle Kopnicky, Alexandre Rademaker, Matt Rice, and Jason Siefken.

@@ -530,7 +530,7 @@ In particular, taking :math:`m = 0`, we have :math:`1 \not\le 0`.
 
 ----
 
-**Proposition.** We have :math:`m < n` iff and only if :math:`m + 1 \le n`.
+**Proposition.** We have :math:`m < n` if and only if :math:`m + 1 \le n`.
 
 **Proof.** Suppose :math:`m < n`. Then :math:`m \le n` and :math:`m \ne n`. So there is a :math:`k` such that :math:`m + k = n`, and since :math:`m \ne n`, we have :math:`k \ne 0`. Then :math:`k = u + 1` for some :math:`u`, which means we have :math:`m + (u + 1) = m + 1 + u = n`, so :math:`m \le n`, as required.
 

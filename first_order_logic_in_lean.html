@@ -1,0 +1,1006 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>9. First Order Logic in Lean &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="10. Semantics of First Order Logic" href="semantics_of_first_order_logic.html" />
+    <link rel="prev" title="8. Natural Deduction for First Order Logic" href="natural_deduction_for_first_order_logic.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="first-order-logic-in-lean">
+<span id="id1"></span><h1><span class="section-number">9. </span>First Order Logic in Lean<a class="headerlink" href="#first-order-logic-in-lean" title="Permalink to this headline">&#182;</a></h1>
+<div class="section" id="functions-predicates-and-relations">
+<h2><span class="section-number">9.1. </span>Functions, Predicates, and Relations<a class="headerlink" href="#functions-predicates-and-relations" title="Permalink to this headline">&#182;</a></h2>
+<p>In the last chapter, we discussed the language of first-order logic. We will see in the course of this book that Lean&#8217;s built-in logic is much more expressive; but it <em>includes</em> first-order logic, which is to say, anything that can be expressed (and proved) in first-order logic can be expressed (and proved) in Lean.</p>
+<p>Lean is based on a foundational framework called <em>type theory</em>, in which every variable is assumed to range elements of some <em>type</em>. You can think of a type as being a &#8220;universe,&#8221; or a &#8220;domain of discourse,&#8221; in the sense of first-order logic.</p>
+<p>For example, suppose we want to work with a first-order language with one constant symbol, one unary function symbol, one binary function symbol, one unary relation symbol, and one binary relation symbol. We can declare a new type <code class="docutils literal notranslate"><span class="pre">U</span></code> (for &#8220;universe&#8221;) and the relevant symbols as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=constant%20U%20%3A%20Type%0A%0Aconstant%20c%20%3A%20U%0Aconstant%20f%20%3A%20U%20%E2%86%92%20U%0Aconstant%20g%20%3A%20U%20%E2%86%92%20U%20%E2%86%92%20U%0Aconstant%20P%20%3A%20U%20%E2%86%92%20Prop%0Aconstant%20R%20%3A%20U%20%E2%86%92%20U%20%E2%86%92%20Prop" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">constant</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+
+<span class="kd">constant</span> <span class="n">c</span> <span class="o">:</span> <span class="n">U</span>
+<span class="kd">constant</span> <span class="n">f</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="n">U</span>
+<span class="kd">constant</span> <span class="n">g</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="n">U</span>
+<span class="kd">constant</span> <span class="n">P</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">constant</span> <span class="n">R</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+</pre></div>
+</div>
+</div><p>We can then use them as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=constant%20U%20%3A%20Type%0A%0Aconstant%20c%20%3A%20U%0Aconstant%20f%20%3A%20U%20%E2%86%92%20U%0Aconstant%20g%20%3A%20U%20%E2%86%92%20U%20%E2%86%92%20U%0Aconstant%20P%20%3A%20U%20%E2%86%92%20Prop%0Aconstant%20R%20%3A%20U%20%E2%86%92%20U%20%E2%86%92%20Prop%0A%0A--%20BEGIN%0Avariables%20x%20y%20%3A%20U%0A%0A%23check%20c%0A%23check%20f%20c%0A%23check%20g%20x%20y%0A%23check%20g%20x%20(f%20c)%0A%0A%23check%20P%20(g%20x%20(f%20c))%0A%23check%20R%20x%20y%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variables</span> <span class="n">x</span> <span class="n">y</span> <span class="o">:</span> <span class="n">U</span>
+
+<span class="k">#check</span> <span class="n">c</span>
+<span class="k">#check</span> <span class="n">f</span> <span class="n">c</span>
+<span class="k">#check</span> <span class="n">g</span> <span class="n">x</span> <span class="n">y</span>
+<span class="k">#check</span> <span class="n">g</span> <span class="n">x</span> <span class="o">(</span><span class="n">f</span> <span class="n">c</span><span class="o">)</span>
+
+<span class="k">#check</span> <span class="n">P</span> <span class="o">(</span><span class="n">g</span> <span class="n">x</span> <span class="o">(</span><span class="n">f</span> <span class="n">c</span><span class="o">))</span>
+<span class="k">#check</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div><p>The <code class="docutils literal notranslate"><span class="pre">#check</span></code> command tells us that the first four expressions have type <code class="docutils literal notranslate"><span class="pre">U</span></code>, and that the last two have type <code class="docutils literal notranslate"><span class="pre">Prop</span></code>. Roughly, this means that the first four expressions correspond to terms of first-order logic, and that the last two correspond to formulas.</p>
+<p>Note all the following:</p>
+<ul class="simple">
+<li><p>A unary function is represented as an object of type <code class="docutils literal notranslate"><span class="pre">U</span> <span class="pre">&#8594;</span> <span class="pre">U</span></code> and a binary function is represented as an object of type <code class="docutils literal notranslate"><span class="pre">U</span> <span class="pre">&#8594;</span> <span class="pre">U</span> <span class="pre">&#8594;</span> <span class="pre">U</span></code>, using the same notation as for implication between propositions.</p></li>
+<li><p>We write, for example, <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">x</span></code> to denote the result of applying <code class="docutils literal notranslate"><span class="pre">f</span></code> to <code class="docutils literal notranslate"><span class="pre">x</span></code>, and <code class="docutils literal notranslate"><span class="pre">g</span> <span class="pre">x</span> <span class="pre">y</span></code> to denote the result of applying <code class="docutils literal notranslate"><span class="pre">g</span></code> to <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, again just as we did when using modus ponens for first-order logic. Parentheses are needed in the expression <code class="docutils literal notranslate"><span class="pre">g</span> <span class="pre">x</span> <span class="pre">(f</span> <span class="pre">c)</span></code> to ensure that <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">c</span></code> is parsed as a single argument.</p></li>
+<li><p>A unary predicate is presented as an object of type <code class="docutils literal notranslate"><span class="pre">U</span> <span class="pre">&#8594;</span> <span class="pre">Prop</span></code> and a binary predicate is represented as an object of type <code class="docutils literal notranslate"><span class="pre">U</span> <span class="pre">&#8594;</span> <span class="pre">U</span> <span class="pre">&#8594;</span> <span class="pre">Prop</span></code>. You can think of a binary relation <code class="docutils literal notranslate"><span class="pre">R</span></code> as being a function that assumes two arguments in the universe, <code class="docutils literal notranslate"><span class="pre">U</span></code>, and returns a proposition.</p></li>
+<li><p>We write <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">x</span></code> to denote the assertion that <code class="docutils literal notranslate"><span class="pre">P</span></code> holds of <code class="docutils literal notranslate"><span class="pre">x</span></code>, and <code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">x</span> <span class="pre">y</span></code> to denote that <code class="docutils literal notranslate"><span class="pre">R</span></code> holds of <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p></li>
+</ul>
+<p>You may reasonably wonder what difference there is between a constant and a variable in Lean. The following declarations also work:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0A%0Avariable%20c%20%3A%20U%0Avariable%20f%20%3A%20U%20%E2%86%92%20U%0Avariable%20g%20%3A%20U%20%E2%86%92%20U%20%E2%86%92%20U%0Avariable%20P%20%3A%20U%20%E2%86%92%20Prop%0Avariable%20R%20%3A%20U%20%E2%86%92%20U%20%E2%86%92%20Prop%0A%0Avariables%20x%20y%20%3A%20U%0A%0A%23check%20c%0A%23check%20f%20c%0A%23check%20g%20x%20y%0A%23check%20g%20x%20(f%20c)%0A%0A%23check%20P%20(g%20x%20(f%20c))%0A%23check%20R%20x%20y" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+
+<span class="kd">variable</span> <span class="n">c</span> <span class="o">:</span> <span class="n">U</span>
+<span class="kd">variable</span> <span class="n">f</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="n">U</span>
+<span class="kd">variable</span> <span class="n">g</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="n">U</span>
+<span class="kd">variable</span> <span class="n">P</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">variable</span> <span class="n">R</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">variables</span> <span class="n">x</span> <span class="n">y</span> <span class="o">:</span> <span class="n">U</span>
+
+<span class="k">#check</span> <span class="n">c</span>
+<span class="k">#check</span> <span class="n">f</span> <span class="n">c</span>
+<span class="k">#check</span> <span class="n">g</span> <span class="n">x</span> <span class="n">y</span>
+<span class="k">#check</span> <span class="n">g</span> <span class="n">x</span> <span class="o">(</span><span class="n">f</span> <span class="n">c</span><span class="o">)</span>
+
+<span class="k">#check</span> <span class="n">P</span> <span class="o">(</span><span class="n">g</span> <span class="n">x</span> <span class="o">(</span><span class="n">f</span> <span class="n">c</span><span class="o">))</span>
+<span class="k">#check</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div><p>Although the examples function in much the same way, the <code class="docutils literal notranslate"><span class="pre">constant</span></code> and <code class="docutils literal notranslate"><span class="pre">variable</span></code> commands do very different things. The <code class="docutils literal notranslate"><span class="pre">constant</span></code> command declares a new object, axiomatically, and adds it to the list of objects Lean knows about. In contrast, when it is first executed, the <code class="docutils literal notranslate"><span class="pre">variable</span></code> command does not create anything. Rather, it tells Lean that whenever we enter an expression using the corresponding identifier, it should create a temporary variable of the corresponding type.</p>
+<p>Many types are already declared in Lean&#8217;s standard library. For example, there is a type written <code class="docutils literal notranslate"><span class="pre">nat</span></code> or <code class="docutils literal notranslate"><span class="pre">&#8469;</span></code>, that denotes the natural numbers:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=%23check%20nat%0A%23check%20%E2%84%95" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="k">#check</span> <span class="n">nat</span>
+<span class="k">#check</span> <span class="n">&#8469;</span>
+</pre></div>
+</div>
+</div><p>You can enter the unicode <code class="docutils literal notranslate"><span class="pre">&#8469;</span></code> with <code class="docutils literal notranslate"><span class="pre">\nat</span></code> or <code class="docutils literal notranslate"><span class="pre">\N</span></code>. The two expressions mean the same thing.</p>
+<p>Using this built-in type, we can model the language of arithmetic, as described in the last chapter, as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0Aconstant%20mul%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20add%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20square%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20even%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20odd%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20prime%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20divides%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20lt%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20zero%20%3A%20%E2%84%95%0Aconstant%20one%20%3A%20%E2%84%95%0A%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">namespace</span> <span class="n">hidden</span>
+
+<span class="kd">constant</span> <span class="n">mul</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="kd">constant</span> <span class="n">add</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="kd">constant</span> <span class="n">square</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="kd">constant</span> <span class="n">even</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">constant</span> <span class="n">odd</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">constant</span> <span class="n">prime</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">constant</span> <span class="n">divides</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">constant</span> <span class="n">lt</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">constant</span> <span class="n">zero</span> <span class="o">:</span> <span class="n">&#8469;</span>
+<span class="kd">constant</span> <span class="n">one</span> <span class="o">:</span> <span class="n">&#8469;</span>
+
+<span class="kd">end</span> <span class="n">hidden</span>
+</pre></div>
+</div>
+</div><p>We have used the <code class="docutils literal notranslate"><span class="pre">namespace</span></code> command to avoid conflicts with identifiers that are already declared in the Lean library. (Outside the namespace, the constant <code class="docutils literal notranslate"><span class="pre">mul</span></code> we just declared is named <code class="docutils literal notranslate"><span class="pre">hidden.mul</span></code>.) We can again use the <code class="docutils literal notranslate"><span class="pre">#check</span></code> command to try them out:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0Aconstant%20mul%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20add%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20square%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20even%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20odd%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20prime%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20divides%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20lt%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20zero%20%3A%20%E2%84%95%0Aconstant%20one%20%3A%20%E2%84%95%0A%0Avariables%20w%20x%20y%20z%20%3A%20%E2%84%95%0A%0A%23check%20mul%20x%20y%0A%23check%20add%20x%20y%0A%23check%20square%20x%0A%23check%20even%20x%0A%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">namespace</span> <span class="n">hidden</span>
+
+<span class="kd">constant</span> <span class="n">mul</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="kd">constant</span> <span class="n">add</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="kd">constant</span> <span class="n">square</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="kd">constant</span> <span class="n">even</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">constant</span> <span class="n">odd</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">constant</span> <span class="n">prime</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">constant</span> <span class="n">divides</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">constant</span> <span class="n">lt</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">constant</span> <span class="n">zero</span> <span class="o">:</span> <span class="n">&#8469;</span>
+<span class="kd">constant</span> <span class="n">one</span> <span class="o">:</span> <span class="n">&#8469;</span>
+
+<span class="kd">variables</span> <span class="n">w</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">&#8469;</span>
+
+<span class="k">#check</span> <span class="n">mul</span> <span class="n">x</span> <span class="n">y</span>
+<span class="k">#check</span> <span class="n">add</span> <span class="n">x</span> <span class="n">y</span>
+<span class="k">#check</span> <span class="n">square</span> <span class="n">x</span>
+<span class="k">#check</span> <span class="n">even</span> <span class="n">x</span>
+
+<span class="kd">end</span> <span class="n">hidden</span>
+</pre></div>
+</div>
+</div><p>We can even declare infix notation of binary operations and relations:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0Aconstant%20mul%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20add%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20square%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20even%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20odd%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20prime%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20divides%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20lt%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20zero%20%3A%20%E2%84%95%0Aconstant%20one%20%3A%20%E2%84%95%0A%0Avariables%20w%20x%20y%20z%20%3A%20%E2%84%95%0A%0A%23check%20mul%20x%20y%0A%23check%20add%20x%20y%0A%23check%20square%20x%0A%23check%20even%20x%0A%0A--%20BEGIN%0Alocal%20infix%20%2B%20%3A%3D%20add%0Alocal%20infix%20*%20%3A%3D%20mul%0Alocal%20infix%20%3C%20%3A%3D%20lt%0A--%20END%0A%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">local</span> <span class="kd">infix</span> <span class="bp">+</span> <span class="o">:=</span> <span class="n">add</span>
+<span class="kn">local</span> <span class="kd">infix</span> <span class="bp">*</span> <span class="o">:=</span> <span class="n">mul</span>
+<span class="kn">local</span> <span class="kd">infix</span> <span class="bp">&lt;</span> <span class="o">:=</span> <span class="n">lt</span>
+</pre></div>
+</div>
+</div><p>(Getting notation for numerals <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">3</span></code>, &#8230; is trickier.) With all this in place, the examples above can be rendered as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0Aconstant%20mul%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20add%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20square%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%0Aconstant%20even%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20odd%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20prime%20%3A%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20divides%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20lt%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20Prop%0Aconstant%20zero%20%3A%20%E2%84%95%0Aconstant%20one%20%3A%20%E2%84%95%0A%0Avariables%20w%20x%20y%20z%20%3A%20%E2%84%95%0A%0A%23check%20mul%20x%20y%0A%23check%20add%20x%20y%0A%23check%20square%20x%0A%23check%20even%20x%0A%0Alocal%20infix%20%2B%20%3A%3D%20add%0Alocal%20infix%20*%20%3A%3D%20mul%0Alocal%20infix%20%3C%20%3A%3D%20lt%0A%0A--%20BEGIN%0A%23check%20even%20(x%20%2B%20y%20%2B%20z)%20%E2%88%A7%20prime%20((x%20%2B%20one)%20*%20y%20*%20y)%0A%23check%20%C2%AC%20(square%20(x%20%2B%20y%20*%20z)%20%3D%20w)%20%E2%88%A8%20x%20%2B%20y%20%3C%20z%0A%23check%20x%20%3C%20y%20%E2%88%A7%20even%20x%20%E2%88%A7%20even%20y%20%E2%86%92%20x%20%2B%20one%20%3C%20y%0A--%20END%0A%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="k">#check</span> <span class="n">even</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="bp">&#8743;</span> <span class="n">prime</span> <span class="o">((</span><span class="n">x</span> <span class="bp">+</span> <span class="n">one</span><span class="o">)</span> <span class="bp">*</span> <span class="n">y</span> <span class="bp">*</span> <span class="n">y</span><span class="o">)</span>
+<span class="k">#check</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="n">square</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">*</span> <span class="n">z</span><span class="o">)</span> <span class="bp">=</span> <span class="n">w</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="n">x</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">&lt;</span> <span class="n">z</span>
+<span class="k">#check</span> <span class="n">x</span> <span class="bp">&lt;</span> <span class="n">y</span> <span class="bp">&#8743;</span> <span class="n">even</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">even</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">+</span> <span class="n">one</span> <span class="bp">&lt;</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div><p>In fact, all of the functions, predicates, and relations discussed here, except for the &#8220;square&#8221; function, are defined in the Lean library. They become available to us when we put the commands <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">data.nat.prime</span></code> and <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">nat</span></code> at the top of a file in Lean.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.prime%0Aopen%20nat%0A%0Aconstant%20square%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%0A%0Avariables%20w%20x%20y%20z%20%3A%20%E2%84%95%0A%0A%23check%20even%20(x%20%2B%20y%20%2B%20z)%20%E2%88%A7%20prime%20((x%20%2B%201)%20*%20y%20*%20y)%0A%23check%20%C2%AC%20(square%20(x%20%2B%20y%20*%20z)%20%3D%20w)%20%E2%88%A8%20x%20%2B%20y%20%3C%20z%0A%23check%20x%20%3C%20y%20%E2%88%A7%20even%20x%20%E2%88%A7%20even%20y%20%E2%86%92%20x%20%2B%201%20%3C%20y" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.prime</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="kd">constant</span> <span class="n">square</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+
+<span class="kd">variables</span> <span class="n">w</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">&#8469;</span>
+
+<span class="k">#check</span> <span class="n">even</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="bp">&#8743;</span> <span class="n">prime</span> <span class="o">((</span><span class="n">x</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span> <span class="bp">*</span> <span class="n">y</span> <span class="bp">*</span> <span class="n">y</span><span class="o">)</span>
+<span class="k">#check</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="n">square</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">*</span> <span class="n">z</span><span class="o">)</span> <span class="bp">=</span> <span class="n">w</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="n">x</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">&lt;</span> <span class="n">z</span>
+<span class="k">#check</span> <span class="n">x</span> <span class="bp">&lt;</span> <span class="n">y</span> <span class="bp">&#8743;</span> <span class="n">even</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">even</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">+</span> <span class="mi">1</span> <span class="bp">&lt;</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div><p>Here, we declare the constants <code class="docutils literal notranslate"><span class="pre">square</span></code> and <code class="docutils literal notranslate"><span class="pre">prime</span></code> axiomatically, but refer to the other operations and predicates in the Lean library. In this book, we will often proceed in this way, telling you explicitly what facts from the library you should use for exercises.</p>
+<p>Again, note the following aspects of syntax:</p>
+<ul class="simple">
+<li><p>In contrast to ordinary mathematical notation, in Lean, functions are applied without parentheses or commas. For example, we write <code class="docutils literal notranslate"><span class="pre">square</span> <span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">add</span> <span class="pre">x</span> <span class="pre">y</span></code> instead of <span class="math notranslate nohighlight">\(\mathit{square}(x)\)</span> and <span class="math notranslate nohighlight">\(\mathit{add}(x, y)\)</span>.</p></li>
+<li><p>The same holds for predicates and relations: we write <code class="docutils literal notranslate"><span class="pre">even</span> <span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">lt</span> <span class="pre">x</span> <span class="pre">y</span></code> instead of <span class="math notranslate nohighlight">\(\mathit{even}(x)\)</span> and <span class="math notranslate nohighlight">\(\mathit{lt}(x, y)\)</span>, as one might do in symbolic logic.</p></li>
+<li><p>The notation <code class="docutils literal notranslate"><span class="pre">add</span> <span class="pre">:</span> <span class="pre">&#8469;</span> <span class="pre">&#8594;</span> <span class="pre">&#8469;</span> <span class="pre">&#8594;</span> <span class="pre">&#8469;</span></code> indicates that addition assumes two arguments, both natural numbers, and returns a natural number.</p></li>
+<li><p>Similarly, the notation <code class="docutils literal notranslate"><span class="pre">divides</span> <span class="pre">:</span> <span class="pre">&#8469;</span> <span class="pre">&#8594;</span> <span class="pre">&#8469;</span> <span class="pre">&#8594;</span> <span class="pre">Prop</span></code> indicates that <code class="docutils literal notranslate"><span class="pre">divides</span></code> is a binary relation, which assumes two natural numbers as arguments and forms a proposition. In other words, <code class="docutils literal notranslate"><span class="pre">divides</span> <span class="pre">x</span> <span class="pre">y</span></code> expresses the assertion that <code class="docutils literal notranslate"><span class="pre">x</span></code> divides <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p></li>
+</ul>
+<p>Lean can help us distinguish between terms and formulas. If we <code class="docutils literal notranslate"><span class="pre">#check</span></code> the expression <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">+</span> <span class="pre">y</span> <span class="pre">+</span> <span class="pre">1</span></code> in Lean, we are told it has type <code class="docutils literal notranslate"><span class="pre">&#8469;</span></code>, which is to say, it denotes a natural number. If we <code class="docutils literal notranslate"><span class="pre">#check</span></code> the expression <code class="docutils literal notranslate"><span class="pre">even</span> <span class="pre">(x</span> <span class="pre">+</span> <span class="pre">y</span> <span class="pre">+</span> <span class="pre">1)</span></code>, we are told that it has type <code class="docutils literal notranslate"><span class="pre">Prop</span></code>, which is to say, it expresses a proposition.</p>
+<p>In <a class="reference internal" href="first_order_logic.html#first-order-logic"><span class="std std-numref">Chapter 7</span></a> we considered many-sorted logic, where one can have multiple universes. For example, we might want to use first-order logic for geometry, with quantifiers ranging over points and lines. In Lean, we can model this as by introducing a new type for each sort:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20Point%20Line%20%3A%20Type%0Avariable%20%20lies_on%20%3A%20Point%20%E2%86%92%20Line%20%E2%86%92%20Prop" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variables</span> <span class="n">Point</span> <span class="n">Line</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variable</span>  <span class="n">lies_on</span> <span class="o">:</span> <span class="n">Point</span> <span class="bp">&#8594;</span> <span class="n">Line</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+</pre></div>
+</div>
+</div><p>We can then express that two distinct points determine a line as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20Point%20Line%20%3A%20Type%0Avariable%20%20lies_on%20%3A%20Point%20%E2%86%92%20Line%20%E2%86%92%20Prop%0A%0A--%20BEGIN%0A%23check%20%E2%88%80%20(p%20q%20%3A%20Point)%20(L%20M%20%3A%20Line)%2C%0A%20%20%20%20%20%20%20%20p%20%E2%89%A0%20q%20%E2%86%92%20lies_on%20p%20L%20%E2%86%92%20lies_on%20q%20L%20%E2%86%92%20lies_on%20p%20M%20%E2%86%92%0A%20%20%20%20%20%20%20%20%20%20lies_on%20q%20M%20%E2%86%92%20L%20%3D%20M%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="k">#check</span> <span class="bp">&#8704;</span> <span class="o">(</span><span class="n">p</span> <span class="n">q</span> <span class="o">:</span> <span class="n">Point</span><span class="o">)</span> <span class="o">(</span><span class="n">L</span> <span class="n">M</span> <span class="o">:</span> <span class="n">Line</span><span class="o">),</span>
+        <span class="n">p</span> <span class="bp">&#8800;</span> <span class="n">q</span> <span class="bp">&#8594;</span> <span class="n">lies_on</span> <span class="n">p</span> <span class="n">L</span> <span class="bp">&#8594;</span> <span class="n">lies_on</span> <span class="n">q</span> <span class="n">L</span> <span class="bp">&#8594;</span> <span class="n">lies_on</span> <span class="n">p</span> <span class="n">M</span> <span class="bp">&#8594;</span>
+          <span class="n">lies_on</span> <span class="n">q</span> <span class="n">M</span> <span class="bp">&#8594;</span> <span class="n">L</span> <span class="bp">=</span> <span class="n">M</span>
+</pre></div>
+</div>
+</div><p>Notice that we have followed the convention of using iterated implication rather than conjunction in the antecedent. In fact, Lean is smart enough to infer what sorts of objects <code class="docutils literal notranslate"><span class="pre">p</span></code>, <code class="docutils literal notranslate"><span class="pre">q</span></code>, <code class="docutils literal notranslate"><span class="pre">L</span></code>, and <code class="docutils literal notranslate"><span class="pre">M</span></code> are from the fact that they are used with the relation <code class="docutils literal notranslate"><span class="pre">lies_on</span></code>, so we could have written, more simply, this:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20Point%20Line%20%3A%20Type%0Avariable%20%20lies_on%20%3A%20Point%20%E2%86%92%20Line%20%E2%86%92%20Prop%0A%0A--%20BEGIN%0A%23check%20%E2%88%80%20p%20q%20L%20M%2C%20p%20%E2%89%A0%20q%20%E2%86%92%20lies_on%20p%20L%20%E2%86%92%20lies_on%20q%20L%20%E2%86%92%0A%20%20lies_on%20p%20M%20%E2%86%92%20lies_on%20q%20M%20%E2%86%92%20L%20%3D%20M%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="k">#check</span> <span class="bp">&#8704;</span> <span class="n">p</span> <span class="n">q</span> <span class="n">L</span> <span class="n">M</span><span class="o">,</span> <span class="n">p</span> <span class="bp">&#8800;</span> <span class="n">q</span> <span class="bp">&#8594;</span> <span class="n">lies_on</span> <span class="n">p</span> <span class="n">L</span> <span class="bp">&#8594;</span> <span class="n">lies_on</span> <span class="n">q</span> <span class="n">L</span> <span class="bp">&#8594;</span>
+  <span class="n">lies_on</span> <span class="n">p</span> <span class="n">M</span> <span class="bp">&#8594;</span> <span class="n">lies_on</span> <span class="n">q</span> <span class="n">M</span> <span class="bp">&#8594;</span> <span class="n">L</span> <span class="bp">=</span> <span class="n">M</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="using-the-universal-quantifier">
+<h2><span class="section-number">9.2. </span>Using the Universal Quantifier<a class="headerlink" href="#using-the-universal-quantifier" title="Permalink to this headline">&#182;</a></h2>
+<p>In Lean, you can enter the universal quantifier by writing <code class="docutils literal notranslate"><span class="pre">\all</span></code>. The motivating examples from <a class="reference internal" href="first_order_logic.html#functions-predicates-and-relations"><span class="std std-numref">Section 7.1</span></a> are rendered as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.prime%0Aopen%20nat%0A%0A%23check%20%E2%88%80%20x%2C%20(even%20x%20%E2%88%A8%20odd%20x)%20%E2%88%A7%20%C2%AC%20(even%20x%20%E2%88%A7%20odd%20x)%0A%23check%20%E2%88%80%20x%2C%20even%20x%20%E2%86%94%202%20%E2%88%A3%20x%0A%23check%20%E2%88%80%20x%2C%20even%20x%20%E2%86%92%20even%20(x%5E2)%0A%23check%20%E2%88%80%20x%2C%20even%20x%20%E2%86%94%20odd%20(x%20%2B%201)%0A%23check%20%E2%88%80%20x%2C%20prime%20x%20%E2%88%A7%20x%20%3E%202%20%E2%86%92%20odd%20x%0A%23check%20%E2%88%80%20x%20y%20z%2C%20x%20%E2%88%A3%20y%20%E2%86%92%20y%20%E2%88%A3%20z%20%E2%86%92%20x%20%E2%88%A3%20z" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.prime</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="k">#check</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="o">(</span><span class="n">even</span> <span class="n">x</span> <span class="bp">&#8744;</span> <span class="n">odd</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8743;</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="n">even</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">odd</span> <span class="n">x</span><span class="o">)</span>
+<span class="k">#check</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">even</span> <span class="n">x</span> <span class="bp">&#8596;</span> <span class="mi">2</span> <span class="bp">&#8739;</span> <span class="n">x</span>
+<span class="k">#check</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">even</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">even</span> <span class="o">(</span><span class="n">x</span><span class="bp">^</span><span class="mi">2</span><span class="o">)</span>
+<span class="k">#check</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">even</span> <span class="n">x</span> <span class="bp">&#8596;</span> <span class="n">odd</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span>
+<span class="k">#check</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">prime</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">x</span> <span class="bp">&gt;</span> <span class="mi">2</span> <span class="bp">&#8594;</span> <span class="n">odd</span> <span class="n">x</span>
+<span class="k">#check</span> <span class="bp">&#8704;</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span><span class="o">,</span> <span class="n">x</span> <span class="bp">&#8739;</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="n">y</span> <span class="bp">&#8739;</span> <span class="n">z</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">&#8739;</span> <span class="n">z</span>
+</pre></div>
+</div>
+</div><p>Remember that Lean expects a comma after the universal quantifier, and gives it the <em>widest</em> scope possible. For example, <code class="docutils literal notranslate"><span class="pre">&#8704;</span> <span class="pre">x,</span> <span class="pre">P</span> <span class="pre">&#8744;</span> <span class="pre">Q</span></code> is interpreted as <code class="docutils literal notranslate"><span class="pre">&#8704;</span> <span class="pre">x,</span> <span class="pre">(P</span> <span class="pre">&#8744;</span> <span class="pre">Q)</span></code>, and we would write <code class="docutils literal notranslate"><span class="pre">(&#8704;</span> <span class="pre">x,</span> <span class="pre">P)</span> <span class="pre">&#8744;</span> <span class="pre">Q</span></code> to limit the scope. If you prefer, you can use the plain ascii expression <code class="docutils literal notranslate"><span class="pre">forall</span></code> instead of the unicode <code class="docutils literal notranslate"><span class="pre">&#8704;</span></code>.</p>
+<p>In Lean, then, the pattern for proving a universal statement is rendered as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariable%20P%20%3A%20U%20%E2%86%92%20Prop%0A%0Aexample%20%3A%20%E2%88%80%20x%2C%20P%20x%20%3A%3D%0Aassume%20x%2C%0Ashow%20P%20x%2C%20from%20sorry" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variable</span> <span class="n">P</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">P</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">P</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">sorry</span>
+</pre></div>
+</div>
+</div><p>Read <code class="docutils literal notranslate"><span class="pre">assume</span> <span class="pre">x</span></code> as &#8220;fix an arbitrary value <code class="docutils literal notranslate"><span class="pre">x</span></code> of <code class="docutils literal notranslate"><span class="pre">U</span></code>.&#8221; Since we are allowed to rename bound variables at will, we can equivalently write either of the following:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariable%20P%20%3A%20U%20%E2%86%92%20Prop%0A%0Aexample%20%3A%20%E2%88%80%20y%2C%20P%20y%20%3A%3D%0Aassume%20x%2C%0Ashow%20P%20x%2C%20from%20sorry%0A%0Aexample%20%3A%20%E2%88%80%20x%2C%20P%20x%20%3A%3D%0Aassume%20y%2C%0Ashow%20P%20y%2C%20from%20sorry" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variable</span> <span class="n">P</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">y</span><span class="o">,</span> <span class="n">P</span> <span class="n">y</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">P</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">sorry</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">P</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">P</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">sorry</span>
+</pre></div>
+</div>
+</div><p>This constitutes the introduction rule for the universal quantifier. It is very similar to the introduction rule for implication: instead of using <code class="docutils literal notranslate"><span class="pre">assume</span></code> to temporarily introduce an assumption, we use <code class="docutils literal notranslate"><span class="pre">assume</span></code> to temporarily introduce a new object, <code class="docutils literal notranslate"><span class="pre">y</span></code>. (In fact, <code class="docutils literal notranslate"><span class="pre">assume</span></code> and <code class="docutils literal notranslate"><span class="pre">assume</span></code> are both alternate syntax for a single internal construct in Lean, which can also be denoted by <code class="docutils literal notranslate"><span class="pre">&#955;</span></code>.)</p>
+<p>The elimination rule is, similarly, implemented as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariable%20P%20%3A%20U%20%E2%86%92%20Prop%0Avariable%20h%20%3A%20%E2%88%80%20x%2C%20P%20x%0Avariable%20a%20%3A%20U%0A%0Aexample%20%3A%20P%20a%20%3A%3D%0Ashow%20P%20a%2C%20from%20h%20a" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variable</span> <span class="n">P</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">variable</span> <span class="n">h</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">P</span> <span class="n">x</span>
+<span class="kd">variable</span> <span class="n">a</span> <span class="o">:</span> <span class="n">U</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">P</span> <span class="n">a</span> <span class="o">:=</span>
+<span class="k">show</span> <span class="n">P</span> <span class="n">a</span><span class="o">,</span> <span class="k">from</span> <span class="n">h</span> <span class="n">a</span>
+</pre></div>
+</div>
+</div><p>Observe the notation: <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">a</span></code> is obtained by &#8220;applying&#8221; the hypothesis <code class="docutils literal notranslate"><span class="pre">h</span></code> to <code class="docutils literal notranslate"><span class="pre">a</span></code>. Once again, note the similarity to the elimination rule for implication.</p>
+<p>Here is an example of how it is used:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0Aexample%20(h1%20%3A%20%E2%88%80%20x%2C%20A%20x%20%E2%86%92%20B%20x)%20(h2%20%3A%20%E2%88%80%20x%2C%20A%20x)%20%3A%20%E2%88%80%20x%2C%20B%20x%20%3A%3D%0Aassume%20y%2C%0Ahave%20h3%20%3A%20A%20y%2C%20from%20h2%20y%2C%0Ahave%20h4%20%3A%20A%20y%20%E2%86%92%20B%20y%2C%20from%20h1%20y%2C%0Ashow%20B%20y%2C%20from%20h4%20h3" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">)</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">A</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">h2</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h4</span> <span class="o">:</span> <span class="n">A</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="n">B</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">h1</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">B</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">h4</span> <span class="n">h3</span>
+</pre></div>
+</div>
+</div><p>Here is an even shorter version of the same proof, where we avoid using <code class="docutils literal notranslate"><span class="pre">have</span></code>:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0A--%20BEGIN%0Aexample%20(h1%20%3A%20%E2%88%80%20x%2C%20A%20x%20%E2%86%92%20B%20x)%20(h2%20%3A%20%E2%88%80%20x%2C%20A%20x)%20%3A%20%E2%88%80%20x%2C%20B%20x%20%3A%3D%0Aassume%20y%2C%0Ashow%20B%20y%2C%20from%20h1%20y%20(h2%20y)%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">)</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">B</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">h1</span> <span class="n">y</span> <span class="o">(</span><span class="n">h2</span> <span class="n">y</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>You should talk through the steps, here. Applying <code class="docutils literal notranslate"><span class="pre">h1</span></code> to <code class="docutils literal notranslate"><span class="pre">y</span></code> yields a proof of <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">y</span> <span class="pre">&#8594;</span> <span class="pre">B</span> <span class="pre">y</span></code>, which we then apply to <code class="docutils literal notranslate"><span class="pre">h2</span> <span class="pre">y</span></code>, which is a proof of <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">y</span></code>. The result is the proof of <code class="docutils literal notranslate"><span class="pre">B</span> <span class="pre">y</span></code> that we are after.</p>
+<p>In the last chapter, we considered the following proof in natural deduction:</p>
+<img src="_static/first_order_logic_in_lean.1.png"><p>Here is the same proof rendered in Lean:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0Aexample%20%3A%20(%E2%88%80%20x%2C%20A%20x)%20%E2%86%92%20(%E2%88%80%20x%2C%20B%20x)%20%E2%86%92%20(%E2%88%80%20x%2C%20A%20x%20%E2%88%A7%20B%20x)%20%3A%3D%0Aassume%20hA%20%3A%20%E2%88%80%20x%2C%20A%20x%2C%0Aassume%20hB%20%3A%20%E2%88%80%20x%2C%20B%20x%2C%0Aassume%20y%2C%0Ahave%20Ay%20%3A%20A%20y%2C%20from%20hA%20y%2C%0Ahave%20By%20%3A%20B%20y%2C%20from%20hB%20y%2C%0Ashow%20A%20y%20%E2%88%A7%20B%20y%2C%20from%20and.intro%20Ay%20By" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="o">(</span><span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="o">(</span><span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">hA</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">hB</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">Ay</span> <span class="o">:</span> <span class="n">A</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">hA</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">By</span> <span class="o">:</span> <span class="n">B</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">hB</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">A</span> <span class="n">y</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.intro</span> <span class="n">Ay</span> <span class="n">By</span>
+</pre></div>
+</div>
+</div><p>Here is an alternative version, using the &#8220;anonymous&#8221; versions of <code class="docutils literal notranslate"><span class="pre">have</span></code>:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0Aexample%20%3A%20(%E2%88%80%20x%2C%20A%20x)%20%E2%86%92%20(%E2%88%80%20x%2C%20B%20x)%20%E2%86%92%20(%E2%88%80%20x%2C%20A%20x%20%E2%88%A7%20B%20x)%20%3A%3D%0Aassume%20hA%20%3A%20%E2%88%80%20x%2C%20A%20x%2C%0Aassume%20hB%20%3A%20%E2%88%80%20x%2C%20B%20x%2C%0Aassume%20y%2C%0Ahave%20A%20y%2C%20from%20hA%20y%2C%0Ahave%20B%20y%2C%20from%20hB%20y%2C%0Ashow%20A%20y%20%E2%88%A7%20B%20y%2C%20from%20and.intro%20%E2%80%B9A%20y%E2%80%BA%20%E2%80%B9B%20y%E2%80%BA" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="o">(</span><span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="o">(</span><span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">hA</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">hB</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">A</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">hA</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">B</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">hB</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">A</span> <span class="n">y</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.intro</span> <span class="o">&#8249;</span><span class="n">A</span> <span class="n">y</span><span class="o">&#8250;</span> <span class="o">&#8249;</span><span class="n">B</span> <span class="n">y</span><span class="o">&#8250;</span>
+</pre></div>
+</div>
+</div><p>The exercises below ask you to prove the barber paradox, which was discussed in the last chapter. You can do that using only propositional reasoning and the rules for the universal quantifier that we have just discussed.</p>
+</div>
+<div class="section" id="using-the-existential-quantifier">
+<h2><span class="section-number">9.3. </span>Using the Existential Quantifier<a class="headerlink" href="#using-the-existential-quantifier" title="Permalink to this headline">&#182;</a></h2>
+<p>In Lean, you can type the existential quantifier, <code class="docutils literal notranslate"><span class="pre">&#8707;</span></code>, by writing <code class="docutils literal notranslate"><span class="pre">\ex</span></code>. If you prefer you can use the ascii equivalent, <code class="docutils literal notranslate"><span class="pre">exists</span></code>. The introduction rule is <code class="docutils literal notranslate"><span class="pre">exists.intro</span></code> and requires two arguments: a term, and a proof that term satisfies the required property.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariable%20P%20%3A%20U%20%E2%86%92%20Prop%0A%0Aexample%20(y%20%3A%20U)%20(h%20%3A%20P%20y)%20%3A%20%E2%88%83%20x%2C%20P%20x%20%3A%3D%0Aexists.intro%20y%20h" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variable</span> <span class="n">P</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">y</span> <span class="o">:</span> <span class="n">U</span><span class="o">)</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">P</span> <span class="n">y</span><span class="o">)</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">P</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="n">exists.intro</span> <span class="n">y</span> <span class="n">h</span>
+</pre></div>
+</div>
+</div><p>The elimination rule for the existential quantifier is given by <code class="docutils literal notranslate"><span class="pre">exists.elim</span></code>. It follows the form of the natural deduction rule: if we know <code class="docutils literal notranslate"><span class="pre">&#8707;x,</span> <span class="pre">P</span> <span class="pre">x</span></code> and we are trying to prove <code class="docutils literal notranslate"><span class="pre">Q</span></code>, it suffices to introduce a new variable, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and prove <code class="docutils literal notranslate"><span class="pre">Q</span></code> under the assumption that <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">y</span></code> holds.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariable%20P%20%3A%20U%20%E2%86%92%20Prop%0Avariable%20Q%20%3A%20Prop%0A%0Aexample%20(h1%20%3A%20%E2%88%83%20x%2C%20P%20x)%20(h2%20%3A%20%E2%88%80%20x%2C%20P%20x%20%E2%86%92%20Q)%20%3A%20Q%20%3A%3D%0Aexists.elim%20h1%0A%20%20(assume%20(y%20%3A%20U)%20(h%20%3A%20P%20y)%2C%0A%20%20%20%20have%20h3%20%3A%20P%20y%20%E2%86%92%20Q%2C%20from%20h2%20y%2C%0A%20%20%20%20show%20Q%2C%20from%20h3%20h)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variable</span> <span class="n">P</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+<span class="kd">variable</span> <span class="n">Q</span> <span class="o">:</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">P</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">P</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">Q</span><span class="o">)</span> <span class="o">:</span> <span class="n">Q</span> <span class="o">:=</span>
+<span class="n">exists.elim</span> <span class="n">h1</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="o">(</span><span class="n">y</span> <span class="o">:</span> <span class="n">U</span><span class="o">)</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">P</span> <span class="n">y</span><span class="o">),</span>
+    <span class="k">have</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">P</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="n">Q</span><span class="o">,</span> <span class="k">from</span> <span class="n">h2</span> <span class="n">y</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">Q</span><span class="o">,</span> <span class="k">from</span> <span class="n">h3</span> <span class="n">h</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>As usual, we can leave off the information as to the data type of <code class="docutils literal notranslate"><span class="pre">y</span></code> and the hypothesis <code class="docutils literal notranslate"><span class="pre">h</span></code> after the <code class="docutils literal notranslate"><span class="pre">assume</span></code>, since Lean can figure them out from the context. Deleting the <code class="docutils literal notranslate"><span class="pre">show</span></code> and replacing <code class="docutils literal notranslate"><span class="pre">h3</span></code> by its proof, <code class="docutils literal notranslate"><span class="pre">h2</span> <span class="pre">y</span></code>, yields a short (though virtually unreadable) proof of the conclusion.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariable%20P%20%3A%20U%20%E2%86%92%20Prop%0Avariable%20Q%20%3A%20Prop%0A%0A--%20BEGIN%0Aexample%20(h1%20%3A%20%E2%88%83%20x%2C%20P%20x)%20(h2%20%3A%20%E2%88%80%20x%2C%20P%20x%20%E2%86%92%20Q)%20%3A%20Q%20%3A%3D%0Aexists.elim%20h1%20(assume%20y%20h%2C%20h2%20y%20h)%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">P</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">P</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">Q</span><span class="o">)</span> <span class="o">:</span> <span class="n">Q</span> <span class="o">:=</span>
+<span class="n">exists.elim</span> <span class="n">h1</span> <span class="o">(</span><span class="k">assume</span> <span class="n">y</span> <span class="n">h</span><span class="o">,</span> <span class="n">h2</span> <span class="n">y</span> <span class="n">h</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>The following example uses both the introduction and the elimination rules for the existential quantifier.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0Aexample%20%3A%20(%E2%88%83%20x%2C%20A%20x%20%E2%88%A7%20B%20x)%20%E2%86%92%20%E2%88%83%20x%2C%20A%20x%20%3A%3D%0Aassume%20h1%20%3A%20%E2%88%83%20x%2C%20A%20x%20%E2%88%A7%20B%20x%2C%0Aexists.elim%20h1%0A%20%20(assume%20y%20(h2%20%3A%20A%20y%20%E2%88%A7%20B%20y)%2C%0A%20%20%20%20have%20h3%20%3A%20A%20y%2C%20from%20and.left%20h2%2C%0A%20%20%20%20show%20%E2%88%83%20x%2C%20A%20x%2C%20from%20exists.intro%20y%20h3)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span>
+<span class="n">exists.elim</span> <span class="n">h1</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">y</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">A</span> <span class="n">y</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">y</span><span class="o">),</span>
+    <span class="k">have</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">A</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.left</span> <span class="n">h2</span><span class="o">,</span>
+    <span class="k">show</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">exists.intro</span> <span class="n">y</span> <span class="n">h3</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>Notice the parentheses in the hypothesis; if we left them out, everything after the first <code class="docutils literal notranslate"><span class="pre">&#8707;</span> <span class="pre">x</span></code> would be included in the scope of that quantifier. From the hypothesis, we obtain a <code class="docutils literal notranslate"><span class="pre">y</span></code> that satisfies <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">y</span> <span class="pre">&#8743;</span> <span class="pre">B</span> <span class="pre">y</span></code>, and hence <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">y</span></code> in particular. So <code class="docutils literal notranslate"><span class="pre">y</span></code> is enough to witness the conclusion.</p>
+<p>It is sometimes annoying to enclose the proof after an <code class="docutils literal notranslate"><span class="pre">exists.elim</span></code> in parenthesis, as we did here with the <code class="docutils literal notranslate"><span class="pre">assume</span> <span class="pre">...</span> <span class="pre">show</span></code> block. To avoid that, we can use a bit of syntax from the programming world, and use a dollar sign instead. In Lean, an expression <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">$</span> <span class="pre">t</span></code> means the same thing as <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">(t)</span></code>, with the advantage that we do not have to remember to close the parenthesis. With this gadget, we can write the proof above as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0Aexample%20%3A%20(%E2%88%83%20x%2C%20A%20x%20%E2%88%A7%20B%20x)%20%E2%86%92%20%E2%88%83%20x%2C%20A%20x%20%3A%3D%0Aassume%20h1%20%3A%20%E2%88%83%20x%2C%20A%20x%20%E2%88%A7%20B%20x%2C%0Aexists.elim%20h1%20%24%0Aassume%20y%20(h2%20%3A%20A%20y%20%E2%88%A7%20B%20y)%2C%0Ahave%20h3%20%3A%20A%20y%2C%20from%20and.left%20h2%2C%0Ashow%20%E2%88%83%20x%2C%20A%20x%2C%20from%20exists.intro%20y%20h3" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span>
+<span class="n">exists.elim</span> <span class="n">h1</span> <span class="bp">$</span>
+<span class="k">assume</span> <span class="n">y</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">A</span> <span class="n">y</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">y</span><span class="o">),</span>
+<span class="k">have</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">A</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.left</span> <span class="n">h2</span><span class="o">,</span>
+<span class="k">show</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">exists.intro</span> <span class="n">y</span> <span class="n">h3</span>
+</pre></div>
+</div>
+</div><p>The following example is more involved:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0A--%20BEGIN%0Aexample%20%3A%20(%E2%88%83%20x%2C%20A%20x%20%E2%88%A8%20B%20x)%20%E2%86%92%20(%E2%88%83%20x%2C%20A%20x)%20%E2%88%A8%20(%E2%88%83%20x%2C%20B%20x)%20%3A%3D%0Aassume%20h1%20%3A%20%E2%88%83%20x%2C%20A%20x%20%E2%88%A8%20B%20x%2C%0Aexists.elim%20h1%20%24%0Aassume%20y%20(h2%20%3A%20A%20y%20%E2%88%A8%20B%20y)%2C%0Aor.elim%20h2%0A%20%20(assume%20h3%20%3A%20A%20y%2C%0A%20%20%20%20have%20h4%20%3A%20%E2%88%83%20x%2C%20A%20x%2C%20from%20exists.intro%20y%20h3%2C%0A%20%20%20%20show%20(%E2%88%83%20x%2C%20A%20x)%20%E2%88%A8%20(%E2%88%83%20x%2C%20B%20x)%2C%20from%20or.inl%20h4)%0A%20%20(assume%20h3%20%3A%20B%20y%2C%0A%20%20%20%20have%20h4%20%3A%20%E2%88%83%20x%2C%20B%20x%2C%20from%20exists.intro%20y%20h3%2C%0A%20%20%20%20show%20(%E2%88%83%20x%2C%20A%20x)%20%E2%88%A8%20(%E2%88%83%20x%2C%20B%20x)%2C%20from%20or.inr%20h4)%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8744;</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="o">(</span><span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="o">(</span><span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8744;</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span>
+<span class="n">exists.elim</span> <span class="n">h1</span> <span class="bp">$</span>
+<span class="k">assume</span> <span class="n">y</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">A</span> <span class="n">y</span> <span class="bp">&#8744;</span> <span class="n">B</span> <span class="n">y</span><span class="o">),</span>
+<span class="n">or.elim</span> <span class="n">h2</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">A</span> <span class="n">y</span><span class="o">,</span>
+    <span class="k">have</span> <span class="n">h4</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">exists.intro</span> <span class="n">y</span> <span class="n">h3</span><span class="o">,</span>
+    <span class="k">show</span> <span class="o">(</span><span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="o">(</span><span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span><span class="o">),</span> <span class="k">from</span> <span class="n">or.inl</span> <span class="n">h4</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">B</span> <span class="n">y</span><span class="o">,</span>
+    <span class="k">have</span> <span class="n">h4</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">exists.intro</span> <span class="n">y</span> <span class="n">h3</span><span class="o">,</span>
+    <span class="k">show</span> <span class="o">(</span><span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="o">(</span><span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span><span class="o">),</span> <span class="k">from</span> <span class="n">or.inr</span> <span class="n">h4</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>Note again the placement of parentheses in the statement.</p>
+<p>In the last chapter, we considered the following natural deduction proof:</p>
+<img src="_static/first_order_logic_in_lean.2.png"><p>Here is a proof of the same implication in Lean:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0Aexample%20%3A%20(%E2%88%80%20x%2C%20A%20x%20%E2%86%92%20%C2%AC%20B%20x)%20%E2%86%92%20%C2%AC%20%E2%88%83%20x%2C%20A%20x%20%E2%88%A7%20B%20x%20%3A%3D%0Aassume%20h1%20%3A%20%E2%88%80%20x%2C%20A%20x%20%E2%86%92%20%C2%AC%20B%20x%2C%0Aassume%20h2%20%3A%20%E2%88%83%20x%2C%20A%20x%20%E2%88%A7%20B%20x%2C%0Aexists.elim%20h2%20%24%0Aassume%20x%20(h3%20%3A%20A%20x%20%E2%88%A7%20B%20x)%2C%0Ahave%20h4%20%3A%20A%20x%2C%20from%20and.left%20h3%2C%0Ahave%20h5%20%3A%20B%20x%2C%20from%20and.right%20h3%2C%0Ahave%20h6%20%3A%20%C2%AC%20B%20x%2C%20from%20h1%20x%20h4%2C%0Ashow%20false%2C%20from%20h6%20h5" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="bp">&#172;</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="bp">&#172;</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="bp">&#172;</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h2</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span>
+<span class="n">exists.elim</span> <span class="n">h2</span> <span class="bp">$</span>
+<span class="k">assume</span> <span class="n">x</span> <span class="o">(</span><span class="n">h3</span> <span class="o">:</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span><span class="o">),</span>
+<span class="k">have</span> <span class="n">h4</span> <span class="o">:</span> <span class="n">A</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.left</span> <span class="n">h3</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h5</span> <span class="o">:</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.right</span> <span class="n">h3</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h6</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">h1</span> <span class="n">x</span> <span class="n">h4</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">h6</span> <span class="n">h5</span>
+</pre></div>
+</div>
+</div><p>Here, we use <code class="docutils literal notranslate"><span class="pre">exists.elim</span></code> to introduce a value <code class="docutils literal notranslate"><span class="pre">x</span></code> satisfying <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">x</span> <span class="pre">&#8743;</span> <span class="pre">B</span> <span class="pre">x</span></code>. The name is arbitrary; we could just as well have used <code class="docutils literal notranslate"><span class="pre">z</span></code>:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0A--%20BEGIN%0Aexample%20%3A%20(%E2%88%80%20x%2C%20A%20x%20%E2%86%92%20%C2%AC%20B%20x)%20%E2%86%92%20%C2%AC%20%E2%88%83%20x%2C%20A%20x%20%E2%88%A7%20B%20x%20%3A%3D%0Aassume%20h1%20%3A%20%E2%88%80%20x%2C%20A%20x%20%E2%86%92%20%C2%AC%20B%20x%2C%0Aassume%20h2%20%3A%20%E2%88%83%20x%2C%20A%20x%20%E2%88%A7%20B%20x%2C%0Aexists.elim%20h2%20%24%0Aassume%20z%20(h3%20%3A%20A%20z%20%E2%88%A7%20B%20z)%2C%0Ahave%20h4%20%3A%20A%20z%2C%20from%20and.left%20h3%2C%0Ahave%20h5%20%3A%20B%20z%2C%20from%20and.right%20h3%2C%0Ahave%20h6%20%3A%20%C2%AC%20B%20z%2C%20from%20h1%20z%20h4%2C%0Ashow%20false%2C%20from%20h6%20h5%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="bp">&#172;</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="bp">&#172;</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="bp">&#172;</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h2</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span><span class="o">,</span>
+<span class="n">exists.elim</span> <span class="n">h2</span> <span class="bp">$</span>
+<span class="k">assume</span> <span class="n">z</span> <span class="o">(</span><span class="n">h3</span> <span class="o">:</span> <span class="n">A</span> <span class="n">z</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">z</span><span class="o">),</span>
+<span class="k">have</span> <span class="n">h4</span> <span class="o">:</span> <span class="n">A</span> <span class="n">z</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.left</span> <span class="n">h3</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h5</span> <span class="o">:</span> <span class="n">B</span> <span class="n">z</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.right</span> <span class="n">h3</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h6</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">B</span> <span class="n">z</span><span class="o">,</span> <span class="k">from</span> <span class="n">h1</span> <span class="n">z</span> <span class="n">h4</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">h6</span> <span class="n">h5</span>
+</pre></div>
+</div>
+</div><p>Here is another example of the exists-elimination rule:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20U%20%3A%20Type%0Avariable%20u%20%3A%20U%0Avariable%20P%20%3A%20Prop%0A%0Aexample%20%3A%20(%E2%88%83x%20%3A%20U%2C%20P)%20%E2%86%94%20P%20%3A%3D%0Aiff.intro%0A%20%20(assume%20h1%20%3A%20%E2%88%83x%2C%20P%2C%0A%20%20%20%20exists.elim%20h1%20%24%0A%20%20%20%20assume%20x%20(h2%20%3A%20P)%2C%0A%20%20%20%20h2)%0A%20%20(assume%20h1%20%3A%20P%2C%0A%20%20%20%20exists.intro%20u%20h1)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variable</span> <span class="n">u</span> <span class="o">:</span> <span class="n">U</span>
+<span class="kd">variable</span> <span class="n">P</span> <span class="o">:</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8707;</span><span class="n">x</span> <span class="o">:</span> <span class="n">U</span><span class="o">,</span> <span class="n">P</span><span class="o">)</span> <span class="bp">&#8596;</span> <span class="n">P</span> <span class="o">:=</span>
+<span class="n">iff.intro</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8707;</span><span class="n">x</span><span class="o">,</span> <span class="n">P</span><span class="o">,</span>
+    <span class="n">exists.elim</span> <span class="n">h1</span> <span class="bp">$</span>
+    <span class="k">assume</span> <span class="n">x</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">P</span><span class="o">),</span>
+    <span class="n">h2</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">P</span><span class="o">,</span>
+    <span class="n">exists.intro</span> <span class="n">u</span> <span class="n">h1</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>This is subtle: the proof does not go through if we do not declare a variable <code class="docutils literal notranslate"><span class="pre">u</span></code> of type <code class="docutils literal notranslate"><span class="pre">U</span></code>, even though <code class="docutils literal notranslate"><span class="pre">u</span></code> does not appear in the statement of the theorem. This highlights a difference between first-order logic and the logic implemented in Lean. In natural deduction, we can prove <span class="math notranslate nohighlight">\(\forall x \; P(x) \to \exists x \; P(x)\)</span>, which shows that our proof system implicitly assumes that the universe has at least one object. In contrast, the statement <code class="docutils literal notranslate"><span class="pre">(&#8704;</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">U,</span> <span class="pre">P</span> <span class="pre">x)</span> <span class="pre">&#8594;</span> <span class="pre">&#8707;</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">U,</span> <span class="pre">P</span> <span class="pre">x</span></code> is not provable in Lean. In other words, in Lean, it is possible for a type to be empty, and so the proof above requires an explicit assumption that there is an element <code class="docutils literal notranslate"><span class="pre">u</span></code> in <code class="docutils literal notranslate"><span class="pre">U</span></code>.</p>
+</div>
+<div class="section" id="equality-and-calculational-proofs">
+<h2><span class="section-number">9.4. </span>Equality and calculational proofs<a class="headerlink" href="#equality-and-calculational-proofs" title="Permalink to this headline">&#182;</a></h2>
+<p>In Lean, reflexivity, symmetry, and transitivity are called <code class="docutils literal notranslate"><span class="pre">eq.refl</span></code>, <code class="docutils literal notranslate"><span class="pre">eq.symm</span></code>, and <code class="docutils literal notranslate"><span class="pre">eq.trans</span></code>, and the second substitution rule is called <code class="docutils literal notranslate"><span class="pre">eq.subst</span></code>. Their uses are illustrated below.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20A%20%3A%20Type%0A%0Avariables%20x%20y%20z%20%3A%20A%0Avariable%20P%20%3A%20A%20%E2%86%92%20Prop%0A%0Aexample%20%3A%20x%20%3D%20x%20%3A%3D%0Ashow%20x%20%3D%20x%2C%20from%20eq.refl%20x%0A%0Aexample%20%3A%20y%20%3D%20x%20%3A%3D%0Ahave%20h%20%3A%20x%20%3D%20y%2C%20from%20sorry%2C%0Ashow%20y%20%3D%20x%2C%20from%20eq.symm%20h%0A%0Aexample%20%3A%20x%20%3D%20z%20%3A%3D%0Ahave%20h1%20%3A%20x%20%3D%20y%2C%20from%20sorry%2C%0Ahave%20h2%20%3A%20y%20%3D%20z%2C%20from%20sorry%2C%0Ashow%20x%20%3D%20z%2C%20from%20eq.trans%20h1%20h2%0A%0Aexample%20%3A%20P%20y%20%3A%3D%0Ahave%20h1%20%3A%20x%20%3D%20y%2C%20from%20sorry%2C%0Ahave%20h2%20%3A%20P%20x%2C%20from%20sorry%2C%0Ashow%20P%20y%2C%20from%20eq.subst%20h1%20h2" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span>
+
+<span class="kd">variables</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">A</span>
+<span class="kd">variable</span> <span class="n">P</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">show</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">eq.refl</span> <span class="n">x</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">have</span> <span class="n">h</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">sorry</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">eq.symm</span> <span class="n">h</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="k">have</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">sorry</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span> <span class="k">from</span> <span class="n">sorry</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span> <span class="k">from</span> <span class="n">eq.trans</span> <span class="n">h1</span> <span class="n">h2</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">P</span> <span class="n">y</span> <span class="o">:=</span>
+<span class="k">have</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">sorry</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">P</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">sorry</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">P</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">eq.subst</span> <span class="n">h1</span> <span class="n">h2</span>
+</pre></div>
+</div>
+</div><p>The rule <code class="docutils literal notranslate"><span class="pre">eq.refl</span></code> above assumes <code class="docutils literal notranslate"><span class="pre">x</span></code> as an argument, because there is no hypothesis to infer it from. All the other rules assume their premises as arguments. Here is an example of equational reasoning:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20(A%20%3A%20Type)%20(x%20y%20z%20%3A%20A)%0A%0Aexample%20%3A%20y%20%3D%20x%20%E2%86%92%20y%20%3D%20z%20%E2%86%92%20x%20%3D%20z%20%3A%3D%0Aassume%20h1%20%3A%20y%20%3D%20x%2C%0Aassume%20h2%20%3A%20y%20%3D%20z%2C%0Ahave%20h3%20%3A%20x%20%3D%20y%2C%20from%20eq.symm%20h1%2C%0Ashow%20x%20%3D%20z%2C%20from%20eq.trans%20h3%20h2" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variables</span> <span class="o">(</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">)</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">eq.symm</span> <span class="n">h1</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span> <span class="k">from</span> <span class="n">eq.trans</span> <span class="n">h3</span> <span class="n">h2</span>
+</pre></div>
+</div>
+</div><p>This proof can be written more concisely:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20(A%20%3A%20Type)%20(x%20y%20z%20%3A%20A)%0A%0A--%20BEGIN%0Aexample%20%3A%20y%20%3D%20x%20%E2%86%92%20y%20%3D%20z%20%E2%86%92%20x%20%3D%20z%20%3A%3D%0Aassume%20h1%20h2%2C%20eq.trans%20(eq.symm%20h1)%20h2%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="n">h2</span><span class="o">,</span> <span class="n">eq.trans</span> <span class="o">(</span><span class="n">eq.symm</span> <span class="n">h1</span><span class="o">)</span> <span class="n">h2</span>
+</pre></div>
+</div>
+</div><p>Because calculations are so important in mathematics, however, Lean provides more efficient ways of carrying them out. One method is to use the <code class="docutils literal notranslate"><span class="pre">rewrite</span></code> tactic. Typing <code class="docutils literal notranslate"><span class="pre">begin</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> anywhere a proof is expected puts Lean into <em>tactic mode</em>, which provides an alternative way of writing a proof: rather than writing it directly, you provide Lean with a list of instructions that show Lean how to construct a proof of the statement in question. The statement to be proved is called the <em>goal</em>, and many instructions make progress by transforming the goal into something that is easier to prove. The <code class="docutils literal notranslate"><span class="pre">rewrite</span></code> command, which carries out a substitution on the goal, is a good example. The previous example can be proved as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20(A%20%3A%20Type)%20(x%20y%20z%20%3A%20A)%0A%0A--%20BEGIN%0Aexample%20%3A%20y%20%3D%20x%20%E2%86%92%20y%20%3D%20z%20%E2%86%92%20x%20%3D%20z%20%3A%3D%0Aassume%20h1%20%3A%20y%20%3D%20x%2C%0Aassume%20h2%20%3A%20y%20%3D%20z%2C%0Ashow%20x%20%3D%20z%2C%0A%20%20begin%0A%20%20%20%20rewrite%20%E2%86%90h1%2C%0A%20%20%20%20apply%20h2%0A%20%20end%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span>
+  <span class="kd">begin</span>
+    <span class="n">rewrite</span> <span class="bp">&#8592;</span><span class="n">h1</span><span class="o">,</span>
+    <span class="n">apply</span> <span class="n">h2</span>
+  <span class="kd">end</span>
+</pre></div>
+</div>
+</div><p>If you put the cursor after the word <code class="docutils literal notranslate"><span class="pre">begin</span></code>, Lean will tell you that the goal at that point is to prove <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">z</span></code>. The first command changes the goal <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">z</span></code> to <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">z</span></code>; the left-facing arrow before <code class="docutils literal notranslate"><span class="pre">h1</span></code> (which you can enter as <code class="docutils literal notranslate"><span class="pre">\&lt;-</span></code>) tells Lean to use the equation in the reverse direction. If you put the cursor after the comma, Lean shows you the new goal, <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">z</span></code>. The <code class="docutils literal notranslate"><span class="pre">apply</span></code> command uses <code class="docutils literal notranslate"><span class="pre">h2</span></code> to complete the proof.</p>
+<p>An alternative is to rewrite the goal using <code class="docutils literal notranslate"><span class="pre">h1</span></code> and <code class="docutils literal notranslate"><span class="pre">h2</span></code>, which reduces the goal to <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">x</span></code>. When that happens, <code class="docutils literal notranslate"><span class="pre">rewrite</span></code> automatically applies reflexivity. Rewriting is such a common operation in Lean that we can use the shorthand <code class="docutils literal notranslate"><span class="pre">rw</span></code> in place of the full <code class="docutils literal notranslate"><span class="pre">rewrite</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20(A%20%3A%20Type)%20(x%20y%20z%20%3A%20A)%0A%0A--%20BEGIN%0Aexample%20%3A%20y%20%3D%20x%20%E2%86%92%20y%20%3D%20z%20%E2%86%92%20x%20%3D%20z%20%3A%3D%0Aassume%20h1%20%3A%20y%20%3D%20x%2C%0Aassume%20h2%20%3A%20y%20%3D%20z%2C%0Ashow%20x%20%3D%20z%2C%0A%20%20begin%0A%20%20%20%20rw%20%E2%86%90h1%2C%0A%20%20%20%20rw%20h2%0A%20%20end%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span>
+  <span class="kd">begin</span>
+    <span class="n">rw</span> <span class="bp">&#8592;</span><span class="n">h1</span><span class="o">,</span>
+    <span class="n">rw</span> <span class="n">h2</span>
+  <span class="kd">end</span>
+</pre></div>
+</div>
+</div><p>In fact, a sequence of rewrites can be combined, using square brackets:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20(A%20%3A%20Type)%20(x%20y%20z%20%3A%20A)%0A%0A--%20BEGIN%0Aexample%20%3A%20y%20%3D%20x%20%E2%86%92%20y%20%3D%20z%20%E2%86%92%20x%20%3D%20z%20%3A%3D%0Aassume%20h1%20%3A%20y%20%3D%20x%2C%0Aassume%20h2%20%3A%20y%20%3D%20z%2C%0Ashow%20x%20%3D%20z%2C%0A%20%20begin%0A%20%20%20%20rw%20%5B%E2%86%90h1%2C%20h2%5D%0A%20%20end%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span>
+  <span class="kd">begin</span>
+    <span class="n">rw</span> <span class="o">[</span><span class="bp">&#8592;</span><span class="n">h1</span><span class="o">,</span> <span class="n">h2</span><span class="o">]</span>
+  <span class="kd">end</span>
+</pre></div>
+</div>
+</div><p>And when you reduce a proof to a single tactic, you can use <code class="docutils literal notranslate"><span class="pre">by</span></code> instead of <code class="docutils literal notranslate"><span class="pre">begin</span> <span class="pre">...</span> <span class="pre">end</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20(A%20%3A%20Type)%20(x%20y%20z%20%3A%20A)%0A%0A--%20BEGIN%0Aexample%20%3A%20y%20%3D%20x%20%E2%86%92%20y%20%3D%20z%20%E2%86%92%20x%20%3D%20z%20%3A%3D%0Aassume%20h1%20%3A%20y%20%3D%20x%2C%0Aassume%20h2%20%3A%20y%20%3D%20z%2C%0Ashow%20x%20%3D%20z%2C%20by%20rw%20%5B%E2%86%90h1%2C%20h2%5D%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span> <span class="kd">by</span> <span class="n">rw</span> <span class="o">[</span><span class="bp">&#8592;</span><span class="n">h1</span><span class="o">,</span> <span class="n">h2</span><span class="o">]</span>
+</pre></div>
+</div>
+</div><p>If you put the cursor after the <code class="docutils literal notranslate"><span class="pre">&#8592;h1</span></code>, Lean shows you the goal at that point.</p>
+<p>We will see in the coming chapters that in ordinary mathematical proofs, one commonly carries out calculations in a format like this:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}t_1 &amp;= t_2 \\
+ \ldots &amp; = t_3 \\
+ \ldots &amp;= t_4 \\
+ \ldots &amp;= t_5.\end{split}\]</div>
+<p>Lean has a mechanism to model such calculational proofs. Whenever a proof of an equation is expected, you can provide a proof using the identifier <code class="docutils literal notranslate"><span class="pre">calc</span></code>, following by a chain of equalities and justification, in the following form:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre>calc
+  e1 = e2    : justification 1
+    ... = e3 : justification 2
+    ... = e4 : justification 3
+    ... = e5 : justification 4
+</pre></div>
+</div>
+<p>The chain can go on as long as needed, and in this example the result is a proof of <code class="docutils literal notranslate"><span class="pre">e1</span> <span class="pre">=</span> <span class="pre">e5</span></code>. Each justification is the name of the assumption or theorem that is used. For example, the previous proof could be written as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20(A%20%3A%20Type)%20(x%20y%20z%20%3A%20A)%0A%0A--%20BEGIN%0Aexample%20%3A%20y%20%3D%20x%20%E2%86%92%20y%20%3D%20z%20%E2%86%92%20x%20%3D%20z%20%3A%3D%0Aassume%20h1%20%3A%20y%20%3D%20x%2C%0Aassume%20h2%20%3A%20y%20%3D%20z%2C%0Acalc%0A%20%20%20%20x%20%3D%20y%20%3A%20eq.symm%20h1%0A%20%20...%20%3D%20z%20%3A%20h2%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span><span class="o">,</span>
+<span class="k">calc</span>
+    <span class="n">x</span> <span class="bp">=</span> <span class="n">y</span> <span class="o">:</span> <span class="n">eq.symm</span> <span class="n">h1</span>
+  <span class="bp">...</span> <span class="bp">=</span> <span class="n">z</span> <span class="o">:</span> <span class="n">h2</span>
+</pre></div>
+</div>
+</div><p>As usual, the syntax is finicky; notice that there are no commas in the <code class="docutils literal notranslate"><span class="pre">calc</span></code> expression, and the colons and dots need to be entered exactly in that form. All that varies are the expressions <code class="docutils literal notranslate"><span class="pre">e1,</span> <span class="pre">e2,</span> <span class="pre">e3,</span> <span class="pre">...</span></code> and the justifications themselves.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">calc</span></code> environment is most powerful when used in conjunction with <code class="docutils literal notranslate"><span class="pre">rewrite</span></code>, since we can then rewrite expressions with facts from the library. For example, Lean&#8217;s library has a number of basic identities for the integers, such as these:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.int.basic%0A%0Avariables%20x%20y%20z%20%3A%20int%0A%0Aexample%20%3A%20x%20%2B%200%20%3D%20x%20%3A%3D%0Aadd_zero%20x%0A%0Aexample%20%3A%200%20%2B%20x%20%3D%20x%20%3A%3D%0Azero_add%20x%0A%0Aexample%20%3A%20(x%20%2B%20y)%20%2B%20z%20%3D%20x%20%2B%20(y%20%2B%20z)%20%3A%3D%0Aadd_assoc%20x%20y%20z%0A%0Aexample%20%3A%20x%20%2B%20y%20%3D%20y%20%2B%20x%20%3A%3D%0Aadd_comm%20x%20y%0A%0Aexample%20%3A%20(x%20*%20y)%20*%20z%20%3D%20x%20*%20(y%20*%20z)%20%3A%3D%0Amul_assoc%20x%20y%20z%0A%0Aexample%20%3A%20x%20*%20y%20%3D%20y%20*%20x%20%3A%3D%0Amul_comm%20x%20y%0A%0Aexample%20%3A%20x%20*%20(y%20%2B%20z)%20%3D%20x%20*%20y%20%2B%20x%20*%20z%20%3A%3D%0Aleft_distrib%20x%20y%20z%0A%0Aexample%20%3A%20(x%20%2B%20y)%20*%20z%20%3D%20x%20*%20z%20%2B%20y%20*%20z%20%3A%3D%0Aright_distrib%20x%20y%20z" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.int.basic</span>
+
+<span class="kd">variables</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">int</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">+</span> <span class="mi">0</span> <span class="bp">=</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="n">add_zero</span> <span class="n">x</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="mi">0</span> <span class="bp">+</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="n">zero_add</span> <span class="n">x</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="bp">+</span> <span class="n">z</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">+</span> <span class="o">(</span><span class="n">y</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="o">:=</span>
+<span class="n">add_assoc</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">y</span> <span class="bp">+</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="n">add_comm</span> <span class="n">x</span> <span class="n">y</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="n">x</span> <span class="bp">*</span> <span class="n">y</span><span class="o">)</span> <span class="bp">*</span> <span class="n">z</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">*</span> <span class="o">(</span><span class="n">y</span> <span class="bp">*</span> <span class="n">z</span><span class="o">)</span> <span class="o">:=</span>
+<span class="n">mul_assoc</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">*</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">y</span> <span class="bp">*</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="n">mul_comm</span> <span class="n">x</span> <span class="n">y</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">*</span> <span class="o">(</span><span class="n">y</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">*</span> <span class="n">y</span> <span class="bp">+</span> <span class="n">x</span> <span class="bp">*</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="n">left_distrib</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="bp">*</span> <span class="n">z</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">*</span> <span class="n">z</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">*</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="n">right_distrib</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span>
+</pre></div>
+</div>
+</div><p>You can also write the type of integers as <code class="docutils literal notranslate"><span class="pre">&#8484;</span></code>, entered with either <code class="docutils literal notranslate"><span class="pre">\Z</span></code> or <code class="docutils literal notranslate"><span class="pre">\int</span></code> We have imported the file <code class="docutils literal notranslate"><span class="pre">data.int.basic</span></code> to make all the basic properties of the integers available to us. (In later snippets, we will suppress this line in the online and pdf versions of the textbook, to avoid clutter.) Notice that, for example, <code class="docutils literal notranslate"><span class="pre">add_comm</span></code> is the theorem <code class="docutils literal notranslate"><span class="pre">&#8704;</span> <span class="pre">x</span> <span class="pre">y,</span> <span class="pre">x</span> <span class="pre">+</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">y</span> <span class="pre">+</span> <span class="pre">x</span></code>. So to instantiate it to <code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">+</span> <span class="pre">t</span> <span class="pre">=</span> <span class="pre">t</span> <span class="pre">+</span> <span class="pre">s</span></code>, you write <code class="docutils literal notranslate"><span class="pre">add_comm</span> <span class="pre">s</span> <span class="pre">t</span></code>. Using these axioms, here is the calculation above rendered in Lean, as a theorem about the integers:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.int.basic%0A%0A--%20BEGIN%0Aexample%20(x%20y%20z%20%3A%20int)%20%3A%20(x%20%2B%20y)%20%2B%20z%20%3D%20(x%20%2B%20z)%20%2B%20y%20%3A%3D%0Acalc%0A%20%20%20(x%20%2B%20y)%20%2B%20z%20%3D%20x%20%2B%20(y%20%2B%20z)%20%3A%20add_assoc%20x%20y%20z%0A%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20x%20%2B%20(z%20%2B%20y)%20%3A%20eq.subst%20(add_comm%20y%20z)%20rfl%0A%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20(x%20%2B%20z)%20%2B%20y%20%3A%20eq.symm%20(add_assoc%20x%20z%20y)%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">int</span><span class="o">)</span> <span class="o">:</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="bp">+</span> <span class="n">z</span> <span class="bp">=</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="bp">+</span> <span class="n">y</span> <span class="o">:=</span>
+<span class="k">calc</span>
+   <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="bp">+</span> <span class="n">z</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">+</span> <span class="o">(</span><span class="n">y</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="o">:</span> <span class="n">add_assoc</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span>
+           <span class="bp">...</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">+</span> <span class="o">(</span><span class="n">z</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="o">:</span> <span class="n">eq.subst</span> <span class="o">(</span><span class="n">add_comm</span> <span class="n">y</span> <span class="n">z</span><span class="o">)</span> <span class="n">rfl</span>
+           <span class="bp">...</span> <span class="bp">=</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="bp">+</span> <span class="n">y</span> <span class="o">:</span> <span class="n">eq.symm</span> <span class="o">(</span><span class="n">add_assoc</span> <span class="n">x</span> <span class="n">z</span> <span class="n">y</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>Using <code class="docutils literal notranslate"><span class="pre">rewrite</span></code> is more efficient, though at times we have to provide information to specify where the rules are used:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.int.basic%0A%0A--%20BEGIN%0Aexample%20(x%20y%20z%20%3A%20int)%20%3A%20(x%20%2B%20y)%20%2B%20z%20%3D%20(x%20%2B%20z)%20%2B%20y%20%3A%3D%0Acalc%0A%20%20(x%20%2B%20y)%20%2B%20z%20%3D%20x%20%2B%20(y%20%2B%20z)%20%3A%20by%20rw%20add_assoc%0A%20%20%20%20%20%20%20%20%20%20...%20%3D%20x%20%2B%20(z%20%2B%20y)%20%3A%20by%20rw%20%5Badd_comm%20y%20z%5D%0A%20%20%20%20%20%20%20%20%20%20...%20%3D%20(x%20%2B%20z)%20%2B%20y%20%3A%20by%20rw%20add_assoc%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">int</span><span class="o">)</span> <span class="o">:</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="bp">+</span> <span class="n">z</span> <span class="bp">=</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="bp">+</span> <span class="n">y</span> <span class="o">:=</span>
+<span class="k">calc</span>
+  <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="bp">+</span> <span class="n">z</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">+</span> <span class="o">(</span><span class="n">y</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_assoc</span>
+          <span class="bp">...</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">+</span> <span class="o">(</span><span class="n">z</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="o">[</span><span class="n">add_comm</span> <span class="n">y</span> <span class="n">z</span><span class="o">]</span>
+          <span class="bp">...</span> <span class="bp">=</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="bp">+</span> <span class="n">y</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_assoc</span>
+</pre></div>
+</div>
+</div><p>In that case, we can use a single <code class="docutils literal notranslate"><span class="pre">rewrite</span></code>:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.int.basic%0A%0A--%20BEGIN%0Aexample%20(x%20y%20z%20%3A%20int)%20%3A%20(x%20%2B%20y)%20%2B%20z%20%3D%20(x%20%2B%20z)%20%2B%20y%20%3A%3D%0Aby%20rw%20%5Badd_assoc%2C%20add_comm%20y%20z%2C%20add_assoc%5D%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">int</span><span class="o">)</span> <span class="o">:</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="bp">+</span> <span class="n">z</span> <span class="bp">=</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="bp">+</span> <span class="n">y</span> <span class="o">:=</span>
+<span class="kd">by</span> <span class="n">rw</span> <span class="o">[</span><span class="n">add_assoc</span><span class="o">,</span> <span class="n">add_comm</span> <span class="n">y</span> <span class="n">z</span><span class="o">,</span> <span class="n">add_assoc</span><span class="o">]</span>
+</pre></div>
+</div>
+</div><p>If you #check the proof before the sequence of <code class="docutils literal notranslate"><span class="pre">rewrites</span></code> is sufficient, the error message will display the remaining goal.</p>
+<p>Here is another example:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.int.basic%0A%0A--%20BEGIN%0Avariables%20a%20b%20d%20c%20%3A%20int%0A%0Aexample%20%3A%20(a%20%2B%20b)%20*%20(c%20%2B%20d)%20%3D%20a%20*%20c%20%2B%20b%20*%20c%20%2B%20a%20*%20d%20%2B%20b%20*%20d%20%3A%3D%0Acalc%0A%20%20(a%20%2B%20b)%20*%20(c%20%2B%20d)%20%3D%20(a%20%2B%20b)%20*%20c%20%2B%20(a%20%2B%20b)%20*%20d%20%3A%20by%20rw%20left_distrib%0A%20%20%20%20...%20%3D%20(a%20*%20c%20%2B%20b%20*%20c)%20%2B%20(a%20%2B%20b)%20*%20d%20%20%20%20%20%20%20%20%20%3A%20by%20rw%20right_distrib%0A%20%20%20%20...%20%3D%20(a%20*%20c%20%2B%20b%20*%20c)%20%2B%20(a%20*%20d%20%2B%20b%20*%20d)%20%20%20%20%20%3A%20by%20rw%20right_distrib%0A%20%20%20%20...%20%3D%20a%20*%20c%20%2B%20b%20*%20c%20%2B%20a%20*%20d%20%2B%20b%20*%20d%20%20%20%20%20%20%20%20%20%3A%20by%20rw%20%E2%86%90add_assoc%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variables</span> <span class="n">a</span> <span class="n">b</span> <span class="n">d</span> <span class="n">c</span> <span class="o">:</span> <span class="n">int</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="n">a</span> <span class="bp">+</span> <span class="n">b</span><span class="o">)</span> <span class="bp">*</span> <span class="o">(</span><span class="n">c</span> <span class="bp">+</span> <span class="n">d</span><span class="o">)</span> <span class="bp">=</span> <span class="n">a</span> <span class="bp">*</span> <span class="n">c</span> <span class="bp">+</span> <span class="n">b</span> <span class="bp">*</span> <span class="n">c</span> <span class="bp">+</span> <span class="n">a</span> <span class="bp">*</span> <span class="n">d</span> <span class="bp">+</span> <span class="n">b</span> <span class="bp">*</span> <span class="n">d</span> <span class="o">:=</span>
+<span class="k">calc</span>
+  <span class="o">(</span><span class="n">a</span> <span class="bp">+</span> <span class="n">b</span><span class="o">)</span> <span class="bp">*</span> <span class="o">(</span><span class="n">c</span> <span class="bp">+</span> <span class="n">d</span><span class="o">)</span> <span class="bp">=</span> <span class="o">(</span><span class="n">a</span> <span class="bp">+</span> <span class="n">b</span><span class="o">)</span> <span class="bp">*</span> <span class="n">c</span> <span class="bp">+</span> <span class="o">(</span><span class="n">a</span> <span class="bp">+</span> <span class="n">b</span><span class="o">)</span> <span class="bp">*</span> <span class="n">d</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">left_distrib</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="o">(</span><span class="n">a</span> <span class="bp">*</span> <span class="n">c</span> <span class="bp">+</span> <span class="n">b</span> <span class="bp">*</span> <span class="n">c</span><span class="o">)</span> <span class="bp">+</span> <span class="o">(</span><span class="n">a</span> <span class="bp">+</span> <span class="n">b</span><span class="o">)</span> <span class="bp">*</span> <span class="n">d</span>         <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">right_distrib</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="o">(</span><span class="n">a</span> <span class="bp">*</span> <span class="n">c</span> <span class="bp">+</span> <span class="n">b</span> <span class="bp">*</span> <span class="n">c</span><span class="o">)</span> <span class="bp">+</span> <span class="o">(</span><span class="n">a</span> <span class="bp">*</span> <span class="n">d</span> <span class="bp">+</span> <span class="n">b</span> <span class="bp">*</span> <span class="n">d</span><span class="o">)</span>     <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">right_distrib</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="n">a</span> <span class="bp">*</span> <span class="n">c</span> <span class="bp">+</span> <span class="n">b</span> <span class="bp">*</span> <span class="n">c</span> <span class="bp">+</span> <span class="n">a</span> <span class="bp">*</span> <span class="n">d</span> <span class="bp">+</span> <span class="n">b</span> <span class="bp">*</span> <span class="n">d</span>         <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="bp">&#8592;</span><span class="n">add_assoc</span>
+</pre></div>
+</div>
+</div><p>Once again, we can get by with a shorter proof:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.int.basic%0A%0Avariables%20a%20b%20d%20c%20%3A%20int%0A%0A--%20BEGIN%0Aexample%20%3A%20(a%20%2B%20b)%20*%20(c%20%2B%20d)%20%3D%20a%20*%20c%20%2B%20b%20*%20c%20%2B%20a%20*%20d%20%2B%20b%20*%20d%20%3A%3D%0Aby%20rw%20%5Bleft_distrib%2C%20right_distrib%2C%20right_distrib%2C%20%E2%86%90add_assoc%5D%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="n">a</span> <span class="bp">+</span> <span class="n">b</span><span class="o">)</span> <span class="bp">*</span> <span class="o">(</span><span class="n">c</span> <span class="bp">+</span> <span class="n">d</span><span class="o">)</span> <span class="bp">=</span> <span class="n">a</span> <span class="bp">*</span> <span class="n">c</span> <span class="bp">+</span> <span class="n">b</span> <span class="bp">*</span> <span class="n">c</span> <span class="bp">+</span> <span class="n">a</span> <span class="bp">*</span> <span class="n">d</span> <span class="bp">+</span> <span class="n">b</span> <span class="bp">*</span> <span class="n">d</span> <span class="o">:=</span>
+<span class="kd">by</span> <span class="n">rw</span> <span class="o">[</span><span class="n">left_distrib</span><span class="o">,</span> <span class="n">right_distrib</span><span class="o">,</span> <span class="n">right_distrib</span><span class="o">,</span> <span class="bp">&#8592;</span><span class="n">add_assoc</span><span class="o">]</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="exercises">
+<h2><span class="section-number">9.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>Fill in the <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=section%0A%20%20variable%20A%20%3A%20Type%0A%20%20variable%20f%20%3A%20A%20%E2%86%92%20A%0A%20%20variable%20P%20%3A%20A%20%E2%86%92%20Prop%0A%20%20variable%20%20h%20%3A%20%E2%88%80%20x%2C%20P%20x%20%E2%86%92%20P%20(f%20x)%0A%0A%20%20--%20Show%20the%20following%3A%0A%20%20example%20%3A%20%E2%88%80%20y%2C%20P%20y%20%E2%86%92%20P%20(f%20(f%20y))%20%3A%3D%0A%20%20sorry%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+  <span class="kd">variable</span> <span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span>
+  <span class="kd">variable</span> <span class="n">f</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span>
+  <span class="kd">variable</span> <span class="n">P</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+  <span class="kd">variable</span>  <span class="n">h</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">P</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">P</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span>
+
+  <span class="c1">-- Show the following:</span>
+  <span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">y</span><span class="o">,</span> <span class="n">P</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="n">P</span> <span class="o">(</span><span class="n">f</span> <span class="o">(</span><span class="n">f</span> <span class="n">y</span><span class="o">))</span> <span class="o">:=</span>
+  <span class="n">sorry</span>
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Fill in the <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=section%0A%20%20variable%20U%20%3A%20Type%0A%20%20variables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0A%20%20example%20%3A%20(%E2%88%80%20x%2C%20A%20x%20%E2%88%A7%20B%20x)%20%E2%86%92%20%E2%88%80%20x%2C%20A%20x%20%3A%3D%0A%20%20sorry%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+  <span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+  <span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+  <span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="o">:=</span>
+  <span class="n">sorry</span>
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Fill in the <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=section%0A%20%20variable%20U%20%3A%20Type%0A%20%20variables%20A%20B%20C%20%3A%20U%20%E2%86%92%20Prop%0A%0A%20%20variable%20h1%20%3A%20%E2%88%80%20x%2C%20A%20x%20%E2%88%A8%20B%20x%0A%20%20variable%20h2%20%3A%20%E2%88%80%20x%2C%20A%20x%20%E2%86%92%20C%20x%0A%20%20variable%20h3%20%3A%20%E2%88%80%20x%2C%20B%20x%20%E2%86%92%20C%20x%0A%0A%20%20example%20%3A%20%E2%88%80%20x%2C%20C%20x%20%3A%3D%0A%20%20sorry%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+  <span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+  <span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="n">C</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+  <span class="kd">variable</span> <span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8744;</span> <span class="n">B</span> <span class="n">x</span>
+  <span class="kd">variable</span> <span class="n">h2</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">C</span> <span class="n">x</span>
+  <span class="kd">variable</span> <span class="n">h3</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">C</span> <span class="n">x</span>
+
+  <span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">C</span> <span class="n">x</span> <span class="o">:=</span>
+  <span class="n">sorry</span>
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Fill in the <code class="docutils literal notranslate"><span class="pre">sorry</span></code>&#8217;s below, to prove the barber paradox.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20classical%20%20%20--%20not%20needed%2C%20but%20you%20can%20use%20it%0A%0A--%20This%20is%20an%20exercise%20from%20Chapter%204.%20Use%20it%20as%20an%20axiom%20here.%0Aaxiom%20not_iff_not_self%20(P%20%3A%20Prop)%20%3A%20%C2%AC%20(P%20%E2%86%94%20%C2%AC%20P)%0A%0Aexample%20(Q%20%3A%20Prop)%20%3A%20%C2%AC%20(Q%20%E2%86%94%20%C2%AC%20Q)%20%3A%3D%0Anot_iff_not_self%20Q%0A%0Asection%0A%20%20variable%20Person%20%3A%20Type%0A%20%20variable%20shaves%20%3A%20Person%20%E2%86%92%20Person%20%E2%86%92%20Prop%0A%20%20variable%20barber%20%3A%20Person%0A%20%20variable%20h%20%3A%20%E2%88%80%20x%2C%20shaves%20barber%20x%20%E2%86%94%20%C2%AC%20shaves%20x%20x%0A%0A%20%20--%20Show%20the%20following%3A%0A%20%20example%20%3A%20false%20%3A%3D%0A%20%20sorry%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">classical</span>   <span class="c1">-- not needed, but you can use it</span>
+
+<span class="c1">-- This is an exercise from Chapter 4. Use it as an axiom here.</span>
+<span class="kd">axiom</span> <span class="n">not_iff_not_self</span> <span class="o">(</span><span class="n">P</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="n">P</span> <span class="bp">&#8596;</span> <span class="bp">&#172;</span> <span class="n">P</span><span class="o">)</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">Q</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="n">Q</span> <span class="bp">&#8596;</span> <span class="bp">&#172;</span> <span class="n">Q</span><span class="o">)</span> <span class="o">:=</span>
+<span class="n">not_iff_not_self</span> <span class="n">Q</span>
+
+<span class="kn">section</span>
+  <span class="kd">variable</span> <span class="n">Person</span> <span class="o">:</span> <span class="kt">Type</span>
+  <span class="kd">variable</span> <span class="n">shaves</span> <span class="o">:</span> <span class="n">Person</span> <span class="bp">&#8594;</span> <span class="n">Person</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+  <span class="kd">variable</span> <span class="n">barber</span> <span class="o">:</span> <span class="n">Person</span>
+  <span class="kd">variable</span> <span class="n">h</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">shaves</span> <span class="n">barber</span> <span class="n">x</span> <span class="bp">&#8596;</span> <span class="bp">&#172;</span> <span class="n">shaves</span> <span class="n">x</span> <span class="n">x</span>
+
+  <span class="c1">-- Show the following:</span>
+  <span class="kd">example</span> <span class="o">:</span> <span class="n">false</span> <span class="o">:=</span>
+  <span class="n">sorry</span>
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Fill in the <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=section%0A%20%20variable%20U%20%3A%20Type%0A%20%20variables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0A%20%20example%20%3A%20(%E2%88%83%20x%2C%20A%20x)%20%E2%86%92%20%E2%88%83%20x%2C%20A%20x%20%E2%88%A8%20B%20x%20%3A%3D%0A%20%20sorry%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+  <span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+  <span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+  <span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8744;</span> <span class="n">B</span> <span class="n">x</span> <span class="o">:=</span>
+  <span class="n">sorry</span>
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Fill in the <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=section%0A%20%20variable%20U%20%3A%20Type%0A%20%20variables%20A%20B%20%3A%20U%20%E2%86%92%20Prop%0A%0A%20%20variable%20h1%20%3A%20%E2%88%80%20x%2C%20A%20x%20%E2%86%92%20B%20x%0A%20%20variable%20h2%20%3A%20%E2%88%83%20x%2C%20A%20x%0A%0A%20%20example%20%3A%20%E2%88%83%20x%2C%20B%20x%20%3A%3D%0A%20%20sorry%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+  <span class="kd">variable</span> <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+  <span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+  <span class="kd">variable</span> <span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">B</span> <span class="n">x</span>
+  <span class="kd">variable</span> <span class="n">h2</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span>
+
+  <span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span> <span class="o">:=</span>
+  <span class="n">sorry</span>
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Fill in the <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20%20U%20%3A%20Type%0Avariables%20A%20B%20C%20%3A%20U%20%E2%86%92%20Prop%0A%0Aexample%20(h1%20%3A%20%E2%88%83%20x%2C%20A%20x%20%E2%88%A7%20B%20x)%20(h2%20%3A%20%E2%88%80%20x%2C%20B%20x%20%E2%86%92%20C%20x)%20%3A%0A%20%20%20%20%E2%88%83%20x%2C%20A%20x%20%E2%88%A7%20C%20x%20%3A%3D%0Asorry" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span>  <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="n">C</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">B</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">C</span> <span class="n">x</span><span class="o">)</span> <span class="o">:</span>
+    <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="bp">&#8743;</span> <span class="n">C</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="n">sorry</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Complete these proofs.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20%20U%20%3A%20Type%0Avariables%20A%20B%20C%20%3A%20U%20%E2%86%92%20Prop%0A%0Aexample%20%3A%20(%C2%AC%20%E2%88%83%20x%2C%20A%20x)%20%E2%86%92%20%E2%88%80%20x%2C%20%C2%AC%20A%20x%20%3A%3D%0Asorry%0A%0Aexample%20%3A%20(%E2%88%80%20x%2C%20%C2%AC%20A%20x)%20%E2%86%92%20%C2%AC%20%E2%88%83%20x%2C%20A%20x%20%3A%3D%0Asorry" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span>  <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="n">C</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#172;</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="bp">&#172;</span> <span class="n">A</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="n">sorry</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="bp">&#172;</span> <span class="n">A</span> <span class="n">x</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="bp">&#172;</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">A</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="n">sorry</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Fill in the <code class="docutils literal notranslate"><span class="pre">sorry</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20%20U%20%3A%20Type%0Avariables%20R%20%3A%20U%20%E2%86%92%20U%20%E2%86%92%20Prop%0A%0Aexample%20%3A%20(%E2%88%83%20x%2C%20%E2%88%80%20y%2C%20R%20x%20y)%20%E2%86%92%20%E2%88%80%20y%2C%20%E2%88%83%20x%2C%20R%20x%20y%20%3A%3D%0Asorry" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span>  <span class="n">U</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variables</span> <span class="n">R</span> <span class="o">:</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="n">U</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="bp">&#8704;</span> <span class="n">y</span><span class="o">,</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="bp">&#8704;</span> <span class="n">y</span><span class="o">,</span> <span class="bp">&#8707;</span> <span class="n">x</span><span class="o">,</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span> <span class="o">:=</span>
+<span class="n">sorry</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>The following exercise shows that in the presence of reflexivity, the rules for symmetry and transitivity are equivalent to a single rule.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=theorem%20foo%20%7BA%20%3A%20Type%7D%20%7Ba%20b%20c%20%3A%20A%7D%20%3A%20a%20%3D%20b%20%E2%86%92%20c%20%3D%20b%20%E2%86%92%20a%20%3D%20c%20%3A%3D%0Asorry%0A%0A--%20notice%20that%20you%20can%20now%20use%20foo%20as%20a%20rule.%20The%20curly%20braces%20mean%20that%0A--%20you%20do%20not%20have%20to%20give%20A%2C%20a%2C%20b%2C%20or%20c%0A%0Asection%0A%20%20variable%20A%20%3A%20Type%0A%20%20variables%20a%20b%20c%20%3A%20A%0A%0A%20%20example%20(h1%20%3A%20a%20%3D%20b)%20(h2%20%3A%20c%20%3D%20b)%20%3A%20a%20%3D%20c%20%3A%3D%0A%20%20foo%20h1%20h2%0Aend%0A%0Asection%0A%20%20variable%20%7BA%20%3A%20Type%7D%0A%20%20variables%20%7Ba%20b%20c%20%3A%20A%7D%0A%0A%20%20--%20replace%20the%20sorry%20with%20a%20proof%2C%20using%20foo%20and%20rfl%2C%20without%20using%20eq.symm.%0A%20%20theorem%20my_symm%20(h%20%3A%20b%20%3D%20a)%20%3A%20a%20%3D%20b%20%3A%3D%0A%20%20sorry%0A%0A%20%20--%20now%20use%20foo%20and%20my_symm%20to%20prove%20transitivity%0A%20%20theorem%20my_trans%20(h1%20%3A%20a%20%3D%20b)%20(h2%20%3A%20b%20%3D%20c)%20%3A%20a%20%3D%20c%20%3A%3D%0A%20%20sorry%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">theorem</span> <span class="n">foo</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span> <span class="o">{</span><span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="o">:</span> <span class="n">A</span><span class="o">}</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">=</span> <span class="n">b</span> <span class="bp">&#8594;</span> <span class="n">c</span> <span class="bp">=</span> <span class="n">b</span> <span class="bp">&#8594;</span> <span class="n">a</span> <span class="bp">=</span> <span class="n">c</span> <span class="o">:=</span>
+<span class="n">sorry</span>
+
+<span class="c1">-- notice that you can now use foo as a rule. The curly braces mean that</span>
+<span class="c1">-- you do not have to give A, a, b, or c</span>
+
+<span class="kn">section</span>
+  <span class="kd">variable</span> <span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span>
+  <span class="kd">variables</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="o">:</span> <span class="n">A</span>
+
+  <span class="kd">example</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">=</span> <span class="n">b</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">c</span> <span class="bp">=</span> <span class="n">b</span><span class="o">)</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">=</span> <span class="n">c</span> <span class="o">:=</span>
+  <span class="n">foo</span> <span class="n">h1</span> <span class="n">h2</span>
+<span class="kd">end</span>
+
+<span class="kn">section</span>
+  <span class="kd">variable</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span>
+  <span class="kd">variables</span> <span class="o">{</span><span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="o">:</span> <span class="n">A</span><span class="o">}</span>
+
+  <span class="c1">-- replace the sorry with a proof, using foo and rfl, without using eq.symm.</span>
+  <span class="kd">theorem</span> <span class="n">my_symm</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">b</span> <span class="bp">=</span> <span class="n">a</span><span class="o">)</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">=</span> <span class="n">b</span> <span class="o">:=</span>
+  <span class="n">sorry</span>
+
+  <span class="c1">-- now use foo and my_symm to prove transitivity</span>
+  <span class="kd">theorem</span> <span class="n">my_trans</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">=</span> <span class="n">b</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">b</span> <span class="bp">=</span> <span class="n">c</span><span class="o">)</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">=</span> <span class="n">c</span> <span class="o">:=</span>
+  <span class="n">sorry</span>
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Replace each <code class="docutils literal notranslate"><span class="pre">sorry</span></code> below by the correct axiom from the list.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.int.basic%0A%0A--%20these%20are%20the%20axioms%20for%20a%20commutative%20ring%0A%0A%23check%20%40add_assoc%0A%23check%20%40add_comm%0A%23check%20%40add_zero%0A%23check%20%40zero_add%0A%23check%20%40mul_assoc%0A%23check%20%40mul_comm%0A%23check%20%40mul_one%0A%23check%20%40one_mul%0A%23check%20%40left_distrib%0A%23check%20%40right_distrib%0A%23check%20%40add_left_neg%0A%23check%20%40add_right_neg%0A%23check%20%40sub_eq_add_neg%0A%0Avariables%20x%20y%20z%20%3A%20int%0A%0Atheorem%20t1%20%3A%20x%20-%20x%20%3D%200%20%3A%3D%0Acalc%0Ax%20-%20x%20%3D%20x%20%2B%20-x%20%3A%20by%20rw%20sub_eq_add_neg%0A%20%20%20%20...%20%3D%200%20%20%20%20%20%20%3A%20by%20rw%20add_right_neg%0A%0Atheorem%20t2%20(h%20%3A%20x%20%2B%20y%20%3D%20x%20%2B%20z)%20%3A%20y%20%3D%20z%20%3A%3D%0Acalc%0Ay%20%20%20%20%20%3D%200%20%2B%20y%20%20%20%20%20%20%20%20%3A%20by%20rw%20zero_add%0A%20%20%20%20...%20%3D%20(-x%20%2B%20x)%20%2B%20y%20%3A%20by%20rw%20add_left_neg%0A%20%20%20%20...%20%3D%20-x%20%2B%20(x%20%2B%20y)%20%3A%20by%20rw%20add_assoc%0A%20%20%20%20...%20%3D%20-x%20%2B%20(x%20%2B%20z)%20%3A%20by%20rw%20h%0A%20%20%20%20...%20%3D%20(-x%20%2B%20x)%20%2B%20z%20%3A%20by%20rw%20add_assoc%0A%20%20%20%20...%20%3D%200%20%2B%20z%20%20%20%20%20%20%20%20%3A%20by%20rw%20add_left_neg%0A%20%20%20%20...%20%3D%20z%20%20%20%20%20%20%20%20%20%20%20%20%3A%20by%20rw%20zero_add%0A%0Atheorem%20t3%20(h%20%3A%20x%20%2B%20y%20%3D%20z%20%2B%20y)%20%3A%20x%20%3D%20z%20%3A%3D%0Acalc%0Ax%20%20%20%20%20%3D%20x%20%2B%200%20%20%20%20%20%20%20%20%3A%20sorry%0A%20%20%20%20...%20%3D%20x%20%2B%20(y%20%2B%20-y)%20%3A%20sorry%0A%20%20%20%20...%20%3D%20(x%20%2B%20y)%20%2B%20-y%20%3A%20sorry%0A%20%20%20%20...%20%3D%20(z%20%2B%20y)%20%2B%20-y%20%3A%20by%20rw%20h%0A%20%20%20%20...%20%3D%20z%20%2B%20(y%20%2B%20-y)%20%3A%20sorry%0A%20%20%20%20...%20%3D%20z%20%2B%200%20%20%20%20%20%20%20%20%3A%20sorry%0A%20%20%20%20...%20%3D%20z%20%20%20%20%20%20%20%20%20%20%20%20%3A%20sorry%0A%0Atheorem%20t4%20(h%20%3A%20x%20%2B%20y%20%3D%200)%20%3A%20x%20%3D%20-y%20%3A%3D%0Acalc%0Ax%20%20%20%20%20%3D%20x%20%2B%200%20%20%20%20%20%20%20%20%3A%20by%20rw%20add_zero%0A%20%20%20%20...%20%3D%20x%20%2B%20(y%20%2B%20-y)%20%3A%20by%20rw%20add_right_neg%0A%20%20%20%20...%20%3D%20(x%20%2B%20y)%20%2B%20-y%20%3A%20by%20rw%20add_assoc%0A%20%20%20%20...%20%3D%200%20%2B%20-y%20%20%20%20%20%20%20%3A%20by%20rw%20h%0A%20%20%20%20...%20%3D%20-y%20%20%20%20%20%20%20%20%20%20%20%3A%20by%20rw%20zero_add%0A%0Atheorem%20t5%20%3A%20x%20*%200%20%3D%200%20%3A%3D%0Ahave%20h1%20%3A%20x%20*%200%20%2B%20x%20*%200%20%3D%20x%20*%200%20%2B%200%2C%20from%0Acalc%0A%20%20%20%20x%20*%200%20%2B%20x%20*%200%20%3D%20x%20*%20(0%20%2B%200)%20%3A%20sorry%0A%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20x%20*%200%20%20%20%20%20%20%20%3A%20sorry%0A%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20x%20*%200%20%2B%200%20%20%20%3A%20sorry%2C%0Ashow%20x%20*%200%20%3D%200%2C%20from%20t2%20_%20_%20_%20h1%0A%0Atheorem%20t6%20%3A%20x%20*%20(-y)%20%3D%20-(x%20*%20y)%20%3A%3D%0Ahave%20h1%20%3A%20x%20*%20(-y)%20%2B%20x%20*%20y%20%3D%200%2C%20from%0Acalc%0A%20%20%20%20x%20*%20(-y)%20%2B%20x%20*%20y%20%3D%20x%20*%20(-y%20%2B%20y)%20%3A%20sorry%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20x%20*%200%20%20%20%20%20%20%20%20%3A%20sorry%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%200%20%20%20%20%20%20%20%20%20%20%20%20%3A%20by%20rw%20t5%20x%2C%0Ashow%20x%20*%20(-y)%20%3D%20-(x%20*%20y)%2C%20from%20t4%20_%20_%20h1%0A%0Atheorem%20t7%20%3A%20x%20%2B%20x%20%3D%202%20*%20x%20%3A%3D%0Acalc%0Ax%20%2B%20x%20%3D%201%20*%20x%20%2B%201%20*%20x%20%3A%20by%20rw%20one_mul%0A%20%20%20%20...%20%3D%20(1%20%2B%201)%20*%20x%20%20%20%3A%20sorry%0A%20%20%20%20...%20%3D%202%20*%20x%20%20%20%20%20%20%20%20%20%3A%20rfl" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.int.basic</span>
+
+<span class="c1">-- these are the axioms for a commutative ring</span>
+
+<span class="k">#check</span> <span class="bp">@</span><span class="n">add_assoc</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">add_comm</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">add_zero</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">zero_add</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">mul_assoc</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">mul_comm</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">mul_one</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">one_mul</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">left_distrib</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">right_distrib</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">add_left_neg</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">add_right_neg</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">sub_eq_add_neg</span>
+
+<span class="kd">variables</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">int</span>
+
+<span class="kd">theorem</span> <span class="n">t1</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">-</span> <span class="n">x</span> <span class="bp">=</span> <span class="mi">0</span> <span class="o">:=</span>
+<span class="k">calc</span>
+<span class="n">x</span> <span class="bp">-</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">+</span> <span class="bp">-</span><span class="n">x</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">sub_eq_add_neg</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="mi">0</span>      <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_right_neg</span>
+
+<span class="kd">theorem</span> <span class="n">t2</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="k">calc</span>
+<span class="n">y</span>     <span class="bp">=</span> <span class="mi">0</span> <span class="bp">+</span> <span class="n">y</span>        <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">zero_add</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="o">(</span><span class="bp">-</span><span class="n">x</span> <span class="bp">+</span> <span class="n">x</span><span class="o">)</span> <span class="bp">+</span> <span class="n">y</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_left_neg</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="bp">-</span><span class="n">x</span> <span class="bp">+</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_assoc</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="bp">-</span><span class="n">x</span> <span class="bp">+</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">z</span><span class="o">)</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">h</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="o">(</span><span class="bp">-</span><span class="n">x</span> <span class="bp">+</span> <span class="n">x</span><span class="o">)</span> <span class="bp">+</span> <span class="n">z</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_assoc</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="mi">0</span> <span class="bp">+</span> <span class="n">z</span>        <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_left_neg</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="n">z</span>            <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">zero_add</span>
+
+<span class="kd">theorem</span> <span class="n">t3</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">z</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="k">calc</span>
+<span class="n">x</span>     <span class="bp">=</span> <span class="n">x</span> <span class="bp">+</span> <span class="mi">0</span>        <span class="o">:</span> <span class="n">sorry</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">+</span> <span class="o">(</span><span class="n">y</span> <span class="bp">+</span> <span class="bp">-</span><span class="n">y</span><span class="o">)</span> <span class="o">:</span> <span class="n">sorry</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="bp">+</span> <span class="bp">-</span><span class="n">y</span> <span class="o">:</span> <span class="n">sorry</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="o">(</span><span class="n">z</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="bp">+</span> <span class="bp">-</span><span class="n">y</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">h</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="n">z</span> <span class="bp">+</span> <span class="o">(</span><span class="n">y</span> <span class="bp">+</span> <span class="bp">-</span><span class="n">y</span><span class="o">)</span> <span class="o">:</span> <span class="n">sorry</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="n">z</span> <span class="bp">+</span> <span class="mi">0</span>        <span class="o">:</span> <span class="n">sorry</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="n">z</span>            <span class="o">:</span> <span class="n">sorry</span>
+
+<span class="kd">theorem</span> <span class="n">t4</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">=</span> <span class="bp">-</span><span class="n">y</span> <span class="o">:=</span>
+<span class="k">calc</span>
+<span class="n">x</span>     <span class="bp">=</span> <span class="n">x</span> <span class="bp">+</span> <span class="mi">0</span>        <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_zero</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">+</span> <span class="o">(</span><span class="n">y</span> <span class="bp">+</span> <span class="bp">-</span><span class="n">y</span><span class="o">)</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_right_neg</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="o">(</span><span class="n">x</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="bp">+</span> <span class="bp">-</span><span class="n">y</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_assoc</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="mi">0</span> <span class="bp">+</span> <span class="bp">-</span><span class="n">y</span>       <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">h</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="bp">-</span><span class="n">y</span>           <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">zero_add</span>
+
+<span class="kd">theorem</span> <span class="n">t5</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">*</span> <span class="mi">0</span> <span class="bp">=</span> <span class="mi">0</span> <span class="o">:=</span>
+<span class="k">have</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">*</span> <span class="mi">0</span> <span class="bp">+</span> <span class="n">x</span> <span class="bp">*</span> <span class="mi">0</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">*</span> <span class="mi">0</span> <span class="bp">+</span> <span class="mi">0</span><span class="o">,</span> <span class="k">from</span>
+<span class="k">calc</span>
+    <span class="n">x</span> <span class="bp">*</span> <span class="mi">0</span> <span class="bp">+</span> <span class="n">x</span> <span class="bp">*</span> <span class="mi">0</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">*</span> <span class="o">(</span><span class="mi">0</span> <span class="bp">+</span> <span class="mi">0</span><span class="o">)</span> <span class="o">:</span> <span class="n">sorry</span>
+            <span class="bp">...</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">*</span> <span class="mi">0</span>       <span class="o">:</span> <span class="n">sorry</span>
+            <span class="bp">...</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">*</span> <span class="mi">0</span> <span class="bp">+</span> <span class="mi">0</span>   <span class="o">:</span> <span class="n">sorry</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">x</span> <span class="bp">*</span> <span class="mi">0</span> <span class="bp">=</span> <span class="mi">0</span><span class="o">,</span> <span class="k">from</span> <span class="n">t2</span> <span class="n">_</span> <span class="n">_</span> <span class="n">_</span> <span class="n">h1</span>
+
+<span class="kd">theorem</span> <span class="n">t6</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">*</span> <span class="o">(</span><span class="bp">-</span><span class="n">y</span><span class="o">)</span> <span class="bp">=</span> <span class="bp">-</span><span class="o">(</span><span class="n">x</span> <span class="bp">*</span> <span class="n">y</span><span class="o">)</span> <span class="o">:=</span>
+<span class="k">have</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">*</span> <span class="o">(</span><span class="bp">-</span><span class="n">y</span><span class="o">)</span> <span class="bp">+</span> <span class="n">x</span> <span class="bp">*</span> <span class="n">y</span> <span class="bp">=</span> <span class="mi">0</span><span class="o">,</span> <span class="k">from</span>
+<span class="k">calc</span>
+    <span class="n">x</span> <span class="bp">*</span> <span class="o">(</span><span class="bp">-</span><span class="n">y</span><span class="o">)</span> <span class="bp">+</span> <span class="n">x</span> <span class="bp">*</span> <span class="n">y</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">*</span> <span class="o">(</span><span class="bp">-</span><span class="n">y</span> <span class="bp">+</span> <span class="n">y</span><span class="o">)</span> <span class="o">:</span> <span class="n">sorry</span>
+                <span class="bp">...</span> <span class="bp">=</span> <span class="n">x</span> <span class="bp">*</span> <span class="mi">0</span>        <span class="o">:</span> <span class="n">sorry</span>
+                <span class="bp">...</span> <span class="bp">=</span> <span class="mi">0</span>            <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">t5</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">x</span> <span class="bp">*</span> <span class="o">(</span><span class="bp">-</span><span class="n">y</span><span class="o">)</span> <span class="bp">=</span> <span class="bp">-</span><span class="o">(</span><span class="n">x</span> <span class="bp">*</span> <span class="n">y</span><span class="o">),</span> <span class="k">from</span> <span class="n">t4</span> <span class="n">_</span> <span class="n">_</span> <span class="n">h1</span>
+
+<span class="kd">theorem</span> <span class="n">t7</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">+</span> <span class="n">x</span> <span class="bp">=</span> <span class="mi">2</span> <span class="bp">*</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">calc</span>
+<span class="n">x</span> <span class="bp">+</span> <span class="n">x</span> <span class="bp">=</span> <span class="mi">1</span> <span class="bp">*</span> <span class="n">x</span> <span class="bp">+</span> <span class="mi">1</span> <span class="bp">*</span> <span class="n">x</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">one_mul</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="o">(</span><span class="mi">1</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span> <span class="bp">*</span> <span class="n">x</span>   <span class="o">:</span> <span class="n">sorry</span>
+    <span class="bp">...</span> <span class="bp">=</span> <span class="mi">2</span> <span class="bp">*</span> <span class="n">x</span>         <span class="o">:</span> <span class="n">rfl</span>
+</pre></div>
+</div>
+</div></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">9. First Order Logic in Lean</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#functions-predicates-and-relations">9.1. Functions, Predicates, and Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-universal-quantifier">9.2. Using the Universal Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-existential-quantifier">9.3. Using the Existential Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#equality-and-calculational-proofs">9.4. Equality and calculational proofs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">9.5. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/first_order_logic_in_lean.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

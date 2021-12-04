@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logic and Proof &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Introduction" href="introduction.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="logic-and-proof">
+<h1>Logic and Proof<a class="headerlink" href="#logic-and-proof" title="Permalink to this headline">&#182;</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#mathematical-proof">1.1. Mathematical Proof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#symbolic-logic">1.2. Symbolic Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#interactive-theorem-proving">1.3. Interactive Theorem Proving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#the-semantic-point-of-view">1.4. The Semantic Point of View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#goals-summarized">1.5. Goals Summarized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#about-this-textbook">1.6. About this Textbook</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic.html#a-puzzle">2.1. A Puzzle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic.html#a-solution">2.2. A Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic.html#rules-of-inference">2.3. Rules of Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic.html#the-language-of-propositional-logic">2.4. The Language of Propositional Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic.html#exercises">2.5. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_propositional_logic.html#derivations-in-natural-deduction">3.1. Derivations in Natural Deduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_propositional_logic.html#examples">3.2. Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_propositional_logic.html#forward-and-backward-reasoning">3.3. Forward and Backward Reasoning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_propositional_logic.html#reasoning-by-cases">3.4. Reasoning by Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_propositional_logic.html#some-logical-identities">3.5. Some Logical Identities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_propositional_logic.html#exercises">3.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic_in_lean.html#expressions-for-propositions-and-proofs">4.1. Expressions for Propositions and Proofs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic_in_lean.html#more-commands">4.2. More commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic_in_lean.html#building-natural-deduction-proofs">4.3. Building Natural Deduction Proofs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic_in_lean.html#forward-reasoning">4.4. Forward Reasoning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic_in_lean.html#definitions-and-theorems">4.5. Definitions and Theorems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic_in_lean.html#additional-syntax">4.6. Additional Syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="propositional_logic_in_lean.html#exercises">4.7. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classical_reasoning.html#proof-by-contradiction">5.1. Proof by Contradiction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical_reasoning.html#some-classical-principles">5.2. Some Classical Principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical_reasoning.html#exercises">5.3. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="semantics_of_propositional_logic.html#truth-values-and-assignments">6.1. Truth Values and Assignments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semantics_of_propositional_logic.html#truth-tables">6.2. Truth Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semantics_of_propositional_logic.html#soundness-and-completeness">6.3. Soundness and Completeness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semantics_of_propositional_logic.html#exercises">6.4. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="first_order_logic.html#functions-predicates-and-relations">7.1. Functions, Predicates, and Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_order_logic.html#the-universal-quantifier">7.2. The Universal Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_order_logic.html#the-existential-quantifier">7.3. The Existential Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_order_logic.html#relativization-and-sorts">7.4. Relativization and Sorts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_order_logic.html#equality">7.5. Equality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_order_logic.html#exercises">7.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_first_order_logic.html#rules-of-inference">8.1. Rules of Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_first_order_logic.html#the-universal-quantifier">8.2. The Universal Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_first_order_logic.html#the-existential-quantifier">8.3. The Existential Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_first_order_logic.html#equality">8.4. Equality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_first_order_logic.html#counterexamples-and-relativized-quantifiers">8.5. Counterexamples and Relativized Quantifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="natural_deduction_for_first_order_logic.html#exercises">8.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="first_order_logic_in_lean.html#functions-predicates-and-relations">9.1. Functions, Predicates, and Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_order_logic_in_lean.html#using-the-universal-quantifier">9.2. Using the Universal Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_order_logic_in_lean.html#using-the-existential-quantifier">9.3. Using the Existential Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_order_logic_in_lean.html#equality-and-calculational-proofs">9.4. Equality and calculational proofs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_order_logic_in_lean.html#exercises">9.5. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="semantics_of_first_order_logic.html#interpretations">10.1. Interpretations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semantics_of_first_order_logic.html#truth-in-a-model">10.2. Truth in a Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semantics_of_first_order_logic.html#examples">10.3. Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semantics_of_first_order_logic.html#validity-and-logical-consequence">10.4. Validity and Logical Consequence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semantics_of_first_order_logic.html#soundness-and-completeness">10.5. Soundness and Completeness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="semantics_of_first_order_logic.html#exercises">10.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sets.html#elementary-set-theory">11.1. Elementary Set Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sets.html#calculations-with-sets">11.2. Calculations with Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sets.html#indexed-families-of-sets">11.3. Indexed Families of Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sets.html#cartesian-product-and-power-set">11.4. Cartesian Product and Power Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sets.html#exercises">11.5. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sets_in_lean.html#basics">12.1. Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sets_in_lean.html#some-identities">12.2. Some Identities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sets_in_lean.html#indexed-families">12.3. Indexed Families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sets_in_lean.html#power-sets">12.4. Power Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sets_in_lean.html#exercises">12.5. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="relations.html#order-relations">13.1. Order Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relations.html#more-on-orderings">13.2. More on Orderings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relations.html#equivalence-relations-and-equality">13.3. Equivalence Relations and Equality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relations.html#exercises">13.4. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="relations_in_lean.html#order-relations">14.1. Order Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relations_in_lean.html#orderings-on-numbers">14.2. Orderings on Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relations_in_lean.html#equivalence-relations">14.3. Equivalence Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relations_in_lean.html#exercises">14.4. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#the-function-concept">15.1. The Function Concept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#injective-surjective-and-bijective-functions">15.2. Injective, Surjective, and Bijective Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#functions-and-subsets-of-the-domain">15.3. Functions and Subsets of the Domain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#functions-and-relations">15.4. Functions and Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#exercises">15.5. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="functions_in_lean.html#functions-and-symbolic-logic">16.1. Functions and Symbolic Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions_in_lean.html#second-and-higher-order-logic">16.2. Second- and Higher-Order Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions_in_lean.html#id1">16.3. Functions in Lean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions_in_lean.html#defining-the-inverse-classically">16.4. Defining the Inverse Classically</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions_in_lean.html#functions-and-sets-in-lean">16.5. Functions and Sets in Lean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions_in_lean.html#exercises">16.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="the_natural_numbers_and_induction.html#the-principle-of-induction">17.1. The Principle of Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_natural_numbers_and_induction.html#variants-of-induction">17.2. Variants of Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_natural_numbers_and_induction.html#recursive-definitions">17.3. Recursive Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_natural_numbers_and_induction.html#defining-arithmetic-operations">17.4. Defining Arithmetic Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_natural_numbers_and_induction.html#arithmetic-on-the-natural-numbers">17.5. Arithmetic on the Natural Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_natural_numbers_and_induction.html#the-integers">17.6. The Integers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_natural_numbers_and_induction.html#exercises">17.7. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html#induction-and-recursion-in-lean">18.1. Induction and Recursion in Lean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html#defining-the-arithmetic-operations-in-lean">18.2. Defining the Arithmetic Operations in Lean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html#exercises">18.3. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="elementary_number_theory.html#the-quotient-remainder-theorem">19.1. The Quotient-Remainder Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="elementary_number_theory.html#divisibility">19.2. Divisibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="elementary_number_theory.html#prime-numbers">19.3. Prime Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="elementary_number_theory.html#modular-arithmetic">19.4. Modular Arithmetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="elementary_number_theory.html#properties-of-squares">19.5. Properties of Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="elementary_number_theory.html#exercises">19.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="combinatorics.html#finite-sets-and-cardinality">20.1. Finite Sets and Cardinality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combinatorics.html#counting-principles">20.2. Counting Principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combinatorics.html#ordered-selections">20.3. Ordered Selections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combinatorics.html#combinations-and-binomial-coefficients">20.4. Combinations and Binomial Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combinatorics.html#the-inclusion-exclusion-principle">20.5. The Inclusion-Exclusion Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combinatorics.html#exercises">20.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="the_real_numbers.html#the-number-systems">21.1. The Number Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_real_numbers.html#quotient-constructions">21.2. Quotient Constructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_real_numbers.html#constructing-the-real-numbers">21.3. Constructing the Real Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_real_numbers.html#the-completeness-of-the-real-numbers">21.4. The Completeness of the Real Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_real_numbers.html#an-alternative-construction">21.5. An Alternative Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_real_numbers.html#exercises">21.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="the_infinite.html#equinumerosity">22.1. Equinumerosity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_infinite.html#countably-infinite-sets">22.2. Countably Infinite Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_infinite.html#cantor-s-theorem">22.3. Cantor&#8217;s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_infinite.html#an-alternative-definition-of-finiteness">22.4. An Alternative Definition of Finiteness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_infinite.html#the-cantor-bernstein-theorem">22.5. The Cantor-Bernstein Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_infinite.html#exercises">22.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="axiomatic_foundations.html#basic-axioms-for-sets">23.1. Basic Axioms for Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="axiomatic_foundations.html#the-axiom-of-infinity">23.2. The Axiom of Infinity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="axiomatic_foundations.html#the-remaining-axioms">23.3. The Remaining Axioms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="axiomatic_foundations.html#type-theory">23.4. Type Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="axiomatic_foundations.html#exercises">23.5. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>21. The Real Numbers &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="22. The Infinite" href="the_infinite.html" />
+    <link rel="prev" title="20. Combinatorics" href="combinatorics.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="the-real-numbers">
+<span id="id1"></span><h1><span class="section-number">21. </span>The Real Numbers<a class="headerlink" href="#the-real-numbers" title="Permalink to this headline">&#182;</a></h1>
+<div class="section" id="the-number-systems">
+<h2><span class="section-number">21.1. </span>The Number Systems<a class="headerlink" href="#the-number-systems" title="Permalink to this headline">&#182;</a></h2>
+<p>We have already come across some of the fundamental number systems: the natural numbers, <span class="math notranslate nohighlight">\(\mathbb{N}\)</span>, the integers, <span class="math notranslate nohighlight">\(\mathbb{Z}\)</span>, and the rationals, <span class="math notranslate nohighlight">\(\mathbb{Q}\)</span>. In a sense, each subsequent element of the list was designed to remedy defects in the previous system. We can subtract any integer from any other integer and end up with another integer, and we can divide any rational number by a nonzero rational number and end up with a rational number.</p>
+<p>The integers satisfy all of the following properties:</p>
+<ul class="simple">
+<li><p>Addition is associative and commutative.</p></li>
+<li><p>There is an additive identity, <span class="math notranslate nohighlight">\(0\)</span>, and every element <span class="math notranslate nohighlight">\(x\)</span> has an additive inverse, <span class="math notranslate nohighlight">\(-x\)</span>.</p></li>
+<li><p>Multiplication is associative and commutative.</p></li>
+<li><p>There is a multiplicative identity, <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p>Multiplication distributes over addition: for every <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span>, we have <span class="math notranslate nohighlight">\(x (y + z) = x y + x z\)</span>.</p></li>
+<li><p>The ordering <span class="math notranslate nohighlight">\(\leq\)</span> is a total order.</p></li>
+<li><p>For any elements <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span>, if <span class="math notranslate nohighlight">\(x \leq y\)</span> then <span class="math notranslate nohighlight">\(x + z \leq y + z\)</span>.</p></li>
+<li><p>For any elements <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, if <span class="math notranslate nohighlight">\(0 \leq x\)</span> and <span class="math notranslate nohighlight">\(0 \leq y\)</span> then <span class="math notranslate nohighlight">\(0 \leq x y\)</span>.</p></li>
+</ul>
+<p>The first five clauses say that with <span class="math notranslate nohighlight">\(\times\)</span>, <span class="math notranslate nohighlight">\(+\)</span>, <span class="math notranslate nohighlight">\(0\)</span>, and <span class="math notranslate nohighlight">\(1\)</span>, the integers form a <em>commutative ring</em>, and the last three say that together with <span class="math notranslate nohighlight">\(\leq\)</span>, the structure is an <em>ordered ring</em>. The natural numbers lack additive inverses, so they satisfy a slightly weaker set of axioms that make them an <em>ordered semiring</em>. On the other hand, the rational numbers also form an ordered ring, satisfying the following additional property:</p>
+<ul class="simple">
+<li><p>Every nonzero element has a multiplicative inverse, <span class="math notranslate nohighlight">\(x^{-1}\)</span>.</p></li>
+</ul>
+<p>This makes them an instance of an <em>ordered field</em>.</p>
+<p>It is worth knowing that once we have the natural numbers, it is possible to <em>construct</em> the integers and rational numbers, using set-theoretic constructions you have already seen. For example, we can take an integer to be a pair <span class="math notranslate nohighlight">\((i, n)\)</span> of natural numbers where <span class="math notranslate nohighlight">\(i\)</span> is either 0 or 1, with the intention that <span class="math notranslate nohighlight">\((0, n)\)</span> represents the positive integer <span class="math notranslate nohighlight">\(n\)</span>, and <span class="math notranslate nohighlight">\((1, n)\)</span> represents the negative integer <span class="math notranslate nohighlight">\(-(n+1)\)</span>. (We use <span class="math notranslate nohighlight">\(-(n+1)\)</span> instead of <span class="math notranslate nohighlight">\(-n\)</span> to avoid having two representations of <span class="math notranslate nohighlight">\(0\)</span>.) With this definition, the integers are simply <span class="math notranslate nohighlight">\(\{0, 1\} \times \mathbb{N}\)</span>. We can then go on to define the operations of addition and multiplication, the additive inverse, and the order relation, and prove they have the desired properties.</p>
+<p>This construction has the side effect that the natural numbers themselves are not integers; for example, we have to distinguish between the natural number <span class="math notranslate nohighlight">\(2\)</span> and the integer <span class="math notranslate nohighlight">\(2\)</span>. This is the case in Lean. In ordinary mathematics, it is common to think of the natural numbers as a subset of the integers. Once we construct the integers, however, we can throw away the old version of the natural numbers, and afterwards identify the natural numbers as nonnegative integers.</p>
+<p>We can do the same for the rationals, defining them to be the set of pairs <span class="math notranslate nohighlight">\((a, b)\)</span> in <span class="math notranslate nohighlight">\(\mathbb{Z} \times \mathbb{N}\)</span>, where either <span class="math notranslate nohighlight">\(a = 0\)</span> and <span class="math notranslate nohighlight">\(b = 1\)</span>, or <span class="math notranslate nohighlight">\(b &gt; 0\)</span> and <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> have no common divisor (other than <span class="math notranslate nohighlight">\(1\)</span> and <span class="math notranslate nohighlight">\(-1\)</span>). The idea is that <span class="math notranslate nohighlight">\((a, b)\)</span> represents <span class="math notranslate nohighlight">\(a / b\)</span>. With this definition, the rationals are really a subset of <span class="math notranslate nohighlight">\(\mathbb{Z} \times \mathbb{N}\)</span>, and we can then define all the operations accordingly.</p>
+<p>In the next section, we will define a more sophisticated approach, one which will scale to a definition of the real numbers. And in a later chapter, we will show how to construct the natural numbers from the axioms of set theory. This shows that we can construct all the number systems from the bottom up.</p>
+<p>But first, let us pause for a moment to consider why the real numbers are needed. We have seen that <span class="math notranslate nohighlight">\(2\)</span> has no rational square root. This means, in a sense, that there is a &#8220;gap&#8221; in the rationals: the are rationals whose squares are arbitrarily close to 2, but there is no rational <span class="math notranslate nohighlight">\(x\)</span> with the property that <span class="math notranslate nohighlight">\(x^2 = 2\)</span>. But it seems intuitively clear that there should be some <em>number</em> with that property: <span class="math notranslate nohighlight">\(\sqrt{2}\)</span> is the length of the diagonal of a square with side length <span class="math notranslate nohighlight">\(1\)</span>. Similarly, <span class="math notranslate nohighlight">\(\pi\)</span>, the area of a circle with radius 1, is missing from the rationals. These are the kinds of defects that the real numbers are designed to repair.</p>
+<p>You may be used to thinking of real numbers as (potentially) infinite decimals: for example, <span class="math notranslate nohighlight">\(\sqrt{2} = 1.41421356\ldots\)</span> and <span class="math notranslate nohighlight">\(\pi = 3.14159265\ldots\)</span>. A central goal of this chapter is to make the &#8220;&#8230;&#8221; precise. The idea is that we can take an infinite decimal to represent a sequence of rational approximations. For example, we can approximate the square root of 2 with the sequence <span class="math notranslate nohighlight">\(1, 1.4, 1.41, 1.414, \ldots\)</span>. We would like to define <span class="math notranslate nohighlight">\(\sqrt{2}\)</span> to be the &#8220;limit&#8221; of that sequence, but we have seen that the sequence does not have a limit in the rationals. So we have to construct new objects, the real numbers, to serve that purpose.</p>
+<p>In fact, we will define the real numbers, more or less, to <em>be</em> such sequences of rational approximations. But we will have to deal with the fact that, for example, there are <em>lots</em> of ways of approximating the square root of two. For example, we can just as well approach it from above, <span class="math notranslate nohighlight">\(2, 1.5, 1.42, \ldots\)</span>, or by oscillating above and below. The next section will show us how to &#8220;glue&#8221; all these sequences together and treat them as a single object.</p>
+</div>
+<div class="section" id="quotient-constructions">
+<span id="id2"></span><h2><span class="section-number">21.2. </span>Quotient Constructions<a class="headerlink" href="#quotient-constructions" title="Permalink to this headline">&#182;</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(A\)</span> be any set, and let <span class="math notranslate nohighlight">\(\equiv\)</span> be any equivalence relation on <span class="math notranslate nohighlight">\(A\)</span>. Recall from <a class="reference internal" href="relations.html#equivalence-relations-and-equality"><span class="std std-numref">Section 13.3</span></a> that we can assign to every element <span class="math notranslate nohighlight">\(a\)</span> of <span class="math notranslate nohighlight">\(A\)</span> the equivalence class <span class="math notranslate nohighlight">\([a]\)</span>, where <span class="math notranslate nohighlight">\(b \in [a]\)</span> means <span class="math notranslate nohighlight">\(b \equiv a\)</span>. This assignment has the property that for every <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, <span class="math notranslate nohighlight">\(a \equiv b\)</span> if and only if <span class="math notranslate nohighlight">\([a] = [b]\)</span>.</p>
+<p>Given any set <span class="math notranslate nohighlight">\(A\)</span> and equivalence relation <span class="math notranslate nohighlight">\(\equiv\)</span>, define <span class="math notranslate nohighlight">\(A / \mathord{\equiv}\)</span> to be the set <span class="math notranslate nohighlight">\(\{ [ a ] \mid a \in A \}\)</span> of <em>equivalence classes</em> of <span class="math notranslate nohighlight">\(A\)</span> modulo <span class="math notranslate nohighlight">\(\equiv\)</span>. This set is called &#8220;<span class="math notranslate nohighlight">\(A\)</span> modulo <span class="math notranslate nohighlight">\(\mathord{\equiv}\)</span>,&#8221; or the <em>quotient</em> of <span class="math notranslate nohighlight">\(A\)</span> by <span class="math notranslate nohighlight">\(\equiv\)</span>. You can think of this as the set <span class="math notranslate nohighlight">\(A\)</span> where equivalent elements are &#8220;glued together&#8221; to make a coarser set.</p>
+<p>For example, if we consider the integers <span class="math notranslate nohighlight">\(\mathbb{Z}\)</span> with <span class="math notranslate nohighlight">\(\equiv\)</span> denoting equivalence modulo 5 (as in <a class="reference internal" href="elementary_number_theory.html#modular-arithmetic"><span class="std std-numref">Section 19.4</span></a>), then <span class="math notranslate nohighlight">\(\mathbb{Z} / \mathord{\equiv}\)</span> is just <span class="math notranslate nohighlight">\(\{ [0], [1], [2], [3], [4] \}\)</span>. We can define addition on <span class="math notranslate nohighlight">\(\mathbb{Z} / \mathord{\equiv}\)</span> by <span class="math notranslate nohighlight">\([a] + [b] = [a + b]\)</span>. For this definition to make sense, it is important to know that the right-hand side does not depend on which representatives of <span class="math notranslate nohighlight">\([a]\)</span> and <span class="math notranslate nohighlight">\([b]\)</span> we choose. In other words, we need to know that whenever <span class="math notranslate nohighlight">\([a] = [a']\)</span> and <span class="math notranslate nohighlight">\([b] = [b']\)</span>, then <span class="math notranslate nohighlight">\([a + b] = [a' + b']\)</span>. This, in turn, is equivalent to saying that if <span class="math notranslate nohighlight">\(a \equiv a'\)</span> and <span class="math notranslate nohighlight">\(b \equiv b'\)</span>, then <span class="math notranslate nohighlight">\(a + b \equiv a' + b'\)</span>. In other words, we require that the operation of addition <em>respects</em> the equivalence relation, and we saw in <a class="reference internal" href="elementary_number_theory.html#modular-arithmetic"><span class="std std-numref">Section 19.4</span></a> that this is in fact the case.</p>
+<p>This general strategy for transferring a function defined on a set to a function defined on a quotient of that set is given by the following theorem.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Let <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> be any sets, let <span class="math notranslate nohighlight">\(\equiv\)</span> be any equivalence relation defined on <span class="math notranslate nohighlight">\(A\)</span>, and let <span class="math notranslate nohighlight">\(f : A \to B\)</span>. Suppose <span class="math notranslate nohighlight">\(f\)</span> respects the equivalence relation, which is to say, for every <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(a'\)</span> in <span class="math notranslate nohighlight">\(A\)</span>, if <span class="math notranslate nohighlight">\(a \equiv a'\)</span>, then <span class="math notranslate nohighlight">\(f(a) = f(a')\)</span>. Then there is a unique function <span class="math notranslate nohighlight">\(\bar f : A / \mathord{\equiv} \to B\)</span>, defined by <span class="math notranslate nohighlight">\(\bar f ([a]) = f(a)\)</span> for every <span class="math notranslate nohighlight">\(a\)</span> in <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p><strong>Proof.</strong> We have defined the value of <span class="math notranslate nohighlight">\(\bar f\)</span> on an equivalence class <span class="math notranslate nohighlight">\(x\)</span> by writing <span class="math notranslate nohighlight">\(x = [a]\)</span>, and setting <span class="math notranslate nohighlight">\(\bar f(x) = f(a)\)</span>. In other words, we say that <span class="math notranslate nohighlight">\(\bar f(x) = y\)</span> if and only if there is an <span class="math notranslate nohighlight">\(a\)</span> such that <span class="math notranslate nohighlight">\(x = [a]\)</span>, and <span class="math notranslate nohighlight">\(f(a) = y\)</span>. What is dubious about the definition is that, a priori, it might depend on how we express <span class="math notranslate nohighlight">\(x\)</span> in that form; in other words, we need to show that there is a <em>unique</em> <span class="math notranslate nohighlight">\(y\)</span> meeting this description. Specifically, we need to know that if <span class="math notranslate nohighlight">\(x = [a] = [a']\)</span>, then <span class="math notranslate nohighlight">\(f(a) = f(a')\)</span>. But since <span class="math notranslate nohighlight">\([a] = [a']\)</span> is equivalent to <span class="math notranslate nohighlight">\(a \equiv a'\)</span>, this amounts to saying that <span class="math notranslate nohighlight">\(f\)</span> respects the equivalence relation, which is exactly what we have assumed.</p>
+<hr class="docutils" />
+<p>Mathematicians often &#8220;define&#8221; <span class="math notranslate nohighlight">\(\bar f\)</span> by the equation <span class="math notranslate nohighlight">\(\bar f ([a])= f(a)\)</span>, and then express the proof above as a proof that &#8220;<span class="math notranslate nohighlight">\(\bar f\)</span> is well defined.&#8221; This is confusing. What they really mean is what the theorem says, namely, that there is a unique function meeting that description.</p>
+<p>To construct the integers, start with <span class="math notranslate nohighlight">\(\mathbb{N} \times \mathbb{N}\)</span>. Think of the pair of natural numbers <span class="math notranslate nohighlight">\((m, n)\)</span> as representing <span class="math notranslate nohighlight">\(m - n\)</span>, where the subtraction takes place in the integers (which we haven&#8217;t constructed yet!). For example, both <span class="math notranslate nohighlight">\((2, 5)\)</span> and <span class="math notranslate nohighlight">\((6, 9)\)</span> represent the integer <span class="math notranslate nohighlight">\(-3\)</span>. Intuitively, the pairs <span class="math notranslate nohighlight">\((m, n)\)</span> and <span class="math notranslate nohighlight">\((m', n')\)</span> will represent the same integer when <span class="math notranslate nohighlight">\(m - n = m' - n'\)</span>, but we cannot say this yet, because we have not yet defined the appropriate notion of subtraction. But the equation is equivalent to <span class="math notranslate nohighlight">\(m + n' = m' + n\)</span>, and <em>this</em> makes sense with addition on the natural numbers.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> Define the relation <span class="math notranslate nohighlight">\(\equiv\)</span> on <span class="math notranslate nohighlight">\(\mathbb{N} \times \mathbb{N}\)</span> by <span class="math notranslate nohighlight">\((m, n) \equiv (m', n')\)</span> if and only if <span class="math notranslate nohighlight">\(m + n' = m' + n\)</span>.</p>
+<p><strong>Proposition.</strong> <span class="math notranslate nohighlight">\(\equiv\)</span> is an equivalence relation.</p>
+<p><strong>Proof.</strong> For reflexivity, it is clear that <span class="math notranslate nohighlight">\((m, n) \equiv (m, n)\)</span>, since <span class="math notranslate nohighlight">\(m + n = m + n\)</span>.</p>
+<p>For symmetry, suppose <span class="math notranslate nohighlight">\((m, n) \equiv (m', n')\)</span>. This means <span class="math notranslate nohighlight">\(m + n' = m' + n\)</span>. But the symmetry of equality implies <span class="math notranslate nohighlight">\((m', n') \equiv (m, n)\)</span>, as required.</p>
+<p>For transitivity, suppose <span class="math notranslate nohighlight">\((m, n) \equiv (m', n')\)</span>, and <span class="math notranslate nohighlight">\((m', n') = (m'', n'')\)</span>. Then we have <span class="math notranslate nohighlight">\(m + n' = m' + n\)</span> and <span class="math notranslate nohighlight">\(m' + n'' = n' + m''\)</span>. Adding these equations, we get</p>
+<div class="math notranslate nohighlight">
+\[m + n' + m' + n'' = m' + n + n' + m''.\]</div>
+<p>Subtracting <span class="math notranslate nohighlight">\(m' + n'\)</span> from both sides, we get <span class="math notranslate nohighlight">\(m + n'' = n + m''\)</span>, which is equivalent to <span class="math notranslate nohighlight">\((m, n) = (m'', n'')\)</span>, as required.</p>
+<hr class="docutils" />
+<p>We can now define the integers to be <span class="math notranslate nohighlight">\(\mathbb{N} \times \mathbb{N} / \mathord{\equiv}\)</span>. How should we define addition? If <span class="math notranslate nohighlight">\([(m, n)]\)</span> represents <span class="math notranslate nohighlight">\(m - n\)</span>, and <span class="math notranslate nohighlight">\([(u, v)]\)</span> represents <span class="math notranslate nohighlight">\(u - v\)</span>, then <span class="math notranslate nohighlight">\([(m, n)] + [(u, v)]\)</span> should represent <span class="math notranslate nohighlight">\((m + u) - (n + v)\)</span>. Thus, it makes sense to define <span class="math notranslate nohighlight">\([(m, n)] + [(u, v)]\)</span> to be <span class="math notranslate nohighlight">\([(m + u) - (n + v)]\)</span>. For this to work, we need to know that the operation which sends <span class="math notranslate nohighlight">\((m, n)\)</span> and <span class="math notranslate nohighlight">\((u, v)\)</span> to <span class="math notranslate nohighlight">\((m + u, n + v)\)</span> respects the equivalence relation.</p>
+<hr class="docutils" />
+<p><strong>Proposition.</strong> If <span class="math notranslate nohighlight">\((m, n) \equiv (m', n')\)</span> and <span class="math notranslate nohighlight">\((u, v) \equiv (u', v')\)</span>, then <span class="math notranslate nohighlight">\((m + u, n + v) \equiv (m' + u', n' + v')\)</span>.</p>
+<p><strong>Proof.</strong> The first equivalence means <span class="math notranslate nohighlight">\(m + n' = m' + n\)</span>, and the second means <span class="math notranslate nohighlight">\(u + v' = u' + v\)</span>. Adding the two equations, we get <span class="math notranslate nohighlight">\((m + u) + (n' + v') \equiv (m' + u') + (n + v)\)</span>, which is exactly the same as saying <span class="math notranslate nohighlight">\((m + u, n + v) \equiv (m' + u', n' + v')\)</span>.</p>
+<hr class="docutils" />
+<p>Every natural number <span class="math notranslate nohighlight">\(n\)</span> can be represented by the integer <span class="math notranslate nohighlight">\([(n, 0)]\)</span>, and, in particular, <span class="math notranslate nohighlight">\(0\)</span> is represented by <span class="math notranslate nohighlight">\([(0, 0)]\)</span>. Moreover, if <span class="math notranslate nohighlight">\([(m, n)]\)</span> is any integer, we can define its negation to be <span class="math notranslate nohighlight">\([(n, m)]\)</span>, since <span class="math notranslate nohighlight">\([(m, n)] + [(n, m)] = [(m + n, n + m)] = [(0, 0)]\)</span>, since <span class="math notranslate nohighlight">\((m + n, n + m) \equiv (0, 0)\)</span>. In short, we have &#8220;invented&#8221; the negative numbers!</p>
+<p>We could go on this way to define multiplication and the ordering on the integers, and prove that they have the desired properties. We could also carry out a similar construction for the rational numbers. Here, we would start with the set <span class="math notranslate nohighlight">\(\mathbb{Z} \times \mathbb{Z}^{&gt;0}\)</span>, where <span class="math notranslate nohighlight">\(\mathbb{Z}^{&gt;0}\)</span> denotes the strictly positive integers. The idea, of course, is that <span class="math notranslate nohighlight">\((a, b)\)</span> represents <span class="math notranslate nohighlight">\((a / b)\)</span>. With that in mind, it makes sense to define <span class="math notranslate nohighlight">\((a, b) \equiv (c, d)\)</span> if <span class="math notranslate nohighlight">\(a d = b c\)</span>. We could go on to define addition, multiplication, and the ordering there, too. The details are tedious, however, and not very illuminating. So we turn, instead, to a construction of the real numbers.</p>
+</div>
+<div class="section" id="constructing-the-real-numbers">
+<h2><span class="section-number">21.3. </span>Constructing the Real Numbers<a class="headerlink" href="#constructing-the-real-numbers" title="Permalink to this headline">&#182;</a></h2>
+<p>The problem we face is that the sequence <span class="math notranslate nohighlight">\(1, 1.4, 1.41, 1.414, 1.4142, \ldots\)</span> of rational numbers seems to approach a value that <em>would</em> be the square root of 2, but there is no rational number that can play that role. The next definition captures the notion that this sequence of numbers &#8220;seems to approach a value,&#8221; without referring to a value that it is approaching.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> A sequence of rational numbers <span class="math notranslate nohighlight">\((q_i)_{i \in \mathbb{N}}\)</span> is <em>Cauchy</em> if for every rational number <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, there is some natural number <span class="math notranslate nohighlight">\(N \in \mathbb{N}\)</span> such that for all <span class="math notranslate nohighlight">\(i, j \geq N\)</span>, we have that <span class="math notranslate nohighlight">\(|q_i - q_j| &lt; \varepsilon\)</span>.</p>
+<hr class="docutils" />
+<p>Roughly speaking, a Cauchy sequence is one where the elements become arbitrarily close, not just to their successors but to all following elements. It is common in mathematics to use <span class="math notranslate nohighlight">\(\varepsilon\)</span> to represent a quantity that is intended to denote something small; you should read the phrase &#8220;for every <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>&#8221; as saying &#8220;no matter how small <span class="math notranslate nohighlight">\(\varepsilon\)</span> is.&#8221; So a sequence is Cauchy if, for any <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, no matter how small, there is some point <span class="math notranslate nohighlight">\(N\)</span>, beyond which the elements stay within a distance of <span class="math notranslate nohighlight">\(\varepsilon\)</span> of one another.</p>
+<p>Cauchy sequences can be used to describe these gaps in the rationals, but, as noted above, many Cauchy sequences can be used to describe the same gap. At this stage, it is slightly misleading to say that they &#8220;approach the same point,&#8221; since there is no rational point that they approach; a more precise statement is that the sequences eventually become arbitrarily close.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> Two Cauchy sequences <span class="math notranslate nohighlight">\(p = (p_i)_{i \in \mathbb{N}}\)</span> and <span class="math notranslate nohighlight">\(q = (q_i)_{i \in \mathbb{N}}\)</span> are <em>equivalent</em> if for every rational number <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, there is some natural number <span class="math notranslate nohighlight">\(N \in \mathbb{N}\)</span> such that for all <span class="math notranslate nohighlight">\(i \geq N\)</span>, we have that <span class="math notranslate nohighlight">\(|p_i - q_i| &lt; \varepsilon\)</span>. We will write <span class="math notranslate nohighlight">\(p \equiv q\)</span> to express that <span class="math notranslate nohighlight">\(p\)</span> is equivalent to <span class="math notranslate nohighlight">\(q\)</span>.</p>
+<p><strong>Proposition.</strong> <span class="math notranslate nohighlight">\(\equiv\)</span> is an equivalence relation on Cauchy sequences.</p>
+<p><strong>Proof.</strong> Reflexivity and symmetry are easy, so let us prove transitivity. Suppose <span class="math notranslate nohighlight">\((p_i) \equiv (q_i)\)</span> and <span class="math notranslate nohighlight">\((q_i) \equiv (r_i)\)</span>. We want to show that the sequence <span class="math notranslate nohighlight">\((p_i)\)</span> is equivalent to <span class="math notranslate nohighlight">\((r_i)\)</span>. So, given any <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, choose <span class="math notranslate nohighlight">\(N_0\)</span> large enough such that for every <span class="math notranslate nohighlight">\(i \ge N_0\)</span>, <span class="math notranslate nohighlight">\(|p_i - q_i| &lt; \varepsilon / 2\)</span>. Choose another number, <span class="math notranslate nohighlight">\(N_1\)</span>, so that for every <span class="math notranslate nohighlight">\(i \geq N_1\)</span>, <span class="math notranslate nohighlight">\(|q_i - r_i| &lt; \varepsilon / 2\)</span>. Let <span class="math notranslate nohighlight">\(N = \max(N_0, N_1)\)</span>. Then for every <span class="math notranslate nohighlight">\(i \geq N\)</span>, we have</p>
+<div class="math notranslate nohighlight">
+\[|p_i - r_i | = |(p_i - q_i) + (q_i - r_i)| \leq |p_i - q_i| + |q_i - r_i| &lt; \varepsilon / 2 + \varepsilon / 2 = \varepsilon,\]</div>
+<p>as required.</p>
+<hr class="docutils" />
+<p>Notice that the proof uses the <em>triangle inequality</em>, which states for any rational numbers <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, <span class="math notranslate nohighlight">\(|a + b| \leq |a| + |b|\)</span>. If we define <span class="math notranslate nohighlight">\(|a|\)</span> to be the maximum of <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(-a\)</span>, the triangle inequality in fact holds for any ordered ring:</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Let <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> be elements of any ordered ring. Then <span class="math notranslate nohighlight">\(|a + b| \leq |a| + |b|\)</span>.</p>
+<p><strong>Proof.</strong> By the definition of absolute value, it suffices to show that <span class="math notranslate nohighlight">\(a + b \leq |a| + |b|\)</span> and <span class="math notranslate nohighlight">\(-(a + b) \leq |a| + |b|\)</span>. The first claim follows from the fact that <span class="math notranslate nohighlight">\(a \leq |a|\)</span> and <span class="math notranslate nohighlight">\(b \leq |b|\)</span>. For the second claim, we similarly have <span class="math notranslate nohighlight">\(-a \leq |a|\)</span> and <span class="math notranslate nohighlight">\(-b \leq |b|\)</span>, so <span class="math notranslate nohighlight">\(-(a + b) = -a + - b \leq |a| + |b|\)</span>.</p>
+<hr class="docutils" />
+<p>In the theorem above, if we let <span class="math notranslate nohighlight">\(a = x - y\)</span> and <span class="math notranslate nohighlight">\(b = y - z\)</span>, we get <span class="math notranslate nohighlight">\(|x - z| \leq |x - y| + |y - z|\)</span>. The fact that <span class="math notranslate nohighlight">\(|x - y|\)</span> represents the distance between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> on the number line explains the name: for any three &#8220;points&#8221; <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span>, the distance from <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(z\)</span> can&#8217;t be any greater than the distance from <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(y\)</span> plus the distance from <span class="math notranslate nohighlight">\(y\)</span> to <span class="math notranslate nohighlight">\(z\)</span>.</p>
+<p>We now let <span class="math notranslate nohighlight">\(A\)</span> be the set of Cauchy sequences of rationals, and define the real numbers, <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>, to be <span class="math notranslate nohighlight">\(A / \mathord{\equiv}\)</span>. In other words, the real numbers are the set of Cauchy sequence of rationals, modulo the equivalence relation we just defined.</p>
+<p>Having the set <span class="math notranslate nohighlight">\(\mathbb{R}\)</span> by itself is not enough: we also would like to know how to add, subtract, multiply, and divide real numbers. As with the integers, we need to define operations on the underlying set, and then show that they respect the equivalence relation. For example, we will say how to add Cauchy sequences of rationals, and then show that if <span class="math notranslate nohighlight">\(p_1 \equiv p_2\)</span> and <span class="math notranslate nohighlight">\(q_1 \equiv q_2\)</span>, then <span class="math notranslate nohighlight">\(p_1 + q_1 \equiv p_2 + q_2\)</span>. We can then lift this definition to <span class="math notranslate nohighlight">\(\mathbb{R}\)</span> by defining <span class="math notranslate nohighlight">\([p] + [q]\)</span> to be <span class="math notranslate nohighlight">\([p + q]\)</span>.</p>
+<p>Luckily, it is easy to define addition, subtraction, and multiplication on Cauchy sequences. If <span class="math notranslate nohighlight">\(p = (p_i)_{i \in \mathbb{N}}\)</span> and <span class="math notranslate nohighlight">\(q = (q_i)_{i \in \mathbb{N}}\)</span> are Cauchy sequences, let <span class="math notranslate nohighlight">\(p + q = (p_i + q_i)_{i \in \mathbb{N}}\)</span>, and similarly for subtraction and multiplication. It is trickier to show that these sequences are Cauchy themselves, and to show that the operations have the appropriate algebraic properties. We ask you to prove some of these properties in the exercises.</p>
+<p>We can identify each rational number <span class="math notranslate nohighlight">\(q\)</span> with the constant Cauchy sequence <span class="math notranslate nohighlight">\(q, q, q, \ldots\)</span>, so the real numbers include all the rationals. The next step is to abstract away the details of the particular construction we have chosen, so that henceforth we can work with the real numbers abstractly, and no longer think of them as given by equivalence classes of Cauchy sequences of rationals.</p>
+</div>
+<div class="section" id="the-completeness-of-the-real-numbers">
+<h2><span class="section-number">21.4. </span>The Completeness of the Real Numbers<a class="headerlink" href="#the-completeness-of-the-real-numbers" title="Permalink to this headline">&#182;</a></h2>
+<p>We constructed the real numbers to fill in the gaps in the rationals. How do we know that we have got them all? Perhaps we need to construct even more numbers, using Cauchy sequences of reals? The next theorem tells us that, on the contrary, there is no need to extend the reals any further in this way.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> Let <span class="math notranslate nohighlight">\(r\)</span> be a real number. A sequence <span class="math notranslate nohighlight">\((r_i)_{i \in \mathbb{N}}\)</span> of real numbers <em>converges</em> to <span class="math notranslate nohighlight">\(r\)</span> if, for every <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, there is an <span class="math notranslate nohighlight">\(N\)</span> such that for every <span class="math notranslate nohighlight">\(i \geq N\)</span>, <span class="math notranslate nohighlight">\(|r_i - r| &lt; \varepsilon\)</span>.</p>
+<p><strong>Definition.</strong> A sequence <span class="math notranslate nohighlight">\((r_i)_{i \in \mathbb{N}}\)</span> <em>converges</em> if it converges to some <span class="math notranslate nohighlight">\(r\)</span>.</p>
+<p><strong>Theorem.</strong> Every Cauchy sequence of real numbers converges.</p>
+<hr class="docutils" />
+<p>The statement of the theorem is often expressed by saying that the real numbers are <em>complete</em>. Roughly, it says that everywhere you look for a real number, you are bound to find one. Here is a similar principle.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> An element <span class="math notranslate nohighlight">\(u \in \mathbb{R}\)</span> is said to be an <em>upper bound</em> to a subset <span class="math notranslate nohighlight">\(S \subseteq \mathbb{R}\)</span> if everything in <span class="math notranslate nohighlight">\(S\)</span> is less than or equal to <span class="math notranslate nohighlight">\(u\)</span>. <span class="math notranslate nohighlight">\(S\)</span> is said to be <em>bounded</em> if there is an upper bound to <span class="math notranslate nohighlight">\(S\)</span>. An element <span class="math notranslate nohighlight">\(u\)</span> is said to be a <em>least upper bound</em> to <span class="math notranslate nohighlight">\(S\)</span> if it is an upper bound to <span class="math notranslate nohighlight">\(S\)</span>, and nothing smaller than <span class="math notranslate nohighlight">\(u\)</span> is an upper bound to <span class="math notranslate nohighlight">\(S\)</span>.</p>
+<p><strong>Theorem.</strong> Let <span class="math notranslate nohighlight">\(S\)</span> be a bounded, nonempty subset of <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>. Then <span class="math notranslate nohighlight">\(S\)</span> has a least upper bound.</p>
+<hr class="docutils" />
+<p>The rational numbers do not have this property: if we set <span class="math notranslate nohighlight">\(S = \{x \in \mathbb{Q} \mid x^2 &lt; 2\}\)</span>, then the rational number 2 is an upper bound for <span class="math notranslate nohighlight">\(S\)</span>, but <span class="math notranslate nohighlight">\(S\)</span> has no least upper bound in <span class="math notranslate nohighlight">\(\mathbb{Q}\)</span>.</p>
+<p>It is a fundamental theorem that the real numbers are characterized exactly by the property that they are a complete ordered field, such that every real number <span class="math notranslate nohighlight">\(r\)</span> is less than or equal to some natural number <span class="math notranslate nohighlight">\(N\)</span>. Any two models that meet these requirements must behave in exactly the same way, at least insofar as the constants <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>, the operations <span class="math notranslate nohighlight">\(+\)</span> and <span class="math notranslate nohighlight">\(*\)</span>, and the relation <span class="math notranslate nohighlight">\(\leq\)</span> are concerned. This fact is extremely powerful because it allows us to avoid thinking about the Cauchy sequence construction in normal mathematics. Once we have shown that our construction meets these requirements, we can take <span class="math notranslate nohighlight">\(\mathbb{R}\)</span> to be &#8220;the&#8221; unique complete totally ordered field and ignore any implementation details. We are also free to implement <span class="math notranslate nohighlight">\(\mathbb{R}\)</span> in any way we choose, and as long as it meets this interface, and as long as they do not refer to the underlying representations, any theorems we prove about the reals will hold equally well for all constructions.</p>
+</div>
+<div class="section" id="an-alternative-construction">
+<h2><span class="section-number">21.5. </span>An Alternative Construction<a class="headerlink" href="#an-alternative-construction" title="Permalink to this headline">&#182;</a></h2>
+<p>Many sources use an alternative construction of the reals, taking them instead to be <em>Dedekind cuts</em>. A Dedekind cut is an ordered pair <span class="math notranslate nohighlight">\((A, B)\)</span> of sets of rational numbers with the following properties:</p>
+<ul class="simple">
+<li><p>Every rational number <span class="math notranslate nohighlight">\(q\)</span> is in either <span class="math notranslate nohighlight">\(A\)</span> or <span class="math notranslate nohighlight">\(B\)</span>.</p></li>
+<li><p>Each <span class="math notranslate nohighlight">\(a \in A\)</span> is less than every <span class="math notranslate nohighlight">\(b \in B\)</span>.</p></li>
+<li><p>There is no greatest element of <span class="math notranslate nohighlight">\(A\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are both nonempty.</p></li>
+</ul>
+<p>The first two properties show why we call this pair a &#8220;cut.&#8221; The set <span class="math notranslate nohighlight">\(A\)</span> contains all of the rational numbers to the left of some mark on the number line, and <span class="math notranslate nohighlight">\(B\)</span> all of the points to the right. The third property tells us something about what happens exactly at that mark. But there are two possibilities: either <span class="math notranslate nohighlight">\(B\)</span> has a least element, or it doesn&#8217;t. Picturing the situation where <span class="math notranslate nohighlight">\(A\)</span> has no greatest element and <span class="math notranslate nohighlight">\(B\)</span> has no least element may be tricky, but consider the example <span class="math notranslate nohighlight">\(A = \{x \in \mathbb{Q} \mid x^2 &lt; 2\}\)</span> and <span class="math notranslate nohighlight">\(B = \{x \in \mathbb{Q} \mid x^2 &gt; 2\}\)</span>. There is no rational number <span class="math notranslate nohighlight">\(q\)</span> such that <span class="math notranslate nohighlight">\(q^2 = 2\)</span>, but there are rational numbers on either side that are arbitrarily close; thus neither <span class="math notranslate nohighlight">\(A\)</span> nor <span class="math notranslate nohighlight">\(B\)</span> contains an endpoint.</p>
+<p>We can define <span class="math notranslate nohighlight">\(\mathbb{R}\)</span> to be the set of Dedekind cuts. A Dedekind cut <span class="math notranslate nohighlight">\((A, B)\)</span> corresponds to a rational number <span class="math notranslate nohighlight">\(q\)</span> if <span class="math notranslate nohighlight">\(q\)</span> is the least element of <span class="math notranslate nohighlight">\(B\)</span>, and to an irrational number if <span class="math notranslate nohighlight">\(B\)</span> has no least element. It is straightforward to define addition on <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[(A_1, B_1) + (A_2, B_2) = ( \{a_1 + a_2 \mid a_1 \in A_1, a_2 \in A_2 \}, \{b_1 + b_2 \mid b_1 \in B_1, b_2 \in B_2 \} ).\]</div>
+<p>Some authors prefer this construction to the Cauchy sequence construction because it avoids taking the quotient of a set, and thus removes the complication of showing that arithmetic operations respect equivalence. Others prefer Cauchy sequences since they provide a clearer notion of approximation: if a real number <span class="math notranslate nohighlight">\(r\)</span> is given by a Cauchy sequence <span class="math notranslate nohighlight">\((q_i)_{i \in \mathbb{N}}\)</span>, then an arbitrarily close rational approximation of <span class="math notranslate nohighlight">\(r\)</span> is given by <span class="math notranslate nohighlight">\(q_N\)</span> for a sufficiently large <span class="math notranslate nohighlight">\(N\)</span>.</p>
+<p>For most mathematicians most of the time, though, the difference is immaterial. Both constructions create complete linear ordered fields, and in a certain sense, they create the <em>same</em> complete linear ordered field. Strictly speaking, the set of Cauchy reals is not equal to the set of Dedekind reals, since one consists of equivalence classes of rational Cauchy sequences and one consists of pairs of sets of rationals. But there is a bijection between the two sets that preserves the field properties. That is, there is a bijection <span class="math notranslate nohighlight">\(f\)</span> from the Cauchy reals to the Dedekind reals such that</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f(0)=0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f(1)=1\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f(x+y)=f(x)+f(y)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f(x \cdot y)=f(x) \cdot f(y)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f(-x)=-f(x)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f(x^{-1})=f(x)^{-1}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f(x) \leq f(y) \iff x \leq y\)</span></p></li>
+</ul>
+<p>We say that the two constructions are <em>isomorphic</em>, and that the function <span class="math notranslate nohighlight">\(f\)</span> is an <em>isomorphism</em>. Since we often only care about the real numbers in regard to their status as a complete ordered field, and the two constructions are indistinguishable as ordered fields, it makes no difference which construction is used.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">21.6. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic simple">
+<li><p>Show that addition for the integers, as defined in <a class="reference internal" href="#quotient-constructions"><span class="std std-numref">Section 21.2</span></a>, is commutative and associative.</p></li>
+<li><p>Show from the construction of the integers in <a class="reference internal" href="#quotient-constructions"><span class="std std-numref">Section 21.2</span></a> that <span class="math notranslate nohighlight">\(a + 0 = a\)</span> for every integer <span class="math notranslate nohighlight">\(a\)</span>.</p></li>
+<li><p>Define subtraction for the integers by <span class="math notranslate nohighlight">\(a - b = a + (-b)\)</span>, and show that <span class="math notranslate nohighlight">\(a - b + b = a\)</span> for every pair of integers <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>.</p></li>
+<li><p>Define multiplication for the integers, by first defining it on the underlying representation and then showing that the operation respects the equivalence relation.</p></li>
+<li><p>Show that every Cauchy sequence is bounded: that is, if <span class="math notranslate nohighlight">\((q_i)_{i \in \mathbb{N}}\)</span> is Cauchy, there is some rational <span class="math notranslate nohighlight">\(M\)</span> such that <span class="math notranslate nohighlight">\(|q_i| \leq M\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>. Hint: try letting <span class="math notranslate nohighlight">\(\varepsilon = 1\)</span>.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(p = (p_i)_{i \in \mathbb{N}}\)</span> and <span class="math notranslate nohighlight">\(q = (q_i)_{i \in \mathbb{N}}\)</span> be Cauchy sequences. Define <span class="math notranslate nohighlight">\(p + q = (p_i + q_i)_{i \in \mathbb{N}}\)</span> and <span class="math notranslate nohighlight">\(p q = (p_i  q_i)_{i \in \mathbb{N}}\)</span>.</p>
+<ol class="loweralpha simple">
+<li><p>Show that <span class="math notranslate nohighlight">\(p + q\)</span> is Cauchy. That is, for arbitrary <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, show that there exists an <span class="math notranslate nohighlight">\(N\)</span> such that for all <span class="math notranslate nohighlight">\(i, j \geq N\)</span>, <span class="math notranslate nohighlight">\(|(p_i + q_i) - (p_j + q_j)| &lt; \varepsilon\)</span>.</p></li>
+<li><p>Show that <span class="math notranslate nohighlight">\(p q\)</span> is Cauchy. In addition to the triangle inequality, you will find the previous exercise useful.</p></li>
+</ol>
+</li>
+<li><p>These two parts show that addition of Cauchy sequences respects equivalence.</p>
+<ol class="loweralpha simple">
+<li><p>Show that if <span class="math notranslate nohighlight">\(p, p', q\)</span> are Cauchy sequences and <span class="math notranslate nohighlight">\(p \equiv p'\)</span>, then <span class="math notranslate nohighlight">\(p + q \equiv p' + q\)</span>.</p></li>
+<li><p>Using the first part of this problem, show that if <span class="math notranslate nohighlight">\(p, p', q, q'\)</span> are Cauchy sequences, <span class="math notranslate nohighlight">\(p \equiv p'\)</span>, and <span class="math notranslate nohighlight">\(q \equiv q'\)</span>, then <span class="math notranslate nohighlight">\(p + q \equiv p' + q'\)</span>. You can use the fact that addition on the real numbers is commutative.</p></li>
+</ol>
+</li>
+<li><p>Show that if <span class="math notranslate nohighlight">\((A_1, B_1)\)</span> and <span class="math notranslate nohighlight">\((A_2, B_2)\)</span> are Dedekind cuts, then <span class="math notranslate nohighlight">\((A_1, B_1) + (A_2, B_2)\)</span> is also a Dedekind cut.</p></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">21. The Real Numbers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-number-systems">21.1. The Number Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quotient-constructions">21.2. Quotient Constructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#constructing-the-real-numbers">21.3. Constructing the Real Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-completeness-of-the-real-numbers">21.4. The Completeness of the Real Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#an-alternative-construction">21.5. An Alternative Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">21.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/the_real_numbers.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

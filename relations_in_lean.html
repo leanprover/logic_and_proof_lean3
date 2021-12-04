@@ -1,0 +1,535 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>14. Relations in Lean &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="15. Functions" href="functions.html" />
+    <link rel="prev" title="13. Relations" href="relations.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="relations-in-lean">
+<h1><span class="section-number">14. </span>Relations in Lean<a class="headerlink" href="#relations-in-lean" title="Permalink to this headline">&#182;</a></h1>
+<p>In the last chapter, we noted that set theorists think of a binary relation <span class="math notranslate nohighlight">\(R\)</span> on a set <span class="math notranslate nohighlight">\(A\)</span> as a set of ordered pairs, so that <span class="math notranslate nohighlight">\(R(a, b)\)</span> really means <span class="math notranslate nohighlight">\((a, b) \in R\)</span>. An alternative is to think of <span class="math notranslate nohighlight">\(R\)</span> as a function which, when applied to <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, returns the proposition that <span class="math notranslate nohighlight">\(R(a, b)\)</span> holds. This is the viewpoint adopted by Lean: a binary relation on a type <code class="docutils literal notranslate"><span class="pre">A</span></code> is a function <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8594;</span> <span class="pre">A</span> <span class="pre">&#8594;</span> <span class="pre">Prop</span></code>. Remember that the arrows associate to the right, so <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8594;</span> <span class="pre">A</span> <span class="pre">&#8594;</span> <span class="pre">Prop</span></code> really means <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8594;</span> <span class="pre">(A</span> <span class="pre">&#8594;</span> <span class="pre">Prop)</span></code>. So, given <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">:</span> <span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">a</span></code> is a predicate (the property of being related to <code class="docutils literal notranslate"><span class="pre">A</span></code>), and given <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">b</span> <span class="pre">:</span> <span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">a</span> <span class="pre">b</span></code> is a proposition.</p>
+<div class="section" id="order-relations">
+<h2><span class="section-number">14.1. </span>Order Relations<a class="headerlink" href="#order-relations" title="Permalink to this headline">&#182;</a></h2>
+<p>With first-order logic, we can say what it means for a relation to be reflexive, symmetric, transitive, antisymmetric, and so on:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0Avariable%20%7BA%20%3A%20Type%7D%0A%0Adef%20reflexive%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0A%E2%88%80%20x%2C%20R%20x%20x%0A%0Adef%20symmetric%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0A%E2%88%80%20x%20y%2C%20R%20x%20y%20%E2%86%92%20R%20y%20x%0A%0Adef%20transitive%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0A%E2%88%80%20x%20y%20z%2C%20R%20x%20y%20%E2%86%92%20R%20y%20z%20%E2%86%92%20R%20x%20z%0A%0Adef%20anti_symmetric%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0A%E2%88%80%20x%20y%2C%20R%20x%20y%20%E2%86%92%20R%20y%20x%20%E2%86%92%20x%20%3D%20y%0A%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">namespace</span> <span class="n">hidden</span>
+
+<span class="kd">variable</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span>
+
+<span class="kd">def</span> <span class="n">reflexive</span> <span class="o">(</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="kt">Prop</span> <span class="o">:=</span>
+<span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="n">R</span> <span class="n">x</span> <span class="n">x</span>
+
+<span class="kd">def</span> <span class="n">symmetric</span> <span class="o">(</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="kt">Prop</span> <span class="o">:=</span>
+<span class="bp">&#8704;</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="n">R</span> <span class="n">y</span> <span class="n">x</span>
+
+<span class="kd">def</span> <span class="n">transitive</span> <span class="o">(</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="kt">Prop</span> <span class="o">:=</span>
+<span class="bp">&#8704;</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span><span class="o">,</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="n">R</span> <span class="n">y</span> <span class="n">z</span> <span class="bp">&#8594;</span> <span class="n">R</span> <span class="n">x</span> <span class="n">z</span>
+
+<span class="kd">def</span> <span class="n">anti_symmetric</span> <span class="o">(</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="kt">Prop</span> <span class="o">:=</span>
+<span class="bp">&#8704;</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="n">R</span> <span class="n">y</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">y</span>
+
+<span class="kd">end</span> <span class="n">hidden</span>
+</pre></div>
+</div>
+</div><p>We can then use the notions freely. Notice that Lean will unfold the definitions when necessary, for example, treating <code class="docutils literal notranslate"><span class="pre">reflexive</span> <span class="pre">R</span></code> as <code class="docutils literal notranslate"><span class="pre">&#8704;</span> <span class="pre">x,</span> <span class="pre">R</span> <span class="pre">x</span> <span class="pre">x</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0Avariable%20%7BA%20%3A%20Type%7D%0A%0Adef%20reflexive%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0A%E2%88%80%20x%2C%20R%20x%20x%0A%0Adef%20symmetric%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0A%E2%88%80%20x%20y%2C%20R%20x%20y%20%E2%86%92%20R%20y%20x%0A%0Adef%20transitive%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0A%E2%88%80%20x%20y%20z%2C%20R%20x%20y%20%E2%86%92%20R%20y%20z%20%E2%86%92%20R%20x%20z%0A%0Adef%20anti_symmetric%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0A%E2%88%80%20x%20y%2C%20R%20x%20y%20%E2%86%92%20R%20y%20x%20%E2%86%92%20x%20%3D%20y%0A%0A--%20BEGIN%0Avariable%20R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop%0A%0Aexample%20(h%20%3A%20reflexive%20R)%20(x%20%3A%20A)%20%3A%20R%20x%20x%20%3A%3D%20h%20x%0A%0Aexample%20(h%20%3A%20symmetric%20R)%20(x%20y%20%3A%20A)%20(h1%20%3A%20R%20x%20y)%20%3A%20R%20y%20x%20%3A%3D%0Ah%20x%20y%20h1%0A%0Aexample%20(h%20%3A%20transitive%20R)%20(x%20y%20z%20%3A%20A)%20(h1%20%3A%20R%20x%20y)%20(h2%20%3A%20R%20y%20z)%20%3A%0A%20%20R%20x%20z%20%3A%3D%0Ah%20x%20y%20z%20h1%20h2%0A%0Aexample%20(h%20%3A%20anti_symmetric%20R)%20(x%20y%20%3A%20A)%20(h1%20%3A%20R%20x%20y)%0A%20%20%20%20(h2%20%3A%20R%20y%20x)%20%3A%0A%20%20x%20%3D%20y%20%3A%3D%0Ah%20x%20y%20h1%20h2%0A--%20END%0A%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">reflexive</span> <span class="n">R</span><span class="o">)</span> <span class="o">(</span><span class="n">x</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">:</span> <span class="n">R</span> <span class="n">x</span> <span class="n">x</span> <span class="o">:=</span> <span class="n">h</span> <span class="n">x</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">symmetric</span> <span class="n">R</span><span class="o">)</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span><span class="o">)</span> <span class="o">:</span> <span class="n">R</span> <span class="n">y</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="n">h</span> <span class="n">x</span> <span class="n">y</span> <span class="n">h1</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">transitive</span> <span class="n">R</span><span class="o">)</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">R</span> <span class="n">y</span> <span class="n">z</span><span class="o">)</span> <span class="o">:</span>
+  <span class="n">R</span> <span class="n">x</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="n">h</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="n">h1</span> <span class="n">h2</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">anti_symmetric</span> <span class="n">R</span><span class="o">)</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span><span class="o">)</span>
+    <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">R</span> <span class="n">y</span> <span class="n">x</span><span class="o">)</span> <span class="o">:</span>
+  <span class="n">x</span> <span class="bp">=</span> <span class="n">y</span> <span class="o">:=</span>
+<span class="n">h</span> <span class="n">x</span> <span class="n">y</span> <span class="n">h1</span> <span class="n">h2</span>
+</pre></div>
+</div>
+</div><p>In the command <code class="docutils literal notranslate"><span class="pre">variable</span> <span class="pre">{A</span> <span class="pre">:</span> <span class="pre">Type}</span></code>, we put curly braces around <code class="docutils literal notranslate"><span class="pre">A</span></code> to indicate that it is an <em>implicit</em> argument, which is to say, you do not have to write it explicitly; Lean can infer it from the argument <code class="docutils literal notranslate"><span class="pre">R</span></code>. That is why we can write <code class="docutils literal notranslate"><span class="pre">reflexive</span> <span class="pre">R</span></code> rather than <code class="docutils literal notranslate"><span class="pre">reflexive</span> <span class="pre">A</span> <span class="pre">R</span></code>: Lean knows that <code class="docutils literal notranslate"><span class="pre">R</span></code> is a binary relation on <code class="docutils literal notranslate"><span class="pre">A</span></code>, so it can infer that we mean reflexivity for binary relations on <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p>
+<p>Given <code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">:</span> <span class="pre">transitive</span> <span class="pre">R</span></code>, <code class="docutils literal notranslate"><span class="pre">h1</span> <span class="pre">:</span> <span class="pre">R</span> <span class="pre">x</span> <span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">h2</span> <span class="pre">:</span> <span class="pre">R</span> <span class="pre">y</span> <span class="pre">z</span></code>, it is annoying to have to write <code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">z</span> <span class="pre">h1</span> <span class="pre">h2</span></code> to prove <code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">x</span> <span class="pre">z</span></code>. After all, Lean should be able to infer that we are talking about transitivity at <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code>, from the fact that <code class="docutils literal notranslate"><span class="pre">h1</span></code> is <code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">x</span> <span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">h2</span></code> is <code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">y</span> <span class="pre">z</span></code>. Indeed, we can replace that information by underscores:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0Avariable%20%7BA%20%3A%20Type%7D%0A%0Adef%20transitive%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0A%E2%88%80%20x%20y%20z%2C%20R%20x%20y%20%E2%86%92%20R%20y%20z%20%E2%86%92%20R%20x%20z%0A%0A--%20BEGIN%0Avariable%20R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop%0A%0Aexample%20(h%20%3A%20transitive%20R)%20(x%20y%20z%20%3A%20A)%20(h1%20%3A%20R%20x%20y)%0A%20%20%20%20(h2%20%3A%20R%20y%20z)%20%3A%0A%20%20R%20x%20z%20%3A%3D%0Ah%20_%20_%20_%20h1%20h2%0A--%20END%0A%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">transitive</span> <span class="n">R</span><span class="o">)</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span><span class="o">)</span>
+    <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">R</span> <span class="n">y</span> <span class="n">z</span><span class="o">)</span> <span class="o">:</span>
+  <span class="n">R</span> <span class="n">x</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="n">h</span> <span class="n">_</span> <span class="n">_</span> <span class="n">_</span> <span class="n">h1</span> <span class="n">h2</span>
+</pre></div>
+</div>
+</div><p>But typing underscores is annoying, too. The best solution is to declare the arguments <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">y</span> <span class="pre">z</span></code> to a transitivity hypothesis to be implicit as well:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=--%20BEGIN%0Avariable%20%7BA%20%3A%20Type%7D%0A%0Avariable%20R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop%0A%0Aexample%20(h%20%3A%20transitive%20R)%20(x%20y%20z%20%3A%20A)%20(h1%20%3A%20R%20x%20y)%20(h2%20%3A%20R%20y%20z)%20%3A%0A%20%20R%20x%20z%20%3A%3D%0Ah%20h1%20h2%0A--%20END" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span>
+
+<span class="kd">variable</span> <span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">transitive</span> <span class="n">R</span><span class="o">)</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">R</span> <span class="n">y</span> <span class="n">z</span><span class="o">)</span> <span class="o">:</span>
+  <span class="n">R</span> <span class="n">x</span> <span class="n">z</span> <span class="o">:=</span>
+<span class="n">h</span> <span class="n">h1</span> <span class="n">h2</span>
+</pre></div>
+</div>
+</div><p>In fact, the notions <code class="docutils literal notranslate"><span class="pre">reflexive</span></code>, <code class="docutils literal notranslate"><span class="pre">symmetric</span></code>, <code class="docutils literal notranslate"><span class="pre">transitive</span></code>, and <code class="docutils literal notranslate"><span class="pre">anti_symmetric</span></code> are defined in Lean&#8217;s core library in exactly this way, so we are free to use them without defining them. That is why we put our temporary definitions of in a namespace <code class="docutils literal notranslate"><span class="pre">hidden</span></code>; that means that the full name of our version of <code class="docutils literal notranslate"><span class="pre">reflexive</span></code> is <code class="docutils literal notranslate"><span class="pre">hidden.reflexive</span></code>, which, therefore, doesn&#8217;t conflict with the one defined in the library.</p>
+<p>In <a class="reference internal" href="relations.html#order-relations"><span class="std std-numref">Section 13.1</span></a> we showed that a strict partial order&#8212;that is, a binary relation that is transitive and irreflexive&#8212;is also asymmetric. Here is a proof of that fact in Lean.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20A%20%3A%20Type%0Avariable%20R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop%0A%0Aexample%20(h1%20%3A%20irreflexive%20R)%20(h2%20%3A%20transitive%20R)%20%3A%0A%20%20%E2%88%80%20x%20y%2C%20R%20x%20y%20%E2%86%92%20%C2%AC%20R%20y%20x%20%3A%3D%0Aassume%20x%20y%2C%0Aassume%20h3%20%3A%20R%20x%20y%2C%0Aassume%20h4%20%3A%20R%20y%20x%2C%0Ahave%20h5%20%3A%20R%20x%20x%2C%20from%20h2%20h3%20h4%2C%0Ahave%20h6%20%3A%20%C2%AC%20R%20x%20x%2C%20from%20h1%20x%2C%0Ashow%20false%2C%20from%20h6%20h5" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">variable</span> <span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">irreflexive</span> <span class="n">R</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">transitive</span> <span class="n">R</span><span class="o">)</span> <span class="o">:</span>
+  <span class="bp">&#8704;</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="bp">&#172;</span> <span class="n">R</span> <span class="n">y</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h4</span> <span class="o">:</span> <span class="n">R</span> <span class="n">y</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h5</span> <span class="o">:</span> <span class="n">R</span> <span class="n">x</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">h2</span> <span class="n">h3</span> <span class="n">h4</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h6</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">R</span> <span class="n">x</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">h1</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">h6</span> <span class="n">h5</span>
+</pre></div>
+</div>
+</div><p>In mathematics, it is common to use infix notation and a symbol like <code class="docutils literal notranslate"><span class="pre">&#8804;</span></code> to denote a partial order. Lean supports this practice:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=section%0Aparameter%20A%20%3A%20Type%0Aparameter%20R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop%0A%0Alocal%20infix%20%3C%20%3A%3D%20R%0A%0Aexample%20(h1%20%3A%20irreflexive%20R)%20(h2%20%3A%20transitive%20R)%20%3A%0A%20%20%E2%88%80%20x%20y%2C%20x%20%3C%20y%20%E2%86%92%20%C2%AC%20y%20%3C%20x%20%3A%3D%0Aassume%20x%20y%2C%0Aassume%20h3%20%3A%20x%20%3C%20y%2C%0Aassume%20h4%20%3A%20y%20%3C%20x%2C%0Ahave%20h5%20%3A%20x%20%3C%20x%2C%20from%20h2%20h3%20h4%2C%0Ahave%20h6%20%3A%20%C2%AC%20x%20%3C%20x%2C%20from%20h1%20x%2C%0Ashow%20false%2C%20from%20h6%20h5%0A%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+<span class="kd">parameter</span> <span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">parameter</span> <span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kn">local</span> <span class="kd">infix</span> <span class="bp">&lt;</span> <span class="o">:=</span> <span class="n">R</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">irreflexive</span> <span class="n">R</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">transitive</span> <span class="n">R</span><span class="o">)</span> <span class="o">:</span>
+  <span class="bp">&#8704;</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span> <span class="n">x</span> <span class="bp">&lt;</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="bp">&#172;</span> <span class="n">y</span> <span class="bp">&lt;</span> <span class="n">x</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">&lt;</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h4</span> <span class="o">:</span> <span class="n">y</span> <span class="bp">&lt;</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h5</span> <span class="o">:</span> <span class="n">x</span> <span class="bp">&lt;</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">h2</span> <span class="n">h3</span> <span class="n">h4</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h6</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">x</span> <span class="bp">&lt;</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">h1</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">h6</span> <span class="n">h5</span>
+
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div><p>The <code class="docutils literal notranslate"><span class="pre">parameter</span></code> and <code class="docutils literal notranslate"><span class="pre">parameters</span></code> commands are similar to the <code class="docutils literal notranslate"><span class="pre">variable</span></code> and <code class="docutils literal notranslate"><span class="pre">variables</span></code> commands, except that parameters are fixed within a section. In other words, if you prove a theorem about <code class="docutils literal notranslate"><span class="pre">R</span></code> in the section above, you cannot apply that theorem to another relation, <code class="docutils literal notranslate"><span class="pre">S</span></code>, without closing the section. Since the parameter <code class="docutils literal notranslate"><span class="pre">R</span></code> is fixed, Lean allows us to define notation for <code class="docutils literal notranslate"><span class="pre">R</span></code> to be used locally in the section.</p>
+<p>In the example below, having fixed a partial order, <code class="docutils literal notranslate"><span class="pre">R</span></code>, we define the corresponding strict partial order and prove that it is, indeed, a strict order.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=section%0Aparameters%20%7BA%20%3A%20Type%7D%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%0Aparameter%20(reflR%20%3A%20reflexive%20R)%0Aparameter%20(transR%20%3A%20transitive%20R)%0Aparameter%20(antisymmR%20%3A%20%E2%88%80%20%7Ba%20b%20%3A%20A%7D%2C%20R%20a%20b%20%E2%86%92%20R%20b%20a%20%E2%86%92%20a%20%3D%20b)%0A%0Alocal%20infix%20%E2%89%A4%20%3A%3D%20R%0A%0Adefinition%20R'%20(a%20b%20%3A%20A)%20%3A%20Prop%20%3A%3D%20a%20%E2%89%A4%20b%20%E2%88%A7%20a%20%E2%89%A0%20b%0A%0Alocal%20infix%20%3C%20%3A%3D%20R'%0A%0Atheorem%20irreflR%20(a%20%3A%20A)%20%3A%20%C2%AC%20a%20%3C%20a%20%3A%3D%0Aassume%20%3A%20a%20%3C%20a%2C%0Ahave%20a%20%E2%89%A0%20a%2C%20from%20and.right%20this%2C%0Ahave%20a%20%3D%20a%2C%20from%20rfl%2C%0Ashow%20false%2C%20from%20%E2%80%B9a%20%E2%89%A0%20a%E2%80%BA%20%E2%80%B9a%20%3D%20a%E2%80%BA%0A%0Atheorem%20transR%20%7Ba%20b%20c%20%3A%20A%7D%20(h%E2%82%81%20%3A%20a%20%3C%20b)%20(h%E2%82%82%20%3A%20b%20%3C%20c)%20%3A%20a%20%3C%20c%20%3A%3D%0Ahave%20a%20%E2%89%A4%20b%2C%20from%20and.left%20h%E2%82%81%2C%0Ahave%20a%20%E2%89%A0%20b%2C%20from%20and.right%20h%E2%82%81%2C%0Ahave%20b%20%E2%89%A4%20c%2C%20from%20and.left%20h%E2%82%82%2C%0Ahave%20b%20%E2%89%A0%20c%2C%20from%20and.right%20h%E2%82%82%2C%0Ahave%20a%20%E2%89%A4%20c%2C%20from%20transR%20%E2%80%B9a%20%E2%89%A4%20b%E2%80%BA%20%E2%80%B9b%20%E2%89%A4%20c%E2%80%BA%2C%0Ahave%20a%20%E2%89%A0%20c%2C%20from%0A%20%20%20%20assume%20%3A%20a%20%3D%20c%2C%0A%20%20%20%20have%20c%20%E2%89%A4%20b%2C%20from%20eq.subst%20%E2%80%B9a%20%3D%20c%E2%80%BA%20%E2%80%B9a%20%E2%89%A4%20b%E2%80%BA%2C%0A%20%20%20%20have%20b%20%3D%20c%2C%20from%20antisymmR%20%E2%80%B9b%20%E2%89%A4%20c%E2%80%BA%20%E2%80%B9c%20%E2%89%A4%20b%E2%80%BA%2C%0A%20%20%20%20show%20false%2C%20from%20%E2%80%B9b%20%E2%89%A0%20c%E2%80%BA%20%E2%80%B9b%20%3D%20c%E2%80%BA%2C%0Ashow%20a%20%3C%20c%2C%20from%20and.intro%20%E2%80%B9a%20%E2%89%A4%20c%E2%80%BA%20%E2%80%B9a%20%E2%89%A0%20c%E2%80%BA%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+<span class="kd">parameters</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span> <span class="o">(</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">)</span>
+<span class="kd">parameter</span> <span class="o">(</span><span class="n">reflR</span> <span class="o">:</span> <span class="n">reflexive</span> <span class="n">R</span><span class="o">)</span>
+<span class="kd">parameter</span> <span class="o">(</span><span class="n">transR</span> <span class="o">:</span> <span class="n">transitive</span> <span class="n">R</span><span class="o">)</span>
+<span class="kd">parameter</span> <span class="o">(</span><span class="n">antisymmR</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="o">{</span><span class="n">a</span> <span class="n">b</span> <span class="o">:</span> <span class="n">A</span><span class="o">},</span> <span class="n">R</span> <span class="n">a</span> <span class="n">b</span> <span class="bp">&#8594;</span> <span class="n">R</span> <span class="n">b</span> <span class="n">a</span> <span class="bp">&#8594;</span> <span class="n">a</span> <span class="bp">=</span> <span class="n">b</span><span class="o">)</span>
+
+<span class="kn">local</span> <span class="kd">infix</span> <span class="bp">&#8804;</span> <span class="o">:=</span> <span class="n">R</span>
+
+<span class="kd">definition</span> <span class="n">R&#39;</span> <span class="o">(</span><span class="n">a</span> <span class="n">b</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">:</span> <span class="kt">Prop</span> <span class="o">:=</span> <span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">b</span> <span class="bp">&#8743;</span> <span class="n">a</span> <span class="bp">&#8800;</span> <span class="n">b</span>
+
+<span class="kn">local</span> <span class="kd">infix</span> <span class="bp">&lt;</span> <span class="o">:=</span> <span class="n">R&#39;</span>
+
+<span class="kd">theorem</span> <span class="n">irreflR</span> <span class="o">(</span><span class="n">a</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">a</span> <span class="bp">&lt;</span> <span class="n">a</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&lt;</span> <span class="n">a</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">a</span> <span class="bp">&#8800;</span> <span class="n">a</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.right</span> <span class="n">this</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">a</span> <span class="bp">=</span> <span class="n">a</span><span class="o">,</span> <span class="k">from</span> <span class="n">rfl</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="o">&#8249;</span><span class="n">a</span> <span class="bp">&#8800;</span> <span class="n">a</span><span class="o">&#8250;</span> <span class="o">&#8249;</span><span class="n">a</span> <span class="bp">=</span> <span class="n">a</span><span class="o">&#8250;</span>
+
+<span class="kd">theorem</span> <span class="n">transR</span> <span class="o">{</span><span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="o">:</span> <span class="n">A</span><span class="o">}</span> <span class="o">(</span><span class="n">h&#8321;</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&lt;</span> <span class="n">b</span><span class="o">)</span> <span class="o">(</span><span class="n">h&#8322;</span> <span class="o">:</span> <span class="n">b</span> <span class="bp">&lt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&lt;</span> <span class="n">c</span> <span class="o">:=</span>
+<span class="k">have</span> <span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">b</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.left</span> <span class="n">h&#8321;</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">a</span> <span class="bp">&#8800;</span> <span class="n">b</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.right</span> <span class="n">h&#8321;</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">b</span> <span class="bp">&#8804;</span> <span class="n">c</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.left</span> <span class="n">h&#8322;</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">b</span> <span class="bp">&#8800;</span> <span class="n">c</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.right</span> <span class="n">h&#8322;</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">c</span><span class="o">,</span> <span class="k">from</span> <span class="n">transR</span> <span class="o">&#8249;</span><span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">b</span><span class="o">&#8250;</span> <span class="o">&#8249;</span><span class="n">b</span> <span class="bp">&#8804;</span> <span class="n">c</span><span class="o">&#8250;,</span>
+<span class="k">have</span> <span class="n">a</span> <span class="bp">&#8800;</span> <span class="n">c</span><span class="o">,</span> <span class="k">from</span>
+    <span class="k">assume</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">=</span> <span class="n">c</span><span class="o">,</span>
+    <span class="k">have</span> <span class="n">c</span> <span class="bp">&#8804;</span> <span class="n">b</span><span class="o">,</span> <span class="k">from</span> <span class="n">eq.subst</span> <span class="o">&#8249;</span><span class="n">a</span> <span class="bp">=</span> <span class="n">c</span><span class="o">&#8250;</span> <span class="o">&#8249;</span><span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">b</span><span class="o">&#8250;,</span>
+    <span class="k">have</span> <span class="n">b</span> <span class="bp">=</span> <span class="n">c</span><span class="o">,</span> <span class="k">from</span> <span class="n">antisymmR</span> <span class="o">&#8249;</span><span class="n">b</span> <span class="bp">&#8804;</span> <span class="n">c</span><span class="o">&#8250;</span> <span class="o">&#8249;</span><span class="n">c</span> <span class="bp">&#8804;</span> <span class="n">b</span><span class="o">&#8250;,</span>
+    <span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="o">&#8249;</span><span class="n">b</span> <span class="bp">&#8800;</span> <span class="n">c</span><span class="o">&#8250;</span> <span class="o">&#8249;</span><span class="n">b</span> <span class="bp">=</span> <span class="n">c</span><span class="o">&#8250;,</span>
+<span class="k">show</span> <span class="n">a</span> <span class="bp">&lt;</span> <span class="n">c</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.intro</span> <span class="o">&#8249;</span><span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">c</span><span class="o">&#8250;</span> <span class="o">&#8249;</span><span class="n">a</span> <span class="bp">&#8800;</span> <span class="n">c</span><span class="o">&#8250;</span>
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div><p>Notice that we have used suggestive names <code class="docutils literal notranslate"><span class="pre">reflR</span></code>, <code class="docutils literal notranslate"><span class="pre">transR</span></code>, <code class="docutils literal notranslate"><span class="pre">antisymmR</span></code> instead of <code class="docutils literal notranslate"><span class="pre">h1</span></code>, <code class="docutils literal notranslate"><span class="pre">h2</span></code>, <code class="docutils literal notranslate"><span class="pre">h3</span></code> to help remember which hypothesis is which. The proof also uses anonymous <code class="docutils literal notranslate"><span class="pre">have</span></code> and <code class="docutils literal notranslate"><span class="pre">assume</span></code>, referring back to them with the French quotes, <code class="docutils literal notranslate"><span class="pre">\f&lt;</span></code> anf <code class="docutils literal notranslate"><span class="pre">\f&gt;</span></code>. Remember also that <code class="docutils literal notranslate"><span class="pre">eq.subst</span> <span class="pre">&#8249;a</span> <span class="pre">=</span> <span class="pre">c&#8250;</span> <span class="pre">&#8249;a</span> <span class="pre">&#8804;</span> <span class="pre">b&#8250;</span></code> is a proof of the fact that amounts for substituting <code class="docutils literal notranslate"><span class="pre">c</span></code> for <code class="docutils literal notranslate"><span class="pre">a</span></code> in <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&#8804;</span> <span class="pre">b</span></code>. You can also use the equivalent notation <code class="docutils literal notranslate"><span class="pre">&#8249;a</span> <span class="pre">=</span> <span class="pre">c&#8250;</span> <span class="pre">&#9656;</span> <span class="pre">&#8249;a</span> <span class="pre">&#8804;</span> <span class="pre">b&#8250;</span></code>, where the triangle is written <code class="docutils literal notranslate"><span class="pre">\t</span></code>.</p>
+<p>In Section <a class="reference internal" href="relations.html#order-relations"><span class="std std-numref">Section 13.1</span></a>, we also noted that you can define a (weak) partial order from a strict one. We ask you to do this formally in the exercises below.</p>
+<p>Here is one more example. Suppose <code class="docutils literal notranslate"><span class="pre">R</span></code> is a binary relation on a type <code class="docutils literal notranslate"><span class="pre">A</span></code>, and we define <code class="docutils literal notranslate"><span class="pre">S</span> <span class="pre">x</span> <span class="pre">y</span></code> to mean that both <code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">x</span> <span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">y</span> <span class="pre">x</span></code> holds. Below we show that the resulting relation is reflexive and symmetric.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=section%0Aparameter%20A%20%3A%20Type%0Aparameter%20R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop%0A%0Avariable%20h1%20%3A%20transitive%20R%0Avariable%20h2%20%3A%20reflexive%20R%0A%0Adef%20S%20(x%20y%20%3A%20A)%20%3A%3D%20R%20x%20y%20%E2%88%A7%20R%20y%20x%0A%0Aexample%20%3A%20reflexive%20S%20%3A%3D%0Aassume%20x%2C%0Ahave%20R%20x%20x%2C%20from%20h2%20x%2C%0Ashow%20S%20x%20x%2C%20from%20and.intro%20this%20this%0A%0Aexample%20%3A%20symmetric%20S%20%3A%3D%0Aassume%20x%20y%2C%0Aassume%20h%20%3A%20S%20x%20y%2C%0Ahave%20h1%20%3A%20R%20x%20y%2C%20from%20h.left%2C%0Ahave%20h2%20%3A%20R%20y%20x%2C%20from%20h.right%2C%0Ashow%20S%20y%20x%2C%20from%20%E2%9F%A8h.right%2C%20h.left%E2%9F%A9%0A%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+<span class="kd">parameter</span> <span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="kd">parameter</span> <span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span>
+
+<span class="kd">variable</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">transitive</span> <span class="n">R</span>
+<span class="kd">variable</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">reflexive</span> <span class="n">R</span>
+
+<span class="kd">def</span> <span class="n">S</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">:=</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span> <span class="bp">&#8743;</span> <span class="n">R</span> <span class="n">y</span> <span class="n">x</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">reflexive</span> <span class="n">S</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">R</span> <span class="n">x</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">h2</span> <span class="n">x</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">S</span> <span class="n">x</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.intro</span> <span class="n">this</span> <span class="n">this</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">symmetric</span> <span class="n">S</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">assume</span> <span class="n">h</span> <span class="o">:</span> <span class="n">S</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span> <span class="k">from</span> <span class="n">h.left</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">R</span> <span class="n">y</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="n">h.right</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">S</span> <span class="n">y</span> <span class="n">x</span><span class="o">,</span> <span class="k">from</span> <span class="o">&#10216;</span><span class="n">h.right</span><span class="o">,</span> <span class="n">h.left</span><span class="o">&#10217;</span>
+
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div><p>In the exercises below, we ask you to show that <code class="docutils literal notranslate"><span class="pre">S</span></code> is transitive as well.</p>
+<p>In the first example, we use the anonymous <code class="docutils literal notranslate"><span class="pre">assume</span></code> and <code class="docutils literal notranslate"><span class="pre">have</span></code>, and then refer back to the <code class="docutils literal notranslate"><span class="pre">have</span></code> with the keyword <code class="docutils literal notranslate"><span class="pre">this</span></code>. In the second example, we abbreviate <code class="docutils literal notranslate"><span class="pre">and.left</span> <span class="pre">h</span></code> and <code class="docutils literal notranslate"><span class="pre">and.right</span> <span class="pre">h</span></code> as <code class="docutils literal notranslate"><span class="pre">h.left</span></code> and <code class="docutils literal notranslate"><span class="pre">h.right</span></code>, respectively. We also abbreviate <code class="docutils literal notranslate"><span class="pre">and.intro</span> <span class="pre">h.right</span> <span class="pre">h.left</span></code> with an anonymous constructor, writing <code class="docutils literal notranslate"><span class="pre">&#10216;h.right,</span> <span class="pre">h.left&#10217;</span></code>. Lean figures out that we are trying to prove a conjunction, and figures out that <code class="docutils literal notranslate"><span class="pre">and.intro</span></code> is the relevant introduction principle. You can type the corner brackets with <code class="docutils literal notranslate"><span class="pre">\&lt;</span></code> and <code class="docutils literal notranslate"><span class="pre">\&gt;</span></code>, respectively.</p>
+</div>
+<div class="section" id="orderings-on-numbers">
+<h2><span class="section-number">14.2. </span>Orderings on Numbers<a class="headerlink" href="#orderings-on-numbers" title="Permalink to this headline">&#182;</a></h2>
+<p>Conveniently, Lean has the normal orderings on the natural numbers, integers, and so on defined already.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20nat%0Avariables%20n%20m%20%3A%20%E2%84%95%0A%0A%23check%200%20%E2%89%A4%20n%0A%23check%20n%20%3C%20n%20%2B%201%0A%0Aexample%20%3A%200%20%E2%89%A4%20n%20%3A%3D%20nat.zero_le%20n%0Aexample%20%3A%20n%20%3C%20n%20%2B%201%20%3A%3D%20lt_succ_self%20n%0A%0Aexample%20(h%20%3A%20n%20%2B%201%20%E2%89%A4%20m)%20%3A%20n%20%3C%20m%20%2B%201%20%3A%3D%0Ahave%20h1%20%3A%20n%20%3C%20n%20%2B%201%2C%20from%20lt_succ_self%20n%2C%0Ahave%20h2%20%3A%20n%20%3C%20m%2C%20from%20lt_of_lt_of_le%20h1%20h%2C%0Ahave%20h3%20%3A%20m%20%3C%20m%20%2B%201%2C%20from%20lt_succ_self%20m%2C%0Ashow%20n%20%3C%20m%20%2B%201%2C%20from%20lt_trans%20h2%20h3" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">nat</span>
+<span class="kd">variables</span> <span class="n">n</span> <span class="n">m</span> <span class="o">:</span> <span class="n">&#8469;</span>
+
+<span class="k">#check</span> <span class="mi">0</span> <span class="bp">&#8804;</span> <span class="n">n</span>
+<span class="k">#check</span> <span class="n">n</span> <span class="bp">&lt;</span> <span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="mi">0</span> <span class="bp">&#8804;</span> <span class="n">n</span> <span class="o">:=</span> <span class="n">nat.zero_le</span> <span class="n">n</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="n">n</span> <span class="bp">&lt;</span> <span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span> <span class="o">:=</span> <span class="n">lt_succ_self</span> <span class="n">n</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span> <span class="bp">&#8804;</span> <span class="n">m</span><span class="o">)</span> <span class="o">:</span> <span class="n">n</span> <span class="bp">&lt;</span> <span class="n">m</span> <span class="bp">+</span> <span class="mi">1</span> <span class="o">:=</span>
+<span class="k">have</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">n</span> <span class="bp">&lt;</span> <span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">,</span> <span class="k">from</span> <span class="n">lt_succ_self</span> <span class="n">n</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">n</span> <span class="bp">&lt;</span> <span class="n">m</span><span class="o">,</span> <span class="k">from</span> <span class="n">lt_of_lt_of_le</span> <span class="n">h1</span> <span class="n">h</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">m</span> <span class="bp">&lt;</span> <span class="n">m</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">,</span> <span class="k">from</span> <span class="n">lt_succ_self</span> <span class="n">m</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">n</span> <span class="bp">&lt;</span> <span class="n">m</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">,</span> <span class="k">from</span> <span class="n">lt_trans</span> <span class="n">h2</span> <span class="n">h3</span>
+</pre></div>
+</div>
+</div><p>There are many theorems in Lean that are useful for proving facts about inequality relations. We list some common ones here.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20(A%20%3A%20Type)%20%5Bpartial_order%20A%5D%0Avariables%20a%20b%20c%20%3A%20A%0A%0A%23check%20(le_trans%20%3A%20a%20%E2%89%A4%20b%20%E2%86%92%20b%20%E2%89%A4%20c%20%E2%86%92%20a%20%E2%89%A4%20c)%0A%23check%20(lt_trans%20%3A%20a%20%3C%20b%20%E2%86%92%20b%20%3C%20c%20%E2%86%92%20a%20%3C%20c)%0A%23check%20(lt_of_lt_of_le%20%3A%20a%20%3C%20b%20%E2%86%92%20b%20%E2%89%A4%20c%20%E2%86%92%20a%20%3C%20c)%0A%23check%20(lt_of_le_of_lt%20%3A%20a%20%E2%89%A4%20b%20%E2%86%92%20b%20%3C%20c%20%E2%86%92%20a%20%3C%20c)%0A%23check%20(le_of_lt%20%3A%20a%20%3C%20b%20%E2%86%92%20a%20%E2%89%A4%20b)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variables</span> <span class="o">(</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">)</span> <span class="o">[</span><span class="n">partial_order</span> <span class="n">A</span><span class="o">]</span>
+<span class="kd">variables</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="o">:</span> <span class="n">A</span>
+
+<span class="k">#check</span> <span class="o">(</span><span class="n">le_trans</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">b</span> <span class="bp">&#8594;</span> <span class="n">b</span> <span class="bp">&#8804;</span> <span class="n">c</span> <span class="bp">&#8594;</span> <span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">c</span><span class="o">)</span>
+<span class="k">#check</span> <span class="o">(</span><span class="n">lt_trans</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&lt;</span> <span class="n">b</span> <span class="bp">&#8594;</span> <span class="n">b</span> <span class="bp">&lt;</span> <span class="n">c</span> <span class="bp">&#8594;</span> <span class="n">a</span> <span class="bp">&lt;</span> <span class="n">c</span><span class="o">)</span>
+<span class="k">#check</span> <span class="o">(</span><span class="n">lt_of_lt_of_le</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&lt;</span> <span class="n">b</span> <span class="bp">&#8594;</span> <span class="n">b</span> <span class="bp">&#8804;</span> <span class="n">c</span> <span class="bp">&#8594;</span> <span class="n">a</span> <span class="bp">&lt;</span> <span class="n">c</span><span class="o">)</span>
+<span class="k">#check</span> <span class="o">(</span><span class="n">lt_of_le_of_lt</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">b</span> <span class="bp">&#8594;</span> <span class="n">b</span> <span class="bp">&lt;</span> <span class="n">c</span> <span class="bp">&#8594;</span> <span class="n">a</span> <span class="bp">&lt;</span> <span class="n">c</span><span class="o">)</span>
+<span class="k">#check</span> <span class="o">(</span><span class="n">le_of_lt</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&lt;</span> <span class="n">b</span> <span class="bp">&#8594;</span> <span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">b</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>Here the declaration at the top says that <code class="docutils literal notranslate"><span class="pre">A</span></code> has the structure of a partial order. There are also properties that are specific to some domains, like the natural numbers:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variable%20n%20%3A%20%E2%84%95%0A%0A%23check%20(nat.zero_le%20%3A%20%E2%88%80%20n%20%3A%20%E2%84%95%2C%200%20%E2%89%A4%20n)%0A%23check%20(nat.lt_succ_self%20%3A%20%E2%88%80%20n%20%3A%20%E2%84%95%2C%20n%20%3C%20n%20%2B%201)%0A%23check%20(nat.le_succ%20%3A%20%E2%88%80%20n%20%3A%20%E2%84%95%2C%20n%20%E2%89%A4%20n%20%2B%201)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variable</span> <span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span>
+
+<span class="k">#check</span> <span class="o">(</span><span class="n">nat.zero_le</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">,</span> <span class="mi">0</span> <span class="bp">&#8804;</span> <span class="n">n</span><span class="o">)</span>
+<span class="k">#check</span> <span class="o">(</span><span class="n">nat.lt_succ_self</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">,</span> <span class="n">n</span> <span class="bp">&lt;</span> <span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span>
+<span class="k">#check</span> <span class="o">(</span><span class="n">nat.le_succ</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">,</span> <span class="n">n</span> <span class="bp">&#8804;</span> <span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="equivalence-relations">
+<h2><span class="section-number">14.3. </span>Equivalence Relations<a class="headerlink" href="#equivalence-relations" title="Permalink to this headline">&#182;</a></h2>
+<p>In <a class="reference internal" href="relations.html#equivalence-relations-and-equality"><span class="std std-numref">Section 13.3</span></a> we saw that an <em>equivalence relation</em> is a binary relation on some domain <span class="math notranslate nohighlight">\(A\)</span> that is reflexive, symmetric, and transitive. We will see such relations in Lean in a moment, but first let&#8217;s define another kind of relation called a <em>preorder</em>, which is a binary relation that is reflexive and transitive.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0Avariable%20%7BA%20%3A%20Type%7D%0A%0Adef%20preorder%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0Areflexive%20R%20%E2%88%A7%20transitive%20R%0A%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">namespace</span> <span class="n">hidden</span>
+
+<span class="kd">variable</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span>
+
+<span class="kd">def</span> <span class="n">preorder</span> <span class="o">(</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="kt">Prop</span> <span class="o">:=</span>
+<span class="n">reflexive</span> <span class="n">R</span> <span class="bp">&#8743;</span> <span class="n">transitive</span> <span class="n">R</span>
+
+<span class="kd">end</span> <span class="n">hidden</span>
+</pre></div>
+</div>
+</div><p>Lean&#8217;s library provides a different formulation of preorders, so, in order to use the same name, we have to put it in the <code class="docutils literal notranslate"><span class="pre">hidden</span></code> namespace. Lean&#8217;s library defines other properties of relations, such as these:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0Avariables%20%7BA%20%3A%20Type%7D%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%0A%0Adef%20equivalence%20%3A%3D%20reflexive%20R%20%E2%88%A7%20symmetric%20R%20%E2%88%A7%20transitive%20R%0A%0Adef%20total%20%3A%3D%20%E2%88%80%20x%20y%2C%20R%20x%20y%20%E2%88%A8%20R%20y%20x%0A%0Adef%20irreflexive%20%3A%3D%20%E2%88%80%20x%2C%20%C2%AC%20R%20x%20x%0A%0Adef%20anti_symmetric%20%3A%3D%20%E2%88%80%20%E2%A6%83x%20y%E2%A6%84%2C%20R%20x%20y%20%E2%86%92%20R%20y%20x%20%E2%86%92%20x%20%3D%20y%0A%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">namespace</span> <span class="n">hidden</span>
+
+<span class="kd">variables</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span> <span class="o">(</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">)</span>
+
+<span class="kd">def</span> <span class="n">equivalence</span> <span class="o">:=</span> <span class="n">reflexive</span> <span class="n">R</span> <span class="bp">&#8743;</span> <span class="n">symmetric</span> <span class="n">R</span> <span class="bp">&#8743;</span> <span class="n">transitive</span> <span class="n">R</span>
+
+<span class="kd">def</span> <span class="n">total</span> <span class="o">:=</span> <span class="bp">&#8704;</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span> <span class="bp">&#8744;</span> <span class="n">R</span> <span class="n">y</span> <span class="n">x</span>
+
+<span class="kd">def</span> <span class="n">irreflexive</span> <span class="o">:=</span> <span class="bp">&#8704;</span> <span class="n">x</span><span class="o">,</span> <span class="bp">&#172;</span> <span class="n">R</span> <span class="n">x</span> <span class="n">x</span>
+
+<span class="kd">def</span> <span class="n">anti_symmetric</span> <span class="o">:=</span> <span class="bp">&#8704;</span> <span class="o">&#10627;</span><span class="n">x</span> <span class="n">y</span><span class="o">&#10628;,</span> <span class="n">R</span> <span class="n">x</span> <span class="n">y</span> <span class="bp">&#8594;</span> <span class="n">R</span> <span class="n">y</span> <span class="n">x</span> <span class="bp">&#8594;</span> <span class="n">x</span> <span class="bp">=</span> <span class="n">y</span>
+
+<span class="kd">end</span> <span class="n">hidden</span>
+</pre></div>
+</div>
+</div><p>You can ask Lean to print their definitions:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=%23print%20equivalence%0A%23print%20total%0A%23print%20irreflexive%0A%23print%20anti_symmetric" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="k">#print</span> <span class="n">equivalence</span>
+<span class="k">#print</span> <span class="n">total</span>
+<span class="k">#print</span> <span class="n">irreflexive</span>
+<span class="k">#print</span> <span class="n">anti_symmetric</span>
+</pre></div>
+</div>
+</div><p>Building on our previous definition of a preorder, we can describe a partial order as an antisymmetric preorder, and show that an equivalence relation as a symmetric preorder.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0Avariable%20%7BA%20%3A%20Type%7D%0A%0Adef%20preorder%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0Areflexive%20R%20%E2%88%A7%20transitive%20R%0A%0Adef%20partial_order%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0Apreorder%20R%20%E2%88%A7%20anti_symmetric%20R%0A%0Aexample%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%3A%0A%20%20equivalence%20R%20%E2%86%94%20preorder%20R%20%E2%88%A7%20symmetric%20R%20%3A%3D%0Aiff.intro%0A%20%20(assume%20h1%20%3A%20equivalence%20R%2C%0A%20%20%20%20have%20h2%20%3A%20reflexive%20R%2C%20from%20and.left%20h1%2C%0A%20%20%20%20have%20h3%20%3A%20symmetric%20R%2C%20from%20and.left%20(and.right%20h1)%2C%0A%20%20%20%20have%20h4%20%3A%20transitive%20R%2C%20from%20and.right%20(and.right%20h1)%2C%0A%20%20%20%20show%20preorder%20R%20%E2%88%A7%20symmetric%20R%2C%0A%20%20%20%20%20%20from%20and.intro%20(and.intro%20h2%20h4)%20h3)%0A%20%20(assume%20h1%20%3A%20preorder%20R%20%E2%88%A7%20symmetric%20R%2C%0A%20%20%20%20have%20h2%20%3A%20preorder%20R%2C%20from%20and.left%20h1%2C%0A%20%20%20%20show%20equivalence%20R%2C%0A%20%20%20%20%20%20from%20and.intro%20(and.left%20h2)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20(and.intro%20(and.right%20h1)%20(and.right%20h2)))%0A%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">namespace</span> <span class="n">hidden</span>
+
+<span class="kd">variable</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span>
+
+<span class="kd">def</span> <span class="n">preorder</span> <span class="o">(</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="kt">Prop</span> <span class="o">:=</span>
+<span class="n">reflexive</span> <span class="n">R</span> <span class="bp">&#8743;</span> <span class="n">transitive</span> <span class="n">R</span>
+
+<span class="kd">def</span> <span class="n">partial_order</span> <span class="o">(</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="kt">Prop</span> <span class="o">:=</span>
+<span class="n">preorder</span> <span class="n">R</span> <span class="bp">&#8743;</span> <span class="n">anti_symmetric</span> <span class="n">R</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">):</span>
+  <span class="n">equivalence</span> <span class="n">R</span> <span class="bp">&#8596;</span> <span class="n">preorder</span> <span class="n">R</span> <span class="bp">&#8743;</span> <span class="n">symmetric</span> <span class="n">R</span> <span class="o">:=</span>
+<span class="n">iff.intro</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">equivalence</span> <span class="n">R</span><span class="o">,</span>
+    <span class="k">have</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">reflexive</span> <span class="n">R</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.left</span> <span class="n">h1</span><span class="o">,</span>
+    <span class="k">have</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">symmetric</span> <span class="n">R</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.left</span> <span class="o">(</span><span class="n">and.right</span> <span class="n">h1</span><span class="o">),</span>
+    <span class="k">have</span> <span class="n">h4</span> <span class="o">:</span> <span class="n">transitive</span> <span class="n">R</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.right</span> <span class="o">(</span><span class="n">and.right</span> <span class="n">h1</span><span class="o">),</span>
+    <span class="k">show</span> <span class="n">preorder</span> <span class="n">R</span> <span class="bp">&#8743;</span> <span class="n">symmetric</span> <span class="n">R</span><span class="o">,</span>
+      <span class="k">from</span> <span class="n">and.intro</span> <span class="o">(</span><span class="n">and.intro</span> <span class="n">h2</span> <span class="n">h4</span><span class="o">)</span> <span class="n">h3</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">preorder</span> <span class="n">R</span> <span class="bp">&#8743;</span> <span class="n">symmetric</span> <span class="n">R</span><span class="o">,</span>
+    <span class="k">have</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">preorder</span> <span class="n">R</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.left</span> <span class="n">h1</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">equivalence</span> <span class="n">R</span><span class="o">,</span>
+      <span class="k">from</span> <span class="n">and.intro</span> <span class="o">(</span><span class="n">and.left</span> <span class="n">h2</span><span class="o">)</span>
+             <span class="o">(</span><span class="n">and.intro</span> <span class="o">(</span><span class="n">and.right</span> <span class="n">h1</span><span class="o">)</span> <span class="o">(</span><span class="n">and.right</span> <span class="n">h2</span><span class="o">)))</span>
+
+<span class="kd">end</span> <span class="n">hidden</span>
+</pre></div>
+</div>
+</div><p>In <a class="reference internal" href="relations.html#equivalence-relations-and-equality"><span class="std std-numref">Section 13.3</span></a> we claimed that there is yet another way to define an equivalence relation, namely, as a binary relation satisfying the following two properties:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall a \; (a \equiv a)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall {a, b, c} \; (a \equiv b \wedge c \equiv b \to a \equiv c)\)</span></p></li>
+</ul>
+<p>Let&#8217;s prove this in Lean. Remember that the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> and <code class="docutils literal notranslate"><span class="pre">local</span> <span class="pre">infix</span></code> commands serve to fix a relation <code class="docutils literal notranslate"><span class="pre">R</span></code> and introduce the notation <code class="docutils literal notranslate"><span class="pre">&#8776;</span></code> to denote it. (You can type <code class="docutils literal notranslate"><span class="pre">&#8776;</span></code> as <code class="docutils literal notranslate"><span class="pre">\~~</span></code>.) In the assumptions <code class="docutils literal notranslate"><span class="pre">reflexive</span> <span class="pre">(&#8776;)</span></code> and <code class="docutils literal notranslate"><span class="pre">symmetric</span> <span class="pre">(&#8776;)</span></code>, the notation <code class="docutils literal notranslate"><span class="pre">(&#8776;)</span></code> denotes <code class="docutils literal notranslate"><span class="pre">R</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0Adef%20preorder%20%7BA%20%3A%20Type%7D%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%20%3A%20Prop%20%3A%3D%0Areflexive%20R%20%E2%88%A7%20transitive%20R%0A%0A--%20BEGIN%0Asection%0Aparameters%20%7BA%20%3A%20Type%7D%20(R%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop)%0Alocal%20infix%20%E2%89%88%20%3A%3D%20R%0A%0Avariable%20(h1%20%3A%20reflexive%20(%E2%89%88))%0Avariable%20(h2%20%3A%20%E2%88%80%20%7Ba%20b%20c%7D%2C%20a%20%E2%89%88%20b%20%E2%88%A7%20c%20%E2%89%88%20b%20%E2%86%92%20a%20%E2%89%88%20c)%0A%0Aexample%20%3A%20symmetric%20(%E2%89%88)%20%3A%3D%0Aassume%20a%20b%20(h%20%3A%20a%20%E2%89%88%20b)%2C%0Ahave%20b%20%E2%89%88%20b%20%E2%88%A7%20a%20%E2%89%88%20b%2C%20from%20and.intro%20(h1%20b)%20h%2C%0Ashow%20b%20%E2%89%88%20a%2C%20from%20h2%20this%0A%0Aexample%20%3A%20transitive%20(%E2%89%88)%20%3A%3D%0Aassume%20a%20b%20c%20(h3%20%3A%20a%20%E2%89%88%20b)%20(h4%20%3A%20b%20%E2%89%88%20c)%2C%0Ahave%20c%20%E2%89%88%20b%2C%20from%20h2%20(and.intro%20(h1%20c)%20h4)%2C%0Ahave%20a%20%E2%89%88%20b%20%E2%88%A7%20c%20%E2%89%88%20b%2C%20from%20and.intro%20h3%20this%2C%0Ashow%20a%20%E2%89%88%20c%2C%20from%20h2%20this%0A%0Aend%0A--%20END%0A%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+<span class="kd">parameters</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span> <span class="o">(</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">)</span>
+<span class="kn">local</span> <span class="kd">infix</span> <span class="bp">&#8776;</span> <span class="o">:=</span> <span class="n">R</span>
+
+<span class="kd">variable</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">reflexive</span> <span class="o">(</span><span class="bp">&#8776;</span><span class="o">))</span>
+<span class="kd">variable</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="o">{</span><span class="n">a</span> <span class="n">b</span> <span class="n">c</span><span class="o">},</span> <span class="n">a</span> <span class="bp">&#8776;</span> <span class="n">b</span> <span class="bp">&#8743;</span> <span class="n">c</span> <span class="bp">&#8776;</span> <span class="n">b</span> <span class="bp">&#8594;</span> <span class="n">a</span> <span class="bp">&#8776;</span> <span class="n">c</span><span class="o">)</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">symmetric</span> <span class="o">(</span><span class="bp">&#8776;</span><span class="o">)</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">a</span> <span class="n">b</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&#8776;</span> <span class="n">b</span><span class="o">),</span>
+<span class="k">have</span> <span class="n">b</span> <span class="bp">&#8776;</span> <span class="n">b</span> <span class="bp">&#8743;</span> <span class="n">a</span> <span class="bp">&#8776;</span> <span class="n">b</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.intro</span> <span class="o">(</span><span class="n">h1</span> <span class="n">b</span><span class="o">)</span> <span class="n">h</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">b</span> <span class="bp">&#8776;</span> <span class="n">a</span><span class="o">,</span> <span class="k">from</span> <span class="n">h2</span> <span class="n">this</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">transitive</span> <span class="o">(</span><span class="bp">&#8776;</span><span class="o">)</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="o">(</span><span class="n">h3</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&#8776;</span> <span class="n">b</span><span class="o">)</span> <span class="o">(</span><span class="n">h4</span> <span class="o">:</span> <span class="n">b</span> <span class="bp">&#8776;</span> <span class="n">c</span><span class="o">),</span>
+<span class="k">have</span> <span class="n">c</span> <span class="bp">&#8776;</span> <span class="n">b</span><span class="o">,</span> <span class="k">from</span> <span class="n">h2</span> <span class="o">(</span><span class="n">and.intro</span> <span class="o">(</span><span class="n">h1</span> <span class="n">c</span><span class="o">)</span> <span class="n">h4</span><span class="o">),</span>
+<span class="k">have</span> <span class="n">a</span> <span class="bp">&#8776;</span> <span class="n">b</span> <span class="bp">&#8743;</span> <span class="n">c</span> <span class="bp">&#8776;</span> <span class="n">b</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.intro</span> <span class="n">h3</span> <span class="n">this</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">a</span> <span class="bp">&#8776;</span> <span class="n">c</span><span class="o">,</span> <span class="k">from</span> <span class="n">h2</span> <span class="n">this</span>
+
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="exercises">
+<h2><span class="section-number">14.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>Replace the <code class="docutils literal notranslate"><span class="pre">sorry</span></code> commands in the following proofs to show that we can create a partial order <code class="docutils literal notranslate"><span class="pre">R'&#8203;</span></code> out of a strict partial order <code class="docutils literal notranslate"><span class="pre">R</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=section%0Aparameters%20%7BA%20%3A%20Type%7D%20%7BR%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop%7D%0Aparameter%20(irreflR%20%3A%20irreflexive%20R)%0Aparameter%20(transR%20%3A%20transitive%20R)%0A%0Alocal%20infix%20%3C%20%3A%3D%20R%0A%0Adef%20R'%20(a%20b%20%3A%20A)%20%3A%20Prop%20%3A%3D%20R%20a%20b%20%E2%88%A8%20a%20%3D%20b%0Alocal%20infix%20%E2%89%A4%20%3A%3D%20R'%0A%0Atheorem%20reflR'%20(a%20%3A%20A)%20%3A%20a%20%E2%89%A4%20a%20%3A%3D%20sorry%0A%0Atheorem%20transR'%20%7Ba%20b%20c%20%3A%20A%7D%20(h1%20%3A%20a%20%E2%89%A4%20b)%20(h2%20%3A%20b%20%E2%89%A4%20c)%3A%0A%20%20a%20%E2%89%A4%20c%20%3A%3D%0Asorry%0A%0Atheorem%20antisymmR'%20%7Ba%20b%20%3A%20A%7D%20(h1%20%3A%20a%20%E2%89%A4%20b)%20(h2%20%3A%20b%20%E2%89%A4%20a)%20%3A%0A%20%20a%20%3D%20b%20%3A%3D%0Asorry%0A%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+<span class="kd">parameters</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span> <span class="o">{</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">}</span>
+<span class="kd">parameter</span> <span class="o">(</span><span class="n">irreflR</span> <span class="o">:</span> <span class="n">irreflexive</span> <span class="n">R</span><span class="o">)</span>
+<span class="kd">parameter</span> <span class="o">(</span><span class="n">transR</span> <span class="o">:</span> <span class="n">transitive</span> <span class="n">R</span><span class="o">)</span>
+
+<span class="kn">local</span> <span class="kd">infix</span> <span class="bp">&lt;</span> <span class="o">:=</span> <span class="n">R</span>
+
+<span class="kd">def</span> <span class="n">R&#39;</span> <span class="o">(</span><span class="n">a</span> <span class="n">b</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">:</span> <span class="kt">Prop</span> <span class="o">:=</span> <span class="n">R</span> <span class="n">a</span> <span class="n">b</span> <span class="bp">&#8744;</span> <span class="n">a</span> <span class="bp">=</span> <span class="n">b</span>
+<span class="kn">local</span> <span class="kd">infix</span> <span class="bp">&#8804;</span> <span class="o">:=</span> <span class="n">R&#39;</span>
+
+<span class="kd">theorem</span> <span class="n">reflR&#39;</span> <span class="o">(</span><span class="n">a</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">a</span> <span class="o">:=</span> <span class="n">sorry</span>
+
+<span class="kd">theorem</span> <span class="n">transR&#39;</span> <span class="o">{</span><span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="o">:</span> <span class="n">A</span><span class="o">}</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">b</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">b</span> <span class="bp">&#8804;</span> <span class="n">c</span><span class="o">):</span>
+  <span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">c</span> <span class="o">:=</span>
+<span class="n">sorry</span>
+
+<span class="kd">theorem</span> <span class="n">antisymmR&#39;</span> <span class="o">{</span><span class="n">a</span> <span class="n">b</span> <span class="o">:</span> <span class="n">A</span><span class="o">}</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">a</span> <span class="bp">&#8804;</span> <span class="n">b</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">b</span> <span class="bp">&#8804;</span> <span class="n">a</span><span class="o">)</span> <span class="o">:</span>
+  <span class="n">a</span> <span class="bp">=</span> <span class="n">b</span> <span class="o">:=</span>
+<span class="n">sorry</span>
+
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Replace the <code class="docutils literal notranslate"><span class="pre">sorry</span></code> by a proof.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=section%0Aparameters%20%7BA%20%3A%20Type%7D%20%7BR%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop%7D%0Aparameter%20(reflR%20%3A%20reflexive%20R)%0Aparameter%20(transR%20%3A%20transitive%20R)%0A%0Adef%20S%20(a%20b%20%3A%20A)%20%3A%20Prop%20%3A%3D%20R%20a%20b%20%E2%88%A7%20R%20b%20a%0A%0Aexample%20%3A%20transitive%20S%20%3A%3D%0Asorry%0A%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+<span class="kd">parameters</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span> <span class="o">{</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">}</span>
+<span class="kd">parameter</span> <span class="o">(</span><span class="n">reflR</span> <span class="o">:</span> <span class="n">reflexive</span> <span class="n">R</span><span class="o">)</span>
+<span class="kd">parameter</span> <span class="o">(</span><span class="n">transR</span> <span class="o">:</span> <span class="n">transitive</span> <span class="n">R</span><span class="o">)</span>
+
+<span class="kd">def</span> <span class="n">S</span> <span class="o">(</span><span class="n">a</span> <span class="n">b</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">:</span> <span class="kt">Prop</span> <span class="o">:=</span> <span class="n">R</span> <span class="n">a</span> <span class="n">b</span> <span class="bp">&#8743;</span> <span class="n">R</span> <span class="n">b</span> <span class="n">a</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">transitive</span> <span class="n">S</span> <span class="o">:=</span>
+<span class="n">sorry</span>
+
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Only one of the following two theorems is provable. Figure out which one is true, and replace the <code class="docutils literal notranslate"><span class="pre">sorry</span></code> command with a complete proof.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=section%0A%20%20parameters%20%7BA%20%3A%20Type%7D%20%7Ba%20b%20c%20%3A%20A%7D%20%7BR%20%3A%20A%20%E2%86%92%20A%20%E2%86%92%20Prop%7D%0A%20%20parameter%20(Rab%20%3A%20R%20a%20b)%0A%20%20parameter%20(Rbc%20%3A%20R%20b%20c)%0A%20%20parameter%20(nRac%20%3A%20%C2%AC%20R%20a%20c)%0A%0A%20%20--%20Prove%20one%20of%20the%20following%20two%20theorems%3A%0A%0A%20%20theorem%20R_is_strict_partial_order%20%3A%0A%20%20%20%20irreflexive%20R%20%E2%88%A7%20transitive%20R%20%3A%3D%0A%20%20sorry%0A%0A%20%20theorem%20R_is_not_strict_partial_order%20%3A%0A%20%20%20%20%C2%AC(irreflexive%20R%20%E2%88%A7%20transitive%20R)%20%3A%3D%0A%20%20sorry%0Aend" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">section</span>
+  <span class="kd">parameters</span> <span class="o">{</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">}</span> <span class="o">{</span><span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="o">:</span> <span class="n">A</span><span class="o">}</span> <span class="o">{</span><span class="n">R</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="kt">Prop</span><span class="o">}</span>
+  <span class="kd">parameter</span> <span class="o">(</span><span class="n">Rab</span> <span class="o">:</span> <span class="n">R</span> <span class="n">a</span> <span class="n">b</span><span class="o">)</span>
+  <span class="kd">parameter</span> <span class="o">(</span><span class="n">Rbc</span> <span class="o">:</span> <span class="n">R</span> <span class="n">b</span> <span class="n">c</span><span class="o">)</span>
+  <span class="kd">parameter</span> <span class="o">(</span><span class="n">nRac</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">R</span> <span class="n">a</span> <span class="n">c</span><span class="o">)</span>
+
+  <span class="c1">-- Prove one of the following two theorems:</span>
+
+  <span class="kd">theorem</span> <span class="n">R_is_strict_partial_order</span> <span class="o">:</span>
+    <span class="n">irreflexive</span> <span class="n">R</span> <span class="bp">&#8743;</span> <span class="n">transitive</span> <span class="n">R</span> <span class="o">:=</span>
+  <span class="n">sorry</span>
+
+  <span class="kd">theorem</span> <span class="n">R_is_not_strict_partial_order</span> <span class="o">:</span>
+    <span class="bp">&#172;</span><span class="o">(</span><span class="n">irreflexive</span> <span class="n">R</span> <span class="bp">&#8743;</span> <span class="n">transitive</span> <span class="n">R</span><span class="o">)</span> <span class="o">:=</span>
+  <span class="n">sorry</span>
+<span class="kd">end</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Complete the following proof.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20nat%0A%0Aexample%20%3A%201%20%E2%89%A4%204%20%3A%3D%0Asorry" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">nat</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="mi">1</span> <span class="bp">&#8804;</span> <span class="mi">4</span> <span class="o">:=</span>
+<span class="n">sorry</span>
+</pre></div>
+</div>
+</div></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">14. Relations in Lean</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#order-relations">14.1. Order Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#orderings-on-numbers">14.2. Orderings on Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#equivalence-relations">14.3. Equivalence Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">14.4. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/relations_in_lean.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

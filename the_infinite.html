@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>22. The Infinite &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="23. Axiomatic Foundations" href="axiomatic_foundations.html" />
+    <link rel="prev" title="21. The Real Numbers" href="the_real_numbers.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="the-infinite">
+<h1><span class="section-number">22. </span>The Infinite<a class="headerlink" href="#the-infinite" title="Permalink to this headline">&#182;</a></h1>
+<div class="section" id="equinumerosity">
+<h2><span class="section-number">22.1. </span>Equinumerosity<a class="headerlink" href="#equinumerosity" title="Permalink to this headline">&#182;</a></h2>
+<p>Remember that in <a class="reference internal" href="combinatorics.html#combinatorics"><span class="std std-numref">Chapter 20</span></a> we defined, for each natural number <span class="math notranslate nohighlight">\(n\)</span>, the set <span class="math notranslate nohighlight">\([n] = \{0, 1, \ldots, n-1\}\)</span>.  We then said that a set <span class="math notranslate nohighlight">\(A\)</span> is <em>finite</em> if there is a bijection between <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\([n]\)</span> for some <span class="math notranslate nohighlight">\(n\)</span>. A set is said to be <em>infinite</em> if it is not finite.</p>
+<p>If <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are two finite sets, then they have the same cardinality if and only if there is a bijection between them. It turns out that the same notion of &#8220;having the same cardinality&#8221; makes sense even if <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are not finite.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> Two sets <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are said to be <em>equinumerous</em>, written <span class="math notranslate nohighlight">\(A \approx B\)</span>, if there is a bijection between them. Equivalently, we say that <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> <em>have the same cardinality</em>.</p>
+<hr class="docutils" />
+<p>At this stage, saying that <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> have the same cardinality may sound strange, because it is not clear that there is any object, &#8220;the cardinality of <span class="math notranslate nohighlight">\(A\)</span>,&#8221; that they both &#8220;have.&#8221; It turns out that, in set-theoretic foundations, there are certain objects&#8212;generalizations of the natural numbers&#8212;that one can use to measure the size of an infinite set. There are known as the &#8220;cardinal numbers&#8221; or &#8220;cardinals.&#8221; But they are irrelevant to our purposes here. For the rest of this chapter, when we say that <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> have the same cardinality, we mean neither more nor less than the fact that there is a bijection between them.</p>
+<p>The following theorem says, essentially, that equinumerosity is an equivalence relation. (The caveat is that so far we have spoke only of relations between sets, and the collection of all sets is not itself a set.)</p>
+<hr class="docutils" />
+<p><strong>Proposition</strong>. Let <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span> be any sets.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A \approx A\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(A \approx B\)</span>, then <span class="math notranslate nohighlight">\(B \approx A\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(A \approx B\)</span> and <span class="math notranslate nohighlight">\(B \approx C\)</span> then <span class="math notranslate nohighlight">\(A \approx C\)</span>.</p></li>
+</ul>
+<hr class="docutils" />
+<p>The proof is left as an exercise.</p>
+</div>
+<div class="section" id="countably-infinite-sets">
+<h2><span class="section-number">22.2. </span>Countably Infinite Sets<a class="headerlink" href="#countably-infinite-sets" title="Permalink to this headline">&#182;</a></h2>
+<p>The set of natural numbers, <span class="math notranslate nohighlight">\(\mathbb{N}\)</span>, is a prototypical example of an infinite set. To see that it is infinite, suppose, on the other hand, that it is finite. This means that there is a bijection <span class="math notranslate nohighlight">\(f\)</span> between <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> and <span class="math notranslate nohighlight">\([n]\)</span> for some natural number <span class="math notranslate nohighlight">\(n\)</span>. We can restrict to the subset <span class="math notranslate nohighlight">\([n+1]\)</span> of <span class="math notranslate nohighlight">\(\mathbb{N}\)</span>, and thereby obtain an injective map from <span class="math notranslate nohighlight">\([n+1]\)</span> to <span class="math notranslate nohighlight">\([n]\)</span>. But this violates the pigeonhole principle, proved in <a class="reference internal" href="combinatorics.html#combinatorics"><span class="std std-numref">Chapter 20</span></a>.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> A set is said to be <em>countably infinite</em> if it is equinumerous with <span class="math notranslate nohighlight">\(\mathbb{N}\)</span>. A set is said to be <em>countable</em> if it is finite or countably infinite.</p>
+<hr class="docutils" />
+<p>Since the identity map <span class="math notranslate nohighlight">\(id(x) = x\)</span> is a bijection on any set, every set is equinumerous with itself, and thus <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> itself is countably infinite.</p>
+<p>The term &#8220;countably infinite&#8221; is meant to be evocative. Suppose <span class="math notranslate nohighlight">\(A\)</span> is a countable set. By definition, there is a bijection <span class="math notranslate nohighlight">\(f : \mathbb{N} \to A\)</span>. So <span class="math notranslate nohighlight">\(A\)</span> has a &#8220;first&#8221; element <span class="math notranslate nohighlight">\(f(0)\)</span>, a &#8220;second&#8221; element <span class="math notranslate nohighlight">\(f(1)\)</span>, a &#8220;third&#8221; element <span class="math notranslate nohighlight">\(f(2)\)</span>, and so on. Since <span class="math notranslate nohighlight">\(f\)</span> is a bijection, for every element <span class="math notranslate nohighlight">\(a\)</span> of <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(a\)</span> is the <span class="math notranslate nohighlight">\(n\)</span>th element enumerated in this way, for a unique value of <span class="math notranslate nohighlight">\(n\)</span>. That is, each element of <span class="math notranslate nohighlight">\(A\)</span> is &#8220;counted&#8221; at some finite stage.</p>
+<p>With this definition in hand, it is natural to wonder which of our favorite sets are countable. Is the set of integers <span class="math notranslate nohighlight">\(\mathbb{Z}\)</span> countable? How about the set of rationals <span class="math notranslate nohighlight">\(\mathbb{Q}\)</span>, or the set of reals <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>? At this point, you should reflect on the logical form of the statement &#8220;<span class="math notranslate nohighlight">\(A\)</span> is countable,&#8221; and think about what is required to show that a set <span class="math notranslate nohighlight">\(A\)</span> does or does not have this property.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> The set of integers, <span class="math notranslate nohighlight">\(\mathbb{Z}\)</span>, is countable.</p>
+<p><strong>Proof.</strong> We need to show that there exists a bijection between <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> and <span class="math notranslate nohighlight">\(\mathbb{Z}\)</span>. Define <span class="math notranslate nohighlight">\(f : \mathbb{N} \to \mathbb{Z}\)</span> as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f(n) = \begin{cases}
+         n / 2 &amp; \mbox{if $n$ is even} \\
+         -(n + 1) / 2 &amp; \mbox{if $n$ is odd.}
+       \end{cases}\end{split}\]</div>
+<p>We claim that <span class="math notranslate nohighlight">\(f\)</span> is a bijection. To see that it is injective, suppose <span class="math notranslate nohighlight">\(f(m) = f(n)\)</span>. If <span class="math notranslate nohighlight">\(f(m)\)</span> (and hence also <span class="math notranslate nohighlight">\(f(n)\)</span>) is nonnegative, then <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> are even, in which case <span class="math notranslate nohighlight">\(m / 2 = n / 2\)</span> implies <span class="math notranslate nohighlight">\(m = n\)</span>. Otherwise, <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> are odd, and again <span class="math notranslate nohighlight">\(-(m+1) / 2 = -(n+1)/ 2\)</span> implies <span class="math notranslate nohighlight">\(m = n\)</span>.</p>
+<p>To see that <span class="math notranslate nohighlight">\(f\)</span> is surjective, suppose <span class="math notranslate nohighlight">\(a\)</span> is any integer. If <span class="math notranslate nohighlight">\(a\)</span> is nonnegative, then <span class="math notranslate nohighlight">\(a = f(2 a)\)</span>. If <span class="math notranslate nohighlight">\(a\)</span> is strictly negative, then <span class="math notranslate nohighlight">\(2 a - 1\)</span> is also strictly negative, and hence <span class="math notranslate nohighlight">\(-(2 a - 1)\)</span> is an odd natural number. In that case, it is not hard to check that <span class="math notranslate nohighlight">\(a = f(-(2a - 1))\)</span>.</p>
+<hr class="docutils" />
+<p>We will now build up an arsenal of theorems that we can use to show that various sets are countable.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> A set <span class="math notranslate nohighlight">\(A\)</span> is countable if and only if <span class="math notranslate nohighlight">\(A\)</span> is empty or there is a surjective function <span class="math notranslate nohighlight">\(f : \mathbb{N} \to A\)</span>.</p>
+<p><strong>Proof.</strong> For the forward direction, suppose <span class="math notranslate nohighlight">\(A\)</span> is countable. Then it is either finite or countably infinite. If <span class="math notranslate nohighlight">\(A\)</span> is countably infinite, there is a bijection from <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> to <span class="math notranslate nohighlight">\(A\)</span>, and we are done. Suppose, then, that <span class="math notranslate nohighlight">\(A\)</span> is finite. If <span class="math notranslate nohighlight">\(A\)</span> is empty, we are done. Otherwise, for some <span class="math notranslate nohighlight">\(n\)</span>, there is a bijection <span class="math notranslate nohighlight">\(f : [n] \to A\)</span>, with <span class="math notranslate nohighlight">\(n \geq 1\)</span>. Define a function <span class="math notranslate nohighlight">\(g : \mathbb{N} \to A\)</span> as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}g(i) = \begin{cases}
+         f(i) &amp; \mbox{if $i &lt; n$} \\
+         f(0) &amp; \mbox{otherwise.}
+       \end{cases}\end{split}\]</div>
+<p>In other words, <span class="math notranslate nohighlight">\(g\)</span> enumerates the elements of <span class="math notranslate nohighlight">\(A\)</span> by using <span class="math notranslate nohighlight">\(f\)</span> first, and then repeating the element <span class="math notranslate nohighlight">\(f(0)\)</span>. Clearly <span class="math notranslate nohighlight">\(f\)</span> is surjective, as required.</p>
+<p>In the other direction, if <span class="math notranslate nohighlight">\(A\)</span> is finite, then it is countable, and we are done. So suppose <span class="math notranslate nohighlight">\(A\)</span> is not finite. Then it is not empty, and so there is a surjective function <span class="math notranslate nohighlight">\(f : \mathbb{N} \to A\)</span>. We need to turn <span class="math notranslate nohighlight">\(f\)</span> into a <em>bijective</em> function. The problem is that <span class="math notranslate nohighlight">\(f\)</span> may not be injective, which is to say, elements in <span class="math notranslate nohighlight">\(A\)</span> may be enumerated more than once. The solution is to define a function, <span class="math notranslate nohighlight">\(g\)</span>, which eliminates all the duplicates. The idea is that <span class="math notranslate nohighlight">\(g\)</span> should enumerate the elements <span class="math notranslate nohighlight">\(f(0), f(1), f(2), \ldots\)</span>, but skip over the ones that have already been enumerated.</p>
+<p>To be precise, the function <span class="math notranslate nohighlight">\(g\)</span> is defined recursively as follows: <span class="math notranslate nohighlight">\(g(0) = f(0)\)</span>, and for every <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(g(i+1) = f(j)\)</span>, where <span class="math notranslate nohighlight">\(j\)</span> is the least natural number such that <span class="math notranslate nohighlight">\(f(j)\)</span> is not among <span class="math notranslate nohighlight">\(\{g(0), g(1), g(2), \ldots, g(i) \}\)</span>. The assumption that <span class="math notranslate nohighlight">\(A\)</span> is infinite and <span class="math notranslate nohighlight">\(f\)</span> is surjective guarantees that some such <span class="math notranslate nohighlight">\(j\)</span> always exists.</p>
+<p>We only need to check that <span class="math notranslate nohighlight">\(g\)</span> is a bijection. By definition, for every <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(g(i+1)\)</span> is different from <span class="math notranslate nohighlight">\(g(0), \ldots, g(i)\)</span>. This implies that <span class="math notranslate nohighlight">\(g\)</span> is injective. But we can also show by induction that for every <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(\{g(0), \ldots, g(i)\} \supseteq \{ f(0), \ldots, f(i)\}\)</span>. Since <span class="math notranslate nohighlight">\(f\)</span> is surjective, <span class="math notranslate nohighlight">\(g\)</span> is too.</p>
+<hr class="docutils" />
+<p>In a manner similar to the way we proved that the integers are countable, we can prove the following:</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> If <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are countably infinite, then so is <span class="math notranslate nohighlight">\(A \cup B\)</span>.</p>
+<p><strong>Proof.</strong> Suppose <span class="math notranslate nohighlight">\(f : \mathbb{N} \to A\)</span> and <span class="math notranslate nohighlight">\(g : \mathbb{N} \to B\)</span> are surjective. Then we can define a function <span class="math notranslate nohighlight">\(h : \mathbb{N} \to A \cup B\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}h(n) = \begin{cases}
+         f(n/2) &amp; \mbox{if $n$ is even} \\
+         g((n-1)/2) &amp; \mbox{if $n$ is odd.}
+       \end{cases}\end{split}\]</div>
+<p>It is not hard to show that <span class="math notranslate nohighlight">\(h\)</span> is surjective.</p>
+<hr class="docutils" />
+<p>Intuitively, if <span class="math notranslate nohighlight">\(A = \{ f(0), f(1), f(2), \ldots \}\)</span> and <span class="math notranslate nohighlight">\(B = \{ g(0), g(1), g(2), \ldots\}\)</span>, then we can enumerate <span class="math notranslate nohighlight">\(A \cup B\)</span> as <span class="math notranslate nohighlight">\(\{ f(0), g(0), f(1), g(1), f(2), g(2), \ldots \}\)</span>.</p>
+<p>The next two theorems are also helpful. The first says that to show that a set <span class="math notranslate nohighlight">\(B\)</span> is countable, it is enough to &#8220;cover&#8221; it with a surjective function from a countable set. The second says that to show that a set <span class="math notranslate nohighlight">\(A\)</span> is countable, then it is enough to embed it in a countable set.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> If <span class="math notranslate nohighlight">\(A\)</span> is countable and <span class="math notranslate nohighlight">\(f : A \to B\)</span> is surjective, then <span class="math notranslate nohighlight">\(B\)</span> is countable.</p>
+<p><strong>Proof.</strong> If <span class="math notranslate nohighlight">\(A\)</span> is countable, then there is a surjective function <span class="math notranslate nohighlight">\(g : \mathbb{N} \to A\)</span>, and <span class="math notranslate nohighlight">\(f \circ g\)</span> is a surjective function from <span class="math notranslate nohighlight">\(\mathbb{N} \to B\)</span>.</p>
+<p><strong>Theorem.</strong> If <span class="math notranslate nohighlight">\(B\)</span> is countable and <span class="math notranslate nohighlight">\(f : A \to B\)</span> is injective, then <span class="math notranslate nohighlight">\(A\)</span> is countable.</p>
+<p><strong>Proof.</strong> Assuming <span class="math notranslate nohighlight">\(f : A \to B\)</span> is injective, it has a left inverse, <span class="math notranslate nohighlight">\(g : B \to A\)</span>. Since <span class="math notranslate nohighlight">\(g\)</span> has a right inverse, <span class="math notranslate nohighlight">\(f\)</span>, we know that <span class="math notranslate nohighlight">\(g\)</span> is surjective, and we can apply the previous theorem.</p>
+<p><strong>Corollary.</strong> If <span class="math notranslate nohighlight">\(B\)</span> is countable and <span class="math notranslate nohighlight">\(A \subseteq B\)</span>, then <span class="math notranslate nohighlight">\(A\)</span> is countable.</p>
+<p><strong>Proof.</strong> The function <span class="math notranslate nohighlight">\(f : A \to B\)</span> defined by <span class="math notranslate nohighlight">\(f(x) = x\)</span> is injective.</p>
+<hr class="docutils" />
+<p>Remember that <span class="math notranslate nohighlight">\(\mathbb{N} \times \mathbb{N}\)</span> is the set of ordered pairs <span class="math notranslate nohighlight">\((i, j)\)</span> where <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are natural numbers.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> <span class="math notranslate nohighlight">\(\mathbb{N} \times \mathbb{N}\)</span> is countable.</p>
+<p><strong>Proof.</strong> Enumerate the elements as follows:</p>
+<div class="math notranslate nohighlight">
+\[(0, 0), (1, 0), (0, 1), (2, 0), (1, 1), (1, 2), (3, 0), (2, 1), (1, 2), (0, 3), \ldots\]</div>
+<hr class="docutils" />
+<p>If you think of the pairs as coordinates in the <span class="math notranslate nohighlight">\(x\)</span>-<span class="math notranslate nohighlight">\(y\)</span> plane, the pairs are enumerated along diagonals: first the diagonal with pairs whose elements sum to <span class="math notranslate nohighlight">\(0\)</span>, then the diagonal with pairs whose elements sum to <span class="math notranslate nohighlight">\(1\)</span>, and so on. This is often called a &#8220;dovetailing&#8221; argument, because if you imagine drawing a line that weaves back and forth through the pairs enumerated this ways, it will be analogous to the a carpenter&#8217;s practice of using a dovetail to join two pieces of wood. (And that term, in turn, comes from the similarity to a dove&#8217;s tail.)</p>
+<p>As far as proofs go, the informal description above and the associated diagram are perfectly compelling. It is possible to describe a bijection between <span class="math notranslate nohighlight">\(\mathbb{N} \times \mathbb{N}\)</span> explicitly, however, in algebraic terms. You are asked to do this in the exercises.</p>
+<p>The previous theorem has a number of interesting consequences.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> If <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are countable, then so is <span class="math notranslate nohighlight">\(A \times B\)</span>.</p>
+<p><strong>Proof.</strong> If <span class="math notranslate nohighlight">\(p\)</span> is any element of <span class="math notranslate nohighlight">\(\mathbb{N} \times \mathbb{N}\)</span>, write <span class="math notranslate nohighlight">\(p_0\)</span> and <span class="math notranslate nohighlight">\(p_1\)</span> to denote the two components. Let <span class="math notranslate nohighlight">\(f : \mathbb{N} \to \mathbb{N} \times \mathbb{N}\)</span> be a surjection, as guaranteed by the previous theorem. Suppose <span class="math notranslate nohighlight">\(g : \mathbb{N} \to A\)</span> and <span class="math notranslate nohighlight">\(h : \mathbb{N} \to B\)</span> be surjective. Then the function <span class="math notranslate nohighlight">\(k(i) = ( g(f(i)_0), h(f(i)_1) )\)</span> is a surjective function from <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> to <span class="math notranslate nohighlight">\(A \times B\)</span>.</p>
+<p><strong>Theorem.</strong> The set of rational numbers, <span class="math notranslate nohighlight">\(\mathbb{Q}\)</span>, is countable.</p>
+<p><strong>Proof.</strong> By the previous theorem, we know that <span class="math notranslate nohighlight">\(\mathbb{Z} \times \mathbb{Z}\)</span> is countable. Define <span class="math notranslate nohighlight">\(f : \mathbb{Z} \times \mathbb{Z} \to \mathbb{Q}\)</span> by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f(i,j) = \begin{cases}
+           i / j &amp; \mbox{if $j \neq 0$} \\
+           0 &amp; \mbox{otherwise.}
+         \end{cases}\end{split}\]</div>
+<p>Since every element of <span class="math notranslate nohighlight">\(\mathbb{Q}\)</span> can be written as <span class="math notranslate nohighlight">\(i / j\)</span> for some <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> in <span class="math notranslate nohighlight">\(\mathbb{Z}\)</span>, <span class="math notranslate nohighlight">\(f\)</span> is surjective.</p>
+<p><strong>Theorem.</strong> Suppose that <span class="math notranslate nohighlight">\(A\)</span> is countable. For each <span class="math notranslate nohighlight">\(n\)</span>, the set <span class="math notranslate nohighlight">\(A^n\)</span> is countable.</p>
+<p><strong>Proof.</strong> Remember that we can identify the set of <span class="math notranslate nohighlight">\(n\)</span>-tuples of elements from <span class="math notranslate nohighlight">\(A\)</span> with <span class="math notranslate nohighlight">\(A \times \ldots \times A\)</span>, where there are <span class="math notranslate nohighlight">\(n\)</span> copies of <span class="math notranslate nohighlight">\(A\)</span> in the product. The result follows using induction on <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p><strong>Theorem.</strong> Let <span class="math notranslate nohighlight">\((A_i)_{i \in \mathbb{N}}\)</span> be a family of sets indexed by the natural numbers, and suppose that each <span class="math notranslate nohighlight">\(A_i\)</span> is countable. Then <span class="math notranslate nohighlight">\(\bigcup_i A_i\)</span> is countable.</p>
+<p><strong>Proof.</strong> Suppose for each <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(f_i\)</span> is a surjective function from <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> to <span class="math notranslate nohighlight">\(A_i\)</span>. Then the function <span class="math notranslate nohighlight">\(g(i, j) = f_i(j)\)</span> is a surjective function from <span class="math notranslate nohighlight">\(\mathbb{N} \times \mathbb{N}\)</span> to <span class="math notranslate nohighlight">\(\bigcup_i A_i\)</span>.</p>
+<p><strong>Theorem.</strong> Suppose that <span class="math notranslate nohighlight">\(A\)</span> is countable. Then the set of finite sequences of elements of <span class="math notranslate nohighlight">\(A\)</span> is countable.</p>
+<p><strong>Proof.</strong> The set of finite sequences of elements of <span class="math notranslate nohighlight">\(A\)</span> is equal to <span class="math notranslate nohighlight">\(\bigcup_i A^i\)</span>, and we can apply the previous two theorems.</p>
+<hr class="docutils" />
+<p>Notice that the set of all alphanumeric characters and punctuation (say, represented as the set of all ASCII characters) is finite. Together with the last theorem, this implies that there are only countably many sentences in the English language (and, indeed, any language in which sentences are represented by finite sequences of symbols, chosen from any countable stock).</p>
+<p>At this stage, it might seem as though everything is countable. In the next section, we will see that this is not the case: the set of real numbers, <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>, is not countable, and if <span class="math notranslate nohighlight">\(A\)</span> is any set (finite or infinite), the powerset of <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\({\mathcal P}(A)\)</span>, is not equinumerous with <span class="math notranslate nohighlight">\(A\)</span>.</p>
+</div>
+<div class="section" id="cantor-s-theorem">
+<h2><span class="section-number">22.3. </span>Cantor&#8217;s Theorem<a class="headerlink" href="#cantor-s-theorem" title="Permalink to this headline">&#182;</a></h2>
+<p>A set <span class="math notranslate nohighlight">\(A\)</span> is <em>uncountable</em> if it is not countable. Our goal is to prove the following theorem, due to Georg Cantor.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> The set of real numbers is uncountable.</p>
+<p><strong>Proof.</strong> Remember that <span class="math notranslate nohighlight">\([0,1]\)</span> denotes the closed interval <span class="math notranslate nohighlight">\(\{ r \in \mathbb{R} \mid 0 \leq r \leq 1\}\)</span>. It suffices to show that there is no surjective function <span class="math notranslate nohighlight">\(f : \mathbb{N} \to [0,1]\)</span>, since if <span class="math notranslate nohighlight">\(\mathbb{R}\)</span> were countable, <span class="math notranslate nohighlight">\([0,1]\)</span> would be countable too.</p>
+<p>Recall that every real number <span class="math notranslate nohighlight">\(r \in [0,1]\)</span> has a decimal expansion of the form <span class="math notranslate nohighlight">\(r = 0.r_0 r_1 r_2 r_3 r_4 \ldots\)</span>, where each <span class="math notranslate nohighlight">\(r_i\)</span> is a digit in <span class="math notranslate nohighlight">\(\{0, 1, \ldots, 9\}\)</span>. More formally, we can write <span class="math notranslate nohighlight">\(r = \sum_{i = 0}^\infty \frac{r_i}{10^{i}}\)</span> for each <span class="math notranslate nohighlight">\(r \in \mathbb{R}\)</span> with <span class="math notranslate nohighlight">\(0 \leq r \leq 1\)</span>.</p>
+<p>(Notice that <span class="math notranslate nohighlight">\(1\)</span> can be written <span class="math notranslate nohighlight">\(0.9999\ldots\)</span>. In general every other rational number in <span class="math notranslate nohighlight">\([0,1]\)</span> will have two representations of this form; for example, <span class="math notranslate nohighlight">\(0.5 = 0.5000\ldots = 0.49999\ldots\)</span>. For concreteness, for these numbers we can choose the representation that ends with zeros.)</p>
+<p>As a result, we can write</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f(0) = 0.r^0_0 r^0_1 r^0_2 r^0_3 r^0_4 \ldots\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f(1) = 0.r^1_0 r^1_1 r^1_2 r^1_3 r^1_4 \ldots\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f(2) = 0.r^2_0 r^2_1 r^2_2 r^2_3 r^2_4 \ldots\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f(3) = 0.r^3_0 r^3_1 r^3_2 r^3_3 r^3_4 \ldots\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f(4) = 0.r^4_0 r^4_1 r^4_2 r^4_3 r^4_4 \ldots\)</span></p></li>
+<li><p>&#8230;</p></li>
+</ul>
+<p>(We use superscripts, <span class="math notranslate nohighlight">\(r^i\)</span>, to denote the digits of <span class="math notranslate nohighlight">\(f(i)\)</span>. The superscripts do not mean the &#8220;<span class="math notranslate nohighlight">\(i\)</span>th power.&#8221;)</p>
+<p>Our goal is to show that <span class="math notranslate nohighlight">\(f\)</span> is not surjective. To that end, define a new sequence of digits <span class="math notranslate nohighlight">\((r_i)_{i \in \mathbb{N}}\)</span> by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}r_i = \begin{cases}
+        7 &amp; \mbox{if $r^i_i \neq 7$} \\
+        3 &amp; \mbox{otherwise.}
+      \end{cases}\end{split}\]</div>
+<p>The define the real number <span class="math notranslate nohighlight">\(r = 0.r_0 r_1 r_2 r_3 \ldots\)</span>. Then, for each <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(r\)</span> differs from <span class="math notranslate nohighlight">\(f(i)\)</span> in the <span class="math notranslate nohighlight">\(i\)</span>th digit. But this means that for every <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(f(i) \neq r\)</span>. Since <span class="math notranslate nohighlight">\(r\)</span> is not in the range of <span class="math notranslate nohighlight">\(f\)</span>, we see that <span class="math notranslate nohighlight">\(f\)</span> is not surjective. Since <span class="math notranslate nohighlight">\(f\)</span> was arbitrary, there is no surjective function from <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> to <span class="math notranslate nohighlight">\([0,1]\)</span>.</p>
+<p>(We chose the digits <span class="math notranslate nohighlight">\(3\)</span> and <span class="math notranslate nohighlight">\(7\)</span> only to avoid <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(9\)</span>, to avoid the case where, for example, <span class="math notranslate nohighlight">\(f(0) = 0.5000\ldots\)</span> and <span class="math notranslate nohighlight">\(r = 0.4999\ldots\)</span>. Since there are no zeros or nines in <span class="math notranslate nohighlight">\(r\)</span>, since the <span class="math notranslate nohighlight">\(i\)</span>th digit of <span class="math notranslate nohighlight">\(r\)</span> differs from <span class="math notranslate nohighlight">\(f(i)\)</span>, it really is a different real number.)</p>
+<hr class="docutils" />
+<p>This remarkable proof is known as a &#8220;diagonalization argument.&#8221; We are trying to construct a real number with a certain property, namely, that it is not in the range of <span class="math notranslate nohighlight">\(f\)</span>. We make a table of digits, in which the rows represent infinitely many constraints we have to satisfy (namely, that for each <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(f(i) \neq r\)</span>), and the columns represent opportunities to satisfy that constraint (namely, by choosing the <span class="math notranslate nohighlight">\(i\)</span>th digit of <span class="math notranslate nohighlight">\(r\)</span> appropriately). Then we complete the construction by stepping along the diagonal, using the <span class="math notranslate nohighlight">\(i\)</span>th opportunity to satisfy the <span class="math notranslate nohighlight">\(i\)</span>th constraint. This technique is used often in logic and computability theory.</p>
+<p>The following provides another example of an uncountable set.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> The power set of the natural numbers, <span class="math notranslate nohighlight">\({\mathcal P}(\mathbb{N})\)</span>, is uncountable.</p>
+<p><strong>Proof.</strong> Let <span class="math notranslate nohighlight">\(f : \mathbb{N} \to {\mathcal P}(\mathbb{N})\)</span> be any function. Once again, our goal is to show that <span class="math notranslate nohighlight">\(f\)</span> is not surjective. Let <span class="math notranslate nohighlight">\(S\)</span> be the set of natural numbers, defined as follows:</p>
+<div class="math notranslate nohighlight">
+\[S = \{ n \in \mathbb{N} \mid n \notin f(n) \}.\]</div>
+<p>In words, for every natural number, <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(n\)</span> is in <span class="math notranslate nohighlight">\(S\)</span> if and only if it is not in <span class="math notranslate nohighlight">\(f(n)\)</span>. Then clearly for every <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(f(n) \neq S\)</span>. So <span class="math notranslate nohighlight">\(f\)</span> is not surjective.</p>
+<hr class="docutils" />
+<p>We can also view this as a diagonalization argument: draw a table with rows and columns indexed by the natural numbers, where the entry in the <span class="math notranslate nohighlight">\(i\)</span>th row and <span class="math notranslate nohighlight">\(j\)</span>th column is &#8220;yes&#8221; if <span class="math notranslate nohighlight">\(j\)</span> is an element of <span class="math notranslate nohighlight">\(f(i)\)</span>, and &#8220;no&#8221; otherwise. The set <span class="math notranslate nohighlight">\(S\)</span> is constructed by switching &#8220;yes&#8221; and &#8220;no&#8221; entries along the diagonal.</p>
+<p>In fact, exactly the same argument yields the following:</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> For every set <span class="math notranslate nohighlight">\(A\)</span>, there is no surjective function from <span class="math notranslate nohighlight">\(A\)</span> to <span class="math notranslate nohighlight">\({\mathcal P}(A)\)</span>.</p>
+<p><strong>Proof.</strong> As above, if <span class="math notranslate nohighlight">\(f\)</span> is any function from <span class="math notranslate nohighlight">\(A\)</span> to <span class="math notranslate nohighlight">\({\mathcal P}(A)\)</span>, the set <span class="math notranslate nohighlight">\(S = \{ a \in A \mid a \notin f(a) \}\)</span> is not in the range of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<hr class="docutils" />
+<p>This shows that there is an endless hierarchy of infinities. For example, in the sequence <span class="math notranslate nohighlight">\(\mathbb{N}, {\mathcal P}(\mathbb{N}), {\mathcal P}({\mathcal P}(\mathbb{N})), \ldots\)</span>, there is an injective function mapping each set into the next, but no surjective function. The union of all those sets is even larger still, and then we can take the power set of <em>that</em>, and so on. Set theorists are still today investigating the structure within this hierarchy.</p>
+</div>
+<div class="section" id="an-alternative-definition-of-finiteness">
+<h2><span class="section-number">22.4. </span>An Alternative Definition of Finiteness<a class="headerlink" href="#an-alternative-definition-of-finiteness" title="Permalink to this headline">&#182;</a></h2>
+<p>One thing that distinguishes the infinite from the finite is that an infinite set can have the same size as a proper subset of itself. For example, the natural numbers, the set of even numbers, and the set of perfect squares are all equinumerous, even though the latter two are strictly contained among the natural numbers.</p>
+<p>In the nineteenth century, the mathematician Richard Dedekind used this curious property to <em>define</em> what it means to be finite. We can show that his definition is equivalent to ours, but the proof requires the axiom of choice.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> A set is <span class="math notranslate nohighlight">\(A\)</span> <em>Dedekind infinite</em> if <span class="math notranslate nohighlight">\(A\)</span> is equinumerous with a proper subset of itself, and <em>Dedekind finite</em> otherwise.</p>
+<p><strong>Theorem.</strong> A set is Dedekind infinite if and only it is infinite.</p>
+<p><strong>Proof.</strong> Suppose <span class="math notranslate nohighlight">\(A\)</span> is Dedekind infinite. We need to show it is not finite; suppose, to the contrary, it is bijective with <span class="math notranslate nohighlight">\([n]\)</span> for some <span class="math notranslate nohighlight">\(n\)</span>. Composing bijections, we have that <span class="math notranslate nohighlight">\([n]\)</span> is bijective with a proper subset of itself. This means that there is an injective function <span class="math notranslate nohighlight">\(f\)</span> from <span class="math notranslate nohighlight">\([n]\)</span> to a proper subset of <span class="math notranslate nohighlight">\(n\)</span>. Modifying <span class="math notranslate nohighlight">\(f\)</span>, we can get an injective function from <span class="math notranslate nohighlight">\([n]\)</span> into <span class="math notranslate nohighlight">\([n-1]\)</span>, contradicting the pigeonhole principle.</p>
+<p>Suppose, on the other hand, that <span class="math notranslate nohighlight">\(A\)</span> is infinite. We need to show that there is an injective function <span class="math notranslate nohighlight">\(f\)</span> from <span class="math notranslate nohighlight">\(A\)</span> to a proper subset of itself (because then <span class="math notranslate nohighlight">\(f\)</span> is a bijection between <span class="math notranslate nohighlight">\(A\)</span> and the range of <span class="math notranslate nohighlight">\(f\)</span>). Choose a sequence of distinct element <span class="math notranslate nohighlight">\(a_0, a_1, a_2, \ldots\)</span> of <span class="math notranslate nohighlight">\(A\)</span>. Let <span class="math notranslate nohighlight">\(f\)</span> map each <span class="math notranslate nohighlight">\(a_i\)</span> to <span class="math notranslate nohighlight">\(a_{i+1}\)</span>, but leave every other element of <span class="math notranslate nohighlight">\(A\)</span> fixed. Then <span class="math notranslate nohighlight">\(f\)</span> is injective, but <span class="math notranslate nohighlight">\(a_0\)</span> is not in the range of <span class="math notranslate nohighlight">\(f\)</span>, as required.</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="the-cantor-bernstein-theorem">
+<span id="id1"></span><h2><span class="section-number">22.5. </span>The Cantor-Bernstein Theorem<a class="headerlink" href="#the-cantor-bernstein-theorem" title="Permalink to this headline">&#182;</a></h2>
+<p>Saying that <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are equinumerous means, intuitively, that <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> have the same size. There is also a natural way of saying that <span class="math notranslate nohighlight">\(A\)</span> is not larger than <span class="math notranslate nohighlight">\(B\)</span>:</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> For two sets <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, we say the cardinality of <span class="math notranslate nohighlight">\(A\)</span> is less than or equal to the cardinality of <span class="math notranslate nohighlight">\(B\)</span>, written <span class="math notranslate nohighlight">\(A \preceq B\)</span>, when there is an injection <span class="math notranslate nohighlight">\(f : A \to B\)</span>.</p>
+<hr class="docutils" />
+<p>As an exercise, we ask you to show that <span class="math notranslate nohighlight">\(\preceq\)</span> is a <em>preorder</em>, which is to say, it is reflexive and transitive. Here is a natural question: does <span class="math notranslate nohighlight">\(A \preceq B\)</span> and <span class="math notranslate nohighlight">\(B \preceq A\)</span> imply <span class="math notranslate nohighlight">\(A \approx B\)</span>? In other words, assuming there are injective functions <span class="math notranslate nohighlight">\(f : A \to B\)</span> and <span class="math notranslate nohighlight">\(g : B \to A\)</span>, is there necessarily a bijection from <span class="math notranslate nohighlight">\(A\)</span> to <span class="math notranslate nohighlight">\(B\)</span>?</p>
+<p>The answer is &#8220;yes,&#8221; but the proof is tricky. The result is known as the <em>Cantor-Bernstein Theorem</em>, and we state it without proof.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> For any sets <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, if <span class="math notranslate nohighlight">\(A \preceq B\)</span> and <span class="math notranslate nohighlight">\(B \preceq A\)</span>, then <span class="math notranslate nohighlight">\(A \approx B\)</span>.</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">22.6. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>Show that equinumerosity is reflexive, symmetric, and transitive.</p></li>
+<li><p>Show that the function <span class="math notranslate nohighlight">\(f(x) = x / (1 - x)\)</span> is a bijection between the interval <span class="math notranslate nohighlight">\([0,1)\)</span> and <span class="math notranslate nohighlight">\(\mathbb{R}^{\geq 0}\)</span>.</p></li>
+<li><p>Show that the <span class="math notranslate nohighlight">\(g(x) = x / (1 - |x|)\)</span> gives a bijection between <span class="math notranslate nohighlight">\((-1, 1)\)</span> and <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>.</p></li>
+<li><p>Define a function <span class="math notranslate nohighlight">\(J : \mathbb{N} \times \mathbb{N} \to \mathbb{N}\)</span> by <span class="math notranslate nohighlight">\(J(i,j) = \frac{(i + j)(i + j + 1)}{2} + i\)</span>. This goal of this problem is to show that <span class="math notranslate nohighlight">\(J\)</span> is a bijection from <span class="math notranslate nohighlight">\(\mathbb{N} \times \mathbb{N}\)</span> to <span class="math notranslate nohighlight">\(\mathbb{N}\)</span>.</p>
+<ol class="loweralpha simple">
+<li><p>Draw a picture indicating which pairs are sent to <span class="math notranslate nohighlight">\(0, 1, 2, \ldots\)</span>.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(n = i + j\)</span>. Show that <span class="math notranslate nohighlight">\(J(i,j)\)</span> is equal the number of pairs <span class="math notranslate nohighlight">\((u, v)\)</span> such that either <span class="math notranslate nohighlight">\(u + v &lt; n\)</span>, or <span class="math notranslate nohighlight">\(u + v = n\)</span> and <span class="math notranslate nohighlight">\(u &lt; i\)</span>. (Use the fact that <span class="math notranslate nohighlight">\(1 + 2 + \ldots + n = n(n+1)/2\)</span>.)</p></li>
+<li><p>Conclude that <span class="math notranslate nohighlight">\(J\)</span> is surjective: to find <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> such that <span class="math notranslate nohighlight">\(J(i,j) = k\)</span>, it suffices to find the largest <span class="math notranslate nohighlight">\(n\)</span> such that <span class="math notranslate nohighlight">\(n(n+1)/2 \leq k\)</span>, let <span class="math notranslate nohighlight">\(i = k - n(n+1)/2\)</span>, and let <span class="math notranslate nohighlight">\(j = n - i\)</span>.</p></li>
+<li><p>Conclude that <span class="math notranslate nohighlight">\(J\)</span> is injective: if <span class="math notranslate nohighlight">\(J(i,j) = J(i',j')\)</span>, let <span class="math notranslate nohighlight">\(n = i + j\)</span> and <span class="math notranslate nohighlight">\(n' = i' + j'\)</span>. Argue that <span class="math notranslate nohighlight">\(n = n'\)</span>, and so <span class="math notranslate nohighlight">\(i = i'\)</span> and <span class="math notranslate nohighlight">\(j = j'\)</span>.</p></li>
+</ol>
+</li>
+<li><p>Let <span class="math notranslate nohighlight">\(S\)</span> be the set of functions from <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> to <span class="math notranslate nohighlight">\(\{ 0, 1\}\)</span>. Use a diagonal argument to show that <span class="math notranslate nohighlight">\(S\)</span> is uncountable. (Notice that you can think of a function <span class="math notranslate nohighlight">\(f: \mathbb{N} \to \{0, 1\}\)</span> as an infinite sequence of 0&#8217;s and 1&#8217;s, given by <span class="math notranslate nohighlight">\(f(0), f(1), f(2), \ldots\)</span>. So, given a function <span class="math notranslate nohighlight">\(F(n)\)</span> which, for each natural number <span class="math notranslate nohighlight">\(n\)</span>, returns an infinite sequence of 0&#8217;s and 1&#8217;s, you need to find a sequence that is not in the image of <span class="math notranslate nohighlight">\(F\)</span>.)</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(f\)</span> and <span class="math notranslate nohighlight">\(g\)</span> are functions from <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> to <span class="math notranslate nohighlight">\(\mathbb{N}\)</span>, say that <span class="math notranslate nohighlight">\(g\)</span> <em>eventually dominates</em> <span class="math notranslate nohighlight">\(f\)</span> if there is some <span class="math notranslate nohighlight">\(n\)</span> such that for every <span class="math notranslate nohighlight">\(m \geq n\)</span>, <span class="math notranslate nohighlight">\(g(m) &gt; f(m)\)</span>. In other words, from some point on, <span class="math notranslate nohighlight">\(g\)</span> is bigger than <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>Show that if <span class="math notranslate nohighlight">\(f_0, f_1, f_2, \ldots\)</span> is any sequence of functions from <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> to <span class="math notranslate nohighlight">\(\mathbb{N}\)</span>, indexed by the natural numbers, then there is a function <span class="math notranslate nohighlight">\(g\)</span> that eventually dominates each <span class="math notranslate nohighlight">\(f_i\)</span>. (Hint: construct <span class="math notranslate nohighlight">\(g\)</span> so that for each <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(g(n) &gt; f_i(n)\)</span> for every <span class="math notranslate nohighlight">\(n \geq i\)</span>.)</p>
+</li>
+<li><p>Show that the relation <span class="math notranslate nohighlight">\(\preceq\)</span> defined in <a class="reference internal" href="#the-cantor-bernstein-theorem"><span class="std std-numref">Section 22.5</span></a> is reflexive and transitive.</p></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">22. The Infinite</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#equinumerosity">22.1. Equinumerosity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#countably-infinite-sets">22.2. Countably Infinite Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cantor-s-theorem">22.3. Cantor&#8217;s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#an-alternative-definition-of-finiteness">22.4. An Alternative Definition of Finiteness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-cantor-bernstein-theorem">22.5. The Cantor-Bernstein Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">22.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/the_infinite.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5. Classical Reasoning &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="6. Semantics of Propositional Logic" href="semantics_of_propositional_logic.html" />
+    <link rel="prev" title="4. Propositional Logic in Lean" href="propositional_logic_in_lean.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="classical-reasoning">
+<span id="id1"></span><h1><span class="section-number">5. </span>Classical Reasoning<a class="headerlink" href="#classical-reasoning" title="Permalink to this headline">&#182;</a></h1>
+<p>If we take all the rules of propositional logic we have seen so far and exclude <em>reductio ad absurdum</em>, or proof by contradiction, we have what is known as <em>intuitionistic logic</em>. In intuitionistic logic, it is possible to view proofs in computational terms: a proof of <span class="math notranslate nohighlight">\(A \wedge B\)</span> is a proof of <span class="math notranslate nohighlight">\(A\)</span> paired with a proof of <span class="math notranslate nohighlight">\(B\)</span>, a proof of <span class="math notranslate nohighlight">\(A \to B\)</span> is a procedure which transforms evidence for <span class="math notranslate nohighlight">\(A\)</span> into evidence for <span class="math notranslate nohighlight">\(B\)</span>, and a proof of <span class="math notranslate nohighlight">\(A \vee B\)</span> is a proof of one or the other, tagged so that we know which is the case. The <em>ex falso</em> rule makes sense only because we expect that there is no proof of falsity; it is like the empty data type.</p>
+<p>Proof by contradiction does not fit in well with this world view: from a proof of a contradiction from <span class="math notranslate nohighlight">\(\neg A\)</span>, we are supposed to magically produce a proof of <span class="math notranslate nohighlight">\(A\)</span>. We will see that with proof by contradiction, we can prove the following law, known as the <em>law of the excluded middle</em>: <span class="math notranslate nohighlight">\(\forall A, A \vee \neg A\)</span>. From a computational perspective, this says that for every <span class="math notranslate nohighlight">\(A\)</span> we can decide whether or not <span class="math notranslate nohighlight">\(A\)</span> is true.</p>
+<p>Classical reasoning does introduce a number of principles into logic, however, that can be used to simplify reasoning. In this chapter, we will consider these principles, and see how they follow from the basic rules.</p>
+<div class="section" id="proof-by-contradiction">
+<h2><span class="section-number">5.1. </span>Proof by Contradiction<a class="headerlink" href="#proof-by-contradiction" title="Permalink to this headline">&#182;</a></h2>
+<p>Remember that in natural deduction, proof by contradiction is expressed by the following pattern:</p>
+<img src="_static/classical_reasoning.1.png"><p>The assumption <span class="math notranslate nohighlight">\(\neg A\)</span> is canceled at the final inference.</p>
+<p>In Lean, the inference is named <code class="docutils literal notranslate"><span class="pre">by_contradiction</span></code>, and since it is a classical rule, we have to use the command <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">classical</span></code> before it is available. Once we do so, the pattern of inference is expressed as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20classical%0A%0Avariable%20(A%20%3A%20Prop)%0A%0Aexample%20%3A%20A%20%3A%3D%0Aby_contradiction%0A%20%20(assume%20h%20%3A%20%C2%AC%20A%2C%0A%20%20%20%20show%20false%2C%20from%20sorry)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">classical</span>
+
+<span class="kd">variable</span> <span class="o">(</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="o">:=</span>
+<span class="n">by_contradiction</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">sorry</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>One of the most important consequences of this rule is a classical principle that we mentioned above, namely, the <em>law of the excluded middle</em>, which asserts that the following holds for all <span class="math notranslate nohighlight">\(A\)</span>: <span class="math notranslate nohighlight">\(A \vee \neg A\)</span>.  In Lean we denote this law by <code class="docutils literal notranslate"><span class="pre">em</span></code>.  In mathematical arguments, one often splits a proof into two cases, assuming first <span class="math notranslate nohighlight">\(A\)</span> and then <span class="math notranslate nohighlight">\(\neg A\)</span>. Using the elimination rule for disjunction, this is equivalent to using <span class="math notranslate nohighlight">\(A \vee \neg A\)</span>, which is the excluded middle principle for this particular <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>Here is a proof of <code class="docutils literal notranslate"><span class="pre">em</span></code>, in natural deduction, using proof by contradiction:</p>
+<img src="_static/classical_reasoning.3.png"><p>Here is the same proof rendered in Lean:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20classical%0A%0Avariable%20(A%20%3A%20Prop)%0A%0Aexample%20%3A%20A%20%E2%88%A8%20%C2%AC%20A%20%3A%3D%0Aby_contradiction%0A%20%20(assume%20h1%20%3A%20%C2%AC%20(A%20%E2%88%A8%20%C2%AC%20A)%2C%0A%20%20%20%20have%20h2%20%3A%20%C2%AC%20A%2C%20from%0A%20%20%20%20%20%20assume%20h3%20%3A%20A%2C%0A%20%20%20%20%20%20have%20h4%20%3A%20A%20%E2%88%A8%20%C2%AC%20A%2C%20from%20or.inl%20h3%2C%0A%20%20%20%20%20%20show%20false%2C%20from%20h1%20h4%2C%0A%20%20%20%20have%20h5%20%3A%20A%20%E2%88%A8%20%C2%AC%20A%2C%20from%20or.inr%20h2%2C%0A%20%20%20%20show%20false%2C%20from%20h1%20h5)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">classical</span>
+
+<span class="kd">variable</span> <span class="o">(</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">A</span> <span class="o">:=</span>
+<span class="n">by_contradiction</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">),</span>
+    <span class="k">have</span> <span class="n">h2</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">,</span> <span class="k">from</span>
+      <span class="k">assume</span> <span class="n">h3</span> <span class="o">:</span> <span class="n">A</span><span class="o">,</span>
+      <span class="k">have</span> <span class="n">h4</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">,</span> <span class="k">from</span> <span class="n">or.inl</span> <span class="n">h3</span><span class="o">,</span>
+      <span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">h1</span> <span class="n">h4</span><span class="o">,</span>
+    <span class="k">have</span> <span class="n">h5</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">,</span> <span class="k">from</span> <span class="n">or.inr</span> <span class="n">h2</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">h1</span> <span class="n">h5</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>The principle is known as the law of the excluded middle because it says that a proposition <code class="docutils literal notranslate"><span class="pre">A</span></code> is either true or false; there is no middle ground. As a result, the theorem is named <code class="docutils literal notranslate"><span class="pre">em</span></code> in the Lean library. For any proposition <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">em</span> <span class="pre">A</span></code> denotes a proof of <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8744;</span> <span class="pre">&#172;</span> <span class="pre">A</span></code>, and you are free to use it any time <code class="docutils literal notranslate"><span class="pre">classical</span></code> is open:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20classical%0A%0Aexample%20(A%20%3A%20Prop)%20%3A%20A%20%E2%88%A8%20%C2%AC%20A%20%3A%3D%0Aor.elim%20(em%20A)%0A%20%20(assume%20%3A%20A%2C%20or.inl%20this)%0A%20%20(assume%20%3A%20%C2%AC%20A%2C%20or.inr%20this)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">classical</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">A</span> <span class="o">:=</span>
+<span class="n">or.elim</span> <span class="o">(</span><span class="n">em</span> <span class="n">A</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="o">:</span> <span class="n">A</span><span class="o">,</span> <span class="n">or.inl</span> <span class="n">this</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">,</span> <span class="n">or.inr</span> <span class="n">this</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>Or even more simply:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20classical%0A%0Aexample%20(A%20%3A%20Prop)%20%3A%20A%20%E2%88%A8%20%C2%AC%20A%20%3A%3D%0Aem%20A" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">classical</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">A</span> <span class="o">:=</span>
+<span class="n">em</span> <span class="n">A</span>
+</pre></div>
+</div>
+</div><p>In fact, we can go in the other direction, and use the law of the excluded middle to justify proof by contradiction. You are asked to do this in the exercises.</p>
+<p>Proof by contradiction is also equivalent to the principle <span class="math notranslate nohighlight">\(\neg \neg A \leftrightarrow A\)</span>. The implication from right to left holds intuitionistically; the other implication is classical, and is known as <em>double-negation elimination</em>. Here is a proof in natural deduction:</p>
+<img src="_static/classical_reasoning.4.png"><p>And here is the corresponding proof in Lean:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20classical%0A%0Aexample%20(A%20%3A%20Prop)%20%3A%20%C2%AC%20%C2%AC%20A%20%E2%86%94%20A%20%3A%3D%0Aiff.intro%0A%20%20(assume%20h1%20%3A%20%C2%AC%20%C2%AC%20A%2C%0A%20%20%20%20show%20A%2C%20from%20by_contradiction%0A%20%20%20%20%20%20(assume%20h2%20%3A%20%C2%AC%20A%2C%0A%20%20%20%20%20%20%20%20show%20false%2C%20from%20h1%20h2))%0A%20%20(assume%20h1%20%3A%20A%2C%0A%20%20%20%20show%20%C2%AC%20%C2%AC%20A%2C%20from%20assume%20h2%20%3A%20%C2%AC%20A%2C%20h2%20h1)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">classical</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">A</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="bp">&#172;</span> <span class="n">A</span> <span class="bp">&#8596;</span> <span class="n">A</span> <span class="o">:=</span>
+<span class="n">iff.intro</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">A</span><span class="o">,</span> <span class="k">from</span> <span class="n">by_contradiction</span>
+      <span class="o">(</span><span class="k">assume</span> <span class="n">h2</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">,</span>
+        <span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">h1</span> <span class="n">h2</span><span class="o">))</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">A</span><span class="o">,</span>
+    <span class="k">show</span> <span class="bp">&#172;</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">,</span> <span class="k">from</span> <span class="k">assume</span> <span class="n">h2</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">,</span> <span class="n">h2</span> <span class="n">h1</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>In the next section, we will derive a number of classical rules and equivalences. These are tricky to prove. In general, to use classical reasoning in natural deduction, we need to extend the general heuristic presented in <a class="reference internal" href="natural_deduction_for_propositional_logic.html#forward-and-backward-reasoning"><span class="std std-numref">Section 3.3</span></a> as follows:</p>
+<ol class="arabic simple">
+<li><p>First, work backward from the conclusion, using the introduction rules.</p></li>
+<li><p>When you have run out things to do in the first step, use elimination rules to work forward.</p></li>
+<li><p>If all else fails, use a proof by contradiction.</p></li>
+</ol>
+<p>Sometimes a proof by contradiction is necessary, but when it isn&#8217;t, it can be less informative than a direct proof. Suppose, for example, we want to prove <span class="math notranslate nohighlight">\(A \wedge B \wedge C \to D\)</span>. In a direct proof, we assume <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span>, and work towards <span class="math notranslate nohighlight">\(D\)</span>. Along the way, we will derive other consequences of <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span>, and these may be useful in other contexts. If we use proof by contradiction, on the other hand, we assume <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, <span class="math notranslate nohighlight">\(C\)</span>, and <span class="math notranslate nohighlight">\(\neg D\)</span>, and try to prove <span class="math notranslate nohighlight">\(\bot\)</span>. In that case, we are working in an inconsistent context; any auxiliary results we may obtain that way are subsumed by the fact that ultimately <span class="math notranslate nohighlight">\(\bot\)</span> is a consequence of the hypotheses.</p>
+</div>
+<div class="section" id="some-classical-principles">
+<h2><span class="section-number">5.2. </span>Some Classical Principles<a class="headerlink" href="#some-classical-principles" title="Permalink to this headline">&#182;</a></h2>
+<p>We have already seen that <span class="math notranslate nohighlight">\(A \vee \neg A\)</span> and <span class="math notranslate nohighlight">\(\neg \neg A \leftrightarrow A\)</span> are two important theorems of classical propositional logic. In this section we will provide some more theorems, rules, and equivalences. Some will be proved here, but most will be left to you in the exercises. In ordinary mathematics, these are generally used without comment. It is nice to know, however, that they can all be justified using the basic rules of classical natural deduction.</p>
+<p>If <span class="math notranslate nohighlight">\(A \to B\)</span> is any implication, the assertion <span class="math notranslate nohighlight">\(\neg B \to \neg A\)</span> is known as the <em>contrapositive</em>. Every implication implies its contrapositive, and the other direction is true classically:</p>
+<img src="_static/classical_reasoning.5.png"><p>Here is another example. Intuitively, asserting &#8220;if A then B&#8221; is equivalent to saying that it cannot be the case that A is true and B is false. Classical reasoning is needed to get us from the second statement to the first.</p>
+<img src="_static/classical_reasoning.6.png"><p>Here are the same proofs, rendered in Lean:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20classical%0A%0Avariables%20(A%20B%20%3A%20Prop)%0A%0Aexample%20(h%20%3A%20%C2%AC%20B%20%E2%86%92%20%C2%AC%20A)%20%3A%20A%20%E2%86%92%20B%20%3A%3D%0Aassume%20h1%20%3A%20A%2C%0Ashow%20B%2C%20from%0A%20%20by_contradiction%0A%20%20%20%20(assume%20h2%20%3A%20%C2%AC%20B%2C%0A%20%20%20%20%20%20have%20h3%20%3A%20%C2%AC%20A%2C%20from%20h%20h2%2C%0A%20%20%20%20%20%20show%20false%2C%20from%20h3%20h1)%0A%0Aexample%20(h%20%3A%20%C2%AC%20(A%20%E2%88%A7%20%C2%AC%20B))%20%3A%20A%20%E2%86%92%20B%20%3A%3D%0Aassume%20%3A%20A%2C%0Ashow%20B%2C%20from%0A%20%20by_contradiction%0A%20%20%20%20(assume%20%3A%20%C2%AC%20B%2C%0A%20%20%20%20%20%20have%20A%20%E2%88%A7%20%C2%AC%20B%2C%20from%20and.intro%20%E2%80%B9A%E2%80%BA%20this%2C%0A%20%20%20%20%20%20show%20false%2C%20from%20h%20this)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">classical</span>
+
+<span class="kd">variables</span> <span class="o">(</span><span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">B</span> <span class="bp">&#8594;</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">)</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">A</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">B</span><span class="o">,</span> <span class="k">from</span>
+  <span class="n">by_contradiction</span>
+    <span class="o">(</span><span class="k">assume</span> <span class="n">h2</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">B</span><span class="o">,</span>
+      <span class="k">have</span> <span class="n">h3</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">,</span> <span class="k">from</span> <span class="n">h</span> <span class="n">h2</span><span class="o">,</span>
+      <span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">h3</span> <span class="n">h1</span><span class="o">)</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="bp">&#172;</span> <span class="n">B</span><span class="o">))</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="o">:</span> <span class="n">A</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">B</span><span class="o">,</span> <span class="k">from</span>
+  <span class="n">by_contradiction</span>
+    <span class="o">(</span><span class="k">assume</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">B</span><span class="o">,</span>
+      <span class="k">have</span> <span class="n">A</span> <span class="bp">&#8743;</span> <span class="bp">&#172;</span> <span class="n">B</span><span class="o">,</span> <span class="k">from</span> <span class="n">and.intro</span> <span class="o">&#8249;</span><span class="n">A</span><span class="o">&#8250;</span> <span class="n">this</span><span class="o">,</span>
+      <span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">h</span> <span class="n">this</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>Notice that in the second example, we used an anonymous <code class="docutils literal notranslate"><span class="pre">assume</span></code> and an anonymous <code class="docutils literal notranslate"><span class="pre">have</span></code>. We used the brackets <code class="docutils literal notranslate"><span class="pre">\f&lt;</span></code> and <code class="docutils literal notranslate"><span class="pre">\f&gt;</span></code> to write <code class="docutils literal notranslate"><span class="pre">&#8249;A&#8250;</span></code>, referring back to the first assumption. The first use of the word <code class="docutils literal notranslate"><span class="pre">this</span></code> refers back to the assumption <code class="docutils literal notranslate"><span class="pre">&#172;</span> <span class="pre">B</span></code>, while the second one refers back to the <code class="docutils literal notranslate"><span class="pre">have</span></code>.</p>
+<p>Knowing that we can prove the law of the excluded middle, it is convenient to use it in classical proofs. Here is an example, with a proof of <span class="math notranslate nohighlight">\((A \to B) \vee (B \to A)\)</span>:</p>
+<img src="_static/classical_reasoning.6bis.png"><p>Here is the corresponding proof in Lean:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20classical%0A%0Avariables%20(A%20B%20%3A%20Prop)%0A%0Aexample%20%3A%20(A%20%E2%86%92%20B)%20%E2%88%A8%20(B%20%E2%86%92%20A)%20%3A%3D%0Aor.elim%20(em%20B)%0A%20%20(assume%20h%20%3A%20B%2C%0A%20%20%20%20have%20A%20%E2%86%92%20B%2C%20from%0A%20%20%20%20%20%20assume%20%3A%20A%2C%0A%20%20%20%20%20%20show%20B%2C%20from%20h%2C%0A%20%20%20%20show%20(A%20%E2%86%92%20B)%20%E2%88%A8%20(B%20%E2%86%92%20A)%2C%0A%20%20%20%20%20%20from%20or.inl%20this)%0A%20%20(assume%20h%20%3A%20%C2%AC%20B%2C%0A%20%20%20%20have%20B%20%E2%86%92%20A%2C%20from%0A%20%20%20%20%20%20assume%20%3A%20B%2C%0A%20%20%20%20%20%20have%20false%2C%20from%20h%20this%2C%0A%20%20%20%20%20%20show%20A%2C%20from%20false.elim%20this%2C%0A%20%20%20%20show%20(A%20%E2%86%92%20B)%20%E2%88%A8%20(B%20%E2%86%92%20A)%2C%0A%20%20%20%20%20%20from%20or.inr%20this)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">classical</span>
+
+<span class="kd">variables</span> <span class="o">(</span><span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="o">(</span><span class="n">B</span> <span class="bp">&#8594;</span> <span class="n">A</span><span class="o">)</span> <span class="o">:=</span>
+<span class="n">or.elim</span> <span class="o">(</span><span class="n">em</span> <span class="n">B</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h</span> <span class="o">:</span> <span class="n">B</span><span class="o">,</span>
+    <span class="k">have</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span><span class="o">,</span> <span class="k">from</span>
+      <span class="k">assume</span> <span class="o">:</span> <span class="n">A</span><span class="o">,</span>
+      <span class="k">show</span> <span class="n">B</span><span class="o">,</span> <span class="k">from</span> <span class="n">h</span><span class="o">,</span>
+    <span class="k">show</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="o">(</span><span class="n">B</span> <span class="bp">&#8594;</span> <span class="n">A</span><span class="o">),</span>
+      <span class="k">from</span> <span class="n">or.inl</span> <span class="n">this</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">B</span><span class="o">,</span>
+    <span class="k">have</span> <span class="n">B</span> <span class="bp">&#8594;</span> <span class="n">A</span><span class="o">,</span> <span class="k">from</span>
+      <span class="k">assume</span> <span class="o">:</span> <span class="n">B</span><span class="o">,</span>
+      <span class="k">have</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">h</span> <span class="n">this</span><span class="o">,</span>
+      <span class="k">show</span> <span class="n">A</span><span class="o">,</span> <span class="k">from</span> <span class="n">false.elim</span> <span class="n">this</span><span class="o">,</span>
+    <span class="k">show</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="o">(</span><span class="n">B</span> <span class="bp">&#8594;</span> <span class="n">A</span><span class="o">),</span>
+      <span class="k">from</span> <span class="n">or.inr</span> <span class="n">this</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>Using classical reasoning, implication can be rewritten in terms of disjunction and negation:</p>
+<div class="math notranslate nohighlight">
+\[(A \to B) \leftrightarrow \neg A \vee B.\]</div>
+<p>The forward direction requires classical reasoning.</p>
+<p>The following equivalences are known as De Morgan&#8217;s laws:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\neg (A \vee B) \leftrightarrow \neg A \wedge \neg B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg (A \wedge B) \leftrightarrow \neg A \vee \neg B\)</span></p></li>
+</ul>
+<p>The forward direction of the second of these requires classical reasoning.</p>
+<p>Using these identities, we can always push negations down to propositional variables. For example, we have</p>
+<img src="_static/classical_reasoning.8.png"><p>A formula built up from <span class="math notranslate nohighlight">\(\wedge\)</span>, <span class="math notranslate nohighlight">\(\vee\)</span>, and <span class="math notranslate nohighlight">\(\neg\)</span> in which negations only occur at variables is said to be in <em>negation normal form</em>.</p>
+<p>In fact, using distributivity laws, one can go on to ensure that all the disjunctions are on the outside, so that the formulas is a big or of and&#8217;s of propositional variables and negated propositional variables. Such a formula is said to be in <em>disjunctive normal form</em>. Alternatively, all the and&#8217;s can be brought to the outside. Such a formula is said to be in <em>conjunctive normal form</em>. An exercise below, however, shows that putting formulas in disjunctive or conjunctive normal form can make them much longer.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">5.3. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>Show how to derive the proof-by-contradiction rule from the law of the excluded middle, using the other rules of natural deduction. In other words, assume you have a proof of <span class="math notranslate nohighlight">\(\bot\)</span> from <span class="math notranslate nohighlight">\(\neg A\)</span>. Using <span class="math notranslate nohighlight">\(A \vee \neg A\)</span> as a hypothesis, but <em>without</em> using the rule RAA, show how you can go on to derive <span class="math notranslate nohighlight">\(A\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\neg (A \wedge B)\)</span> from <span class="math notranslate nohighlight">\(\neg A \vee \neg B\)</span>. (You do not need to use proof by contradiction.)</p></li>
+<li><p>Construct a natural deduction proof of <span class="math notranslate nohighlight">\(\neg A \vee \neg B\)</span> from <span class="math notranslate nohighlight">\(\neg (A \wedge B)\)</span>. You can do it as follows:</p>
+<ol class="arabic simple">
+<li><p>First, prove <span class="math notranslate nohighlight">\(\neg B\)</span>, and hence <span class="math notranslate nohighlight">\(\neg A \vee \neg B\)</span>, from <span class="math notranslate nohighlight">\(\neg (A \wedge B)\)</span> and <span class="math notranslate nohighlight">\(A\)</span>.</p></li>
+<li><p>Use this to construct a proof of <span class="math notranslate nohighlight">\(\neg A\)</span>, and hence <span class="math notranslate nohighlight">\(\neg A \vee \neg B\)</span>, from <span class="math notranslate nohighlight">\(\neg (A \wedge B)\)</span> and <span class="math notranslate nohighlight">\(\neg (\neg A \vee \neg B)\)</span>.</p></li>
+<li><p>Use this to construct a proof of a contradiction from <span class="math notranslate nohighlight">\(\neg (A \wedge B)\)</span> and <span class="math notranslate nohighlight">\(\neg (\neg A \vee \neg B)\)</span>.</p></li>
+<li><p>Using proof by contradiction, this gives you a proof of <span class="math notranslate nohighlight">\(\neg A \vee \neg B\)</span> from <span class="math notranslate nohighlight">\(\neg (A \wedge B)\)</span>.</p></li>
+</ol>
+</li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(P\)</span> from <span class="math notranslate nohighlight">\(\neg P \to (Q \vee R)\)</span>, <span class="math notranslate nohighlight">\(\neg Q\)</span>, and <span class="math notranslate nohighlight">\(\neg R\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\neg A \vee B\)</span> from <span class="math notranslate nohighlight">\(A \to B\)</span>. You may use the law of the excluded middle.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(A \to ((A \wedge B) \vee (A \wedge \neg B))\)</span>. You may use the law of the excluded middle.</p></li>
+<li><p>Put <span class="math notranslate nohighlight">\((A \vee B) \wedge (C \vee D) \wedge (E \vee F)\)</span> in disjunctive normal form, that is, write it as a big &#8220;or&#8221; of multiple &#8220;and&#8221; expressions.</p></li>
+<li><p>Prove <code class="docutils literal notranslate"><span class="pre">&#172;</span> <span class="pre">(A</span> <span class="pre">&#8743;</span> <span class="pre">B)</span> <span class="pre">&#8594;</span> <span class="pre">&#172;</span> <span class="pre">A</span> <span class="pre">&#8744;</span> <span class="pre">&#172;</span> <span class="pre">B</span></code> by replacing the sorry&#8217;s below by proofs.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20classical%0Avariables%20%7BA%20B%20C%20%3A%20Prop%7D%0A%0A--%20Prove%20%C2%AC%20(A%20%E2%88%A7%20B)%20%E2%86%92%20%C2%AC%20A%20%E2%88%A8%20%C2%AC%20B%20by%20replacing%20the%20sorry's%20below%0A--%20by%20proofs.%0A%0Alemma%20step1%20(h%E2%82%81%20%3A%20%C2%AC%20(A%20%E2%88%A7%20B))%20(h%E2%82%82%20%3A%20A)%20%3A%20%C2%AC%20A%20%E2%88%A8%20%C2%AC%20B%20%3A%3D%0Ahave%20%C2%AC%20B%2C%20from%20sorry%2C%0Ashow%20%C2%AC%20A%20%E2%88%A8%20%C2%AC%20B%2C%20from%20or.inr%20this%0A%0Alemma%20step2%20(h%E2%82%81%20%3A%20%C2%AC%20(A%20%E2%88%A7%20B))%20(h%E2%82%82%20%3A%20%C2%AC%20(%C2%AC%20A%20%E2%88%A8%20%C2%AC%20B))%20%3A%20false%20%3A%3D%0Ahave%20%C2%AC%20A%2C%20from%0A%20%20assume%20%3A%20A%2C%0A%20%20have%20%C2%AC%20A%20%E2%88%A8%20%C2%AC%20B%2C%20from%20step1%20h%E2%82%81%20%E2%80%B9A%E2%80%BA%2C%0A%20%20show%20false%2C%20from%20h%E2%82%82%20this%2C%0Ashow%20false%2C%20from%20sorry%0A%0Atheorem%20step3%20(h%20%3A%20%C2%AC%20(A%20%E2%88%A7%20B))%20%3A%20%C2%AC%20A%20%E2%88%A8%20%C2%AC%20B%20%3A%3D%0Aby_contradiction%0A%20%20(assume%20h'%20%3A%20%C2%AC%20(%C2%AC%20A%20%E2%88%A8%20%C2%AC%20B)%2C%0A%20%20%20%20show%20false%2C%20from%20step2%20h%20h')" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">classical</span>
+<span class="kd">variables</span> <span class="o">{</span><span class="n">A</span> <span class="n">B</span> <span class="n">C</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">}</span>
+
+<span class="c1">-- Prove &#172; (A &#8743; B) &#8594; &#172; A &#8744; &#172; B by replacing the sorry&#39;s below</span>
+<span class="c1">-- by proofs.</span>
+
+<span class="kd">lemma</span> <span class="n">step1</span> <span class="o">(</span><span class="n">h&#8321;</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span><span class="o">))</span> <span class="o">(</span><span class="n">h&#8322;</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">B</span> <span class="o">:=</span>
+<span class="k">have</span> <span class="bp">&#172;</span> <span class="n">B</span><span class="o">,</span> <span class="k">from</span> <span class="n">sorry</span><span class="o">,</span>
+<span class="k">show</span> <span class="bp">&#172;</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">B</span><span class="o">,</span> <span class="k">from</span> <span class="n">or.inr</span> <span class="n">this</span>
+
+<span class="kd">lemma</span> <span class="n">step2</span> <span class="o">(</span><span class="n">h&#8321;</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span><span class="o">))</span> <span class="o">(</span><span class="n">h&#8322;</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="bp">&#172;</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">B</span><span class="o">))</span> <span class="o">:</span> <span class="n">false</span> <span class="o">:=</span>
+<span class="k">have</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">,</span> <span class="k">from</span>
+  <span class="k">assume</span> <span class="o">:</span> <span class="n">A</span><span class="o">,</span>
+  <span class="k">have</span> <span class="bp">&#172;</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">B</span><span class="o">,</span> <span class="k">from</span> <span class="n">step1</span> <span class="n">h&#8321;</span> <span class="o">&#8249;</span><span class="n">A</span><span class="o">&#8250;,</span>
+  <span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">h&#8322;</span> <span class="n">this</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">sorry</span>
+
+<span class="kd">theorem</span> <span class="n">step3</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span><span class="o">))</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">B</span> <span class="o">:=</span>
+<span class="n">by_contradiction</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">h&#39;</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="bp">&#172;</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">B</span><span class="o">),</span>
+    <span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">step2</span> <span class="n">h</span> <span class="n">h&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Also do these:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20classical%0Avariables%20%7BA%20B%20C%20%3A%20Prop%7D%0A%0Aexample%20(h%20%3A%20%C2%AC%20B%20%E2%86%92%20%C2%AC%20A)%20%3A%20A%20%E2%86%92%20B%20%3A%3D%0Asorry%0A%0Aexample%20(h%20%3A%20A%20%E2%86%92%20B)%20%3A%20%C2%AC%20A%20%E2%88%A8%20B%20%3A%3D%0Asorry" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">classical</span>
+<span class="kd">variables</span> <span class="o">{</span><span class="n">A</span> <span class="n">B</span> <span class="n">C</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">}</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">B</span> <span class="bp">&#8594;</span> <span class="bp">&#172;</span> <span class="n">A</span><span class="o">)</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span> <span class="o">:=</span>
+<span class="n">sorry</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span><span class="o">)</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="n">B</span> <span class="o">:=</span>
+<span class="n">sorry</span>
+</pre></div>
+</div>
+</div></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Classical Reasoning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#proof-by-contradiction">5.1. Proof by Contradiction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#some-classical-principles">5.2. Some Classical Principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">5.3. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/classical_reasoning.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

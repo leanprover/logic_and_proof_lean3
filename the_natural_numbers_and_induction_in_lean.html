@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>18. The Natural Numbers and Induction in Lean &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="19. Elementary Number Theory" href="elementary_number_theory.html" />
+    <link rel="prev" title="17. The Natural Numbers and Induction" href="the_natural_numbers_and_induction.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="the-natural-numbers-and-induction-in-lean">
+<span id="id1"></span><h1><span class="section-number">18. </span>The Natural Numbers and Induction in Lean<a class="headerlink" href="#the-natural-numbers-and-induction-in-lean" title="Permalink to this headline">&#182;</a></h1>
+<div class="section" id="induction-and-recursion-in-lean">
+<h2><span class="section-number">18.1. </span>Induction and Recursion in Lean<a class="headerlink" href="#induction-and-recursion-in-lean" title="Permalink to this headline">&#182;</a></h2>
+<p>Internally, in Lean, the natural numbers are defined as a type generated inductively from an axiomatically declared <code class="docutils literal notranslate"><span class="pre">zero</span></code> and <code class="docutils literal notranslate"><span class="pre">succ</span></code> operation:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=namespace%20hidden%0A%0A--%20BEGIN%0Ainductive%20nat%20%3A%20Type%0A%7C%20zero%20%3A%20nat%0A%7C%20succ%20%3A%20nat%20%E2%86%92%20nat%0A--%20END%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">inductive</span> <span class="n">nat</span> <span class="o">:</span> <span class="kt">Type</span>
+<span class="bp">|</span> <span class="n">zero</span> <span class="o">:</span> <span class="n">nat</span>
+<span class="bp">|</span> <span class="n">succ</span> <span class="o">:</span> <span class="n">nat</span> <span class="bp">&#8594;</span> <span class="n">nat</span>
+</pre></div>
+</div>
+</div><p>If you click the button that copies this text into the editor in the online version of this textbook, you will see that we wrap it with the phrases <code class="docutils literal notranslate"><span class="pre">namespace</span> <span class="pre">hidden</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span> <span class="pre">hidden</span></code>. This puts the definition into a new &#8220;namespace,&#8221; so that the identifiers that are defined are <code class="docutils literal notranslate"><span class="pre">hidden.nat</span></code>, <code class="docutils literal notranslate"><span class="pre">hidden.nat.zero</span></code> and <code class="docutils literal notranslate"><span class="pre">hidden.nat.succ</span></code>, to avoid conflicting with the one that is in the Lean library. Below, we will do that in a number of places where our examples duplicate objects defined in the library. The unicode symbol <code class="docutils literal notranslate"><span class="pre">&#8469;</span></code>, entered with <code class="docutils literal notranslate"><span class="pre">\N</span></code> or <code class="docutils literal notranslate"><span class="pre">\nat</span></code>, is a synonym for <code class="docutils literal notranslate"><span class="pre">nat</span></code>.</p>
+<p>Declaring <code class="docutils literal notranslate"><span class="pre">nat</span></code> as an inductively defined type means that we can define functions by recursion, and prove theorems by induction. For example, these are the first two recursive definitions presented in the last chapter:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=open%20nat%0A%0Adef%20two_pow%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%0A%7C%200%20%20%20%20%20%20%20%20%3A%3D%201%0A%7C%20(succ%20n)%20%3A%3D%202%20*%20two_pow%20n%0A%0Adef%20fact%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%0A%7C%200%20%20%20%20%20%20%20%20%3A%3D%201%0A%7C%20(succ%20n)%20%3A%3D%20(succ%20n)%20*%20fact%20n" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">open</span> <span class="n">nat</span>
+
+<span class="kd">def</span> <span class="n">two_pow</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="bp">|</span> <span class="mi">0</span>        <span class="o">:=</span> <span class="mi">1</span>
+<span class="bp">|</span> <span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">)</span> <span class="o">:=</span> <span class="mi">2</span> <span class="bp">*</span> <span class="n">two_pow</span> <span class="n">n</span>
+
+<span class="kd">def</span> <span class="n">fact</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="bp">|</span> <span class="mi">0</span>        <span class="o">:=</span> <span class="mi">1</span>
+<span class="bp">|</span> <span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">)</span> <span class="o">:=</span> <span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">)</span> <span class="bp">*</span> <span class="n">fact</span> <span class="n">n</span>
+</pre></div>
+</div>
+</div><p>Addition and numerals are defined in such a way that Lean recognizes <code class="docutils literal notranslate"><span class="pre">succ</span> <span class="pre">n</span></code> and <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">+</span> <span class="pre">1</span></code> as essentially the same, so we could instead write these definitions as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=def%20two_pow%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%0A%7C%200%20%20%20%20%20%20%20%3A%3D%201%0A%7C%20(n%20%2B%201)%20%3A%3D%202%20*%20two_pow%20n%0A%0Adef%20fact%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%0A%7C%200%20%20%20%20%20%20%20%3A%3D%201%0A%7C%20(n%20%2B%201)%20%3A%3D%20(n%20%2B%201)%20*%20fact%20n" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">def</span> <span class="n">two_pow</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="bp">|</span> <span class="mi">0</span>       <span class="o">:=</span> <span class="mi">1</span>
+<span class="bp">|</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">:=</span> <span class="mi">2</span> <span class="bp">*</span> <span class="n">two_pow</span> <span class="n">n</span>
+
+<span class="kd">def</span> <span class="n">fact</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="bp">|</span> <span class="mi">0</span>       <span class="o">:=</span> <span class="mi">1</span>
+<span class="bp">|</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">:=</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span> <span class="bp">*</span> <span class="n">fact</span> <span class="n">n</span>
+</pre></div>
+</div>
+</div><p>If we wanted to define the function <code class="docutils literal notranslate"><span class="pre">m^n</span></code>, we would do that by fixing <code class="docutils literal notranslate"><span class="pre">m</span></code>, and writing doing the recursion on the second argument:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=def%20pow%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%20%E2%86%92%20%E2%84%95%0A%7C%20m%200%20%20%20%20%20%20%20%20%3A%3D%201%0A%7C%20m%20(n%20%2B%201)%20%20%3A%3D%20m%20*%20pow%20m%20n" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">def</span> <span class="n">pow</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="bp">|</span> <span class="n">m</span> <span class="mi">0</span>        <span class="o">:=</span> <span class="mi">1</span>
+<span class="bp">|</span> <span class="n">m</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span>  <span class="o">:=</span> <span class="n">m</span> <span class="bp">*</span> <span class="n">pow</span> <span class="n">m</span> <span class="n">n</span>
+</pre></div>
+</div>
+</div><p>In fact, this is how the power function on the natural numbers, <code class="docutils literal notranslate"><span class="pre">nat.pow</span></code>, is defined in Lean&#8217;s library.</p>
+<p>Lean is also smart enough to interpret more complicated forms of recursion, like this one:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=def%20fib%20%3A%20%E2%84%95%20%E2%86%92%20%E2%84%95%0A%7C%200%20%20%20%20%20%20%20%20%3A%3D%200%0A%7C%201%20%20%20%20%20%20%20%20%3A%3D%201%0A%7C%20(n%20%2B%202)%20%20%3A%3D%20fib%20(n%20%2B%201)%20%2B%20fib%20n" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">def</span> <span class="n">fib</span> <span class="o">:</span> <span class="n">&#8469;</span> <span class="bp">&#8594;</span> <span class="n">&#8469;</span>
+<span class="bp">|</span> <span class="mi">0</span>        <span class="o">:=</span> <span class="mi">0</span>
+<span class="bp">|</span> <span class="mi">1</span>        <span class="o">:=</span> <span class="mi">1</span>
+<span class="bp">|</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="mi">2</span><span class="o">)</span>  <span class="o">:=</span> <span class="n">fib</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span> <span class="bp">+</span> <span class="n">fib</span> <span class="n">n</span>
+</pre></div>
+</div>
+</div><p>In addition to defining functions by recursion, we can prove theorems by induction. In Lean, each clause of a recursive definition results in a new identity. For example, the two clauses in the definition of <code class="docutils literal notranslate"><span class="pre">pow</span></code> above give rise to the following two theorems:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.pow%0Aopen%20nat%0A%0Aexample%20(n%20%3A%20%E2%84%95)%20%3A%20pow%20n%200%20%3D%201%20%3A%3D%20rfl%0Aexample%20(m%20n%20%3A%20%E2%84%95)%20%3A%20pow%20m%20(n%2B1)%20%3D%20m%20*%20pow%20m%20n%20%3A%3D%20rfl" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.pow</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">)</span> <span class="o">:</span> <span class="n">pow</span> <span class="n">n</span> <span class="mi">0</span> <span class="bp">=</span> <span class="mi">1</span> <span class="o">:=</span> <span class="n">rfl</span>
+<span class="kd">example</span> <span class="o">(</span><span class="n">m</span> <span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">)</span> <span class="o">:</span> <span class="n">pow</span> <span class="n">m</span> <span class="o">(</span><span class="n">n</span><span class="bp">+</span><span class="mi">1</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">*</span> <span class="n">pow</span> <span class="n">m</span> <span class="n">n</span> <span class="o">:=</span> <span class="n">rfl</span>
+</pre></div>
+</div>
+</div><p>Lean defines the usual notation for exponentiation:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.pow%0Aopen%20nat%0A%0Aexample%20(n%20%3A%20%E2%84%95)%20%3A%20n%5E0%20%3D%201%20%3A%3D%20rfl%0Aexample%20(m%20n%20%3A%20%E2%84%95)%20%3A%20m%5E(n%2B1)%20%3D%20m%20*%20m%5En%20%3A%3D%20rfl%0A%0A%23check%20%40pow_zero%0A%23check%20%40pow_succ" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.pow</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">)</span> <span class="o">:</span> <span class="n">n</span><span class="bp">^</span><span class="mi">0</span> <span class="bp">=</span> <span class="mi">1</span> <span class="o">:=</span> <span class="n">rfl</span>
+<span class="kd">example</span> <span class="o">(</span><span class="n">m</span> <span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">)</span> <span class="o">:</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span><span class="bp">+</span><span class="mi">1</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="o">:=</span> <span class="n">rfl</span>
+
+<span class="k">#check</span> <span class="bp">@</span><span class="n">pow_zero</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">pow_succ</span>
+</pre></div>
+</div>
+</div><p>Notice that we could alternatively have used <code class="docutils literal notranslate"><span class="pre">pow</span> <span class="pre">m</span> <span class="pre">n</span> <span class="pre">*</span> <span class="pre">n</span></code> in the second clause of the definition of <code class="docutils literal notranslate"><span class="pre">pow</span></code>. Of course, we can prove that the two definitions are equivalent using the commutativity of multiplication, but, using a proof by induction, we can also prove it using only the associativity of multiplication, and the properties <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">*</span> <span class="pre">m</span> <span class="pre">=</span> <span class="pre">m</span></code> and <code class="docutils literal notranslate"><span class="pre">m</span> <span class="pre">*</span> <span class="pre">1</span> <span class="pre">=</span> <span class="pre">m</span></code>. This is useful, because the power function is also often used in situations where multiplication is not commutative, such as with matrix multiplication. The theorem can be proved in Lean as follows:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.pow%0Aopen%20nat%0A%0Aexample%20(m%20n%20%3A%20%E2%84%95)%20%3A%20m%5E(succ%20n)%20%3D%20m%5En%20*%20m%20%3A%3D%0Anat.rec_on%20n%0A%20%20(show%20m%5E(succ%200)%20%3D%20m%5E0%20*%20m%2C%20from%20calc%0A%20%20%20%20m%5E(succ%200)%20%3D%20m%20*%20m%5E0%20%3A%20by%20rw%20pow_succ%0A%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%20*%201%20%20%20%3A%20by%20rw%20pow_zero%0A%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%20%20%20%20%20%20%20%3A%20by%20rw%20mul_one%0A%20%20%20%20%20%20%20%20%20%20...%20%3D%201%20*%20m%20%20%20%3A%20by%20rw%20one_mul%0A%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%5E0%20*%20m%20%3A%20by%20rw%20pow_zero)%0A%20%20(assume%20n%2C%0A%20%20%20%20assume%20ih%20%3A%20m%5E(succ%20n)%20%3D%20m%5En%20*%20m%2C%0A%20%20%20%20show%20m%5E(succ%20(succ%20n))%20%3D%20m%5E(succ%20n)%20*%20m%2C%20from%20calc%0A%20%20%20%20%20%20m%5E(succ%20(succ%20n))%20%3D%20m%20*%20m%5E(succ%20n)%20%20%20%3A%20by%20rw%20pow_succ%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%20*%20(m%5En%20*%20m)%20%20%20%20%3A%20by%20rw%20ih%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20(m%20*%20m%5En)%20*%20m%20%20%20%20%3A%20by%20rw%20mul_assoc%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%5E(succ%20n)%20*m%20%20%20%20%3A%20by%20rw%20pow_succ)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.pow</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">m</span> <span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">)</span> <span class="o">:</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span> <span class="o">:=</span>
+<span class="n">nat.rec_on</span> <span class="n">n</span>
+  <span class="o">(</span><span class="k">show</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="mi">0</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="mi">0</span> <span class="bp">*</span> <span class="n">m</span><span class="o">,</span> <span class="k">from</span> <span class="k">calc</span>
+    <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="mi">0</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="mi">0</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">pow_succ</span>
+          <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">*</span> <span class="mi">1</span>   <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">pow_zero</span>
+          <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span>       <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">mul_one</span>
+          <span class="bp">...</span> <span class="bp">=</span> <span class="mi">1</span> <span class="bp">*</span> <span class="n">m</span>   <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">one_mul</span>
+          <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="mi">0</span> <span class="bp">*</span> <span class="n">m</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">pow_zero</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">n</span><span class="o">,</span>
+    <span class="k">assume</span> <span class="n">ih</span> <span class="o">:</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">))</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">)</span> <span class="bp">*</span> <span class="n">m</span><span class="o">,</span> <span class="k">from</span> <span class="k">calc</span>
+      <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">))</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">)</span>   <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">pow_succ</span>
+                    <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">*</span> <span class="o">(</span><span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="o">)</span>    <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">ih</span>
+                    <span class="bp">...</span> <span class="bp">=</span> <span class="o">(</span><span class="n">m</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span><span class="o">)</span> <span class="bp">*</span> <span class="n">m</span>    <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">mul_assoc</span>
+                    <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">)</span> <span class="bp">*</span><span class="n">m</span>    <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">pow_succ</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>This is a typical proof by induction in Lean. It begins with the phrase <code class="docutils literal notranslate"><span class="pre">nat.rec_on</span> <span class="pre">n</span></code>, and is followed by the base case and the inductive hypothesis. (The phrase <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">nat</span></code> allows us to write <code class="docutils literal notranslate"><span class="pre">pow</span></code> instead of <code class="docutils literal notranslate"><span class="pre">nat.pow</span></code>. This theorem is called <code class="docutils literal notranslate"><span class="pre">pow_succ'</span></code> in the library.The proof can be shortened using <code class="docutils literal notranslate"><span class="pre">rewrite</span></code>:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.pow%0Aopen%20nat%0A%0Aexample%20(m%20n%20%3A%20%E2%84%95)%20%3A%20m%5E(succ%20n)%20%3D%20m%5En%20*%20m%20%3A%3D%0Anat.rec_on%20n%0A%20%20(show%20m%5E(succ%200)%20%3D%20m%5E0%20*%20m%2C%20by%0A%20%20%20%20rw%20%5Bpow_succ%2C%20pow_zero%2C%20mul_one%2C%20one_mul%5D)%0A%20%20(assume%20n%2C%0A%20%20%20%20assume%20ih%20%3A%20m%5E(succ%20n)%20%3D%20m%5En%20*%20m%2C%0A%20%20%20%20show%20m%5E(succ%20(succ%20n))%20%3D%20m%5E(succ%20n)%20*%20m%2C%0A%20%20%20%20%20%20by%20rw%20%5Bpow_succ%2C%20pow_succ%2C%20mul_assoc%2C%20%E2%86%90ih%2C%20%E2%86%90pow_succ%5D)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.pow</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">m</span> <span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">)</span> <span class="o">:</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span> <span class="o">:=</span>
+<span class="n">nat.rec_on</span> <span class="n">n</span>
+  <span class="o">(</span><span class="k">show</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="mi">0</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="mi">0</span> <span class="bp">*</span> <span class="n">m</span><span class="o">,</span> <span class="kd">by</span>
+    <span class="n">rw</span> <span class="o">[</span><span class="n">pow_succ</span><span class="o">,</span> <span class="n">pow_zero</span><span class="o">,</span> <span class="n">mul_one</span><span class="o">,</span> <span class="n">one_mul</span><span class="o">])</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">n</span><span class="o">,</span>
+    <span class="k">assume</span> <span class="n">ih</span> <span class="o">:</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">))</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">)</span> <span class="bp">*</span> <span class="n">m</span><span class="o">,</span>
+      <span class="kd">by</span> <span class="n">rw</span> <span class="o">[</span><span class="n">pow_succ</span><span class="o">,</span> <span class="n">pow_succ</span><span class="o">,</span> <span class="n">mul_assoc</span><span class="o">,</span> <span class="bp">&#8592;</span><span class="n">ih</span><span class="o">,</span> <span class="bp">&#8592;</span><span class="n">pow_succ</span><span class="o">])</span>
+</pre></div>
+</div>
+</div><p>Remember that you can write a <code class="docutils literal notranslate"><span class="pre">rewrite</span></code> proof incrementally, checking the error messages to make sure things are working so far, and to see how far Lean got.</p>
+<p>As another example of a proof by induction, here is a proof of the identity <code class="docutils literal notranslate"><span class="pre">m^(n</span> <span class="pre">+</span> <span class="pre">k)</span> <span class="pre">=</span> <span class="pre">m^n</span> <span class="pre">*</span> <span class="pre">m^k</span></code>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.pow%0Aopen%20nat%0A%0Aexample%20(m%20n%20k%20%3A%20%E2%84%95)%20%3A%20m%5E(n%20%2B%20k)%20%3D%20m%5En%20*%20m%5Ek%20%3A%3D%0Anat.rec_on%20k%0A%20%20(show%20m%5E(n%20%2B%200)%20%3D%20m%5En%20*%20m%5E0%2C%20from%20calc%0A%20%20%20%20m%5E(n%20%2B%200)%20%3D%20m%5En%20%20%20%20%20%20%20%3A%20by%20rw%20add_zero%0A%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%5En%20*%201%20%20%20%3A%20by%20rw%20mul_one%0A%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%5En%20*%20m%5E0%20%3A%20by%20rw%20pow_zero)%0A%20%20(assume%20k%2C%0A%20%20%20%20assume%20ih%20%3A%20m%5E(n%20%2B%20k)%20%3D%20m%5En%20*%20m%5Ek%2C%0A%20%20%20%20show%20m%5E(n%20%2B%20succ%20k)%20%3D%20m%5En%20*%20m%5E(succ%20k)%2C%20from%20calc%0A%20%20%20%20%20%20m%5E(n%20%2B%20succ%20k)%20%3D%20m%5E(succ%20(n%20%2B%20k))%20%3A%20by%20rw%20nat.add_succ%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%5E(n%20%2B%20k)%20*%20m%20%20%20%20%3A%20by%20rw%20pow_succ'%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%5En%20*%20m%5Ek%20*%20m%20%20%20%20%3A%20by%20rw%20ih%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%5En%20*%20(m%5Ek%20*%20m)%20%20%3A%20by%20rw%20mul_assoc%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%5En%20*%20m%5E(succ%20k)%20%3A%20by%20rw%20pow_succ')" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.pow</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">m</span> <span class="n">n</span> <span class="n">k</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">)</span> <span class="o">:</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="n">k</span> <span class="o">:=</span>
+<span class="n">nat.rec_on</span> <span class="n">k</span>
+  <span class="o">(</span><span class="k">show</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="mi">0</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="mi">0</span><span class="o">,</span> <span class="k">from</span> <span class="k">calc</span>
+    <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="mi">0</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span>       <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_zero</span>
+          <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="mi">1</span>   <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">mul_one</span>
+          <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="mi">0</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">pow_zero</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">k</span><span class="o">,</span>
+    <span class="k">assume</span> <span class="n">ih</span> <span class="o">:</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="n">k</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">k</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="n">k</span><span class="o">),</span> <span class="k">from</span> <span class="k">calc</span>
+      <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">k</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">))</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">nat.add_succ</span>
+                <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">)</span> <span class="bp">*</span> <span class="n">m</span>    <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">pow_succ&#39;</span>
+                <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="n">k</span> <span class="bp">*</span> <span class="n">m</span>    <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">ih</span>
+                <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="o">(</span><span class="n">m</span><span class="bp">^</span><span class="n">k</span> <span class="bp">*</span> <span class="n">m</span><span class="o">)</span>  <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">mul_assoc</span>
+                <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="n">k</span><span class="o">)</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">pow_succ&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>Notice the same pattern. This time, we do induction on <code class="docutils literal notranslate"><span class="pre">k</span></code>, and the base case and inductive step are routine. The theorem is called <code class="docutils literal notranslate"><span class="pre">pow_add</span></code> in the library, and once again, with a bit of cleverness, we can shorten the proof with <code class="docutils literal notranslate"><span class="pre">rewrite</span></code>:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.pow%0Aopen%20nat%0A%0Aexample%20(m%20n%20k%20%3A%20%E2%84%95)%20%3A%20m%5E(n%20%2B%20k)%20%3D%20m%5En%20*%20m%5Ek%20%3A%3D%0Anat.rec_on%20k%0A%20%20(show%20m%5E(n%20%2B%200)%20%3D%20m%5En%20*%20m%5E0%2C%0A%20%20%20%20by%20rw%20%5Badd_zero%2C%20pow_zero%2C%20mul_one%5D)%0A%20%20(assume%20k%2C%0A%20%20%20%20assume%20ih%20%3A%20m%5E(n%20%2B%20k)%20%3D%20m%5En%20*%20m%5Ek%2C%0A%20%20%20%20show%20m%5E(n%20%2B%20succ%20k)%20%3D%20m%5En%20*%20m%5E(succ%20k)%2C%0A%20%20%20%20by%20rw%20%5Bnat.add_succ%2C%20pow_succ'%2C%20ih%2C%20mul_assoc%2C%20pow_succ'%5D)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.pow</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="kd">example</span> <span class="o">(</span><span class="n">m</span> <span class="n">n</span> <span class="n">k</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">)</span> <span class="o">:</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="n">k</span> <span class="o">:=</span>
+<span class="n">nat.rec_on</span> <span class="n">k</span>
+  <span class="o">(</span><span class="k">show</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="mi">0</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="mi">0</span><span class="o">,</span>
+    <span class="kd">by</span> <span class="n">rw</span> <span class="o">[</span><span class="n">add_zero</span><span class="o">,</span> <span class="n">pow_zero</span><span class="o">,</span> <span class="n">mul_one</span><span class="o">])</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">k</span><span class="o">,</span>
+    <span class="k">assume</span> <span class="n">ih</span> <span class="o">:</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="n">k</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">k</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span><span class="bp">^</span><span class="n">n</span> <span class="bp">*</span> <span class="n">m</span><span class="bp">^</span><span class="o">(</span><span class="n">succ</span> <span class="n">k</span><span class="o">),</span>
+    <span class="kd">by</span> <span class="n">rw</span> <span class="o">[</span><span class="n">nat.add_succ</span><span class="o">,</span> <span class="n">pow_succ&#39;</span><span class="o">,</span> <span class="n">ih</span><span class="o">,</span> <span class="n">mul_assoc</span><span class="o">,</span> <span class="n">pow_succ&#39;</span><span class="o">])</span>
+</pre></div>
+</div>
+</div><p>You should not hesitate to use <code class="docutils literal notranslate"><span class="pre">calc</span></code>, however, to make the proofs more explicit. Remember that you can also use <code class="docutils literal notranslate"><span class="pre">calc</span></code> and <code class="docutils literal notranslate"><span class="pre">rewrite</span></code> together, using <code class="docutils literal notranslate"><span class="pre">calc</span></code> to structure the calculational proof, and using <code class="docutils literal notranslate"><span class="pre">rewrite</span></code> to fill in each justification step.</p>
+</div>
+<div class="section" id="defining-the-arithmetic-operations-in-lean">
+<h2><span class="section-number">18.2. </span>Defining the Arithmetic Operations in Lean<a class="headerlink" href="#defining-the-arithmetic-operations-in-lean" title="Permalink to this headline">&#182;</a></h2>
+<p>In fact, addition and multiplication are defined in Lean essentially as described in <a class="reference internal" href="the_natural_numbers_and_induction.html#defining-arithmetic-operations"><span class="std std-numref">Section 17.4</span></a>. The defining equations for addition hold by reflexivity, but they are also named <code class="docutils literal notranslate"><span class="pre">add_zero</span></code> and <code class="docutils literal notranslate"><span class="pre">add_succ</span></code>:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.basic%0Aopen%20nat%0A%0Avariables%20m%20n%20%3A%20%E2%84%95%0A%0Aexample%20%3A%20m%20%2B%200%20%3D%20m%20%3A%3D%20add_zero%20m%0Aexample%20%3A%20m%20%2B%20succ%20n%20%3D%20succ%20(m%20%2B%20n)%20%3A%3D%20add_succ%20m%20n" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.basic</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="kd">variables</span> <span class="n">m</span> <span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">m</span> <span class="bp">+</span> <span class="mi">0</span> <span class="bp">=</span> <span class="n">m</span> <span class="o">:=</span> <span class="n">add_zero</span> <span class="n">m</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">m</span> <span class="bp">+</span> <span class="n">n</span><span class="o">)</span> <span class="o">:=</span> <span class="n">add_succ</span> <span class="n">m</span> <span class="n">n</span>
+</pre></div>
+</div>
+</div><p>Similarly, we have the defining equations for the predecessor function
+and multiplication:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.basic%0Aopen%20nat%0A%0A%23check%20%40pred_zero%0A%23check%20%40pred_succ%0A%23check%20%40mul_zero%0A%23check%20%40mul_succ" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.basic</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="k">#check</span> <span class="bp">@</span><span class="n">pred_zero</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">pred_succ</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">mul_zero</span>
+<span class="k">#check</span> <span class="bp">@</span><span class="n">mul_succ</span>
+</pre></div>
+</div>
+</div><p>Here are the five propositions proved in <a class="reference internal" href="the_natural_numbers_and_induction.html#defining-arithmetic-operations"><span class="std std-numref">Section 17.4</span></a>.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.basic%0Aopen%20nat%0A%0Anamespace%20hidden%0A%0A--%20BEGIN%0Atheorem%20succ_pred%20(n%20%3A%20%E2%84%95)%20%3A%20n%20%E2%89%A0%200%20%E2%86%92%20succ%20(pred%20n)%20%3D%20n%20%3A%3D%0Anat.rec_on%20n%0A%20%20(assume%20H%20%3A%200%20%E2%89%A0%200%2C%0A%20%20%20%20show%20succ%20(pred%200)%20%3D%200%2C%20from%20absurd%20rfl%20H)%0A%20%20(assume%20n%2C%0A%20%20%20%20assume%20ih%2C%0A%20%20%20%20assume%20H%20%3A%20succ%20n%20%E2%89%A0%200%2C%0A%20%20%20%20show%20succ%20(pred%20(succ%20n))%20%3D%20succ%20n%2C%0A%20%20%20%20%20%20by%20rewrite%20pred_succ)%0A%0Atheorem%20zero_add%20(n%20%3A%20nat)%20%3A%200%20%2B%20n%20%3D%20n%20%3A%3D%0Anat.rec_on%20n%0A%20%20(show%200%20%2B%200%20%3D%200%2C%20from%20rfl)%0A%20%20(assume%20n%2C%0A%20%20%20%20assume%20ih%20%3A%200%20%2B%20n%20%3D%20n%2C%0A%20%20%20%20show%200%20%2B%20succ%20n%20%3D%20succ%20n%2C%20from%0A%20%20%20%20%20%20calc%0A%20%20%20%200%20%2B%20succ%20n%20%3D%20succ%20(0%20%2B%20n)%20%3A%20rfl%0A%20%20%20%20%20%20...%20%3D%20succ%20n%20%3A%20by%20rw%20ih)%0A%0Atheorem%20succ_add%20(m%20n%20%3A%20nat)%20%3A%20succ%20m%20%2B%20n%20%3D%20succ%20(m%20%2B%20n)%20%3A%3D%0Anat.rec_on%20n%0A%20%20(show%20succ%20m%20%2B%200%20%3D%20succ%20(m%20%2B%200)%2C%20from%20rfl)%0A%20%20(assume%20n%2C%0A%20%20%20%20assume%20ih%20%3A%20succ%20m%20%2B%20n%20%3D%20succ%20(m%20%2B%20n)%2C%0A%20%20%20%20show%20succ%20m%20%2B%20succ%20n%20%3D%20succ%20(m%20%2B%20succ%20n)%2C%20from%0A%20%20%20%20%20%20calc%0A%20%20%20%20succ%20m%20%2B%20succ%20n%20%3D%20succ%20(succ%20m%20%2B%20n)%20%3A%20rfl%0A%20%20%20%20%20%20...%20%3D%20succ%20(succ%20(m%20%2B%20n))%20%3A%20by%20rw%20ih%0A%20%20%20%20%20%20...%20%3D%20succ%20(m%20%2B%20succ%20n)%20%3A%20rfl)%0A%0Atheorem%20add_assoc%20(m%20n%20k%20%3A%20nat)%20%3A%20m%20%2B%20n%20%2B%20k%20%3D%20m%20%2B%20(n%20%2B%20k)%20%3A%3D%0Anat.rec_on%20k%0A%20%20(show%20m%20%2B%20n%20%2B%200%20%3D%20m%20%2B%20(n%20%2B%200)%2C%20by%20rw%20%5Badd_zero%2C%20add_zero%5D)%0A%20%20(assume%20k%2C%0A%20%20%20%20assume%20ih%20%3A%20m%20%2B%20n%20%2B%20k%20%3D%20m%20%2B%20(n%20%2B%20k)%2C%0A%20%20%20%20show%20m%20%2B%20n%20%2B%20succ%20k%20%3D%20m%20%2B%20(n%20%2B%20(succ%20k))%2C%20from%20calc%0A%20%20%20%20%20%20m%20%2B%20n%20%2B%20succ%20k%20%3D%20succ%20(m%20%2B%20n%20%2B%20k)%20%20%20%3A%20by%20rw%20add_succ%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20succ%20(m%20%2B%20(n%20%2B%20k))%20%3A%20by%20rw%20ih%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%20%2B%20succ%20(n%20%2B%20k)%20%20%20%3A%20by%20rw%20%E2%86%90add_succ%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20m%20%2B%20(n%20%2B%20succ%20k)%20%20%20%3A%20by%20rw%20%E2%86%90add_succ)%0A%0Atheorem%20add_comm%20(m%20n%20%3A%20nat)%20%3A%20m%20%2B%20n%20%3D%20n%20%2B%20m%20%3A%3D%0Anat.rec_on%20n%0A%20%20(show%20m%20%2B%200%20%3D%200%20%2B%20m%2C%20by%20rewrite%20%5Badd_zero%2C%20zero_add%5D)%0A%20%20(assume%20n%2C%0A%20%20%20%20assume%20ih%20%3A%20m%20%2B%20n%20%3D%20n%20%2B%20m%2C%0A%20%20%20%20show%20m%20%2B%20succ%20n%20%3D%20succ%20n%20%2B%20m%2C%20from%20calc%0A%20%20%20%20%20%20m%20%2B%20succ%20n%20%3D%20succ%20(m%20%2B%20n)%20%3A%20by%20rw%20add_succ%0A%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20succ%20(n%20%2B%20m)%20%3A%20by%20rw%20ih%0A%20%20%20%20%20%20%20%20%20%20%20%20%20...%20%3D%20succ%20n%20%2B%20m%20%20%20%3A%20by%20rw%20succ_add)%0A%0A--%20END%0Aend%20hidden" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">theorem</span> <span class="n">succ_pred</span> <span class="o">(</span><span class="n">n</span> <span class="o">:</span> <span class="n">&#8469;</span><span class="o">)</span> <span class="o">:</span> <span class="n">n</span> <span class="bp">&#8800;</span> <span class="mi">0</span> <span class="bp">&#8594;</span> <span class="n">succ</span> <span class="o">(</span><span class="n">pred</span> <span class="n">n</span><span class="o">)</span> <span class="bp">=</span> <span class="n">n</span> <span class="o">:=</span>
+<span class="n">nat.rec_on</span> <span class="n">n</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">H</span> <span class="o">:</span> <span class="mi">0</span> <span class="bp">&#8800;</span> <span class="mi">0</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">succ</span> <span class="o">(</span><span class="n">pred</span> <span class="mi">0</span><span class="o">)</span> <span class="bp">=</span> <span class="mi">0</span><span class="o">,</span> <span class="k">from</span> <span class="n">absurd</span> <span class="n">rfl</span> <span class="n">H</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">n</span><span class="o">,</span>
+    <span class="k">assume</span> <span class="n">ih</span><span class="o">,</span>
+    <span class="k">assume</span> <span class="n">H</span> <span class="o">:</span> <span class="n">succ</span> <span class="n">n</span> <span class="bp">&#8800;</span> <span class="mi">0</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">succ</span> <span class="o">(</span><span class="n">pred</span> <span class="o">(</span><span class="n">succ</span> <span class="n">n</span><span class="o">))</span> <span class="bp">=</span> <span class="n">succ</span> <span class="n">n</span><span class="o">,</span>
+      <span class="kd">by</span> <span class="n">rewrite</span> <span class="n">pred_succ</span><span class="o">)</span>
+
+<span class="kd">theorem</span> <span class="n">zero_add</span> <span class="o">(</span><span class="n">n</span> <span class="o">:</span> <span class="n">nat</span><span class="o">)</span> <span class="o">:</span> <span class="mi">0</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">n</span> <span class="o">:=</span>
+<span class="n">nat.rec_on</span> <span class="n">n</span>
+  <span class="o">(</span><span class="k">show</span> <span class="mi">0</span> <span class="bp">+</span> <span class="mi">0</span> <span class="bp">=</span> <span class="mi">0</span><span class="o">,</span> <span class="k">from</span> <span class="n">rfl</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">n</span><span class="o">,</span>
+    <span class="k">assume</span> <span class="n">ih</span> <span class="o">:</span> <span class="mi">0</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">n</span><span class="o">,</span>
+    <span class="k">show</span> <span class="mi">0</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">succ</span> <span class="n">n</span><span class="o">,</span> <span class="k">from</span>
+      <span class="k">calc</span>
+    <span class="mi">0</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="mi">0</span> <span class="bp">+</span> <span class="n">n</span><span class="o">)</span> <span class="o">:</span> <span class="n">rfl</span>
+      <span class="bp">...</span> <span class="bp">=</span> <span class="n">succ</span> <span class="n">n</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">ih</span><span class="o">)</span>
+
+<span class="kd">theorem</span> <span class="n">succ_add</span> <span class="o">(</span><span class="n">m</span> <span class="n">n</span> <span class="o">:</span> <span class="n">nat</span><span class="o">)</span> <span class="o">:</span> <span class="n">succ</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">m</span> <span class="bp">+</span> <span class="n">n</span><span class="o">)</span> <span class="o">:=</span>
+<span class="n">nat.rec_on</span> <span class="n">n</span>
+  <span class="o">(</span><span class="k">show</span> <span class="n">succ</span> <span class="n">m</span> <span class="bp">+</span> <span class="mi">0</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">m</span> <span class="bp">+</span> <span class="mi">0</span><span class="o">),</span> <span class="k">from</span> <span class="n">rfl</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">n</span><span class="o">,</span>
+    <span class="k">assume</span> <span class="n">ih</span> <span class="o">:</span> <span class="n">succ</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">m</span> <span class="bp">+</span> <span class="n">n</span><span class="o">),</span>
+    <span class="k">show</span> <span class="n">succ</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">m</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">n</span><span class="o">),</span> <span class="k">from</span>
+      <span class="k">calc</span>
+    <span class="n">succ</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">succ</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">n</span><span class="o">)</span> <span class="o">:</span> <span class="n">rfl</span>
+      <span class="bp">...</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">succ</span> <span class="o">(</span><span class="n">m</span> <span class="bp">+</span> <span class="n">n</span><span class="o">))</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">ih</span>
+      <span class="bp">...</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">m</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">n</span><span class="o">)</span> <span class="o">:</span> <span class="n">rfl</span><span class="o">)</span>
+
+<span class="kd">theorem</span> <span class="n">add_assoc</span> <span class="o">(</span><span class="n">m</span> <span class="n">n</span> <span class="n">k</span> <span class="o">:</span> <span class="n">nat</span><span class="o">)</span> <span class="o">:</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">k</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">+</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">)</span> <span class="o">:=</span>
+<span class="n">nat.rec_on</span> <span class="n">k</span>
+  <span class="o">(</span><span class="k">show</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">+</span> <span class="mi">0</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">+</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="mi">0</span><span class="o">),</span> <span class="kd">by</span> <span class="n">rw</span> <span class="o">[</span><span class="n">add_zero</span><span class="o">,</span> <span class="n">add_zero</span><span class="o">])</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">k</span><span class="o">,</span>
+    <span class="k">assume</span> <span class="n">ih</span> <span class="o">:</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">k</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">+</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">),</span>
+    <span class="k">show</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">k</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">+</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="o">(</span><span class="n">succ</span> <span class="n">k</span><span class="o">)),</span> <span class="k">from</span> <span class="k">calc</span>
+      <span class="n">m</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">k</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">m</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">)</span>   <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_succ</span>
+                 <span class="bp">...</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">m</span> <span class="bp">+</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">))</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">ih</span>
+                 <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">succ</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">)</span>   <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="bp">&#8592;</span><span class="n">add_succ</span>
+                 <span class="bp">...</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">+</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">k</span><span class="o">)</span>   <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="bp">&#8592;</span><span class="n">add_succ</span><span class="o">)</span>
+
+<span class="kd">theorem</span> <span class="n">add_comm</span> <span class="o">(</span><span class="n">m</span> <span class="n">n</span> <span class="o">:</span> <span class="n">nat</span><span class="o">)</span> <span class="o">:</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">m</span> <span class="o">:=</span>
+<span class="n">nat.rec_on</span> <span class="n">n</span>
+  <span class="o">(</span><span class="k">show</span> <span class="n">m</span> <span class="bp">+</span> <span class="mi">0</span> <span class="bp">=</span> <span class="mi">0</span> <span class="bp">+</span> <span class="n">m</span><span class="o">,</span> <span class="kd">by</span> <span class="n">rewrite</span> <span class="o">[</span><span class="n">add_zero</span><span class="o">,</span> <span class="n">zero_add</span><span class="o">])</span>
+  <span class="o">(</span><span class="k">assume</span> <span class="n">n</span><span class="o">,</span>
+    <span class="k">assume</span> <span class="n">ih</span> <span class="o">:</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">m</span><span class="o">,</span>
+    <span class="k">show</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">succ</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">m</span><span class="o">,</span> <span class="k">from</span> <span class="k">calc</span>
+      <span class="n">m</span> <span class="bp">+</span> <span class="n">succ</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">m</span> <span class="bp">+</span> <span class="n">n</span><span class="o">)</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">add_succ</span>
+             <span class="bp">...</span> <span class="bp">=</span> <span class="n">succ</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">m</span><span class="o">)</span> <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">ih</span>
+             <span class="bp">...</span> <span class="bp">=</span> <span class="n">succ</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">m</span>   <span class="o">:</span> <span class="kd">by</span> <span class="n">rw</span> <span class="n">succ_add</span><span class="o">)</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="exercises">
+<h2><span class="section-number">18.3. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>Formalize as many of the identities from <a class="reference internal" href="the_natural_numbers_and_induction.html#defining-arithmetic-operations"><span class="std std-numref">Section 17.4</span></a> as you can by replacing each <cite>sorry</cite> with a proof.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.basic%0Aopen%20nat%0A%0A--1.a.%0Aexample%20%3A%20%E2%88%80%20m%20n%20k%20%3A%20nat%2C%20m%20*%20(n%20%2B%20k)%20%3D%20m%20*%20n%20%2B%20m%20*%20k%20%3A%3D%20sorry%0A%0A--1.b.%0Aexample%20%3A%20%E2%88%80%20n%20%3A%20nat%2C%200%20*%20n%20%3D%200%20%3A%3D%20sorry%0A%0A--1.c.%0Aexample%20%3A%20%E2%88%80%20n%20%3A%20nat%2C%201%20*%20n%20%3D%20n%20%3A%3D%20sorry%0A%0A--1.d.%0Aexample%20%3A%20%E2%88%80%20m%20n%20k%20%3A%20nat%2C%20(m%20*%20n)%20*%20k%20%3D%20m%20*%20(n%20*%20k)%20%3A%3D%20sorry%0A%0A--1.e.%0Aexample%20%3A%20%E2%88%80%20m%20n%20%3A%20nat%2C%20m%20*%20n%3D%20n%20*%20m%20%3A%3D%20sorry" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.basic</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="c1">--1.a.</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">m</span> <span class="n">n</span> <span class="n">k</span> <span class="o">:</span> <span class="n">nat</span><span class="o">,</span> <span class="n">m</span> <span class="bp">*</span> <span class="o">(</span><span class="n">n</span> <span class="bp">+</span> <span class="n">k</span><span class="o">)</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">*</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">m</span> <span class="bp">*</span> <span class="n">k</span> <span class="o">:=</span> <span class="n">sorry</span>
+
+<span class="c1">--1.b.</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">n</span> <span class="o">:</span> <span class="n">nat</span><span class="o">,</span> <span class="mi">0</span> <span class="bp">*</span> <span class="n">n</span> <span class="bp">=</span> <span class="mi">0</span> <span class="o">:=</span> <span class="n">sorry</span>
+
+<span class="c1">--1.c.</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">n</span> <span class="o">:</span> <span class="n">nat</span><span class="o">,</span> <span class="mi">1</span> <span class="bp">*</span> <span class="n">n</span> <span class="bp">=</span> <span class="n">n</span> <span class="o">:=</span> <span class="n">sorry</span>
+
+<span class="c1">--1.d.</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">m</span> <span class="n">n</span> <span class="n">k</span> <span class="o">:</span> <span class="n">nat</span><span class="o">,</span> <span class="o">(</span><span class="n">m</span> <span class="bp">*</span> <span class="n">n</span><span class="o">)</span> <span class="bp">*</span> <span class="n">k</span> <span class="bp">=</span> <span class="n">m</span> <span class="bp">*</span> <span class="o">(</span><span class="n">n</span> <span class="bp">*</span> <span class="n">k</span><span class="o">)</span> <span class="o">:=</span> <span class="n">sorry</span>
+
+<span class="c1">--1.e.</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">m</span> <span class="n">n</span> <span class="o">:</span> <span class="n">nat</span><span class="o">,</span> <span class="n">m</span> <span class="bp">*</span> <span class="n">n</span><span class="bp">=</span> <span class="n">n</span> <span class="bp">*</span> <span class="n">m</span> <span class="o">:=</span> <span class="n">sorry</span>
+</pre></div>
+</div>
+</div></li>
+<li><p>Formalize as many of the identities from <a class="reference internal" href="the_natural_numbers_and_induction.html#arithmetic-on-the-natural-numbers"><span class="std std-numref">Section 17.5</span></a> as you can by replacing each <cite>sorry</cite> with a proof.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=import%20data.nat.basic%0Aopen%20nat%0A%0A--2.a.%0Aexample%20%3A%20%E2%88%80%20m%20n%20k%20%3A%20nat%2C%20n%20%E2%89%A4%20m%20%E2%86%92%20n%20%2B%20k%20%E2%89%A4%20m%20%20%2B%20k%20%3A%3D%20sorry%0A%0A--2.b.%0Aexample%20%3A%20%E2%88%80%20m%20n%20k%20%3A%20nat%2C%20n%20%2B%20k%20%E2%89%A4%20m%20%2B%20k%20%E2%86%92%20n%20%E2%89%A4%20m%20%3A%3D%20sorry%0A%0A--2.c.%0Aexample%20%3A%20%E2%88%80%20m%20n%20k%20%3A%20nat%2C%20n%20%E2%89%A4%20m%20%E2%86%92%20n%20*%20k%20%E2%89%A4%20m%20*%20k%20%3A%3D%20sorry%0A%0A--2.d.%0Aexample%20%3A%20%E2%88%80%20m%20n%20%3A%20nat%2C%20m%20%E2%89%A5%20n%20%E2%86%92%20m%20%3D%20n%20%E2%88%A8%20m%20%E2%89%A5%20n%2B1%20%3A%3D%20sorry%0A%0A--2.e.%0Aexample%20%3A%20%E2%88%80%20n%20%3A%20nat%2C%200%20%E2%89%A4%20n%20%3A%3D%20sorry" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kn">import</span> <span class="n">data.nat.basic</span>
+<span class="kn">open</span> <span class="n">nat</span>
+
+<span class="c1">--2.a.</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">m</span> <span class="n">n</span> <span class="n">k</span> <span class="o">:</span> <span class="n">nat</span><span class="o">,</span> <span class="n">n</span> <span class="bp">&#8804;</span> <span class="n">m</span> <span class="bp">&#8594;</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">k</span> <span class="bp">&#8804;</span> <span class="n">m</span>  <span class="bp">+</span> <span class="n">k</span> <span class="o">:=</span> <span class="n">sorry</span>
+
+<span class="c1">--2.b.</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">m</span> <span class="n">n</span> <span class="n">k</span> <span class="o">:</span> <span class="n">nat</span><span class="o">,</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">k</span> <span class="bp">&#8804;</span> <span class="n">m</span> <span class="bp">+</span> <span class="n">k</span> <span class="bp">&#8594;</span> <span class="n">n</span> <span class="bp">&#8804;</span> <span class="n">m</span> <span class="o">:=</span> <span class="n">sorry</span>
+
+<span class="c1">--2.c.</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">m</span> <span class="n">n</span> <span class="n">k</span> <span class="o">:</span> <span class="n">nat</span><span class="o">,</span> <span class="n">n</span> <span class="bp">&#8804;</span> <span class="n">m</span> <span class="bp">&#8594;</span> <span class="n">n</span> <span class="bp">*</span> <span class="n">k</span> <span class="bp">&#8804;</span> <span class="n">m</span> <span class="bp">*</span> <span class="n">k</span> <span class="o">:=</span> <span class="n">sorry</span>
+
+<span class="c1">--2.d.</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">m</span> <span class="n">n</span> <span class="o">:</span> <span class="n">nat</span><span class="o">,</span> <span class="n">m</span> <span class="bp">&#8805;</span> <span class="n">n</span> <span class="bp">&#8594;</span> <span class="n">m</span> <span class="bp">=</span> <span class="n">n</span> <span class="bp">&#8744;</span> <span class="n">m</span> <span class="bp">&#8805;</span> <span class="n">n</span><span class="bp">+</span><span class="mi">1</span> <span class="o">:=</span> <span class="n">sorry</span>
+
+<span class="c1">--2.e.</span>
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#8704;</span> <span class="n">n</span> <span class="o">:</span> <span class="n">nat</span><span class="o">,</span> <span class="mi">0</span> <span class="bp">&#8804;</span> <span class="n">n</span> <span class="o">:=</span> <span class="n">sorry</span>
+</pre></div>
+</div>
+</div></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">18. The Natural Numbers and Induction in Lean</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#induction-and-recursion-in-lean">18.1. Induction and Recursion in Lean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#defining-the-arithmetic-operations-in-lean">18.2. Defining the Arithmetic Operations in Lean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">18.3. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/the_natural_numbers_and_induction_in_lean.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

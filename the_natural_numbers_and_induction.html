@@ -1,0 +1,542 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>17. The Natural Numbers and Induction &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="18. The Natural Numbers and Induction in Lean" href="the_natural_numbers_and_induction_in_lean.html" />
+    <link rel="prev" title="16. Functions in Lean" href="functions_in_lean.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="the-natural-numbers-and-induction">
+<span id="id1"></span><h1><span class="section-number">17. </span>The Natural Numbers and Induction<a class="headerlink" href="#the-natural-numbers-and-induction" title="Permalink to this headline">&#182;</a></h1>
+<p>This chapter marks a transition from the abstract to the concrete. Viewing the mathematical universe in terms of sets, relations, and functions gives us useful ways of thinking about mathematical objects and structures and the relationships between them. At some point, however, we need to start thinking about <em>particular</em> mathematical objects and structures, and the natural numbers are a good place to start. The nineteenth century mathematician Leopold Kronecker once proclaimed &#8220;God created the whole numbers; everything else is the work of man.&#8221; By this he meant that the natural numbers (and the integers, which we will also discuss below) are a fundamental component of the mathematical universe, and that many other objects and structures of interest can be constructed from these.</p>
+<p>In this chapter, we will consider the natural numbers and the basic principles that govern them. In <a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html#the-natural-numbers-and-induction-in-lean"><span class="std std-numref">Chapter 18</span></a> we will see that even basic operations like addition and multiplication can be defined using means described here, and their properties derived from these basic principles. Our presentation in this chapter will remain informal, however. In Chapter 19, we will see how these principles play out in number theory, one of the oldest and most venerable branches of mathematics.</p>
+<div class="section" id="the-principle-of-induction">
+<h2><span class="section-number">17.1. </span>The Principle of Induction<a class="headerlink" href="#the-principle-of-induction" title="Permalink to this headline">&#182;</a></h2>
+<p>The set of natural numbers is the set</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{N} = \{ 0, 1, 2, 3, \ldots \}.\]</div>
+<p>In the past, opinions have differed as to whether the set of natural numbers should start with 0 or 1, but these days most mathematicians take them to start with 0. Logicians often call the function <span class="math notranslate nohighlight">\(s(n) = n + 1\)</span> the <em>successor</em> function, since it maps each natural number, <span class="math notranslate nohighlight">\(n\)</span>, to the one that follows it. What makes the natural numbers special is that they are <em>generated</em> by the number zero and the successor function, which is to say, the only way to construct a natural number is to start with <span class="math notranslate nohighlight">\(0\)</span> and apply the successor function finitely many times. From a foundational standpoint, we are in danger of running into a circularity here, because it is not clear how we can explain what it means to apply a function &#8220;finitely many times&#8221; without talking about the natural numbers themselves. But the following principle, known as the <em>principle of induction</em>, describes this essential property of the natural numbers in a non-circular way.</p>
+<hr class="docutils" />
+<p><strong>Principle of Induction.</strong> Let <span class="math notranslate nohighlight">\(P\)</span> be any property of natural numbers. Suppose <span class="math notranslate nohighlight">\(P\)</span> holds of zero, and whenever <span class="math notranslate nohighlight">\(P\)</span> holds of a natural number <span class="math notranslate nohighlight">\(n\)</span>, then it holds of its successor, <span class="math notranslate nohighlight">\(n + 1\)</span>. Then <span class="math notranslate nohighlight">\(P\)</span> holds of every natural number.</p>
+<hr class="docutils" />
+<p>This reflects the image of the natural numbers as being generated by zero and the successor operation: by covering the zero and successor cases, we take care of all the natural numbers.</p>
+<p>The principle of induction provides a recipe for proving that every natural number has a certain property: to show that <span class="math notranslate nohighlight">\(P\)</span> holds of every natural number, show that it holds of <span class="math notranslate nohighlight">\(0\)</span>, and show that whenever it holds of some number <span class="math notranslate nohighlight">\(n\)</span>, it holds of <span class="math notranslate nohighlight">\(n + 1\)</span>. This form of proof is called a <em>proof by induction</em>. The first required task is called the <em>base case</em>, and the second required task is called the <em>induction step</em>. The induction step requires temporarily fixing a natural number <span class="math notranslate nohighlight">\(n\)</span>, assuming that <span class="math notranslate nohighlight">\(P\)</span> holds of <span class="math notranslate nohighlight">\(n\)</span>, and then showing that <span class="math notranslate nohighlight">\(P\)</span> holds of <span class="math notranslate nohighlight">\(n + 1\)</span>. In this context, the assumption that <span class="math notranslate nohighlight">\(P\)</span> holds of <span class="math notranslate nohighlight">\(n\)</span> is called the <em>inductive hypothesis</em>.</p>
+<p>You can visualize proof by induction as a method of knocking down an infinite stream of dominoes, all at once. We set the mechanism in place and knock down domino 0 (the base case), and every domino knocks down the next domino (the induction step). So domino 0 knocks down domino 1; that knocks down domino 2, and so on.</p>
+<p>Here is an example of a proof by induction.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> For every natural number <span class="math notranslate nohighlight">\(n\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[1 + 2 + \ldots + 2^n = 2^{n+1} - 1.\]</div>
+<p><strong>Proof.</strong> We prove this by induction on <span class="math notranslate nohighlight">\(n\)</span>. In the base case, when <span class="math notranslate nohighlight">\(n = 0\)</span>, we have <span class="math notranslate nohighlight">\(1 = 2^{0+1} - 1\)</span>, as required.</p>
+<p>For the induction step, fix <span class="math notranslate nohighlight">\(n\)</span>, and assume the <em>inductive hypothesis</em></p>
+<div class="math notranslate nohighlight">
+\[1 + 2 + \ldots + 2^n = 2^{n+1} - 1.\]</div>
+<p>We need to show that this same claim holds with <span class="math notranslate nohighlight">\(n\)</span> replaced by <span class="math notranslate nohighlight">\(n + 1\)</span>. But this is just a calculation:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}1 + 2 + \ldots + 2^{n+1} &amp; = (1 + 2 + \ldots + 2^n) + 2^{n+1} \\
+&amp; = 2^{n+1} - 1 + 2^{n+1} \\
+&amp; = 2 \cdot 2^{n+1} - 1 \\
+&amp; = 2^{n+2} - 1.\end{split}\]</div>
+<hr class="docutils" />
+<p>In the notation of first-order logic, if we write <span class="math notranslate nohighlight">\(P(n)\)</span> to mean that <span class="math notranslate nohighlight">\(P\)</span> holds of <span class="math notranslate nohighlight">\(n\)</span>, we could express the principle of induction as follows:</p>
+<div class="math notranslate nohighlight">
+\[P(0) \wedge \forall n \; (P(n) \to P(n + 1)) \to \forall n \; P(n).\]</div>
+<p>But notice that the principle of induction says that the axiom holds <em>for every property</em> <span class="math notranslate nohighlight">\(P\)</span>, which means that we should properly use a universal quantifier for that, too:</p>
+<div class="math notranslate nohighlight">
+\[\forall P \; (P(0) \wedge \forall n \; (P(n) \to P(n + 1)) \to \forall n \; P(n)).\]</div>
+<p>Quantifying over properties takes us out of the realm of first-order logic; induction is therefore a second-order principle.</p>
+<p>The pattern for a proof by induction is expressed even more naturally by the following natural deduction rule:</p>
+<img src="_static/the_natural_numbers_and_induction.1.png"><p>You should think about how some of the proofs in this chapter could be represented formally using natural deduction.</p>
+<p>For another example of a proof by induction, let us derive a formula that, given any finite set <span class="math notranslate nohighlight">\(S\)</span>, determines the number of subsets of <span class="math notranslate nohighlight">\(S\)</span>. For example, there are four subsets of the two-element set <span class="math notranslate nohighlight">\(\{1, 2\}\)</span>, namely <span class="math notranslate nohighlight">\(\emptyset\)</span>, <span class="math notranslate nohighlight">\(\{1\}\)</span>, <span class="math notranslate nohighlight">\(\{2\}\)</span>, and <span class="math notranslate nohighlight">\(\{1, 2\}\)</span>. You should convince yourself that there are eight subsets of the set <span class="math notranslate nohighlight">\(\{1, 2, 3\}\)</span>. The following theorem establishes the general pattern.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> For any finite set <span class="math notranslate nohighlight">\(S\)</span>, if <span class="math notranslate nohighlight">\(S\)</span> has <span class="math notranslate nohighlight">\(n\)</span> elements, then there are <span class="math notranslate nohighlight">\(2^n\)</span> subsets of <span class="math notranslate nohighlight">\(S\)</span>.</p>
+<p><strong>Proof.</strong> We use induction on <span class="math notranslate nohighlight">\(n\)</span>. In the base case, there is only one set with <span class="math notranslate nohighlight">\(0\)</span> elements, the empty set, and there is exactly one subset of the empty set, as required.</p>
+<p>In the inductive case, suppose <span class="math notranslate nohighlight">\(S\)</span> has <span class="math notranslate nohighlight">\(n + 1\)</span> elements. Let <span class="math notranslate nohighlight">\(a\)</span> be any element of <span class="math notranslate nohighlight">\(S\)</span>, and let <span class="math notranslate nohighlight">\(S'\)</span> be the set containing the remaining <span class="math notranslate nohighlight">\(n\)</span> elements. In order to count the subsets of <span class="math notranslate nohighlight">\(S\)</span>, we divide them into two groups.</p>
+<p>First, we consider the subsets of <span class="math notranslate nohighlight">\(S\)</span> that don&#8217;t contain <span class="math notranslate nohighlight">\(a\)</span>. These are exactly the subsets of <span class="math notranslate nohighlight">\(S'\)</span>, and by the inductive hypothesis, there are <span class="math notranslate nohighlight">\(2^n\)</span> of those.</p>
+<p>Next we consider the subsets of <span class="math notranslate nohighlight">\(S\)</span> that <em>do</em> contain <span class="math notranslate nohighlight">\(a\)</span>. Each of these is obtained by choosing a subset of <span class="math notranslate nohighlight">\(S'\)</span> and adding <span class="math notranslate nohighlight">\(a\)</span>. Since there are <span class="math notranslate nohighlight">\(2^n\)</span> subsets of <span class="math notranslate nohighlight">\(S'\)</span>, there are <span class="math notranslate nohighlight">\(2^n\)</span> subsets of <span class="math notranslate nohighlight">\(S\)</span> that contain <span class="math notranslate nohighlight">\(a\)</span>.</p>
+<p>Taken together, then, there are <span class="math notranslate nohighlight">\(2^n + 2^n = 2^{n+1}\)</span> subsets of <span class="math notranslate nohighlight">\(S\)</span>, as required.</p>
+<hr class="docutils" />
+<p>We have seen that there is a correspondence between properties of a domain and subsets of a domain. For every property <span class="math notranslate nohighlight">\(P\)</span> of natural numbers, we can consider the set <span class="math notranslate nohighlight">\(S\)</span> of natural numbers with that property, and for every set of natural numbers, we can consider the property of being in that set. For example, we can talk about the property of being even, or talk about the set of even numbers. Under this correspondence, the principle of induction can be cast as follows:</p>
+<hr class="docutils" />
+<p><strong>Principle of Induction.</strong> Let <span class="math notranslate nohighlight">\(S\)</span> be any set of natural numbers that contains <span class="math notranslate nohighlight">\(0\)</span> and is closed under the successor operation. Then <span class="math notranslate nohighlight">\(S = \mathbb{N}\)</span>.</p>
+<hr class="docutils" />
+<p>Here, saying that <span class="math notranslate nohighlight">\(S\)</span> is &#8220;closed under the successor operation&#8221; means that whenever a number <span class="math notranslate nohighlight">\(n\)</span> is in <span class="math notranslate nohighlight">\(S\)</span>, so is <span class="math notranslate nohighlight">\(n + 1\)</span>.</p>
+</div>
+<div class="section" id="variants-of-induction">
+<h2><span class="section-number">17.2. </span>Variants of Induction<a class="headerlink" href="#variants-of-induction" title="Permalink to this headline">&#182;</a></h2>
+<p>In this section, we will consider variations on the principle of induction that are often useful. It is important to recognize that each of these can be justified using the principle of induction as stated in the last section, so they need not be taken as fundamental.</p>
+<p>The first one is no great shakes: instead of starting from <span class="math notranslate nohighlight">\(0\)</span>, we can start from any natural number, <span class="math notranslate nohighlight">\(m\)</span>.</p>
+<hr class="docutils" />
+<p><strong>Principle of Induction from a Starting Point.</strong> Let <span class="math notranslate nohighlight">\(P\)</span> be any property of natural numbers, and let <span class="math notranslate nohighlight">\(m\)</span> be any natural number. Suppose <span class="math notranslate nohighlight">\(P\)</span> holds of <span class="math notranslate nohighlight">\(m\)</span>, and whenever <span class="math notranslate nohighlight">\(P\)</span> holds of a natural number <span class="math notranslate nohighlight">\(n\)</span> greater than or equal to <span class="math notranslate nohighlight">\(m\)</span>, then it holds of its successor, <span class="math notranslate nohighlight">\(n + 1\)</span>. Then <span class="math notranslate nohighlight">\(P\)</span> holds of every natural number greater than or equal to <span class="math notranslate nohighlight">\(m\)</span>.</p>
+<hr class="docutils" />
+<p>Assuming the hypotheses of this last principle, if we let <span class="math notranslate nohighlight">\(P'(n)\)</span> be the property &#8220;<span class="math notranslate nohighlight">\(P\)</span> holds of <span class="math notranslate nohighlight">\(m + n\)</span>,&#8221; we can prove that <span class="math notranslate nohighlight">\(P'\)</span> holds of every <span class="math notranslate nohighlight">\(n\)</span> by the ordinary principle of induction. But this means that <span class="math notranslate nohighlight">\(P\)</span> holds of every number greater than or equal to <span class="math notranslate nohighlight">\(m\)</span>.</p>
+<p>Here is one example of a proof using this variant of induction.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> For every natural number <span class="math notranslate nohighlight">\(n \geq 5\)</span>, <span class="math notranslate nohighlight">\(2^n &gt; n^2\)</span>.</p>
+<p><strong>Proof.</strong> By induction on <span class="math notranslate nohighlight">\(n\)</span>. When <span class="math notranslate nohighlight">\(n = 5\)</span>, we have <span class="math notranslate nohighlight">\(2^n = 32 &gt; 25 = n^2\)</span>, as required.</p>
+<p>For the induction step, suppose <span class="math notranslate nohighlight">\(n \ge 5\)</span> and <span class="math notranslate nohighlight">\(2^n &gt; n^2\)</span>. Since <span class="math notranslate nohighlight">\(n\)</span> is greater than or equal to <span class="math notranslate nohighlight">\(5\)</span>, we have <span class="math notranslate nohighlight">\(2n + 1 \leq 3 n \leq n^2\)</span>, and so</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}(n+1)^2 &amp;= n^2 + 2n + 1 \\
+ &amp; \leq n^2 + n^2 \\
+ &amp; &lt; 2^n + 2^n \\
+ &amp; = 2^{n+1}.\end{split}\]</div>
+<hr class="docutils" />
+<p>For another example, let us derive a formula for the sum total of the angles in a convex polygon. A polygon is said to be <em>convex</em> if every line between two vertices stays inside the polygon. We will accept without proof the visually obvious fact that one can subdivide any convex polygon with more than three sides into a triangle and a convex polygon with one fewer side, namely, by closing off any two consecutive sides to form a triangle. We will also accept, without proof, the basic geometric fact that the sum of the angles of any triangle is 180 degrees.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> For any <span class="math notranslate nohighlight">\(n \geq 3\)</span>, the sum of the angles of any convex <span class="math notranslate nohighlight">\(n\)</span>-gon is <span class="math notranslate nohighlight">\(180(n - 2)\)</span>.</p>
+<p><strong>Proof.</strong> In the base case, when <span class="math notranslate nohighlight">\(n = 3\)</span>, this reduces to the statement that the sum of the angles in any triangle is 180 degrees.</p>
+<p>For the induction step, suppose <span class="math notranslate nohighlight">\(n \geq 3\)</span>, and let <span class="math notranslate nohighlight">\(P\)</span> be a convex <span class="math notranslate nohighlight">\((n+1)\)</span>-gon. Divide <span class="math notranslate nohighlight">\(P\)</span> into a triangle and an <span class="math notranslate nohighlight">\(n\)</span>-gon. By the inductive hypotheses, the sum of the angles of the <span class="math notranslate nohighlight">\(n\)</span>-gon is <span class="math notranslate nohighlight">\(180(n-2)\)</span> degrees, and the sum of the angles of the triangle is <span class="math notranslate nohighlight">\(180\)</span> degrees. The measures of these angles taken together make up the sum of the measures of the angles of <span class="math notranslate nohighlight">\(P\)</span>, for a total of <span class="math notranslate nohighlight">\(180(n-2) + 180 = 180(n-1)\)</span> degrees.</p>
+<hr class="docutils" />
+<p>For our second example, we will consider the principle of <em>complete induction</em>, also sometimes known as <em>total induction</em>.</p>
+<hr class="docutils" />
+<p><strong>Principle of Complete Induction.</strong> Let <span class="math notranslate nohighlight">\(P\)</span> be any property that satisfies the following: for any natural number <span class="math notranslate nohighlight">\(n\)</span>, whenever <span class="math notranslate nohighlight">\(P\)</span> holds of every number less than <span class="math notranslate nohighlight">\(n\)</span>, it also holds of <span class="math notranslate nohighlight">\(n\)</span>. Then <span class="math notranslate nohighlight">\(P\)</span> holds of every natural number.</p>
+<hr class="docutils" />
+<p>Notice that there is no need to break out a special case for zero: for any property <span class="math notranslate nohighlight">\(P\)</span>, <span class="math notranslate nohighlight">\(P\)</span> holds of all the natural numbers less than zero, for the trivial reason that there aren&#8217;t any! So, in particular, any such property automatically holds of zero.</p>
+<p>Notice also that if such a property <span class="math notranslate nohighlight">\(P\)</span> holds of every number less than <span class="math notranslate nohighlight">\(n\)</span>, then it also holds of every number less than <span class="math notranslate nohighlight">\(n + 1\)</span> (why?). So, for such a <span class="math notranslate nohighlight">\(P\)</span>, the ordinary principle of induction implies that for every natural number <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(P\)</span> holds of every natural number less than <span class="math notranslate nohighlight">\(n\)</span>. But this is just a roundabout way of saying that <span class="math notranslate nohighlight">\(P\)</span> holds of every natural number. In other words, we have justified the principle of complete induction using ordinary induction.</p>
+<p>To use the principle of complete induction we merely have to let <span class="math notranslate nohighlight">\(n\)</span> be any natural number and show that <span class="math notranslate nohighlight">\(P\)</span> holds of <span class="math notranslate nohighlight">\(n\)</span>, assuming that it holds of every smaller number. Compare this to the ordinary principle of induction, which requires us to show <span class="math notranslate nohighlight">\(P (n + 1)\)</span> assuming only <span class="math notranslate nohighlight">\(P(n)\)</span>. The following example of the use of this principle is taken verbatim from the introduction to this book:</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Every natural number greater than or equal to 2 can be written as a product of primes.</p>
+<p><strong>Proof.</strong> We proceed by induction on <span class="math notranslate nohighlight">\(n\)</span>. Let <span class="math notranslate nohighlight">\(n\)</span> be any natural number greater than 2. If <span class="math notranslate nohighlight">\(n\)</span> is prime, we are done; we can consider <span class="math notranslate nohighlight">\(n\)</span> itself as a product with one factor. Otherwise, <span class="math notranslate nohighlight">\(n\)</span> is composite, and we can write <span class="math notranslate nohighlight">\(n = m \cdot k\)</span> where <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(k\)</span> are smaller than <span class="math notranslate nohighlight">\(n\)</span> and greater than 1. By the inductive hypothesis, each of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(k\)</span> can be written as a product of primes:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}m = p_1 \cdot p_2 \cdot \ldots \cdot p_u \\
+k = q_1 \cdot q_2 \cdot \ldots \cdot q_v.\end{split}\]</div>
+<p>But then we have</p>
+<div class="math notranslate nohighlight">
+\[n = m \cdot k = p_1 \cdot p_2 \cdot \ldots \cdot p_u \cdot q_1 \cdot
+q_2 \cdot \ldots \cdot q_v.\]</div>
+<p>We see that <span class="math notranslate nohighlight">\(n\)</span> is a product of primes, as required.</p>
+<hr class="docutils" />
+<p>Finally, we will consider another formulation of induction, known as the least element principle.</p>
+<hr class="docutils" />
+<p><strong>The Least Element Principle.</strong> Suppose <span class="math notranslate nohighlight">\(P\)</span> is some property of natural numbers, and suppose <span class="math notranslate nohighlight">\(P\)</span> holds of some <span class="math notranslate nohighlight">\(n\)</span>. Then there is a smallest value of <span class="math notranslate nohighlight">\(n\)</span> for which <span class="math notranslate nohighlight">\(P\)</span> holds.</p>
+<hr class="docutils" />
+<p>In fact, using classical reasoning, this is equivalent to the principle of complete induction. To see this, consider the contrapositive of the statement above: &#8220;if there is no smallest value for which <span class="math notranslate nohighlight">\(P\)</span> holds, then <span class="math notranslate nohighlight">\(P\)</span> doesn&#8217;t hold of any natural number.&#8221; Let <span class="math notranslate nohighlight">\(Q(n)\)</span> be the property &#8220;<span class="math notranslate nohighlight">\(P\)</span> does <em>not</em> hold of <span class="math notranslate nohighlight">\(n\)</span>.&#8221; Saying that there is no smallest value for which <span class="math notranslate nohighlight">\(P\)</span> holds means that, for every <span class="math notranslate nohighlight">\(n\)</span>, if <span class="math notranslate nohighlight">\(P\)</span> holds at <span class="math notranslate nohighlight">\(n\)</span>, then it holds of some number smaller than <span class="math notranslate nohighlight">\(n\)</span>; and this is equivalent to saying that, for every <span class="math notranslate nohighlight">\(n\)</span>, if <span class="math notranslate nohighlight">\(Q\)</span> doesn&#8217;t hold at <span class="math notranslate nohighlight">\(n\)</span>, then there is a smaller value for which <span class="math notranslate nohighlight">\(Q\)</span> doesn&#8217;t hold. And <em>that</em> is equivalent to saying that if <span class="math notranslate nohighlight">\(Q\)</span> holds for every number less than <span class="math notranslate nohighlight">\(n\)</span>, it holds for <span class="math notranslate nohighlight">\(n\)</span> as well. Similarly, saying that <span class="math notranslate nohighlight">\(P\)</span> doesn&#8217;t hold of any natural number is equivalent to saying that <span class="math notranslate nohighlight">\(Q\)</span> holds of every natural number. In other words, replacing the least element principle by its contrapositive, and replacing <span class="math notranslate nohighlight">\(P\)</span> by &#8220;not <span class="math notranslate nohighlight">\(Q\)</span>,&#8221; we have the principle of complete induction. Since every statement is equivalent to its contrapositive, and every predicate has its negated version, the two principles are the same.</p>
+<p>It is not surprising, then, that the least element principle can be used in much the same way as the principle of complete induction. Here, for example, is a formulation of the previous proof in these terms. Notice that it is phrased as a proof by contradiction.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Every natural number greater than equal to 2 can be written as a product of primes.</p>
+<p><strong>Proof.</strong> Suppose, to the contrary, some natural number greater than or equal to 2 cannot be written as a product of primes. By the least element principle, there is a smallest such element; call it <span class="math notranslate nohighlight">\(n\)</span>. Then <span class="math notranslate nohighlight">\(n\)</span> is not prime, and since it is greater than or equal to 2, it must be composite. Hence we can write <span class="math notranslate nohighlight">\(n = m \cdot k\)</span> where <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(k\)</span> are smaller than <span class="math notranslate nohighlight">\(n\)</span> and greater than 1. By the assumption on <span class="math notranslate nohighlight">\(n\)</span>, each of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(k\)</span> can be written as a product of primes:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}m = p_1 \cdot p_2 \cdot \ldots \cdot p_u \\
+k = q_1 \cdot q_2 \cdot \ldots \cdot q_v.\end{split}\]</div>
+<p>But then we have</p>
+<div class="math notranslate nohighlight">
+\[n = m \cdot k = p_1 \cdot p_2 \cdot \ldots \cdot p_u \cdot q_1 \cdot
+q_2 \cdot \ldots \cdot q_v.\]</div>
+<p>We see that <span class="math notranslate nohighlight">\(n\)</span> is a product of primes, contradicting the fact that <span class="math notranslate nohighlight">\(n\)</span> cannot be
+written as a product of primes.</p>
+<hr class="docutils" />
+<p>Here is another example:</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Every natural number is interesting.</p>
+<p><strong>Proof.</strong> Suppose, to the contrary, some natural number is uninteresting. Then there is a smallest one, <span class="math notranslate nohighlight">\(n\)</span>. In other words, <span class="math notranslate nohighlight">\(n\)</span> is the smallest uninteresting number. But that is really interesting! Contradiction.</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="recursive-definitions">
+<span id="id2"></span><h2><span class="section-number">17.3. </span>Recursive Definitions<a class="headerlink" href="#recursive-definitions" title="Permalink to this headline">&#182;</a></h2>
+<p>Suppose I tell you that I have a function <span class="math notranslate nohighlight">\(f : \mathbb{N} \to \mathbb{N}\)</span> in
+mind, satisfying the following properties:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f(0) &amp; = 1 \\
+f(n + 1) &amp; = 2 \cdot f(n)\end{split}\]</div>
+<p>What can you infer about <span class="math notranslate nohighlight">\(f\)</span>? Try calculating a few values:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f(1) &amp; = f(0 + 1) = 2 \cdot f(0) = 2 \\
+f(2) &amp; = f(1 + 1) = 2 \cdot f(1) = 4 \\
+f(3) &amp; = f(2 + 1) = 2 \cdot f(2) = 8\end{split}\]</div>
+<p>It soon becomes apparent that for every <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(f(n) = 2^n\)</span>.</p>
+<p>What is more interesting is that the two conditions above specify <em>all</em> the values of <span class="math notranslate nohighlight">\(f\)</span>, which is to say, there is exactly one function meeting the specification above. In fact, it does not matter that <span class="math notranslate nohighlight">\(f\)</span> takes values in the natural numbers; it could take values in any other domain. All that is needed is a value of <span class="math notranslate nohighlight">\(f(0)\)</span> and a way to compute the value of <span class="math notranslate nohighlight">\(f(n+1)\)</span> in terms of <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(f(n)\)</span>. This is what the principle of definition by recursion asserts:</p>
+<hr class="docutils" />
+<p><strong>Principle of Definition by Recursion</strong>. Let <span class="math notranslate nohighlight">\(A\)</span> be any set, and suppose <span class="math notranslate nohighlight">\(a\)</span> is in <span class="math notranslate nohighlight">\(A\)</span>, and <span class="math notranslate nohighlight">\(g : \mathbb{N} \times A \to A\)</span>. Then there is a unique function <span class="math notranslate nohighlight">\(f\)</span> satisfying the following two clauses:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f(0) &amp; = a \\
+f(n + 1) &amp; = g(n, f(n)).\end{split}\]</div>
+<hr class="docutils" />
+<p>The principle of recursive definition makes two claims at once: first, that there is a function <span class="math notranslate nohighlight">\(f\)</span> satisfying the clauses above, and, second, that any two functions <span class="math notranslate nohighlight">\(f_1\)</span> and <span class="math notranslate nohighlight">\(f_2\)</span> satisfying those clauses are equal, which is to say, they have the same values for every input. In the example with which we began this section, <span class="math notranslate nohighlight">\(A\)</span> is just <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> and <span class="math notranslate nohighlight">\(g(n, f(n)) = 2 \cdot f(n)\)</span>.</p>
+<p>In some axiomatic frameworks, the principle of recursive definition can be justified using the principle of induction. In others, the principle of induction can be viewed as a special case of the principle of recursive definition. For now, we will simply take both to be fundamental properties of the natural numbers.</p>
+<p>As another example of a recursive definition, consider the function <span class="math notranslate nohighlight">\(g : \mathbb{N} \to \mathbb{N}\)</span> defined recursively by the following clauses:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}g(0) &amp; = 1 \\
+g(n+1) &amp; = (n + 1) \cdot g(n)\end{split}\]</div>
+<p>Try calculating the first few values. Unwrapping the definition, we see that <span class="math notranslate nohighlight">\(g(n) = 1 \cdot 2 \cdot 3 \cdot \ldots \cdot (n-1) \cdot n\)</span> for every <span class="math notranslate nohighlight">\(n\)</span>; indeed, definition by recursion is usually the proper way to make expressions using &#8220;&#8230;&#8221; precise. The value <span class="math notranslate nohighlight">\(g(n)\)</span> is read &#8220;<span class="math notranslate nohighlight">\(n\)</span> factorial,&#8221; and written <span class="math notranslate nohighlight">\(n!\)</span>.</p>
+<p>Indeed, summation notation</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i &lt; n} f (i) = f(0) + f(1) + \ldots + f(n-1)\]</div>
+<p>and product notation</p>
+<div class="math notranslate nohighlight">
+\[\prod_{i &lt; n} f (i) = f(0) \cdot f(1) \cdot \cdots \cdot f(n-1)\]</div>
+<p>can also be made precise using recursive definitions. For example, the function <span class="math notranslate nohighlight">\(k(n) = \sum_{i &lt; n} f (i)\)</span> can be defined recursively as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}k(0) &amp;= 0 \\
+k(n+1) &amp;= k(n) + f(n)\end{split}\]</div>
+<p>Induction and recursion are complementary principles, and typically the way to prove something about a recursively defined function is to use the principle of induction. For example, the following theorem provides a formulas for the sum <span class="math notranslate nohighlight">\(1 + 2 + \ldots + n\)</span>, in terms of <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> For every <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(\sum_{i &lt; n + 1} i = n (n + 1) / 2\)</span>.</p>
+<p><strong>Proof.</strong> In the base case, when <span class="math notranslate nohighlight">\(n = 0\)</span>, both sides are equal to <span class="math notranslate nohighlight">\(0\)</span>.</p>
+<p>In the inductive step, we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\sum_{i &lt; n + 2} i &amp; = \left(\sum_{i &lt; n + 1} i\right) + (n + 1) \\
+&amp; = n (n + 1) / 2 + n + 1 \\
+&amp; = \frac{n^2 +n}{2} + \frac{2n + 2}{2} \\
+&amp; = \frac{n^2 + 3n + 2}{2} \\
+&amp; = \frac{(n+1)(n+2)}{2}.\end{split}\]</div>
+<hr class="docutils" />
+<p>There are just as many variations on the principle of recursive definition as there are on the principle of induction. For example, in analogy to the principle of complete induction, we can specify a value of <span class="math notranslate nohighlight">\(f(n)\)</span> in terms of the values that <span class="math notranslate nohighlight">\(f\)</span> takes at all inputs smaller than <span class="math notranslate nohighlight">\(n\)</span>. When <span class="math notranslate nohighlight">\(n \geq 2\)</span>, for example, the following definition specifies the value of a function <span class="math notranslate nohighlight">\(\mathrm{fib}(n)\)</span> in terms of its two predecessors:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathrm{fib}(0) &amp; = 0 \\
+\mathrm{fib}(1) &amp; = 1 \\
+\mathrm{fib}(n+2) &amp; = \mathrm{fib}(n + 1) + \mathrm{fib}(n)\end{split}\]</div>
+<p>Calculating the values of <span class="math notranslate nohighlight">\(\mathrm{fib}\)</span> on <span class="math notranslate nohighlight">\(0, 1, 2, \ldots\)</span> we obtain</p>
+<div class="math notranslate nohighlight">
+\[0, 1, 1, 2, 3, 5, 8, 13, 21, \ldots\]</div>
+<p>Here, after the second number, each successive number is the sum of the two values preceding it. This is known as the <em>Fibonacci sequence</em>, and the corresponding numbers are known as the <em>Fibonacci numbers</em>. An ordinary mathematical presentation would write <span class="math notranslate nohighlight">\(F_n\)</span> instead of <span class="math notranslate nohighlight">\(\mathrm{fib}(n)\)</span> and specify the sequence with the following equations:</p>
+<div class="math notranslate nohighlight">
+\[F_0 = 0, \quad F_1 = 1, \quad F_{n+2} = F_{n+1} + F_n\]</div>
+<p>But you can now recognize such a specification as an implicit appeal to the principle of definition by recursion. We ask you to prove some facts about the Fibonacci sequence in the exercises below.</p>
+</div>
+<div class="section" id="defining-arithmetic-operations">
+<span id="id3"></span><h2><span class="section-number">17.4. </span>Defining Arithmetic Operations<a class="headerlink" href="#defining-arithmetic-operations" title="Permalink to this headline">&#182;</a></h2>
+<p>In fact, we can even use the principle of recursive definition to define the most basic operations on the natural numbers and show that they have the properties we expect them to have. From a foundational standpoint, we can characterize the natural numbers as a set, <span class="math notranslate nohighlight">\(\mathbb{N}\)</span>, with a distinguished element <span class="math notranslate nohighlight">\(0\)</span> and a function, <span class="math notranslate nohighlight">\(\mathrm{succ}(m)\)</span>, which, for every natural number <span class="math notranslate nohighlight">\(m\)</span>, returns its <em>successor</em>. These satisfy the following:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(0 \neq \mathrm{succ}(m)\)</span> for any <span class="math notranslate nohighlight">\(m\)</span> in <span class="math notranslate nohighlight">\(\mathbb{N}\)</span>.</p></li>
+<li><p>For every <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> in <span class="math notranslate nohighlight">\(\mathbb{N}\)</span>, if <span class="math notranslate nohighlight">\(m \neq n\)</span>, then <span class="math notranslate nohighlight">\(\mathrm{succ}(m) \neq \mathrm{succ}(n)\)</span>. In other words, <span class="math notranslate nohighlight">\(\mathrm{succ}\)</span> is <em>injective</em>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(A\)</span> is any subset of <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> with the property that <span class="math notranslate nohighlight">\(0\)</span> is in <span class="math notranslate nohighlight">\(A\)</span> and whenever <span class="math notranslate nohighlight">\(n\)</span> is in <span class="math notranslate nohighlight">\(A\)</span> then <span class="math notranslate nohighlight">\(\mathrm{succ}(n)\)</span> is in <span class="math notranslate nohighlight">\(A\)</span>, then <span class="math notranslate nohighlight">\(A = \mathbb{N}\)</span>.</p></li>
+</ul>
+<p>The last clause can be reformulated as the principle of induction:</p>
+<blockquote>
+<div><p>Suppose <span class="math notranslate nohighlight">\(P(n)\)</span> is any property of natural numbers, such that <span class="math notranslate nohighlight">\(P\)</span> holds of <span class="math notranslate nohighlight">\(0\)</span>, and for every <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(P(n)\)</span> implies <span class="math notranslate nohighlight">\(P(\mathrm{succ}(n))\)</span>. Then every <span class="math notranslate nohighlight">\(P\)</span> holds of every natural number.</p>
+</div></blockquote>
+<p>Remember that this principle can be used to justify the principle of definition by recursion:</p>
+<blockquote>
+<div><p>Let <span class="math notranslate nohighlight">\(A\)</span> be any set, <span class="math notranslate nohighlight">\(a\)</span> be any element of <span class="math notranslate nohighlight">\(A\)</span>, and let <span class="math notranslate nohighlight">\(g(n,m)\)</span> be any function from <span class="math notranslate nohighlight">\(\mathbb{N} \times A\)</span> to <span class="math notranslate nohighlight">\(A\)</span>. Then there is a unique function <span class="math notranslate nohighlight">\(f: \mathbb{N} \to A\)</span> satisfying the following two clauses:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f(0) = a\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f(\mathrm{succ}(n)) = g(n,f(n))\)</span> for every <span class="math notranslate nohighlight">\(n\)</span> in <span class="math notranslate nohighlight">\(N\)</span></p></li>
+</ul>
+</div></blockquote>
+<p>We can use the principle of recursive definition to define addition with the following two clauses:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}m + 0 &amp; = m \\
+m + \mathrm{succ}(n) &amp; = \mathrm{succ}(m + n)\end{split}\]</div>
+<p>Note that we are fixing <span class="math notranslate nohighlight">\(m\)</span>, and viewing this as a function of <span class="math notranslate nohighlight">\(n\)</span>. If we write <span class="math notranslate nohighlight">\(1 = \mathrm{succ}(0)\)</span>, <span class="math notranslate nohighlight">\(2 = \mathrm{succ}(1)\)</span>, and so on, it is easy to prove <span class="math notranslate nohighlight">\(n + 1 = \mathrm{succ}(n)\)</span> from the definition of addition.</p>
+<p>We can proceed to define multiplication using the following two clauses:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}m \cdot 0 &amp; = 0 \\
+m \cdot \mathrm{succ}(n) &amp; = m \cdot n + m\end{split}\]</div>
+<p>We can also define a predecessor function by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathrm{pred}(0) &amp; = 0 \\
+\mathrm{pred}(\mathrm{succ}(n)) &amp; = n\end{split}\]</div>
+<p>We can define <em>truncated subtraction</em> by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}m \dot - 0 &amp; = m \\
+m \dot - (\mathrm{succ}(n)) &amp; = \mathrm{pred}(m \dot - n)\end{split}\]</div>
+<p>With these definitions and the induction principle, one can prove all the following identities:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n \neq 0\)</span> implies <span class="math notranslate nohighlight">\(\mathrm{succ}(\mathrm{pred}(n)) = n\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(0 + n = n\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathrm{succ}(m) + n = \mathrm{succ}(m + n)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((m + n) + k = m + (n + k)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(m + n = n + m\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(m(n + k) = mn + mk\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(0 \cdot n = 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(1 \cdot n = n\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((mn)k = m(nk)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(mn = nm\)</span></p></li>
+</ul>
+<p>We will do the first five here, and leave the remaining ones as exercises.</p>
+<hr class="docutils" />
+<p><strong>Proposition.</strong> For every natural number <span class="math notranslate nohighlight">\(n\)</span>, if <span class="math notranslate nohighlight">\(n \neq 0\)</span> then <span class="math notranslate nohighlight">\(\mathrm{succ}(\mathrm{pred}(n)) = n\)</span>.</p>
+<p><strong>Proof.</strong> By induction on <span class="math notranslate nohighlight">\(n\)</span>. We have ruled out the case where <span class="math notranslate nohighlight">\(n\)</span> is <span class="math notranslate nohighlight">\(0\)</span>, so we only need to show that the claim holds for <span class="math notranslate nohighlight">\(\mathrm{succ}(n)\)</span>. But in that case, we have <span class="math notranslate nohighlight">\(\mathrm{succ}(\mathrm{pred}(\mathrm{succ}(n)) = \mathrm{succ}(n)\)</span> by the second defining clause of the predecessor function.</p>
+<p><strong>Proposition.</strong> For every <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(0 + n = n\)</span>.</p>
+<p><strong>Proof.</strong> By induction on <span class="math notranslate nohighlight">\(n\)</span>. We have <span class="math notranslate nohighlight">\(0 + 0 = 0\)</span> by the first defining clause for addition. And assuming <span class="math notranslate nohighlight">\(0 + n = n\)</span>, we have <span class="math notranslate nohighlight">\(0 + \mathrm{succ}(n) = \mathrm{succ}(0 + n) = n\)</span>, using the second defining clause for addition.</p>
+<p><strong>Proposition.</strong> For every <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(\mathrm{succ}(m) + n = \mathrm{succ}(m + n)\)</span>.</p>
+<p><strong>Proof.</strong> Fix <span class="math notranslate nohighlight">\(m\)</span> and use induction on <span class="math notranslate nohighlight">\(n\)</span>. Then <span class="math notranslate nohighlight">\(n = 0\)</span>, we have <span class="math notranslate nohighlight">\(\mathrm{succ}(m) + 0 = \mathrm{succ}(m) = \mathrm{succ}(m + 0)\)</span>, using the first defining clause for addition. Assuming the claim holds for <span class="math notranslate nohighlight">\(n\)</span>, we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathrm{succ}(m) + \mathrm{succ}(n) &amp; = \mathrm{succ}(\mathrm{succ}(m) + n) \\
+&amp; = \mathrm{succ} (\mathrm{succ} (m + n)) \\
+&amp; = \mathrm{succ} (m + \mathrm{succ}(n))\end{split}\]</div>
+<p>using the inductive hypothesis and the second defining clause for addition.</p>
+<p><strong>Proposition.</strong> For every <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(n\)</span>, and <span class="math notranslate nohighlight">\(k\)</span>, <span class="math notranslate nohighlight">\((m + n) + k = m + (n + k)\)</span>.</p>
+<p><strong>Proof.</strong> By induction on <span class="math notranslate nohighlight">\(k\)</span>. The case where <span class="math notranslate nohighlight">\(k = 0\)</span> is easy, and in the induction step we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}(m + n) + \mathrm{succ}(k) &amp; = \mathrm{succ} ((m + n) + k) \\
+&amp; = \mathrm{succ} (m + (n + k)) \\
+&amp; = m + \mathrm{succ} (n + k) \\
+&amp; = m + (n + \mathrm{succ} (k)))\end{split}\]</div>
+<p>using the inductive hypothesis and the definition of addition.</p>
+<p><strong>Proposition.</strong> For every pair of natural numbers <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(m + n = n + m\)</span>.</p>
+<p><strong>Proof.</strong> By induction on <span class="math notranslate nohighlight">\(n\)</span>. The base case is easy using the second proposition above. In the inductive step, we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}m + \mathrm{succ}(n) &amp; = \mathrm{succ}(m + n) \\
+&amp; = \mathrm{succ} (n + m) \\
+&amp; = \mathrm{succ}(n) + m\end{split}\]</div>
+<p>using the third proposition above.</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="arithmetic-on-the-natural-numbers">
+<span id="id4"></span><h2><span class="section-number">17.5. </span>Arithmetic on the Natural Numbers<a class="headerlink" href="#arithmetic-on-the-natural-numbers" title="Permalink to this headline">&#182;</a></h2>
+<p>Continuing as in the last section, we can establish all the basic properties of the natural numbers that play a role in day-to-day mathematics. We summarize the main ones here:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}m + n &amp;= n + m \quad \text{(commutativity of addition)}\\
+m + (n + k) &amp;= (m + n) + k \quad \text{(associativity of addition)}\\
+n + 0 &amp;= n \quad \text{($0$ is a neutral element for addition)}\\
+n \cdot m &amp;= m \cdot n \quad \text{(commutativity of multiplication)}\\
+m \cdot (n \cdot k) &amp;= (m \cdot n) \cdot k \quad \text{(associativity of multiplication)}\\
+n \cdot 1 &amp;= n \quad \text{($1$ is an neutral element for multiplication)}\\
+n \cdot (m + k) &amp;= n \cdot m + n \cdot k \quad \text{(distributivity)}\\
+n \cdot 0 &amp;= 0 \quad \text{($0$ is an absorbing element for multiplication)}\end{split}\]</div>
+<p>In an ordinary mathematical argument or calculation, they can be used without explicit justification. We also have the following properties:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n + 1 \neq 0\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n + k = m + k\)</span> then <span class="math notranslate nohighlight">\(n = m\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n \cdot k = m \cdot k\)</span> and <span class="math notranslate nohighlight">\(k \neq 0\)</span> then <span class="math notranslate nohighlight">\(n = m\)</span></p></li>
+</ul>
+<p>We can define <span class="math notranslate nohighlight">\(m \le n\)</span>, &#8220;<span class="math notranslate nohighlight">\(m\)</span> is less than or equal to <span class="math notranslate nohighlight">\(n\)</span>,&#8221; to mean that there exists a <span class="math notranslate nohighlight">\(k\)</span> such that <span class="math notranslate nohighlight">\(m + k = n\)</span>. If we do that, it is not hard to show that the less-than-or-equal-to relation satisfies all the following properties, for every <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(m\)</span>, and <span class="math notranslate nohighlight">\(k\)</span>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n \le n\)</span> (<em>reflexivity</em>)</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n \le m\)</span> and <span class="math notranslate nohighlight">\(m \le k\)</span> then <span class="math notranslate nohighlight">\(n \le k\)</span> (<em>transitivity</em>)</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n \le m\)</span> and <span class="math notranslate nohighlight">\(m \le n\)</span> then <span class="math notranslate nohighlight">\(n = m\)</span> (<em>antisymmetry</em>)</p></li>
+<li><p>for all <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(m\)</span>, either <span class="math notranslate nohighlight">\(n \le m\)</span> or <span class="math notranslate nohighlight">\(m \le n\)</span> is true (<em>totality</em>)</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n \le m\)</span> then <span class="math notranslate nohighlight">\(n + k \le m + k\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n + k \le m + k\)</span> then <span class="math notranslate nohighlight">\(n \le m\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n \le m\)</span> then <span class="math notranslate nohighlight">\(nk \le mk\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(m \ge n\)</span> then <span class="math notranslate nohighlight">\(m = n\)</span> or <span class="math notranslate nohighlight">\(m \ge n + 1\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(0 \le n\)</span></p></li>
+</ul>
+<p>Remember from <a class="reference internal" href="relations.html#relations"><span class="std std-numref">Chapter 13</span></a> that the first four items assert that <span class="math notranslate nohighlight">\(\le\)</span> is a linear order. Note that when we write <span class="math notranslate nohighlight">\(m \ge n\)</span>, we mean <span class="math notranslate nohighlight">\(n \le m\)</span>.</p>
+<p>As usual, then, we can define <span class="math notranslate nohighlight">\(m &lt; n\)</span> to mean that <span class="math notranslate nohighlight">\(m \le n\)</span> and <span class="math notranslate nohighlight">\(m \ne n\)</span>. In that case, we have that <span class="math notranslate nohighlight">\(m \le n\)</span> holds if and only if <span class="math notranslate nohighlight">\(m &lt; n\)</span> or <span class="math notranslate nohighlight">\(m = n\)</span>.</p>
+<hr class="docutils" />
+<p><strong>Proposition.</strong> For every <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(m + 1 \not\le 0\)</span>.</p>
+<p><strong>Proof.</strong> Otherwise, we would have <span class="math notranslate nohighlight">\((m + 1) + k = (m + k) + 1 = 0\)</span> for some <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<hr class="docutils" />
+<p>In particular, taking <span class="math notranslate nohighlight">\(m = 0\)</span>, we have <span class="math notranslate nohighlight">\(1 \not\le 0\)</span>.</p>
+<hr class="docutils" />
+<p><strong>Proposition.</strong> We have <span class="math notranslate nohighlight">\(m &lt; n\)</span> if and only if <span class="math notranslate nohighlight">\(m + 1 \le n\)</span>.</p>
+<p><strong>Proof.</strong> Suppose <span class="math notranslate nohighlight">\(m &lt; n\)</span>. Then <span class="math notranslate nohighlight">\(m \le n\)</span> and <span class="math notranslate nohighlight">\(m \ne n\)</span>. So there is a <span class="math notranslate nohighlight">\(k\)</span> such that <span class="math notranslate nohighlight">\(m + k = n\)</span>, and since <span class="math notranslate nohighlight">\(m \ne n\)</span>, we have <span class="math notranslate nohighlight">\(k \ne 0\)</span>. Then <span class="math notranslate nohighlight">\(k = u + 1\)</span> for some <span class="math notranslate nohighlight">\(u\)</span>, which means we have <span class="math notranslate nohighlight">\(m + (u + 1) = m + 1 + u = n\)</span>, so <span class="math notranslate nohighlight">\(m \le n\)</span>, as required.</p>
+<p>In the other direction, suppose <span class="math notranslate nohighlight">\(m + 1 \le n\)</span>. Then <span class="math notranslate nohighlight">\(m \le n\)</span>. We also have <span class="math notranslate nohighlight">\(m \ne n\)</span>, since if <span class="math notranslate nohighlight">\(m = n\)</span>, we would have <span class="math notranslate nohighlight">\(m + 1 \le m + 0\)</span> and hence <span class="math notranslate nohighlight">\(1 \le 0\)</span>, a contradiction.</p>
+<hr class="docutils" />
+<p>In a similar way, we can show that <span class="math notranslate nohighlight">\(m &lt; n\)</span> if and only if <span class="math notranslate nohighlight">\(m \le n\)</span> and <span class="math notranslate nohighlight">\(m \ne n\)</span>. In fact, we can demonstrate all of the following from these properties and the properties of <span class="math notranslate nohighlight">\(\le\)</span>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n &lt; n\)</span> is never true (<em>irreflexivity</em>)</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n &lt; m\)</span> and <span class="math notranslate nohighlight">\(m &lt; k\)</span> then <span class="math notranslate nohighlight">\(n &lt; k\)</span> (<em>transitivity</em>)</p></li>
+<li><p>for all <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(m\)</span>, either <span class="math notranslate nohighlight">\(n &lt; m\)</span>, <span class="math notranslate nohighlight">\(n = m\)</span> or <span class="math notranslate nohighlight">\(m &lt; n\)</span> is true (<em>trichotomy</em>)</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n &lt; m\)</span> then <span class="math notranslate nohighlight">\(n + k &lt; m + k\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(k &gt; 0\)</span> and <span class="math notranslate nohighlight">\(n &lt; m\)</span> then <span class="math notranslate nohighlight">\(nk &lt; mk\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(m &gt; n\)</span> then <span class="math notranslate nohighlight">\(m = n + 1\)</span> or <span class="math notranslate nohighlight">\(m &gt; n + 1\)</span></p></li>
+<li><p>for all <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(n = 0\)</span> or <span class="math notranslate nohighlight">\(n &gt; 0\)</span></p></li>
+</ul>
+<p>The first three items mean that <span class="math notranslate nohighlight">\(&lt;\)</span> is a strict linear order, and the properties above means that <span class="math notranslate nohighlight">\(\le\)</span> is the associated linear order, in the sense described in <a class="reference internal" href="relations.html#order-relations"><span class="std std-numref">Section 13.1</span></a>.</p>
+<hr class="docutils" />
+<p><strong>Proof</strong>. We will prove some of these properties using the previous characterization of the less-than relation.</p>
+<p>The first property is straightforward: we know <span class="math notranslate nohighlight">\(n \le n + 1\)</span>, and if we had <span class="math notranslate nohighlight">\(n + 1 \le n\)</span>, we should have <span class="math notranslate nohighlight">\(n = n + 1\)</span>, a contradiction.</p>
+<p>For the second property, assume <span class="math notranslate nohighlight">\(n &lt; m\)</span> and <span class="math notranslate nohighlight">\(m &lt; k\)</span>. Then <span class="math notranslate nohighlight">\(n + 1 \le m \le m + 1 \le k\)</span>, which implies <span class="math notranslate nohighlight">\(n &lt; k\)</span>.</p>
+<p>For the third, we know that either <span class="math notranslate nohighlight">\(n \le m\)</span> or <span class="math notranslate nohighlight">\(m \le n\)</span>. If <span class="math notranslate nohighlight">\(m = n\)</span>, we are done, and otherwise we have either <span class="math notranslate nohighlight">\(n &lt; m\)</span> or <span class="math notranslate nohighlight">\(m &lt; n\)</span>.</p>
+<p>For the fourth, if <span class="math notranslate nohighlight">\(n + 1 \le m\)</span>, we have <span class="math notranslate nohighlight">\(n + 1 + k = (n + k) + 1 \le m + k\)</span>, as required.</p>
+<p>For the fifth, suppose <span class="math notranslate nohighlight">\(k &gt; 0\)</span>, which is to say, <span class="math notranslate nohighlight">\(k \ge 1\)</span>. If <span class="math notranslate nohighlight">\(n &lt; m\)</span>, then <span class="math notranslate nohighlight">\(n + 1 \le m\)</span>, and so <span class="math notranslate nohighlight">\(nk + 1 \le n k + k \le mk\)</span>. But this implies <span class="math notranslate nohighlight">\(n k &lt; m k\)</span>, as required.</p>
+<p>The rest of the remaining proofs are left as an exercise to the reader.</p>
+<hr class="docutils" />
+<p>Here are some additional properties of <span class="math notranslate nohighlight">\(&lt;\)</span> and <span class="math notranslate nohighlight">\(\le\)</span>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n &lt; m\)</span> and <span class="math notranslate nohighlight">\(m &lt; n\)</span> cannot both hold (<em>asymmetry</em>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(n + 1 &gt; n\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n &lt; m\)</span> and <span class="math notranslate nohighlight">\(m \le k\)</span> then <span class="math notranslate nohighlight">\(n &lt; k\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n \le m\)</span> and <span class="math notranslate nohighlight">\(m &lt; k\)</span> then <span class="math notranslate nohighlight">\(n &lt; k\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(m &gt; n\)</span> then <span class="math notranslate nohighlight">\(m \ge n + 1\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(m \ge n\)</span> then <span class="math notranslate nohighlight">\(m + 1 &gt; n\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(n + k &lt; m + k\)</span> then <span class="math notranslate nohighlight">\(n &lt; m\)</span></p></li>
+<li><p>if <span class="math notranslate nohighlight">\(nk &lt; mk\)</span> then <span class="math notranslate nohighlight">\(k &gt; 0\)</span> and <span class="math notranslate nohighlight">\(n &lt; m\)</span></p></li>
+</ul>
+<p>These can be proved from the ones above. Moreover, the collection of principles we have just seen can be used to justify basic facts about the natural numbers, which are again typically taken for granted in informal mathematical arguments.</p>
+<hr class="docutils" />
+<p><strong>Proposition.</strong> If <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> are natural numbers such that <span class="math notranslate nohighlight">\(m + n = 0\)</span>, then <span class="math notranslate nohighlight">\(m = n = 0\)</span>.</p>
+<p><strong>Proof.</strong> If <span class="math notranslate nohighlight">\(m + n = 0\)</span>, then <span class="math notranslate nohighlight">\(m \le 0\)</span>, so <span class="math notranslate nohighlight">\(m = 0\)</span> and <span class="math notranslate nohighlight">\(n = 0 + n = m + n = 0\)</span>.</p>
+<p><strong>Proposition.</strong> If <span class="math notranslate nohighlight">\(n\)</span> is a natural number such that <span class="math notranslate nohighlight">\(n &lt; 3\)</span>, then <span class="math notranslate nohighlight">\(n = 0\)</span>, <span class="math notranslate nohighlight">\(n = 1\)</span> or <span class="math notranslate nohighlight">\(n = 2\)</span>.</p>
+<p><strong>Proof.</strong> In this proof we repeatedly use the property that if <span class="math notranslate nohighlight">\(m &gt; n\)</span> then <span class="math notranslate nohighlight">\(m = n + 1\)</span> or <span class="math notranslate nohighlight">\(m &gt; n + 1\)</span>. Since <span class="math notranslate nohighlight">\(2 + 1 = 3 &gt; n\)</span>, we conclude that either <span class="math notranslate nohighlight">\(2 + 1 = n + 1\)</span> or <span class="math notranslate nohighlight">\(2 + 1 &gt; n + 1\)</span>. In the first case we conclude <span class="math notranslate nohighlight">\(n = 2\)</span>, and we are done. In the second case we conclude <span class="math notranslate nohighlight">\(2 &gt; n\)</span>, which implies that either <span class="math notranslate nohighlight">\(2 = n + 1\)</span>, or <span class="math notranslate nohighlight">\(2 &gt; n + 1\)</span>. In the first case, we conclude <span class="math notranslate nohighlight">\(n = 1\)</span>, and we are done. In the second case, we conclude <span class="math notranslate nohighlight">\(1 &gt; n\)</span>, and appeal one last time to the general principle presented above to conclude that either <span class="math notranslate nohighlight">\(1 = n + 1\)</span> or <span class="math notranslate nohighlight">\(1 &gt; n + 1\)</span>. In the first case, we conclude <span class="math notranslate nohighlight">\(n = 0\)</span>, and we are once again done. In the second case, we conclude that <span class="math notranslate nohighlight">\(0 &gt; n\)</span>. This leads to a contradiction, since now <span class="math notranslate nohighlight">\(0 &gt; n \ge 0\)</span>, hence <span class="math notranslate nohighlight">\(0 &gt; 0\)</span>, which contradicts the irreflexivity of <span class="math notranslate nohighlight">\(&gt;\)</span>.</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="the-integers">
+<span id="id5"></span><h2><span class="section-number">17.6. </span>The Integers<a class="headerlink" href="#the-integers" title="Permalink to this headline">&#182;</a></h2>
+<p>The natural numbers are designed for counting discrete quantities, but they suffer an annoying drawback: it is possible to subtract <span class="math notranslate nohighlight">\(n\)</span> from <span class="math notranslate nohighlight">\(m\)</span> if <span class="math notranslate nohighlight">\(n\)</span> is less than or equal to <span class="math notranslate nohighlight">\(m\)</span>, but not if <span class="math notranslate nohighlight">\(m\)</span> is greater than <span class="math notranslate nohighlight">\(n\)</span>. The set of <em>integers</em>, <span class="math notranslate nohighlight">\(\mathbb{Z}\)</span>, extends the natural numbers with negative values, to make it possible to carry out subtraction in full:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{Z} = \{ \ldots, -3, -2, -1, 0, 1, 2, 3, \ldots \}.\]</div>
+<p>We will see in a later chapter that the integers can be extended to the <em>rational numbers</em>, the <em>real numbers</em>, and the <em>complex numbers</em>, each of which serves useful purposes. For dealing with discrete quantities, however, the integers will get us pretty far.</p>
+<p>You can think of the integers as consisting of two copies of the natural numbers, a positive one and a negative one, sharing a common zero. Conversely, once we have the integers, you can think of the natural numbers as consisting of the nonnegative integers, that is, the integers that are greater than or equal to <span class="math notranslate nohighlight">\(0\)</span>. Most mathematicians blur the distinction between the two, though we will see that in Lean, for example, the natural numbers and the integers represent two different data types.</p>
+<p>Most of the properties of the natural numbers that were enumerated in the last section hold of the integers as well, but not all. For example, it is no longer the case that <span class="math notranslate nohighlight">\(n + 1 \neq 0\)</span> for every <span class="math notranslate nohighlight">\(n\)</span>, since the claim is false for <span class="math notranslate nohighlight">\(n = -1\)</span>. For another example, it is not the case that every integer is either equal to <span class="math notranslate nohighlight">\(0\)</span> or greater than <span class="math notranslate nohighlight">\(0\)</span>, since this fails to hold of the negative integers.</p>
+<p>The key property that the integers enjoy, which sets them apart from the natural numbers, is that for every integer <span class="math notranslate nohighlight">\(n\)</span> there is a value <span class="math notranslate nohighlight">\(-n\)</span> with the property that <span class="math notranslate nohighlight">\(n + (-n) = 0\)</span>. The value <span class="math notranslate nohighlight">\(-n\)</span> is called the <em>negation</em> of <span class="math notranslate nohighlight">\(n\)</span>. We define subtraction <span class="math notranslate nohighlight">\(n - m\)</span> to be <span class="math notranslate nohighlight">\(n + (-m)\)</span>. For any integer <span class="math notranslate nohighlight">\(n\)</span>, we also define the <em>absolute value</em> of <span class="math notranslate nohighlight">\(n\)</span>, written <span class="math notranslate nohighlight">\(|n|\)</span>, to be <span class="math notranslate nohighlight">\(n\)</span> if <span class="math notranslate nohighlight">\(n \geq 0\)</span>, and <span class="math notranslate nohighlight">\(-n\)</span> otherwise.</p>
+<p>We can no longer use proof by induction on the integers, because induction does not cover the negative numbers. But we can use induction to show that a property holds of every nonnegative integer, for example. Moreover, we know that every negative integer is the negation of a positive one. As a result, proofs involving the integers often break down into two cases, where one case covers the nonnegative integers, and the other case covers the negative ones.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">17.7. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>Write the principle of complete induction using the notation of symbolic logic. Also write the least element principle this way, and use logical manipulations to show that the two are equivalent.</p></li>
+<li><p>Show that for every <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(0^2 + 1^2 + 2^2 + \ldots n^2= \frac{1}{6}n(1+n)(1+2n)\)</span>.</p></li>
+<li><p>Show that for every <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(0^3 + 1^3 + \ldots + n^3 = \frac{1}{4} n^2 (n+1)^2\)</span>.</p></li>
+<li><p>Show that for every <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(\sum_{i \le n} \frac{i}{(i + 1)!} = \frac{n! - 1}{n}\)</span>.</p></li>
+<li><p>Given the definition of the Fibonacci numbers in <a class="reference internal" href="#recursive-definitions"><span class="std std-numref">Section 17.3</span></a>, prove Cassini&#8217;s identity: for every <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(F^2_{n+1} - F_{n+2} F_n = (-1)^n\)</span>. Hint: in the induction step, write <span class="math notranslate nohighlight">\(F_{n+2}^2\)</span> as <span class="math notranslate nohighlight">\(F_{n+2}(F_{n+1} + F_n)\)</span>.</p></li>
+<li><p>Prove <span class="math notranslate nohighlight">\(\sum_{i &lt; n} F_{2i+1} = F_{2n}\)</span>.</p></li>
+<li><p>Prove the following two identities:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(F_{2n+1} = F^2_{n+1} + F^2_n\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(F_{2n+2} = F^2_{n+2} - F^2_n\)</span></p></li>
+</ul>
+<p>Hint: use induction on <span class="math notranslate nohighlight">\(n\)</span>, and prove them both at once. In the induction step, expand <span class="math notranslate nohighlight">\(F_{2n+3} = F_{2n+2} + F_{2n+1}\)</span>, and similarly for <span class="math notranslate nohighlight">\(F_{2n+4}\)</span>. Proving the second equation is especially tricky. Use the inductive hypothesis and the first identity to simplify the left-hand side, and repeatedly unfold the Fibonacci number with the highest index and simplify the equation you need to prove. (When you have worked out a solution, write a clear equational proof, calculating in the ``forward&#8217;&#8217; direction.)</p>
+</li>
+<li><p>Prove that every natural number can be written as a sum of <em>distinct</em> powers of 2. For this problem, <span class="math notranslate nohighlight">\(1 = 2^0\)</span> is counted as power of 2.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(V\)</span> be a non-empty set of integers such that the following two properties hold:</p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(x, y \in V\)</span>, then <span class="math notranslate nohighlight">\(x - y \in V\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(x \in V\)</span>, then every multiple of <span class="math notranslate nohighlight">\(x\)</span> is an element of <span class="math notranslate nohighlight">\(V\)</span>.</p></li>
+</ul>
+<p>Prove that there is some <span class="math notranslate nohighlight">\(d \in V\)</span>, such that <span class="math notranslate nohighlight">\(V\)</span> is equal to the set of multiples of <span class="math notranslate nohighlight">\(d\)</span>. Hint: use the least element principle.</p>
+</li>
+<li><p>Give an informal but detailed proof that for every natural number <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(1 \cdot n = n\)</span>, using a proof by induction, the definition of multiplication, and the theorems proved in <a class="reference internal" href="#defining-arithmetic-operations"><span class="std std-numref">Section 17.4</span></a>.</p></li>
+<li><p>Show that multiplication distributes over addition. In other words, prove that for natural numbers <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(n\)</span>, and <span class="math notranslate nohighlight">\(k\)</span>, <span class="math notranslate nohighlight">\(m (n + k) = m n + m k\)</span>. You should use the definitions of addition and multiplication and facts proved in <a class="reference internal" href="#defining-arithmetic-operations"><span class="std std-numref">Section 17.4</span></a> (but nothing more).</p></li>
+<li><p>Prove the multiplication is associative, in the same way. You can use any of the facts proved in <a class="reference internal" href="#defining-arithmetic-operations"><span class="std std-numref">Section 17.4</span></a> and the previous exercise.</p></li>
+<li><p>Prove that multiplication is commutative.</p></li>
+<li><p>Prove <span class="math notranslate nohighlight">\((m^n)^k = m^{nk}\)</span>.</p></li>
+<li><p>Following the example in <a class="reference internal" href="#arithmetic-on-the-natural-numbers"><span class="std std-numref">Section 17.5</span></a>, prove that if <span class="math notranslate nohighlight">\(n\)</span> is a natural number and <span class="math notranslate nohighlight">\(n &lt; 5\)</span>, then <span class="math notranslate nohighlight">\(n\)</span> is one of the values <span class="math notranslate nohighlight">\(0, 1, 2, 3\)</span>, or <span class="math notranslate nohighlight">\(4\)</span>.</p></li>
+<li><p>Prove that if <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(m\)</span> are natural numbers and <span class="math notranslate nohighlight">\(n m = 1\)</span>, then <span class="math notranslate nohighlight">\(n = m = 1\)</span>, using only properties listed in <a class="reference internal" href="#arithmetic-on-the-natural-numbers"><span class="std std-numref">Section 17.5</span></a>.</p>
+<p>This is tricky. First show that <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(m\)</span> are greater than <span class="math notranslate nohighlight">\(0\)</span>, and hence greater than or equal to <span class="math notranslate nohighlight">\(1\)</span>. Then show that if either one of them is greater than <span class="math notranslate nohighlight">\(1\)</span>, then <span class="math notranslate nohighlight">\(n m &gt; 1\)</span>.</p>
+</li>
+<li><p>Prove any of the other claims in <a class="reference internal" href="#arithmetic-on-the-natural-numbers"><span class="std std-numref">Section 17.5</span></a> that were stated without proof.</p></li>
+<li><p>Prove the following properties of negation and subtraction on the integers, using only the properties of negation and subtraction given in <a class="reference internal" href="#the-integers"><span class="std std-numref">Section 17.6</span></a>.</p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(n + m = 0\)</span> then <span class="math notranslate nohighlight">\(m = -n\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(-0 = 0\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(-n = -m\)</span> then <span class="math notranslate nohighlight">\(n = m\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(m + (n - m) = n\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(-(n + m) = -n - m\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(m &lt; n\)</span> then <span class="math notranslate nohighlight">\(n - m &gt; 0\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(m &lt; n\)</span> then <span class="math notranslate nohighlight">\(-m &gt; -n\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(n \cdot (-m) = -nm\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(n(m - k) = nm - nk\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(n &lt; m\)</span> then <span class="math notranslate nohighlight">\(n - k &lt; m - k\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Suppose you have an infinite chessboard with a natural number written in each square. The value in each square is the average of the values of the four neighboring squares. Prove that all the values on the chessboard are equal.</p></li>
+<li><p>Prove that every natural number can be written as a sum of <em>distinct non-consecutive</em> Fibonacci numbers. For example, <span class="math notranslate nohighlight">\(22 = 1 + 3 + 5 + 13\)</span> is not allowed, since 3 and 5 are consecutive Fibonacci numbers, but <span class="math notranslate nohighlight">\(22 = 1 + 21\)</span> is allowed.</p></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">17. The Natural Numbers and Induction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-principle-of-induction">17.1. The Principle of Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variants-of-induction">17.2. Variants of Induction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recursive-definitions">17.3. Recursive Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#defining-arithmetic-operations">17.4. Defining Arithmetic Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#arithmetic-on-the-natural-numbers">17.5. Arithmetic on the Natural Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-integers">17.6. The Integers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">17.7. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/the_natural_numbers_and_induction.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3. Natural Deduction for Propositional Logic &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Propositional Logic in Lean" href="propositional_logic_in_lean.html" />
+    <link rel="prev" title="2. Propositional Logic" href="propositional_logic.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="natural-deduction-for-propositional-logic">
+<h1><span class="section-number">3. </span>Natural Deduction for Propositional Logic<a class="headerlink" href="#natural-deduction-for-propositional-logic" title="Permalink to this headline">&#182;</a></h1>
+<p>Reflecting on the arguments in the previous chapter, we see that, intuitively speaking, some inferences are <em>valid</em> and some are not. For example, if, in a chain of reasoning, we had established &#8220;<span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>,&#8221; it would seem perfectly reasonable to conclude <span class="math notranslate nohighlight">\(B\)</span>. If we had established <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and &#8220;If <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> then <span class="math notranslate nohighlight">\(C\)</span>,&#8221; it would be reasonable to conclude <span class="math notranslate nohighlight">\(C\)</span>. On the other hand, if we had established &#8220;<span class="math notranslate nohighlight">\(A\)</span> or <span class="math notranslate nohighlight">\(B\)</span>,&#8221; we would not be justified in concluding <span class="math notranslate nohighlight">\(B\)</span> without further information.</p>
+<p>The task of symbolic logic is to develop a precise mathematical theory that explains which inferences are valid and why. There are two general approaches to spelling out the notion of validity. In this chapter, we will consider the <em>deductive</em> approach: an inference is valid if it can be justified by fundamental rules of reasoning that reflect the meaning of the logical terms involved. In <a class="reference internal" href="semantics_of_propositional_logic.html#semantics-of-propositional-logic"><span class="std std-numref">Chapter 6</span></a> we will consider the &#8220;semantic&#8221; approach: an inference is valid if it is an instance of a pattern that always yields a true conclusion from true hypotheses.</p>
+<div class="section" id="derivations-in-natural-deduction">
+<span id="id1"></span><h2><span class="section-number">3.1. </span>Derivations in Natural Deduction<a class="headerlink" href="#derivations-in-natural-deduction" title="Permalink to this headline">&#182;</a></h2>
+<p>We have seen that the language of propositional logic allows us to build up expressions from propositional variables <span class="math notranslate nohighlight">\(A, B, C, \ldots\)</span> using propositional connectives like <span class="math notranslate nohighlight">\(\to\)</span>, <span class="math notranslate nohighlight">\(\wedge\)</span>, <span class="math notranslate nohighlight">\(\vee\)</span>, and <span class="math notranslate nohighlight">\(\neg\)</span>. We will now consider a formal deductive system that we can use to <em>prove</em> propositional formulas. There are a number of such systems on offer; the one will use is called <em>natural deduction</em>, designed by Gerhard Gentzen in the 1930s.</p>
+<p>In natural deduction, every proof is a proof from <em>hypotheses</em>. In other words, in any proof, there is a finite set of hypotheses <span class="math notranslate nohighlight">\(\{ B, C, \ldots \}\)</span> and a conclusion <span class="math notranslate nohighlight">\(A\)</span>, and what the proof shows is that <span class="math notranslate nohighlight">\(A\)</span> follows from <span class="math notranslate nohighlight">\(B, C, \ldots\)</span>.</p>
+<p>Like formulas, proofs are built by putting together smaller proofs, according to the rules. For instance, the way to read the and-introduction rule</p>
+<img src="_static/natural_deduction_for_propositional_logic.1.png"><p>is as follows: if you have a proof <span class="math notranslate nohighlight">\(P_1\)</span> of <span class="math notranslate nohighlight">\(A\)</span> from some hypotheses, and you have a proof <span class="math notranslate nohighlight">\(P_2\)</span> of <span class="math notranslate nohighlight">\(B\)</span> from some hypotheses, then you can put them together using this rule to obtain a proof of <span class="math notranslate nohighlight">\(A \wedge B\)</span>, which uses all the hypotheses in <span class="math notranslate nohighlight">\(P_1\)</span> together with all the hypotheses in <span class="math notranslate nohighlight">\(P_2\)</span>. For example, this is a proof of <span class="math notranslate nohighlight">\((A \wedge B) \wedge (A \wedge C)\)</span> from three hypotheses, <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span>:</p>
+<img src="_static/natural_deduction_for_propositional_logic.2.png"><p>In some presentations of natural deduction, a proof is written as a sequence of lines in which each line can refer to any previous lines for justification. But here we will adopt a rigid two-dimensional diagrammatic format in which the premises of each inference appear immediately above the conclusion. This makes it easy to look over a proof and check that it is correct: each inference should be the result of instantiating the letters in one of the rules with particular formulas.</p>
+<p>One thing that makes natural deduction confusing is that when you put together proofs in this way, hypotheses can be eliminated, or, as we will say, <em>canceled</em>. For example, we can apply the implies-introduction rule to the last proof, and obtain the following proof of <span class="math notranslate nohighlight">\(B \to (A \wedge B) \wedge (A \wedge C)\)</span> from only <em>two</em> hypotheses, <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(C\)</span>:</p>
+<img src="_static/natural_deduction_for_propositional_logic.3.png"><p>Here, we have used the label 1 to indicate the place where the hypothesis <span class="math notranslate nohighlight">\(B\)</span> was canceled. Any label will do, though we will tend to use numbers for that purpose.</p>
+<p>We can continue to cancel the hypothesis <span class="math notranslate nohighlight">\(A\)</span>:</p>
+<img src="_static/natural_deduction_for_propositional_logic.4.png"><p>The result is a proof using only the hypothesis <span class="math notranslate nohighlight">\(C\)</span>. We can continue to cancel that hypothesis as well:</p>
+<img src="_static/natural_deduction_for_propositional_logic.5.png"><p>The resulting proof uses no hypothesis at all. In other words, it establishes the conclusion outright.</p>
+<p>Notice that in the second step, we canceled two &#8220;copies&#8221; of the hypothesis <span class="math notranslate nohighlight">\(A\)</span>. In natural deduction, we can choose which hypotheses to cancel; we could have canceled either one, and left the other hypothesis <em>open</em>. In fact, we can also carry out the implication-introduction rule and cancel <em>zero</em> hypotheses. For example, the following is a short proof of <span class="math notranslate nohighlight">\(A \to B\)</span> from the hypothesis <span class="math notranslate nohighlight">\(B\)</span>:</p>
+<img src="_static/natural_deduction_for_propositional_logic.6.png"><p>In this proof, zero copies of <span class="math notranslate nohighlight">\(A\)</span> are canceled.</p>
+<p>Also notice that although we are using letters like <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span> as propositional variables, in the proofs above we can replace them by any propositional formula. For example, we can replace <span class="math notranslate nohighlight">\(A\)</span> by the formula <span class="math notranslate nohighlight">\((D \vee E)\)</span> everywhere, and still have correct proofs. In some presentations of logic, different letters are used for propositional variables and arbitrary propositional formulas, but we will continue to blur the distinction. You can think of <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span> as standing for propositional variables or formulas, as you prefer. If you think of them as propositional variables, just keep in mind that in any rule or proof, you can replace every variable by a different formula, and still have a valid rule or proof.</p>
+<p>Finally, notice also that in these examples, we have assumed a special rule as the starting point for building proofs. It is called the assumption rule, and it looks like this:</p>
+<img src="_static/natural_deduction_for_propositional_logic.7.png"><p>What it means is that at any point we are free to simply assume a formula, <span class="math notranslate nohighlight">\(A\)</span>. The single formula <span class="math notranslate nohighlight">\(A\)</span> constitutes a one-line proof, and the way to read this proof is as follows: assuming <span class="math notranslate nohighlight">\(A\)</span>, we have proved <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>The remaining rules of inference were given in the last chapter, and we summarize them here.</p>
+<p><em>Implication:</em></p>
+<img src="_static/natural_deduction_for_propositional_logic.8.png"><p><em>Conjunction:</em></p>
+<img src="_static/natural_deduction_for_propositional_logic.9.png"><p><em>Negation:</em></p>
+<img src="_static/natural_deduction_for_propositional_logic.10.png"><p><em>Disjunction:</em></p>
+<img src="_static/natural_deduction_for_propositional_logic.11.png"><p><em>Truth and falsity:</em></p>
+<img src="_static/natural_deduction_for_propositional_logic.12.png"><p><em>Bi-implication:</em></p>
+<img src="_static/natural_deduction_for_propositional_logic.13.png"><p><em>Reductio ad absurdum (proof by contradiction):</em></p>
+<img src="_static/natural_deduction_for_propositional_logic.14.png"></div>
+<div class="section" id="examples">
+<h2><span class="section-number">3.2. </span>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">&#182;</a></h2>
+<p>Let us consider some more examples of natural deduction proofs. In each case, you should think about what the formulas say and which rule of inference is invoked at each step. Also pay close attention to which hypotheses are canceled at each stage. If you look at any node of the tree, what has been established at that point is that the claim follows from all the hypotheses above it that haven&#8217;t been canceled yet.</p>
+<p>The following is a proof of <span class="math notranslate nohighlight">\(A \to C\)</span> from <span class="math notranslate nohighlight">\(A \to B\)</span> and <span class="math notranslate nohighlight">\(B \to C\)</span>:</p>
+<img src="_static/natural_deduction_for_propositional_logic.15.png"><p>Intuitively, the formula</p>
+<div class="math notranslate nohighlight">
+\[(A \to B) \wedge (B \to C) \to (A \to C)\]</div>
+<p>&#8220;internalizes&#8221; the conclusion of the previous proof. The <span class="math notranslate nohighlight">\(\wedge\)</span> symbol is used to combine hypotheses, and the <span class="math notranslate nohighlight">\(\to\)</span> symbol is used to express that the right-hand side is a consequence of the left. Here is a proof of that formula:</p>
+<img src="_static/natural_deduction_for_propositional_logic.16.png"><p>The next proof shows that if a conclusion, <span class="math notranslate nohighlight">\(C\)</span>, follows from <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, then it follows from their conjunction.</p>
+<img src="_static/natural_deduction_for_propositional_logic.17.png"><p>The conclusion of the next proof can be interpreted as saying that if it is not the case that one of <span class="math notranslate nohighlight">\(A\)</span> or <span class="math notranslate nohighlight">\(B\)</span> is true, then they are both false. It illustrates the use of the rules for negation.</p>
+<img src="_static/natural_deduction_for_propositional_logic.19.png"><p>Finally, the next two examples illustrate the use of the <em>ex falso</em> rule. The first is a derivation of an arbitrary formula <span class="math notranslate nohighlight">\(B\)</span> from <span class="math notranslate nohighlight">\(\neg A\)</span> and <span class="math notranslate nohighlight">\(A\)</span>:</p>
+<img src="_static/natural_deduction_for_propositional_logic.20.png"><p>The second shows that <span class="math notranslate nohighlight">\(B\)</span> follows from <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(\neg A \vee B\)</span>:</p>
+<img src="_static/natural_deduction_for_propositional_logic.21.png"><p>In some proof systems, these rules are taken to be part of the system. But we do not need to that with our system: these two examples show that the rules can be <em>derived</em> from our other rules.</p>
+</div>
+<div class="section" id="forward-and-backward-reasoning">
+<span id="id2"></span><h2><span class="section-number">3.3. </span>Forward and Backward Reasoning<a class="headerlink" href="#forward-and-backward-reasoning" title="Permalink to this headline">&#182;</a></h2>
+<p>Natural deduction is supposed to represent an idealized model of the patterns of reasoning and argumentation we use, for example, when working with logic puzzles as in the last chapter. There are obvious differences: we describe natural deduction proofs with symbols and two-dimensional diagrams, whereas our informal arguments are written with words and paragraphs. It is worthwhile to reflect on what <em>is</em> captured by the model. Natural deduction is supposed to clarify the <em>form</em> and <em>structure</em> of our logical arguments, describe the appropriate means of justifying a conclusion, and explain the sense in which the rules we use are valid.</p>
+<p>Constructing natural deduction proofs can be confusing, but it is helpful to think about <em>why</em> it is confusing. We could, for example, decide that natural deduction is not a good model for logical reasoning. Or we might come to the conclusion that the features of natural deduction that make it confusing tell us something interesting about ordinary arguments.</p>
+<p>In the &#8220;official&#8221; description, natural deduction proofs are constructed by putting smaller proofs together to obtain bigger ones. To prove <span class="math notranslate nohighlight">\(A \wedge B \to B \wedge A\)</span>, we start with the hypothesis <span class="math notranslate nohighlight">\(A \wedge B\)</span>. Then we construct, separately, the following two proofs:</p>
+<img src="_static/natural_deduction_for_propositional_logic.22.png"><p>Then we use these two proofs to construct the following one:</p>
+<img src="_static/natural_deduction_for_propositional_logic.23.png"><p>Finally, we apply the implies-introduction rule to this proof to cancel the hypothesis and obtain the desired conclusion:</p>
+<img src="_static/natural_deduction_for_propositional_logic.24.png"><p>The process is similar to what happens in an informal argument, where we start with some hypotheses, and work forward towards a conclusion.</p>
+<hr class="docutils" />
+<p>Suppose Susan is tall and John is happy.</p>
+<p>Then, in particular, John is happy.</p>
+<p>Also, Susan is tall.</p>
+<p>So John is happy and Susan is tall.</p>
+<p>Therefore we have shown that if Susan is tall and John is happy, then John is happy and Susan is tall.</p>
+<hr class="docutils" />
+<p>However, when we <em>read</em> natural deduction proofs, we often read them backward. First, we look at the bottom to see what is being proved. Then we consider the rule that is used to prove it, and see what premises the rule demands. Then we look to see how those claims are proved, and so on. Similarly, when we <em>construct</em> a natural deduction proof, we typically work backward as well: we start with the claim we are trying to prove, put that at the bottom, and look for rules to apply.</p>
+<p>At times that process breaks down. Suppose we are left with a goal that is a single propositional variable, <span class="math notranslate nohighlight">\(A\)</span>. There are no introduction rules that can be applied, so, unless <span class="math notranslate nohighlight">\(A\)</span> is a hypothesis, it has to come from an elimination rule. But that underspecifies the problem: perhaps the <span class="math notranslate nohighlight">\(A\)</span> comes from applying the and-elimination rule to <span class="math notranslate nohighlight">\(A \wedge B\)</span>, or from applying the or-elimination rule to <span class="math notranslate nohighlight">\(C\)</span> and <span class="math notranslate nohighlight">\(C \to A\)</span>. At that point, we look to the hypotheses, and start working forward. If, for example, our hypotheses are <span class="math notranslate nohighlight">\(C\)</span> and <span class="math notranslate nohighlight">\(C \to A \wedge B\)</span>, we would then work forward to obtain <span class="math notranslate nohighlight">\(A \wedge B\)</span> and <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>There is thus a general heuristic for proving theorems in natural deduction:</p>
+<ol class="arabic simple">
+<li><p>Start by working backward from the conclusion, using the introduction rules. For example, if you are trying to prove a statement of the form <span class="math notranslate nohighlight">\(A \to B\)</span>, add <span class="math notranslate nohighlight">\(A\)</span> to your list of hypotheses and try to derive <span class="math notranslate nohighlight">\(B\)</span>. If you are trying to prove a statement of the form <span class="math notranslate nohighlight">\(A \wedge B\)</span>, use the and-introduction rule to reduce your task to proving <span class="math notranslate nohighlight">\(A\)</span>, and then proving <span class="math notranslate nohighlight">\(B\)</span>.</p></li>
+<li><p>When you have run out things to do in the first step, use elimination rules to work forward. If you have hypotheses <span class="math notranslate nohighlight">\(A \to B\)</span> and <span class="math notranslate nohighlight">\(A\)</span>, apply modus ponens to derive <span class="math notranslate nohighlight">\(B\)</span>. If you have a hypothesis <span class="math notranslate nohighlight">\(A \vee B\)</span>, use or-elimination to split on cases, considering <span class="math notranslate nohighlight">\(A\)</span> in one case and <span class="math notranslate nohighlight">\(B\)</span> in the other.</p></li>
+</ol>
+<p>In <a class="reference internal" href="classical_reasoning.html#classical-reasoning"><span class="std std-numref">Chapter 5</span></a> we will add one more element to this list: if all else fails, try a proof by contradiction.</p>
+<p>The tension between forward and backward reasoning is found in informal arguments as well, in mathematics and elsewhere. When we prove a theorem, we typically reason forward, using assumptions, hypotheses, definitions, and background knowledge. But we also keep the goal in mind, and that helps us make sense of the forward steps.</p>
+<p>When we turn to interactive theorem proving, we will see that <em>Lean</em> has mechanisms to support both forward and backward reasoning. These form a bridge between informal styles of argumentation and the natural deduction model, and thereby provide a clearer picture of what is going
+on.</p>
+<p>Another confusing feature of natural deduction proofs is that every hypothesis has a <em>scope</em>, which is to say, there are only certain points in the proof where an assumption is available for use. Of course, this is also a feature of informal mathematical arguments. Suppose a paragraph begins &#8220;Let <span class="math notranslate nohighlight">\(x\)</span> be any number less than 100,&#8221; argues that <span class="math notranslate nohighlight">\(x\)</span> has at most five prime factors, and concludes &#8220;thus we have shown that every number less than 100 has at most five factors.&#8221; The reference &#8220;<span class="math notranslate nohighlight">\(x\)</span>&#8221;, and the assumption that it is less than 100, is only active within the scope of the paragraph. If the next paragraph begins with the phrase &#8220;Now suppose <span class="math notranslate nohighlight">\(x\)</span> is any number greater than 100,&#8221; then, of course, the assumption that <span class="math notranslate nohighlight">\(x\)</span> is less than 100 no longer applies.</p>
+<p>In natural deduction, a hypothesis is available from the point where it is assumed until the point where it is canceled. We will see that interactive theorem proving languages also have mechanisms to determine the scope of references and hypotheses, and that these, too, shed light on scoping issues in informal mathematics.</p>
+</div>
+<div class="section" id="reasoning-by-cases">
+<h2><span class="section-number">3.4. </span>Reasoning by Cases<a class="headerlink" href="#reasoning-by-cases" title="Permalink to this headline">&#182;</a></h2>
+<p>The rule for eliminating a disjunction is confusing, but we can make sense of it with an example. Consider the following informal argument:</p>
+<hr class="docutils" />
+<p>George is either at home or on campus.</p>
+<p>If he is at home, he is studying.</p>
+<p>If he is on campus, he is with his friends.</p>
+<p>Therefore, George is either studying or with his friends.</p>
+<hr class="docutils" />
+<p>Let <span class="math notranslate nohighlight">\(A\)</span> be the statement that George is at home, let <span class="math notranslate nohighlight">\(B\)</span> be the statement that George is on campus, let <span class="math notranslate nohighlight">\(C\)</span> be the statement that George is studying, and let <span class="math notranslate nohighlight">\(D\)</span> be the statement the George is with his friends. Then the argument above has the following pattern: from <span class="math notranslate nohighlight">\(A \vee B\)</span>, <span class="math notranslate nohighlight">\(A \to C\)</span>, and <span class="math notranslate nohighlight">\(B \to D\)</span>, conclude <span class="math notranslate nohighlight">\(C \vee D\)</span>. In natural deduction, we cannot get away with drawing this conclusion in a single step, but it does not take too much work to flesh it out into a proper proof. Informally, we have to argue as follows.</p>
+<hr class="docutils" />
+<p>Georges is either at home or on campus.</p>
+<blockquote>
+<div><p>Case 1: Suppose he is at home. We know that if he is at home, then he is studying. So, in this case, he is studying. Therefore, in this case, he is either studying or with his friends.</p>
+<p>Case 2: Suppose he is on campus. We know that if he is on campus, then he is with his friends. So, in this case, he is with his friends. Therefore, in this case, he is either studying or with his friends.</p>
+</div></blockquote>
+<p>Either way, George is either studying or with his friends.</p>
+<hr class="docutils" />
+<p>The natural deduction proof looks as follows:</p>
+<img src="_static/natural_deduction_for_propositional_logic.25.png"><p>You should think about how the structure of this proof reflects the informal case-based argument above it.</p>
+<p>For another example, here is a proof of <span class="math notranslate nohighlight">\(A \wedge (B \vee C) \to (A \wedge B) \vee (A \wedge C)\)</span>:</p>
+<img src="_static/natural_deduction_for_propositional_logic.18.png"></div>
+<div class="section" id="some-logical-identities">
+<h2><span class="section-number">3.5. </span>Some Logical Identities<a class="headerlink" href="#some-logical-identities" title="Permalink to this headline">&#182;</a></h2>
+<p>Two propositional formulas, <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, are said to be <em>logically equivalent</em> if <span class="math notranslate nohighlight">\(A \leftrightarrow B\)</span> is provable. Logical equivalences are similar to identities like <span class="math notranslate nohighlight">\(x + y = y + x\)</span> that occur in algebra. In particular, one can show that if two formulas are equivalent, then one can substitute one for the other in any formula, and the results will also be equivalent. (Some proof systems take this to be a basic rule, and interactive theorem provers can accommodate it, but we will <em>not</em> take it to be a fundamental rule of natural deduction.)</p>
+<p>For reference, the following list contains some commonly used propositional equivalences, along with some noteworthy formulas. Think about why, intuitively, these formulas should be true.</p>
+<ol class="arabic simple">
+<li><p>Commutativity of <span class="math notranslate nohighlight">\(\wedge\)</span>: <span class="math notranslate nohighlight">\(A \wedge B \leftrightarrow B \wedge A\)</span></p></li>
+<li><p>Commutativity of <span class="math notranslate nohighlight">\(\vee\)</span>: <span class="math notranslate nohighlight">\(A \vee B \leftrightarrow B \vee A\)</span></p></li>
+<li><p>Associativity of <span class="math notranslate nohighlight">\(\wedge\)</span>: <span class="math notranslate nohighlight">\((A \wedge B) \wedge C \leftrightarrow A \wedge (B \wedge C)\)</span></p></li>
+<li><p>Associativity of <span class="math notranslate nohighlight">\(\vee\)</span> <span class="math notranslate nohighlight">\((A \vee B) \vee C \leftrightarrow A \vee (B \vee C)\)</span></p></li>
+<li><p>Distributivity of <span class="math notranslate nohighlight">\(\wedge\)</span> over <span class="math notranslate nohighlight">\(\vee\)</span>: <span class="math notranslate nohighlight">\(A \wedge (B \vee C) \leftrightarrow (A \wedge B) \vee (A \wedge C)\)</span></p></li>
+<li><p>Distributivity of <span class="math notranslate nohighlight">\(\vee\)</span> over <span class="math notranslate nohighlight">\(\wedge\)</span>: <span class="math notranslate nohighlight">\(A \vee (B \wedge C) \leftrightarrow (A \vee B) \wedge (A \vee C)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((A \to (B \to C)) \leftrightarrow (A \wedge B \to C)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\((A \to B) \to ((B \to C) \to (A \to C))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(((A \vee B) \to C) \leftrightarrow (A \to C) \wedge (B \to C)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg (A \vee B) \leftrightarrow \neg A \wedge \neg B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg (A \wedge B) \leftrightarrow \neg A \vee \neg B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg (A \wedge \neg A)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg (A \to B) \leftrightarrow A \wedge \neg B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg A \to (A \to B)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((\neg A \vee B) \leftrightarrow (A \to B)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \vee \bot \leftrightarrow A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \wedge \bot \leftrightarrow \bot\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \vee \neg A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg (A \leftrightarrow \neg A)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((A \to B) \leftrightarrow (\neg B \to \neg A)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((A \to C \vee D) \to ((A \to C) \vee (A \to D))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((((A \to B) \to A) \to A)\)</span></p></li>
+</ol>
+<p>All of these can be derived in natural deduction using the fundamental rules listed in <a class="reference internal" href="#derivations-in-natural-deduction"><span class="std std-numref">Section 3.1</span></a>. But some of them require the use of the <em>reductio ad absurdum</em> rule, or proof by contradiction, which we have not yet discussed in detail. We will discuss the use of this rule, and other patterns of classical logic, in the <a class="reference internal" href="classical_reasoning.html#classical-reasoning"><span class="std std-numref">Chapter 5</span></a>.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">3.6. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<p>When constructing proofs in natural deduction, use <em>only</em> the list of
+rules given in <a class="reference internal" href="#derivations-in-natural-deduction"><span class="std std-numref">Section 3.1</span></a>.</p>
+<ol class="arabic simple">
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(A \wedge B\)</span> from hypothesis <span class="math notranslate nohighlight">\(B \wedge A\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\((Q \to R) \to R\)</span> from hypothesis <span class="math notranslate nohighlight">\(Q\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\neg (A \wedge B) \to (A \to \neg B)\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(Q \wedge S\)</span> from hypotheses <span class="math notranslate nohighlight">\((P \wedge Q) \wedge R\)</span> and <span class="math notranslate nohighlight">\(S \wedge T\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\((A \to C) \wedge (B \to \neg C) \to \neg (A \wedge B)\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\((A \wedge B) \to ((A \to C) \to \neg (B \to \neg C))\)</span>.</p></li>
+<li><p>Take another look at Exercise 3 in the last chapter. Using propositional variables <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span> for &#8220;Alan likes kangaroos,&#8221; &#8220;Betty likes frogs&#8221; and &#8220;Carl likes hamsters,&#8221; respectively, express the three hypotheses as symbolic formulas, and then derive a contradiction from them in natural deduction.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(A \vee B \to B \vee A\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\neg A \wedge \neg B \to \neg (A \vee B)\)</span></p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\neg (A \wedge B)\)</span> from <span class="math notranslate nohighlight">\(\neg A \vee \neg B\)</span>. (You do not need to use proof by contradiction.)</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\neg (A \leftrightarrow \neg A)\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\((\neg A \leftrightarrow \neg B)\)</span> from hypothesis <span class="math notranslate nohighlight">\(A \leftrightarrow B\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(P \to R\)</span> from hypothesis <span class="math notranslate nohighlight">\((P \vee Q) \to R\)</span>. How does this differ from a proof of <span class="math notranslate nohighlight">\(((P \vee Q) \to R) \to (P \to R)\)</span>?</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(C \to (A \vee B) \wedge C\)</span> from hypothesis <span class="math notranslate nohighlight">\(A \vee B\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(W \vee Y \to X \vee Z\)</span> from hypotheses <span class="math notranslate nohighlight">\(W \to X\)</span> and <span class="math notranslate nohighlight">\(Y \to Z\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\((A \vee (B \wedge A)) \to A\)</span>.</p></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Natural Deduction for Propositional Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#derivations-in-natural-deduction">3.1. Derivations in Natural Deduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">3.2. Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#forward-and-backward-reasoning">3.3. Forward and Backward Reasoning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reasoning-by-cases">3.4. Reasoning by Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#some-logical-identities">3.5. Some Logical Identities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">3.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/natural_deduction_for_propositional_logic.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

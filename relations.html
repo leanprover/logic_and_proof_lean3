@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>13. Relations &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="14. Relations in Lean" href="relations_in_lean.html" />
+    <link rel="prev" title="12. Sets in Lean" href="sets_in_lean.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="relations">
+<span id="id1"></span><h1><span class="section-number">13. </span>Relations<a class="headerlink" href="#relations" title="Permalink to this headline">&#182;</a></h1>
+<p>In <a class="reference internal" href="first_order_logic.html#first-order-logic"><span class="std std-numref">Chapter 7</span></a> we discussed the notion of a <em>relation symbol</em> in first-order logic, and in <a class="reference internal" href="semantics_of_first_order_logic.html#semantics-of-first-order-logic"><span class="std std-numref">Chapter 10</span></a> we saw how to interpret such a symbol in a model. In mathematics, we are generally interested in different sorts of relationships between mathematical objects, and so the notion of a relation is ubiquitous. In this chapter, we will consider some common kinds of relations.</p>
+<p>In some axiomatic foundations, the notion of a relation is taken to be primitive, but in axiomatic set theory, a relation is taken to be a set of tuples of the corresponding arity. For example, we can take a binary relation on <span class="math notranslate nohighlight">\(A\)</span> to be a subset of <span class="math notranslate nohighlight">\(A \times A\)</span>, where <span class="math notranslate nohighlight">\(R(a, b)\)</span> means that <span class="math notranslate nohighlight">\((a, b) \in R\)</span>. The foundational definition is generally irrelevant to everyday mathematical practice; what is important is simply that we can write expressions like <span class="math notranslate nohighlight">\(R(a, b)\)</span>, and that they are true or false, depending on the values of <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>. In mathematics, we often use <em>infix</em> notation, writing <span class="math notranslate nohighlight">\(a \mathrel{R} b\)</span> instead of <span class="math notranslate nohighlight">\(R(a, b)\)</span>.</p>
+<div class="section" id="order-relations">
+<span id="id2"></span><h2><span class="section-number">13.1. </span>Order Relations<a class="headerlink" href="#order-relations" title="Permalink to this headline">&#182;</a></h2>
+<p>We will start with a class of important binary relations in mathematics, namely, <em>partial orders</em>.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> A binary relation <span class="math notranslate nohighlight">\(\leq\)</span> on a domain <span class="math notranslate nohighlight">\(A\)</span> is a <em>partial order</em> if it has the following three properties:</p>
+<ul class="simple">
+<li><p><em>reflexivity</em>: <span class="math notranslate nohighlight">\(a \leq a\)</span>, for every <span class="math notranslate nohighlight">\(a\)</span> in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+<li><p><em>transitivity</em>: if <span class="math notranslate nohighlight">\(a \leq b\)</span> and <span class="math notranslate nohighlight">\(b \leq c\)</span>, then <span class="math notranslate nohighlight">\(a \leq c\)</span>, for every <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, and <span class="math notranslate nohighlight">\(c\)</span> in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+<li><p><em>antisymmetry</em>: if <span class="math notranslate nohighlight">\(a \leq b\)</span> and <span class="math notranslate nohighlight">\(b \leq a\)</span> then <span class="math notranslate nohighlight">\(a = b\)</span>, for every <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+</ul>
+<hr class="docutils" />
+<p>Notice the compact way of introducing the symbol <span class="math notranslate nohighlight">\(\leq\)</span> in the statement of the definition, and the fact that <span class="math notranslate nohighlight">\(\leq\)</span> is written as an infix symbol. Notice also that even though the relation is written with the symbol <span class="math notranslate nohighlight">\(\leq\)</span>, it is the only symbol occurring in the definition; mathematical practice favors natural language to describe its properties.</p>
+<p>You now know enough, however, to recognize the universal quantifiers that are present in the three clauses. In symbolic logic, we would write them as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall a \; (a \leq a)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall a, b, c \; (a \leq b \wedge b \leq c \to a \leq c)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall a, b \; (a \leq b \wedge b \leq a \to a = b)\)</span></p></li>
+</ul>
+<p>Here the variables <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, and <span class="math notranslate nohighlight">\(c\)</span> implicitly range over the domain <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>The use of the symbol <span class="math notranslate nohighlight">\(\leq\)</span> is meant to be suggestive, and, indeed, the following are all examples of partial orders:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\leq\)</span> on the natural numbers</p></li>
+<li><p><span class="math notranslate nohighlight">\(\leq\)</span> on the integers</p></li>
+<li><p><span class="math notranslate nohighlight">\(\leq\)</span> on the rational numbers</p></li>
+<li><p><span class="math notranslate nohighlight">\(\leq\)</span> on the real numbers</p></li>
+</ul>
+<p>But keep in mind that <span class="math notranslate nohighlight">\(\leq\)</span> is only a symbol; it can have unexpected interpretations as well. For example, the <span class="math notranslate nohighlight">\(\geq\)</span> relation on any of these domains is also a partial order, and can interpret the <span class="math notranslate nohighlight">\(\leq\)</span> symbol just as well.</p>
+<p>These are not fully representative of the class of partial orders, in that they all have an additional property:</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> A partial order <span class="math notranslate nohighlight">\(\leq\)</span> on a domain <span class="math notranslate nohighlight">\(A\)</span> is a <em>total order</em> (also called a <em>linear order</em>) if it also has the following property:</p>
+<ul class="simple">
+<li><p>for every <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> in <span class="math notranslate nohighlight">\(A\)</span>, either <span class="math notranslate nohighlight">\(a \leq b\)</span> or <span class="math notranslate nohighlight">\(b \leq a\)</span></p></li>
+</ul>
+<hr class="docutils" />
+<p>You can check these these are two examples of partial orders that are not total orders:</p>
+<ul class="simple">
+<li><p>the divides relation, <span class="math notranslate nohighlight">\(x \mid y\)</span>, on the integers</p></li>
+<li><p>the subset relation, <span class="math notranslate nohighlight">\(x \subseteq y\)</span>, on sets of elements of some domain <span class="math notranslate nohighlight">\(A\)</span></p></li>
+</ul>
+<p>On the integers, we also have the strict order relation, <span class="math notranslate nohighlight">\(&lt;\)</span>, which is not a partial order, since it is not reflexive. It is, rather, an instance of a <em>strict partial order</em>:</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> A binary relation <span class="math notranslate nohighlight">\(&lt;\)</span> on a domain <span class="math notranslate nohighlight">\(A\)</span> is a <em>strict partial order</em> if it satisfies the following:</p>
+<ul class="simple">
+<li><p><em>irreflexivity</em>: <span class="math notranslate nohighlight">\(a \nless a\)</span> for every <span class="math notranslate nohighlight">\(a\)</span> in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+<li><p><em>transitivity</em>: <span class="math notranslate nohighlight">\(a &lt; b\)</span> and <span class="math notranslate nohighlight">\(b &lt; c\)</span> implies <span class="math notranslate nohighlight">\(a &lt; c\)</span>, for every <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, and <span class="math notranslate nohighlight">\(c\)</span> in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+</ul>
+<p>A strict partial order is a <em>strict total order</em> (or <em>strict linear order</em>) if, in addition, we have the following property:</p>
+<ul class="simple">
+<li><p><em>trichotomy</em>: <span class="math notranslate nohighlight">\(a &lt; b\)</span>, <span class="math notranslate nohighlight">\(a = b\)</span>, or <span class="math notranslate nohighlight">\(a &gt; b\)</span> for every <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+</ul>
+<hr class="docutils" />
+<p>Here, <span class="math notranslate nohighlight">\(b \nless a\)</span> means, of course, that it is not the case that <span class="math notranslate nohighlight">\(a &lt; b\)</span>, and <span class="math notranslate nohighlight">\(a &gt; b\)</span> is alternative notation for <span class="math notranslate nohighlight">\(b &lt; a\)</span>. To distinguish an ordinary partial order from a strict one, an ordinary partial order is sometimes called a <em>weak</em> partial order.</p>
+<hr class="docutils" />
+<p><strong>Proposition</strong>. A strict partial order <span class="math notranslate nohighlight">\(&lt;\)</span> on <span class="math notranslate nohighlight">\(A\)</span> is <em>asymmetric</em>: for every <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, <span class="math notranslate nohighlight">\(a &lt; b\)</span> implies <span class="math notranslate nohighlight">\(b \nless a\)</span>.</p>
+<p><strong>Proof</strong>. Suppose <span class="math notranslate nohighlight">\(a &lt; b\)</span> and <span class="math notranslate nohighlight">\(b &lt; a\)</span>. Then, by transitivity, <span class="math notranslate nohighlight">\(a &lt; a\)</span>, contradicting irreflexivity.</p>
+<hr class="docutils" />
+<p>On the integers, there are precise relationships between <span class="math notranslate nohighlight">\(&lt;\)</span> and <span class="math notranslate nohighlight">\(\leq\)</span>: <span class="math notranslate nohighlight">\(x \leq y\)</span> if and only if <span class="math notranslate nohighlight">\(x &lt; y\)</span> or <span class="math notranslate nohighlight">\(x = y\)</span>, and <span class="math notranslate nohighlight">\(x &lt; y\)</span> if and only if <span class="math notranslate nohighlight">\(x \leq y\)</span> and <span class="math notranslate nohighlight">\(x \neq y\)</span>. This illustrates a more general phenomenon.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Suppose <span class="math notranslate nohighlight">\(\leq\)</span> is a partial order on a domain <span class="math notranslate nohighlight">\(A\)</span>. Define <span class="math notranslate nohighlight">\(a &lt; b\)</span> to mean that <span class="math notranslate nohighlight">\(a \leq b\)</span> and <span class="math notranslate nohighlight">\(a \neq b\)</span>. Then <span class="math notranslate nohighlight">\(&lt;\)</span> is a strict partial order. Moreover, if <span class="math notranslate nohighlight">\(\leq\)</span> is total, so is <span class="math notranslate nohighlight">\(&lt;\)</span>.</p>
+<p><strong>Theorem.</strong> Suppose <span class="math notranslate nohighlight">\(&lt;\)</span> is a strict partial order on a domain <span class="math notranslate nohighlight">\(A\)</span>. Define <span class="math notranslate nohighlight">\(a \leq b\)</span> to mean <span class="math notranslate nohighlight">\(a &lt; b\)</span> or <span class="math notranslate nohighlight">\(a = b\)</span>. Then <span class="math notranslate nohighlight">\(\leq\)</span> is a partial order. Moreover, if <span class="math notranslate nohighlight">\(&lt;\)</span> is total, so is <span class="math notranslate nohighlight">\(\leq\)</span>.</p>
+<hr class="docutils" />
+<p>We will prove the first here, and leave the second as an exercise. This proof is a nice illustration of how universal quantification, equality, and propositional reasoning are combined in a mathematical argument.</p>
+<hr class="docutils" />
+<p><strong>Proof</strong>. Suppose <span class="math notranslate nohighlight">\(\leq\)</span> is a partial order on <span class="math notranslate nohighlight">\(A\)</span>, and <span class="math notranslate nohighlight">\(&lt;\)</span> be defined as in the statement of the theorem. Irreflexivity is immediate, since <span class="math notranslate nohighlight">\(a &lt; a\)</span> implies <span class="math notranslate nohighlight">\(a \neq a\)</span>, which is a contradiction.</p>
+<p>To show transitivity, suppose <span class="math notranslate nohighlight">\(a &lt; b\)</span> and <span class="math notranslate nohighlight">\(b &lt; c\)</span>. Then we have <span class="math notranslate nohighlight">\(a \leq b\)</span>, <span class="math notranslate nohighlight">\(b \leq c\)</span>, <span class="math notranslate nohighlight">\(a \neq b\)</span>, and <span class="math notranslate nohighlight">\(b \neq c\)</span>. By the transitivity of <span class="math notranslate nohighlight">\(\leq\)</span>, we have <span class="math notranslate nohighlight">\(a \leq c\)</span>. To show <span class="math notranslate nohighlight">\(a &lt; c\)</span>, we only have to show <span class="math notranslate nohighlight">\(a \neq c\)</span>. So suppose <span class="math notranslate nohighlight">\(a = c\)</span>. then, from the hypotheses, we have <span class="math notranslate nohighlight">\(c &lt; b\)</span> and <span class="math notranslate nohighlight">\(b &lt; c\)</span>. From the definition of <span class="math notranslate nohighlight">\(&lt;\)</span>, we have <span class="math notranslate nohighlight">\(c \leq b\)</span>, <span class="math notranslate nohighlight">\(b \leq c\)</span>, and <span class="math notranslate nohighlight">\(c \neq b\)</span>. But the first two imply <span class="math notranslate nohighlight">\(c = b\)</span>, a contradiction. So <span class="math notranslate nohighlight">\(a \neq c\)</span>, as required.</p>
+<p>To establish the last claim in the theorem, suppose <span class="math notranslate nohighlight">\(\leq\)</span> is total, and let <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> be any elements of <span class="math notranslate nohighlight">\(A\)</span>. We need to show that <span class="math notranslate nohighlight">\(a &lt; b\)</span>, <span class="math notranslate nohighlight">\(a = b\)</span>, or <span class="math notranslate nohighlight">\(a &gt; b\)</span>. If <span class="math notranslate nohighlight">\(a = b\)</span>, we are done, so we can assume <span class="math notranslate nohighlight">\(a \neq b\)</span>. Since <span class="math notranslate nohighlight">\(\leq\)</span> is total, we have <span class="math notranslate nohighlight">\(a \leq b\)</span> or <span class="math notranslate nohighlight">\(b \leq a\)</span>. Since <span class="math notranslate nohighlight">\(a \neq b\)</span>, in the first case we have <span class="math notranslate nohighlight">\(a &lt; b\)</span>, and in the second case, we have <span class="math notranslate nohighlight">\(a &gt; b\)</span>.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="more-on-orderings">
+<h2><span class="section-number">13.2. </span>More on Orderings<a class="headerlink" href="#more-on-orderings" title="Permalink to this headline">&#182;</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(\leq\)</span> be a partial order on a domain, <span class="math notranslate nohighlight">\(A\)</span>, and let <span class="math notranslate nohighlight">\(&lt;\)</span> be the associated strict order, as defined in the last section. It is possible to show that if we go in the other direction, and define <span class="math notranslate nohighlight">\(\leq'\)</span> to be the partial order associated to <span class="math notranslate nohighlight">\(&lt;\)</span>, then <span class="math notranslate nohighlight">\(\leq\)</span> and <span class="math notranslate nohighlight">\(\leq'\)</span> are the same, which is to say, for every <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> in <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(a \leq b\)</span> if and only if <span class="math notranslate nohighlight">\(a \leq' b\)</span>. So we can think of every partial order as really being a pair, consisting of a weak partial order and an associated strict one. In other words, we can assume that <span class="math notranslate nohighlight">\(x &lt; y\)</span> holds if and only if <span class="math notranslate nohighlight">\(x \leq y\)</span> and <span class="math notranslate nohighlight">\(x \neq y\)</span>, and we can assume <span class="math notranslate nohighlight">\(x \leq y\)</span> holds if and only if <span class="math notranslate nohighlight">\(x &lt; y\)</span> or <span class="math notranslate nohighlight">\(x = y\)</span>.</p>
+<p>We will henceforth adopt this convention. Given a partial order <span class="math notranslate nohighlight">\(\leq\)</span> and the associated strict order <span class="math notranslate nohighlight">\(&lt;\)</span>, we leave it to you to show that if <span class="math notranslate nohighlight">\(x \leq y\)</span> and <span class="math notranslate nohighlight">\(y &lt; z\)</span>, then <span class="math notranslate nohighlight">\(x &lt; z\)</span>, and, similarly, if <span class="math notranslate nohighlight">\(x &lt; y\)</span> and <span class="math notranslate nohighlight">\(y \leq z\)</span>, then <span class="math notranslate nohighlight">\(x &lt; z\)</span>.</p>
+<p>Consider the natural numbers with the less-than-or-equal relation. It has a least element, <span class="math notranslate nohighlight">\(0\)</span>. We can express the fact that <span class="math notranslate nohighlight">\(0\)</span> is the least element in at least two ways:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(0\)</span> is less than or equal to every natural number.</p></li>
+<li><p>There is no natural number that is less than <span class="math notranslate nohighlight">\(0\)</span>.</p></li>
+</ul>
+<p>In symbolic logic, we could formalize these statements as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (0 \leq x)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (x \nless 0)\)</span></p></li>
+</ul>
+<p>Using the existential quantifier, we could render the second statement more faithfully as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\neg \exists x \; (x &lt; 0)\)</span></p></li>
+</ul>
+<p>Notice that this more faithful statement is equivalent to the original, using deMorgan&#8217;s laws for quantifiers.</p>
+<p>Are the two statements above equivalent? Say an element <span class="math notranslate nohighlight">\(y\)</span> is <em>minimum</em> for a partial order if it is less than or equal to any other element, that is, if it takes the place of 0 in the first statement. Say that an element <span class="math notranslate nohighlight">\(y\)</span> is <em>minimal</em> for a partial order if no element is less than it, that is, if it takes the place of 0 in the second statement. Two facts are immediate.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Any minimum element is minimal.</p>
+<p><strong>Proof.</strong> Suppose <span class="math notranslate nohighlight">\(x\)</span> is minimum for <span class="math notranslate nohighlight">\(\leq\)</span>. We need to show that <span class="math notranslate nohighlight">\(x\)</span> is minimal, that is, for every <span class="math notranslate nohighlight">\(y\)</span>, it is not the case that <span class="math notranslate nohighlight">\(y &lt; x\)</span>. Suppose <span class="math notranslate nohighlight">\(y &lt; x\)</span>. Since <span class="math notranslate nohighlight">\(x\)</span> is minimum, we have <span class="math notranslate nohighlight">\(x \leq y\)</span>. From <span class="math notranslate nohighlight">\(y &lt; x\)</span> and <span class="math notranslate nohighlight">\(x \leq y\)</span>, we have <span class="math notranslate nohighlight">\(y &lt; y\)</span>, contradicting the irreflexivity of <span class="math notranslate nohighlight">\(&lt;\)</span>.</p>
+<p><strong>Theorem.</strong> If a partial order <span class="math notranslate nohighlight">\(\leq\)</span> has a minimum element, it is unique.</p>
+<p><strong>Proof.</strong> Suppose <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span> are both minimum. Then <span class="math notranslate nohighlight">\(x_1 \leq x_2\)</span> and <span class="math notranslate nohighlight">\(x_2 \leq x_1\)</span>. By antisymmetry, <span class="math notranslate nohighlight">\(x_1 = x_2\)</span>.</p>
+<hr class="docutils" />
+<p>Notice that we have interpreted the second theorem as the statement that if <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span> are both minimum, then <span class="math notranslate nohighlight">\(x_1 = x_2\)</span>. Indeed, this is exactly what we mean when we say that something is &#8220;unique.&#8221; When a partial order has a minimum element <span class="math notranslate nohighlight">\(x\)</span>, uniqueness is what justifies calling <span class="math notranslate nohighlight">\(x\)</span> <em>the</em> minimum element. Such an <span class="math notranslate nohighlight">\(x\)</span> is also called the <em>least</em> element or the <em>smallest</em> element, and the terms are generally interchangeable.</p>
+<p>The converse to the first theorem &#8211; that is, the statement that every minimal element is minimum &#8211; is false. As an example, consider the nonempty subsets of the set <span class="math notranslate nohighlight">\(\{ 1, 2 \}\)</span> with the subset relation. In other words, consider the collection of sets <span class="math notranslate nohighlight">\(\{ 1 \}\)</span>, <span class="math notranslate nohighlight">\(\{ 2 \}\)</span>, and <span class="math notranslate nohighlight">\(\{1, 2\}\)</span>, where <span class="math notranslate nohighlight">\(\{ 1 \} \subseteq \{1, 2\}\)</span>, <span class="math notranslate nohighlight">\(\{ 2 \} \subseteq \{1, 2\}\)</span>, and, of course, every element is a subset of itself. Then you can check that <span class="math notranslate nohighlight">\(\{1\}\)</span> and <span class="math notranslate nohighlight">\(\{2\}\)</span> are each minimal, but neither is minimum. (One can also exhibit such a partial order by drawing a diagram, with dots labeled <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, <span class="math notranslate nohighlight">\(c\)</span>, etc., and upwards edges between elements to indicate that one is less than or equal to the other.)</p>
+<p>Notice that the statement &#8220;a minimal element of a partial order is not necessarily minimum&#8221; makes an &#8220;existential&#8221; assertion: it says that there is a partial order <span class="math notranslate nohighlight">\(\leq\)</span>, and an element <span class="math notranslate nohighlight">\(x\)</span> of the domain, such that <span class="math notranslate nohighlight">\(x\)</span> is minimal but not minimum. For a fixed partial order <span class="math notranslate nohighlight">\(\leq\)</span>, we can express the assertion that such an <span class="math notranslate nohighlight">\(x\)</span> exists as follows:</p>
+<div class="math notranslate nohighlight">
+\[\exists x \; (\forall y \; (y \nless x) \wedge \neg \forall y \; (x \leq y)).\]</div>
+<p>The assertion that there exists a domain <span class="math notranslate nohighlight">\(A\)</span>, and a partial order <span class="math notranslate nohighlight">\(\leq\)</span> on that domain <span class="math notranslate nohighlight">\(A\)</span>, is more dramatic: it is a &#8220;higher order&#8221; existential assertion. But symbolic logic provides us with the means to make assertions like these as well, as we will see later on.</p>
+<p>We can consider other properties of orders. An order is said to be <em>dense</em> if between any two distinct elements, there is another element. More precisely, an order is dense if, whenever <span class="math notranslate nohighlight">\(x &lt; y\)</span>, there is an element <span class="math notranslate nohighlight">\(z\)</span> satisfying <span class="math notranslate nohighlight">\(x &lt; z\)</span> and <span class="math notranslate nohighlight">\(z &lt; y\)</span>. For example, the rational numbers are dense with the usual <span class="math notranslate nohighlight">\(\leq\)</span> ordering, but not the integers. Saying that an order is dense is another example of an implicit use of existential quantification.</p>
+</div>
+<div class="section" id="equivalence-relations-and-equality">
+<span id="id3"></span><h2><span class="section-number">13.3. </span>Equivalence Relations and Equality<a class="headerlink" href="#equivalence-relations-and-equality" title="Permalink to this headline">&#182;</a></h2>
+<p>In ordinary mathematical language, an <em>equivalence relation</em> is defined as follows.</p>
+<hr class="docutils" />
+<p><strong>Definition</strong>. A binary relation <span class="math notranslate nohighlight">\(\equiv\)</span> on some domain <span class="math notranslate nohighlight">\(A\)</span> is said to be an <em>equivalence relation</em> if it is reflexive, symmetric, and transitive. In other words, <span class="math notranslate nohighlight">\(\equiv\)</span> is an equivalent relation if it satisfies these three properties:</p>
+<ul class="simple">
+<li><p><em>reflexivity</em>: <span class="math notranslate nohighlight">\(a \equiv a\)</span>, for every <span class="math notranslate nohighlight">\(a\)</span> in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+<li><p><em>symmetry</em>: if <span class="math notranslate nohighlight">\(a \equiv b\)</span>, then <span class="math notranslate nohighlight">\(b \equiv a\)</span>, for every <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+<li><p><em>transitivity</em>: if <span class="math notranslate nohighlight">\(a \equiv b\)</span> and <span class="math notranslate nohighlight">\(b \equiv c\)</span>, then <span class="math notranslate nohighlight">\(a \equiv c\)</span>, for every <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, and <span class="math notranslate nohighlight">\(c\)</span> in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+</ul>
+<hr class="docutils" />
+<p>We leave it to you to think about how you could write these statements in first-order logic. (Note the similarity to the rules for a partial order.) We will also leave you with an exercise: by a careful choice of how to instantiate the quantifiers, you can actually prove the three properties above from the following two:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall a \; (a \equiv a)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall {a, b, c} \; (a \equiv b \wedge c \equiv b \to a \equiv c)\)</span></p></li>
+</ul>
+<p>Try to verify this using natural deduction or Lean.</p>
+<p>These three properties alone are not strong enough to characterize equality. You should check that the following informal examples are all instances of equivalence relations:</p>
+<ul class="simple">
+<li><p>the relation on days on the calendar, given by &#8220;<span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> fall on the same day of the week&#8221;</p></li>
+<li><p>the relation on people currently alive on the planet, given by &#8220;<span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> have the same age&#8221;</p></li>
+<li><p>the relation on people currently alive on the planet, given by &#8220;<span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> have the same birthday&#8221;</p></li>
+<li><p>the relation on cities in the United States, given by &#8220;<span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are in the same state&#8221;</p></li>
+</ul>
+<p>Here are two common mathematical examples:</p>
+<ul class="simple">
+<li><p>the relation on lines in a plane, given by &#8220;<span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are parallel&#8221;</p></li>
+<li><p>for any fixed natural number <span class="math notranslate nohighlight">\(m \geq 0\)</span>, the relation on natural numbers, given by &#8220;<span class="math notranslate nohighlight">\(x\)</span> is congruent to <span class="math notranslate nohighlight">\(y\)</span> modulo <span class="math notranslate nohighlight">\(m\)</span>&#8221; (see <a class="reference internal" href="elementary_number_theory.html#elementary-number-theory"><span class="std std-numref">Chapter 19</span></a>)</p></li>
+</ul>
+<p>Here, we say that <span class="math notranslate nohighlight">\(x\)</span> is congruent to <span class="math notranslate nohighlight">\(y\)</span> modulo <span class="math notranslate nohighlight">\(m\)</span> if they leave the same remainder when divided by <span class="math notranslate nohighlight">\(m\)</span>. Soon, you will be able to prove rigorously that this is equivalent to saying that <span class="math notranslate nohighlight">\(x - y\)</span> is divisible by <span class="math notranslate nohighlight">\(m\)</span>.</p>
+<p>Consider the equivalence relation on citizens of the United States, given by &#8220;<span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> have the same age.&#8221; There are some properties that respect that equivalence. For example, suppose I tell you that John and Susan have the same age, and I also tell you that John is old enough to vote. Then you can rightly infer that Susan is old enough to vote. On the other hand, if I tell you nothing more than the facts that John and Susan have the same age and John lives in South Dakota, you cannot infer that Susan lives in South Dakota. This little example illustrates what is special about the <em>equality</em> relation: if two things are equal, then they have exactly the same properties.</p>
+<p>Let <span class="math notranslate nohighlight">\(A\)</span> be a set and let <span class="math notranslate nohighlight">\(\equiv\)</span> be an equivalence relation on <span class="math notranslate nohighlight">\(A\)</span>. There is an important mathematical construction known as forming the <em>quotient</em> of <span class="math notranslate nohighlight">\(A\)</span> under the equivalence relation. For every element <span class="math notranslate nohighlight">\(a\)</span> in <span class="math notranslate nohighlight">\(A\)</span>, let <span class="math notranslate nohighlight">\([a]\)</span> be the set of elements <span class="math notranslate nohighlight">\(\{ c \mid c \equiv a \}\)</span>, that is, the set of elements of <span class="math notranslate nohighlight">\(A\)</span> that are equivalent to <span class="math notranslate nohighlight">\(a\)</span>. We call <span class="math notranslate nohighlight">\([a]\)</span> the equivalence class of <span class="math notranslate nohighlight">\(A\)</span>. The set <span class="math notranslate nohighlight">\(A / \mathord{\equiv}\)</span>, the <em>quotient of</em> <span class="math notranslate nohighlight">\(A\)</span> <em>by</em> <span class="math notranslate nohighlight">\(\equiv\)</span>, is defined to be the set <span class="math notranslate nohighlight">\(\{ [a] : a \in A \}\)</span>, that is, the set of all the equivalence classes of elements in <span class="math notranslate nohighlight">\(A\)</span>. The exercises below as you to show that if <span class="math notranslate nohighlight">\([a]\)</span> and <span class="math notranslate nohighlight">\([b]\)</span> are elements of such a quotient, then <span class="math notranslate nohighlight">\([a] = [b]\)</span> if and only if <span class="math notranslate nohighlight">\(a \equiv b\)</span>.</p>
+<p>The motivation is as follows. Equivalence tries to capture a weak notion of equality: if two elements of <span class="math notranslate nohighlight">\(A\)</span> are equivalent, they are not necessarily the same, but they are similar in some way. Equivalence classes collect similar objects together, essentially glomming them into new objects.  Thus <span class="math notranslate nohighlight">\(A / \mathord{\equiv}\)</span> is a version of the set <span class="math notranslate nohighlight">\(A\)</span> where similar elements have been compressed into a single element. For example, given the equivalence relation <span class="math notranslate nohighlight">\(\equiv\)</span> of congruence modulo 5 on the integers, <span class="math notranslate nohighlight">\(\mathbb{N} / \mathord{\equiv}\)</span> is the set <span class="math notranslate nohighlight">\(\{ [0], [1], [2], [3], [4] \}\)</span>, where, for example, <span class="math notranslate nohighlight">\([0]\)</span> is the set of all multiples of 5.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">13.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>Suppose <span class="math notranslate nohighlight">\(&lt;\)</span> is a strict partial order on a domain <span class="math notranslate nohighlight">\(A\)</span>, and define <span class="math notranslate nohighlight">\(a \leq b\)</span> to mean that <span class="math notranslate nohighlight">\(a &lt; b\)</span> or <span class="math notranslate nohighlight">\(a = b\)</span>.</p>
+<ul class="simple">
+<li><p>Show that <span class="math notranslate nohighlight">\(\leq\)</span> is a partial order.</p></li>
+<li><p>Show that if <span class="math notranslate nohighlight">\(&lt;\)</span> is moreover a strict total order, then <span class="math notranslate nohighlight">\(\leq\)</span> is a total order.</p></li>
+</ul>
+<p>(Above we proved the analogous theorem going in the other direction.)</p>
+</li>
+<li><p>Suppose <span class="math notranslate nohighlight">\(&lt;\)</span> is a strict partial order on a domain <span class="math notranslate nohighlight">\(A\)</span>. (In other words, it is transitive and asymmetric.) Suppose that <span class="math notranslate nohighlight">\(\leq\)</span> is defined so that <span class="math notranslate nohighlight">\(a \leq b\)</span> if and only if <span class="math notranslate nohighlight">\(a &lt; b\)</span> or <span class="math notranslate nohighlight">\(a = b\)</span>. We saw in class that <span class="math notranslate nohighlight">\(\leq\)</span> is a partial order on a domain <span class="math notranslate nohighlight">\(A\)</span>, i.e.~it is reflexive, transitive, and antisymmetric.</p>
+<p>Prove that for every <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> in <span class="math notranslate nohighlight">\(A\)</span>, we have <span class="math notranslate nohighlight">\(a &lt; b\)</span> iff <span class="math notranslate nohighlight">\(a \leq b\)</span> and <span class="math notranslate nohighlight">\(a \neq b\)</span>, using the facts above.</p>
+</li>
+<li><p>An <em>ordered graph</em> is a collection of vertices (points), along with a collection of arrows between vertices. For each pair of vertices, there is at most one arrow between them: in other words, every pair of vertices is either unconnected, or one vertex is &#8220;directed&#8221; toward the other. Note that it is possible to have an arrow from a vertex to itself.</p>
+<p>Define a relation <span class="math notranslate nohighlight">\(\leq\)</span> on the set of vertices, such that for two vertices <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, <span class="math notranslate nohighlight">\(a \leq b\)</span> means that there is an arrow from <span class="math notranslate nohighlight">\(a\)</span> pointing to <span class="math notranslate nohighlight">\(b\)</span>.</p>
+<p>On an arbitrary graph, is <span class="math notranslate nohighlight">\(\leq\)</span> a partial order, a strict partial order, a total order, a strict total order, or none of the above? If possible, give examples of graphs where <span class="math notranslate nohighlight">\(\leq\)</span> fails to have these properties.</p>
+</li>
+<li><p>Let <span class="math notranslate nohighlight">\(\equiv\)</span> be an equivalence relation on a set <span class="math notranslate nohighlight">\(A\)</span>. For every element <span class="math notranslate nohighlight">\(a\)</span> in <span class="math notranslate nohighlight">\(A\)</span>, let <span class="math notranslate nohighlight">\([a]\)</span> be the equivalence class of <span class="math notranslate nohighlight">\(a\)</span>: that is, the set of elements <span class="math notranslate nohighlight">\(\{ c \mid c \equiv a \}\)</span>. Show that for every <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, <span class="math notranslate nohighlight">\([a] = [b]\)</span> if and only if <span class="math notranslate nohighlight">\(a \equiv b\)</span>.</p>
+<p>(Hints and notes:</p>
+<ul class="simple">
+<li><p>Remember that since you are proving an ``if and only if&#8217;&#8217; statement, there are two directions to prove.</p></li>
+<li><p>Since that <span class="math notranslate nohighlight">\([a]\)</span> and <span class="math notranslate nohighlight">\([b]\)</span> are sets, <span class="math notranslate nohighlight">\([a] = [b]\)</span> means that for every element <span class="math notranslate nohighlight">\(c\)</span>, <span class="math notranslate nohighlight">\(c\)</span> is in <span class="math notranslate nohighlight">\([a]\)</span> if and only if <span class="math notranslate nohighlight">\(c\)</span> is in <span class="math notranslate nohighlight">\([b]\)</span>.</p></li>
+<li><p>By definition, an element <span class="math notranslate nohighlight">\(c\)</span> is in <span class="math notranslate nohighlight">\([a]\)</span> if and only if <span class="math notranslate nohighlight">\(c \equiv a\)</span>. In particular, <span class="math notranslate nohighlight">\(a\)</span> is in <span class="math notranslate nohighlight">\([a]\)</span>.)</p></li>
+</ul>
+</li>
+<li><p>Let the relation <span class="math notranslate nohighlight">\(\sim\)</span> on the natural numbers <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> be defined as follows: if <span class="math notranslate nohighlight">\(n\)</span> is even, then <span class="math notranslate nohighlight">\(n \sim n+1\)</span>, and if <span class="math notranslate nohighlight">\(n\)</span> is odd, then <span class="math notranslate nohighlight">\(n \sim n-1\)</span>. Furthermore, for every <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(n \sim n\)</span>. Show that <span class="math notranslate nohighlight">\(\sim\)</span> is an equivalence relation. What is the equivalence class of the number 5? Describe the set of equivalence classes <span class="math notranslate nohighlight">\(\{ [n] \mid n \in \mathbb{N} \}\)</span>.</p></li>
+<li><p>Show that the relation on lines in the plane, given by &#8220;<span class="math notranslate nohighlight">\(l_1\)</span> and <span class="math notranslate nohighlight">\(l_2\)</span> are parallel,&#8221; is an equivalence relation. What is the equivalence class of the x-axis? Describe the set of equivalence classes <span class="math notranslate nohighlight">\(\{ [l] \mid l\text{ is a line in the plane} \}\)</span>.</p></li>
+<li><p>A binary relation <span class="math notranslate nohighlight">\(\leq\)</span> on a domain <span class="math notranslate nohighlight">\(A\)</span> is said to be a <em>preorder</em> it is is reflexive and transitive. This is weaker than saying it is a partial order; we have removed the requirement that the relation is asymmetric. An example is the ordering on people currently alive on the planet defined by setting <span class="math notranslate nohighlight">\(x \leq y\)</span> if and only if <span class="math notranslate nohighlight">\(x\)</span> &#8216;s birth date is earlier than <span class="math notranslate nohighlight">\(y\)</span> &#8216;s. Asymmetry fails, because different people can be born on the same day. But, prove that the following theorem holds:</p>
+<p><strong>Theorem.</strong> Let <span class="math notranslate nohighlight">\(\leq\)</span> be a preorder on a domain <span class="math notranslate nohighlight">\(A\)</span>. Define the relation <span class="math notranslate nohighlight">\(\equiv\)</span>, where <span class="math notranslate nohighlight">\(x \equiv y\)</span> holds if and only if <span class="math notranslate nohighlight">\(x \leq y\)</span> and <span class="math notranslate nohighlight">\(y \leq x\)</span>. Then <span class="math notranslate nohighlight">\(\equiv\)</span> is an equivalence relation on <span class="math notranslate nohighlight">\(A\)</span>.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">13. Relations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#order-relations">13.1. Order Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more-on-orderings">13.2. More on Orderings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#equivalence-relations-and-equality">13.3. Equivalence Relations and Equality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">13.4. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/relations.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

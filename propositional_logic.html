@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2. Propositional Logic &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Natural Deduction for Propositional Logic" href="natural_deduction_for_propositional_logic.html" />
+    <link rel="prev" title="1. Introduction" href="introduction.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="propositional-logic">
+<span id="id1"></span><h1><span class="section-number">2. </span>Propositional Logic<a class="headerlink" href="#propositional-logic" title="Permalink to this headline">&#182;</a></h1>
+<div class="section" id="a-puzzle">
+<h2><span class="section-number">2.1. </span>A Puzzle<a class="headerlink" href="#a-puzzle" title="Permalink to this headline">&#182;</a></h2>
+<p>The following puzzle, titled &#8220;Malice and Alice,&#8221; is from George J.&#160;Summers&#8217; <em>Logical Deduction Puzzles</em>.</p>
+<hr class="docutils" />
+<p>Alice, Alice&#8217;s husband, their son, their daughter, and Alice&#8217;s brother were involved in a murder. One of the five killed one of the other four. The following facts refer to the five people mentioned:</p>
+<ol class="arabic simple">
+<li><p>A man and a woman were together in a bar at the time of the murder.</p></li>
+<li><p>The victim and the killer were together on a beach at the time of the murder.</p></li>
+<li><p>One of Alice&#8217;s two children was alone at the time of the murder.</p></li>
+<li><p>Alice and her husband were not together at the time of the murder.</p></li>
+<li><p>The victim&#8217;s twin was not the killer.</p></li>
+<li><p>The killer was younger than the victim.</p></li>
+</ol>
+<p>Which one of the five was the victim?</p>
+<hr class="docutils" />
+<p>Take some time to try to work out a solution. (You should assume that the victim&#8217;s twin is one of the five people mentioned.) Summers&#8217; book offers the following hint: &#8220;First find the locations of two pairs of people at the time of the murder, and then determine who the killer and the victim were so that no condition is contradicted.&#8221;</p>
+</div>
+<div class="section" id="a-solution">
+<h2><span class="section-number">2.2. </span>A Solution<a class="headerlink" href="#a-solution" title="Permalink to this headline">&#182;</a></h2>
+<p>If you have worked on the puzzle, you may have noticed a few things. First, it is helpful to draw a diagram, and to be systematic about searching for an answer. The number of characters, locations, and attributes is finite, so that there are only finitely many possible &#8220;states of affairs&#8221; that need to be considered. The numbers are also small enough so that systematic search through all the possibilities, though tedious, will eventually get you to the right answer. This is a special feature of logic puzzles like this; you would not expect to show, for example, that every even number greater than two can be written as a sum of primes by running through all the possibilities.</p>
+<p>Another thing that you may have noticed is that the question seems to presuppose that there is a unique answer to the question, which is to say, over all the states of affairs that meet the list of conditions, there is only one person who can possibly be the killer. <em>A priori</em>, without that assumption, there is a difference between finding <em>some</em> person who could have been the victim and showing that that person <em>had</em> to be the victim. In other words, there is a difference between exhibiting some state of affairs that meets the criteria and demonstrating conclusively that no other solution is possible.</p>
+<p>The published solution in the book not only produces a state of affairs that meets the criterion, but at the same time proves that this is the only one that does so. It is quoted below, in full.</p>
+<hr class="docutils" />
+<p>From (1), (2), and (3), the roles of the five people were as follows: Man and Woman in the bar, Killer and Victim on the beach, and Child alone.</p>
+<p>Then, from (4), either Alice&#8217;s husband was in the bar and Alice was on the beach, or Alice was in the bar and Alice&#8217;s husband was on the beach.</p>
+<p>If Alice&#8217;s husband was in the bar, the woman he was with was his daughter, the child who was alone was his son, and Alice and her brother were on the beach. Then either Alice or her brother was the victim; so the other was the killer. But, from (5), the victim had a twin, and this twin was innocent. Since Alice and her brother could only be twins to each other, this situation is impossible. Therefore Alice&#8217;s husband was not in the bar.</p>
+<p>So Alice was in the bar. If Alice was in the bar, she was with her brother or her son.</p>
+<p>If Alice was with her brother, her husband was on the beach with one of the two children. From (5), the victim could not be her husband, because none of the others could be his twin; so the killer was her husband and the victim was the child he was with. But this situation is impossible, because it contradicts (6). Therefore, Alice was not with her brother in the bar.</p>
+<p>So Alice was with her son in the bar. Then the child who was alone was her daughter. Therefore, Alice&#8217;s husband was with Alice&#8217;s brother on the beach. From previous reasoning, the victim could not be Alice&#8217;s husband. But the victim could be Alice&#8217;s brother because Alice could be his twin.</p>
+<p>So <em>Alice&#8217;s brother was the victim</em> and Alice&#8217;s husband was the killer.</p>
+<hr class="docutils" />
+<p>This argument relies on some &#8220;extralogical&#8221; elements, for example, that a father cannot be younger than his child, and that a parent and his or her child cannot be twins. But the argument also involves a number of common logical terms and associated patterns of inference. In the next section, we will focus on some of the key logical terms occurring in the argument above, words like &#8220;and,&#8221; &#8220;or,&#8221; &#8220;not,&#8221; and &#8220;if &#8230; then.&#8221;</p>
+<p>Our goal is to give an account of the patterns of inference that govern the use of those terms. To that end, using the methods of symbolic logic, we will introduce variables <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, <span class="math notranslate nohighlight">\(C\)</span>, &#8230; to stand for fundamental statements, or <em>propositions</em>, and symbols <span class="math notranslate nohighlight">\(\wedge\)</span>, <span class="math notranslate nohighlight">\(\vee\)</span>, <span class="math notranslate nohighlight">\(\neg\)</span>, and <span class="math notranslate nohighlight">\(\to\)</span> to stand for &#8220;and,&#8221; &#8220;or,&#8221; &#8220;not,&#8221; and &#8220;if &#8230; then &#8230; ,&#8221; respectively. Doing so will let us focus on the way that compound statements are built up from basic ones using the logical terms, while abstracting away from the specific content. We will also adopt a stylized notation for representing inferences as <em>rules</em>: the inscription</p>
+<img src="_static/propositional_logic.1.png"><p>indicates that statement <span class="math notranslate nohighlight">\(C\)</span> is a <em>logical consequence</em> of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>.</p>
+</div>
+<div class="section" id="rules-of-inference">
+<h2><span class="section-number">2.3. </span>Rules of Inference<a class="headerlink" href="#rules-of-inference" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="implication">
+<h3><span class="section-number">2.3.1. </span>Implication<a class="headerlink" href="#implication" title="Permalink to this headline">&#182;</a></h3>
+<p>The first pattern of inference we will discuss, involving the &#8220;if &#8230; then &#8230;&#8221; construct, can be hard to discern. Its use is largely implicit in the solution above. The inference in the fourth paragraph, spelled out in greater detail, runs as follows:</p>
+<hr class="docutils" />
+<p>If Alice was in the bar, Alice was with her brother or her son.</p>
+<p>Alice was in the bar.</p>
+<p>Alice was with her brother or son.</p>
+<hr class="docutils" />
+<p>This rule is sometimes known as <em>modus ponens</em>, or &#8220;implication elimination,&#8221; since it tells us how to use an implication in an argument. As a rule, it is expressed as follows:</p>
+<img src="_static/propositional_logic.2.png"><p>Read this as saying that if you have a proof of <span class="math notranslate nohighlight">\(A \to B\)</span>, possibly from some hypotheses, and a proof of <span class="math notranslate nohighlight">\(A\)</span>, possibly from hypotheses, then combining these yields a proof of <span class="math notranslate nohighlight">\(B\)</span>, from the hypotheses in both subproofs.</p>
+<p>The rule for deriving an &#8220;if &#8230; then&#8221; statement is more subtle. Consider the beginning of the third paragraph, which argues that if Alice&#8217;s husband was in the bar, then Alice or her brother was the victim. Abstracting away some of the details, the argument has the following form:</p>
+<hr class="docutils" />
+<p>Suppose Alice&#8217;s husband was in the bar.</p>
+<p>Then &#8230;</p>
+<p>Then &#8230;</p>
+<p>Then Alice or her brother was the victim.</p>
+<p>Thus, if Alice&#8217;s husband was in the bar, then Alice or her brother was the victim.</p>
+<hr class="docutils" />
+<p>This is a form of <em>hypothetical reasoning</em>. On the supposition that <span class="math notranslate nohighlight">\(A\)</span> holds, we argue that <span class="math notranslate nohighlight">\(B\)</span> holds as well. If we are successful, we have shown that <span class="math notranslate nohighlight">\(A\)</span> implies <span class="math notranslate nohighlight">\(B\)</span>, without supposing <span class="math notranslate nohighlight">\(A\)</span>. In other words, the temporary assumption that <span class="math notranslate nohighlight">\(A\)</span> holds is &#8220;canceled&#8221; by making it explicit in the conclusion.</p>
+<img src="_static/propositional_logic.3.png"><p>The hypothesis is given the label <span class="math notranslate nohighlight">\(1\)</span>; when the introduction rule is applied, the label <span class="math notranslate nohighlight">\(1\)</span> indicates the relevant hypothesis. The line over the hypothesis indicates that the assumption has been &#8220;canceled&#8221; by the introduction rule.</p>
+</div>
+<div class="section" id="conjunction">
+<h3><span class="section-number">2.3.2. </span>Conjunction<a class="headerlink" href="#conjunction" title="Permalink to this headline">&#182;</a></h3>
+<p>As was the case for implication, other logical connectives are generally characterized by their <em>introduction</em> and <em>elimination</em> rules. An introduction rule shows how to establish a claim involving the connective, while an elimination rule shows how to use such a statement that contains the connective to derive others.</p>
+<p>Let us consider, for example, the case of conjunction, that is, the word &#8220;and.&#8221; Informally, we establish a conjunction by establishing each conjunct. For example, informally we might argue:</p>
+<hr class="docutils" />
+<p>Alice&#8217;s brother was the victim.</p>
+<p>Alice&#8217;s husband was the killer.</p>
+<p>Therefore Alice&#8217;s brother was the victim and Alice&#8217;s husband was the killer.</p>
+<hr class="docutils" />
+<p>The inference seems almost too obvious to state explicitly, since the word &#8220;and&#8221; simply combines the two assertions into one. Informal proofs often downplay the distinction. In symbolic logic, the rule reads as follows:</p>
+<img src="_static/propositional_logic.4.png"><p>The two elimination rules allow us to extract the two components:</p>
+<hr class="docutils" />
+<p>Alice&#8217;s husband was in the bar and Alice was on the beach.</p>
+<p>So Alice&#8217;s husband was in the bar.</p>
+<hr class="docutils" />
+<p>Or:</p>
+<hr class="docutils" />
+<p>Alice&#8217;s husband was in the bar and Alice was on the beach.</p>
+<p>So Alice was on the beach.</p>
+<hr class="docutils" />
+<p>In symbols, these patterns are rendered as follows:</p>
+<img src="_static/propositional_logic.5.png"><p>Here the <span class="math notranslate nohighlight">\(l\)</span> and <span class="math notranslate nohighlight">\(r\)</span> stand for &#8220;left&#8221; and &#8220;right&#8221;.</p>
+</div>
+<div class="section" id="negation-and-falsity">
+<h3><span class="section-number">2.3.3. </span>Negation and Falsity<a class="headerlink" href="#negation-and-falsity" title="Permalink to this headline">&#182;</a></h3>
+<p>In logical terms, showing &#8220;not A&#8221; amounts to showing that A leads to a contradiction. For example:</p>
+<hr class="docutils" />
+<p>Suppose Alice&#8217;s husband was in the bar.</p>
+<p>&#8230;</p>
+<p>This situation is impossible.</p>
+<p>Therefore Alice&#8217;s husband was not in the bar.</p>
+<hr class="docutils" />
+<p>This is another form of hypothetical reasoning, similar to that used in establishing an &#8220;if &#8230; then&#8221; statement: we temporarily assume A, show that leads to a contradiction, and conclude that &#8220;not A&#8221; holds. In symbols, the rule reads as follows:</p>
+<img src="_static/propositional_logic.6.png"><p>The elimination rule is dual to these. It expresses that if we have both &#8220;A&#8221; and &#8220;not A,&#8221; then we have a contradiction. This pattern is illustrated in the informal argument below, which is implicit in the fourth paragraph of the solution to &#8220;Malice and Alice.&#8221;</p>
+<hr class="docutils" />
+<p>The killer was Alice&#8217;s husband and the victim was the child he was with.</p>
+<p>So the killer was not younger than his victim.</p>
+<p>But according to (6), the killer was younger than his victim.</p>
+<p>This situation is impossible.</p>
+<hr class="docutils" />
+<p>In symbolic logic, the rule of inference is expressed as follows:</p>
+<img src="_static/propositional_logic.7.png"><p>Notice also that in the symbolic framework, we have introduced a new symbol, <span class="math notranslate nohighlight">\(\bot\)</span>. It corresponds to natural language phrases like &#8220;this is a contradiction&#8221; or &#8220;this is impossible.&#8221;</p>
+<p>What are the rules governing <span class="math notranslate nohighlight">\(\bot\)</span>? In the proof system we will introduce in the next chapter, there is no introduction rule; &#8220;false&#8221; is false, and there should be no way to prove it, other than extract it from contradictory hypotheses. On the other hand, the system provides a rule that allows us to conclude anything from a contradiction:</p>
+<img src="_static/propositional_logic.8.png"><p>The elimination rule also has the fancy Latin name, <em>ex falso sequitur quodlibet</em>, which means &#8220;anything you want follows from falsity.&#8221;</p>
+<p>This elimination rule is harder to motivate from a natural language perspective, but, nonetheless, it is needed to capture common patterns of inference. One way to understand it is this. Consider the following statement:</p>
+<hr class="docutils" />
+<p>For every natural number <span class="math notranslate nohighlight">\(n\)</span>, if <span class="math notranslate nohighlight">\(n\)</span> is prime and greater than 2, then <span class="math notranslate nohighlight">\(n\)</span> is odd.</p>
+<hr class="docutils" />
+<p>We would like to say that this is a true statement. But if it is true, then it is true of any particular number <span class="math notranslate nohighlight">\(n\)</span>. Taking <span class="math notranslate nohighlight">\(n = 2\)</span>, we have the statement:</p>
+<hr class="docutils" />
+<p>If 2 is prime and greater than 2, then 2 is odd.</p>
+<hr class="docutils" />
+<p>In this conditional statement, both the antecedent and succedent are false. The fact that we are committed to saying that this statement is true shows that we should be able to prove, one way or another, that the statement 2 is odd follows from the false statement that 2 is prime and greater than 2. The <em>ex falso</em> neatly encapsulates this sort of
+inference.</p>
+<p>Notice that if we define <span class="math notranslate nohighlight">\(\neg A\)</span> to be <span class="math notranslate nohighlight">\(A \to \bot\)</span>, then the rules for negation introduction and elimination are nothing more than implication introduction and elimination, respectively. We can think of <span class="math notranslate nohighlight">\(\neg A\)</span> expressed colorfully by saying &#8220;if <span class="math notranslate nohighlight">\(A\)</span> is true, then pigs have wings,&#8221; where &#8220;pigs have wings&#8221; stands for <span class="math notranslate nohighlight">\(\bot\)</span>.</p>
+<p>Having introduced a symbol for &#8220;false,&#8221; it is only fair to introduce a symbol for &#8220;true.&#8221; In contrast to &#8220;false,&#8221; &#8220;true&#8221; has no elimination rule, only an introduction rule:</p>
+<img src="_static/propositional_logic.8b.png"><p>Put simply, &#8220;true&#8221; is true.</p>
+</div>
+<div class="section" id="disjunction">
+<h3><span class="section-number">2.3.4. </span>Disjunction<a class="headerlink" href="#disjunction" title="Permalink to this headline">&#182;</a></h3>
+<p>The introduction rules for disjunction, otherwise known as &#8220;or,&#8221; are straightforward. For example, the claim that condition (3) is met in the proposed solution can be justified as follows:</p>
+<hr class="docutils" />
+<p>Alice&#8217;s daughter was alone at the time of the murder.</p>
+<p>Therefore, either Alice&#8217;s daughter was alone at the time of the murder, or Alice&#8217;s son was alone at the time of the murder.</p>
+<hr class="docutils" />
+<p>In symbolic terms, the two introduction rules are as follows:</p>
+<img src="_static/propositional_logic.9.png"><p>Here, again, the <span class="math notranslate nohighlight">\(l\)</span> and <span class="math notranslate nohighlight">\(r\)</span> stand for &#8220;left&#8221; and &#8220;right&#8221;.</p>
+<p>The disjunction elimination rule is trickier, but it represents a natural form of case-based hypothetical reasoning. The instances that occur in the solution to &#8220;Malice and Alice&#8221; are all special cases of this rule, so it will be helpful to make up a new example to illustrate the general phenomenon. Suppose, in the argument above, we had established that either Alice&#8217;s brother or her son was in the bar, and we wanted to argue for the conclusion that her husband was on the beach. One option is to argue by cases: first, consider the case that her brother was in the bar, and argue for the conclusion on the basis of that assumption; then consider the case that her son was in the bar, and argue for the same conclusion, this time on the basis of the second assumption. Since the two cases are exhaustive, if we know that the conclusion holds in each case, we know that it holds outright. The pattern looks something like this:</p>
+<hr class="docutils" />
+<p>Either Alice&#8217;s brother was in the bar, or Alice&#8217;s son was in the bar.</p>
+<p>Suppose, in the first case, that her brother was in the bar. Then &#8230; Therefore, her husband was on the beach.</p>
+<p>On the other hand, suppose her son was in the bar. In that case, &#8230; Therefore, in this case also, her husband was on the beach.</p>
+<p>Either way, we have established that her husband was on the beach.</p>
+<hr class="docutils" />
+<p>In symbols, this pattern is expressed as follows:</p>
+<img src="_static/propositional_logic.10.png"><p>What makes this pattern confusing is that it requires two instances of nested hypothetical reasoning: in the first block of parentheses, we temporarily assume <span class="math notranslate nohighlight">\(A\)</span>, and in the second block, we temporarily assume <span class="math notranslate nohighlight">\(B\)</span>. When the dust settles, we have established <span class="math notranslate nohighlight">\(C\)</span> outright.</p>
+<p>There is another pattern of reasoning that is commonly used with &#8220;or,&#8221;
+as in the following example:</p>
+<hr class="docutils" />
+<p>Either Alice&#8217;s husband was in the bar, or Alice was in the bar.</p>
+<p>Alice&#8217;s husband was not in the bar.</p>
+<p>So Alice was in the bar.</p>
+<hr class="docutils" />
+<p>In symbols, we would render this rule as follows:</p>
+<img src="_static/propositional_logic.11.png"><p>We will see in the next chapter that it is possible to <em>derive</em> this rule from the others. As a result, we will <em>not</em> take this to be a fundamental rule of inference in our system.</p>
+</div>
+<div class="section" id="if-and-only-if">
+<h3><span class="section-number">2.3.5. </span>If and only if<a class="headerlink" href="#if-and-only-if" title="Permalink to this headline">&#182;</a></h3>
+<p>In mathematical arguments, it is common to say of two statements, <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, that &#8220;<span class="math notranslate nohighlight">\(A\)</span> holds if and only if <span class="math notranslate nohighlight">\(B\)</span> holds.&#8221; This assertion is sometimes abbreviated &#8220;<span class="math notranslate nohighlight">\(A\)</span> iff <span class="math notranslate nohighlight">\(B\)</span>,&#8221; and means simply that <span class="math notranslate nohighlight">\(A\)</span> implies <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(B\)</span> implies <span class="math notranslate nohighlight">\(A\)</span>. It is not essential that we introduce a new symbol into our logical language to model this connective, since the statement can be expressed, as we just did, in terms of &#8220;implies&#8221; and &#8220;and.&#8221; But notice that the length of the expression doubles because <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are each repeated. The logical abbreviation is therefore convenient, as well as natural.</p>
+<p>The conditions of &#8220;Malice and Alice&#8221; imply that Alice is in the bar if and only if Alice&#8217;s husband is on the beach. Such a statement is established by arguing for each implication in turn:</p>
+<hr class="docutils" />
+<p>I claim that Alice is in the bar if and only if Alice&#8217;s husband is on the beach.</p>
+<p>To see this, first suppose that Alice is in the bar.</p>
+<p>Then &#8230;</p>
+<p>Hence Alice&#8217;s husband is on the beach.</p>
+<p>Conversely, suppose Alice&#8217;s husband is on the beach.</p>
+<p>Then &#8230;</p>
+<p>Hence Alice is in the bar.</p>
+<hr class="docutils" />
+<p>Notice that with this example, we have varied the form of presentation, stating the conclusion first, rather than at the end of the argument. This kind of &#8220;signposting&#8221; is common in informal arguments, in that is helps guide the reader&#8217;s expectations and foreshadow where the argument is going. The fact that formal systems of deduction do not generally model such nuances marks a difference between formal and informal arguments, a topic we will return to below.</p>
+<p>The introduction is modeled in natural deduction as follows:</p>
+<img src="_static/propositional_logic.12.png"><p>The elimination rules for iff are unexciting. In informal language, here is the &#8220;left&#8221; rule:</p>
+<hr class="docutils" />
+<p>Alice is in the bar if and only if Alice&#8217;s husband is on the beach.</p>
+<p>Alice is in the bar.</p>
+<p>Hence, Alice&#8217;s husband is on the beach.</p>
+<hr class="docutils" />
+<p>The &#8220;right&#8221; rule simply runs in the opposite direction.</p>
+<hr class="docutils" />
+<p>Alice is in the bar if and only if Alice&#8217;s husband is on the beach.</p>
+<p>Alice&#8217;s husband is on the beach.</p>
+<p>Hence, Alice is in the bar.</p>
+<hr class="docutils" />
+<p>Rendered in natural deduction, the rules are as follows:</p>
+<img src="_static/propositional_logic.13.png"></div>
+<div class="section" id="proof-by-contradiction">
+<h3><span class="section-number">2.3.6. </span>Proof by Contradiction<a class="headerlink" href="#proof-by-contradiction" title="Permalink to this headline">&#182;</a></h3>
+<p>We saw an example of an informal argument that implicitly uses the introduction rule for negation:</p>
+<hr class="docutils" />
+<p>Suppose Alice&#8217;s husband was in the bar.</p>
+<p>&#8230;</p>
+<p>This situation is impossible.</p>
+<p>Therefore Alice&#8217;s husband was not in the bar.</p>
+<hr class="docutils" />
+<p>Consider the following argument:</p>
+<hr class="docutils" />
+<p>Suppose Alice&#8217;s husband was not on the beach.</p>
+<p>&#8230;</p>
+<p>This situation is impossible.</p>
+<p>Therefore Alice&#8217;s husband was on the beach.</p>
+<hr class="docutils" />
+<p>At first glance, you might think this argument follows the same pattern as the one before. But a closer look should reveal a difference: in the first argument, a negation is <em>introduced</em> into the conclusion, whereas in the second, it is <em>eliminated</em> from the hypothesis. Using negation introduction to close the second argument would yield the conclusion &#8220;It is not the case that Alice&#8217;s husband was not on the beach.&#8221; The rule of inference that replaces the conclusion with the positive statement that Alice&#8217;s husband <em>was</em> on the beach is called a <em>proof by contradiction</em>. (It also has a fancy name, <em>reductio ad absurdum</em>, &#8220;reduction to an absurdity.&#8221;)</p>
+<p>It may be hard to see the difference between the two rules, because we commonly take the statement &#8220;Alice&#8217;s husband was not not on the beach&#8221; to be a roundabout and borderline ungrammatical way of saying that Alice&#8217;s husband was on the beach. Indeed, the rule is equivalent to adding an axiom that says that for every statement A, &#8220;not not A&#8221; is equivalent to A.</p>
+<p>There is a style of doing mathematics known as &#8220;constructive mathematics&#8221; that denies the equivalence of &#8220;not not A&#8221; and A. Constructive arguments tend to have much better computational interpretations; a proof that something is true should provide explicit evidence that the statement is true, rather than evidence that it can&#8217;t possibly be false. We will discuss constructive reasoning in a later chapter. Nonetheless, proof by contradiction is used extensively in contemporary mathematics, and so, in the meanwhile, we will use proof by contradiction freely as one of our basic rules.</p>
+<p>In natural deduction, proof by contradiction is expressed by the following pattern:</p>
+<img src="_static/propositional_logic.14.png"><p>The assumption <span class="math notranslate nohighlight">\(\neg A\)</span> is canceled at the final inference.</p>
+</div>
+</div>
+<div class="section" id="the-language-of-propositional-logic">
+<h2><span class="section-number">2.4. </span>The Language of Propositional Logic<a class="headerlink" href="#the-language-of-propositional-logic" title="Permalink to this headline">&#182;</a></h2>
+<p>The language of propositional logic starts with symbols <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, <span class="math notranslate nohighlight">\(C\)</span>, &#8230; which are intended to range over basic assertions, or propositions, which can be true or false. Compound expressions are built up using parentheses and the logical symbols introduced in the last section. For example,</p>
+<div class="math notranslate nohighlight">
+\[((A \wedge (\neg B)) \to \neg (C \vee D))\]</div>
+<p>is an example of a propositional formula.</p>
+<p>When writing expressions in symbolic logic, we will adopt an order of operations which allows us to drop superfluous parentheses. When parsing an expression:</p>
+<ul class="simple">
+<li><p>Negation binds most tightly.</p></li>
+<li><p>Then, conjunctions and disjunctions bind from right to left.</p></li>
+<li><p>Finally, implications and bi-implications bind from right to left.</p></li>
+</ul>
+<p>So, for example, the expression <span class="math notranslate nohighlight">\(\neg A \vee B \to C \wedge D\)</span> is understood as <span class="math notranslate nohighlight">\(((\neg A) \vee B) \to (C \wedge D)\)</span>.</p>
+<p>For example, suppose we assign the following variables:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A\)</span>: Alice&#8217;s husband was in the bar</p></li>
+<li><p><span class="math notranslate nohighlight">\(B\)</span>: Alice was on the beach</p></li>
+<li><p><span class="math notranslate nohighlight">\(C\)</span>: Alice was in the bar</p></li>
+<li><p><span class="math notranslate nohighlight">\(D\)</span>: Alice&#8217;s husband was on the beach</p></li>
+</ul>
+<p>Then the statement &#8220;either Alice&#8217;s husband was in the bar and Alice was on the beach, or Alice was in the bar and Alice&#8217;s husband was on the beach&#8221; would be rendered as</p>
+<div class="math notranslate nohighlight">
+\[(A \wedge B) \vee (C \wedge D).\]</div>
+<p>Sometimes the appropriate translation is not so straightforward, however. Because natural language is more flexible and nuanced, a degree of abstraction and regimentation is needed to carry out the translation. Sometimes different translations are arguably reasonable. In happy situations, alternative translations will be logically equivalent, in the sense that one can derive each from the other using purely logical rules. In less happy situations, the translations will not be equivalent, in which case the original statement is simply ambiguous, from a logical point of view. In cases like that, choosing a symbolic representation helps clarify the intended meaning.</p>
+<p>Consider, for example, a statement like &#8220;Alice was with her son on the beach, but her husband was alone.&#8221; We might choose variables as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A\)</span>: Alice was on the beach</p></li>
+<li><p><span class="math notranslate nohighlight">\(B\)</span>: Alice&#8217;s son was on the beach</p></li>
+<li><p><span class="math notranslate nohighlight">\(C\)</span>: Alice&#8217;s husband was alone</p></li>
+</ul>
+<p>In that case, we might represent the statement in symbols as <span class="math notranslate nohighlight">\(A \wedge B \wedge C\)</span>. Using the word &#8220;with&#8221; may seem to connote more than the fact that Alice and her son were both on the beach; for example, it seems to connote that they aware of each others&#8217; presence, interacting, etc. Similarly, although we have translated the word &#8220;but&#8221; and &#8220;and,&#8221; the word &#8220;but&#8221; also convey information; in this case, it seems to emphasize a contrast, while in other situations, it can be used to assert a fact that is contrary to expectations. In both cases, then, the logical rendering models certain features of the original sentence while abstracting others.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">2.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>Here is another (gruesome) logic puzzle by George J.&#160;Summers, called &#8220;Murder in the Family.&#8221;</p>
+<blockquote>
+<div><p>Murder occurred one evening in the home of a father and mother and their son and daughter. One member of the family murdered another member, the third member witnessed the crime, and the fourth member was an accessory after the fact.</p>
+<ol class="arabic simple">
+<li><p>The accessory and the witness were of opposite sex.</p></li>
+<li><p>The oldest member and the witness were of opposite sex.</p></li>
+<li><p>The youngest member and the victim were of opposite sex.</p></li>
+<li><p>The accessory was older than the victim.</p></li>
+<li><p>The father was the oldest member.</p></li>
+<li><p>The murderer was not the youngest member.</p></li>
+</ol>
+<p>Which of the four&#8212;father, mother, son, or daughter&#8212;was the murderer?</p>
+</div></blockquote>
+<p>Solve this puzzle, and <em>write a clear argument</em> to establish that your answer is correct.</p>
+</li>
+<li><p>Using the mnemonic <span class="math notranslate nohighlight">\(F\)</span> (Father), <span class="math notranslate nohighlight">\(M\)</span> (Mother), <span class="math notranslate nohighlight">\(D\)</span> (Daughter), <span class="math notranslate nohighlight">\(S\)</span> (Son), <span class="math notranslate nohighlight">\(\mathord{Mu}\)</span> (Murderer), <span class="math notranslate nohighlight">\(V\)</span> (Victim), <span class="math notranslate nohighlight">\(W\)</span> (Witness), <span class="math notranslate nohighlight">\(A\)</span> (Accessory), <span class="math notranslate nohighlight">\(O\)</span> (Oldest), <span class="math notranslate nohighlight">\(Y\)</span> (Youngest), we can define propositional variables like <span class="math notranslate nohighlight">\(FM\)</span> (Father is the Murderer), <span class="math notranslate nohighlight">\(DV\)</span> (Daughter is the Victim), <span class="math notranslate nohighlight">\(FO\)</span> (Father is Oldest), <span class="math notranslate nohighlight">\(VY\)</span> (Victim is Youngest), etc. Notice that only the son or daughter can be the youngest, and only the mother or father can be the oldest.</p>
+<p>With these conventions, the first clue can be represented as</p>
+<div class="math notranslate nohighlight">
+\[((FA \vee SA) \to (MW \vee DW)) \wedge ((MA \vee DA) \to (FW \vee SW)),\]</div>
+<p>in other words, if the father or son was the accessory, then the mother or daughter was the witness, and vice-versa. Represent the other five clues in a similar manner.</p>
+<p>Representing the fourth clue is tricky. Try to write down a formula that describes all the possibilities that are not ruled out by the information.</p>
+</li>
+<li><p>Consider the following three hypotheses:</p>
+<ul class="simple">
+<li><p>Alan likes kangaroos, and either Betty likes frogs or Carl likes hamsters.</p></li>
+<li><p>If Betty likes frogs, then Alan doesn&#8217;t like kangaroos.</p></li>
+<li><p>If Carl likes hamsters, then Betty likes frogs.</p></li>
+</ul>
+<p>Write a clear argument to show that these three hypotheses are contradictory.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Propositional Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#a-puzzle">2.1. A Puzzle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-solution">2.2. A Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rules-of-inference">2.3. Rules of Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-language-of-propositional-logic">2.4. The Language of Propositional Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">2.5. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/propositional_logic.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

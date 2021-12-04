@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>8. Natural Deduction for First Order Logic &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="9. First Order Logic in Lean" href="first_order_logic_in_lean.html" />
+    <link rel="prev" title="7. First Order Logic" href="first_order_logic.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="natural-deduction-for-first-order-logic">
+<h1><span class="section-number">8. </span>Natural Deduction for First Order Logic<a class="headerlink" href="#natural-deduction-for-first-order-logic" title="Permalink to this headline">&#182;</a></h1>
+<div class="section" id="rules-of-inference">
+<h2><span class="section-number">8.1. </span>Rules of Inference<a class="headerlink" href="#rules-of-inference" title="Permalink to this headline">&#182;</a></h2>
+<p>In the last chapter, we discussed the language of first-order logic, and the rules that govern their use. We summarize them here:</p>
+<p><em>The universal quantifier:</em></p>
+<img src="_static/natural_deduction_for_first_order_logic.1.png"><p>In the introduction rule, <span class="math notranslate nohighlight">\(x\)</span> should not be free in any uncanceled hypothesis. In the elimination rule, <span class="math notranslate nohighlight">\(t\)</span> can be any term that does not clash with any of the bound variables in <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p><em>The existential quantifier:</em></p>
+<img src="_static/natural_deduction_for_first_order_logic.2.png"><p>In the introduction rule, <span class="math notranslate nohighlight">\(t\)</span> can be any term that does not clash with any of the bound variables in <span class="math notranslate nohighlight">\(A\)</span>. In the elimination rule, <span class="math notranslate nohighlight">\(y\)</span> should not be free in <span class="math notranslate nohighlight">\(B\)</span> or any uncanceled hypothesis.</p>
+<p><em>Equality:</em></p>
+<img src="_static/natural_deduction_for_first_order_logic.3.png"><p>Strictly speaking, only <span class="math notranslate nohighlight">\(\mathrm{refl}\)</span> and the second substitution rule are necessary. The others can be derived from them.</p>
+</div>
+<div class="section" id="the-universal-quantifier">
+<h2><span class="section-number">8.2. </span>The Universal Quantifier<a class="headerlink" href="#the-universal-quantifier" title="Permalink to this headline">&#182;</a></h2>
+<p>The following example of a proof in natural deduction shows that if, for every <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(A(x)\)</span> holds, and for every <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(B(x)\)</span> holds, then for every <span class="math notranslate nohighlight">\(x\)</span>, they both hold:</p>
+<img src="_static/natural_deduction_for_first_order_logic.4.png"><p>Notice that neither of the assumptions 1 or 2 mention <span class="math notranslate nohighlight">\(y\)</span>, so that <span class="math notranslate nohighlight">\(y\)</span> is really &#8220;arbitrary&#8221; at the point where the universal quantifiers are introduced.</p>
+<p>Here is another example:</p>
+<img src="_static/natural_deduction_for_first_order_logic.5.png"><p>As an exercise, try proving the following:</p>
+<div class="math notranslate nohighlight">
+\[\forall x \; (A(x) \to B(x)) \to (\forall x \; A(x) \to \forall x \; B(x)).\]</div>
+<p>Here is a more challenging exercise. Suppose I tell you that, in a town, there is a (male) barber that shaves all and only the men who do not shave themselves. You can show that this is a contradiction, arguing informally, as follows:</p>
+<blockquote>
+<div><p>By the assumption, the barber shaves himself if and only if he does not shave himself. Call this statement (*).</p>
+<p>Suppose the barber shaves himself. By (*), this implies that he does not shave himself, a contradiction. So, the barber does not shave himself.</p>
+<p>But using (*) again, this implies that the barber shaves himself, which contradicts the fact we just showed, namely, that the barber does not shave himself.</p>
+</div></blockquote>
+<p>Try to turn this into a formal argument in natural deduction.</p>
+<p>Let us return to the example of the natural numbers, to see how deductive notions play out there. Suppose we have defined <span class="math notranslate nohighlight">\(\mathit{even}\)</span> and <span class="math notranslate nohighlight">\(\mathit{odd}\)</span> in such a way that we can prove:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall n \; (\neg \mathit{even}(n) \to \mathit{odd}(n))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall n \; (\mathit{odd}(n) \to \neg \mathit{even}(n))\)</span></p></li>
+</ul>
+<p>Then we can go on to derive <span class="math notranslate nohighlight">\(\forall n \; (\mathit{even}(n) \vee \mathit{odd}(n))\)</span> as follows:</p>
+<img src="_static/natural_deduction_for_first_order_logic.6.png"><p>We can also prove and <span class="math notranslate nohighlight">\(\forall n \; \neg (\mathit{even}(n) \wedge \mathit{odd}(n))\)</span>:</p>
+<img src="_static/natural_deduction_for_first_order_logic.7.png"><p>As we move from modeling basic rules of inference to modeling actual mathematical proofs, we will tend to shift focus from natural deduction to formal proofs in Lean. Natural deduction has its uses: as a model of logical reasoning, it provides us with a convenient means to study metatheoretic properties such as soundness and completeness. For working <em>within</em> the system, however, proof languages like Lean&#8217;s tend to scale better, and produce more readable proofs.</p>
+</div>
+<div class="section" id="the-existential-quantifier">
+<h2><span class="section-number">8.3. </span>The Existential Quantifier<a class="headerlink" href="#the-existential-quantifier" title="Permalink to this headline">&#182;</a></h2>
+<p>Remember that the intuition behind the elimination rule for the existential quantifier is that if we know <span class="math notranslate nohighlight">\(\exists x \; A(x)\)</span>, we can temporarily reason about an arbitrary element <span class="math notranslate nohighlight">\(y\)</span> satisfying <span class="math notranslate nohighlight">\(A(y)\)</span> in order to prove a conclusion that doesn&#8217;t depend on <span class="math notranslate nohighlight">\(y\)</span>. Here is an example of how it can be used. The next proof says that if we know there is something satisfying both <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, then we know, in particular, that there is something satisfying <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<img src="_static/natural_deduction_for_first_order_logic.8.png"><p>The following proof shows that if there is something satisfying either <span class="math notranslate nohighlight">\(A\)</span> or <span class="math notranslate nohighlight">\(B\)</span>, then either there is something satisfying <span class="math notranslate nohighlight">\(A\)</span>, or there is something satisfying <span class="math notranslate nohighlight">\(B\)</span>.</p>
+<img src="_static/natural_deduction_for_first_order_logic.9.png"><p>The following example is more involved:</p>
+<img src="_static/natural_deduction_for_first_order_logic.10.png"><p>In this proof, the existential elimination rule (the line labeled <span class="math notranslate nohighlight">\(3\)</span>) is used to cancel two hypotheses at the same time. Note that when this rule is applied, the hypothesis <span class="math notranslate nohighlight">\(\forall x \; (A(x) \to \neg B(x))\)</span> has not yet been canceled. So we have to make sure that this formula doesn&#8217;t contain the variable <span class="math notranslate nohighlight">\(x\)</span> freely. But this is o.k., since this hypothesis contains <span class="math notranslate nohighlight">\(x\)</span> only as a bound variable.</p>
+<p>Another example is that if <span class="math notranslate nohighlight">\(x\)</span> does not occur in <span class="math notranslate nohighlight">\(P\)</span>, then <span class="math notranslate nohighlight">\(\exists x \; P\)</span> is equivalent to <span class="math notranslate nohighlight">\(P\)</span>:</p>
+<img src="_static/natural_deduction_for_first_order_logic.11.png"><p>This is short but tricky, so let us go through it carefully. On the left, we assume <span class="math notranslate nohighlight">\(\exists x \; P\)</span> to conclude <span class="math notranslate nohighlight">\(P\)</span>. We assume <span class="math notranslate nohighlight">\(P\)</span>, and now we can immediately cancel this assumption by existential elimination, since <span class="math notranslate nohighlight">\(x\)</span> does not occur in <span class="math notranslate nohighlight">\(P\)</span>, so it doesn&#8217;t occur freely in any assumption or in the conclusion. On the right we use existential introduction to conclude <span class="math notranslate nohighlight">\(\exists x \; P\)</span> from <span class="math notranslate nohighlight">\(P\)</span>.</p>
+</div>
+<div class="section" id="equality">
+<span id="id1"></span><h2><span class="section-number">8.4. </span>Equality<a class="headerlink" href="#equality" title="Permalink to this headline">&#182;</a></h2>
+<p>Recall the natural deduction rules for equality:</p>
+<img src="_static/natural_deduction_for_first_order_logic.12.png"><p>Keep in mind that we have implicitly fixed some first-order language, and <span class="math notranslate nohighlight">\(r\)</span>, <span class="math notranslate nohighlight">\(s\)</span>, and <span class="math notranslate nohighlight">\(t\)</span> are any terms in that language. Recall also that we have adopted the practice of using functional notation with terms. For example, if we think of <span class="math notranslate nohighlight">\(r(x)\)</span> as the term <span class="math notranslate nohighlight">\((x + y) \times (z + 0)\)</span> in the language of arithmetic, then <span class="math notranslate nohighlight">\(r(0)\)</span> is the term <span class="math notranslate nohighlight">\((0 + y) \times (z + 0)\)</span> and <span class="math notranslate nohighlight">\(r(u + v)\)</span> is <span class="math notranslate nohighlight">\(((u + v) + y) \times (z + 0)\)</span>. So one example of the first inference on the second line is this:</p>
+<img src="_static/natural_deduction_for_first_order_logic.13.png"><p>The second axiom on that line is similar, except now <span class="math notranslate nohighlight">\(P(x)\)</span> stands for any <em>formula</em>, as in the following inference:</p>
+<img src="_static/natural_deduction_for_first_order_logic.13a.png"><p>Notice that we have written the reflexivity axiom, <span class="math notranslate nohighlight">\(t = t\)</span>, as a rule with no premises. If you use it in a proof, it does not count as a hypothesis; it is built into the logic.</p>
+<p>In fact, we can think of the first inference on the second line as a special case of the second one. Consider, for example, the formula <span class="math notranslate nohighlight">\(((u + v) + y) \times (z + 0) = (x + y) \times (z + 0)\)</span>. If we plug <span class="math notranslate nohighlight">\(u + v\)</span> in for <span class="math notranslate nohighlight">\(x\)</span>, we get an instance of reflexivity. If we plug in <span class="math notranslate nohighlight">\(0\)</span>, we get the conclusion of the first example above. The following is therefore a derivation of the first inference, using only reflexivity and the second substitution rule above:</p>
+<img src="_static/natural_deduction_for_first_order_logic.14.png"><p>Roughly speaking, we are replacing the second instance of <span class="math notranslate nohighlight">\(u + v\)</span> in an instance of reflexivity with <span class="math notranslate nohighlight">\(0\)</span> to get the conclusion we
+want.</p>
+<p>Equality rules let us carry out calculations in symbolic logic. This typically amounts to using the equality rules we have already discussed, together with a list of general identities. For example, the following identities hold for any real numbers <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span>:</p>
+<ul class="simple">
+<li><p>commutativity of addition: <span class="math notranslate nohighlight">\(x + y = y + x\)</span></p></li>
+<li><p>associativity of addition: <span class="math notranslate nohighlight">\((x + y) + z = x + (y + z)\)</span></p></li>
+<li><p>additive identity: <span class="math notranslate nohighlight">\(x + 0 = 0 + x = x\)</span></p></li>
+<li><p>additive inverse: <span class="math notranslate nohighlight">\(-x + x = x + -x = 0\)</span></p></li>
+<li><p>multiplicative identity: <span class="math notranslate nohighlight">\(x \cdot 1 = 1 \cdot x = x\)</span></p></li>
+<li><p>commutativity of multiplication: <span class="math notranslate nohighlight">\(x \cdot y = y \cdot x\)</span></p></li>
+<li><p>associativity of multiplication: <span class="math notranslate nohighlight">\((x \cdot y) \cdot z = x \cdot (y \cdot z)\)</span></p></li>
+<li><p>distributivity: <span class="math notranslate nohighlight">\(x \cdot (y + z) = x \cdot y + x \cdot z, \quad (x + y) \cdot z = x \cdot z + y \cdot z\)</span></p></li>
+</ul>
+<p>You should imagine that there are implicit universal quantifiers in front of each statement, asserting that the statement holds for <em>any</em> values of <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span>. Note that <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span> can, in particular, be integers or rational numbers as well. Calculations involving real numbers, rational numbers, or integers generally involve identities like this.</p>
+<p>The strategy is to use the elimination rule for the universal quantifier to instantiate general identities, use symmetry, if necessary, to orient an equation in the right direction, and then using the substitution rule for equality to change something in a previous result. For example, here is a natural deduction proof of a simple identity, <span class="math notranslate nohighlight">\(\forall x, y, z \; ((x + y) + z = (x + z) + y)\)</span>, using only commutativity and associativity of addition. We have taken the liberty of using a brief name to denote the relevant identities, and combining multiple instances of the universal quantifier introduction and elimination rules into a single step.</p>
+<img src="_static/natural_deduction_for_first_order_logic.15.png"><p>There is generally nothing interesting to be learned from carrying out such calculations in natural deduction, but you should try one or two examples to get the hang of it, and then take pleasure in knowing that it is possible.</p>
+</div>
+<div class="section" id="counterexamples-and-relativized-quantifiers">
+<h2><span class="section-number">8.5. </span>Counterexamples and Relativized Quantifiers<a class="headerlink" href="#counterexamples-and-relativized-quantifiers" title="Permalink to this headline">&#182;</a></h2>
+<p>Consider the statement:</p>
+<blockquote>
+<div><p>Every prime number is odd.</p>
+</div></blockquote>
+<p>In first-order logic, we could formulate this as <span class="math notranslate nohighlight">\(\forall p \; (\mathit{prime}(p) \to \mathit{odd}(p))\)</span>. This statement is false, because there is a prime number that is even, namely the number 2. This is called a <em>counterexample</em> to the statement.</p>
+<p>More generally, given a formula <span class="math notranslate nohighlight">\(\forall x \; A(x)\)</span>, a counterexample is a value <span class="math notranslate nohighlight">\(t\)</span> such that <span class="math notranslate nohighlight">\(\neg A(t)\)</span> holds. Such a counterexample shows that the original formula is false, because we have the following equivalence: <span class="math notranslate nohighlight">\(\neg \forall x \; A(x) \leftrightarrow \exists x \; \neg A(x)\)</span>. So if we find a value <span class="math notranslate nohighlight">\(t\)</span> such that <span class="math notranslate nohighlight">\(\neg A(t)\)</span> holds, then by the existential introduction rule we can conclude that <span class="math notranslate nohighlight">\(\exists x \; \neg A(x)\)</span>, and then by the above equivalence we have <span class="math notranslate nohighlight">\(\neg \forall x \; A(x)\)</span>. Here is a proof of the equivalence:</p>
+<img src="_static/natural_deduction_for_first_order_logic.16.png"><p>One remark about the proof: at the step marked by <span class="math notranslate nohighlight">\(4\)</span> we <em>cannot</em> use the existential introduction rule, because at that point our only assumption is <span class="math notranslate nohighlight">\(\neg \forall x \; A(x)\)</span>, and from that assumption we cannot prove <span class="math notranslate nohighlight">\(\neg A(t)\)</span> for a particular term <span class="math notranslate nohighlight">\(t\)</span>. So we use a proof by contradiction there.</p>
+<p>As an exercise, prove the &#8220;dual&#8221; equivalence yourself: <span class="math notranslate nohighlight">\(\neg \exists x \; A(x) \leftrightarrow \forall x \; \neg A(x)\)</span>. This can be done without using proof by contradiction.</p>
+<p>In <a class="reference internal" href="first_order_logic.html#first-order-logic"><span class="std std-numref">Chapter 7</span></a> we saw examples of how to use relativization to restrict the scope of a universal quantifier. Suppose we want to say &#8220;every prime number is greater than 1&#8221;. In first order logic this can be written as <span class="math notranslate nohighlight">\(\forall n (\mathit{prime}(n) \to n &gt; 1)\)</span>. The reason is that the original statement is equivalent to the statement &#8220;for every natural number, if it is prime, then it is greater than 1&#8221;. Similarly, suppose we want to say &#8220;there exists a prime number greater than 100.&#8221; This is equivalent to saying &#8220;there exists a natural number which is prime and greater than 100,&#8221; which can be expressed as <span class="math notranslate nohighlight">\(\exists n \; (\mathit{prime}(n) \wedge n &gt; 100)\)</span>.</p>
+<p>As an exercise you can prove the above results about negations of quantifiers also for relativized quantifiers. Specifically, prove the following statements:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\neg \exists x \; (A(x) \wedge B(x)) \leftrightarrow \forall x \; ( A(x) \to \neg B(x))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg \forall x \; (A(x) \to B(x)) \leftrightarrow \exists x (A(x) \wedge \neg B(x))\)</span></p></li>
+</ul>
+<p>For reference, here is a list of valid sentences involving quantifiers:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall x \; A \leftrightarrow A\)</span> if <span class="math notranslate nohighlight">\(x\)</span> is not free in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; A \leftrightarrow A\)</span> if <span class="math notranslate nohighlight">\(x\)</span> is not free in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (A(x) \land B(x)) \leftrightarrow \forall x \; A(x) \land \forall x \; B(x)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; (A(x) \land B) \leftrightarrow \exists \; x A(x) \land B\)</span> if <span class="math notranslate nohighlight">\(x\)</span> is not free in <span class="math notranslate nohighlight">\(B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; (A(x) \lor B(x)) \leftrightarrow \exists \; x A(x) \lor \exists \; x B(x)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (A(x) \lor B) \leftrightarrow \forall x \; A(x) \lor B\)</span> if <span class="math notranslate nohighlight">\(x\)</span> is not free in <span class="math notranslate nohighlight">\(B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (A(x) \to B) \leftrightarrow (\exists x \; A(x) \to B)\)</span> if <span class="math notranslate nohighlight">\(x\)</span> is not free in <span class="math notranslate nohighlight">\(B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; (A(x) \to B) \leftrightarrow (\forall x \; A(x) \to B)\)</span> if <span class="math notranslate nohighlight">\(x\)</span> is not free in <span class="math notranslate nohighlight">\(B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (A \to B(x)) \leftrightarrow (A \to \forall x \; B(x))\)</span> if <span class="math notranslate nohighlight">\(x\)</span> is not free in <span class="math notranslate nohighlight">\(A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; (A(x) \to B) \leftrightarrow (A(x) \to \exists \; x B)\)</span> if <span class="math notranslate nohighlight">\(x\)</span> is not free in <span class="math notranslate nohighlight">\(B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; A(x) \leftrightarrow \neg \forall x \; \neg A(x)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; A(x) \leftrightarrow \neg \exists x \; \neg A(x)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg \exists x \; A(x) \leftrightarrow \forall x \; \neg A(x)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg \forall x \; A(x) \leftrightarrow \exists x \; \neg A(x)\)</span></p></li>
+</ul>
+<p>All of these can be derived in natural deduction. The last two allow us to push negations inwards, so we can continue to put first-order formulas in negation normal form. Other rules allow us to bring quantifiers to the front of any formula, though, in general, there will be multiple ways of doing this. For example, the formula</p>
+<div class="math notranslate nohighlight">
+\[\forall x \; A(x) \to \exists y \; \forall z \; B(y, z)\]</div>
+<p>is equivalent to both</p>
+<div class="math notranslate nohighlight">
+\[\exists x, y \; \forall z \; (A(x) \to B(y, z))\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\exists y \; \forall z \; \exists x \; (A(x) \to B(y, z)).\]</div>
+<p>A formula with all the quantifiers in front is said to be in <em>prenex</em> form.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">8.6. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>Give a natural deduction proof of</p>
+<div class="math notranslate nohighlight">
+\[\forall x \; (A(x) \to B(x)) \to (\forall x \; A(x) \to \forall x \; B(x)).\]</div>
+</li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\forall x \; B(x)\)</span> from hypotheses <span class="math notranslate nohighlight">\(\forall x \; (A(x) \vee B(x))\)</span> and <span class="math notranslate nohighlight">\(\forall y \; \neg A(y)\)</span>.</p></li>
+<li><p>From hypotheses <span class="math notranslate nohighlight">\(\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))\)</span> and <span class="math notranslate nohighlight">\(\forall x \; (\mathit{odd}(x) \to \mathit{even}(s(x)))\)</span> give a natural deduction proof <span class="math notranslate nohighlight">\(\forall x \; (\mathit{even}(x) \vee \mathit{even}(s(x)))\)</span>. (It might help to think of <span class="math notranslate nohighlight">\(s(x)\)</span> as the function defined by <span class="math notranslate nohighlight">\(s(x) = x + 1\)</span>.)</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\exists x \; A(x) \vee \exists x \; B(x) \to \exists x \; (A(x) \vee B(x))\)</span>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\exists x \; (A(x) \wedge C(x))\)</span> from the assumptions <span class="math notranslate nohighlight">\(\exists x \; (A(x) \wedge B(x))\)</span> and <span class="math notranslate nohighlight">\(\forall x \; (A(x) \wedge B(x) \to C(x))\)</span>.</p></li>
+<li><p>Prove some of the other equivalences in the last section.</p></li>
+<li><p>Consider some of the various ways of expressing &#8220;nobody trusts a politician&#8221; in first-order logic:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{politician}(x) \to \forall y \; (\neg \mathit{trusts}(y,x)))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x,y \; (\mathit{politician}(x) \to \neg \mathit{trusts}(y,x))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg \exists x,y \; (\mathit{politician}(x) \wedge \mathit{trusts}(y,x))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x, y \; (\mathit{trusts}(y,x) \to \neg \mathit{politician}(x))\)</span></p></li>
+</ul>
+<p>They are all logically equivalent. Show this for the second and the fourth, by giving natural deduction proofs of each from the other. (As a shortcut, in the <span class="math notranslate nohighlight">\(\forall\)</span> introduction and elimination rules, you can introduce / eliminate both variables in one step.)</p>
+</li>
+<li><p>Formalize the following statements, and give a natural deduction proof in which the first three statements appear as (uncancelled) hypotheses, and the last line is the conclusion:</p>
+<ul class="simple">
+<li><p>Every young and healthy person likes baseball.</p></li>
+<li><p>Every active person is healthy.</p></li>
+<li><p>Someone is young and active.</p></li>
+<li><p>Therefore, someone likes baseball.</p></li>
+</ul>
+<p>Use <span class="math notranslate nohighlight">\(Y(x)\)</span> for &#8220;is young,&#8221; <span class="math notranslate nohighlight">\(H(x)\)</span> for &#8220;is healthy,&#8221; <span class="math notranslate nohighlight">\(A(x)\)</span> for &#8220;is active,&#8221; and <span class="math notranslate nohighlight">\(B(x)\)</span> for &#8220;likes baseball.&#8221;</p>
+</li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\forall x, y, z \; (x = z \to (y = z \to x = y))\)</span> using the equality rules in <a class="reference internal" href="#equality"><span class="std std-numref">Section 8.4</span></a>.</p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\forall x, y \; (x = y \to y = x)\)</span> using only these two hypotheses (and none of the new equality rules):</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (x = x)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall u, v, w \; (u = w \to (v = w \to u = v))\)</span></p></li>
+</ul>
+<p>(Hint: Choose instantiations of <span class="math notranslate nohighlight">\(u\)</span>, <span class="math notranslate nohighlight">\(v\)</span>, and <span class="math notranslate nohighlight">\(w\)</span> carefully. You can instantiate all the universal quantifiers in one step, as on the last homework assignment.)</p>
+</li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\neg \exists x \; (A(x) \wedge B(x)) \leftrightarrow \forall x \; (A(x) \to \neg B(x))\)</span></p></li>
+<li><p>Give a natural deduction proof of <span class="math notranslate nohighlight">\(\neg \forall x \; (A(x) \to B(x)) \leftrightarrow \exists x \; (A(x) \wedge \neg B(x))\)</span></p></li>
+<li><p>Remember that both the following express <span class="math notranslate nohighlight">\(\exists!x \; A(x)\)</span>, that is, the statement that there is a unique <span class="math notranslate nohighlight">\(x\)</span> satisfying <span class="math notranslate nohighlight">\(A(x)\)</span>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\exists x \; (A(x) \wedge \forall y \; (A(y) \to y = x))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; A(x) \wedge \forall y \; \forall y' \; (A(y) \wedge A(y') \to y = y')\)</span></p></li>
+</ul>
+<p>Do the following:</p>
+<ul class="simple">
+<li><p>Give a natural deduction proof of the second, assuming the first as a hypothesis.</p></li>
+<li><p>Give a natural deduction proof of the first, asssuming the second as a hypothesis.</p></li>
+</ul>
+<p>(Warning: these are long.)</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">8. Natural Deduction for First Order Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rules-of-inference">8.1. Rules of Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-universal-quantifier">8.2. The Universal Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-existential-quantifier">8.3. The Existential Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#equality">8.4. Equality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#counterexamples-and-relativized-quantifiers">8.5. Counterexamples and Relativized Quantifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">8.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/natural_deduction_for_first_order_logic.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

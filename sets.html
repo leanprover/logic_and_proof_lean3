@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>11. Sets &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="12. Sets in Lean" href="sets_in_lean.html" />
+    <link rel="prev" title="10. Semantics of First Order Logic" href="semantics_of_first_order_logic.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="sets">
+<span id="id1"></span><h1><span class="section-number">11. </span>Sets<a class="headerlink" href="#sets" title="Permalink to this headline">&#182;</a></h1>
+<p>We have come to a turning point in this textbook. We will henceforth abandon natural deduction, for the most part, and focus on ordinary mathematical proofs. We will continue to think about how informal mathematics can be represented in symbolic terms, and how the rules of natural deduction play out in the informal setting. But the emphasis will be on writing ordinary mathematical arguments, not designing proof trees. Lean will continue to serve as a bridge between the informal and formal realms.</p>
+<p>In this chapter, we consider a notion that has come to play a fundamental role in mathematical reasoning, namely, that of a &#8220;set.&#8221;</p>
+<div class="section" id="elementary-set-theory">
+<span id="id2"></span><h2><span class="section-number">11.1. </span>Elementary Set Theory<a class="headerlink" href="#elementary-set-theory" title="Permalink to this headline">&#182;</a></h2>
+<p>In a publication in the journal <em>Mathematische Annalen</em> in 1895, the German mathematician Georg Cantor presented the following
+characterization of the notion of a <em>set</em> (or <em>Menge</em>, in his terminology):</p>
+<blockquote>
+<div><p>By a <em>set</em> we mean any collection M of determinate, distinct objects (called the <em>elements</em> of M) of our intuition or thought into a whole.</p>
+</div></blockquote>
+<p>Since then, the notion of a set has been used to unify a wide range of abstractions and constructions. Axiomatic set theory, which we will discuss in a later chapter, provides a foundation for mathematics in which everything can be viewed as a set.</p>
+<p>On a broad construal, <em>any</em> collection can be a set; for example, we can consider the set whose elements are Ringo Star, the number 7, and the set whose only member is the Empire State Building. With such a broad notion of set we have to be careful: Russell&#8217;s paradox has us consider the set <span class="math notranslate nohighlight">\(S\)</span> of all sets that are not elements of themselves, which leads to a contradiction when we ask whether <span class="math notranslate nohighlight">\(S\)</span> is an element of itself. (Try it!) The axioms of set theory tell us which sets exist, and have been carefully designed to avoid paradoxical sets like that of the Russell paradox.</p>
+<p>In practice, mathematicians are not so freewheeling in their use of sets. Typically, one fixes a domain such as the natural numbers, and consider subsets of that domain. In other words, we consider sets of numbers, sets of points, sets of lines, and so on, rather than arbitrary &#8220;sets.&#8221; In this text, we will adopt this convention: when we talk about sets, we are always implicitly talking about sets of elements of some domain.</p>
+<p>Given a set <span class="math notranslate nohighlight">\(A\)</span> of objects in some domain and an object <span class="math notranslate nohighlight">\(x\)</span>, we write <span class="math notranslate nohighlight">\(x \in A\)</span> to say that <span class="math notranslate nohighlight">\(x\)</span> is an element of <span class="math notranslate nohighlight">\(A\)</span>. Cantor&#8217;s characterization suggests that whenever we have some property, <span class="math notranslate nohighlight">\(P\)</span>, of a domain, we can form the set of elements that have that property. This is denoted using &#8220;set-builder notation&#8221; as <span class="math notranslate nohighlight">\(\{ x \mid P(x) \}\)</span>. For example, we can consider all the following sets of natural numbers:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\{n \mid \mbox{$n$ is even} \}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\{n \mid \mbox{$n$ is prime} \}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\{n \mid \mbox{$n$ is prime and greater than 2} \}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\{n \mid \mbox{$n$ can be written as a sum of squares} \}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\{n \mid \mbox{$n$ is equal to 1, 2, or 3}\}\)</span></p></li>
+</ul>
+<p>This last set is written more simply <span class="math notranslate nohighlight">\(\{1, 2, 3\}\)</span>. If the domain is not clear from the context, we can specify it by writing it explicitly, for example, in the expression <span class="math notranslate nohighlight">\(\{n \in \mathbb{N} \mid \text{$n$ is even} \}\)</span>.</p>
+<p>Using set-builder notation, we can define a number of common sets and operations. The <em>empty set</em>, <span class="math notranslate nohighlight">\(\emptyset\)</span>, is the set with no elements:</p>
+<div class="math notranslate nohighlight">
+\[\emptyset = \{ x \mid \mbox{false} \}.\]</div>
+<p>Dually, we can define the <em>universal set</em>, <span class="math notranslate nohighlight">\(\mathcal U\)</span>, to be the set consisting of every element of the domain:</p>
+<div class="math notranslate nohighlight">
+\[\mathcal U = \{ x \mid \mbox{true} \}.\]</div>
+<p>Given two sets <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, we define their <em>union</em> to be the set of elements in either one:</p>
+<div class="math notranslate nohighlight">
+\[A \cup B = \{ x \mid \mbox{$x \in A$ or $x \in B$} \}.\]</div>
+<p>And we define their <em>intersection</em> to be the set of elements of both:</p>
+<div class="math notranslate nohighlight">
+\[A \cap B = \{ x \mid \mbox{$x \in A$ and $x \in B$} \}.\]</div>
+<p>We define the <em>complement</em> of a set of <span class="math notranslate nohighlight">\(A\)</span> to be the set of elements that are not in <span class="math notranslate nohighlight">\(A\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\overline A = \{ x \mid \mbox{$x \notin A$} \}.\]</div>
+<p>We define the <em>set difference</em> of two sets <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> to be the set of elements in <span class="math notranslate nohighlight">\(A\)</span> but not <span class="math notranslate nohighlight">\(B\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[A \setminus B = \{ x \mid \mbox{$x \in A$ and $x \notin B$} \}.\]</div>
+<p>Two sets are said to be equal if they have exactly the same elements. If <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are sets, <span class="math notranslate nohighlight">\(A\)</span> is said to be a <em>subset</em> of <span class="math notranslate nohighlight">\(B\)</span>, written <span class="math notranslate nohighlight">\(A \subseteq B\)</span>, if every element of <span class="math notranslate nohighlight">\(A\)</span> is an element of <span class="math notranslate nohighlight">\(B\)</span>. Notice that <span class="math notranslate nohighlight">\(A\)</span> is equal to <span class="math notranslate nohighlight">\(B\)</span> if and only if <span class="math notranslate nohighlight">\(A\)</span> is a subset of <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(B\)</span> is a subset of <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>Notice also that everything we have said about sets so far is readily representable in symbolic logic. We can render the defining properties of the basic sets and constructors as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (x \in \emptyset \leftrightarrow \bot)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (x \in \mathcal U \leftrightarrow \top)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (x \in A \cup B \leftrightarrow x \in A \vee x \in B)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (x \in A \cap B \leftrightarrow x \in A \wedge x \in B)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (x \in \overline A \leftrightarrow x \notin A)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (x \in A \setminus B \leftrightarrow  x \in A \wedge x \notin B)\)</span></p></li>
+</ul>
+<p>The assertion that <span class="math notranslate nohighlight">\(A\)</span> is a subset of <span class="math notranslate nohighlight">\(B\)</span> can be written <span class="math notranslate nohighlight">\(\forall x \; (x \in A \to x \in B)\)</span>, and the assertion that <span class="math notranslate nohighlight">\(A\)</span> is equal to <span class="math notranslate nohighlight">\(B\)</span> can be written <span class="math notranslate nohighlight">\(\forall x \; (x \in A \leftrightarrow  x \in B)\)</span>. These are all <em>universal</em> statements, that is, statements with universal quantifiers in front, followed by basic assertions and propositional connectives. What this means is that reasoning about sets formally often amounts to using nothing more than the rules for the universal quantifier together with the rules for propositional logic.</p>
+<p>Logicians sometimes describe ordinary mathematical proofs as <em>informal</em>, in contrast to the <em>formal proofs</em> in natural deduction. When writing informal proofs, the focus is on readability. Here is an example.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Let <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span> denote sets of elements of some domain. Then <span class="math notranslate nohighlight">\(A \cap (B \cup C) = (A \cap B) \cup (A \cap C)\)</span>.</p>
+<p><strong>Proof.</strong> Let <span class="math notranslate nohighlight">\(x\)</span> be arbitrary, and suppose <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \cap (B \cup C)\)</span>. Then <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A\)</span>, and either <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(B\)</span> or <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(C\)</span>. In the first case, <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, and hence in <span class="math notranslate nohighlight">\(A \cap B\)</span>. In the second case, <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(C\)</span>, and hence <span class="math notranslate nohighlight">\(A \cap C\)</span>. Either way, we have that <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\((A \cap B) \cup (A \cap C)\)</span>.</p>
+<p>Conversely, suppose <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\((A \cap B) \cup (A \cap C)\)</span>. There are now two cases.</p>
+<p>First, suppose <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \cap B\)</span>. Then <span class="math notranslate nohighlight">\(x\)</span> is in both <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>. Since <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(B\)</span>, it is also in <span class="math notranslate nohighlight">\(B \cup C\)</span>, and so <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \cap (B \cup C)\)</span>.</p>
+<p>The second case is similar: suppose <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \cap C\)</span>. Then <span class="math notranslate nohighlight">\(x\)</span> is in both <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(C\)</span>, and so also in <span class="math notranslate nohighlight">\(B \cup C\)</span>. Hence, in this case also, <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \cap (B \cup C)\)</span>, as required.</p>
+<hr class="docutils" />
+<p>Notice that this proof does not look anything like a proof in symbolic logic. For one thing, ordinary proofs tend to favor words over symbols. Of course, mathematics uses symbols all the time, but not in place of words like &#8220;and&#8221; and &#8220;not&#8221;; you will rarely, if ever, see the symbols <span class="math notranslate nohighlight">\(\wedge\)</span> and <span class="math notranslate nohighlight">\(\neg\)</span> in a mathematics textbook, unless it is a textbook specifically about logic.</p>
+<p>Similarly, the structure of an informal proof is conveyed with ordinary paragraphs and punctuation. Don&#8217;t rely on pictorial diagrams, line breaks, and indentation to convey the structure of a proof. Rather, you should rely on literary devices like signposting and foreshadowing. It is often helpful to present an outline of a proof or the key ideas before delving into the details, and the introductory sentence of a paragraph can help guide a reader&#8217;s expectations, just as it does in an expository essay.</p>
+<p>Nonetheless, you should be able to see elements of natural deduction implicitly in the proof above. In formal terms, the theorem is equivalent to the assertion</p>
+<div class="math notranslate nohighlight">
+\[\forall x \; (x \in A \cap (B \cup C) \leftrightarrow  x \in (A \cap B) \cup (A \cap C)),\]</div>
+<p>and the proof proceeds accordingly. The phrase &#8220;let <span class="math notranslate nohighlight">\(x\)</span> be arbitrary&#8221; is code for the <span class="math notranslate nohighlight">\(\forall\)</span> introduction rule, and the form of the rest of the proof is a <span class="math notranslate nohighlight">\(\leftrightarrow\)</span> introduction. Saying that <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \cap (B \cup C)\)</span> is implicitly an &#8220;and,&#8221; and the argument uses <span class="math notranslate nohighlight">\(\wedge\)</span> elimination to get <span class="math notranslate nohighlight">\(x \in A\)</span> and <span class="math notranslate nohighlight">\(x \in B \cup C\)</span>. Saying <span class="math notranslate nohighlight">\(x \in B \cup C\)</span> is implicitly an &#8220;or,&#8221; and the proof then splits on cases, depending on whether <span class="math notranslate nohighlight">\(x \in B\)</span> or <span class="math notranslate nohighlight">\(x \in C\)</span>.</p>
+<p>Modulo the unfolding of definition of intersection and union in terms of &#8220;and&#8221; and &#8220;or,&#8221; the &#8220;only if&#8221; direction of the previous proof could be represented in natural deduction like this:</p>
+<img src="_static/sets.1.png"><p>In the next chapter, we will see that this logical structure is made manifest in Lean. But writing long proofs in natural deduction is not the most effective to communicate the mathematical ideas. So our goal here is to teach you to think in terms of natural deduction rules, but express the steps in ordinary English.</p>
+<p>Here is another example.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> <span class="math notranslate nohighlight">\((A \setminus B) \setminus C = A \setminus (B \cup C)\)</span>.</p>
+<p><strong>Proof.</strong> Let <span class="math notranslate nohighlight">\(x\)</span> be arbitrary, and suppose <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\((A \setminus B) \setminus C\)</span>. Then <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \setminus B\)</span> but not <span class="math notranslate nohighlight">\(C\)</span>, and hence it is in <span class="math notranslate nohighlight">\(A\)</span> but not in <span class="math notranslate nohighlight">\(B\)</span> or <span class="math notranslate nohighlight">\(C\)</span>. This means that <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A\)</span> but not <span class="math notranslate nohighlight">\(B \cup C\)</span>, and so in <span class="math notranslate nohighlight">\(A \setminus (B \cup C)\)</span>.</p>
+<p>Conversely, suppose <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \setminus (B \cup C)\)</span>. Then <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A\)</span>, but not in <span class="math notranslate nohighlight">\(B \cup C\)</span>. In particular, <span class="math notranslate nohighlight">\(x\)</span> is in neither <span class="math notranslate nohighlight">\(B\)</span> nor <span class="math notranslate nohighlight">\(C\)</span>, because otherwise it would be in <span class="math notranslate nohighlight">\(B \cup C\)</span>. So <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \setminus B\)</span>, and hence in <span class="math notranslate nohighlight">\((A \setminus B) \setminus C\)</span>.</p>
+<hr class="docutils" />
+<p>Perhaps the biggest difference between informal proofs and formal proofs is the level of detail. Informal proofs will often skip over details that are taken to be &#8220;straightforward&#8221; or &#8220;obvious,&#8221; devoting more effort to spelling out inferences that are novel or unexpected.</p>
+<p>Writing a good proof is like writing a good essay. To convince your readers that the conclusion is correct, you have to get them to understand the argument, without overwhelming them with unnecessary details. It helps to have a specific audience in mind. Try speaking the argument aloud to friends, roommates, and family members; if their eyes glaze over, it is unreasonable to expect anonymous readers to do better.</p>
+<p>One of the best ways to learn to write good proofs is to <em>read</em> good proofs, and pay attention to the style of writing. Pick an example of a textbook that you find especially clear and engaging, and think about what makes it so.</p>
+<p>Natural deduction and formal verification can help you understand the components that make a proof <em>correct</em>, but you will have to develop an intuitive feel for what makes a proof easy and enjoyable to read.</p>
+</div>
+<div class="section" id="calculations-with-sets">
+<h2><span class="section-number">11.2. </span>Calculations with Sets<a class="headerlink" href="#calculations-with-sets" title="Permalink to this headline">&#182;</a></h2>
+<p>Calculation is a central to mathematics, and mathematical proofs often involve carrying out a sequence of calculations. Indeed, a calculation can be viewed as a proof in and of itself that two expressions describe the same entity.</p>
+<p>In high school algebra, students are often asked to prove identities like the following:</p>
+<hr class="docutils" />
+<p><strong>Proposition.</strong> <span class="math notranslate nohighlight">\(\frac{n(n+1)}{2} + (n + 1) = \frac{(n+1)(n+2)}{2}\)</span>, for every natural number <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<hr class="docutils" />
+<p>In some places, students are asked to write proofs like this:</p>
+<hr class="docutils" />
+<p><strong>Proof.</strong></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{n(n+1)}{2} + (n + 1) &amp; =? \frac{(n+1)(n+2)}{2} \\
+\frac{n^2+n}{2} + \frac{2n + 2}{2} &amp; =? \frac{n^2 + 3n + 2}{2} \\
+\frac{n^2+n + 2n + 2}{2} &amp; =? \frac{n^2 + 3n + 2}{2} \\
+\frac{n^2+3n + 2}{2} &amp; = \frac{n^2 + 3n + 2}{2}. \\\end{split}\]</div>
+<hr class="docutils" />
+<p>Mathematicians generally cringe when they see this. <em>Don&#8217;t do it!</em> It looks like an instance of forward reasoning, where we start with a complex identity and end up proving <span class="math notranslate nohighlight">\(x = x\)</span>. Of course, what is really meant is that each line follows from the next. There is a way of expressing this, with the phrase &#8220;it suffices to show.&#8221; The following presentation comes closer to mathematical vernacular:</p>
+<hr class="docutils" />
+<p><strong>Proof.</strong> We want to show</p>
+<div class="math notranslate nohighlight">
+\[\frac{n(n+1)}{2} + (n + 1) = \frac{(n+1)(n+2)}{2}.\]</div>
+<p>To do that, it suffices to show</p>
+<div class="math notranslate nohighlight">
+\[\frac{n^2+n}{2} + \frac{2n + 2}{2} = \frac{n^2 + 3n + 2}{2}.\]</div>
+<p>For that, it suffices to show</p>
+<div class="math notranslate nohighlight">
+\[\frac{n^2+n + 2n + 2}{2} = \frac{n^2 + 3n + 2}{2}.\]</div>
+<p>But this last equation is clearly true.</p>
+<hr class="docutils" />
+<p>The narrative doesn&#8217;t flow well, however. Sometimes there are good reasons to work backward in a proof, but in this case it is easy to present the proof in a more forward-directed manner. Here is one example:</p>
+<hr class="docutils" />
+<p><strong>Proof.</strong> Calculating on the left-hand side, we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{n(n+1)}{2} + (n + 1) &amp; = \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
+  &amp; = \frac{n^2+n + 2n + 2}{2} \\
+  &amp; = \frac{n^2 + 3n + 2}{2}.\end{split}\]</div>
+<p>On the right-hand side, we also have</p>
+<div class="math notranslate nohighlight">
+\[\frac{(n+1)(n+2)}{2} = \frac{n^2 + 3n + 2}{2}.\]</div>
+<p>So <span class="math notranslate nohighlight">\(\frac{n(n+1)}{2} + (n + 1) = \frac{n^2 + 3n + 2}{2}\)</span>, as required.</p>
+<hr class="docutils" />
+<p>Mathematicians often use the abbreviations &#8220;LHS&#8221; and &#8220;RHS&#8221; for &#8220;left-hand side&#8221; and &#8220;right-hand side,&#8221; respectively, in situations like this. In fact, here we can easily write the proof as a single forward-directed calculation:</p>
+<hr class="docutils" />
+<p><strong>Proof.</strong></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{n(n+1)}{2} + (n + 1) &amp; = \frac{n^2+n}{2} + \frac{2n + 2}{2} \\
+  &amp; = \frac{n^2+n + 2n + 2}{2} \\
+  &amp; = \frac{n^2 + 3n + 2}{2} \\
+  &amp; = \frac{(n+1)(n+2)}{2}.\end{split}\]</div>
+<hr class="docutils" />
+<p>Such a proof is clear, compact, and easy to read. The main challenge to the reader is to figure out what justifies each subsequent step. Mathematicians sometimes annotate such a calculation with additional information, or add a few words of explanation in the text before and/or after. But the ideal situation is to carry out the calculation in small enough steps so that each step is straightforward, and needs no explanation. (And, once again, what counts as &#8220;straightforward&#8221; will vary depending on who is reading the proof.)</p>
+<p>We have said that two sets are equal if they have the same elements. In the previous section, we proved that two sets are equal by reasoning about the elements of each, but we can often be more efficient. Assuming <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span> are subsets of some domain <span class="math notranslate nohighlight">\(\mathcal U\)</span>, the following identities hold:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A \cup \overline A = \mathcal U\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cap \overline A = \emptyset\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\overline {\overline A} = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cup A = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cap A = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cup \emptyset = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cap \emptyset = \emptyset\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cup \mathcal U = \mathcal U\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cap \mathcal U = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cup B = B \cup A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cap B = B \cap A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((A \cup B) \cup C = A \cup (B \cup C)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((A \cap B) \cap C = A \cap (B \cap C)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\overline{A \cap B} = \overline A \cup \overline B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\overline{A \cup B} = \overline A \cap \overline B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cap (B \cup C) = (A \cap B) \cup (A \cap C)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cup (B \cap C) = (A \cup B) \cap (A \cup C)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cap (A \cup B) = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cup (A \cap B) = A\)</span></p></li>
+</ul>
+<p>This allows us to prove further identities by calculating. Here is an example.</p>
+<hr class="docutils" />
+<p><strong>Theorem</strong>. Let <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> be subsets of some domain <span class="math notranslate nohighlight">\(\mathcal U\)</span>. Then <span class="math notranslate nohighlight">\((A \cap \overline B) \cup B = A \cup B\)</span>.</p>
+<p><strong>Proof</strong>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}(A \cap \overline B) \cup B &amp; = (A \cup B) \cap (\overline B \cup B)
+\\
+&amp; = (A \cup B) \cap \mathcal U \\
+&amp; = A \cup B.\end{split}\]</div>
+<hr class="docutils" />
+<p>Here is another example.</p>
+<hr class="docutils" />
+<p><strong>Theorem</strong>. Let <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> be subsets of some domain <span class="math notranslate nohighlight">\(\mathcal U\)</span>. Then <span class="math notranslate nohighlight">\((A \setminus B) \cup (B \setminus A) = (A \cup B) \setminus (A \cap B)\)</span>.</p>
+<p><strong>Proof</strong>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}(A \setminus B) \cup (B \setminus A) &amp; = (A \cap \overline B) \cup (B \cap \overline A) \\
+&amp; = ((A \cap \overline B) \cup B) \cap ((A \cap \overline B) \cup \overline A) \\
+&amp; = ((A \cup B) \cap (\overline B \cup B)) \cap ((A \cup \overline A) \cap (\overline B \cup \overline A)) \\
+&amp; = ((A \cup B) \cap \mathcal U) \cap (\mathcal U \cap \overline{B \cap A}) \\
+&amp; = (A \cup B) \cap (\overline{A \cap B}) \\
+&amp; = (A \cup B) \setminus (A \cap B).\end{split}\]</div>
+<hr class="docutils" />
+<p>Classically, you may have noticed that propositions, under logical equivalence, satisfy identities similar to sets. That is no coincidence; both are instances of <em>boolean algebras</em>. Here are the identities above translated to the language of a boolean algebra:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A \vee \neg A = \top\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \wedge \neg A = \bot\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg \neg A = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \vee A = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \wedge A = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \vee \bot = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \wedge \bot = \bot\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \vee \top = \top\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \wedge \top = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \vee B = B \vee A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \wedge B = B \wedge A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((A \vee B) \vee C = A \vee (B \vee C)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((A \wedge B) \wedge C = A \wedge (B \wedge C)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg(A \wedge B) = \neg A \vee \neg B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg(A \vee B) = \neg A \wedge \neg B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \wedge (B \vee C) = (A \wedge B) \vee (A \wedge C)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \vee (B \wedge C) = (A \vee B) \wedge (A \vee C)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \wedge (A \vee B) = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \vee (A \wedge B) = A\)</span></p></li>
+</ul>
+<p>Translated to the language of boolean algebras, the first theorem above is as follows:</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Let <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> be elements of a boolean algebra. Then <span class="math notranslate nohighlight">\((A \wedge \neg B) \vee B = B\)</span>.</p>
+<p><strong>Proof.</strong></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}(A \wedge \neg B) \vee B &amp; = (A \vee B) \wedge (\neg B \vee B)
+\\
+&amp; = (A \vee B) \wedge \top \\
+&amp; = (A \vee B).\end{split}\]</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="indexed-families-of-sets">
+<h2><span class="section-number">11.3. </span>Indexed Families of Sets<a class="headerlink" href="#indexed-families-of-sets" title="Permalink to this headline">&#182;</a></h2>
+<p>If <span class="math notranslate nohighlight">\(I\)</span> is a set, we will sometimes wish to consider a <em>family</em> <span class="math notranslate nohighlight">\((A_i)_{i \in I}\)</span> of sets indexed by elements of <span class="math notranslate nohighlight">\(I\)</span>. For example, we might be interested in a sequence</p>
+<div class="math notranslate nohighlight">
+\[A_0, A_1, A_2, \ldots\]</div>
+<p>of sets indexed by the natural numbers. The concept is best illustrated by some examples.</p>
+<ul class="simple">
+<li><p>For each natural number <span class="math notranslate nohighlight">\(n\)</span>, we can define the set <span class="math notranslate nohighlight">\(A_n\)</span> to be the set of people alive today that are of age <span class="math notranslate nohighlight">\(n\)</span>. For each age we have the corresponding set. Someone of age 20 is an element of the set <span class="math notranslate nohighlight">\(A_{20}\)</span>, while a newborn baby is an element of <span class="math notranslate nohighlight">\(A_0\)</span>. The set <span class="math notranslate nohighlight">\(A_{200}\)</span> is empty. This family <span class="math notranslate nohighlight">\((A_n)_{n\in\mathbb{N}}\)</span> is a is a family of sets indexed by the natural numbers.</p></li>
+<li><p>For every real number <span class="math notranslate nohighlight">\(r\)</span> we can define <span class="math notranslate nohighlight">\(B_r\)</span> to be the set of positive real numbers larger than <span class="math notranslate nohighlight">\(r\)</span>, so <span class="math notranslate nohighlight">\(B_r = \{x\in \mathbb{R} \mid x &gt; r \text{ and } x &gt; 0\}\)</span>. Then <span class="math notranslate nohighlight">\((B_r)_{r\in\mathbb{R}}\)</span> is a family of sets indexed by the real numbers.</p></li>
+<li><p>For every natural number <span class="math notranslate nohighlight">\(n\)</span> we can define <span class="math notranslate nohighlight">\(C_n=\{k\in\mathbb{N} \mid k \text{ is a divisor of } n\}\)</span> as the set of divisors of <span class="math notranslate nohighlight">\(n\)</span>.</p></li>
+</ul>
+<p>Given a family <span class="math notranslate nohighlight">\((A_i)_{i\in I}\)</span> of sets indexed by <span class="math notranslate nohighlight">\(I\)</span>, we can form its <em>union</em>:</p>
+<div class="math notranslate nohighlight">
+\[\bigcup_{i \in I} A_i = \{ x \mid x \in A_i \text{ for some $i \in I$} \}.\]</div>
+<p>We can also form the <em>intersection</em> of a family of sets:</p>
+<div class="math notranslate nohighlight">
+\[\bigcap_{i \in I} A_i = \{ x \mid x \in A_i \text{ for every $i \in I$} \}.\]</div>
+<p>So an element <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(\bigcup_{i \in I} A_i\)</span> if and only if <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A_i\)</span> for <em>some</em> <span class="math notranslate nohighlight">\(i\)</span> in <span class="math notranslate nohighlight">\(I\)</span>, and <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(\bigcap_{i \in I} A_i\)</span> if and only if <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A_i\)</span> for every <span class="math notranslate nohighlight">\(i\)</span> in <span class="math notranslate nohighlight">\(I\)</span>. These operations are represented in symbolic logic by the existential and the universal quantifiers. We have:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (x \in \bigcup_{i \in I} A_i \leftrightarrow \exists i \in I \; (x \in A_i))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (x \in \bigcap_{i \in I} A_i \leftrightarrow \forall i \in I \; (x \in A_i))\)</span></p></li>
+</ul>
+<p>Returning to the examples above, we can compute the union and intersection of each family. For the first example, <span class="math notranslate nohighlight">\(\bigcup_{n \in \mathbb{N}} A_n\)</span> is the set of all living people, and <span class="math notranslate nohighlight">\(\bigcap_{n \in \mathbb{N}} A_n = \emptyset\)</span>. Also, <span class="math notranslate nohighlight">\(\bigcup_{r \in \mathbb{R}} B_r = \mathbb{R}_{&gt;0}\)</span>, the set of all positive real numbers, and <span class="math notranslate nohighlight">\(\bigcap_{r \in \mathbb{R}} B_r = \emptyset\)</span>. For the last example, we have <span class="math notranslate nohighlight">\(\bigcup_{n \in \mathbb{N}} C_n = \mathbb{N}\)</span> and <span class="math notranslate nohighlight">\(\bigcap_{n \in \mathbb{N}} C_n = \{1\}\)</span>, since 1 is a divisor of every natural number.</p>
+<p>Suppose that <span class="math notranslate nohighlight">\(I\)</span> contains just two elements, say <span class="math notranslate nohighlight">\(I=\{c, d\}\)</span>. Let <span class="math notranslate nohighlight">\((A_i)_{i\in I}\)</span> be a family of sets indexed by <span class="math notranslate nohighlight">\(I\)</span>. Because <span class="math notranslate nohighlight">\(I\)</span> has two elements, this family consists of just the two sets <span class="math notranslate nohighlight">\(A_c\)</span> and <span class="math notranslate nohighlight">\(A_d\)</span>. Then the union and intersection of this family are just the union and intersection of the two sets:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\bigcup_{i \in I} A_i &amp;= A_c \cup A_d\\
+\bigcap_{i \in I} A_i &amp;= A_c \cap A_d.\end{split}\]</div>
+<p>This means that the union and intersection of two sets are just a special case of the union and intersection of a family of sets.</p>
+<p>We also have equalities for unions and intersections of families of sets. Here are a few of them:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A \cap \bigcup_{i \in I} B_i = \bigcup_{i \in I} (A \cap B_i)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \cup \bigcap_{i \in I} B_i = \bigcap_{i \in I} (A \cup B_i)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\overline{\bigcap_{i \in I} A_i} = \bigcup_{i \in I} \overline{A_i}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\overline{\bigcup_{i \in I} A_i} = \bigcap_{i \in I} \overline{A_i}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\bigcup_{i \in I} \bigcup_{j \in J} A_{i,j} = \bigcup_{j \in J} \bigcup_{i \in I} A_{i,j}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\bigcap_{i \in I} \bigcap_{j \in J} A_{i,j} = \bigcap_{j \in J} \bigcap_{i \in I} A_{i,j}\)</span></p></li>
+</ul>
+<p>In the last two lines, <span class="math notranslate nohighlight">\(A_{i,j}\)</span> is indexed by two sets <span class="math notranslate nohighlight">\(I\)</span> and <span class="math notranslate nohighlight">\(J\)</span>. This means that for every <span class="math notranslate nohighlight">\(i \in I\)</span> and <span class="math notranslate nohighlight">\(j\in J\)</span> we have a set <span class="math notranslate nohighlight">\(A_{i,j}\)</span>. For the first four equalities, try to figure out what the rule means if the index set <span class="math notranslate nohighlight">\(I\)</span> contains two elements.</p>
+<p>Let&#8217;s prove the first identity. Notice how the logical forms of the assertions <span class="math notranslate nohighlight">\(x \in A \cap \bigcup_{i \in I} B_i\)</span> and <span class="math notranslate nohighlight">\(x \in \bigcup_{i \in I} (A \cap B_i)\)</span> dictate the structure of the proof.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Let <span class="math notranslate nohighlight">\(A\)</span> be any subset of some domain <span class="math notranslate nohighlight">\(U\)</span>, and let <span class="math notranslate nohighlight">\((B_i)_{i \in I}\)</span> be a family of subsets of <span class="math notranslate nohighlight">\(U\)</span> indexed by <span class="math notranslate nohighlight">\(I\)</span>. Then</p>
+<div class="math notranslate nohighlight">
+\[A \cap \bigcup_{i \in I} B_i = \bigcup_{i \in I} (A \cap B_i).\]</div>
+<p><strong>Proof.</strong> Suppose <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \cap \bigcup_{i \in I} B_i\)</span>. Then <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(B_j\)</span> for some <span class="math notranslate nohighlight">\(j \in I\)</span>. So <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \cap B_j\)</span>, and hence in <span class="math notranslate nohighlight">\(\bigcup_{i \in I} (A \cap B_i)\)</span>.</p>
+<p>Conversely, suppose <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(\bigcup_{i \in I} (A \cap B_i)\)</span>. Then, for some <span class="math notranslate nohighlight">\(j\)</span> in <span class="math notranslate nohighlight">\(I\)</span>, <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \cap B_j\)</span>. Hence <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A\)</span>, and since <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(B_j\)</span>, it is in <span class="math notranslate nohighlight">\(\bigcup_{i \in I} B_i\)</span>. Hence <span class="math notranslate nohighlight">\(x\)</span> is in <span class="math notranslate nohighlight">\(A \cap \bigcup_{i \in I} B_i\)</span>, as required.</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="cartesian-product-and-power-set">
+<span id="id3"></span><h2><span class="section-number">11.4. </span>Cartesian Product and Power Set<a class="headerlink" href="#cartesian-product-and-power-set" title="Permalink to this headline">&#182;</a></h2>
+<p>The <em>ordered pair</em> of two objects <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> is denoted <span class="math notranslate nohighlight">\((a, b)\)</span>. We say that <span class="math notranslate nohighlight">\(a\)</span> is the <em>first component</em> and <span class="math notranslate nohighlight">\(b\)</span> is the <em>second component</em> of the pair. Two pairs are only equal if the first component are equal and the second components are equal. In symbols, <span class="math notranslate nohighlight">\((a, b) = (c, d)\)</span> if and only if <span class="math notranslate nohighlight">\(a = c\)</span> and <span class="math notranslate nohighlight">\(b = d\)</span>.</p>
+<p>Given two sets <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, we define the <em>cartesian product</em> <span class="math notranslate nohighlight">\(A \times B\)</span> of these two sets as the set of all pairs where the first component is an element in <span class="math notranslate nohighlight">\(A\)</span> and the second component is an element in <span class="math notranslate nohighlight">\(B\)</span>. In set-builder notation this means</p>
+<div class="math notranslate nohighlight">
+\[A \times B = \{(a, b) \; \mid a \; \in A \text{ and } b \in B\}.\]</div>
+<p>Note that if <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are subsets of a particular domain <span class="math notranslate nohighlight">\(\mathcal U\)</span>, the set <span class="math notranslate nohighlight">\(A \times B\)</span> need not be a subset of the same domain. However, it will be a subset of <span class="math notranslate nohighlight">\(\mathcal U \times \mathcal U\)</span>.</p>
+<p>Some axiomatic foundations take the notion of a pair to be primitive. In axiomatic set theory, it is common to <em>define</em> an ordered pair to be a particular set, namely</p>
+<div class="math notranslate nohighlight">
+\[(a, b) = \{\{a\}, \{a, b\}\}.\]</div>
+<p>Notice that if <span class="math notranslate nohighlight">\(a = b\)</span>, this set has only one element:</p>
+<div class="math notranslate nohighlight">
+\[(a, a) = \{\{a\},\{a, a\}\} = \{\{a\},\{a\}\} = \{\{a\}\}.\]</div>
+<p>The following theorem shows that this definition is reasonable.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Using the definition of ordered pairs above, we have <span class="math notranslate nohighlight">\((a, b) = (c, d)\)</span> if and only if <span class="math notranslate nohighlight">\(a = c\)</span> and <span class="math notranslate nohighlight">\(b = d\)</span>.</p>
+<p><strong>Proof.</strong> If <span class="math notranslate nohighlight">\(a = c\)</span> and <span class="math notranslate nohighlight">\(b = d\)</span> then clearly <span class="math notranslate nohighlight">\((a, b) = (c, d)\)</span>. For the other direction, suppose that <span class="math notranslate nohighlight">\((a, b) = (c, d)\)</span>, which means</p>
+<div class="math notranslate nohighlight">
+\[\underbrace{\{\{a\}, \{a, b\}\}}_L = \underbrace{\{\{c\}, \{c, d\}\}}_R.\]</div>
+<p>Suppose first that <span class="math notranslate nohighlight">\(a = b\)</span>. Then <span class="math notranslate nohighlight">\(L = \{\{a\}\}\)</span>. This means that <span class="math notranslate nohighlight">\(\{c\} = \{a\}\)</span> and <span class="math notranslate nohighlight">\(\{c, d\} = \{a\}\)</span>, from which we conclude that <span class="math notranslate nohighlight">\(c = a\)</span> and <span class="math notranslate nohighlight">\(d = a = b\)</span>.</p>
+<p>Now suppose that <span class="math notranslate nohighlight">\(a \neq b\)</span>. If <span class="math notranslate nohighlight">\(\{c\} = \{a, b\}\)</span> then we conclude that <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are both equal to <span class="math notranslate nohighlight">\(c\)</span>, contradicting <span class="math notranslate nohighlight">\(a \neq b\)</span>. Since <span class="math notranslate nohighlight">\(\{c\}\in L\)</span>, <span class="math notranslate nohighlight">\(\{c\}\)</span> must be equal to <span class="math notranslate nohighlight">\(\{a\}\)</span>, which means that <span class="math notranslate nohighlight">\(a = c\)</span>. We know that <span class="math notranslate nohighlight">\(\{a, b\} \in R\)</span>, and since we know <span class="math notranslate nohighlight">\(\{a, b\}\neq \{c\}\)</span>, we conclude <span class="math notranslate nohighlight">\(\{a, b\} = \{c, d\}\)</span>. This means that <span class="math notranslate nohighlight">\(b \in\{c, d\}\)</span>, since <span class="math notranslate nohighlight">\(b \neq a = c\)</span>, we conclude that <span class="math notranslate nohighlight">\(b = d\)</span>.</p>
+<p>Hence in both cases we conclude that <span class="math notranslate nohighlight">\(a = c\)</span> and <span class="math notranslate nohighlight">\(b = d\)</span>, proving the theorem.</p>
+<hr class="docutils" />
+<p>Using ordered pairs we can define the <em>ordered triple</em> <span class="math notranslate nohighlight">\((a, b, c)\)</span> to be <span class="math notranslate nohighlight">\((a, (b, c))\)</span>. Then we can prove that <span class="math notranslate nohighlight">\((a, b, c) = (d, e, f)\)</span> if and only if <span class="math notranslate nohighlight">\(a = d\)</span>, <span class="math notranslate nohighlight">\(b = e\)</span> and <span class="math notranslate nohighlight">\(c = f\)</span>, which you are asked to do in the exercises. We can also define ordered <span class="math notranslate nohighlight">\(n\)</span>-tuples, which are sequence of <span class="math notranslate nohighlight">\(n\)</span> objects, in a similar way.</p>
+<p>Given a set <span class="math notranslate nohighlight">\(A\)</span> we can define the <em>power set</em> <span class="math notranslate nohighlight">\(\mathcal P(A)\)</span> to be the set of all subsets of <span class="math notranslate nohighlight">\(A\)</span>. In set-builder notation we can write this as</p>
+<div class="math notranslate nohighlight">
+\[\mathcal P(A) = \{B \mid B \subseteq A\}.\]</div>
+<p>If <span class="math notranslate nohighlight">\(A\)</span> is a subset of <span class="math notranslate nohighlight">\(\mathcal U\)</span>, <span class="math notranslate nohighlight">\(\mathcal P(A)\)</span> may not be a subset of <span class="math notranslate nohighlight">\(\mathcal U\)</span>, but it is always a subset of <span class="math notranslate nohighlight">\(\mathcal P(\mathcal U)\)</span>.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">11.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>Prove the following theorem: Let <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span> be sets of elements of some domain. Then <span class="math notranslate nohighlight">\(A \cup (B \cap C) = (A \cup B) \cap (A \cup C)\)</span>. (Henceforth, if we don&#8217;t specify natural deduction or Lean, ``prove&#8217;&#8217; and ``show&#8217;&#8217; mean give an ordinary mathematical proof, using ordinary mathematical language rather than symbolic logic.)</p></li>
+<li><p>Prove the following theorem: Let <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> be sets of elements of some domain. Then <span class="math notranslate nohighlight">\(\overline{A \setminus B} = \overline{A} \cup B\)</span>.</p></li>
+<li><p>Two sets <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are said to be <em>disjoint</em> if they have no element in common. Show that if <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are disjoint, <span class="math notranslate nohighlight">\(C \subseteq A\)</span>, and <span class="math notranslate nohighlight">\(D \subseteq B\)</span>, then <span class="math notranslate nohighlight">\(C\)</span> and <span class="math notranslate nohighlight">\(D\)</span> are disjoint.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> be sets. Show <span class="math notranslate nohighlight">\((A \setminus B) \cup (B \setminus A) = (A \cup B) \setminus (A \cap B)\)</span>, by showing that both sides have the same elements.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(C\)</span> be subsets of some domain <span class="math notranslate nohighlight">\(\mathcal U\)</span>. Give a calculational proof of the identity <span class="math notranslate nohighlight">\(A \setminus (B \cup C) = (A \setminus B) \setminus C\)</span>, using the identities above. Also use the fact that, in general, <span class="math notranslate nohighlight">\(C \setminus D = C \cap \overline D\)</span>.</p></li>
+<li><p>Similarly, give a calculational proof of <span class="math notranslate nohighlight">\((A \setminus B) \cup (A \cap B) = A\)</span>.</p></li>
+<li><p>Give calculational proofs of the following:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A \setminus B = A \setminus (A \cap B)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A \setminus B = (A \cup B) \setminus B\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((A \cap B) \setminus C = (A \setminus C) \cap B\)</span></p></li>
+</ul>
+</li>
+<li><p>Prove that if <span class="math notranslate nohighlight">\((A_{i,j})_{i \in I, j \in J}\)</span> is a family indexed by two sets <span class="math notranslate nohighlight">\(I\)</span> and <span class="math notranslate nohighlight">\(J\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[\bigcup_{i \in I}\bigcap_{j \in J} A_{i, j} \subseteq \bigcap_{j \in J}\bigcup_{i \in I} A_{i, j}.\]</div>
+<p>Also, find a family <span class="math notranslate nohighlight">\((A_{i,j})_{i \in I, j \in J}\)</span> where the reverse inclusion does not hold.</p>
+</li>
+<li><p>Prove using calculational reasoning that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left(\bigcup_{i \in I}A_i\right)\cap \left(\bigcup_{j \in J}B_j\right) = \bigcup_{\substack{i \in I \\ j \in J}}(A_i \cap B_j).\end{split}\]</div>
+<p>The notation <span class="math notranslate nohighlight">\(\bigcup_{\substack{i \in I \\ j \in J}}(A_i \cap B_j)\)</span> means <span class="math notranslate nohighlight">\(\bigcup_{i \in I} \bigcup_{j \in J}(A_i \cap B_j)\)</span>.</p>
+</li>
+<li><p>Using the definition <span class="math notranslate nohighlight">\((a, b, c) = (a, (b, c))\)</span>, show that <span class="math notranslate nohighlight">\((a, b, c) = (d, e, f)\)</span> if and only if <span class="math notranslate nohighlight">\(a = d\)</span>, <span class="math notranslate nohighlight">\(b = e\)</span> and <span class="math notranslate nohighlight">\(c = f\)</span>.</p></li>
+<li><p>Prove that <span class="math notranslate nohighlight">\(A \times (B \cup C) = (A \times B) \cup (A \times C)\)</span></p></li>
+<li><p>Prove that <span class="math notranslate nohighlight">\((A \cap B) \times (C \cap D) = (A \times C) \cap (B \times D)\)</span>. Find an expression for <span class="math notranslate nohighlight">\((A \cup B) \times (C \cup D)\)</span> consisting of unions of cartesian products, and prove that your expression is correct.</p></li>
+<li><p>Prove that that <span class="math notranslate nohighlight">\(A \subseteq B\)</span> if and only if <span class="math notranslate nohighlight">\(\mathcal P(A) \subseteq \mathcal P(B)\)</span>.</p></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">11. Sets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#elementary-set-theory">11.1. Elementary Set Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculations-with-sets">11.2. Calculations with Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#indexed-families-of-sets">11.3. Indexed Families of Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cartesian-product-and-power-set">11.4. Cartesian Product and Power Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">11.5. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/sets.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10. Semantics of First Order Logic &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="11. Sets" href="sets.html" />
+    <link rel="prev" title="9. First Order Logic in Lean" href="first_order_logic_in_lean.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="semantics-of-first-order-logic">
+<span id="id1"></span><h1><span class="section-number">10. </span>Semantics of First Order Logic<a class="headerlink" href="#semantics-of-first-order-logic" title="Permalink to this headline">&#182;</a></h1>
+<p>In <a class="reference internal" href="semantics_of_propositional_logic.html#semantics-of-propositional-logic"><span class="std std-numref">Chapter 6</span></a>, we emphasized a distinction between the <em>syntax</em> and the <em>semantics</em> of propositional logic. Syntactic questions have to do with the formal structure of formulas and the conditions under which different types of formulas can be derived. Semantic questions, on the other hand, concern the <em>truth</em> of a formula relative to some truth assignment.</p>
+<p>As you might expect, we can make a similar distinction in the setting of first order logic. The previous two chapters have focused on syntax, but some semantic ideas have slipped in. Recall the running example with domain of interest <span class="math notranslate nohighlight">\({\mathbb N}\)</span>, constant symbols 0, 1, 2, 3, function symbols <span class="math notranslate nohighlight">\(\mathit{add}\)</span> and <span class="math notranslate nohighlight">\(\mathit{mul}\)</span>, and predicate symbols <span class="math notranslate nohighlight">\(\mathit{even}, \mathit{prime}, \mathit{equals}, \mathit{le}\)</span>, etc. We know that the sentence <span class="math notranslate nohighlight">\(\forall y \; \mathit{le}(0, y)\)</span> is true in this example, if <span class="math notranslate nohighlight">\(\mathit{le}\)</span> is interpreted as the less-than-or-equal-to relation on the natural numbers. But if we consider the domain <span class="math notranslate nohighlight">\({\mathbb Z}\)</span> instead of <span class="math notranslate nohighlight">\({\mathbb N}\)</span>, that same formula becomes false. The sentence <span class="math notranslate nohighlight">\(\forall y \; \mathit{lt}(0,y)\)</span> is also false if we consider the domain <span class="math notranslate nohighlight">\({\mathbb N}\)</span>, but (somewhat perversely) interpret the predicate <span class="math notranslate nohighlight">\(\mathit{lt}(x, y)\)</span> as the relation &#8220;<span class="math notranslate nohighlight">\(x\)</span> is greater than <span class="math notranslate nohighlight">\(y\)</span>&#8221; on the natural numbers.</p>
+<p>This indicates that the truth or falsity or a first order sentence can depend on how we interpret the quantifiers and basic relations of the language. But some formulas are true under any interpretation: for instance, <span class="math notranslate nohighlight">\(\forall y \; (\mathit{le}(0, y) \to \mathit{le}(0, y))\)</span> is true under all the interpretations considered in the last paragraph, and, indeed, under any interpretation we choose. A sentence like this is said to be <em>valid</em>; this is the analogue of a tautology in propositional logic, which is true under every possible truth assignment.</p>
+<p>We can broaden the analogy: a &#8220;model&#8221; in first order logic is the analogue of a truth assignment in propositional logic. In the propositional case, choosing a truth assignment allowed us to assign truth values to all formulas of the language; now, choosing a model will allow us to assign truth values to all sentences of a first order language. The aim of the next section is to make this notion more precise.</p>
+<div class="section" id="interpretations">
+<h2><span class="section-number">10.1. </span>Interpretations<a class="headerlink" href="#interpretations" title="Permalink to this headline">&#182;</a></h2>
+<p>The symbols of the language in our running example&#8212;0, 1, <span class="math notranslate nohighlight">\(\mathit{add}\)</span>, <span class="math notranslate nohighlight">\(\mathit{prime}\)</span>, and so on&#8212;have very suggestive names. When we interpret sentences of this language over the domain <span class="math notranslate nohighlight">\({\mathbb N}\)</span>, for example, it is clear for which elements of the domain <span class="math notranslate nohighlight">\(\mathit{prime}\)</span> &#8220;should&#8221; be true, and for which it &#8220;should&#8221; be false. But let us consider a first order language that has only two unary predicate symbols <span class="math notranslate nohighlight">\(\mathit{fancy}\)</span> and <span class="math notranslate nohighlight">\(\mathit{tall}\)</span>. If we take our domain to be <span class="math notranslate nohighlight">\({\mathbb N}\)</span>, is the sentence <span class="math notranslate nohighlight">\(\forall x \; (\mathit{fancy}(x) \to \mathit{tall}(x))\)</span> true or false?</p>
+<p>The answer, of course, is that we don&#8217;t have enough information to say. There&#8217;s no obvious meaning to the predicates <span class="math notranslate nohighlight">\(\mathit{fancy}\)</span> or <span class="math notranslate nohighlight">\(\mathit{tall}\)</span>, at least not when we apply them to natural numbers. To make sense of the sentence, we need to know which numbers are fancy and which ones are tall. Perhaps multiples of 10 are fancy, and even numbers are tall; in this case, the formula is true, since every multiple of 10 is even. Perhaps prime numbers are fancy and odd numbers are tall; then the formula is false, since 2 is fancy but not tall.</p>
+<p>We call each of these descriptions an <em>interpretation</em> of the predicate symbols <span class="math notranslate nohighlight">\(\mathit{fancy}\)</span> and <span class="math notranslate nohighlight">\(\mathit{tall}\)</span> in the domain <span class="math notranslate nohighlight">\({\mathbb N}\)</span>. Formally, an interpretation of a unary predicate <span class="math notranslate nohighlight">\(P\)</span> in a domain <span class="math notranslate nohighlight">\(D\)</span> is the set of elements of <span class="math notranslate nohighlight">\(D\)</span> for which <span class="math notranslate nohighlight">\(P\)</span> is true. For an example, the standard interpretation of <span class="math notranslate nohighlight">\(\mathit{prime}\)</span> in <span class="math notranslate nohighlight">\({\mathbb N}\)</span> that we used above was just the set of prime natural numbers.</p>
+<p>We can interpret constant, function, and relation symbols in a similar way. An interpretation of constant symbol <span class="math notranslate nohighlight">\(c\)</span> in domain <span class="math notranslate nohighlight">\(D\)</span> is an element of <span class="math notranslate nohighlight">\(D\)</span>. An interpretation of a function symbol <span class="math notranslate nohighlight">\(f\)</span> with arity <span class="math notranslate nohighlight">\(n\)</span> is a function that maps <span class="math notranslate nohighlight">\(n\)</span> elements of <span class="math notranslate nohighlight">\(D\)</span> to another element of <span class="math notranslate nohighlight">\(D\)</span>. An interpretation of a relation symbol <span class="math notranslate nohighlight">\(R\)</span> with arity <span class="math notranslate nohighlight">\(n\)</span> is the set of <span class="math notranslate nohighlight">\(n\)</span> tuples of elements of <span class="math notranslate nohighlight">\(D\)</span> for which <span class="math notranslate nohighlight">\(R\)</span> is true.</p>
+<p>It is important to emphasize the difference between a syntactic predicate symbol (or function symbol, or constant symbol) and the semantic predicate (or function, or object) to which it is interpreted. The former is a symbol, relates to other symbols, and has no meaning on its own until we specify an interpretation. Strictly speaking, it makes no sense to write <span class="math notranslate nohighlight">\(\mathit{prime}(3)\)</span>, where <span class="math notranslate nohighlight">\(\mathit{prime}\)</span> is a predicate symbol and 3 is a natural number, since the argument to <span class="math notranslate nohighlight">\(\mathit{prime}\)</span> is supposed to be a syntactic term. Sometimes we may obscure this distinction, as above when we specified a language with constant symbols 0, 1, and 2. But there is still a fundamental distinction between the objects of the domain and the symbols we use to represent them.</p>
+<p>Sometimes, when we interpret a language in a particular domain, it is useful to implicitly introduce new constant symbols into the language to denote elements of this domain. Specifically, for each element <span class="math notranslate nohighlight">\(a\)</span> of the domain, we introduce a constant symbol <span class="math notranslate nohighlight">\(\bar a\)</span>, which is interpreted as <span class="math notranslate nohighlight">\(a\)</span>. Then the expression <span class="math notranslate nohighlight">\(\mathit{prime}(\bar 3)\)</span> does make sense. Interpreting the predicate symbol <span class="math notranslate nohighlight">\(\mathit{prime}\)</span> in the natural way, this expression will evaluate to true. We think of <span class="math notranslate nohighlight">\(\bar 3\)</span> as a linguistic &#8220;name&#8221; that represents the natural number 3, in the same way that the phrase &#8220;Aristotle&#8221; is a name that represents the ancient Greek philosopher.</p>
+</div>
+<div class="section" id="truth-in-a-model">
+<h2><span class="section-number">10.2. </span>Truth in a Model<a class="headerlink" href="#truth-in-a-model" title="Permalink to this headline">&#182;</a></h2>
+<p>Fix a first-order language. Suppose we have chosen a domain <span class="math notranslate nohighlight">\(D\)</span> in which to interpret the language, along with an interpretation in <span class="math notranslate nohighlight">\(D\)</span> of each of the symbols of that language. We will call this structure&#8212;the domain <span class="math notranslate nohighlight">\(D\)</span>, paired with the interpretation&#8212;a <em>model</em> for the language. A model for a first-order language is directly analogous to a truth assignment for propositional logic, because it provides all the information we need to determine the truth value of each sentence in the language.</p>
+<p>The procedure for evaluating the truth of a sentence based on a model works the way you think it should, but the formal description is subtle. Recall the difference between <em>terms</em> and <em>assertions</em> that we made earlier in Chapter 4. Terms, like <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(x + y\)</span>, or <span class="math notranslate nohighlight">\(f(c)\)</span>, are meant to represent objects. A term does not have a truth value, since (for example) it makes no sense to ask whether 3 is true or false. Assertions, like <span class="math notranslate nohighlight">\(P(a)\)</span>, <span class="math notranslate nohighlight">\(R(x, f(y))\)</span>, or <span class="math notranslate nohighlight">\(a + b &gt; a \wedge \mathit{prime}(c)\)</span>, apply predicate or relation symbols to terms to produce statements that could be true or false.</p>
+<p>The interpretation of a term in a model is an element of the domain of that model. The model directly specifies how to interpret constant symbols. To interpret a term <span class="math notranslate nohighlight">\(f(t)\)</span> created by applying a function symbol to another term, we interpret the term <span class="math notranslate nohighlight">\(t\)</span>, and then apply the interpretation of <span class="math notranslate nohighlight">\(f\)</span> to this term. (This process makes sense, since the interpretation of <span class="math notranslate nohighlight">\(f\)</span> is a function on the domain.) This generalizes to functions of higher arity in the obvious way. We will not yet interpret terms that include free variables like <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, since these terms do not pick out unique elements of the domain. (The variable <span class="math notranslate nohighlight">\(x\)</span> could potentially refer to any object.)</p>
+<p>For example, suppose we have a language with two constant symbols, <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, a unary function symbol <span class="math notranslate nohighlight">\(f\)</span>, and a binary function symbol <span class="math notranslate nohighlight">\(g\)</span>. Let <span class="math notranslate nohighlight">\({\mathcal M}\)</span> be the model with domain <span class="math notranslate nohighlight">\({\mathbb N}\)</span>, where <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are interpreted as <span class="math notranslate nohighlight">\(3\)</span> and <span class="math notranslate nohighlight">\(5\)</span>, respectively, <span class="math notranslate nohighlight">\(f(x)\)</span> is interpreted as the function which maps any natural number <span class="math notranslate nohighlight">\(n\)</span> to <span class="math notranslate nohighlight">\(n^2\)</span>, and <span class="math notranslate nohighlight">\(g\)</span> is the addition function. Then the term <span class="math notranslate nohighlight">\(g(f(a),b)\)</span> denotes the natural number <span class="math notranslate nohighlight">\(3^2+5 = 14\)</span>.</p>
+<p>Similarly, the interpretation of an assertion is a value <span class="math notranslate nohighlight">\(\mathbf{T}\)</span> or <span class="math notranslate nohighlight">\(\mathbf{F}\)</span>. For the sake of brevity, we will introduce new notation here: if <span class="math notranslate nohighlight">\(A\)</span> is an assertion and <span class="math notranslate nohighlight">\({\mathcal M}\)</span> is a model of the language of <span class="math notranslate nohighlight">\(A\)</span>, we write <span class="math notranslate nohighlight">\({\mathcal M} \models A\)</span> to mean that <span class="math notranslate nohighlight">\(A\)</span> evaluates to <span class="math notranslate nohighlight">\(\mathbf{T}\)</span> in <span class="math notranslate nohighlight">\({\mathcal M}\)</span>, and <span class="math notranslate nohighlight">\({\mathcal M} \not\models A\)</span> to mean that <span class="math notranslate nohighlight">\(A\)</span> evaluates to <span class="math notranslate nohighlight">\(\mathbf{F}\)</span>. (You can read the symbol <span class="math notranslate nohighlight">\(\models\)</span> as &#8220;models&#8221; or &#8220;satisfies&#8221; or &#8220;validates.&#8221;)</p>
+<p>To interpret a predicate or relation applied to some terms, we first interpret the terms as objects in the domain, and then see if the interpretation of the relation symbol is true of those objects. To continue with the example, suppose our language also has a relation symbol <span class="math notranslate nohighlight">\(\mathit{R}\)</span>, and we extend <span class="math notranslate nohighlight">\({\mathcal M}\)</span> to interpret <span class="math notranslate nohighlight">\(R\)</span> as the greater-than-or-equal-to relation. Then we have <span class="math notranslate nohighlight">\({\mathcal M} \not \models R(a, b)\)</span>, since 3 is not greater than 5, but <span class="math notranslate nohighlight">\({\mathcal M} \models R(g(f(a),b),b)\)</span>, since 14 is greater than 5.</p>
+<p>Interpreting expressions using the logical connectives <span class="math notranslate nohighlight">\(\wedge\)</span>, <span class="math notranslate nohighlight">\(\vee\)</span>, <span class="math notranslate nohighlight">\(\to\)</span>, and <span class="math notranslate nohighlight">\(\neg\)</span> works exactly as it did in the propositional setting. <span class="math notranslate nohighlight">\({\mathcal M} \models A \wedge B\)</span> exactly when <span class="math notranslate nohighlight">\({\mathcal M} \models A\)</span> and <span class="math notranslate nohighlight">\({\mathcal M} \models B\)</span>, and so on.</p>
+<p>We still need to explain how to interpret existential and universal expressions. We saw that <span class="math notranslate nohighlight">\(\exists x \; A\)</span> intuitively meant that there was <em>some</em> element of the domain that would make <span class="math notranslate nohighlight">\(A\)</span> true, when we &#8220;replaced&#8221; the variable <span class="math notranslate nohighlight">\(x\)</span> with that element. To make this a bit more precise, we say that <span class="math notranslate nohighlight">\({\mathcal M} \models \exists x A\)</span> exactly when there is an element <span class="math notranslate nohighlight">\(a\)</span> in the domain of <span class="math notranslate nohighlight">\({\mathcal M}\)</span> such that, when we interpret <span class="math notranslate nohighlight">\(x\)</span> as <span class="math notranslate nohighlight">\(a\)</span>, then <span class="math notranslate nohighlight">\({\mathcal M} \models A\)</span>. To continue the example above, we have <span class="math notranslate nohighlight">\({\mathcal M} \models \exists x \; (R(x, b))\)</span>, since when we interpret <span class="math notranslate nohighlight">\(x\)</span> as 6 we have <span class="math notranslate nohighlight">\({\mathcal M} \models R(x, b)\)</span>.</p>
+<p>More concisely, we can say that <span class="math notranslate nohighlight">\({\mathcal M} \models \exists x \; A\)</span> when there is an <span class="math notranslate nohighlight">\(a\)</span> in the domain of <span class="math notranslate nohighlight">\({\mathcal M}\)</span> such that <span class="math notranslate nohighlight">\({\mathcal M} \models A[\bar a / x]\)</span>. The notation <span class="math notranslate nohighlight">\(A[\bar a / x]\)</span> indicates that every occurrence of <span class="math notranslate nohighlight">\(x\)</span> in <span class="math notranslate nohighlight">\(A\)</span> has been replaced by the symbol <span class="math notranslate nohighlight">\(\bar a\)</span>.</p>
+<p>Finally, remember, <span class="math notranslate nohighlight">\(\forall x \; A\)</span> means that <span class="math notranslate nohighlight">\(A\)</span> is true for all possible values of <span class="math notranslate nohighlight">\(x\)</span>. We make this precise by saying that <span class="math notranslate nohighlight">\({\mathcal M} \models \forall x \; A\)</span> exactly when for every element <span class="math notranslate nohighlight">\(a\)</span> in the domain of <span class="math notranslate nohighlight">\({\mathcal M}\)</span>, interpreting <span class="math notranslate nohighlight">\(x\)</span> as <span class="math notranslate nohighlight">\(a\)</span> gives that <span class="math notranslate nohighlight">\({\mathcal M} \models A\)</span>. Alternatively, we can say that <span class="math notranslate nohighlight">\({\mathcal M} \models \forall x \; A\)</span> when for every <span class="math notranslate nohighlight">\(a\)</span> in the domain of <span class="math notranslate nohighlight">\({\mathcal M}\)</span>, we have <span class="math notranslate nohighlight">\({\mathcal M} \models A[\bar a / x]\)</span>. In our example above, <span class="math notranslate nohighlight">\({\mathcal M} \not\models \forall x \; (R(x, b))\)</span>, since when we interpret <span class="math notranslate nohighlight">\(x\)</span> as 2 we do not have <span class="math notranslate nohighlight">\({\mathcal M} \models R(x, b)\)</span>.</p>
+<p>These rules allow us to determine the truth value of any <em>sentence</em> in a model. (Remember, a sentence is a formula with no free variables.) There are some subtleties: for instance, we&#8217;ve implicitly assumed that our formula doesn&#8217;t quantify over the same variable twice, as in <span class="math notranslate nohighlight">\(\forall x \; \exists x \; A\)</span>. But for the most part, the interpretation process tells us to &#8220;read&#8221; a formula as talking directly about objects in the domain.</p>
+</div>
+<div class="section" id="examples">
+<h2><span class="section-number">10.3. </span>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">&#182;</a></h2>
+<p>Take a simple language with no constant symbols, one relation symbol <span class="math notranslate nohighlight">\(\leq\)</span>, and one binary function symbol <span class="math notranslate nohighlight">\(+\)</span>. Our model <span class="math notranslate nohighlight">\({\mathcal M}\)</span> will have domain <span class="math notranslate nohighlight">\({\mathbb N}\)</span>, and the symbols will be interpreted as the standard less-than-or-equal-to relation and addition function.</p>
+<p>Think about the following questions before you read the answers below. Remember, our domain is <span class="math notranslate nohighlight">\({\mathbb N}\)</span>, not <span class="math notranslate nohighlight">\({\mathbb Z}\)</span> or any other number system.</p>
+<ol class="arabic simple">
+<li><p>Is it true that <span class="math notranslate nohighlight">\({\mathcal M} \models \exists x \; (x \leq x)\)</span>? What about <span class="math notranslate nohighlight">\({\mathcal M} \models \forall x \; (x \leq x)\)</span>?</p></li>
+<li><p>Similarly, what about <span class="math notranslate nohighlight">\({\mathcal M} \models \exists x \; (x + x \leq x)\)</span>? <span class="math notranslate nohighlight">\({\mathcal M} \models \forall x \; (x + x \leq x)\)</span>?</p></li>
+<li><p>Do the sentences <span class="math notranslate nohighlight">\(\exists x \; \forall y \; (x \leq y)\)</span> and <span class="math notranslate nohighlight">\(\forall x \; \exists y \; (x \leq y)\)</span> mean the same thing? Are they true or false?</p></li>
+<li><p>Can you think of a formula <span class="math notranslate nohighlight">\(A\)</span> in this language, with one free variable <span class="math notranslate nohighlight">\(x\)</span>, such that <span class="math notranslate nohighlight">\({\mathcal M} \models \forall x \; A\)</span> but <span class="math notranslate nohighlight">\({\mathcal M} \not \models \exists x \; A\)</span>?</p></li>
+</ol>
+<p>These questions indicate a subtle, and often tricky, interplay between the universal and existential quantifiers. Once you&#8217;ve thought about them a bit, read the answers:</p>
+<ol class="arabic simple">
+<li><p>Both of these statements are true. For the former, we can (for example) interpret <span class="math notranslate nohighlight">\(x\)</span> as the natural number 0. Then, <span class="math notranslate nohighlight">\({\mathcal M} \models x \leq x\)</span>, so the existential is true. For the latter, pick an arbitrary natural number <span class="math notranslate nohighlight">\(n\)</span>; it is still the case that when we interpret <span class="math notranslate nohighlight">\(x\)</span> as <span class="math notranslate nohighlight">\(n\)</span>, we have <span class="math notranslate nohighlight">\({\mathcal M} \models x \leq x\)</span>.</p></li>
+<li><p>The first statement is true, since we can interpret <span class="math notranslate nohighlight">\(x\)</span> as 0. The second statement, though, is false. When we interpret <span class="math notranslate nohighlight">\(x\)</span> as 1 (or, in fact, as any natural number besides 0), we see that <span class="math notranslate nohighlight">\({\mathcal M} \not \models x + x \leq x\)</span>.</p></li>
+<li><p>These sentences do <em>not</em> mean the same thing, although in the specified model, both are true. The first expresses that some natural number is less than or equal to every natural number. This is true: 0 is less than or equal to every natural number. The second sentence says that for every natural number, there is another natural number at least as big. Again, this is true: every natural number <span class="math notranslate nohighlight">\(a\)</span> is less than or equal to <span class="math notranslate nohighlight">\(a\)</span>. If we took our domain to be <span class="math notranslate nohighlight">\({\mathbb Z}\)</span> instead of <span class="math notranslate nohighlight">\({\mathbb N}\)</span>, the first sentence would be false, while the second would still be true.</p></li>
+<li><p>The situation described here is impossible in our model. If <span class="math notranslate nohighlight">\({\mathcal M} \models \forall x A\)</span>, then <span class="math notranslate nohighlight">\({\mathcal M} \models A [\bar 0 / x]\)</span>, which implies that <span class="math notranslate nohighlight">\({\mathcal M} \models \exists x A\)</span>. The only time this situation can happen is when the domain of our model is empty.</p></li>
+</ol>
+<p>Now consider a different language with constant symbol 2, predicate symbols <span class="math notranslate nohighlight">\(\mathit{prime}\)</span> and <span class="math notranslate nohighlight">\(\mathit{odd}\)</span>, and binary relation <span class="math notranslate nohighlight">\(&lt;\)</span>, interpreted in the natural way over domain <span class="math notranslate nohighlight">\({\mathbb N}\)</span>. The sentence <span class="math notranslate nohighlight">\(\forall x \; (2 &lt; x \wedge \mathit{prime}(x) \to \mathit{odd}(x))\)</span> expresses the fact that every prime number bigger than 2 is odd. It is an example of <em>relativization</em>, discussed in <a class="reference internal" href="first_order_logic.html#relativization-and-sorts"><span class="std std-numref">Section 7.4</span></a>. We can now see semantically how relativization works. This sentence is true in our model if, for every natural number <span class="math notranslate nohighlight">\(n\)</span>, interpreting <span class="math notranslate nohighlight">\(x\)</span> as <span class="math notranslate nohighlight">\(n\)</span> makes the sentence true. If we interpret <span class="math notranslate nohighlight">\(x\)</span> as 0, 1, or 2, or as any non-prime number, the hypothesis of the implication is false, and thus <span class="math notranslate nohighlight">\(2 &lt; x \wedge \mathit{prime}(x) \to \mathit{odd}(x)\)</span> is true. Otherwise, if we interpret <span class="math notranslate nohighlight">\(x\)</span> as a prime number bigger than 2, both the hypothesis and conclusion of the implication are true, and <span class="math notranslate nohighlight">\(2 &lt; x \wedge \mathit{prime}(x) \to \mathit{odd}(x)\)</span> is again true. Thus the universal statement holds. It was an example like this that partially motivated our semantics for implication back in Chapter 3; any other choice would make relativization impossible.</p>
+<p>For the next example, we will consider models that are given by a rectangular grid of &#8220;dots.&#8221; Each dot has a color (red, blue, or green) and a size (small or large). We use the letter <span class="math notranslate nohighlight">\(R\)</span> to represent a large red dot and <span class="math notranslate nohighlight">\(r\)</span> to represent a small red dot, and similarly for <span class="math notranslate nohighlight">\(G, g, B, b\)</span>.</p>
+<p>The logical language we use to describe our dot world has predicates <span class="math notranslate nohighlight">\(\mathit{red}\)</span>, <span class="math notranslate nohighlight">\(\mathit{green}\)</span>, <span class="math notranslate nohighlight">\(\mathit{blue}\)</span>, <span class="math notranslate nohighlight">\(\mathit{small}\)</span> and <span class="math notranslate nohighlight">\(\mathit{large}\)</span>, which are interpreted in the obvious ways. The relation <span class="math notranslate nohighlight">\(\mathit{adj}(x, y)\)</span> is true if the dots referred to by <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are touching, not on a diagonal. The relations <span class="math notranslate nohighlight">\(\mathit{same{\mathord{\mbox{-}}}color}(x, y)\)</span>, <span class="math notranslate nohighlight">\(\mathit{same{\mathord{\mbox{-}}}size}(x, y)\)</span>, <span class="math notranslate nohighlight">\(\mathit{same{\mathord{\mbox{-}}}row}(x, y)\)</span>, and <span class="math notranslate nohighlight">\(\mathit{same{\mathord{\mbox{-}}}column}(x, y)\)</span> are also self-explanatory. The relation <span class="math notranslate nohighlight">\(\mathit{left{\mathord{\mbox{-}}}of}(x, y)\)</span> is true if the dot referred to by <span class="math notranslate nohighlight">\(x\)</span> is left of the dot referred to by <span class="math notranslate nohighlight">\(y\)</span>, regardless of what rows the dots are in. The interpretations of <span class="math notranslate nohighlight">\(\mathit{right{\mathord{\mbox{-}}}of}\)</span>, <span class="math notranslate nohighlight">\(\mathit{above}\)</span>, and <span class="math notranslate nohighlight">\(\mathit{below}\)</span> are similar.</p>
+<p>Consider the following sentences:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{green}(x) \vee \mathit{blue}(x))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x, y \;  (\mathit{adj}(x, y) \wedge \mathit{green}(x) \wedge \mathit{green}(y))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; ((\exists z \; \mathit{right{\mathord{\mbox{-}}}of}(z, x)) \wedge (\forall y \; (\mathit{left{\mathord{\mbox{-}}}of}(x, y) \to \mathit{blue}(y) \vee \mathit{small}(y))))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{large}(x) \to \exists y \; (\mathit{small}(y) \wedge \mathit{adj}(x, y)))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{green}(x) \to \exists y \; (\mathit{same{\mathord{\mbox{-}}}row}(x, y) \wedge \mathit{blue}(y)))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x, y \; (\mathit{same{\mathord{\mbox{-}}}row}(x, y) \wedge \mathit{same{\mathord{\mbox{-}}}column}(x, y) \to x = y)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; \forall y \; (\mathit{adj}(x, y) \to \neg \mathit{same{\mathord{\mbox{-}}}size}(x, y))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; \exists y \; (\mathit{adj}(x, y) \wedge \mathit{same{\mathord{\mbox{-}}}color}(x, y))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists y \; \forall x \; (\mathit{adj}(x, y) \wedge \mathit{same{\mathord{\mbox{-}}}color}(x, y))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; (\mathit{blue}(x) \wedge \exists y \; (\mathit{green}(y) \wedge \mathit{above}(x, y)))\)</span></p></li>
+</ol>
+<p>We can evaluate them in this particular model:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>R</p></td>
+<td><p>r</p></td>
+<td><p>g</p></td>
+<td><p>b</p></td>
+</tr>
+<tr class="row-even"><td><p>R</p></td>
+<td><p>b</p></td>
+<td><p>G</p></td>
+<td><p>b</p></td>
+</tr>
+<tr class="row-odd"><td><p>B</p></td>
+<td><p>B</p></td>
+<td><p>B</p></td>
+<td><p>b</p></td>
+</tr>
+</tbody>
+</table>
+<p>There they have the following truth values:</p>
+<ol class="arabic simple">
+<li><p>false</p></li>
+<li><p>true</p></li>
+<li><p>true</p></li>
+<li><p>false</p></li>
+<li><p>true</p></li>
+<li><p>true</p></li>
+<li><p>false</p></li>
+<li><p>true</p></li>
+<li><p>false</p></li>
+<li><p>true</p></li>
+</ol>
+<p>For each sentence, see if you can find a model that makes the sentence true, and another that makes it false. For an extra challenge, try to make all of the sentences true simultaneously. Notice that you can use any number of rows and any number of columns.</p>
+</div>
+<div class="section" id="validity-and-logical-consequence">
+<h2><span class="section-number">10.4. </span>Validity and Logical Consequence<a class="headerlink" href="#validity-and-logical-consequence" title="Permalink to this headline">&#182;</a></h2>
+<p>We have seen that whether a formula is true or false often depends on the model we choose. Some formulas, though, are true in every possible model. An example we saw earlier was <span class="math notranslate nohighlight">\(\forall y \; (\mathit{le}(0, y) \to \mathit{le}(0, y))\)</span>. Why is this sentence valid? Suppose <span class="math notranslate nohighlight">\({\mathcal M}\)</span> is an arbitrary model of the language, and suppose <span class="math notranslate nohighlight">\(a\)</span> is an arbitrary element of the domain of <span class="math notranslate nohighlight">\({\mathcal M}\)</span>. Either <span class="math notranslate nohighlight">\({\mathcal M} \models \mathit{le}(0, \bar a)\)</span> or <span class="math notranslate nohighlight">\({\mathcal M} \models \neg \mathit{le}(0, \bar a)\)</span>. In either case, the propositional semantics of implication guarantee that <span class="math notranslate nohighlight">\({\mathcal M} \models \mathit{le}(0, \bar a) \to \mathit{le}(0, \bar a)\)</span>. We often write <span class="math notranslate nohighlight">\(\models A\)</span> to mean that <span class="math notranslate nohighlight">\(A\)</span> is valid.</p>
+<p>In the propositional setting, there is an easy method to figure out if a formula is a tautology or not. Writing the truth table and checking for any rows ending with <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> is algorithmic, and we know from the beginning exactly how large the truth table will be. Unfortunately, we cannot do the same for first-order formulas. Any language has infinitely many models, so a &#8220;first-order&#8221; truth table would be infinitely long. To make matters worse, even checking whether a formula is true in a single model can be a non-algorithmic task. To decide whether a universal statement like <span class="math notranslate nohighlight">\(\forall x \; P(x)\)</span> is true in a model with an infinite domain, we might have to check whether <span class="math notranslate nohighlight">\(P\)</span> is true of infinitely many elements.</p>
+<p>This is not to say that we can <em>never</em> figure out if a first-order sentence is a tautology. For example, we have argued that <span class="math notranslate nohighlight">\(\forall y \; (\mathit{lt}(0, y) \to \mathit{lt}(0, y))\)</span> was one. It is just a more difficult question than for propositional logic.</p>
+<p>As was the case with propositional logic, we can extend the notion of validity to a notion of logical consequence. Fix a first-order language, <span class="math notranslate nohighlight">\(L\)</span>. Suppose <span class="math notranslate nohighlight">\(\Gamma\)</span> is a set of sentences in <span class="math notranslate nohighlight">\(L\)</span>, and <span class="math notranslate nohighlight">\(A\)</span> is a sentence of <span class="math notranslate nohighlight">\(L\)</span>. We will say that <span class="math notranslate nohighlight">\(A\)</span> <em>is a logical consequence of</em> <span class="math notranslate nohighlight">\(\Gamma\)</span> if every model of <span class="math notranslate nohighlight">\(\Gamma\)</span> is a model of <span class="math notranslate nohighlight">\(A\)</span>. This is one way of spelling out that <span class="math notranslate nohighlight">\(A\)</span> is a &#8220;necessary consequence&#8221; of <span class="math notranslate nohighlight">\(A\)</span>: under any interpretation, if the hypotheses in <span class="math notranslate nohighlight">\(\Gamma\)</span> come out true, <span class="math notranslate nohighlight">\(A\)</span> is true as well.</p>
+</div>
+<div class="section" id="soundness-and-completeness">
+<h2><span class="section-number">10.5. </span>Soundness and Completeness<a class="headerlink" href="#soundness-and-completeness" title="Permalink to this headline">&#182;</a></h2>
+<p>In propositional logic, we saw a close connection between the provable formulas and the tautologies&#8212;specifically, a formula is provable if and only if it is a tautology. More generally, we say that a formula <span class="math notranslate nohighlight">\(A\)</span> is a logical consequence of a set of hypotheses, <span class="math notranslate nohighlight">\(\Gamma\)</span>, if and only if there is a natural deduction proof of <span class="math notranslate nohighlight">\(A\)</span> from <span class="math notranslate nohighlight">\(\Gamma\)</span>. It turns out that the analogous statements hold for first order logic.</p>
+<p>The &#8220;soundness&#8221; direction&#8212;the fact that if <span class="math notranslate nohighlight">\(A\)</span> is provable from <span class="math notranslate nohighlight">\(\Gamma\)</span> then <span class="math notranslate nohighlight">\(A\)</span> is true in any model of <span class="math notranslate nohighlight">\(\Gamma\)</span>&#8212;holds for reasons that are similar to the reasons it holds in the propositional case. Specifically, the proof proceeds by showing that each rule of natural deduction preserves the truth in a model.</p>
+<p>The completeness theorem for first order logic was first proved by Kurt G&#246;del in his 1929 dissertation. Another, simpler proof was later provided by Leon Henkin.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> If a formula <span class="math notranslate nohighlight">\(A\)</span> is a logical consequence of a set of sentences <span class="math notranslate nohighlight">\(\Gamma\)</span>, then <span class="math notranslate nohighlight">\(A\)</span> is provable from <span class="math notranslate nohighlight">\(\Gamma\)</span>.</p>
+<hr class="docutils" />
+<p>Compared to the version for propositional logic, the first order completeness theorem is harder to prove. We will not go into too much detail here, but will indicate some of the main ideas. A set of sentences is said to be <em>consistent</em> if you cannot prove a contradiction from those hypotheses. Most of the work in Henkin&#8217;s proof is done by the following &#8220;model existence&#8221; theorem:</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Every consistent set of sentences has a model.</p>
+<hr class="docutils" />
+<p>From this theorem, it is easy to deduce the completeness theorem. Suppose there is no proof of <span class="math notranslate nohighlight">\(A\)</span> from <span class="math notranslate nohighlight">\(\Gamma\)</span>. Then the set <span class="math notranslate nohighlight">\(\Gamma \cup \{ \neg A \}\)</span> is consistent. (If we could prove <span class="math notranslate nohighlight">\(\bot\)</span> from <span class="math notranslate nohighlight">\(\Gamma \cup \{ \neg A \}\)</span>, then by the <em>reductio ad absurdum</em> rule we could prove <span class="math notranslate nohighlight">\(A\)</span> from <span class="math notranslate nohighlight">\(\Gamma\)</span>.) By the model existence theorem, that means that there is a model <span class="math notranslate nohighlight">\({\mathcal M}\)</span> of <span class="math notranslate nohighlight">\(\Gamma \cup \{ \neg A \}\)</span>. But this is a model of <span class="math notranslate nohighlight">\(\Gamma\)</span> that is not a model of <span class="math notranslate nohighlight">\(A\)</span>, which means that <span class="math notranslate nohighlight">\(A\)</span> is not a logical consequence of <span class="math notranslate nohighlight">\(\Gamma\)</span>.</p>
+<p>The proof of the model existence theorem is intricate. Somehow, from a consistent set of sentences, one has to build a model. The strategy is to build the model out of syntactic entities, in other words, to use terms in an expanded language as the elements of the domain.</p>
+<p>The moral here is much the same as it was for propositional logic. Because we have developed our syntactic rules with a certain semantics in mind, the two exhibit different sides of the same coin: the provable sentences are exactly the ones that are true in all models, and the sentences that are provable from a set of hypotheses are exactly the ones that are true in all models of those hypotheses.</p>
+<p>We therefore have another way to answer the question posed in the previous section. To show that a sentence is valid, there is no need to check its truth in every possible model. Rather, it suffices to produce a proof.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">10.6. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>In a first-order language with a binary relation, <span class="math notranslate nohighlight">\(R(x,y)\)</span>, consider the following sentences:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\exists x \; \forall y \; R(x, y)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists y \; \forall x \; R(x, y)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x,y \; (R(x,y) \wedge x \neq y \to \exists z \; (R(x,z) \wedge R(z,y) \wedge x \neq z \wedge y \neq z))\)</span></p></li>
+</ul>
+<p>For each of the following structures, determine whether of each of
+those sentences is true or false.</p>
+<ul class="simple">
+<li><p>the structure <span class="math notranslate nohighlight">\((\mathbb N, \leq)\)</span>, that is, the interpretation in the natural numbers where <span class="math notranslate nohighlight">\(R\)</span> is <span class="math notranslate nohighlight">\(\leq\)</span></p></li>
+<li><p>the structure <span class="math notranslate nohighlight">\((\mathbb Z, \leq)\)</span></p></li>
+<li><p>the structure <span class="math notranslate nohighlight">\((\mathbb Q, \leq)\)</span></p></li>
+<li><p>the structure <span class="math notranslate nohighlight">\((\mathbb N, \mid)\)</span>, that is, the interpretation in the natural numbers where <span class="math notranslate nohighlight">\(R\)</span> is the &#8220;divides&#8221; relation</p></li>
+<li><p>the structure <span class="math notranslate nohighlight">\((P(\mathbb N), \subseteq)\)</span>, that is, the interpretation where variables range over sets of natural numbers,
+where <span class="math notranslate nohighlight">\(R\)</span> is interpreted as the subset relation.</p></li>
+</ul>
+</li>
+<li><p>Create a 4 x 4 &#8220;dots&#8221; world that makes all of the following sentences
+true:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{green}(x) \vee \mathit{blue}(x))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x, y \; (\mathit{adj}(x, y) \wedge \mathit{green}(x) \wedge \mathit{green}(y))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; (\exists z \; \mathit{right{\mathord{\mbox{-}}}of}(z, x) \wedge \forall y \; (\mathit{left{\mathord{\mbox{-}}}of}(x, y) \to \mathit{blue}(y) \vee \mathit{small}(y)))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{large}(x) \to \exists y \; (\mathit{small}(y) \wedge \mathit{adj}(x, y)))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{green}(x) \to \exists y \; (\mathit{same{\mathord{\mbox{-}}}row}(x, y) \wedge \mathit{blue}(y)))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x, y \; (\mathit{same{\mathord{\mbox{-}}}row}(x, y) \wedge \mathit{same\mathord{\mbox{-}} column}(x, y) \to x = y)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; \forall y \; (\mathit{adj}(x, y) \to \neg \mathit{same{\mathord{\mbox{-}}}size}(x, y))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; \exists y \; (\mathit{adj}(x, y) \wedge \mathit{same{\mathord{\mbox{-}}}color}(x, y))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists y \; \forall x \; (\mathit{adj}(x, y) \to \mathit{same{\mathord{\mbox{-}}}color}(x, y))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; (\mathit{blue}(x) \wedge \exists y \; (\mathit{green}(y) \wedge \mathit{above}(x, y)))\)</span></p></li>
+</ul>
+</li>
+<li><p>Fix a first-order language <span class="math notranslate nohighlight">\(L\)</span>, and let <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> be any two sentences in <span class="math notranslate nohighlight">\(L\)</span>. Remember that <span class="math notranslate nohighlight">\(\vDash A\)</span> means that <span class="math notranslate nohighlight">\(A\)</span> is valid. Unpacking the definitions, show that if <span class="math notranslate nohighlight">\(\vDash A \wedge B\)</span>, then <span class="math notranslate nohighlight">\(\vDash A\)</span> and <span class="math notranslate nohighlight">\(\vDash B\)</span>.</p></li>
+<li><p>Give a concrete example to show that <span class="math notranslate nohighlight">\(\vDash A \vee B\)</span> does not necessarily imply <span class="math notranslate nohighlight">\(\vDash A\)</span> or <span class="math notranslate nohighlight">\(\vDash B\)</span>. In other words, pick a language <span class="math notranslate nohighlight">\(L\)</span> and choose particular sentences <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> such that <span class="math notranslate nohighlight">\(A \vee B\)</span> is valid but neither <span class="math notranslate nohighlight">\(A\)</span> nor <span class="math notranslate nohighlight">\(B\)</span> is valid.</p></li>
+<li><p>Consider the three formulas <span class="math notranslate nohighlight">\(\forall x \; R(x, x)\)</span>, <span class="math notranslate nohighlight">\(\forall x\; \forall y \; (R (x, y) \to R (y, x))\)</span>, and <span class="math notranslate nohighlight">\(\forall x \; \forall y \; \forall z \; (R(x, y) \wedge R(y, z) \to R(x, z))\)</span>.
+These sentences say that <span class="math notranslate nohighlight">\(R\)</span> is reflexive, symmetric, and trainsitive.
+For each pair of sentences, find a model that makes those two sentences true and the third false.
+This shows that these sentences are logically independent: no one is entailed by the others.</p></li>
+<li><p>Show that if a set of formulas <span class="math notranslate nohighlight">\(\{\psi_1, \ldots, \psi_n\}\)</span> is semantically inconsistent, then it entails every formula <span class="math notranslate nohighlight">\(\phi\)</span>.
+Does the converse also hold?</p></li>
+<li><p>Give a formula <span class="math notranslate nohighlight">\(\psi\)</span> such that the set <span class="math notranslate nohighlight">\(\{P(c), \neg P(D), \psi \}\)</span> is consistent, and so is the set <span class="math notranslate nohighlight">\(\{P(c), \neg P(D), \neg \psi \}\)</span>.</p></li>
+<li><p>For each the following formulas, show whether the formula is valid, satisfiable, or unsatisfiable.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\exists x \; \forall y \; R (y, x) \wedge R (x, y)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((\exists x \; \forall y \; R (x, y)) \to (\exists x \; \exists y \; R (x, y))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((\exists x\; P (x)) \wedge (\exists x \; \neg P(x))\)</span></p></li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">10. Semantics of First Order Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#interpretations">10.1. Interpretations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#truth-in-a-model">10.2. Truth in a Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">10.3. Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#validity-and-logical-consequence">10.4. Validity and Logical Consequence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#soundness-and-completeness">10.5. Soundness and Completeness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">10.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/semantics_of_first_order_logic.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

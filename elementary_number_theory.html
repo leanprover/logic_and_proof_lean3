@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>19. Elementary Number Theory &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="20. Combinatorics" href="combinatorics.html" />
+    <link rel="prev" title="18. The Natural Numbers and Induction in Lean" href="the_natural_numbers_and_induction_in_lean.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="elementary-number-theory">
+<span id="id1"></span><h1><span class="section-number">19. </span>Elementary Number Theory<a class="headerlink" href="#elementary-number-theory" title="Permalink to this headline">&#182;</a></h1>
+<p>In the last two chapters, we saw that the natural numbers are characterized by the fact that they support <em>proof by induction</em> and <em>definition by recursion</em>. Moreover, with these components, we can actually define <span class="math notranslate nohighlight">\(+\)</span>, <span class="math notranslate nohighlight">\(\times\)</span>, and <span class="math notranslate nohighlight">\(&lt;\)</span> in a suitable axiomatic foundation, and prove that they have the relevant properties. In <a class="reference internal" href="the_natural_numbers_and_induction.html#the-integers"><span class="std std-numref">Section 17.6</span></a> we also discussed the integers, which include negative numbers and support the operation of subtraction.</p>
+<p>The natural numbers and the integers are the central components of <em>number theory</em>, a branch of mathematics dating back to the ancients. In this chapter, we will discuss some of the rudiments of this subject.</p>
+<div class="section" id="the-quotient-remainder-theorem">
+<h2><span class="section-number">19.1. </span>The Quotient-Remainder Theorem<a class="headerlink" href="#the-quotient-remainder-theorem" title="Permalink to this headline">&#182;</a></h2>
+<p>A key property of the integers that we will use here is the quotient-remainder theorem:</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Let <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(m\)</span> be integers with <span class="math notranslate nohighlight">\(m &gt; 0\)</span>. Then there are integers <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r\)</span> satisfying <span class="math notranslate nohighlight">\(n = m q + r\)</span> and <span class="math notranslate nohighlight">\(0 \le r &lt; m\)</span>.</p>
+<p><strong>Proof.</strong> First we prove this in the case where <span class="math notranslate nohighlight">\(n\)</span> is a natural number, in which case use complete induction on <span class="math notranslate nohighlight">\(n\)</span>. Let <span class="math notranslate nohighlight">\(n\)</span> be any natural number. If <span class="math notranslate nohighlight">\(n &lt; m\)</span>, then we can take <span class="math notranslate nohighlight">\(q = 0\)</span> and <span class="math notranslate nohighlight">\(r = n\)</span>, and we indeed have <span class="math notranslate nohighlight">\(n = m q + r\)</span> and <span class="math notranslate nohighlight">\(0 \le r &lt; m\)</span>. Otherwise, we have <span class="math notranslate nohighlight">\(n \geq m\)</span>. In this case <span class="math notranslate nohighlight">\(n - m\)</span> is a natural number smaller than <span class="math notranslate nohighlight">\(n\)</span>. By induction hypothesis, we know that we can find <span class="math notranslate nohighlight">\(q'\)</span> and <span class="math notranslate nohighlight">\(r'\)</span> such that <span class="math notranslate nohighlight">\(n - m = m q' + r'\)</span> and <span class="math notranslate nohighlight">\(0 \le r' &lt; m\)</span>. Then we can choose <span class="math notranslate nohighlight">\(q = q' + 1\)</span> and <span class="math notranslate nohighlight">\(r = r'\)</span>, and we obtain <span class="math notranslate nohighlight">\(n = m q + r\)</span> and <span class="math notranslate nohighlight">\(0 \le r &lt; m\)</span>, as desired.</p>
+<p>If <span class="math notranslate nohighlight">\(n\)</span> is negative, then <span class="math notranslate nohighlight">\(-(n+1)\)</span> is a natural number, hence we can use the previous part for <span class="math notranslate nohighlight">\(-(n+1)\)</span> to obtain <span class="math notranslate nohighlight">\(q'\)</span> and <span class="math notranslate nohighlight">\(r'\)</span> such that <span class="math notranslate nohighlight">\(-(n+1) = m q' + r'\)</span> and <span class="math notranslate nohighlight">\(0 \le r' &lt; m\)</span>. Now let <span class="math notranslate nohighlight">\(q = -(q' + 1)\)</span> and <span class="math notranslate nohighlight">\(r = m - r' - 1\)</span>. Then we can compute</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}m q + r &amp;= -m (q' + 1) + m - r' - 1\\
+&amp;=  -(m q' + r') - m + m - 1\\
+&amp;= -(-(n+1)) - 1\\
+&amp;= n + 1 - 1\\
+&amp;= n.\end{split}\]</div>
+<p>Also, since <span class="math notranslate nohighlight">\(r' \geq 0\)</span> we have <span class="math notranslate nohighlight">\(r &lt; m\)</span> and since <span class="math notranslate nohighlight">\(r' &lt; m\)</span> we have <span class="math notranslate nohighlight">\(r \geq 0\)</span>. This completes the proof.</p>
+<hr class="docutils" />
+<p>Intuitively, <span class="math notranslate nohighlight">\(q\)</span> is the integer <em>quotient</em> when you divide <span class="math notranslate nohighlight">\(n\)</span> by <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(r\)</span> is the <em>remainder</em>. Remember that using the word &#8220;the&#8221; presupposes that there are unique values meeting that description. That is, in fact, the case:</p>
+<hr class="docutils" />
+<p><strong>Proposition.</strong> If <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(m\)</span> are as above, <span class="math notranslate nohighlight">\(n = m q + r\)</span> and <span class="math notranslate nohighlight">\(n = m q' + r'\)</span> with both <span class="math notranslate nohighlight">\(r\)</span> and <span class="math notranslate nohighlight">\(r'\)</span> less than <span class="math notranslate nohighlight">\(m\)</span>, then <span class="math notranslate nohighlight">\(q = q'\)</span> and <span class="math notranslate nohighlight">\(r = r'\)</span>.</p>
+<p><strong>Proof.</strong> By assumption, we have <span class="math notranslate nohighlight">\(mq + r = m q' + r'\)</span>. It suffices to show that <span class="math notranslate nohighlight">\(q = q'\)</span>, because then <span class="math notranslate nohighlight">\(m q = m q'\)</span>, and hence <span class="math notranslate nohighlight">\(r = r'\)</span>.</p>
+<p>Suppose <span class="math notranslate nohighlight">\(q \ne q'\)</span>. Then either <span class="math notranslate nohighlight">\(q &lt; q'\)</span> or <span class="math notranslate nohighlight">\(q' &lt; q\)</span>. Suppose without loss of generality that <span class="math notranslate nohighlight">\(q &lt; q'\)</span>. (The other case is symmetric.) Then <span class="math notranslate nohighlight">\(m q &lt; m q'\)</span>, so we can subtract <span class="math notranslate nohighlight">\(mq\)</span> from both sides of the equality <span class="math notranslate nohighlight">\(mq + r = m q' + r'\)</span> to obtain</p>
+<div class="math notranslate nohighlight">
+\[r = m q' + r' - m q = m (q - q') + r'.\]</div>
+<p>But since <span class="math notranslate nohighlight">\(q' &lt; q\)</span>, we have <span class="math notranslate nohighlight">\(q - q' \ge 1\)</span>, which means</p>
+<div class="math notranslate nohighlight">
+\[m (q - q') + r' \ge m + r' \ge m,\]</div>
+<p>which contradicts the fact that <span class="math notranslate nohighlight">\(r &lt; m\)</span>.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="divisibility">
+<h2><span class="section-number">19.2. </span>Divisibility<a class="headerlink" href="#divisibility" title="Permalink to this headline">&#182;</a></h2>
+<p>We can define divisibility on the integers as follows.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> Given two integers <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span>, we say that <span class="math notranslate nohighlight">\(m\)</span> <em>is a divisor of</em> <span class="math notranslate nohighlight">\(n\)</span>, written <span class="math notranslate nohighlight">\(m \mid n\)</span>, if there exists some integer <span class="math notranslate nohighlight">\(k\)</span> such that <span class="math notranslate nohighlight">\(m \cdot k = n\)</span>. We also say that <span class="math notranslate nohighlight">\(n\)</span> <em>is divisible by</em> <span class="math notranslate nohighlight">\(m\)</span> or that <span class="math notranslate nohighlight">\(m\)</span> <em>divides</em> <span class="math notranslate nohighlight">\(n\)</span>. We write <span class="math notranslate nohighlight">\(m \nmid n\)</span> to say that <span class="math notranslate nohighlight">\(m\)</span> is not a divisor of <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<hr class="docutils" />
+<p>We can now prove the following:</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> The relation <span class="math notranslate nohighlight">\(\mid\)</span> is reflexive and transitive. Also, if <span class="math notranslate nohighlight">\(n \mid m\)</span> and <span class="math notranslate nohighlight">\(m \mid n\)</span>, then <span class="math notranslate nohighlight">\(m = \pm n\)</span>. This means that restricted to the natural numbers, this relation is a partial order.</p>
+<p><strong>Proof.</strong> Reflexivity is immediate, because <span class="math notranslate nohighlight">\(n \cdot 1 = n\)</span>, hence <span class="math notranslate nohighlight">\(n\mid n\)</span>.</p>
+<p>For transitivity, suppose <span class="math notranslate nohighlight">\(m \mid n\)</span> and <span class="math notranslate nohighlight">\(n \mid r\)</span>. Then there are <span class="math notranslate nohighlight">\(k,\ell\)</span> such that <span class="math notranslate nohighlight">\(m \cdot k = n\)</span> and <span class="math notranslate nohighlight">\(n \cdot \ell = r\)</span>. Now we compute</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}m \cdot (k \cdot \ell) &amp;= (m \cdot k) \cdot \ell \\
+&amp; = n \cdot \ell  \\
+&amp; = r.\end{split}\]</div>
+<p>Suppose that <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(m\)</span> are integers such that <span class="math notranslate nohighlight">\(n\mid m\)</span> and <span class="math notranslate nohighlight">\(m \mid n\)</span>. Then there exist <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(\ell\)</span> such that <span class="math notranslate nohighlight">\(n\cdot k = m\)</span> and <span class="math notranslate nohighlight">\(m \cdot \ell = n\)</span>. We distinguish two cases. If <span class="math notranslate nohighlight">\(n = 0\)</span>, then we have <span class="math notranslate nohighlight">\(m = n\cdot k = 0 = n\)</span>, so we are done. If <span class="math notranslate nohighlight">\(n \neq 0\)</span>, then we use the the equations to get <span class="math notranslate nohighlight">\(n \cdot k \cdot \ell = m \cdot \ell = n\)</span>, and we can cancel <span class="math notranslate nohighlight">\(n\)</span> on both sides to get <span class="math notranslate nohighlight">\(k \cdot \ell = 1\)</span>. We conclude that <span class="math notranslate nohighlight">\(k = \ell = \pm 1\)</span>, hence we get <span class="math notranslate nohighlight">\(m = n \cdot k = \pm n\)</span>.</p>
+<p>Note that this means that if <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(m\)</span> are both natural numbers, then <span class="math notranslate nohighlight">\(n = m\)</span>, which means that <span class="math notranslate nohighlight">\(\mid\)</span> is antisymmetric, and hence a partial order, on the natural numbers.</p>
+<hr class="docutils" />
+<p>See Exercise 1 for some basic properties of divisibility. For example, we have that for every <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, and <span class="math notranslate nohighlight">\(c\)</span>, if <span class="math notranslate nohighlight">\(a \mid b\)</span> and <span class="math notranslate nohighlight">\(a \mid c\)</span> then <span class="math notranslate nohighlight">\(a \mid b + c\)</span>, and for every <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, and <span class="math notranslate nohighlight">\(c\)</span>, if <span class="math notranslate nohighlight">\(a \mid b\)</span> then <span class="math notranslate nohighlight">\(a \mid bc\)</span>. Also, if <span class="math notranslate nohighlight">\(a \mid b\)</span> and <span class="math notranslate nohighlight">\(b \ne 0\)</span>, then <cite>|a| le |b|</cite>. We will use properties like these repeatedly.</p>
+<p>An integer is <em>even</em> if it is divisible by <span class="math notranslate nohighlight">\(2\)</span>, in other words, <span class="math notranslate nohighlight">\(n\)</span> is even if <span class="math notranslate nohighlight">\(2 \mid n\)</span>. An integer is <em>odd</em> if it is not even. Of course, odd numbers are of the form <span class="math notranslate nohighlight">\(2k+1\)</span> for some <span class="math notranslate nohighlight">\(k\)</span>, and we can prove this now.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> If <span class="math notranslate nohighlight">\(n\)</span> is an odd integer, then <span class="math notranslate nohighlight">\(n=2k+1\)</span> for some integer <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<p><strong>Proof.</strong> By the quotient-remainder theorem, we can write <span class="math notranslate nohighlight">\(n = 2k+r\)</span> for some integers <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(r\)</span> with <span class="math notranslate nohighlight">\(0\le r &lt; 2\)</span>. The last condition means that <span class="math notranslate nohighlight">\(r = 0\)</span> or <span class="math notranslate nohighlight">\(r = 1\)</span>. In the first case, we have <span class="math notranslate nohighlight">\(n = 2k\)</span>, hence <span class="math notranslate nohighlight">\(2 \mid n\)</span>, contradicting that <span class="math notranslate nohighlight">\(n\)</span> is odd. So we have <span class="math notranslate nohighlight">\(r = 1\)</span>, which means that <span class="math notranslate nohighlight">\(n = 2k+1\)</span>.</p>
+<p><strong>Theorem.</strong> Every sequence of <span class="math notranslate nohighlight">\(k\)</span> consecutive numbers contains a number divisible by <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<p><strong>Proof.</strong> Denote the largest element of the sequence by <span class="math notranslate nohighlight">\(n\)</span>. This means that the sequence is <span class="math notranslate nohighlight">\(n - (k - 1), \ldots, n - 1, n\)</span>. By the quotient-remainder theorem, we have <span class="math notranslate nohighlight">\(n = q k + r\)</span> for some integers <span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(r\)</span> with <span class="math notranslate nohighlight">\(0\leq r &lt; k\)</span>. From these inequalities we conclude that <span class="math notranslate nohighlight">\(n - r\)</span> is in our sequence, and <span class="math notranslate nohighlight">\(n - r = q k\)</span>, hence divisible by <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> Given two integers <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> such that either <span class="math notranslate nohighlight">\(m \neq 0\)</span> or <span class="math notranslate nohighlight">\(n \neq 0\)</span>, we define the <em>greatest common divisor</em> <span class="math notranslate nohighlight">\(\gcd(m,n)\)</span> of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> to be the largest integer <span class="math notranslate nohighlight">\(d\)</span> which is both a divisor of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span>, that is, <span class="math notranslate nohighlight">\(d \mid m\)</span> and <span class="math notranslate nohighlight">\(d \mid n\)</span>.</p>
+<p>This largest integer exists, because there is at least one common divisor, but only finitely many. There is at least one, since 1 is a common divisor of any two integers, and there are finitely many, since a nonzero number has only finitely many divisors.</p>
+<p>If <span class="math notranslate nohighlight">\(n = m = 0\)</span>, then we define <span class="math notranslate nohighlight">\(\gcd(0,0) = 0\)</span>.</p>
+<hr class="docutils" />
+<p>The greatest common divisor of two numbers is always a natural number, since 1 is always a common divisor of two numbers. As an example, let us compute the greatest common divisor of 6 and 28. The positive divisors of 6 are <span class="math notranslate nohighlight">\(\{1, 2, 3, 6\}\)</span> and the positive divisors of 28 are <span class="math notranslate nohighlight">\(\{1, 2, 4, 7, 14, 28\}\)</span>. The largest number in both these sets is 2, which is the greatest common divisor of 6 and 28.</p>
+<p>However, computing the greatest common divisor of two numbers by listing all the divisors of both numbers is a lot of work, so we will now consider a method to compute the greatest common divisor more efficiently.</p>
+<hr class="docutils" />
+<p><strong>Lemma.</strong> For all integers <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(k\)</span> we have <span class="math notranslate nohighlight">\(\gcd(m,n)=\gcd(n,m-kn)\)</span>.</p>
+<p><strong>Proof.</strong> Let <span class="math notranslate nohighlight">\(d = \gcd(m,n)\)</span> and <span class="math notranslate nohighlight">\(r = m-kn\)</span>. If <span class="math notranslate nohighlight">\(m = n = 0\)</span>, then <span class="math notranslate nohighlight">\(d = 0 = \gcd(n,r)\)</span>, and we&#8217;re done.</p>
+<p>In the other case we first show that the set of common divisors of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> is the same as the set of the common divisors of <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(r\)</span>. To see this, let <span class="math notranslate nohighlight">\(d' \mid m\)</span> and <span class="math notranslate nohighlight">\(d' \mid n\)</span>. Then also <span class="math notranslate nohighlight">\(d' \mid m - kn\)</span> by Exercise 1. Hence <span class="math notranslate nohighlight">\(d'\)</span> is a common divisor of <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(r\)</span>. On the other hand, if <span class="math notranslate nohighlight">\(d'\)</span> is a divisor of <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(r\)</span>, then <span class="math notranslate nohighlight">\(d' \mid r + kn\)</span>, hence <span class="math notranslate nohighlight">\(d' \mid m\)</span>, hence <span class="math notranslate nohighlight">\(d'\)</span> is a common divisor of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p>Since the sets of common divisors are the same, the largest element in each set is also the same, hence <span class="math notranslate nohighlight">\(\gcd(m,n)=\gcd(n,m-kn)\)</span>.</p>
+<p><strong>Lemma.</strong> For all integers <span class="math notranslate nohighlight">\(n\)</span> we have <span class="math notranslate nohighlight">\(\gcd(n,0)=|n|\)</span>.</p>
+<p><strong>Proof.</strong> Every number is a divisor of 0, hence the greatest common divisor of <span class="math notranslate nohighlight">\(n\)</span> and 0 is just the greatest divisor of <span class="math notranslate nohighlight">\(n\)</span>, which is the absolute value of <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<hr class="docutils" />
+<p>These two lemmas give us a quick way to compute the greatest common divisor of two numbers. This is called the <em>Euclidean Algorithm</em>. Suppose we want to compute <span class="math notranslate nohighlight">\(\gcd(m, n)\)</span>.</p>
+<ul class="simple">
+<li><p>We let <span class="math notranslate nohighlight">\(r_0 = m\)</span> and <span class="math notranslate nohighlight">\(r_1 = n\)</span>.</p></li>
+<li><p>Given <span class="math notranslate nohighlight">\(r_i\)</span> and <span class="math notranslate nohighlight">\(r_{i+1}\)</span> we compute <span class="math notranslate nohighlight">\(r_{i+2}\)</span> as the remainder of of <span class="math notranslate nohighlight">\(r_i\)</span> when divided by <span class="math notranslate nohighlight">\(r_{i+1}\)</span>.</p></li>
+<li><p>Once <span class="math notranslate nohighlight">\(r_i = 0\)</span>, we stop, and <span class="math notranslate nohighlight">\(\gcd(m, n) = |r_{i-1}|\)</span>.</p></li>
+</ul>
+<p>This works, because by the lemmas above, we have <span class="math notranslate nohighlight">\(\gcd(r_k,r_{k+1}) = \gcd(r_{k+1}, r_{k+2})\)</span>, since <span class="math notranslate nohighlight">\(r_{k+2} = r_k - qr_{k+1}\)</span> for some <span class="math notranslate nohighlight">\(q\)</span>. Hence if <span class="math notranslate nohighlight">\(r_i=0\)</span> we have</p>
+<div class="math notranslate nohighlight">
+\[\gcd(m,n)=\gcd(r_0,r_1)=\gcd(r_{i-1},r_i)=\gcd(r_{i-1},0)=|r_{i-1}|.\]</div>
+<p>For example, suppose we want to compute the greatest common divisor of 1311 and 5757. We compute the following remainders:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}5757 &amp;= 4\times1311 + 513\\
+1311 &amp;= 2\times513 + 285\\
+513 &amp;= 1\times285 + 228\\
+285 &amp;= 1\times228 + 57\\
+228 &amp;= 4\times57 + 0.\end{split}\]</div>
+<p>Hence <span class="math notranslate nohighlight">\(\gcd(1311,5757) = 57\)</span>. This is much quicker than computing all the divisors of both 1311 and 5757.</p>
+<p>Here is an important result about greatest common divisors. It is only called a &#8220;lemma&#8221; for historical reasons.</p>
+<hr class="docutils" />
+<p><strong>Theorem</strong> (B&#8206;&#233;zout&#8217;s Lemma). Let <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> be integers. Then there are integers <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> such that <span class="math notranslate nohighlight">\(am+bn=\gcd(m,n)\)</span>.</p>
+<p><strong>Proof.</strong> We compute <span class="math notranslate nohighlight">\(\gcd(m,n)\)</span> by the Euclidean Algorithm given above, and during the algorithm we get the intermediate values <span class="math notranslate nohighlight">\(r_0, r_1, \ldots, r_k\)</span> where <span class="math notranslate nohighlight">\(r_k = 0\)</span>. Now by induction on <span class="math notranslate nohighlight">\(i\)</span> we prove that we can write <span class="math notranslate nohighlight">\(r_i = a_i m+b_i n\)</span> for some integers <span class="math notranslate nohighlight">\(a_i\)</span> and <span class="math notranslate nohighlight">\(b_i\)</span>. Indeed: <span class="math notranslate nohighlight">\(r_0 = 1\cdot m + 0\cdot n\)</span> and <span class="math notranslate nohighlight">\(r_1 = 0\cdot m + 1\cdot n\)</span>. Now if we assume that <span class="math notranslate nohighlight">\(r_i = a_i m+b_i n\)</span> and <span class="math notranslate nohighlight">\(r_{i+1} = a_{i+1}m+b_{i+1}n\)</span>, we know that <span class="math notranslate nohighlight">\(r_{i+2} = r_i - q\cdot r_{i+1}\)</span>, where <span class="math notranslate nohighlight">\(q\)</span> is the quotient of <span class="math notranslate nohighlight">\(r_i\)</span> when divided by <span class="math notranslate nohighlight">\(r_{i+1}\)</span>. These equations together give</p>
+<div class="math notranslate nohighlight">
+\[r_{i+2} = (a_i-qa_{i+1})m + (b_i-qb_{i+1})n.\]</div>
+<p>This completes the induction. In particular, <span class="math notranslate nohighlight">\(r_{k-1} = a_{k-1}m+b_{k-1}n\)</span>, and since <span class="math notranslate nohighlight">\(\gcd(m,n)=\pm r_{k-1}\)</span> we can write <span class="math notranslate nohighlight">\(\gcd(m,n)\)</span> as <span class="math notranslate nohighlight">\(am+bn\)</span> for some <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>.</p>
+<p><strong>Alternative proof.</strong> We can assume <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> are positive, since <span class="math notranslate nohighlight">\(\gcd(m, n) = \gcd(|m|, |n|)\)</span>. Let <span class="math notranslate nohighlight">\(d\)</span> be the least positive number of the form <span class="math notranslate nohighlight">\(a m + b n\)</span>, that is, the smallest element of the set <span class="math notranslate nohighlight">\(\{ a m + b n \mid a, b\in \mathbb N \}\)</span>. We claim <span class="math notranslate nohighlight">\(d = \gcd(m, n)\)</span>.</p>
+<p>Let <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> be such that <span class="math notranslate nohighlight">\(d = a m + b n\)</span>. Clearly, if <span class="math notranslate nohighlight">\(c \mid m\)</span> and <span class="math notranslate nohighlight">\(c \mid n\)</span>, then <span class="math notranslate nohighlight">\(c \mid d\)</span>. So it suffices to show <span class="math notranslate nohighlight">\(d \mid m\)</span> and <span class="math notranslate nohighlight">\(d \mid n\)</span>. We&#8217;ll show that <span class="math notranslate nohighlight">\(d \mid m\)</span>, since the other case is symmetric. Write <span class="math notranslate nohighlight">\(m = d q + r\)</span>, with <span class="math notranslate nohighlight">\(0 \le r &lt; d\)</span>. We need to show <span class="math notranslate nohighlight">\(r = 0\)</span>.</p>
+<p>We have</p>
+<div class="math notranslate nohighlight">
+\[r = m - dq = m - q (a m + b n) = (1 - aq)m + (- q b) n,\]</div>
+<p>with <span class="math notranslate nohighlight">\(r \ge 0\)</span> and <span class="math notranslate nohighlight">\(r &lt; d\)</span>.  Since <span class="math notranslate nohighlight">\(d\)</span> is the smallest positive number that can be written in that form, we have <span class="math notranslate nohighlight">\(r = 0\)</span>. Hence <span class="math notranslate nohighlight">\(m = dq\)</span>, so <span class="math notranslate nohighlight">\(d \mid m\)</span>.</p>
+<hr class="docutils" />
+<p><strong>Corollary.</strong> If <span class="math notranslate nohighlight">\(c\)</span> is any common divisor of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span>, then <span class="math notranslate nohighlight">\(c \mid \gcd(m, n)\)</span>.</p>
+<p><strong>Proof.</strong> By B&#8206;&#233;zout&#8217;s Lemma, there are <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> such that <span class="math notranslate nohighlight">\(\gcd(m,n)=am+bn\)</span>. Since <span class="math notranslate nohighlight">\(c\)</span> divides both <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(c\)</span> divides <span class="math notranslate nohighlight">\(am+bn\)</span> by Exercise 1 below, and hence also <span class="math notranslate nohighlight">\(\gcd(m,n)\)</span>.</p>
+<hr class="docutils" />
+<p>Of special interest are pairs of integers which have no divisors in common, except 1 and <span class="math notranslate nohighlight">\(-1\)</span>.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> Two integers <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> are <em>coprime</em> if <span class="math notranslate nohighlight">\(\gcd(m,n) = 1\)</span>.</p>
+<hr class="docutils" />
+<p><strong>Proposition.</strong> Let <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(k\)</span> be integers such that <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(k\)</span> are coprime. If <span class="math notranslate nohighlight">\(k \mid mn\)</span> then <span class="math notranslate nohighlight">\(k \mid n\)</span>.</p>
+<p><strong>Proof.</strong> By B&#8206;&#233;zout&#8217;s Lemma, there are <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> such that <span class="math notranslate nohighlight">\(am+bk = 1\)</span>. Multiplying by <span class="math notranslate nohighlight">\(n\)</span> gives <span class="math notranslate nohighlight">\(amn + bkn = n\)</span> Since <span class="math notranslate nohighlight">\(k\)</span> divides <span class="math notranslate nohighlight">\(mn\)</span>, <span class="math notranslate nohighlight">\(k\)</span> divides the left-hand side of the equation, hence <span class="math notranslate nohighlight">\(k \mid n\)</span>.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="prime-numbers">
+<h2><span class="section-number">19.3. </span>Prime Numbers<a class="headerlink" href="#prime-numbers" title="Permalink to this headline">&#182;</a></h2>
+<p>In this section we consider properties of prime numbers.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> An integer <span class="math notranslate nohighlight">\(p\geq 2\)</span> is called <em>prime</em> if the only positive divisors of <span class="math notranslate nohighlight">\(p\)</span> are 1 and <span class="math notranslate nohighlight">\(p\)</span>. An integer <span class="math notranslate nohighlight">\(n \geq 2\)</span> which is not prime is called <em>composite</em>.</p>
+<hr class="docutils" />
+<p>An equivalent definition of a prime number is a positive number with exactly 2 positive divisors.</p>
+<p>Recall from <a class="reference internal" href="the_natural_numbers_and_induction.html#the-natural-numbers-and-induction"><span class="std std-numref">Chapter 17</span></a> that every natural number greater than 1 can be written as the product of primes. In particular, ever natural number greater than 1 is divisible by some prime number.</p>
+<p>We now prove some other properties about prime numbers.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> There are infinitely many primes.</p>
+<p><strong>Proof.</strong> Suppose for the sake of contradiction that there are only finitely many primes <span class="math notranslate nohighlight">\(p_1, p_2, \ldots, p_k\)</span>. Let <span class="math notranslate nohighlight">\(n = p_1 \times p_2 \times \cdots \times p_k\)</span>. Since <span class="math notranslate nohighlight">\(n\)</span> is divisible by <span class="math notranslate nohighlight">\(p_i\)</span> for all <span class="math notranslate nohighlight">\(i\leq k\)</span> we know that <span class="math notranslate nohighlight">\(n+1\)</span> is not divisible by <span class="math notranslate nohighlight">\(p_i\)</span> for any <span class="math notranslate nohighlight">\(i\)</span>. However, we assumed that these are all primes, contradicting the fact that every number is divisible by a prime number.</p>
+<p><strong>Lemma.</strong> If <span class="math notranslate nohighlight">\(n\)</span> is an integer and <span class="math notranslate nohighlight">\(p\)</span> is a prime number, then either <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(p\)</span> are coprime or <span class="math notranslate nohighlight">\(p \mid n\)</span>.</p>
+<p><strong>Proof.</strong> Let <span class="math notranslate nohighlight">\(d = \gcd(n, p)\)</span>. Since <span class="math notranslate nohighlight">\(d\)</span> is a positive divisor of <span class="math notranslate nohighlight">\(p\)</span>, either <span class="math notranslate nohighlight">\(d = 1\)</span> or <span class="math notranslate nohighlight">\(d = p\)</span>. In the first case, <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(p\)</span> are coprime by definition, and in the second case we have <span class="math notranslate nohighlight">\(p \mid n\)</span>.</p>
+<p><strong>Proposition.</strong> If <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(m\)</span> are integers and <span class="math notranslate nohighlight">\(p\)</span> is a prime number such that <span class="math notranslate nohighlight">\(p \mid nm\)</span> then either <span class="math notranslate nohighlight">\(p \mid n\)</span> or <span class="math notranslate nohighlight">\(p \mid m\)</span>.</p>
+<p><strong>Proof.</strong> Suppose that <span class="math notranslate nohighlight">\(p \nmid n\)</span>. By the previous lemma, this means that <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(n\)</span> are coprime. From this we can conclude that <span class="math notranslate nohighlight">\(p \mid m\)</span>.</p>
+<hr class="docutils" />
+<p>The last result in this section captures that the primes are the &#8220;building blocks&#8221; of the positive integers for multiplication: all other integers can be written as a product of primes in an essentially unique way.</p>
+<hr class="docutils" />
+<p><strong>Theorem</strong> (Fundamental Theorem of Arithmetic). Let <span class="math notranslate nohighlight">\(n &gt; 0\)</span> be an integer. Then there are primes <span class="math notranslate nohighlight">\(p_1, \ldots, p_k\)</span> such that <span class="math notranslate nohighlight">\(n = p_1\times \cdots \times p_k\)</span>. Moreover, these primes are unique up to reordering. That means that if there are prime numbers <span class="math notranslate nohighlight">\(q_1, \ldots, q_\ell\)</span> such that <span class="math notranslate nohighlight">\(q_1\times \cdots \times q_\ell = n\)</span>, then the <span class="math notranslate nohighlight">\(q_i\)</span> are a reordering of the <span class="math notranslate nohighlight">\(p_i\)</span>. To be completely precise, this means that there is a bijection <span class="math notranslate nohighlight">\(\sigma : \{1, \ldots, k\} \to \{1, \ldots, k\}\)</span> such that <span class="math notranslate nohighlight">\(q_i = p_{\sigma(i)}\)</span>.</p>
+<p><strong>Remark.</strong> 1 can be written as the product of zero prime numbers. The <em>empty product</em> is defined to be 1.</p>
+<p><strong>Proof.</strong> We have already seen that every number can be written as the product of primes, so we only need to prove the uniqueness up to reordering. Suppose this is not true, and by the least element principle, let <span class="math notranslate nohighlight">\(n\)</span> be the smallest positive integers such that <span class="math notranslate nohighlight">\(n\)</span> can be written as the product of primes in two ways: <span class="math notranslate nohighlight">\(n = p_1\times \cdots \times p_k = q_1 \times \cdots \times q_\ell\)</span>.</p>
+<p>Since 1 can be written as product of primes only as an empty product, we have <span class="math notranslate nohighlight">\(n &gt; 1\)</span>, hence <span class="math notranslate nohighlight">\(k \geq 1\)</span>. Since <span class="math notranslate nohighlight">\(p_k\)</span> is prime, we must have <span class="math notranslate nohighlight">\(p_k \mid q_j\)</span> for some <span class="math notranslate nohighlight">\(j \leq \ell\)</span>. By swapping <span class="math notranslate nohighlight">\(q_j\)</span> and <span class="math notranslate nohighlight">\(q_\ell\)</span>, we may assume that <span class="math notranslate nohighlight">\(j = \ell\)</span>. Since <span class="math notranslate nohighlight">\(q_\ell\)</span> is also prime, we have <span class="math notranslate nohighlight">\(p_k = q_\ell\)</span>.</p>
+<p>Now we have <span class="math notranslate nohighlight">\(p_1\times \cdots \times p_{k-1} = q_1 \times \cdots \times q_{\ell-1}\)</span>. This product is smaller than <span class="math notranslate nohighlight">\(n\)</span>, but can be written as product of primes in two different ways. But we assumed <span class="math notranslate nohighlight">\(n\)</span> was the smallest such number. Contradiction!</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="modular-arithmetic">
+<span id="id2"></span><h2><span class="section-number">19.4. </span>Modular Arithmetic<a class="headerlink" href="#modular-arithmetic" title="Permalink to this headline">&#182;</a></h2>
+<p>In the discussion of equivalence relations in <a class="reference internal" href="relations.html#equivalence-relations-and-equality"><span class="std std-numref">Section 13.3</span></a> we considered the example of the relation of modular equivalence on the integers. This is sometimes thought of as &#8220;clock arithmetic.&#8221; Suppose you have a 12-hour clock without a minute hand, so it only has an hour hand which can point to the hours 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 and then it wraps to 12 again. We can do arithmetic with this clock.</p>
+<ul class="simple">
+<li><p>If the hand currently points to 10, then 5 hours later it will point to 3.</p></li>
+<li><p>If the hand points to 7, then 23 hours before that, it pointed to 8.</p></li>
+<li><p>If the hand points to 9, and we work for a 8 hours, then when we are done the hand will point to 5. If we worked twice as long, starting at 9, the hand will point to 1.</p></li>
+</ul>
+<p>We want to write these statements using mathematical notation, so that we can reason about them more easily. We cannot write <span class="math notranslate nohighlight">\(10 + 5 = 3\)</span> for the first expression, because that would be false, so instead we use the notation <span class="math notranslate nohighlight">\(10 + 5 \equiv 3 \pmod{12}\)</span>. The notation <span class="math notranslate nohighlight">\(\pmod{12}\)</span> indicates that we forget about multiples of 12, and we use the &#8220;congruence&#8221; symbol with three horizontal lines to remind us that these values are not exactly equal, but only equal up to multiples of 12. The other two lines can be formulated as <span class="math notranslate nohighlight">\(7 - 23 \equiv 8 \pmod{12}\)</span> and <span class="math notranslate nohighlight">\(9 + 2 \cdot 8 \equiv 1 \pmod{12}\)</span>.</p>
+<p>Here are some more examples:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(6 + 7 \equiv 1 \pmod{12}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(6 \cdot 7 \equiv 42 \equiv 6 \pmod{12}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(7 \cdot 5 \equiv 35 \equiv -1 \pmod{12}\)</span></p></li>
+</ul>
+<p>The last example shows that we can use negative numbers as well.</p>
+<p>We now give a precise definition.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> For integers <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span> and <span class="math notranslate nohighlight">\(n\)</span> we say that <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are <em>congruent modulo</em> <span class="math notranslate nohighlight">\(n\)</span> if <span class="math notranslate nohighlight">\(n \mid a - b\)</span>. This is written <span class="math notranslate nohighlight">\(a \equiv b \pmod{n}\)</span>. The number <span class="math notranslate nohighlight">\(n\)</span> is called the <em>modulus</em>.</p>
+<hr class="docutils" />
+<p>Typically we only use this definition when the modulus <span class="math notranslate nohighlight">\(n\)</span> is positive.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Congruence modulo <span class="math notranslate nohighlight">\(n\)</span> is an equivalence relation.</p>
+<p><strong>Proof.</strong> We have to show that congruence modulo <span class="math notranslate nohighlight">\(n\)</span> is reflexive, symmetric and transitive.</p>
+<p>It is reflexive, because <span class="math notranslate nohighlight">\(a - a = 0\)</span>, so <span class="math notranslate nohighlight">\(n \mid a - a\)</span>, and hence <span class="math notranslate nohighlight">\(a\equiv a \pmod{n}\)</span>.</p>
+<p>To show that it is symmetric, suppose that <span class="math notranslate nohighlight">\(a \equiv b \pmod{n}\)</span>. Then by definition, <span class="math notranslate nohighlight">\(n \mid a - b\)</span>. So <span class="math notranslate nohighlight">\(n \mid (-1) \cdot (a - b)\)</span>, which means that <span class="math notranslate nohighlight">\(n \mid b - a\)</span>. This means by definition that <span class="math notranslate nohighlight">\(b \equiv a \pmod{n}\)</span>.</p>
+<p>To show that it is transitive, suppose that <span class="math notranslate nohighlight">\(a \equiv b \pmod{n}\)</span> and <span class="math notranslate nohighlight">\(b \equiv c \pmod{n}\)</span>. Then we have <span class="math notranslate nohighlight">\(n \mid a - b\)</span> and <span class="math notranslate nohighlight">\(n \mid b - c\)</span>. Hence we have <span class="math notranslate nohighlight">\(n \mid (a - b) + (b - c)\)</span> which means that <span class="math notranslate nohighlight">\(n \mid a - c\)</span>. So <span class="math notranslate nohighlight">\(a \equiv c \pmod{n}\)</span>.</p>
+<hr class="docutils" />
+<p>This theorem justifies the &#8220;chaining&#8221; notation we used above when we wrote <span class="math notranslate nohighlight">\(7 \cdot 5 \equiv 35 \equiv -1 \pmod{12}\)</span>. Since congruence modulo 12 is transitive, we can now actually conclude that <span class="math notranslate nohighlight">\(7\cdot 5\equiv -1 \pmod{12}\)</span>.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Suppose that <span class="math notranslate nohighlight">\(a\equiv b \pmod{n}\)</span> and <span class="math notranslate nohighlight">\(c\equiv d\pmod{n}\)</span>. Then <span class="math notranslate nohighlight">\(a+c\equiv b+d \pmod{n}\)</span> and <span class="math notranslate nohighlight">\(a\cdot c\equiv b\cdot d\pmod{n}\)</span>.</p>
+<p>Moreover, if <span class="math notranslate nohighlight">\(a\equiv b \pmod{n}\)</span> then <span class="math notranslate nohighlight">\(a^k\equiv b^k \pmod{n}\)</span> for all natural numbers <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<p><strong>Proof.</strong> We know that <span class="math notranslate nohighlight">\(n \mid a - b\)</span> and <span class="math notranslate nohighlight">\(n \mid c - d\)</span>. For the first statement, we can calculate that <span class="math notranslate nohighlight">\((a + c) - (b + d) = (a - b) + (c - d)\)</span>, so we can conclude that <span class="math notranslate nohighlight">\(n \mid (a + c) - (b + d)\)</span> hence that <span class="math notranslate nohighlight">\(a+c\equiv b+d\pmod{n}\)</span>.</p>
+<p>For the second statement, we want to show that <span class="math notranslate nohighlight">\(n \mid a\cdot c - b\cdot d\)</span>. We can factor <span class="math notranslate nohighlight">\(a\cdot c - b\cdot d = (a - b)\cdot c + b\cdot(c-d)\)</span>. Now <span class="math notranslate nohighlight">\(n\)</span> divides both summands on the right, hence <span class="math notranslate nohighlight">\(n\)</span> divides <span class="math notranslate nohighlight">\(a\cdot c - b\cdot d\)</span>, which means that <span class="math notranslate nohighlight">\(a\cdot c\equiv b\cdot d\pmod{n}\)</span>.</p>
+<p>The last statement follows by induction on <span class="math notranslate nohighlight">\(k\)</span>. If <span class="math notranslate nohighlight">\(k = 0\)</span>, then <span class="math notranslate nohighlight">\(1\equiv 1 \pmod{n}\)</span>, and for the induction step, suppose that <span class="math notranslate nohighlight">\(a^k\equiv b^k\pmod{n}\)</span>, then we have <span class="math notranslate nohighlight">\(a^{k+1}= a\cdot a^k \equiv b \cdot b^k = b^{k+1} \pmod{n}\)</span>.</p>
+<hr class="docutils" />
+<p>This theorem is useful for carrying out computations modulo <span class="math notranslate nohighlight">\(n\)</span>. Here are some examples.</p>
+<ul class="simple">
+<li><p>Suppose we want to compute <span class="math notranslate nohighlight">\(77 \cdot 123\)</span> modulo 12. We know that <span class="math notranslate nohighlight">\(77 \equiv 5 \pmod{12}\)</span> and <span class="math notranslate nohighlight">\(123 \equiv 3 \pmod{12}\)</span>, so <span class="math notranslate nohighlight">\(77 \cdot 123 \equiv 5 \cdot 3 \equiv 15 \equiv 3 \pmod{12}\)</span></p></li>
+<li><p>Suppose we want to compute <span class="math notranslate nohighlight">\(99 \cdot 998\)</span> modulo 10. We know that <span class="math notranslate nohighlight">\(99 \equiv -1\pmod{10}\)</span> and <span class="math notranslate nohighlight">\(998 \equiv -2 \pmod{10}\)</span>, hence <span class="math notranslate nohighlight">\(99 \cdot 998 \equiv (-1) \cdot (-2) \equiv 2 \pmod{10}\)</span>.</p></li>
+<li><p>Suppose we want to know the last digit of <span class="math notranslate nohighlight">\(101^{101}\)</span>. Notice that the last digit of a number <span class="math notranslate nohighlight">\(n\)</span> is congruent to <span class="math notranslate nohighlight">\(n\)</span> modulo 10, so we can just compute <span class="math notranslate nohighlight">\(101^{101} \equiv 1^{101} \equiv 1 \pmod{10}\)</span>. So the last digit of <span class="math notranslate nohighlight">\(101^{101}\)</span> is 1.</p></li>
+</ul>
+<p><em>Warning.</em> You cannot do all computations you might expect with modular arithmetic:</p>
+<ul class="simple">
+<li><p>Modular arithmetic does not respect division. For example <span class="math notranslate nohighlight">\(12 \equiv 16 \pmod{4}\)</span>, but we cannot divide both sides of the equation by 2, because <span class="math notranslate nohighlight">\(6 \not\equiv 8 \pmod{4}\)</span>.</p></li>
+<li><p>Exponents also do not respect modular arithmetic. For example <span class="math notranslate nohighlight">\(8 \equiv 3 \pmod{5}\)</span>, but <span class="math notranslate nohighlight">\(2^8 \not\equiv 2^3 \pmod{5}\)</span>. To see this: <span class="math notranslate nohighlight">\(2^8 = 256 \equiv 1 \pmod{5}\)</span>, but <span class="math notranslate nohighlight">\(2^3 = 8 \equiv 3 \pmod{5}\)</span>.</p></li>
+</ul>
+<p>Recall the quotient-remainder theorem: if <span class="math notranslate nohighlight">\(n &gt; 0\)</span>, then any integer <span class="math notranslate nohighlight">\(a\)</span> can be expressed as <span class="math notranslate nohighlight">\(a = n q + r\)</span>, where <span class="math notranslate nohighlight">\(0 \le r &lt; n\)</span>. In the language of modular arithmetic this means that <span class="math notranslate nohighlight">\(a \equiv r \pmod{n}\)</span>. So if <span class="math notranslate nohighlight">\(n &gt; 0\)</span>, then every integer is congruent to a number between 0 and <span class="math notranslate nohighlight">\(n-1\)</span> (inclusive). So there &#8220;are only <span class="math notranslate nohighlight">\(n\)</span> different numbers&#8221; when working modulo <span class="math notranslate nohighlight">\(n\)</span>. This can be used to prove many statements about the natural numbers.</p>
+<hr class="docutils" />
+<p><strong>Proposition.</strong> For every integer <span class="math notranslate nohighlight">\(k\)</span>, <span class="math notranslate nohighlight">\(k^2+1\)</span> is not divisible by 3.</p>
+<p><strong>Proof.</strong> Translating this problem to modular arithmetic, we have to show that <span class="math notranslate nohighlight">\(k^2+1 \not\equiv 0 \pmod{3}\)</span> or in other words that <span class="math notranslate nohighlight">\(k^2\not\equiv 2 \pmod{3}\)</span> for all <span class="math notranslate nohighlight">\(k\)</span>. By the quotient-remainder theorem, we know that <span class="math notranslate nohighlight">\(k\)</span> is either congruent to 0, 1 or 2, modulo 3. In the first case, <span class="math notranslate nohighlight">\(k^2\equiv 0^2\equiv 0\pmod{3}\)</span>. In the second case, <span class="math notranslate nohighlight">\(k^{2}\equiv 1^2 \equiv 1 \pmod{3}\)</span>, and in the last case we have <span class="math notranslate nohighlight">\(k^{2}\equiv2^2\equiv4\equiv1\pmod{3}\)</span>. In all of those cases, <span class="math notranslate nohighlight">\(k^2\not\equiv2\pmod{3}\)</span>. So <span class="math notranslate nohighlight">\(k^2+1\)</span> is never divisible by 3.</p>
+<hr class="docutils" />
+<p><strong>Proposition.</strong> For all integers <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, <span class="math notranslate nohighlight">\(a^2+b^2-3\)</span> is not divisible by 4.</p>
+<p><strong>Proof.</strong> We first compute the squares modulo 4. We compute</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}0^2&amp;\equiv 0\pmod{4}\\
+1^2&amp;\equiv 1\pmod{4}\\
+2^2&amp;\equiv 0\pmod{4}\\
+3^2&amp;\equiv 1\pmod{4}.\end{split}\]</div>
+<p>Since every number is congruent to 0, 1, 2 or 3 modulo 4, we know that every square is congruent to 0 or 1 modulo 4. This means that there are only four possibilities for <span class="math notranslate nohighlight">\(a^2+b^2\pmod{4}\)</span>. It can be congruent to <span class="math notranslate nohighlight">\(0+0\)</span>, <span class="math notranslate nohighlight">\(1+0\)</span>, <span class="math notranslate nohighlight">\(0+1\)</span> or <span class="math notranslate nohighlight">\(1+1\)</span>. In all those cases, <span class="math notranslate nohighlight">\(a^2+b^2\not\equiv 3\pmod{4}\)</span> Hence <span class="math notranslate nohighlight">\(4\nmid a^2+b^2-3\)</span>, proving the proposition.</p>
+<hr class="docutils" />
+<p>Recall that we warned you about dividing in modular arithmetic. This doesn&#8217;t always work, but often it does. For example, suppose we want to solve <span class="math notranslate nohighlight">\(2n \equiv 1 \pmod{5}\)</span>. We cannot solve this by saying that <span class="math notranslate nohighlight">\(n \equiv \frac12 \pmod{5}\)</span>, because we cannot work with fractions in modular arithmetic. However, we can still solve it by multiplying both sides with 3. Then we get <span class="math notranslate nohighlight">\(6n \equiv 3 \pmod{5}\)</span>, and since <span class="math notranslate nohighlight">\(6\equiv 1 \pmod{5}\)</span> we get <span class="math notranslate nohighlight">\(n \equiv 3 \pmod{5}\)</span>. So instead of dividing by 2 we could multiply by 3 to get the answer. The reason this worked is because <span class="math notranslate nohighlight">\(2\times 3\equiv 1\pmod{5}\)</span>.</p>
+<hr class="docutils" />
+<p><strong>Definition.</strong> Let <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(a\)</span> be integers. A <em>multiplicative inverse of</em> <span class="math notranslate nohighlight">\(a\)</span> <em>modulo</em> <span class="math notranslate nohighlight">\(n\)</span> is an integer <span class="math notranslate nohighlight">\(b\)</span> such that <span class="math notranslate nohighlight">\(ab \equiv 1\pmod{n}\)</span>.</p>
+<hr class="docutils" />
+<p>For example, 3 is a multiplicative inverse of 5 modulo 7, since <span class="math notranslate nohighlight">\(3\times 5\equiv1\pmod{7}\)</span>. But <span class="math notranslate nohighlight">\(2\)</span> has no multiplicative inverse modulo 6. Indeed, suppose that <span class="math notranslate nohighlight">\(2b\equiv 1 \pmod{6}\)</span>, then <span class="math notranslate nohighlight">\(6 \mid 2b-1\)</span>. However, <span class="math notranslate nohighlight">\(2b-1\)</span> is odd, and cannot be divisible by an even number. We can use multiplicative inverses to solve equations. If we want to solve <span class="math notranslate nohighlight">\(ax\equiv c \pmod{n}\)</span> for <span class="math notranslate nohighlight">\(x\)</span> and we know that <span class="math notranslate nohighlight">\(b\)</span> is a multiplicative inverse of <span class="math notranslate nohighlight">\(a\)</span>, the solution is <span class="math notranslate nohighlight">\(x\equiv bc \pmod{n}\)</span> which we can see by multiplying both sides by <span class="math notranslate nohighlight">\(b\)</span>.</p>
+<hr class="docutils" />
+<p><strong>Lemma</strong> Let <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(a\)</span> be integers. <span class="math notranslate nohighlight">\(a\)</span> has at most one multiplicative inverse modulo <span class="math notranslate nohighlight">\(n\)</span>. That is, if <span class="math notranslate nohighlight">\(b\)</span> and <span class="math notranslate nohighlight">\(b'\)</span> are both multiplicative inverses of <span class="math notranslate nohighlight">\(a\)</span> modulo <span class="math notranslate nohighlight">\(n\)</span>, then <span class="math notranslate nohighlight">\(b\equiv b'\pmod{n}\)</span>.</p>
+<p><strong>Proof.</strong> Suppose that <span class="math notranslate nohighlight">\(ab\equiv 1 \equiv ab' \pmod{n}\)</span>. Then we can compute <span class="math notranslate nohighlight">\(bab'\)</span> in two ways: <span class="math notranslate nohighlight">\(b \equiv b(ab') = (ba)b' \equiv b' \pmod{n}\)</span>.</p>
+<p><strong>Proposition.</strong> Let <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(a\)</span> be integers. <span class="math notranslate nohighlight">\(a\)</span> has a multiplicative inverse modulo <span class="math notranslate nohighlight">\(n\)</span> if and only if <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(a\)</span> are coprime.</p>
+<p><strong>Proof.</strong> Suppose <span class="math notranslate nohighlight">\(b\)</span> is a multiplicative inverse of <span class="math notranslate nohighlight">\(a\)</span> modulo <span class="math notranslate nohighlight">\(n\)</span>. Then <span class="math notranslate nohighlight">\(n \mid ab - 1\)</span>. Let <span class="math notranslate nohighlight">\(d = \gcd(a, n)\)</span>. Since <span class="math notranslate nohighlight">\(d \mid n\)</span> we have <span class="math notranslate nohighlight">\(d \mid ab-1\)</span>. But since <span class="math notranslate nohighlight">\(d\)</span> is a divisor of <span class="math notranslate nohighlight">\(ab\)</span>, we have <span class="math notranslate nohighlight">\(d \mid ab - (ab-1) = 1\)</span>. Since <span class="math notranslate nohighlight">\(d\geq0\)</span> we have <span class="math notranslate nohighlight">\(d=1\)</span>. Hence <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(a\)</span> are coprime.</p>
+<p>On the other hand, suppose that <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(a\)</span> are coprime. By B&#8206;&#233;zout&#8217;s Lemma we know that there are integers <span class="math notranslate nohighlight">\(b\)</span> and <span class="math notranslate nohighlight">\(c\)</span> such that <span class="math notranslate nohighlight">\(cn+ba=\gcd(n,a)=1\)</span>. We can rewrite this to <span class="math notranslate nohighlight">\(ab - 1 = (-c)n\)</span>, hence <span class="math notranslate nohighlight">\(n \mid ab - 1\)</span>, which means by definition <span class="math notranslate nohighlight">\(ab \equiv 1 \pmod{n}\)</span>. This means that <span class="math notranslate nohighlight">\(b\)</span> is a multiplicative inverse of <span class="math notranslate nohighlight">\(a\)</span> modulo <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<hr class="docutils" />
+<p>Note that if <span class="math notranslate nohighlight">\(p\)</span> is a prime number and <span class="math notranslate nohighlight">\(a\)</span> is a integer not divisible by <span class="math notranslate nohighlight">\(p\)</span>, then <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(p\)</span> are coprime, hence <span class="math notranslate nohighlight">\(a\)</span> has a multiplicative inverse.</p>
+</div>
+<div class="section" id="properties-of-squares">
+<h2><span class="section-number">19.5. </span>Properties of Squares<a class="headerlink" href="#properties-of-squares" title="Permalink to this headline">&#182;</a></h2>
+<p>Mathematicians from ancient times have been interested in the question as to which integers can be written as a sum of two squares. For example, we can write <span class="math notranslate nohighlight">\(2 = 1^1 + 1^1\)</span>, <span class="math notranslate nohighlight">\(5 = 2^2 + 1^2\)</span>, <span class="math notranslate nohighlight">\(13 = 3^2 + 2^2\)</span>. If we make a sufficiently long list of these, an interesting pattern emerges: if two numbers can be written as a sum of two squares, then so can their product. For example, <span class="math notranslate nohighlight">\(10 = 5 \cdot 2\)</span>, and we can write <span class="math notranslate nohighlight">\(10 = 3^2 + 1^2\)</span>. Or <span class="math notranslate nohighlight">\(65 = 13 \cdot 5\)</span>, and we can write <span class="math notranslate nohighlight">\(65 = 8^2 + 1^2\)</span>.</p>
+<p>At first, one might wonder whether this is just a coincidence. The following provides a proof of the fact that it is not.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> Let <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> be any two integers. If <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are both sums of two squares, then so is <span class="math notranslate nohighlight">\(x y\)</span>.</p>
+<p><strong>Proof.</strong> Suppose <span class="math notranslate nohighlight">\(x = a^2 + b^2\)</span>, and suppose <span class="math notranslate nohighlight">\(y = c^2 + d^2\)</span>. I claim that</p>
+<div class="math notranslate nohighlight">
+\[xy = (ac - bd)^2 + (ad + bc)^2.\]</div>
+<p>To show this, notice that on the one hand we have</p>
+<div class="math notranslate nohighlight">
+\[xy = (a^2 + b^2) (c^2 + d^2) = a^2 c^2 + a^2 d^2 + b^2 c^2 + b^2 d^2.\]</div>
+<p>On the other hand, we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}(ac - bd)^2 + (ad + bc)^2 &amp; = (a^2c^2 - 2abcd + b^2 d^2) + (a^2 d^2 + 2 a b c d + b^2 c^2) \\
+ &amp; = a^2 c^2 + b^2 d^2 + a^2 d^2 + b^2 c^2.\end{split}\]</div>
+<p>Up to the order of summands, the two right-hand sides are the same.</p>
+<hr class="docutils" />
+<p>Consider the prime numbers, <span class="math notranslate nohighlight">\(2, 3, 5, 7, 11, 13, \ldots\)</span>. Which ones can be written as sums of two squares? We have <span class="math notranslate nohighlight">\(2 = 1^2 + 1^2\)</span>, <span class="math notranslate nohighlight">\(5 = 2^2 + 1^2\)</span>, and <span class="math notranslate nohighlight">\(13 + 3^2 + 2^2\)</span>. Trying all possibilities shows that 3, 7, and 11 cannot be written as sums of two squares. Notice that any odd prime is congruent to either 1 or 3 modulo 4. A lovely theorem by Fermat, which we will not prove here, shows that an odd prime can be written as a sum of squares if and only if it is congruent to 1 modulo 4.</p>
+<p>We will now prove that <span class="math notranslate nohighlight">\(\sqrt{2}\)</span> is not a fraction of two integers.</p>
+<hr class="docutils" />
+<p><strong>Theorem.</strong> There are no integers <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> such that <span class="math notranslate nohighlight">\(\frac ab=\sqrt{2}\)</span>.</p>
+<p><strong>Proof.</strong> Suppose that <span class="math notranslate nohighlight">\(\frac ab=\sqrt{2}\)</span> for some integers <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>. By canceling common factors, we may assume that <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are coprime. By squaring both sides, we get <span class="math notranslate nohighlight">\(\frac{a^2}{b^2}=2\)</span>, and multiplying both sides by <span class="math notranslate nohighlight">\(b^2\)</span> gives <span class="math notranslate nohighlight">\(a^2=2b^2\)</span>. Since <span class="math notranslate nohighlight">\(2b^2\)</span> is even, we know that <span class="math notranslate nohighlight">\(a^2\)</span> is even, and since odd squares are odd, we conclude that <span class="math notranslate nohighlight">\(a\)</span> is even. Hence we can write <span class="math notranslate nohighlight">\(a = 2c\)</span> for some integer <span class="math notranslate nohighlight">\(c\)</span>. This means that <span class="math notranslate nohighlight">\((2c)^2=2b^2\)</span>, hence <span class="math notranslate nohighlight">\(2c^2=b^2\)</span>. The same reasoning shows that <span class="math notranslate nohighlight">\(b\)</span> is even. But we assumed that <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are coprime, which contradicts the fact that they are both even.</p>
+<p>Hence there are no integers <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> such that <span class="math notranslate nohighlight">\(\frac ab=\sqrt{2}\)</span>.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="exercises">
+<h2><span class="section-number">19.6. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic simple">
+<li><p>Prove the following properties about divisibility (for any integers <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span> and <span class="math notranslate nohighlight">\(c\)</span>):</p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(a \mid b\)</span> and <span class="math notranslate nohighlight">\(a \mid c\)</span> then <span class="math notranslate nohighlight">\(a \mid b + c\)</span> and <span class="math notranslate nohighlight">\(a \mid b - c\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(a \mid b\)</span> then <span class="math notranslate nohighlight">\(a \mid bc\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(a \mid 0\)</span>;</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(0 \mid a\)</span> then <span class="math notranslate nohighlight">\(a = 0\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(a \neq 0\)</span> then the statements <span class="math notranslate nohighlight">\(b \mid c\)</span> and <span class="math notranslate nohighlight">\(ab \mid ac\)</span> are equivalent.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(a \mid b\)</span> and <span class="math notranslate nohighlight">\(b \neq 0\)</span> then <span class="math notranslate nohighlight">\(|a| \leq |b|\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Prove that if <span class="math notranslate nohighlight">\(k \ne 0\)</span>, <span class="math notranslate nohighlight">\(k \mid m\)</span>, and <span class="math notranslate nohighlight">\(k \mid n\)</span>, then <span class="math notranslate nohighlight">\(\gcd(m / k, n / k) = \gcd(m, n) / k\)</span>. (Hint: it helps to show that whenever <span class="math notranslate nohighlight">\(a \ne 0\)</span>, <span class="math notranslate nohighlight">\(a \mid b\)</span>, and <span class="math notranslate nohighlight">\(b \mid c\)</span>, then <span class="math notranslate nohighlight">\(b / a \mid c / a\)</span>.)</p></li>
+<li><p>Prove that for any integer <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(n^2\)</span> leaves a remainder of 0 or 1 when you divide it by 4. Conclude that <span class="math notranslate nohighlight">\(n^2 + 2\)</span> is never divisible by 4.</p></li>
+<li><p>Prove that if <span class="math notranslate nohighlight">\(n\)</span> is odd, <span class="math notranslate nohighlight">\(n^2 - 1\)</span> is divisible by 8.</p></li>
+<li><p>Prove that if <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> are odd, then <span class="math notranslate nohighlight">\(m^2 + n^2\)</span> is even but not divisible by 4.</p></li>
+<li><p>Say that two integers &#8220;have the same parity&#8221; if they are both even or both odd. Prove that if <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span> are any two integers, then <span class="math notranslate nohighlight">\(m + n\)</span> and <span class="math notranslate nohighlight">\(m - n\)</span> have the same parity.</p></li>
+<li><p>Write 11160 as a product of primes.</p></li>
+<li><p>List all the divisors of 42 and 198, and find the greatest common divisor by looking at the largest number in both lists. Also compute the greatest common divisor of the numbers by the Euclidean Algorithm.</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(\gcd(15, 55)\)</span>, <span class="math notranslate nohighlight">\(\gcd(12345, 54321)\)</span> and <span class="math notranslate nohighlight">\(\gcd(-77, 110)\)</span></p></li>
+<li><p>Show by induction on <span class="math notranslate nohighlight">\(n\)</span> that for every pair of integers <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(x - y\)</span> divides <span class="math notranslate nohighlight">\(x^n - y^n\)</span>. (Hint: in the induction step, write <span class="math notranslate nohighlight">\(x^{n+1} - y^{n+1}\)</span> as <span class="math notranslate nohighlight">\(x^n (x - y) + x^n y - y^{n+1}\)</span>.)</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(2^{12} \pmod{13}\)</span>. Use this to compute <span class="math notranslate nohighlight">\(2^{1212004} \pmod{13}\)</span>.</p></li>
+<li><p>Find the last digit of <span class="math notranslate nohighlight">\(99^{99}\)</span>. Can you also find the last two digits of this number?</p></li>
+<li><p>Prove that <span class="math notranslate nohighlight">\(50^{22} - 22^{50}\)</span> is divisible by 7.</p></li>
+<li><p>Check whether the following multiplicative inverses exist, and if so, find them.</p>
+<ul class="simple">
+<li><p>the multiplicative inverse of 5 modulo 7</p></li>
+<li><p>the multiplicative inverse of 17 modulo 21</p></li>
+<li><p>the multiplicative inverse of 4 modulo 14</p></li>
+<li><p>the multiplicative inverse of <span class="math notranslate nohighlight">\(-2\)</span> modulo 9</p></li>
+</ul>
+</li>
+<li><p>Find all integers <span class="math notranslate nohighlight">\(x\)</span> such that <span class="math notranslate nohighlight">\(75x \equiv 45 \pmod{8}\)</span>.</p></li>
+<li><p>Show that for every integer <span class="math notranslate nohighlight">\(n\)</span> the number <span class="math notranslate nohighlight">\(n^4\)</span> is congruent to 0 or 1 modulo 5. Hint: to simplify the computation, use that <span class="math notranslate nohighlight">\(4^4\equiv(-1)^4\pmod{5}\)</span>.</p></li>
+<li><p>Prove that the equation <span class="math notranslate nohighlight">\(n^4+m^4=k^4+3\)</span> has no solutions in the integers. (Hint: use the previous exercise.)</p></li>
+<li><p>Suppose <span class="math notranslate nohighlight">\(p\)</span> is a prime number such that <span class="math notranslate nohighlight">\(p \nmid k\)</span>. Show that if <span class="math notranslate nohighlight">\(kn\equiv km \pmod{p}\)</span> then <span class="math notranslate nohighlight">\(n \equiv m \pmod{p}\)</span>.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span> be given integers. Use B&#8206;&#233;zout&#8217;s Lemma to prove that the equation <span class="math notranslate nohighlight">\(an+bm=c\)</span> has a solution for integers <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> if and only if <span class="math notranslate nohighlight">\(\gcd(n, m) \mid c\)</span>.</p></li>
+<li><p>Suppose that <span class="math notranslate nohighlight">\(a \mid n\)</span> and <span class="math notranslate nohighlight">\(a \mid m\)</span> and let <span class="math notranslate nohighlight">\(d = \gcd(n,m)\)</span>. Prove that <span class="math notranslate nohighlight">\(\gcd(\frac na, \frac ma) =\frac da\)</span>. Conclude that for any two integers <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(m\)</span> with greatest common divisor <span class="math notranslate nohighlight">\(d\)</span> the numbers <span class="math notranslate nohighlight">\(\frac nd\)</span> and <span class="math notranslate nohighlight">\(\frac md\)</span> are coprime.</p></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">19. Elementary Number Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-quotient-remainder-theorem">19.1. The Quotient-Remainder Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#divisibility">19.2. Divisibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prime-numbers">19.3. Prime Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modular-arithmetic">19.4. Modular Arithmetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#properties-of-squares">19.5. Properties of Squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">19.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/elementary_number_theory.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

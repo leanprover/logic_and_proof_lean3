@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6. Semantics of Propositional Logic &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="7. First Order Logic" href="first_order_logic.html" />
+    <link rel="prev" title="5. Classical Reasoning" href="classical_reasoning.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="semantics-of-propositional-logic">
+<span id="id1"></span><h1><span class="section-number">6. </span>Semantics of Propositional Logic<a class="headerlink" href="#semantics-of-propositional-logic" title="Permalink to this headline">&#182;</a></h1>
+<p>Classically, we think of propositional variables as ranging over statements that can be true or false. And, intuitively, we think of a proof system as telling us what propositional formulas <em>have to</em> be true, no matter what the variables stand for. For example, the fact that we can prove <span class="math notranslate nohighlight">\(C\)</span> from the hypotheses <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span>, and <span class="math notranslate nohighlight">\(A \wedge B \to C\)</span> seems to tell us that whenever the hypotheses are true, then <span class="math notranslate nohighlight">\(C\)</span> has to be true as well.</p>
+<p>Making sense of this involves stepping outside the system and giving an account of truth&#8212;more precisely, the conditions under which a propositional formula is true. This is one of the things that symbolic logic was designed to do, and the task belongs to the realm of <em>semantics</em>. Formulas and formal proofs are <em>syntactic</em> notions, which is to say, they are represented by symbols and symbolic structures. Truth is a <em>semantic</em> notion, in that it ascribes a type of <em>meaning</em> to certain formulas.</p>
+<p>Syntactically, we were able to ask and answer questions like the following:</p>
+<ul class="simple">
+<li><p>Given a set of hypotheses, <span class="math notranslate nohighlight">\(\Gamma\)</span>, and a formula, <span class="math notranslate nohighlight">\(A\)</span>, can we derive <span class="math notranslate nohighlight">\(A\)</span> from <span class="math notranslate nohighlight">\(\Gamma\)</span>?</p></li>
+<li><p>What formulas can be derived from <span class="math notranslate nohighlight">\(\Gamma\)</span>?</p></li>
+<li><p>What hypotheses are needed to derive <span class="math notranslate nohighlight">\(A\)</span>?</p></li>
+</ul>
+<p>The questions we consider semantically are different:</p>
+<ul class="simple">
+<li><p>Given an assignment of truth values to the propositional variables occurring in a formula <span class="math notranslate nohighlight">\(A\)</span>, is <span class="math notranslate nohighlight">\(A\)</span> true or false?</p></li>
+<li><p>Is there any truth assignment that makes <span class="math notranslate nohighlight">\(A\)</span> true?</p></li>
+<li><p>Which are the truth assignments that make <span class="math notranslate nohighlight">\(A\)</span> true?</p></li>
+</ul>
+<p>In this chapter, we will not provide a fully rigorous mathematical treatment of syntax and semantics. That subject matter is appropriate to a more advanced and focused course on mathematical logic. But we will discuss semantic issues in enough detail to give you a good sense of what it means to think semantically, as well as a sense of how to make pragmatic use of semantic notions.</p>
+<div class="section" id="truth-values-and-assignments">
+<h2><span class="section-number">6.1. </span>Truth Values and Assignments<a class="headerlink" href="#truth-values-and-assignments" title="Permalink to this headline">&#182;</a></h2>
+<p>The first notion we will need is that of a <em>truth value</em>. We have already seen two, namely, &#8220;true&#8221; and &#8220;false.&#8221; We will use the symbols <span class="math notranslate nohighlight">\(\mathbf{T}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> to represent these in informal mathematics. These are the values that <span class="math notranslate nohighlight">\(\top\)</span> and <span class="math notranslate nohighlight">\(\bot\)</span> are intended to denote in natural deduction, and <code class="docutils literal notranslate"><span class="pre">true</span></code> and <code class="docutils literal notranslate"><span class="pre">false</span></code> are intended to denote in Lean.</p>
+<p>In this text, we will adopt a &#8220;classical&#8221; notion of truth, following our discussion in <a class="reference internal" href="classical_reasoning.html#classical-reasoning"><span class="std std-numref">Section 5</span></a>. This can be understood in various ways, but, concretely, it comes down to this: we will assume that any proposition is either true or false (but, of course, not both). This conception of truth is what underlies the law of the excluded middle, <span class="math notranslate nohighlight">\(A \vee \neg A\)</span>. Semantically, we read this sentence as saying &#8220;either <span class="math notranslate nohighlight">\(A\)</span> is true, or <span class="math notranslate nohighlight">\(\neg A\)</span> is true.&#8221; Since, in our semantic interpretation, <span class="math notranslate nohighlight">\(\neg A\)</span> is true exactly when <span class="math notranslate nohighlight">\(A\)</span> is false, the law of the excluded middle says that <span class="math notranslate nohighlight">\(A\)</span> is either true or false.</p>
+<p>The next notion we will need is that of a <em>truth assignment</em>, which is simply a function that assigns a truth value to each element of a set of propositional variables. In this section, we will distinguish between propositional variables and arbitrary formulas by using letters <span class="math notranslate nohighlight">\(P, Q, R, \ldots\)</span> for the former and <span class="math notranslate nohighlight">\(A, B, C, \ldots\)</span> for the latter. For example, the function <span class="math notranslate nohighlight">\(v\)</span> defined by</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(v(P) := \mathbf{T}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(v(Q) := \mathbf{F}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(v(R) := \mathbf{F}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(v(S) := \mathbf{T}\)</span></p></li>
+</ul>
+<p>is a truth assignment for the set of variables <span class="math notranslate nohighlight">\(\{ P, Q, R, S \}\)</span>.</p>
+<p>Intuitively, a truth assignment describes a possible &#8220;state of the world.&#8221; Going back to the Malice and Alice puzzle, let&#8217;s suppose the following letters are shorthand for the statements:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(P\)</span> := Alice&#8217;s brother was the victim</p></li>
+<li><p><span class="math notranslate nohighlight">\(Q\)</span> := Alice was the killer</p></li>
+<li><p><span class="math notranslate nohighlight">\(R\)</span> := Alice was in the bar</p></li>
+</ul>
+<p>In the world described by the solution to the puzzle, the first and third statements are true, and the second is false. So our truth assignment gives the value <span class="math notranslate nohighlight">\(\mathbf{T}\)</span> to <span class="math notranslate nohighlight">\(P\)</span> and <span class="math notranslate nohighlight">\(R\)</span>, and the value <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> to <span class="math notranslate nohighlight">\(Q\)</span>.</p>
+<p>Once we have a truth assignment <span class="math notranslate nohighlight">\(v\)</span> to a set of propositional variables, we can extend it to a <em>valuation function</em> <span class="math notranslate nohighlight">\(\bar v\)</span>, which assigns a value of true or false to every propositional formula that depends only on these variables. The function <span class="math notranslate nohighlight">\(\bar v\)</span> is defined recursively, which is to say, formulas are evaluated from the bottom up, so that value assigned to a compound formula is determined by the values assigned to its components. Formally, the function is defined as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\bar v(\top) = \mathbf{T}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bar v(\bot) = \mathbf{F}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bar v(\ell) = v(\ell)\)</span>, where <span class="math notranslate nohighlight">\(\ell\)</span> is any propositional variable.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bar v(\neg A) = \mathbf{T}\)</span> if <span class="math notranslate nohighlight">\(\bar v(A)\)</span> is <span class="math notranslate nohighlight">\(\mathbf{F}\)</span>, and vice versa.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bar v(A \wedge B) = \mathbf{T}\)</span> if <span class="math notranslate nohighlight">\(\bar v(A)\)</span> and <span class="math notranslate nohighlight">\(\bar v(B)\)</span> are both <span class="math notranslate nohighlight">\(\mathbf{T}\)</span>, and <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> otherwise.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bar v(A \vee B) = \mathbf{T}\)</span> if at least one of <span class="math notranslate nohighlight">\(\bar v(A)\)</span> and <span class="math notranslate nohighlight">\(\bar v(B)\)</span> is <span class="math notranslate nohighlight">\(\mathbf{T}\)</span>; otherwise <span class="math notranslate nohighlight">\(\mathbf{F}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bar v(A \to B) = \mathbf{T}\)</span> if either <span class="math notranslate nohighlight">\(\bar v(B)\)</span> is <span class="math notranslate nohighlight">\(\mathbf{T}\)</span> or <span class="math notranslate nohighlight">\(\bar v(A)\)</span> is <span class="math notranslate nohighlight">\(\mathbf{F}\)</span>, and <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> otherwise. (Equivalently, <span class="math notranslate nohighlight">\(\bar v(A \to B) = \mathbf{F}\)</span> if <span class="math notranslate nohighlight">\(\bar v(A)\)</span> is <span class="math notranslate nohighlight">\(\mathbf{T}\)</span> and <span class="math notranslate nohighlight">\(\bar v(B)\)</span> is <span class="math notranslate nohighlight">\(\mathbf{F}\)</span>, and <span class="math notranslate nohighlight">\(\mathbf{T}\)</span> otherwise.)</p></li>
+</ul>
+<p>The rules for conjunction and disjunction are easy to understand. &#8220;<span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>&#8221; is true exactly when <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are both true; &#8220;<span class="math notranslate nohighlight">\(A\)</span> or <span class="math notranslate nohighlight">\(B\)</span>&#8221; is true when at least one of <span class="math notranslate nohighlight">\(A\)</span> or <span class="math notranslate nohighlight">\(B\)</span> is true.</p>
+<p>Understanding the rule for implication is trickier. People are often surprised to hear that any if-then statement with a false hypothesis is supposed to be true. The statement &#8220;if I have two heads, then circles are squares&#8221; may sound like it ought to be false, but by our reckoning, it comes out true. To make sense of this, think about the difference between the two sentences:</p>
+<ul class="simple">
+<li><p>&#8220;If I have two heads, then circles are squares.&#8221;</p></li>
+<li><p>&#8220;If I had two heads, then circles would be squares.&#8221;</p></li>
+</ul>
+<p>The second sentence is an example of a <em>counterfactual</em> implication. It asserts something about how the world might change, if things were other than they actually are. Philosophers have studied counterfactuals for centuries, but mathematical logic is concerned with the first sentence, a <em>material</em> implication. The material implication asserts something about the way the world is right now, rather than the way it might have been. Since it is false that I have two heads, the statement &#8220;if I have two heads, then circles are squares&#8221; is true.</p>
+<p>Why do we evaluate material implication in this way? Once again, let us consider the true sentence &#8220;every natural number that is prime and greater than two is odd.&#8221; We can interpret this sentence as saying that all of the (infinitely many) sentences in this list are true:</p>
+<ul class="simple">
+<li><p>If 0 is prime and greater than 2, then 0 is odd.</p></li>
+<li><p>If 1 is prime and greater than 2, then 1 is odd.</p></li>
+<li><p>If 2 is prime and greater than 2, then 2 is odd.</p></li>
+<li><p>If 3 is prime and greater than 2, then 3 is odd.</p></li>
+<li><p>&#8230;</p></li>
+</ul>
+<p>The first sentence on this list is a lot like our &#8220;two heads&#8221; example, since both the hypothesis and the conclusion are false. But since it is an instance of a statement that is true in general, we are committed to assigning it the value <span class="math notranslate nohighlight">\(\mathbf{T}\)</span>. The second sentence is a different: the hypothesis is still false, but here the conclusion is true. Together, these tell us that whenever the hypothesis is false, the conditional statement should be true. The fourth sentence has a true hypothesis and a true conclusion. So from the second and fourth sentences, we see that whenever the conclusion is true, the conditional should be true as well. Finally, it seems clear that the sentence &#8220;if 3 is prime and greater than 2, then 3 is even&#8221; should <em>not</em> be true. This pattern, where the hypothesis is true and the conclusion is false, is the only one for which the conditional will be false.</p>
+<p>Let us motivate the semantics for material implication another way, using the deductive rules described in the last chapter. Notice that, if <span class="math notranslate nohighlight">\(B\)</span> is true, we can prove <span class="math notranslate nohighlight">\(A \to B\)</span> without any assumptions about <span class="math notranslate nohighlight">\(A\)</span>:</p>
+<img src="_static/semantics_of_propositional_logic.1.png"><p>This follows from the proper reading of the implication introduction rule: given <span class="math notranslate nohighlight">\(B\)</span>, one can always infer <span class="math notranslate nohighlight">\(A \to B\)</span>, and then cancel an assumption <span class="math notranslate nohighlight">\(A\)</span>, <em>if there is one</em>. If <span class="math notranslate nohighlight">\(A\)</span> was never used in the proof, the conclusion is simply weaker than it needs to be. This inference is validated in Lean:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20A%20B%20%3A%20Prop%0Avariable%20hB%20%3A%20B%0A%0Aexample%20%3A%20A%20%E2%86%92%20B%20%3A%3D%0Aassume%20hA%20%3A%20A%2C%0A%20%20show%20B%2C%20from%20hB" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="kt">Prop</span>
+<span class="kd">variable</span> <span class="n">hB</span> <span class="o">:</span> <span class="n">B</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">hA</span> <span class="o">:</span> <span class="n">A</span><span class="o">,</span>
+  <span class="k">show</span> <span class="n">B</span><span class="o">,</span> <span class="k">from</span> <span class="n">hB</span>
+</pre></div>
+</div>
+</div><p>Similarly, if <span class="math notranslate nohighlight">\(A\)</span> is false, we can prove <span class="math notranslate nohighlight">\(A \to B\)</span> without any assumptions about <span class="math notranslate nohighlight">\(B\)</span>:</p>
+<img src="_static/semantics_of_propositional_logic.2.png"><p>In Lean:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20A%20B%20%3A%20Prop%0Avariable%20hnA%20%3A%20%C2%AC%20A%0A%0Aexample%20%3A%20A%20%E2%86%92%20B%20%3A%3D%0Aassume%20hA%20%3A%20A%2C%0A%20%20show%20B%2C%20from%20false.elim%20(hnA%20hA)" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="kt">Prop</span>
+<span class="kd">variable</span> <span class="n">hnA</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="n">A</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">hA</span> <span class="o">:</span> <span class="n">A</span><span class="o">,</span>
+  <span class="k">show</span> <span class="n">B</span><span class="o">,</span> <span class="k">from</span> <span class="n">false.elim</span> <span class="o">(</span><span class="n">hnA</span> <span class="n">hA</span><span class="o">)</span>
+</pre></div>
+</div>
+</div><p>Finally, if <span class="math notranslate nohighlight">\(A\)</span> is true and <span class="math notranslate nohighlight">\(B\)</span> is false, we can prove <span class="math notranslate nohighlight">\(\neg (A \to B)\)</span>:</p>
+<img src="_static/semantics_of_propositional_logic.3.png"><p>Once again, in Lean:</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=variables%20A%20B%20%3A%20Prop%0Avariable%20hA%20%3A%20A%0Avariable%20hnB%20%3A%20%C2%ACB%0A%0Aexample%20%3A%20%C2%AC%20(A%20%E2%86%92%20B)%20%3A%3D%0Aassume%20h%20%3A%20A%20%E2%86%92%20B%2C%0Ahave%20hB%20%3A%20B%2C%20from%20h%20hA%2C%0Ashow%20false%2C%20from%20hnB%20hB" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="kd">variables</span> <span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="kt">Prop</span>
+<span class="kd">variable</span> <span class="n">hA</span> <span class="o">:</span> <span class="n">A</span>
+<span class="kd">variable</span> <span class="n">hnB</span> <span class="o">:</span> <span class="bp">&#172;</span><span class="n">B</span>
+
+<span class="kd">example</span> <span class="o">:</span> <span class="bp">&#172;</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span><span class="o">)</span> <span class="o">:=</span>
+<span class="k">assume</span> <span class="n">h</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span><span class="o">,</span>
+<span class="k">have</span> <span class="n">hB</span> <span class="o">:</span> <span class="n">B</span><span class="o">,</span> <span class="k">from</span> <span class="n">h</span> <span class="n">hA</span><span class="o">,</span>
+<span class="k">show</span> <span class="n">false</span><span class="o">,</span> <span class="k">from</span> <span class="n">hnB</span> <span class="n">hB</span>
+</pre></div>
+</div>
+</div><p>Now that we have defined the truth of any formula relative to a truth assignment, we can answer our first semantic question: given an assignment <span class="math notranslate nohighlight">\(v\)</span> of truth values to the propositional variables occurring in some formula <span class="math notranslate nohighlight">\(\varphi\)</span>, how do we determine whether or not <span class="math notranslate nohighlight">\(\varphi\)</span> is true? This amounts to evaluating <span class="math notranslate nohighlight">\(\bar v(\varphi)\)</span>, and the recursive definition of <span class="math notranslate nohighlight">\(\varphi\)</span> gives a recipe: we evaluate the expressions occurring in <span class="math notranslate nohighlight">\(\varphi\)</span> from the bottom up, starting with the propositional variables, and using the evaluation of an expression&#8217;s components to evaluate the expression itself. For example, suppose our truth assignment <span class="math notranslate nohighlight">\(v\)</span> makes <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> true and <span class="math notranslate nohighlight">\(C\)</span> false. To evaluate <span class="math notranslate nohighlight">\((B \to C) \vee (A \wedge B)\)</span> under <span class="math notranslate nohighlight">\(v\)</span>, note that the expression <span class="math notranslate nohighlight">\(B \to C\)</span> comes out false and the expression <span class="math notranslate nohighlight">\(A \wedge B\)</span> comes out true. Since a disjunction &#8220;false or true&#8221; is true, the entire formula is true.</p>
+<p>We can also go in the other direction: given a formula, we can attempt to find a truth assignment that will make it true (or false). In fact, we can use Lean to evaluate formulas for us. In the example that follows, you can assign any set of values to the proposition symbols <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">B</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">D</span></code>, and <code class="docutils literal notranslate"><span class="pre">E</span></code>. When you run Lean on this input, the output of the <code class="docutils literal notranslate"><span class="pre">eval</span></code> statement is the value of the expression.</p>
+<div style="position: relative">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://leanprover-community.github.io/lean-web-editor/#code=--%20Define%20your%20truth%20assignment%20here%0Adef%20A%20%3A%3D%20tt%0Adef%20B%20%3A%3D%20ff%0Adef%20C%20%3A%3D%20tt%0Adef%20D%20%3A%3D%20tt%0Adef%20E%20%3A%3D%20ff%0A%0Adef%20test%20(p%20%3A%20Prop)%20%5Bdecidable%20p%5D%20%3A%20string%20%3A%3D%0Aif%20p%20then%20%22true%22%20else%20%22false%22%0A%0A%23eval%20test%20((A%20%E2%88%A7%20B)%20%E2%88%A8%20%C2%AC%20C)%0A%23eval%20test%20(A%20%E2%86%92%20D)%0A%23eval%20test%20(C%20%E2%86%92%20(D%20%E2%88%A8%20%C2%ACE))%0A%23eval%20test%20(%C2%AC(A%20%E2%88%A7%20B%20%E2%88%A7%20C%20%E2%88%A7%20D))" target="_blank">
+try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span class="c1">-- Define your truth assignment here</span>
+<span class="kd">def</span> <span class="n">A</span> <span class="o">:=</span> <span class="n">tt</span>
+<span class="kd">def</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">ff</span>
+<span class="kd">def</span> <span class="n">C</span> <span class="o">:=</span> <span class="n">tt</span>
+<span class="kd">def</span> <span class="n">D</span> <span class="o">:=</span> <span class="n">tt</span>
+<span class="kd">def</span> <span class="n">E</span> <span class="o">:=</span> <span class="n">ff</span>
+
+<span class="kd">def</span> <span class="n">test</span> <span class="o">(</span><span class="n">p</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">[</span><span class="n">decidable</span> <span class="n">p</span><span class="o">]</span> <span class="o">:</span> <span class="n">string</span> <span class="o">:=</span>
+<span class="k">if</span> <span class="n">p</span> <span class="k">then</span> <span class="s2">&quot;true&quot;</span> <span class="k">else</span> <span class="s2">&quot;false&quot;</span>
+
+<span class="k">#eval</span> <span class="n">test</span> <span class="o">((</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span> <span class="n">C</span><span class="o">)</span>
+<span class="k">#eval</span> <span class="n">test</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">D</span><span class="o">)</span>
+<span class="k">#eval</span> <span class="n">test</span> <span class="o">(</span><span class="n">C</span> <span class="bp">&#8594;</span> <span class="o">(</span><span class="n">D</span> <span class="bp">&#8744;</span> <span class="bp">&#172;</span><span class="n">E</span><span class="o">))</span>
+<span class="k">#eval</span> <span class="n">test</span> <span class="o">(</span><span class="bp">&#172;</span><span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="bp">&#8743;</span> <span class="n">C</span> <span class="bp">&#8743;</span> <span class="n">D</span><span class="o">))</span>
+</pre></div>
+</div>
+</div><p>Try varying the truth assignments, to see what happens. You can add your own formulas to the end of the input, and evaluate them as well. Try to find truth assignments that make each of the formulas tested above evaluate to true. For an extra challenge, try finding a single truth assignment that makes them all true at the same time.</p>
+</div>
+<div class="section" id="truth-tables">
+<h2><span class="section-number">6.2. </span>Truth Tables<a class="headerlink" href="#truth-tables" title="Permalink to this headline">&#182;</a></h2>
+<p>The second and third semantic questions we asked are a little trickier than the first. Given a formula <span class="math notranslate nohighlight">\(A\)</span>, is there any truth assignment that makes <span class="math notranslate nohighlight">\(A\)</span> true? If so, which truth assignments make <span class="math notranslate nohighlight">\(A\)</span> true? Instead of considering one particular truth assignment, these questions ask us to quantify over <em>all</em> possible truth assignments.</p>
+<p>Of course, the number of possible truth assignments depends on the number of propositional letters we&#8217;re considering. Since each letter has two possible values, <span class="math notranslate nohighlight">\(n\)</span> letters will produce <span class="math notranslate nohighlight">\(2^n\)</span> possible truth assignments. This number grows very quickly, so we&#8217;ll mostly look at smaller formulas here.</p>
+<p>We&#8217;ll use something called a <em>truth table</em> to figure out when, if ever, a formula is true. On the left hand side of the truth table, we&#8217;ll put all of the possible truth assignments for the present propositional letters. On the right hand side, we&#8217;ll put the truth value of the entire formula under the corresponding assignment.</p>
+<p>To begin with, truth tables can be used to concisely summarize the semantics of our logical connectives:</p>
+<img src="_static/semantics_of_propositional_logic.4.png"><p>We will leave it to you to write the table for <span class="math notranslate nohighlight">\(\neg A\)</span>, as an easy exercise.</p>
+<p>For compound formulas, the style is much the same. Sometimes it can be helpful to include intermediate columns with the truth values of subformulas:</p>
+<img src="_static/semantics_of_propositional_logic.5.png"><p>By writing out the truth table for a formula, we can glance at the rows and see which truth assignments make the formula true. If all the entries in the final column are <span class="math notranslate nohighlight">\(\mathbf{T}\)</span>, as in the above example, the formula is said to be <em>valid</em>.</p>
+</div>
+<div class="section" id="soundness-and-completeness">
+<h2><span class="section-number">6.3. </span>Soundness and Completeness<a class="headerlink" href="#soundness-and-completeness" title="Permalink to this headline">&#182;</a></h2>
+<p>Suppose we have a fixed deduction system in mind, such as natural deduction. A propositional formula is said to be <em>provable</em> if there is a formal proof of it in that system. A propositional formula is said to be a <em>tautology</em>, or <em>valid</em>, if it is true under any truth assignment. Provability is a syntactic notion, in that it asserts the existence of a syntactic object, namely, a proof. Validity is a semantic notion, in that it has to do with truth assignments and valuations. But, intuitively, these notions should coincide: both express the idea that a formula <span class="math notranslate nohighlight">\(A\)</span> <em>has</em> to be true, or is <em>necessarily</em> true, and one would expect a good proof system to enable us to derive the valid formulas.</p>
+<p>The statement that every provable formula is valid is known as <em>soundness</em>. If <span class="math notranslate nohighlight">\(A\)</span> is any formula, logicians use the notation <span class="math notranslate nohighlight">\(\vdash A\)</span> to express the fact that <span class="math notranslate nohighlight">\(A\)</span> is provable and the notation <span class="math notranslate nohighlight">\(\vDash A\)</span> to express that <span class="math notranslate nohighlight">\(A\)</span> is valid. (The first symbol is sometimes called a &#8220;turnstile&#8221; and the second symbol is sometimes called a &#8220;double-turnstile.&#8221;) With this notation, soundness says that for every propositional formula <span class="math notranslate nohighlight">\(A\)</span>, if <span class="math notranslate nohighlight">\(\vdash A\)</span>, then <span class="math notranslate nohighlight">\(\vDash A\)</span>. The converse, which says that every valid formula is provable, is known as <em>completeness</em>. In symbolic terms, it says that for every formula <span class="math notranslate nohighlight">\(A\)</span>, if <span class="math notranslate nohighlight">\(\vDash A\)</span>, then <span class="math notranslate nohighlight">\(\vdash A\)</span>.</p>
+<p>Because of the way we have chosen our inference rules and defined the notion of a valuation, this intuition that the two notions should coincide holds true. In other words, the system of natural deduction we have presented for propositional logic is sound and complete with respect to truth-table semantics.</p>
+<p>These notions of soundness and completeness extend to provability from hypotheses. If <span class="math notranslate nohighlight">\(\Gamma\)</span> is a set of propositional formulas and <span class="math notranslate nohighlight">\(A\)</span> is a propositional formula, then <span class="math notranslate nohighlight">\(A\)</span> is said to be a <em>logical consequence</em> of <span class="math notranslate nohighlight">\(\Gamma\)</span> if, given any truth assignment that makes every formula in <span class="math notranslate nohighlight">\(\Gamma\)</span> true, <span class="math notranslate nohighlight">\(A\)</span> is true as well. In this extended setting, soundness says that if <span class="math notranslate nohighlight">\(A\)</span> is provable from <span class="math notranslate nohighlight">\(\Gamma\)</span>, then <span class="math notranslate nohighlight">\(A\)</span> is a logical consequence of <span class="math notranslate nohighlight">\(\Gamma\)</span>. Completeness runs the other way: if <span class="math notranslate nohighlight">\(A\)</span> is a logical consequence of <span class="math notranslate nohighlight">\(\Gamma\)</span>, it is provable from <span class="math notranslate nohighlight">\(\Gamma\)</span>. In symbolic terms, we write <span class="math notranslate nohighlight">\(\Gamma \vdash A\)</span> to express that <span class="math notranslate nohighlight">\(A\)</span> is provable from the formulas in <span class="math notranslate nohighlight">\(\Gamma\)</span> (or that <span class="math notranslate nohighlight">\(\Gamma\)</span> <em>proves</em> <span class="math notranslate nohighlight">\(A\)</span>), and we write <span class="math notranslate nohighlight">\(\Gamma \vDash A\)</span> to express that <span class="math notranslate nohighlight">\(A\)</span> is a logical consequence of <span class="math notranslate nohighlight">\(\Gamma\)</span> (or that <span class="math notranslate nohighlight">\(\Gamma\)</span> <em>entails</em> <span class="math notranslate nohighlight">\(A\)</span>). With this notation, soundness says that for every propositional formula <span class="math notranslate nohighlight">\(A\)</span> and set of propositional formulas <span class="math notranslate nohighlight">\(\Gamma\)</span>, if <span class="math notranslate nohighlight">\(\Gamma \vdash A\)</span> then <span class="math notranslate nohighlight">\(\Gamma \vDash A\)</span>, and completeness says that for every <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(\Gamma\)</span>, if <span class="math notranslate nohighlight">\(\Gamma \vDash A\)</span> then <span class="math notranslate nohighlight">\(\Gamma \vdash A\)</span>.</p>
+<p>Given a set of propositional formulas <span class="math notranslate nohighlight">\(\Gamma\)</span> and a propositional formula <span class="math notranslate nohighlight">\(A\)</span>, the previous section gives us a recipe for deciding whether <span class="math notranslate nohighlight">\(\Gamma\)</span> entails <span class="math notranslate nohighlight">\(A\)</span>: construct a truth tables for all the formulas in <span class="math notranslate nohighlight">\(\Gamma\)</span> and <span class="math notranslate nohighlight">\(A\)</span>, and check whether every <span class="math notranslate nohighlight">\(A\)</span> comes out true on every line of the table on which every formula of <span class="math notranslate nohighlight">\(\Gamma\)</span> is true. (It doesn&#8217;t matter what happens to <span class="math notranslate nohighlight">\(A\)</span> on the lines where some formula in <span class="math notranslate nohighlight">\(\Gamma\)</span> is false.)</p>
+<p>Notice that with the rules of natural deduction, a formula <span class="math notranslate nohighlight">\(A\)</span> is provable from a set of hypotheses <span class="math notranslate nohighlight">\(\{ B_1, B_2, \ldots, B_n \}\)</span> if and only if the formula <span class="math notranslate nohighlight">\(B_1 \wedge B_2 \wedge \cdots \wedge B_n \to A\)</span> is provable outright, that is, from no hypotheses. So, at least for finite sets of formulas <span class="math notranslate nohighlight">\(\Gamma\)</span>, the two statements of soundness and completeness are equivalent.</p>
+<p>Proving soundness and completeness belongs to the realm of <em>metatheory</em>, since it requires us to reason about our methods of reasoning. This is not a central focus of this book: we are more concerned with <em>using</em> logic and the notion of truth than with establishing their properties. But the notions of soundness and completeness play an important role in helping us understand the nature of the logical notions, and so we will try to provide some hints here as to why these properties hold for propositional logic.</p>
+<p>Proving soundness is easier than proving completeness. We wish to show that whenever <span class="math notranslate nohighlight">\(A\)</span> is provable from a set of hypotheses, <span class="math notranslate nohighlight">\(\Gamma\)</span>, then <span class="math notranslate nohighlight">\(A\)</span> is a logical consequence of <span class="math notranslate nohighlight">\(\Gamma\)</span>. In a later chapter, we will consider proofs by induction, which allows us to establish a property holds of a general collection of objects by showing that it holds of some &#8220;simple&#8221; ones and is preserved under the passage to objects that are more complex. In the case of natural deduction, it is enough to show that soundness holds of the most basic proofs&#8212;using the assumption rule&#8212;and that it is preserved under each rule of inference. The base case is easy: the assumption rule says that <span class="math notranslate nohighlight">\(A\)</span> is provable from hypothesis <span class="math notranslate nohighlight">\(A\)</span>, and clearly every truth assignment that makes <span class="math notranslate nohighlight">\(A\)</span> true makes <span class="math notranslate nohighlight">\(A\)</span> true. The inductive steps are not much harder; they involve checking that the rules we have chosen mesh with the semantic notions. For example, suppose the last rule is the and-introduction rule. In that case, we have a proof of <span class="math notranslate nohighlight">\(A\)</span> from some hypotheses <span class="math notranslate nohighlight">\(\Gamma\)</span>, and a proof of <span class="math notranslate nohighlight">\(B\)</span> from some hypotheses <span class="math notranslate nohighlight">\(\Delta\)</span>, and we combine these to form a proof of <span class="math notranslate nohighlight">\(A \wedge B\)</span> from the hypotheses in <span class="math notranslate nohighlight">\(\Gamma \cup \Delta\)</span>, that is, the hypotheses in both. Inductively, we can assume that <span class="math notranslate nohighlight">\(A\)</span> is a logical consequence of <span class="math notranslate nohighlight">\(\Gamma\)</span> and that <span class="math notranslate nohighlight">\(B\)</span> is a logical consequence of <span class="math notranslate nohighlight">\(\Delta\)</span>. Let <span class="math notranslate nohighlight">\(v\)</span> be any truth assignment that makes every formula in <span class="math notranslate nohighlight">\(\Gamma \cup \Delta\)</span> true. Then by the inductive hypothesis, we have that it makes <span class="math notranslate nohighlight">\(A\)</span> true, and <span class="math notranslate nohighlight">\(B\)</span> true as well. By the definition of the valuation function, <span class="math notranslate nohighlight">\(\bar v (A \wedge B) = \mathbf{T}\)</span>, as required.</p>
+<p>Proving completeness is harder. It suffices to show that if <span class="math notranslate nohighlight">\(A\)</span> is any tautology, then <span class="math notranslate nohighlight">\(A\)</span> is provable. One strategy is to show that natural deduction can simulate the method of truth tables. For example, suppose <span class="math notranslate nohighlight">\(A\)</span> is build up from propositional variables <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(C\)</span>. Then in natural deduction, we should be able to prove</p>
+<div class="math notranslate nohighlight">
+\[(B \wedge C) \vee (B \wedge \neg C) \vee (\neg B \wedge C) \vee (\neg B \wedge \neg C),\]</div>
+<p>with one disjunct for each line of the truth table. Then, we should be able to use each disjunct to &#8220;evaluate&#8221; each expression occurring in <span class="math notranslate nohighlight">\(A\)</span>, proving it true or false in accordance with its valuation, until we have a proof of <span class="math notranslate nohighlight">\(A\)</span> itself.</p>
+<p>A nicer way to proceed is to express the rules of natural deduction in a way that allows us to work backward from <span class="math notranslate nohighlight">\(A\)</span> in search of a proof. In other words, first, we give a procedure for constructing a derivation of <span class="math notranslate nohighlight">\(A\)</span> by working backward from <span class="math notranslate nohighlight">\(A\)</span>. Then we argue that if the procedure fails, then, at the point where it fails, we can find a truth assignment that makes <span class="math notranslate nohighlight">\(A\)</span> false. As a result, if every truth assignment makes <span class="math notranslate nohighlight">\(A\)</span> true, the procedure returns a proof of <span class="math notranslate nohighlight">\(A\)</span>.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">6.4. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>Show that <span class="math notranslate nohighlight">\(A \to B\)</span>, <span class="math notranslate nohighlight">\(\neg A \vee B\)</span>, and <span class="math notranslate nohighlight">\(\neg (A \wedge \neg B)\)</span> are logically equivalent, by writing out the truth table and showing that they have the same values for all truth assignments.</p></li>
+<li><p>Write out the truth table for <span class="math notranslate nohighlight">\((A \to B) \wedge (B \wedge C \to A)\)</span>.</p></li>
+<li><p>Show that <span class="math notranslate nohighlight">\(A \to B\)</span> and <span class="math notranslate nohighlight">\(\neg B \to \neg A\)</span> are equivalent, by writing out the truth tables and showing that they
+have the same values for all truth assignments.</p></li>
+<li><p>Does the following entailment hold?</p>
+<div class="math notranslate nohighlight">
+\[\{ A \to B \vee C, \neg B \to \neg C \} \models A \to B\]</div>
+<p>Justify your answer by writing out the truth table (sorry, it is long). Indicate clearly the rows where both hypotheses come out true.</p>
+</li>
+<li><p>Are the following formulas derivable? Justify your answer with either a derivation or a counterexample.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\neg (\neg A \vee B) \to A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((\neg A \to \neg B) \to (A \to B)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(((P \wedge Q) \to R) \to (R \vee \neg P)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((\neg P \wedge \neg Q) \to \neg (Q \vee P)\)</span></p></li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Semantics of Propositional Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#truth-values-and-assignments">6.1. Truth Values and Assignments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#truth-tables">6.2. Truth Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#soundness-and-completeness">6.3. Soundness and Completeness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">6.4. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic.html">7. First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/semantics_of_propositional_logic.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="ascii" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7. First Order Logic &#8212; Logic and Proof 3.18.4 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="8. Natural Deduction for First Order Logic" href="natural_deduction_for_first_order_logic.html" />
+    <link rel="prev" title="6. Semantics of Propositional Logic" href="semantics_of_propositional_logic.html" />
+<!-- <link href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Average" rel="stylesheet"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet"> -->
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="first-order-logic">
+<span id="id1"></span><h1><span class="section-number">7. </span>First Order Logic<a class="headerlink" href="#first-order-logic" title="Permalink to this headline">&#182;</a></h1>
+<p>Propositional logic provides a good start at describing the general principles of logical reasoning, but it does not go far enough. Some of the limitations are apparent even in the &#8220;Malice and Alice&#8221; example from <a class="reference internal" href="propositional_logic.html#propositional-logic"><span class="std std-numref">Chapter 2</span></a>. Propositional logic does not give us the means to express a general principle that tells us that if Alice is with her son on the beach, then her son is with Alice; the general fact that no child is older than his or her parent; or the general fact that if someone is alone, they are not with someone else. To express principles like these, we need a way to talk about objects and individuals, as well as their properties and the relationships between them. These are exactly what is provided by a more expressive logical framework known as <em>first-order logic</em>, which will be the topic of the next few chapters.</p>
+<div class="section" id="functions-predicates-and-relations">
+<span id="id2"></span><h2><span class="section-number">7.1. </span>Functions, Predicates, and Relations<a class="headerlink" href="#functions-predicates-and-relations" title="Permalink to this headline">&#182;</a></h2>
+<p>Consider some ordinary statements about the natural numbers:</p>
+<ul class="simple">
+<li><p>Every natural number is even or odd, but not both.</p></li>
+<li><p>A natural number is even if and only if it is divisible by two.</p></li>
+<li><p>If some natural number, <span class="math notranslate nohighlight">\(x\)</span>, is even, then so is <span class="math notranslate nohighlight">\(x^2\)</span>.</p></li>
+<li><p>A natural number <span class="math notranslate nohighlight">\(x\)</span> is even if and only if <span class="math notranslate nohighlight">\(x + 1\)</span> is odd.</p></li>
+<li><p>Any prime number that is greater than 2 is odd.</p></li>
+<li><p>For any three natural numbers <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span>, if <span class="math notranslate nohighlight">\(x\)</span> divides <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(y\)</span> divides <span class="math notranslate nohighlight">\(z\)</span>, then <span class="math notranslate nohighlight">\(x\)</span> divides <span class="math notranslate nohighlight">\(z\)</span>.</p></li>
+</ul>
+<p>These statements are true, but we generally do not think of them as <em>logically valid</em>: they depend on assumptions about the natural numbers, the meaning of the terms &#8220;even&#8221; and &#8220;odd,&#8221; and so on. But once we accept the first statement, for example, it seems to be a logical consequence that the number of stairs in the White House is either even or odd, and, in particular, if it is not even, it is odd. To make sense of inferences like these, we need a logical system that can deal with objects, their properties, and relations between them.</p>
+<p>Rather than fix a single language once and for all, first-order logic allows us to specify the symbols we wish to use for any given domain of interest. In this section, we will use the following running example:</p>
+<ul class="simple">
+<li><p>The domain of interest is the natural numbers, <span class="math notranslate nohighlight">\(\mathbb{N}\)</span>.</p></li>
+<li><p>There are objects, <span class="math notranslate nohighlight">\(0\)</span>, <span class="math notranslate nohighlight">\(1\)</span>, <span class="math notranslate nohighlight">\(2\)</span>, <span class="math notranslate nohighlight">\(3\)</span>, &#8230;.</p></li>
+<li><p>There are functions, addition and multiplication, as well as the square function, on this domain.</p></li>
+<li><p>There are predicates on this domain, &#8220;even,&#8221; &#8220;odd,&#8221; and &#8220;prime.&#8221;</p></li>
+<li><p>There are relations between elements of this domain, &#8220;equal,&#8221; &#8220;less than&#8221;, and &#8220;divides.&#8221;</p></li>
+</ul>
+<p>For our logical language, we will choose symbols 1, 2, 3, <span class="math notranslate nohighlight">\(\mathit{add}\)</span>, <span class="math notranslate nohighlight">\(\mathit{mul}\)</span>, <span class="math notranslate nohighlight">\(\mathit{square}\)</span>, <span class="math notranslate nohighlight">\(\mathit{even}\)</span>, <span class="math notranslate nohighlight">\(\mathit{odd}\)</span>, <span class="math notranslate nohighlight">\(\mathit{prime}\)</span>, <span class="math notranslate nohighlight">\(\mathit{lt}\)</span>, and so on, to denote these things. We will also have variables <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(z\)</span> ranging over the natural numbers. Note all of the following.</p>
+<ul class="simple">
+<li><p>Functions can take different numbers of arguments: if <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are natural numbers, it makes sense to write <span class="math notranslate nohighlight">\(\mathit{mul}(x, y)\)</span> and <span class="math notranslate nohighlight">\(\mathit{square}(x)\)</span>. So <span class="math notranslate nohighlight">\(\mathit{mul}\)</span> takes two arguments, and <span class="math notranslate nohighlight">\(\mathit{square}\)</span> takes only one.</p></li>
+<li><p>Predicates and relations can also be understood in these terms. The predicates <span class="math notranslate nohighlight">\(\mathit{even}(x)\)</span> and <span class="math notranslate nohighlight">\(\mathit{prime}(x)\)</span> take one argument, while the binary relations <span class="math notranslate nohighlight">\(\mathit{divides}(x, y)\)</span> and <span class="math notranslate nohighlight">\(\mathit{lt}(x,y)\)</span> take two arguments.</p></li>
+<li><p>Functions are different from predicates! A function takes one or more arguments, and returns a <em>value</em>. A predicate takes one or more arguments, and is either true or false. We can think of predicates as returning propositions, rather than values.</p></li>
+<li><p>In fact, we can think of the constant symbols <span class="math notranslate nohighlight">\(1, 2, 3, \ldots\)</span> as special sorts of function symbols that take zero arguments. Analogously, we can consider the predicates that take zero arguments to be the constant logical values, <span class="math notranslate nohighlight">\(\top\)</span> and <span class="math notranslate nohighlight">\(\bot\)</span>.</p></li>
+<li><p>In ordinary mathematics, we often use &#8220;infix&#8221; notation for binary functions and relations. For example, we usually write <span class="math notranslate nohighlight">\(x \times y\)</span> or <span class="math notranslate nohighlight">\(x \cdot y\)</span> instead of <span class="math notranslate nohighlight">\(\mathit{mul}(x, y)\)</span>, and we write <span class="math notranslate nohighlight">\(x &lt; y\)</span> instead of <span class="math notranslate nohighlight">\(\mathit{lt}(x, y)\)</span>. We will use these conventions when writing proofs in natural deduction, and they are supported in Lean as well.</p></li>
+<li><p>We will treat the equality relation, <span class="math notranslate nohighlight">\(x = y\)</span>, as a special binary relation that is included in every first-order language.</p></li>
+</ul>
+<p>First-order logic allows us to build complex expressions out of the basic ones. Starting with the variables and constants, we can use the function symbols to build up compound expressions like these:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x + y + z\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((x + 1) \times y \times y\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathit{square} (x + y \times z)\)</span></p></li>
+</ul>
+<p>Such expressions are called &#8220;terms.&#8221; Intuitively, they name objects in the intended domain of discourse.</p>
+<p>Now, using the predicates and relation symbols, we can make assertions about these expressions:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathit{even}(x + y + z)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathit{prime}((x + 1) \times y \times y)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathit{square}(x + y \times z) = w\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(x + y &lt; z\)</span></p></li>
+</ul>
+<p>Even more interestingly, we can use propositional connectives to build compound expressions like these:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathit{even}(x + y + z) \wedge \mathit{prime}((x + 1) \times y \times y)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\neg (\mathit{square} (x + y \times z) = w) \vee x + y &lt; z\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(x &lt; y \wedge \mathit{even}(x) \wedge \mathit{even}(y) \to x + 1 &lt; y\)</span></p></li>
+</ul>
+<p>The second one, for example, asserts that either <span class="math notranslate nohighlight">\((x + yz)^2\)</span> is not equal to <span class="math notranslate nohighlight">\(w\)</span>, or <span class="math notranslate nohighlight">\(x + y\)</span> is less than <span class="math notranslate nohighlight">\(z\)</span>. Remember, these are expressions in symbolic logic; in ordinary mathematics, we would express the notions using words like &#8220;is even&#8221; and &#8220;if and only if,&#8221; as we did above. We will use notation like this whenever we are in the realm of symbolic logic, for example, when we write proofs in natural deduction. Expressions like these are called <em>formulas</em>. In contrast to terms, which name things, formulas <em>say things</em>; in other words, they make assertions about objects in the domain of discourse.</p>
+</div>
+<div class="section" id="the-universal-quantifier">
+<h2><span class="section-number">7.2. </span>The Universal Quantifier<a class="headerlink" href="#the-universal-quantifier" title="Permalink to this headline">&#182;</a></h2>
+<p>What makes first-order logic powerful is that it allows us to make general assertions using <em>quantifiers</em>. The universal quantifier <span class="math notranslate nohighlight">\(\forall\)</span> followed by a variable <span class="math notranslate nohighlight">\(x\)</span> is meant to represent the phrase &#8220;for every <span class="math notranslate nohighlight">\(x\)</span>.&#8221; In other words, it asserts that every value of <span class="math notranslate nohighlight">\(x\)</span> has the property that follows it. Using the universal quantifier, the examples with which we began the previous section can be expressed as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall x \; ((\mathit{even}(x) \vee \mathit{odd}(x)) \wedge \neg (\mathit{even}(x) \wedge \mathit{odd}(x)))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{even}(x) \leftrightarrow 2 \mid x)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{even}(x) \to \mathit{even}(x^2))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{even}(x) \leftrightarrow \mathit{odd}(x+1))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{prime}(x) \wedge x &gt; 2 \to \mathit{odd}(x))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; \forall y \; \forall z \; (x \mid y \wedge y \mid z \to x \mid z)\)</span></p></li>
+</ul>
+<p>It is common to combine multiple quantifiers of the same kind, and write, for example, <span class="math notranslate nohighlight">\(\forall x, y, z \; (x \mid y \wedge y \mid z \to x \mid z)\)</span> in the last expression.</p>
+<p>Here are some notes on syntax:</p>
+<ul class="simple">
+<li><p>In symbolic logic, the universal quantifier is usually taken to bind tightly. For example, <span class="math notranslate nohighlight">\(\forall x \; P \vee Q\)</span> is interpreted as <span class="math notranslate nohighlight">\((\forall x \; P) \vee Q\)</span>, and we would write <span class="math notranslate nohighlight">\(\forall x \; (P \vee Q)\)</span> to extend the scope.</p></li>
+<li><p>Be careful, however. In other contexts, especially in computer science, people often give quantifiers the <em>widest</em> scope possible. This is the case with Lean. For example, <code class="docutils literal notranslate"><span class="pre">&#8704;</span> <span class="pre">x,</span> <span class="pre">P</span> <span class="pre">&#8744;</span> <span class="pre">Q</span></code> is interpreted as <code class="docutils literal notranslate"><span class="pre">&#8704;</span> <span class="pre">x,</span> <span class="pre">(P</span> <span class="pre">&#8744;</span> <span class="pre">Q)</span></code>, and we would write <code class="docutils literal notranslate"><span class="pre">(&#8704;</span> <span class="pre">x,</span> <span class="pre">P)</span> <span class="pre">&#8744;</span> <span class="pre">Q</span></code> to limit the scope.</p></li>
+<li><p>When you put the quantifier <span class="math notranslate nohighlight">\(\forall x\)</span> in front a formula that involves the variable <span class="math notranslate nohighlight">\(x\)</span>, all the occurrences of that variable are <em>bound</em> by the quantifier. For example, the expression <span class="math notranslate nohighlight">\(\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))\)</span> is expresses that every number is even or odd. Notice that the variable <span class="math notranslate nohighlight">\(x\)</span> does not appear anywhere in the informal statement. The statement is not about <span class="math notranslate nohighlight">\(x\)</span> at all; rather <span class="math notranslate nohighlight">\(x\)</span> is a dummy variable, a placeholder that stands for the &#8220;thing&#8221; referred to within a phrase that beings with the words &#8220;every thing.&#8221; We think of the expression <span class="math notranslate nohighlight">\(\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))\)</span> as being the same as the expression <span class="math notranslate nohighlight">\(\forall y \; (\mathit{even}(y) \vee \mathit{odd}(y))\)</span>. Lean also treats these expressions as the same.</p></li>
+<li><p>In Lean, the expression <code class="docutils literal notranslate"><span class="pre">&#8704;</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">z,</span> <span class="pre">x</span> <span class="pre">&#8739;</span> <span class="pre">y</span> <span class="pre">&#8594;</span> <span class="pre">y</span> <span class="pre">&#8739;</span> <span class="pre">z</span> <span class="pre">&#8594;</span> <span class="pre">x</span> <span class="pre">&#8739;</span> <span class="pre">z</span></code> is interpreted as <code class="docutils literal notranslate"><span class="pre">&#8704;</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">z,</span> <span class="pre">x</span> <span class="pre">&#8739;</span> <span class="pre">y</span> <span class="pre">&#8594;</span> <span class="pre">(y</span> <span class="pre">&#8739;</span> <span class="pre">z</span> <span class="pre">&#8594;</span> <span class="pre">x</span> <span class="pre">&#8739;</span> <span class="pre">z)</span></code>, with parentheses associated to the <em>right</em>. The part of the expression after the universal quantifier can therefore be interpreted as saying &#8220;given that <code class="docutils literal notranslate"><span class="pre">x</span></code> divides <code class="docutils literal notranslate"><span class="pre">y</span></code> and that <code class="docutils literal notranslate"><span class="pre">y</span></code> divides <code class="docutils literal notranslate"><span class="pre">z</span></code>, <code class="docutils literal notranslate"><span class="pre">x</span></code> divides <code class="docutils literal notranslate"><span class="pre">z</span></code>.&#8221; The expression is logically equivalent to <code class="docutils literal notranslate"><span class="pre">&#8704;</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">z,</span> <span class="pre">x</span> <span class="pre">&#8739;</span> <span class="pre">y</span> <span class="pre">&#8743;</span> <span class="pre">y</span> <span class="pre">&#8739;</span> <span class="pre">z</span> <span class="pre">&#8594;</span> <span class="pre">x</span> <span class="pre">&#8739;</span> <span class="pre">z</span></code>, but we will see that, in Lean, it is often convenient to express facts like this as an iterated implication.</p></li>
+</ul>
+<p>A variable that is not bound is called <em>free</em>. Notice that formulas in first-order logic say things about their free variables. For example, in the interpretation we have in mind, the formula <span class="math notranslate nohighlight">\(\forall y \; (x \le y)\)</span> says that <span class="math notranslate nohighlight">\(x\)</span> is less than or equal to every natural number. The formula <span class="math notranslate nohighlight">\(\forall z \; (x \le z)\)</span> says exactly the same thing; we can always rename a bound variable, as long as we pick a name that does not clash with another name that is already in use. On the other hand, the formula <span class="math notranslate nohighlight">\(\forall y (w \le y)\)</span> says that <span class="math notranslate nohighlight">\(w\)</span> is less than or equal to every natural number. This is an entirely different statement: it says something about <span class="math notranslate nohighlight">\(w\)</span>, rather than <span class="math notranslate nohighlight">\(x\)</span>. So renaming a <em>free</em> variable changes the meaning of a formula.</p>
+<p>Notice also that some formulas, like <span class="math notranslate nohighlight">\(\forall x, y \; (x \le y \vee y \le x)\)</span>, have no free variables at all. Such a formula is called a <em>sentence</em>, because it makes an outright assertion, a statement that is either true or false about the intended interpretation. In <a class="reference internal" href="semantics_of_first_order_logic.html#semantics-of-first-order-logic"><span class="std std-numref">Chapter 10</span></a> we will make the notion of an &#8220;intended interpretation&#8221; precise, and explain what it means to be &#8220;true in an interpretation.&#8221; For now, the idea that formulas say things about an object in an intended interpretation should motivate the rules for reasoning with such expressions.</p>
+<p>In <a class="reference internal" href="introduction.html#introduction"><span class="std std-numref">Chapter 1</span></a> we proved that the square root of two is irrational. One way to construe the statement is as follows:</p>
+<blockquote>
+<div><p>For every pair of integers, <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, if <span class="math notranslate nohighlight">\(b \ne 0\)</span>, it is not the case that <span class="math notranslate nohighlight">\(a^2 = 2 b^2\)</span>.</p>
+</div></blockquote>
+<p>The advantage of this formulation is that we can restrict our attention to the integers, without having to consider the larger domain of rationals. In symbolic logic, assuming our intended domain of discourse is the integers, we would express this theorem using the universal quantifier:</p>
+<div class="math notranslate nohighlight">
+\[\forall  a, b \; b \ne 0 \to \neg (a^2 = 2 b^2).\]</div>
+<p>Notice that we have kept the conventional mathematical notation <span class="math notranslate nohighlight">\(b \ne 0\)</span> to say that <span class="math notranslate nohighlight">\(b\)</span> is not equal to 0, but we can think of this as an abbreviation for <span class="math notranslate nohighlight">\(\neg (b = 0)\)</span>.  How do we prove such a theorem? Informally, we would use such a pattern:</p>
+<blockquote>
+<div><p>Let <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> be arbitrary integers, suppose <span class="math notranslate nohighlight">\(b \ne 0\)</span>, and suppose <span class="math notranslate nohighlight">\(a^2 = 2 b^2\)</span>.</p>
+<p>&#8230;</p>
+<p>Contradiction.</p>
+</div></blockquote>
+<p>What we are really doing is proving that the universal statement holds, by showing that it holds of &#8220;arbitrary&#8221; values <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>. In natural deduction, the proof would look something like this:</p>
+<img src="_static/first_order_logic.3.png"><p>Notice that after the hypotheses are canceled, we have proved <span class="math notranslate nohighlight">\(b \ne 0 \to \neg (a^2 = 2 \times b^2)\)</span> without making any assumptions about <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>; at this stage in the proof, they are &#8220;arbitrary,&#8221; justifying the application of the universal quantifiers in the next two rules.</p>
+<p>This example motivates the following rule in natural deduction:</p>
+<img src="_static/first_order_logic.4.png"><p>provided <span class="math notranslate nohighlight">\(x\)</span> is not free in any uncanceled hypothesis. Here <span class="math notranslate nohighlight">\(A(x)\)</span> stands for any formula that (potentially) mentions <span class="math notranslate nohighlight">\(x\)</span>. Also remember that if <span class="math notranslate nohighlight">\(y\)</span> is any &#8220;fresh&#8221; variable that does not occur in <span class="math notranslate nohighlight">\(A\)</span>, we are thinking of <span class="math notranslate nohighlight">\(\forall x \; A(x)\)</span> as being the same as <span class="math notranslate nohighlight">\(\forall y \; A(y)\)</span>.</p>
+<p>What about the elimination rule? Suppose we know that every number is even or odd. Then, in an ordinary proof, we are free to assert &#8220;<span class="math notranslate nohighlight">\(a\)</span> is even or <span class="math notranslate nohighlight">\(a\)</span> is odd,&#8221; or &#8220;<span class="math notranslate nohighlight">\(a^2\)</span> is even or <span class="math notranslate nohighlight">\(a^2\)</span> is odd.&#8221; In terms of symbolic logic, this amounts to the following inference: from <span class="math notranslate nohighlight">\(\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))\)</span>, we can conclude <span class="math notranslate nohighlight">\(\mathit{even}(t) \vee \mathit{odd}(t)\)</span> for any term <span class="math notranslate nohighlight">\(t\)</span>. This motivates the elimination rule for the universal quantifier:</p>
+<img src="_static/first_order_logic.5.png"><p>where <span class="math notranslate nohighlight">\(t\)</span> is an arbitrary term, subject to the restriction described at the end of the next section.</p>
+<p>In a sense, this feels like the elimination rule for implication; we might read the hypothesis as saying &#8220;if <span class="math notranslate nohighlight">\(x\)</span> is any thing, then <span class="math notranslate nohighlight">\(x\)</span> is even or odd.&#8221; The conclusion is obtained by applying it to the fact that <span class="math notranslate nohighlight">\(n\)</span> is a thing. Note that, in general, we could replace <span class="math notranslate nohighlight">\(n\)</span> by any <em>term</em> in the language, like <span class="math notranslate nohighlight">\(n (m + 5) +2\)</span>. Similarly, the introduction rule feels like the introduction rule for implication. If we want to show that everything has a certain property, we temporarily let <span class="math notranslate nohighlight">\(x\)</span> denote an arbitrary thing, and then show that it has the relevant property.</p>
+</div>
+<div class="section" id="the-existential-quantifier">
+<h2><span class="section-number">7.3. </span>The Existential Quantifier<a class="headerlink" href="#the-existential-quantifier" title="Permalink to this headline">&#182;</a></h2>
+<p>Dual to the universal quantifier is the existential quantifier, <span class="math notranslate nohighlight">\(\exists\)</span>, which is used to express assertions such as &#8220;some number is even,&#8221; or, &#8220;between any two even numbers there is an odd number.&#8221;</p>
+<p>The following statements about the natural numbers assert the existence of some natural number:</p>
+<ul class="simple">
+<li><p>There exists an odd composite number. (Remember that a natural number is <em>composite</em> if it is greater than 1 and not prime.)</p></li>
+<li><p>Every natural number greater than one has a prime divisor.</p></li>
+<li><p>For every <span class="math notranslate nohighlight">\(n\)</span>, if <span class="math notranslate nohighlight">\(n\)</span> has a prime divisor smaller than <span class="math notranslate nohighlight">\(n\)</span>, then <span class="math notranslate nohighlight">\(n\)</span> is composite.</p></li>
+</ul>
+<p>These statements can be expressed in first-order logic using the existential quantifier as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\exists n\;  (\mathit{odd}(n) \wedge \mathit{composite}(n))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall n \; (n &gt; 1 \to \exists p \; (\mathit{prime}(p) \wedge p \mid n))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall n \; ((\exists p \; (p \mid n \wedge \mathit{prime}(p) \wedge p &lt; n)) \to \mathit{composite}(n))\)</span></p></li>
+</ul>
+<p>After we write <span class="math notranslate nohighlight">\(\exists n\)</span>, the variable <span class="math notranslate nohighlight">\(n\)</span> is bound in the formula, just as for the universal quantifier. So the formulas <span class="math notranslate nohighlight">\(\exists n \; \mathit{composite}(n)\)</span> and <span class="math notranslate nohighlight">\(\exists m \; \mathit{composite}(m)\)</span> are considered the same.</p>
+<p>How do we prove such existential statements? Suppose we want to prove that there exists an odd composite number. To do this, we just present a candidate, and show that the candidate satisfies the required properties. For example, we could choose 15, and then show that 15 is odd and that 15 is composite. Of course, there&#8217;s nothing special about 15, and we could have proven it also using a different number, like 9 or 35. The choice of candidate does not matter, as long as it has the required property.</p>
+<p>In a natural deduction proof this would look like this:</p>
+<img src="_static/first_order_logic.6.png"><p>This illustrates the introduction rule for the existential quantifier:</p>
+<img src="_static/first_order_logic.7.png"><p>where <span class="math notranslate nohighlight">\(t\)</span> is any term, subject to the restriction described below. So to prove an existential formula, we just have to give one particular term for which we can prove that formula. Such term is called a <em>witness</em> for the formula.</p>
+<p>What about the elimination rule? Suppose that we know that <span class="math notranslate nohighlight">\(n\)</span> is some natural number and we know that there exists a prime <span class="math notranslate nohighlight">\(p\)</span> such that <span class="math notranslate nohighlight">\(p &lt; n\)</span> and <span class="math notranslate nohighlight">\(p \mid n\)</span>. How can we use this to prove that <span class="math notranslate nohighlight">\(n\)</span> is composite? We can reason as follows:</p>
+<blockquote>
+<div><p>Let <span class="math notranslate nohighlight">\(p\)</span> be any prime such that <span class="math notranslate nohighlight">\(p &lt; n\)</span> and <span class="math notranslate nohighlight">\(p \mid n\)</span>.</p>
+<p>&#8230;</p>
+<p>Therefore, <span class="math notranslate nohighlight">\(n\)</span> is composite.</p>
+</div></blockquote>
+<p>First, we assume that there is some <span class="math notranslate nohighlight">\(p\)</span> which satisfies the properties <span class="math notranslate nohighlight">\(p\)</span> is prime, <span class="math notranslate nohighlight">\(p &lt; n\)</span> and <span class="math notranslate nohighlight">\(p \mid n\)</span>, and then we reason about that <span class="math notranslate nohighlight">\(p\)</span>. As with case-based reasoning using &#8220;or,&#8221; the assumption is only temporary: if we can show that <span class="math notranslate nohighlight">\(n\)</span> is composite from that assumption, that we have essentially shown that <span class="math notranslate nohighlight">\(n\)</span> is composite assuming the existence of such a <span class="math notranslate nohighlight">\(p\)</span>. Notice that in this pattern of reasoning, <span class="math notranslate nohighlight">\(p\)</span> should be &#8220;arbitrary.&#8221; In other words, we should not have assumed anything about <span class="math notranslate nohighlight">\(p\)</span> beforehand, we should not make any additional assumptions about <span class="math notranslate nohighlight">\(p\)</span> along the way, and the conclusion should not mention <span class="math notranslate nohighlight">\(p\)</span>. Only then does it makes sense to say that the conclusion follows from the &#8220;mere&#8221; existence of a <span class="math notranslate nohighlight">\(p\)</span> with the assumed properties.</p>
+<p>In natural deduction, the elimination rule is expressed as follows:</p>
+<img src="_static/first_order_logic.8.png"><p>Here we require that <span class="math notranslate nohighlight">\(y\)</span> is not free in <span class="math notranslate nohighlight">\(B\)</span>, and that the only uncanceled hypotheses where <span class="math notranslate nohighlight">\(y\)</span> occurs freely are the hypotheses <span class="math notranslate nohighlight">\(A(y)\)</span> that are canceled when you apply this rule. Formally, this is what it means to say that <span class="math notranslate nohighlight">\(y\)</span> is &#8220;arbitrary.&#8221; As was the case for or elimination and implication introduction, you can use the hypothesis <span class="math notranslate nohighlight">\(A(y)\)</span> multiple times in the proof of <span class="math notranslate nohighlight">\(B\)</span>, and cancel all of them at once. Intuitively, the rule says that you can prove <span class="math notranslate nohighlight">\(B\)</span> from the assumption <span class="math notranslate nohighlight">\(\exists x A(x)\)</span> by assuming <span class="math notranslate nohighlight">\(A(y)\)</span> for a fresh variable <span class="math notranslate nohighlight">\(y\)</span>, and concluding, in any number of steps, that <span class="math notranslate nohighlight">\(B\)</span> follows. You should compare this rule to the rule for or elimination, which is somewhat analogous.</p>
+<p>There is a restriction on the term <span class="math notranslate nohighlight">\(t\)</span> that appears in the elimination rule for the universal quantifier and the introduction rule for the existential quantifier, namely, that no variable that appears in <span class="math notranslate nohighlight">\(t\)</span> becomes bound when you plug it in for <span class="math notranslate nohighlight">\(x\)</span>. To see what can go wrong if you violate this restriction, consider the sentence <span class="math notranslate nohighlight">\(\forall x \; \exists y \; y &gt; x\)</span>. If we interpret this as a statement about the natural numbers, it says that for every number <span class="math notranslate nohighlight">\(x\)</span>, there is a bigger number <span class="math notranslate nohighlight">\(y\)</span>. This is a true statement, and so it should hold whatever we substitute for <span class="math notranslate nohighlight">\(x\)</span>. But what happens if we substitute <span class="math notranslate nohighlight">\(y + 1\)</span>? We get the statement <span class="math notranslate nohighlight">\(\exists y \; y &gt; y + 1\)</span>, which is false. The problem is that before the substitution the variable <span class="math notranslate nohighlight">\(y\)</span> in <span class="math notranslate nohighlight">\(y + 1\)</span> refers to an arbitrary number, but after the substitution, it refers to the number that is asserted to exist by the existential quantifier, and that is not what we want.</p>
+<p>Violating the restriction in the introduction rule for the existential quantifier causes similar problems. For example, it allows us to derive <span class="math notranslate nohighlight">\(\exists x \; \forall y \; y = x\)</span>, which says that there is exactly one number, from the hypothesis <span class="math notranslate nohighlight">\(\forall y \; y = y\)</span>. The good news is that if you rely on your intuition, you are unlikely to make mistakes like these. But it is an important fact that the rules of natural deduction can be given a precise specification that rules out these invalid inferences.</p>
+</div>
+<div class="section" id="relativization-and-sorts">
+<span id="id3"></span><h2><span class="section-number">7.4. </span>Relativization and Sorts<a class="headerlink" href="#relativization-and-sorts" title="Permalink to this headline">&#182;</a></h2>
+<p>In first-order logic as we have presented it, there is one intended &#8220;universe&#8221; of objects of discourse, and the universal and existential quantifiers range over that universe. For example, we could design a language to talk about people living in a certain town, with a relation <span class="math notranslate nohighlight">\(\mathit{loves}(x, y)\)</span> to express that <span class="math notranslate nohighlight">\(x\)</span> loves <span class="math notranslate nohighlight">\(y\)</span>. In such a language, we might express the statement that &#8220;everyone loves someone&#8221; by writing <span class="math notranslate nohighlight">\(\forall x \; \exists y \; \mathit{loves}(x, y)\)</span>.</p>
+<p>You should keep in mind that, at this stage, <span class="math notranslate nohighlight">\(\mathit{loves}\)</span> is just a symbol. We have designed the language with a certain interpretation in mind, but one could also interpret the language as making statements about the natural numbers, where <span class="math notranslate nohighlight">\(\mathit{loves}(x, y)\)</span> means that <span class="math notranslate nohighlight">\(x\)</span> is less than or equal to <span class="math notranslate nohighlight">\(y\)</span>. In that interpretation, the sentence</p>
+<div class="math notranslate nohighlight">
+\[\forall {x, y, z} \; (\mathit{loves}(x, y) \wedge \mathit{loves}(y, z) \to \mathit{loves}(x, z))\]</div>
+<p>is true, though in the original interpretation it makes an implausible claim about the nature of love triangles. In <a class="reference internal" href="semantics_of_first_order_logic.html#semantics-of-first-order-logic"><span class="std std-numref">Chapter 10</span></a>, we will spell out the notion that the deductive rules of first-order logic enable us to determine the statements that are true in <em>all</em> interpretations, just as the rules of propositional logic enable us to determine the statements that are true under all truth assignments.</p>
+<p>Returning to the original example, suppose we want to represent the statement that, in our town, all the women are strong and all the men are good looking. We could do that with the following two sentences:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{woman}(x) \to \mathit{strong}(x))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\forall x \; (\mathit{man}(x) \to \mathit{good{\mathord{\mbox{-}}}looking}(x))\)</span></p></li>
+</ul>
+<p>These are instances of <em>relativization</em>. The universal quantifier ranges over all the people in the town, but this device gives us a way of using implication to restrict the scope of our statements to men and women, respectively. The trick also comes into play when we render &#8220;every prime number greater than two is odd&#8221;:</p>
+<div class="math notranslate nohighlight">
+\[\forall x \; (\mathit{prime}(x) \wedge x &gt; 2 \to \mathit{odd}(x)).\]</div>
+<p>We could also read this more literally as saying &#8220;for every number <span class="math notranslate nohighlight">\(x\)</span>, if <span class="math notranslate nohighlight">\(x\)</span> is prime and <span class="math notranslate nohighlight">\(x\)</span> is greater than to 2, then <span class="math notranslate nohighlight">\(x\)</span> is odd,&#8221; but it is natural to read it as a restricted quantifier.</p>
+<p>It is also possible to relativize the existential quantifier to say things like &#8220;some woman is strong&#8221; and &#8220;some man is good-looking.&#8221; These are expressed as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\exists x \; (\mathit{woman}(x) \wedge \mathit{strong}(x))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\exists x \; (\mathit{man}(x) \wedge \mathit{good\mathord{\mbox{-}}looking}(x))\)</span></p></li>
+</ul>
+<p>Notice that although we used implication to relativize the universal quantifier, here we need to use conjunction instead of implication. The expression <span class="math notranslate nohighlight">\(\exists x \; (\mathit{woman}(x) \to \mathit{strong}(x))\)</span> says that there is something with the property that if it is a woman, then it is strong. Classically this is equivalent to saying that there is something which is either not a woman or is strong, which is a funny thing to say.</p>
+<p>Now, suppose we are studying geometry, and we want to express the fact that given any two distinct points <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span> and any two lines <span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(M\)</span>, if <span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(M\)</span> both pass through <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span>, then they have to be the same. (In other words, there is at most one line between two distinct points.) One option is to design a first-order logic where the intended universe is big enough to include both points and lines, and use relativization:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\forall {p, q, L, M} (\mathit{point}(p) \wedge \mathit{point}(q) \wedge
+\mathit{line}(L) \wedge \mathit{line}(M) \\
+\wedge q \neq p \wedge \mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge
+\mathit{on}(q,M) \to L = M).\end{split}\]</div>
+<p>But dealing with such predicates is tedious, and there is a mild extension of first-order logic, called <em>many-sorted first-order logic</em>, which builds in some of the bookkeeping. In many-sorted logic, one can have different sorts of objects&#8212;such as points and lines&#8212;and a separate stock of variables and quantifiers ranging over each. Moreover, the specification of function symbols and predicate symbols indicates what sorts of arguments they expect, and, in the case of function symbols, what sort of argument they return. For example, we might choose to have a sort with variables <span class="math notranslate nohighlight">\(p, q, r, \ldots\)</span> ranging over points, a sort with variables <span class="math notranslate nohighlight">\(L, M, N, \ldots\)</span> ranging over lines, and a relation <span class="math notranslate nohighlight">\(\mathit{on}(p, L)\)</span> relating the two. Then the assertion above is rendered more simply as follows:</p>
+<div class="math notranslate nohighlight">
+\[\forall {p, q, L, M} \; (p \neq q \wedge \mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge \mathit{on}(q,M) \to L = M).\]</div>
+</div>
+<div class="section" id="equality">
+<h2><span class="section-number">7.5. </span>Equality<a class="headerlink" href="#equality" title="Permalink to this headline">&#182;</a></h2>
+<p>In symbolic logic, we use the expression <span class="math notranslate nohighlight">\(s = t\)</span> to express the fact that <span class="math notranslate nohighlight">\(s\)</span> and <span class="math notranslate nohighlight">\(t\)</span> are &#8220;equal&#8221; or &#8220;identical.&#8221; The equality symbol is meant to model what we mean when we say, for example, &#8220;Alice&#8217;s brother is the victim,&#8221; or &#8220;2 + 2 = 4.&#8221; We are asserting that two different descriptions refer to the same object. Because the notion of identity can be applied to virtually any domain of objects, it is viewed as falling under the province of logic.</p>
+<p>Talk of &#8220;equality&#8221; or &#8220;identity&#8221; raises messy philosophical questions, however. Am I the same person I was three days ago? Are the two copies of <em>Huckleberry Finn</em> sitting on my shelf the same book, or two different books? Using symbolic logic to model identity presupposes that we have in mind a certain way of carving up and interpreting the world. We assume that our terms refer to distinct entities, and writing <span class="math notranslate nohighlight">\(s = t\)</span> asserts that the two expressions refer to the same thing. Axiomatically, we assume that equality satisfies the following three properties:</p>
+<ul class="simple">
+<li><p><em>reflexivity</em>: <span class="math notranslate nohighlight">\(t = t\)</span>, for any term <span class="math notranslate nohighlight">\(t\)</span></p></li>
+<li><p><em>symmetry</em>: if <span class="math notranslate nohighlight">\(s = t\)</span>, then <span class="math notranslate nohighlight">\(t = s\)</span></p></li>
+<li><p><em>transitivity</em>: if <span class="math notranslate nohighlight">\(r = s\)</span> and <span class="math notranslate nohighlight">\(s = t\)</span>, then <span class="math notranslate nohighlight">\(r = t\)</span></p></li>
+</ul>
+<p>These properties are not enough to characterize equality, however. If two expressions denote the same thing, then we should be able to substitute one for any other in any expression. It is convenient to adopt the following convention: if <span class="math notranslate nohighlight">\(r\)</span> is any term, we may write <span class="math notranslate nohighlight">\(r(x)\)</span> to indicate that the variable <span class="math notranslate nohighlight">\(x\)</span> may occur in <span class="math notranslate nohighlight">\(r\)</span>. Then, if <span class="math notranslate nohighlight">\(s\)</span> is another term, we can thereafter write <span class="math notranslate nohighlight">\(r(s)\)</span> to denote the result of replacing <span class="math notranslate nohighlight">\(s\)</span> for <span class="math notranslate nohighlight">\(x\)</span> in <span class="math notranslate nohighlight">\(r\)</span>. The substitution rule for terms thus reads as follows: if <span class="math notranslate nohighlight">\(s = t\)</span>, then <span class="math notranslate nohighlight">\(r(s) = r(t)\)</span>.</p>
+<p>We already adopted a similar convention for formulas: if we introduce a formula as <span class="math notranslate nohighlight">\(A(x)\)</span>, then <span class="math notranslate nohighlight">\(A(t)\)</span> denotes the result of substituting <span class="math notranslate nohighlight">\(t\)</span> for <span class="math notranslate nohighlight">\(x\)</span> in <span class="math notranslate nohighlight">\(A\)</span>. With this in mind, we can write the rules for equality as follows:</p>
+<img src="_static/first_order_logic.10.png"><p>Here, the first substitution rule governs terms and the second substitution rule governs formulas. In the next chapter, you will learn how to use them.</p>
+<p>Using equality, we can define even more quantifiers.</p>
+<ul class="simple">
+<li><p>We can express &#8220;there are at least two elements <span class="math notranslate nohighlight">\(x\)</span> such that <span class="math notranslate nohighlight">\(A(x)\)</span> holds&#8221; as <span class="math notranslate nohighlight">\(\exists x \; \exists y \; (x \neq y \wedge A(x) \wedge A(y))\)</span>.</p></li>
+<li><p>We can express &#8220;there are at most two elements <span class="math notranslate nohighlight">\(x\)</span> such that <span class="math notranslate nohighlight">\(A(x)\)</span> holds&#8221; as <span class="math notranslate nohighlight">\(\forall x \; \forall y \; \forall z \; (A(x) \wedge A(y) \wedge A(z) \to x = y \vee y = z \vee x = z)\)</span>. This states that if we have three elements <span class="math notranslate nohighlight">\(a\)</span> for which <span class="math notranslate nohighlight">\(A(a)\)</span> holds, then two of them must be equal.</p></li>
+<li><p>We can express &#8220;there are exactly two elements <span class="math notranslate nohighlight">\(x\)</span> such that <span class="math notranslate nohighlight">\(A(x)\)</span> holds&#8221; as the conjunction of the above two statements.</p></li>
+</ul>
+<p>As an exercise, write out in first order logic the statements that there are at least, at most, and exactly three elements <span class="math notranslate nohighlight">\(x\)</span> such that <span class="math notranslate nohighlight">\(A(x)\)</span> holds.</p>
+<p>In logic, the expression <span class="math notranslate nohighlight">\(\exists!x \; A(x)\)</span> is used to express the fact that there is a <em>unique</em> <span class="math notranslate nohighlight">\(x\)</span> satisfying <span class="math notranslate nohighlight">\(A(x)\)</span>, which is to say, there is exactly one such <span class="math notranslate nohighlight">\(x\)</span>. As above, this can be expressed as follows:</p>
+<div class="math notranslate nohighlight">
+\[\exists x \; A(x) \wedge \forall y \; \forall {y'} \; (A(y) \wedge A(y') \to y = y').\]</div>
+<p>The first conjunct says that there is at least one object satisfying <span class="math notranslate nohighlight">\(A\)</span>, and the second conjunct says that there is at most one. The same thing can be expressed more concisely as follows:</p>
+<div class="math notranslate nohighlight">
+\[\exists x \; (A(x) \wedge \forall y \; (A(y) \to y = x)).\]</div>
+<p>You should think about why this second expression works. In the next chapter we will see that, using the rules of natural deduction, we can prove that these two expressions are equivalent.</p>
+</div>
+<div class="section" id="exercises">
+<h2><span class="section-number">7.6. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
+<ol class="arabic">
+<li><p>A <em>perfect number</em> is a number that is equal to the sum of its proper divisors, that is, the numbers that divide it, other than itself. For example, 6 is perfect, because <span class="math notranslate nohighlight">\(6 = 1 + 2 + 3\)</span>.</p>
+<p>Using a language with variables ranging over the natural numbers and suitable functions and predicates, write down first-order sentences asserting the following. Use a predicate <span class="math notranslate nohighlight">\(\mathit{perfect}\)</span> to express that a number is perfect.</p>
+<ol class="loweralpha simple">
+<li><p>28 is perfect.</p></li>
+<li><p>There are no perfect numbers between 100 and 200.</p></li>
+<li><p>There are (at least) two perfect numbers between 200 and 10,000. (Express this by saying that there are perfect numbers <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> between 200 and 10,000, with the property that <span class="math notranslate nohighlight">\(x \neq y\)</span>.)</p></li>
+<li><p>Every perfect number is even.</p></li>
+<li><p>For every number, there is a perfect number that is larger than it. (This is one way to express the statement that there are infinitely many perfect numbers.)</p></li>
+</ol>
+<p>Here, the phrase &#8220;between <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>&#8221; is meant to include <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>.</p>
+<p>By the way, we do not know whether the last two statements are true. They are open questions.</p>
+</li>
+<li><p>Using a language with variables ranging over people, and predicates <span class="math notranslate nohighlight">\(\mathit{trusts}(x,y)\)</span>, <span class="math notranslate nohighlight">\(\mathit{politician}(x)\)</span>, <span class="math notranslate nohighlight">\(\mathit{crazy(x)}\)</span>, <span class="math notranslate nohighlight">\(\mathit{knows}(x, y)\)</span>, <span class="math notranslate nohighlight">\(\mathit{related\mathord{\mbox{-}}to}(x, y)\)</span>, and <span class="math notranslate nohighlight">\(\mathit{rich}(x)\)</span>, write down first-order sentences asserting the following:</p>
+<ol class="loweralpha simple">
+<li><p>Nobody trusts a politician.</p></li>
+<li><p>Anyone who trusts a politician is crazy.</p></li>
+<li><p>Everyone knows someone who is related to a politician.</p></li>
+<li><p>Everyone who is rich is either a politician or knows a politician.</p></li>
+</ol>
+<p>In each case, some interpretation may be involved. Notice that writing down a logical expression is one way of helping to clarify the meaning.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Logic and Proof</a></h1>
+
+
+
+
+
+
+
+
+<!-- <h3>Navigation</h3> -->
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic.html">2. Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_propositional_logic.html">3. Natural Deduction for Propositional Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="propositional_logic_in_lean.html">4. Propositional Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classical_reasoning.html">5. Classical Reasoning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_propositional_logic.html">6. Semantics of Propositional Logic</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. First Order Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#functions-predicates-and-relations">7.1. Functions, Predicates, and Relations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-universal-quantifier">7.2. The Universal Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-existential-quantifier">7.3. The Existential Quantifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#relativization-and-sorts">7.4. Relativization and Sorts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#equality">7.5. Equality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">7.6. Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="natural_deduction_for_first_order_logic.html">8. Natural Deduction for First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_order_logic_in_lean.html">9. First Order Logic in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantics_of_first_order_logic.html">10. Semantics of First Order Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets.html">11. Sets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sets_in_lean.html">12. Sets in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">13. Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations_in_lean.html">14. Relations in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">15. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions_in_lean.html">16. Functions in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction.html">17. The Natural Numbers and Induction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_natural_numbers_and_induction_in_lean.html">18. The Natural Numbers and Induction in Lean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elementary_number_theory.html">19. Elementary Number Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combinatorics.html">20. Combinatorics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_real_numbers.html">21. The Real Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="the_infinite.html">22. The Infinite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axiomatic_foundations.html">23. Axiomatic Foundations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nd_quickref.html">24. Appendix: Natural Deduction Rules</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
+    
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/first_order_logic.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

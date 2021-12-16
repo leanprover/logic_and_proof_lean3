@@ -465,7 +465,7 @@ For reference, here is a list of valid sentences involving quantifiers:
 -  :math:`\forall x \; (A(x) \to B) \leftrightarrow (\exists x \; A(x) \to B)` if :math:`x` is not free in :math:`B`
 -  :math:`\exists x \; (A(x) \to B) \leftrightarrow (\forall x \; A(x) \to B)` if :math:`x` is not free in :math:`B`
 -  :math:`\forall x \; (A \to B(x)) \leftrightarrow (A \to \forall x \; B(x))` if :math:`x` is not free in :math:`A`
--  :math:`\exists x \; (A(x) \to B) \leftrightarrow (A(x) \to \exists \; x B)` if :math:`x` is not free in :math:`B`
+-  :math:`\exists x \; (A(x) \to B) \leftrightarrow (\exists x \; A(x) \to B)` if :math:`x` is not free in :math:`B`
 -  :math:`\exists x \; A(x) \leftrightarrow \neg \forall x \; \neg A(x)`
 -  :math:`\forall x \; A(x) \leftrightarrow \neg \exists x \; \neg A(x)`
 -  :math:`\neg \exists x \; A(x) \leftrightarrow \forall x \; \neg A(x)`

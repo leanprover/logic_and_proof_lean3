@@ -183,7 +183,7 @@ The implication introduction rule is the tricky one, because it can cancel a hyp
 
     #check (assume h : A, and.intro h h)
 
-Notice that we no longer have to declare ``A`` as a premise. The word ``assume`` makes the premise local to the expression in parentheses, and after the assumption is made, we can refer to ``h``. Given the assumption ``h : A``, ``and.intro h h`` is a proof of ``A ∧ A``, and so the expression ``assume h : A, and.intro h h`` is a proof of ``A → A ∧ A``. In this case, we could leave out the parentheses because the expression is unambiguous:
+Notice that we no longer have to declare ``h`` as a premise. The word ``assume`` makes the premise local to the expression in parentheses, and after the assumption is made, we can refer to ``h``. Given the assumption ``h : A``, ``and.intro h h`` is a proof of ``A ∧ A``, and so the expression ``assume h : A, and.intro h h`` is a proof of ``A → A ∧ A``. In this case, we could leave out the parentheses because the expression is unambiguous:
 
 .. code-block:: lean
 

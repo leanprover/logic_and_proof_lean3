@@ -1,7 +1,7 @@
 from docutils import nodes
 from docutils.parsers.rst import Directive
 from sphinx.builders import Builder
-from sphinx.directives import CodeBlock
+from sphinx.directives.code import CodeBlock
 from sphinx.errors import SphinxError
 import os, os.path, fnmatch, subprocess
 import codecs
